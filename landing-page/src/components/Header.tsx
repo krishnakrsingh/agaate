@@ -30,7 +30,7 @@ export default function Header() {
       }`}
       style={{
         height: scrolled ? '60px' : '76px',
-        backgroundColor: scrolled ? '#1a3c34' : 'transparent',
+        backgroundColor: scrolled ? '#4a5d23' : 'transparent',
       }}
     >
       <div className="mx-auto h-full flex items-center justify-between w-full">

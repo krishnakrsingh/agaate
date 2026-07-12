@@ -2,30 +2,47 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const pRef = useRef<HTMLParagraphElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.2 });
+    // Delay synced with when the LoadingScreen circle wipe starts opening (~1.2s to 1.4s)
+    const tl = gsap.timeline({ delay: 1.3 });
 
+    // 1. Cinematic reveal of the hero container and video (Parallax scale)
     tl.fromTo(
-      h1Ref.current,
-      { opacity: 0, y: 35 },
-      { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' }
+      containerRef.current,
+      { scale: 0.8, borderRadius: '60px', filter: 'brightness(0.3)' },
+      { scale: 1, borderRadius: '16px', filter: 'brightness(1)', duration: 1.6, ease: 'expo.inOut' }
     )
-      .fromTo(
-        pRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' },
-        '-=0.7'
-      )
-      .fromTo(
-        btnRef.current,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-        '-=0.6'
-      );
+    .fromTo(
+      videoRef.current,
+      { scale: 1.5 },
+      { scale: 1, duration: 1.6, ease: 'expo.inOut' },
+      "<" // Sync with container
+    )
+    // 2. Text floats in
+    .fromTo(
+      h1Ref.current,
+      { opacity: 0, y: 40, filter: 'blur(8px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
+      "-=0.6"
+    )
+    .fromTo(
+      pRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' },
+      '-=0.8'
+    )
+    .fromTo(
+      btnRef.current,
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+      '-=0.8'
+    );
 
     return () => {
       tl.kill();
@@ -34,10 +51,11 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative w-full h-screen p-2 md:p-2.5">
-      <div className="relative w-full h-full rounded-xl md:rounded-2xl overflow-hidden">
+      <div ref={containerRef} className="relative w-full h-full overflow-hidden">
 
         {/* Background Video */}
         <video
+          ref={videoRef}
           className="absolute inset-0 z-0 w-full h-full object-cover"
           src="/assets/hero.mp4"
           autoPlay
