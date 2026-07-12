@@ -14,6 +14,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import PlantJourney from "@/components/PlantJourney";
 import LoadingScreen from "@/components/LoadingScreen";
+import Footer from "@/components/Footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -300,43 +301,6 @@ function CTA() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="bg-forest-deep text-cream/80 px-6 md:px-12 pt-20 pb-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-10 pb-12 border-b border-cream/10">
-          <div className="col-span-2 md:col-span-5">
-            <div className="font-display text-3xl italic text-cream mb-4">Agaate<span className="text-terracotta">.</span></div>
-            <p className="text-cream/60 max-w-sm mb-6">Science-backed agritech for India's farmers. From the soil to the harvest, we stand beside you.</p>
-            <div className="flex gap-3">
-              {["IG", "FB", "YT", "X"].map((s) => (
-                <a key={s} href="#" className="w-9 h-9 border border-cream/20 hover:border-terracotta hover:text-terracotta flex items-center justify-center text-xs font-mono">{s}</a>
-              ))}
-            </div>
-          </div>
-          <div className="md:col-span-2">
-            <div className="label-mono text-cream/40 mb-4">Explore</div>
-            <ul className="space-y-2">{["The App", "Kisan Mall", "Agro Park", "Research"].map(x => <li key={x}><a href="#" className="hover:text-terracotta">{x}</a></li>)}</ul>
-          </div>
-          <div className="md:col-span-2">
-            <div className="label-mono text-cream/40 mb-4">Company</div>
-            <ul className="space-y-2">{["About", "Careers", "Press", "Partners"].map(x => <li key={x}><a href="#" className="hover:text-terracotta">{x}</a></li>)}</ul>
-          </div>
-          <div className="md:col-span-3">
-            <div className="label-mono text-cream/40 mb-4">Contact</div>
-            <div className="text-cream/70 text-sm">Agro Park, Bengaluru</div>
-            <div className="text-cream/70 text-sm">hello@agaate.in</div>
-            <div className="text-cream/70 text-sm">+91 80 4000 0000</div>
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 label-mono text-cream/40">
-          <div>© 2026 Agaate Farm Tech Pvt. Ltd.</div>
-          <div className="flex gap-6"><a href="#" className="hover:text-cream">Privacy</a><a href="#" className="hover:text-cream">Terms</a><a href="#" className="hover:text-cream">Contact</a></div>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 function Index() {
   const [loading, setLoading] = useState(true);
