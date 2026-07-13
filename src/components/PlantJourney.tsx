@@ -1,413 +1,251 @@
-"use client";
+import { useRef, useEffect, useState, lazy, Suspense } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Leaf, Trees, Tractor, BrainCircuit, Shield, Droplets, ArrowUpToLine, Apple, ShoppingBasket } from 'lucide-react';
 
-import { useEffect, useRef, useState, useCallback, type ReactNode } from "react";
+const CropWorld = lazy(() => import('./CropWorld'));
 
-// ─── Tunable constants ─────────────────────────────────────────────────────────
-const TOTAL_FRAMES = 240;
-const FRAME_PATH = (n: number) =>
-  `/tomato-grow/ezgif-frame-${String(n).padStart(3, "0")}.png`;
+gsap.registerPlugin(ScrollTrigger);
 
-// Stage breakpoints as scroll-progress fractions (0 → 1)
-const STAGE_BREAKS = {
-  seed:    0,
-  sapling: 0.33,
-  grown:   0.66,
-} as const;
-
-// ─── Stage data ────────────────────────────────────────────────────────────────
-interface StageData {
-  id: string;
-  tag: string;
-  eyebrow: string;
-  title: ReactNode;
-  stat: string;
-  statLabel: string;
-  body: string;
-}
-
-const STAGES: StageData[] = [
-  {
-    id: "seed",
-    tag: "Seed",
-    eyebrow: "GERMINATION & SOWING",
-    title: (
-      <>
-        Hybrid Tomato <br />
-        <span className="italic text-terracotta">Propagation.</span>
-      </>
-    ),
-    stat: "98%",
-    statLabel: "Target Germination Rate",
-    body: "Every premium vine starts here. We verify seed genetics for high germination rates, disease resistance (like leaf curl virus), and robust early root development in local soils.",
-  },
-  {
-    id: "sapling",
-    tag: "Flowering",
-    eyebrow: "GROWING SEASON",
-    title: (
-      <>
-        Vine Support &amp; <br />
-        <span className="italic text-forest">Blossom Care.</span>
-      </>
-    ),
-    stat: "24 / 7",
-    statLabel: "Agronomist Monitoring",
-    body: "As the plant flowers and climbs, precise nutrition and pest tracking are vital. Get targeted spray schedules, staking advice, and real-time alerts to prevent early blight.",
-  },
-  {
-    id: "grown",
-    tag: "Harvest",
-    eyebrow: "RED TOMATO HARVEST",
-    title: (
-      <>
-        High-Yield <br />
-        <span className="italic text-terracotta">Red Harvest.</span>
-      </>
-    ),
-    stat: "2.5x",
-    statLabel: "Average yield increase",
-    body: "From green fruit to brilliant red tomatoes. We connect you with direct institutional buyers for your vine-ripened tomatoes, securing high market rates and minimal post-harvest loss.",
-  },
+const stages = [
+  { num: "01", title: "Seed Selection", desc: "High-yield, disease-resistant hybrid varieties.", icon: Leaf },
+  { num: "02", title: "Nursery Growth", desc: "Bio-boosted programs for stronger roots and healthier early growth.", icon: Trees },
+  { num: "03", title: "Land Preparation", desc: "Scientific soil analysis, basal-dose planning, irrigation, and mulching.", icon: Tractor },
+  { num: "04", title: "Expert Advisory", desc: "Crop-specific strategies and stage-wise guidance from sowing to harvest.", icon: BrainCircuit },
+  { num: "05", title: "Preventive Care", desc: "Weather-based disease prevention and crop-specific protection.", icon: Shield },
+  { num: "06", title: "Smart Fertigation", desc: "Stage-wise water and nutrition based on crop and soil data.", icon: Droplets },
+  { num: "07", title: "Crop Support", desc: "Trellising solutions that encourage healthier vertical crop growth.", icon: ArrowUpToLine },
+  { num: "08", title: "Timely Harvest", desc: "Peak-ripeness checks and proper harvesting practices.", icon: Apple },
+  { num: "09", title: "Market Access", desc: "Direct market integration and better pricing opportunities.", icon: ShoppingBasket }
 ];
 
-type StageIndex = 0 | 1 | 2;
-
-function getStage(p: number): StageIndex {
-  if (p >= STAGE_BREAKS.grown)   return 2;
-  if (p >= STAGE_BREAKS.sapling) return 1;
-  return 0;
-}
-
-// ─── Component ────────────────────────────────────────────────────────────────
 export default function PlantJourney() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const imagesRef  = useRef<HTMLImageElement[]>([]);
-  const scrollRef  = useRef(0);
-  const rafRef     = useRef<number | null>(null);
-  const pendingRef = useRef(false);
+  const containerRef = useRef<HTMLElement>(null);
 
-  const [stage, setStage]         = useState<StageIndex>(0);
-  const [prevStage, setPrevStage] = useState<StageIndex>(0);
-  const [loaded, setLoaded]       = useState(false);
-  const [loadPct, setLoadPct]     = useState(0);
+  // This ref is sent down to CropWorld to natively drive 3D transforms
+  const progressRef = useRef(0);
 
-  // ── Draw one frame with object-contain to ensure the plant is never clipped ──
-  const drawFrame = useCallback((fi: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const imgs = imagesRef.current;
-    if (!imgs.length) return;
+  // React state for text / progress UI
+  const [activeStage, setActiveStage] = useState(0);
+  const [progressVal, setProgressVal] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-    let img = imgs[fi];
-    if (!img?.complete || !img.naturalWidth) {
-      for (let d = 1; d < TOTAL_FRAMES; d++) {
-        const l = fi - d, r = fi + d;
-        if (l >= 0 && imgs[l]?.complete && imgs[l].naturalWidth) { img = imgs[l]; break; }
-        if (r < TOTAL_FRAMES && imgs[r]?.complete && imgs[r].naturalWidth) { img = imgs[r]; break; }
-      }
-    }
-    if (!img?.complete || !img.naturalWidth) return;
-
-    const cw = canvas.width, ch = canvas.height;
-    ctx.clearRect(0, 0, cw, ch);
-
-    // Object-contain calculation
-    const ir = img.naturalWidth / img.naturalHeight;
-    const cr = cw / ch;
-    let dw = cw, dh = ch, dx = 0, dy = 0;
-    if (cr > ir) {
-      dh = ch;
-      dw = ch * ir;
-      dx = (cw - dw) / 2;
+  useEffect(() => {
+    setMounted(true);
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handler);
     } else {
-      dw = cw;
-      dh = cw / ir;
-      dy = (ch - dh) / 2;
+      mediaQuery.addListener(handler);
     }
-    ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, dx, dy, dw, dh);
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handler);
+      } else {
+        mediaQuery.removeListener(handler);
+      }
+    };
   }, []);
 
-  // ── Size canvas to its container (HiDPI-safe) ─────────────────────────────
-  const resizeCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const p = canvas.parentElement;
-    if (!p) return;
-    const dpr = window.devicePixelRatio || 1;
-    const r   = p.getBoundingClientRect();
-    canvas.style.width  = `${r.width}px`;
-    canvas.style.height = `${r.height}px`;
-    canvas.width  = Math.round(r.width  * dpr);
-    canvas.height = Math.round(r.height * dpr);
-    const fi = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(scrollRef.current * TOTAL_FRAMES)));
-    drawFrame(fi);
-  }, [drawFrame]);
-
-  // ── Preload all frames ─────────────────────────────────────────────────────
   useEffect(() => {
-    let done = 0;
-    const imgs: HTMLImageElement[] = [];
+    if (!mounted || reducedMotion) return;
 
-    const tick = () => {
-      done++;
-      setLoadPct(done / TOTAL_FRAMES);
-      if (done === TOTAL_FRAMES) {
-        imagesRef.current = imgs;
-        setLoaded(true);
-        drawFrame(0);
-      }
-    };
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1, // Smooth scrub over 1 second catching up
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          // Send raw progress (0 -> 1) down to the 3D scene without React re-renders
+          progressRef.current = self.progress;
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      img.src    = FRAME_PATH(i);
-      img.onload = tick;
-      img.onerror = tick;
-      imgs.push(img);
-    }
-    imagesRef.current = imgs;
-  }, [drawFrame]);
+          // Trigger minimal React updates for text/UI tracking
+          setProgressVal(self.progress);
 
-  // ── Scroll + resize wiring ─────────────────────────────────────────────────
-  useEffect(() => {
-    const onScroll = () => {
-      const el = sectionRef.current;
-      if (!el) return;
-      const rect       = el.getBoundingClientRect();
-      const scrollable = el.offsetHeight - window.innerHeight;
-      if (scrollable <= 0) return;
+          // The 9 stages are evenly distributed across the 0-1 progress
+          const currentStage = Math.min(Math.floor(self.progress * 9), 8);
+          if (currentStage !== activeStage) {
+            setActiveStage(currentStage);
+          }
+        }
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, [mounted, reducedMotion, activeStage]);
 
-      const p  = Math.min(1, Math.max(0, -rect.top / scrollable));
-      scrollRef.current = p;
+  if (!mounted) return null;
 
-      const ns = getStage(p);
-      setStage(prev => { if (prev !== ns) setPrevStage(prev); return ns; });
+  // --- REDUCED MOTION FALLBACK ---
+  // If user disables animations, or WebGL completely fails, we show a clean vertical timeline.
+  if (reducedMotion) {
+    return (
+      <section className="bg-white py-24 px-6 md:px-12 border-b border-[#E7ECE8]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-left">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-6 h-[1px] bg-forest/30"></span>
+              <span className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest">
+                CROP LIFECYCLE
+              </span>
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl text-forest-deep leading-tight">
+              One Partner for Your <span className="italic text-forest">Complete Crop Journey</span>
+            </h2>
+            <p className="text-ink/60 text-sm md:text-base mt-2 max-w-xl">
+              Agaate brings agricultural guidance, trusted inputs, technology, and market access together in one connected ecosystem.
+            </p>
+          </div>
+          <div className="relative pl-8 border-l border-forest/20 space-y-16 mt-8">
+            {stages.map((stage) => {
+              const Icon = stage.icon;
+              return (
+                <div key={stage.num} className="relative flex flex-col items-start">
+                  <div className="absolute -left-[56px] top-0 w-12 h-12 rounded-full border border-forest/30 bg-forest/[0.02] flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-forest" strokeWidth={1.5} />
+                  </div>
+                  <div className="font-mono text-xs font-semibold mb-1 pl-2 text-forest">{stage.num}</div>
+                  <h3 className="font-display text-xl font-bold mb-2 pl-2 text-forest-deep">{stage.title}</h3>
+                  <p className="text-sm leading-relaxed pl-2 text-ink/70">{stage.desc}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
-      if (!pendingRef.current) {
-        pendingRef.current = true;
-        rafRef.current = requestAnimationFrame(() => {
-          pendingRef.current = false;
-          const fi = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(p * TOTAL_FRAMES)));
-          drawFrame(fi);
-        });
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", resizeCanvas, { passive: true });
-    resizeCanvas();
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", resizeCanvas);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-    };
-  }, [drawFrame, resizeCanvas]);
-
-  useEffect(() => { if (loaded) resizeCanvas(); }, [loaded, resizeCanvas]);
-
-  // ── Scroll to a stage's midpoint ──────────────────────────────────────────
-  const goToStage = (idx: StageIndex) => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const mids = [0.15, 0.5, 0.85] as const;
-    window.scrollTo({
-      top: el.offsetTop + mids[idx] * (el.offsetHeight - window.innerHeight),
-      behavior: "smooth",
-    });
-  };
-
-  const isForward = stage > prevStage;
-
-  // Panel transition with buttery exponential ease-out
-  const panelStyle = (active: boolean): React.CSSProperties => ({
-    opacity:    active ? 1 : 0,
-    transform:  active ? "none" : `translateY(${isForward ? 28 : -28}px)`,
-    transition: "opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
-    pointerEvents: active ? "auto" : "none",
-    willChange: "opacity, transform",
-  });
-
+  // --- 3D SCROLL PINNED EXPERIENCE ---
   return (
     <section
-      ref={sectionRef}
-      className="relative w-full"
-      style={{ height: "350vh" }}
-      aria-label="Agaate plant journey — seed to harvest"
+      id="journey-section"
+      ref={containerRef}
+      className="bg-white relative"
+      style={{ height: '450vh' }}
     >
-      {/* ── STICKY VIEWPORT ─────────────────────────────────────────────── */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-cream">
+      {/* 100vh Sticky Viewport */}
+      <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden">
 
-        {/* ── FULL-VIEWPORT CANVAS ──────────────────────────────────────── */}
-        <div className="absolute inset-0 z-0">
-          {!loaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-cream">
-              <img
-                src={FRAME_PATH(1)}
-                alt=""
-                className="absolute inset-0 w-full h-full object-contain opacity-30 scale-95"
-              />
-              <div className="relative z-10 flex flex-col items-center gap-4">
-                <div className="label-mono text-forest-deep/60 tracking-[0.25em]">
-                  LOADING 10 FPS JOURNEY
-                </div>
-                <div className="w-40 h-0.5 bg-forest-deep/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-terracotta rounded-full"
-                    style={{
-                      width: `${loadPct * 100}%`,
-                      transition: "width 0.12s ease-out",
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+        {/* Main 3D / Info Area */}
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center w-full max-w-[1400px] mx-auto px-6 lg:px-12 relative">
 
-          <canvas
-            ref={canvasRef}
-            aria-hidden="true"
-            className="w-full h-full block transition-opacity duration-700"
-            style={{ opacity: loaded ? 1 : 0 }}
-          />
-
-          {/* Seamless edge blending vignettes */}
+          {/* Top fading intro text - visible briefly at scroll start */}
           <div
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: [
-                "linear-gradient(to right, oklch(0.965 0.018 90 / 0.95) 0%, oklch(0.965 0.018 90 / 0.7) 22%, transparent 40%)",
-                "linear-gradient(to left,  oklch(0.965 0.018 90 / 0.95) 0%, oklch(0.965 0.018 90 / 0.7) 22%, transparent 40%)",
-                "linear-gradient(to bottom, oklch(0.965 0.018 90 / 0.8) 0%, transparent 16%)",
-                "linear-gradient(to top, oklch(0.965 0.018 90 / 0.85) 0%, transparent 20%)",
-              ].join(", "),
-            }}
-          />
-        </div>
-
-        {/* ── SECTION MARKER (top-left) ─────────────────────────────────── */}
-        <div className="absolute top-8 left-6 md:left-12 z-30 flex items-center gap-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-terracotta inline-block" />
-          <span className="label-mono text-forest-deep/60 tracking-[0.22em] font-medium">
-            02 / PLANT JOURNEY
-          </span>
-        </div>
-
-        {/* ── EDITORIAL TEXT GRID (12 Columns) ──────────────────────────── */}
-        <div className="absolute inset-0 z-20 grid grid-cols-1 md:grid-cols-12 items-center px-6 md:px-12 lg:px-20 pointer-events-none">
-
-          {/* LEFT COLUMN — Eyebrow, Large Serif Title, Body Copy */}
-          <div className="col-span-1 md:col-span-5 lg:col-span-4 relative h-[320px] md:h-[380px] flex items-center">
-            {STAGES.map((st, idx) => {
-              const active = idx === stage;
-              return (
-                <div
-                  key={st.id}
-                  className="absolute inset-x-0 flex flex-col justify-center"
-                  style={panelStyle(active)}
-                >
-                  {/* Eyebrow */}
-                  <div className="label-mono text-terracotta tracking-[0.22em] font-semibold mb-4 flex items-center gap-2.5">
-                    <span className="w-5 h-px bg-terracotta inline-block" />
-                    <span>{st.eyebrow}</span>
-                  </div>
-
-                  {/* Editorial Heading matching Hero styling */}
-                  <h2 className="font-display text-forest-deep text-5xl md:text-6xl lg:text-7xl leading-[1.04] tracking-tight mb-6">
-                    {st.title}
-                  </h2>
-
-                  {/* Supporting Body Text */}
-                  <p className="text-ink/80 text-base md:text-lg leading-[1.7] font-normal max-w-sm text-balance">
-                    {st.body}
-                  </p>
-                </div>
-              );
-            })}
+            className="absolute top-12 left-6 lg:left-12 z-20 transition-opacity duration-700 max-w-lg pointer-events-none hidden lg:block"
+            style={{ opacity: progressVal > 0.03 ? 0 : 1 }}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-6 h-[1px] bg-forest/30"></span>
+              <span className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest">
+                CROP LIFECYCLE
+              </span>
+            </div>
+            <h2 className="font-display text-3xl md:text-4xl text-forest-deep leading-tight font-bold">
+              One Partner for Your <br /><span className="italic font-normal text-forest">Complete Crop Journey</span>
+            </h2>
+            <p className="text-ink/65 text-sm md:text-base mt-3 max-w-md font-normal leading-relaxed">
+              Agaate brings agricultural guidance, trusted inputs, technology, and market access together in one connected ecosystem.
+            </p>
           </div>
 
-          {/* RIGHT COLUMN — Clean Massive Stat Callout */}
-          <div className="col-span-1 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9 relative h-[220px] md:h-[300px] flex items-center">
-            {STAGES.map((st, idx) => {
-              const active = idx === stage;
-              return (
-                <div
-                  key={st.id}
-                  className="absolute inset-x-0 flex flex-col justify-center items-start md:items-end md:text-right"
-                  style={{
-                    ...panelStyle(active),
-                    // Stagger stat entry slightly behind heading for a high-end feel
-                    transitionDelay: active ? "120ms" : "0ms",
-                  }}
-                >
-                  <div className="label-mono text-forest-deep/50 tracking-[0.2em] mb-3">
-                    — IMPACT &amp; OUTCOME
-                  </div>
-
-                  {/* Massive Stat Number */}
-                  <div className="font-display text-6xl md:text-7xl lg:text-8xl text-forest-deep leading-none tracking-tight mb-3">
-                    {st.stat}
-                  </div>
-
-                  {/* Crisp Stat Label */}
-                  <div className="font-mono text-xs md:text-sm uppercase tracking-widest text-terracotta font-medium max-w-[220px] leading-relaxed">
-                    {st.statLabel}
-                  </div>
-                </div>
-              );
-            })}
+          {/* Canvas Area (approx 55-60%) */}
+          <div className="w-full lg:w-3/5 h-[50vh] lg:h-full relative z-10 flex items-center justify-center">
+            <Suspense fallback={null}>
+              <div className="w-full h-full absolute inset-0">
+                <CropWorld progressRef={progressRef} />
+              </div>
+            </Suspense>
           </div>
 
-        </div>
-
-        {/* ── MINIMAL SLEEK BOTTOM NAV ──────────────────────────────────── */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
-          <div className="flex items-center gap-1.5 bg-cream/85 backdrop-blur-md px-4 py-2 rounded-full border border-forest-deep/10 shadow-sm">
-            {STAGES.map((st, idx) => {
-              const active = idx === stage;
-              return (
-                <button
-                  key={st.id}
-                  onClick={() => goToStage(idx as StageIndex)}
-                  aria-label={`Go to ${st.tag} section`}
-                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-full transition-all duration-300 cursor-pointer focus:outline-none group"
-                >
-                  <span
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      active
-                        ? "w-5 bg-terracotta ring-4 ring-terracotta/20"
-                        : "w-2 bg-forest-deep/30 group-hover:bg-forest-deep/60"
-                    }`}
-                  />
-                  <span
-                    className={`label-mono tracking-[0.18em] transition-colors duration-300 ${
-                      active
-                        ? "text-forest-deep font-semibold"
-                        : "text-forest-deep/40 group-hover:text-forest-deep/70"
-                    }`}
+          {/* Text Area (approx 40%) */}
+          <div className="w-full lg:w-2/5 flex items-center justify-start lg:pl-16 relative z-20 h-[30vh] lg:h-auto">
+            <div className="relative w-full max-w-md h-full flex items-center">
+              {stages.map((stage, idx) => {
+                const isActive = activeStage === idx;
+                return (
+                  <div
+                    key={stage.num}
+                    className="absolute left-0 w-full transition-all duration-700 ease-out"
+                    style={{
+                      opacity: isActive ? 1 : 0,
+                      transform: `translateY(${isActive ? '0' : (idx < activeStage ? '-20px' : '20px')})`,
+                      pointerEvents: isActive ? 'auto' : 'none'
+                    }}
                   >
-                    {st.tag}
-                  </span>
-                </button>
-              );
-            })}
+                    <div className="font-mono text-[14px] lg:text-[16px] text-forest font-bold mb-2">
+                      {stage.num}
+                    </div>
+                    <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4">
+                      {stage.title}
+                    </h3>
+                    <p className="text-ink/70 text-base lg:text-lg leading-relaxed">
+                      {stage.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* ── SCROLL CUE (visible at stage 0) ───────────────────────────── */}
-        <div
-          className="absolute bottom-10 right-8 md:right-12 z-30 hidden md:flex items-center gap-3 pointer-events-none transition-opacity duration-500"
-          style={{ opacity: stage === 0 ? 0.6 : 0 }}
-          aria-hidden="true"
-        >
-          <span className="label-mono text-forest-deep/60 tracking-[0.2em] text-[10px]">
-            SCROLL TO GROW
-          </span>
-          <span className="w-8 h-px bg-forest-deep/40 block animate-pulse" />
+        {/* Bottom Progress Bar */}
+        <div className="w-full bg-white py-6 px-6 lg:px-12 relative z-30 mt-auto">
+          <div className="max-w-[1400px] mx-auto">
+
+            {/* Desktop Labels */}
+            <div className="justify-between items-end mb-8 hidden sm:flex">
+              {stages.map((stage, idx) => {
+                const isActive = activeStage === idx;
+                const isPast = activeStage > idx;
+                return (
+                  <div key={idx} className="flex flex-col items-center transition-all duration-300 w-16 relative">
+                    <span className={`font-mono text-[9px] uppercase tracking-wider transition-all duration-300 ${isActive ? 'text-forest font-bold scale-110 -translate-y-1' : (isPast ? 'text-forest/70' : 'text-ink/30')}`}>
+                      {stage.num}
+                    </span>
+                    <span className={`text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? 'text-forest-deep scale-105' : (isPast ? 'text-forest/75' : 'text-ink/30')}`}>
+                      {stage.title.split(' ')[0]}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Mobile Simple Label */}
+            <div className="sm:hidden flex justify-between items-center mb-8 font-mono text-xs font-bold text-forest">
+              <span>{stages[activeStage]?.title}</span>
+              <span>{stages[activeStage]?.num} / 09</span>
+            </div>
+
+            {/* Unique "Precision Playhead" Track */}
+            <div className="w-full h-[1px] bg-[#E7ECE8] relative mb-4">
+              
+              {/* Trailing Progress Line */}
+              <div
+                className="absolute top-0 left-0 h-[1.5px] bg-forest/40 -translate-y-[0.25px] transition-none"
+                style={{ width: `${progressVal * 100}%` }}
+              />
+              
+              {/* Static Segment Ticks */}
+              {stages.map((_, idx) => (
+                <div
+                  key={idx}
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[1px] h-[8px] bg-[#C6CFC9]"
+                  style={{ left: `${(idx / 8) * 100}%` }}
+                ></div>
+              ))}
+              
+              {/* Smooth Gliding Playhead Monolith */}
+              <div 
+                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[2px] h-[28px] bg-forest pointer-events-none z-10 shadow-[0_0_12px_rgba(18,63,46,0.15)] rounded-[1px] transition-none"
+                style={{ left: `${progressVal * 100}%` }}
+              ></div>
+            </div>
+          </div>
         </div>
 
       </div>

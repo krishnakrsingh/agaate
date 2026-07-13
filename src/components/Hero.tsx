@@ -83,17 +83,17 @@ export default function Hero() {
             ref={h1Ref}
             className="opacity-0 text-white"
             style={{
-              fontFamily: 'Instrument Serif, Georgia, serif',
-              fontSize: 'clamp(3rem, 7.5vw, 6rem)',
-              fontWeight: 400,
-              letterSpacing: '-0.025em',
+              fontFamily: 'Manrope, Inter, Arial, sans-serif',
+              fontSize: 'clamp(2.375rem, 5vw, 4.25rem)',
+              fontWeight: 700,
+              letterSpacing: '-0.035em',
               lineHeight: 1.05,
               textWrap: 'balance',
               textShadow: '0 4px 30px rgba(0,0,0,0.5)',
             }}
           >
             We grow{' '}
-            <span style={{ fontStyle: 'italic', color: '#facc15' }}>
+            <span style={{ color: '#facc15', fontWeight: 800 }}>
               smarter
             </span>
             ,<br />
@@ -105,8 +105,8 @@ export default function Hero() {
             ref={pRef}
             className="opacity-0 mt-6 text-white/80 max-w-xl mx-auto"
             style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)',
+              fontFamily: 'Manrope, Inter, Arial, sans-serif',
+              fontSize: 'clamp(1rem, 1.2vw, 1.125rem)',
               fontWeight: 400,
               lineHeight: 1.7,
               textWrap: 'balance',
@@ -120,7 +120,7 @@ export default function Hero() {
           <div ref={btnRef} className="opacity-0 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               className="group inline-flex items-center gap-3 rounded-full bg-white text-[#1a3c34] px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:bg-[#c8e3d4] hover:shadow-xl hover:-translate-y-0.5"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 600, letterSpacing: '-0.005em' }}
             >
               Get started free
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
@@ -129,7 +129,7 @@ export default function Hero() {
             </button>
             <button
               className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-white px-8 py-3.5 text-sm font-medium transition-all duration-300 hover:bg-white/20"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 600, letterSpacing: '-0.005em' }}
             >
               See how it works
             </button>
