@@ -39,41 +39,32 @@ const C = {
 const materials = {
   soil: new THREE.MeshStandardMaterial({ color: C.soil, roughness: 0.95, metalness: 0.02 }),
   stem: new THREE.MeshStandardMaterial({ color: C.stem, roughness: 0.6, metalness: 0.05 }),
-  leafDark: new THREE.MeshPhysicalMaterial({
-    color: C.leafDark, roughness: 0.45, metalness: 0.0,
-    transmission: 0.08, thickness: 0.3, clearcoat: 0.15, clearcoatRoughness: 0.4,
-    side: THREE.DoubleSide,
+  leafDark: new THREE.MeshStandardMaterial({
+    color: C.leafDark, roughness: 0.5, metalness: 0.02, side: THREE.DoubleSide,
   }),
-  leafMid: new THREE.MeshPhysicalMaterial({
-    color: C.leafMid, roughness: 0.4, metalness: 0.0,
-    transmission: 0.12, thickness: 0.25, clearcoat: 0.2, clearcoatRoughness: 0.35,
-    side: THREE.DoubleSide,
+  leafMid: new THREE.MeshStandardMaterial({
+    color: C.leafMid, roughness: 0.45, metalness: 0.02, side: THREE.DoubleSide,
   }),
-  leafLight: new THREE.MeshPhysicalMaterial({
-    color: C.leafLight, roughness: 0.35, metalness: 0.0,
-    transmission: 0.15, thickness: 0.2, clearcoat: 0.25, clearcoatRoughness: 0.3,
-    side: THREE.DoubleSide,
+  leafLight: new THREE.MeshStandardMaterial({
+    color: C.leafLight, roughness: 0.4, metalness: 0.02, side: THREE.DoubleSide,
   }),
   youngStem: new THREE.MeshStandardMaterial({ color: '#7DBF6E', roughness: 0.55, metalness: 0.05 }),
-  youngLeaf: new THREE.MeshPhysicalMaterial({
-    color: C.leafYoung, roughness: 0.35, metalness: 0.0,
-    transmission: 0.2, thickness: 0.15, clearcoat: 0.3, clearcoatRoughness: 0.25,
-    side: THREE.DoubleSide,
+  youngLeaf: new THREE.MeshStandardMaterial({
+    color: C.leafYoung, roughness: 0.4, metalness: 0.02, side: THREE.DoubleSide,
   }),
   seed: new THREE.MeshStandardMaterial({ color: C.seedHusk, roughness: 0.55, metalness: 0.1 }),
   seedGlow: new THREE.MeshBasicMaterial({ color: C.yellow }),
   hologramRing: new THREE.MeshBasicMaterial({ color: C.glowCyan, transparent: true, opacity: 0.6, side: THREE.DoubleSide }),
   hologramGrid: new THREE.MeshBasicMaterial({ color: C.hologram, transparent: true, opacity: 0.25, side: THREE.DoubleSide }),
-  shield: new THREE.MeshPhysicalMaterial({
+  shield: new THREE.MeshStandardMaterial({
     color: C.glowCyan, transparent: true, opacity: 0.15,
-    roughness: 0.1, metalness: 0.3, transmission: 0.6,
-    side: THREE.DoubleSide,
+    roughness: 0.1, metalness: 0.3, side: THREE.DoubleSide,
   }),
   shieldWireframe: new THREE.MeshBasicMaterial({ color: C.glowCyan, wireframe: true, transparent: true, opacity: 0.35 }),
   rootGlow: new THREE.MeshBasicMaterial({ color: '#80E0A0', transparent: true, opacity: 0.7 }),
-  water: new THREE.MeshPhysicalMaterial({
+  water: new THREE.MeshStandardMaterial({
     color: C.water, transparent: true, opacity: 0.85,
-    roughness: 0.05, metalness: 0.1, transmission: 0.4,
+    roughness: 0.1, metalness: 0.15,
   }),
   bamboo: new THREE.MeshStandardMaterial({ color: C.bamboo, roughness: 0.65, metalness: 0.05 }),
   bambooNode: new THREE.MeshStandardMaterial({ color: C.bambooNode, roughness: 0.5, metalness: 0.05 }),
@@ -106,8 +97,21 @@ const SOIL_CLODS = [
 ];
 
 // ======================================================================
-// ORGANIC LEAF — flattened sphere that looks like a real leaf blade
+// LEAF SHAPE GEOMETRY — proper leaf silhouette, created once and reused
 // ======================================================================
+const leafShape = (() => {
+  const s = new THREE.Shape();
+  s.moveTo(0, 0);                      // base (petiole attachment)
+  s.bezierCurveTo(0.03, 0.02, 0.055, 0.05, 0.06, 0.09);   // right edge lower curve
+  s.bezierCurveTo(0.062, 0.11, 0.058, 0.14, 0.05, 0.16);  // right edge mid bulge
+  s.bezierCurveTo(0.04, 0.19, 0.02, 0.21, 0, 0.22);       // tip
+  s.bezierCurveTo(-0.02, 0.21, -0.04, 0.19, -0.05, 0.16); // left edge tip to mid
+  s.bezierCurveTo(-0.058, 0.14, -0.062, 0.11, -0.06, 0.09);// left edge mid bulge
+  s.bezierCurveTo(-0.055, 0.05, -0.03, 0.02, 0, 0);        // left edge back to base
+  return s;
+})();
+const leafGeo = new THREE.ShapeGeometry(leafShape, 6);
+
 interface OrganicLeafProps {
   position?: [number, number, number];
   rotation?: [number, number, number];
@@ -117,14 +121,25 @@ interface OrganicLeafProps {
 
 function OrganicLeaf({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, material = materials.leafMid }: OrganicLeafProps) {
   return (
-    <group position={position} rotation={rotation}>
-      {/* Leaf blade — elongated + flattened sphere */}
-      <mesh material={material} scale={[scale * 2.2, scale * 0.1, scale * 1.15]} castShadow receiveShadow>
-        <sphereGeometry args={[0.05, 16, 12]} />
-      </mesh>
+    <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
+      {/* Leaf blade — proper leaf-shaped flat mesh */}
+      <mesh geometry={leafGeo} material={material} castShadow receiveShadow />
       {/* Midrib vein */}
-      <mesh material={materials.stem} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.002 * scale, 0.003 * scale, 0.1 * scale, 6]} />
+      <mesh material={materials.stem} position={[0, 0.11, 0.001]} castShadow>
+        <cylinderGeometry args={[0.002, 0.004, 0.2, 4]} />
+      </mesh>
+      {/* Side veins (left + right) */}
+      <mesh material={materials.stem} position={[-0.02, 0.1, 0.001]} rotation={[0, 0, 0.5]}>
+        <cylinderGeometry args={[0.001, 0.002, 0.08, 4]} />
+      </mesh>
+      <mesh material={materials.stem} position={[0.02, 0.1, 0.001]} rotation={[0, 0, -0.5]}>
+        <cylinderGeometry args={[0.001, 0.002, 0.08, 4]} />
+      </mesh>
+      <mesh material={materials.stem} position={[-0.018, 0.15, 0.001]} rotation={[0, 0, 0.4]}>
+        <cylinderGeometry args={[0.001, 0.0015, 0.06, 4]} />
+      </mesh>
+      <mesh material={materials.stem} position={[0.018, 0.15, 0.001]} rotation={[0, 0, -0.4]}>
+        <cylinderGeometry args={[0.001, 0.0015, 0.06, 4]} />
       </mesh>
     </group>
   );
@@ -145,24 +160,28 @@ function CompoundLeafBranch({ position = [0, 0, 0], rotation = [0, 0, 0], scale 
     <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
       {/* Junction node */}
       <mesh material={materials.stem} castShadow>
-        <sphereGeometry args={[0.018, 10, 10]} />
+        <sphereGeometry args={[0.018, 8, 8]} />
       </mesh>
 
       {/* Petiole (branch stem extending outward along X) */}
-      <mesh material={materials.stem} position={[0.12, 0.005, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.006, 0.012, 0.24, 8]} />
+      <mesh material={materials.stem} position={[0.14, 0.005, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+        <cylinderGeometry args={[0.005, 0.012, 0.28, 6]} />
       </mesh>
 
-      {/* Terminal leaflet (tip) */}
-      <OrganicLeaf position={[0.25, 0.01, 0]} rotation={[0.1, 0, -0.15]} scale={0.9} material={material} />
+      {/* Terminal leaflet (tip) — largest leaf at end */}
+      <OrganicLeaf position={[0.26, 0.01, 0]} rotation={[-Math.PI / 2 + 0.1, 0, -0.15]} scale={1.1} material={material} />
 
-      {/* Upper lateral pair */}
-      <OrganicLeaf position={[0.18, 0.012, 0.025]} rotation={[0.4, 0.2, -0.3]} scale={0.7} material={material} />
-      <OrganicLeaf position={[0.18, 0.012, -0.025]} rotation={[-0.4, -0.2, -0.3]} scale={0.7} material={material} />
+      {/* Upper lateral pair — angled outward */}
+      <OrganicLeaf position={[0.19, 0.012, 0.01]} rotation={[-Math.PI / 2 + 0.2, 0.4, -0.35]} scale={0.85} material={material} />
+      <OrganicLeaf position={[0.19, 0.012, -0.01]} rotation={[-Math.PI / 2 + 0.2, -0.4, 0.35]} scale={0.85} material={material} />
 
-      {/* Lower lateral pair */}
-      <OrganicLeaf position={[0.08, 0.008, 0.02]} rotation={[0.5, 0.3, -0.2]} scale={0.55} material={material} />
-      <OrganicLeaf position={[0.08, 0.008, -0.02]} rotation={[-0.5, -0.3, -0.2]} scale={0.55} material={material} />
+      {/* Mid lateral pair */}
+      <OrganicLeaf position={[0.12, 0.008, 0.015]} rotation={[-Math.PI / 2 + 0.15, 0.5, -0.25]} scale={0.7} material={material} />
+      <OrganicLeaf position={[0.12, 0.008, -0.015]} rotation={[-Math.PI / 2 + 0.15, -0.5, 0.25]} scale={0.7} material={material} />
+
+      {/* Lower lateral pair — smaller */}
+      <OrganicLeaf position={[0.06, 0.005, 0.012]} rotation={[-Math.PI / 2 + 0.1, 0.6, -0.2]} scale={0.5} material={material} />
+      <OrganicLeaf position={[0.06, 0.005, -0.012]} rotation={[-Math.PI / 2 + 0.1, -0.6, 0.2]} scale={0.5} material={material} />
     </group>
   );
 }
@@ -194,22 +213,26 @@ function FlowerBlossom({ position = [0, 0, 0] as [number, number, number], rotat
 }
 
 // ======================================================================
-// VINE TENDRIL — a curling spiral
+// VINE TENDRIL — simple curling segments (much cheaper than tubeGeometry)
 // ======================================================================
 function VineTendril({ position = [0, 0, 0] as [number, number, number], rotation = [0, 0, 0] as [number, number, number], scale = 1 }) {
-  const curve = useMemo(() => new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0.03, 0.02, 0.01),
-    new THREE.Vector3(0.05, 0.04, -0.01),
-    new THREE.Vector3(0.04, 0.06, 0.02),
-    new THREE.Vector3(0.02, 0.07, 0.01),
-    new THREE.Vector3(0.01, 0.065, -0.01),
-  ]), []);
-
   return (
     <group position={position} rotation={rotation} scale={[scale, scale, scale]}>
-      <mesh material={materials.tendril} castShadow>
-        <tubeGeometry args={[curve, 20, 0.003, 6, false]} />
+      {/* Curl segment 1 */}
+      <mesh material={materials.tendril} position={[0.015, 0.015, 0]} rotation={[0, 0, 0.6]} castShadow>
+        <cylinderGeometry args={[0.002, 0.003, 0.04, 4]} />
+      </mesh>
+      {/* Curl segment 2 */}
+      <mesh material={materials.tendril} position={[0.035, 0.03, 0.005]} rotation={[0.2, 0, 1.0]} castShadow>
+        <cylinderGeometry args={[0.0015, 0.002, 0.035, 4]} />
+      </mesh>
+      {/* Curl segment 3 */}
+      <mesh material={materials.tendril} position={[0.045, 0.045, 0.01]} rotation={[0.3, 0.2, 1.6]} castShadow>
+        <cylinderGeometry args={[0.001, 0.0015, 0.03, 4]} />
+      </mesh>
+      {/* Tiny curl tip */}
+      <mesh material={materials.tendril} position={[0.04, 0.06, 0.015]} rotation={[0.4, 0.3, 2.2]} castShadow>
+        <cylinderGeometry args={[0.0008, 0.001, 0.02, 4]} />
       </mesh>
     </group>
   );
