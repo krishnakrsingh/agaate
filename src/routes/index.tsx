@@ -30,6 +30,7 @@ function Index() {
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [startHeroAnimation, setStartHeroAnimation] = useState(false);
+  const [contentReady, setContentReady] = useState(false);
 
   const handleComplete = useCallback(() => {
     setLoading(false);
@@ -41,6 +42,10 @@ function Index() {
 
   const handleVideoLoaded = useCallback(() => {
     setVideoLoaded(true);
+  }, []);
+
+  const handleHeroAnimationComplete = useCallback(() => {
+    setContentReady(true);
   }, []);
 
   return (
@@ -57,8 +62,9 @@ function Index() {
         <Hero
           onVideoLoaded={handleVideoLoaded}
           startAnimation={startHeroAnimation}
+          onAnimationComplete={handleHeroAnimationComplete}
         />
-        {!loading && (
+        {contentReady && (
           <>
             <PlantJourney />
             <Introduction />

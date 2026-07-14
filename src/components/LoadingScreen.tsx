@@ -10,6 +10,7 @@ interface LoadingScreenProps {
 export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: LoadingScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
+  const circleRef = useRef<SVGCircleElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   // Keep refs of callbacks and state to prevent stale closures and timeline resets
@@ -30,7 +31,7 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
   }, [onWipeStart]);
 
   useEffect(() => {
-    if (!containerRef.current || !logoRef.current) return;
+    if (!containerRef.current || !logoRef.current || !circleRef.current) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ 
@@ -62,15 +63,15 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
           tl.pause();
         }
       })
-      .to(containerRef.current, {
-        clipPath: 'circle(0% at 50% 50%)',
-        duration: 0.9,
-        ease: 'expo.inOut',
-        force3D: true,
+      // High-performance circular mask transition (animates SVG circle radius, avoiding CPU-bound clip-path repaints)
+      .to(circleRef.current, {
+        attr: { r: 2500 },
+        duration: 1.3,
+        ease: 'power4.inOut',
         onStart: () => {
           onWipeStartRef.current?.();
         }
-      }, "-=0.5")
+      }, "-=0.35")
       .set(containerRef.current, { pointerEvents: 'none' });
     }, containerRef);
 
@@ -95,12 +96,31 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#f4f8f5',
-        clipPath: 'circle(150% at 50% 50%)',
-        willChange: 'clip-path',
-        transform: 'translateZ(0)',
+        background: 'transparent',
+        pointerEvents: 'auto',
       }}
     >
+      {/* SVG Iris Mask Background - maintains solid background at start and cuts a circular hole dynamically */}
+      <svg
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+        }}
+      >
+        <defs>
+          <mask id="iris-mask">
+            {/* The white rect keeps the loader background visible */}
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            {/* The black circle cuts a transparent hole in the background */}
+            <circle ref={circleRef} cx="50%" cy="50%" r="0" fill="black" />
+          </mask>
+        </defs>
+        <rect x="0" y="0" width="100%" height="100%" fill="#f4f8f5" mask="url(#iris-mask)" />
+      </svg>
+
       {/* Logo optimized with inline initial transform so 0 layout shift or jank occurs */}
       <img
         ref={logoRef}
@@ -109,6 +129,8 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
         decoding="async"
         fetchPriority="high"
         style={{
+          position: 'relative',
+          zIndex: 1,
           width: 'clamp(160px, 20vw, 260px)',
           height: 'auto',
           objectFit: 'contain',

@@ -4,9 +4,11 @@ import gsap from 'gsap';
 interface HeroProps {
   onVideoLoaded?: () => void;
   startAnimation?: boolean;
+  onAnimationComplete?: () => void;
 }
 
-export default memo(function Hero({ onVideoLoaded, startAnimation = false }: HeroProps) {
+export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAnimationComplete }: HeroProps) {
+  const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
@@ -16,9 +18,15 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false }: Her
 
   // Keep latest callback ref to avoid re-running effects or re-binding listeners
   const onVideoLoadedRef = useRef(onVideoLoaded);
+  const onAnimationCompleteRef = useRef(onAnimationComplete);
+
   useEffect(() => {
     onVideoLoadedRef.current = onVideoLoaded;
   }, [onVideoLoaded]);
+
+  useEffect(() => {
+    onAnimationCompleteRef.current = onAnimationComplete;
+  }, [onAnimationComplete]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -49,33 +57,53 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false }: Her
     if (!startAnimation) return;
 
     // Start reveal immediately (loader circular wipe has started opening)
-    const tl = gsap.timeline({ delay: 0 });
+    const tl = gsap.timeline({
+      delay: 0,
+      onComplete: () => {
+        onAnimationCompleteRef.current?.();
+      }
+    });
 
-    // 1. Cinematic reveal of the hero container and video (hardware accelerated transforms only)
+    // 1. Cinematic morph: video starts full-screen and contracts into the rounded padded card as the loader clears
     tl.fromTo(
+      sectionRef.current,
+      { padding: '0px' },
+      {
+        padding: window.innerWidth < 768 ? '8px' : '10px',
+        duration: 1.6,
+        ease: 'power4.out',
+        clearProps: 'padding'
+      }
+    )
+    .fromTo(
       containerRef.current,
-      { scale: 0.8, borderRadius: '60px', willChange: 'transform,border-radius' },
-      { scale: 1, borderRadius: '16px', duration: 1.6, ease: 'expo.inOut', clearProps: 'transform,willChange' }
+      { borderRadius: '0px' },
+      {
+        borderRadius: '16px',
+        duration: 1.6,
+        ease: 'power4.out',
+        clearProps: 'borderRadius'
+      },
+      "<"
     )
     .fromTo(
       curtainRef.current,
       { opacity: 0.75, display: 'block' },
-      { opacity: 0, duration: 1.6, ease: 'expo.inOut', onComplete: () => {
+      {
+        opacity: 0,
+        duration: 1.6,
+        ease: 'power4.out',
+        onComplete: () => {
           if (curtainRef.current) curtainRef.current.style.display = 'none';
-        } },
+        }
+      },
       "<"
     )
-    .fromTo(
-      videoRef.current,
-      { scale: 1.25, willChange: 'transform' },
-      { scale: 1, duration: 1.6, ease: 'expo.inOut', clearProps: 'transform,willChange' },
-      "<" // Sync with container
-    )
-    // 2. Text floats in
+    // 2. Text floats in (pure transform & opacity, avoiding heavy filter: blur shaders)
     .fromTo(
       h1Ref.current,
-      { opacity: 0, y: 40, filter: 'blur(8px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out', clearProps: 'filter,transform' },
+      { opacity: 0, y: 35 },
+      { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', clearProps: 'transform' },
       "-=0.6"
     )
     .fromTo(
@@ -97,8 +125,12 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false }: Her
   }, [startAnimation]);
 
   return (
-    <section id="hero" className="relative w-full h-screen p-2 md:p-2.5">
-      <div ref={containerRef} className="relative w-full h-full overflow-hidden rounded-[16px]">
+    <section ref={sectionRef} id="hero" className="relative w-full h-screen p-2 md:p-2.5">
+      <div
+        ref={containerRef}
+        className="relative w-full h-full overflow-hidden rounded-[16px]"
+        style={{ willChange: 'transform' }}
+      >
 
         {/* Background Video */}
         <video
