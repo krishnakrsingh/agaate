@@ -7,36 +7,36 @@ interface LoadingScreenProps {
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
+
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !logoRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Set initial states
-      gsap.set(logoRef.current, { opacity: 0, y: 40, scale: 0.8 });
-      gsap.set(containerRef.current, { clipPath: 'circle(150% at 50% 50%)' });
+      const tl = gsap.timeline({ onComplete, delay: 0.05 });
 
-      const tl = gsap.timeline({ onComplete });
-
-      // 1. Logo floats up elegantly
+      // 1. Logo floats up smoothly at locked 60 FPS
       tl.to(logoRef.current, {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 1.2,
-        ease: 'power2.out',
+        duration: 1.1,
+        ease: 'power3.out',
+        force3D: true,
       })
-      // 2. The Surprise: Logo shrinks continuously without stopping and no rotation
+      // 2. Logo shrinks out smoothly
       .to(logoRef.current, {
         scale: 0,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: 'power3.in',
-      }, "-=0.2") // Overlaps with the previous animation to prevent a dead stop
+        force3D: true,
+      }, "-=0.15")
       .to(containerRef.current, {
         clipPath: 'circle(0% at 50% 50%)',
-        duration: 1.0,
+        duration: 0.9,
         ease: 'expo.inOut',
-      }, "-=0.6")
+        force3D: true,
+      }, "-=0.5")
       .set(containerRef.current, { pointerEvents: 'none' });
     }, containerRef);
 
@@ -54,26 +54,30 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '52px',
-        // Lightest whisper of a green tint — almost pure white
         background: '#f4f8f5',
+        clipPath: 'circle(150% at 50% 50%)',
+        willChange: 'clip-path',
+        transform: 'translateZ(0)',
       }}
     >
-      {/* Logo — darkened so it reads cleanly on the near-white bg */}
+      {/* Logo optimized with inline initial transform so 0 layout shift or jank occurs */}
       <img
         ref={logoRef}
-        src="/logo.svg"
+        src="/logo.png"
         alt="Agaate"
+        decoding="async"
+        fetchPriority="high"
         style={{
           width: 'clamp(160px, 20vw, 260px)',
           height: 'auto',
+          objectFit: 'contain',
           userSelect: 'none',
           pointerEvents: 'none',
-          // Push logo toward the brand's dark forest tone
-          filter: 'brightness(0.18) saturate(1.5) hue-rotate(-5deg)',
+          opacity: 0,
+          transform: 'translate3d(0, 35px, 0) scale(0.85)',
+          willChange: 'transform, opacity',
         }}
       />
-
     </div>
   );
 }

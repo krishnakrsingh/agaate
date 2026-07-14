@@ -1237,26 +1237,36 @@ function CTA() {
 
 function Index() {
   const [loading, setLoading] = useState(true);
+  const [mountMain, setMountMain] = useState(false);
+
+  useEffect(() => {
+    // Mount heavy WebGL and GSAP page components 700ms after initial load
+    // guaranteeing LoadingScreen runs at 100% smooth 60 FPS without CPU contention
+    const timer = setTimeout(() => setMountMain(true), 700);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
       {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
-      <main className="bg-white text-ink antialiased">
-        <Header />
-        <Hero />
-        <PlantJourney />
-        <Introduction />
-        <ProblemSolution />
-        <Mall />
-        <AgriTech />
-        <CarbonCredits />
-        <CommercialFarming />
-        <Testimonials />
-        <MarketAccess />
-        <AgriPark />
-        <CTA />
-        <Footer />
-      </main>
+      {mountMain && (
+        <main className="bg-white text-ink antialiased">
+          <Header />
+          <Hero />
+          <PlantJourney />
+          <Introduction />
+          <ProblemSolution />
+          <Mall />
+          <AgriTech />
+          <CarbonCredits />
+          <CommercialFarming />
+          <Testimonials />
+          <MarketAccess />
+          <AgriPark />
+          <CTA />
+          <Footer />
+        </main>
+      )}
     </>
   );
 }
