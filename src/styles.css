@@ -172,3 +172,44 @@
 @utility hairline {
   border-top: 1px solid var(--border);
 }
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.8deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes radarScan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 0.7; }
+  100% { transform: translateY(300%); opacity: 0; }
+}
+
+@keyframes shimmerWave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3.5s ease-in-out infinite;
+}
+
+.animate-radar-scan {
+  animation: radarScan 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #17211B 0%, #2D6A4F 50%, #17211B 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerWave 6s linear infinite;
+}
