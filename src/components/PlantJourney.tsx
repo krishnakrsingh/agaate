@@ -15,7 +15,7 @@ const stages = [
   { num: "05", title: "Preventive Care", desc: "Weather-based disease prevention and crop-specific protection.", icon: Shield },
   { num: "06", title: "Smart Fertigation", desc: "Stage-wise water and nutrition based on crop and soil data.", icon: Droplets },
   { num: "07", title: "Crop Support", desc: "Trellising solutions that encourage healthier vertical crop growth.", icon: ArrowUpToLine },
-  { num: "08", title: "Timely Harvest", desc: "Peak-ripeness checks and proper harvesting practices.", icon: Apple },
+  { num: "08", title: "Harvest", desc: "Peak-ripeness checks and proper harvesting practices.", icon: Apple },
   { num: "09", title: "Market Access", desc: "Direct market integration and better pricing opportunities.", icon: ShoppingBasket }
 ];
 
@@ -223,13 +223,13 @@ export default function PlantJourney() {
 
             {/* Unique "Precision Playhead" Track */}
             <div className="w-full h-[1px] bg-[#E7ECE8] relative mb-4">
-              
+
               {/* Trailing Progress Line */}
               <div
                 className="absolute top-0 left-0 h-[1.5px] bg-forest/40 -translate-y-[0.25px] transition-none"
                 style={{ width: `${progressVal * 100}%` }}
               />
-              
+
               {/* Static Segment Ticks */}
               {stages.map((_, idx) => (
                 <div
@@ -238,9 +238,9 @@ export default function PlantJourney() {
                   style={{ left: `${(idx / 8) * 100}%` }}
                 ></div>
               ))}
-              
+
               {/* Smooth Gliding Playhead Monolith */}
-              <div 
+              <div
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[2px] h-[28px] bg-forest pointer-events-none z-10 shadow-[0_0_12px_rgba(18,63,46,0.15)] rounded-[1px] transition-none"
                 style={{ left: `${progressVal * 100}%` }}
               ></div>
