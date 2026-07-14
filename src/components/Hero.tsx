@@ -1,7 +1,12 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function Hero() {
+interface HeroProps {
+  onVideoLoaded?: () => void;
+  startAnimation?: boolean;
+}
+
+export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
@@ -9,8 +14,32 @@ export default function Hero() {
   const btnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Delay synced with when the LoadingScreen circle wipe starts opening (~1.2s to 1.4s)
-    const tl = gsap.timeline({ delay: 1.3 });
+    const video = videoRef.current;
+    if (video) {
+      const handleVideoLoaded = () => {
+        onVideoLoaded?.();
+      };
+
+      // Check readystate to see if it is already loaded/playable
+      if (video.readyState >= 3) {
+        handleVideoLoaded();
+      } else {
+        video.addEventListener('canplay', handleVideoLoaded);
+        video.addEventListener('canplaythrough', handleVideoLoaded);
+      }
+
+      return () => {
+        video.removeEventListener('canplay', handleVideoLoaded);
+        video.removeEventListener('canplaythrough', handleVideoLoaded);
+      };
+    }
+  }, [onVideoLoaded]);
+
+  useEffect(() => {
+    if (!startAnimation) return;
+
+    // Start reveal immediately (loader circular wipe has started opening)
+    const tl = gsap.timeline({ delay: 0 });
 
     // 1. Cinematic reveal of the hero container and video (Parallax scale)
     tl.fromTo(
@@ -47,7 +76,7 @@ export default function Hero() {
     return () => {
       tl.kill();
     };
-  }, []);
+  }, [startAnimation]);
 
   return (
     <section id="hero" className="relative w-full h-screen p-2 md:p-2.5">
@@ -58,6 +87,7 @@ export default function Hero() {
           ref={videoRef}
           className="absolute inset-0 z-0 w-full h-full object-cover"
           src="/assets/hero.mp4"
+          preload="auto"
           autoPlay
           loop
           muted

@@ -1,18 +1,43 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+
 interface LoadingScreenProps {
   onComplete: () => void;
+  videoLoaded: boolean;
+  onWipeStart?: () => void;
 }
 
-export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
+export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: LoadingScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  // Keep refs of callbacks and state to prevent stale closures and timeline resets
+  const videoLoadedRef = useRef(videoLoaded);
+  const onCompleteRef = useRef(onComplete);
+  const onWipeStartRef = useRef(onWipeStart);
+
+  useEffect(() => {
+    videoLoadedRef.current = videoLoaded;
+  }, [videoLoaded]);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    onWipeStartRef.current = onWipeStart;
+  }, [onWipeStart]);
 
   useEffect(() => {
     if (!containerRef.current || !logoRef.current) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ onComplete, delay: 0.05 });
+      const tl = gsap.timeline({ 
+        onComplete: () => onCompleteRef.current(), 
+        delay: 0.05 
+      });
+      tlRef.current = tl;
 
       // 1. Logo floats up smoothly at locked 60 FPS
       tl.to(logoRef.current, {
@@ -31,17 +56,33 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         ease: 'power3.in',
         force3D: true,
       }, "-=0.15")
+      // Pause point: Wait here if the hero video is not yet loaded
+      .add(() => {
+        if (!videoLoadedRef.current) {
+          tl.pause();
+        }
+      })
       .to(containerRef.current, {
         clipPath: 'circle(0% at 50% 50%)',
         duration: 0.9,
         ease: 'expo.inOut',
         force3D: true,
+        onStart: () => {
+          onWipeStartRef.current?.();
+        }
       }, "-=0.5")
       .set(containerRef.current, { pointerEvents: 'none' });
     }, containerRef);
 
     return () => ctx.revert();
-  }, [onComplete]);
+  }, []);
+
+  // Resume timeline once the video has loaded
+  useEffect(() => {
+    if (videoLoaded && tlRef.current) {
+      tlRef.current.play();
+    }
+  }, [videoLoaded]);
 
   return (
     <div
