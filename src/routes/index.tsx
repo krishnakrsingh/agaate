@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import heroPlant from "@/assets/hero-plant.jpg";
 import rottenPlant from "@/assets/rotten-plant.jpg";
 import agroPark from "@/assets/agro-park.jpg";
@@ -1240,19 +1240,31 @@ function Index() {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [startHeroAnimation, setStartHeroAnimation] = useState(false);
 
+  const handleComplete = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  const handleWipeStart = useCallback(() => {
+    setStartHeroAnimation(true);
+  }, []);
+
+  const handleVideoLoaded = useCallback(() => {
+    setVideoLoaded(true);
+  }, []);
+
   return (
     <>
       {loading && (
         <LoadingScreen
-          onComplete={() => setLoading(false)}
+          onComplete={handleComplete}
           videoLoaded={videoLoaded}
-          onWipeStart={() => setStartHeroAnimation(true)}
+          onWipeStart={handleWipeStart}
         />
       )}
       <main className="bg-white text-ink antialiased">
         <Header />
         <Hero
-          onVideoLoaded={() => setVideoLoaded(true)}
+          onVideoLoaded={handleVideoLoaded}
           startAnimation={startHeroAnimation}
         />
         {!loading && (

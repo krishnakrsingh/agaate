@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 
 interface HeroProps {
@@ -6,34 +6,44 @@ interface HeroProps {
   startAnimation?: boolean;
 }
 
-export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProps) {
+export default memo(function Hero({ onVideoLoaded, startAnimation = false }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const curtainRef = useRef<HTMLDivElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const pRef = useRef<HTMLParagraphElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
 
+  // Keep latest callback ref to avoid re-running effects or re-binding listeners
+  const onVideoLoadedRef = useRef(onVideoLoaded);
+  useEffect(() => {
+    onVideoLoadedRef.current = onVideoLoaded;
+  }, [onVideoLoaded]);
+
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
-      const handleVideoLoaded = () => {
-        onVideoLoaded?.();
-      };
+    if (!video) return;
 
-      // Check readystate to see if it is already loaded/playable
-      if (video.readyState >= 3) {
-        handleVideoLoaded();
-      } else {
-        video.addEventListener('canplay', handleVideoLoaded);
-        video.addEventListener('canplaythrough', handleVideoLoaded);
-      }
+    let notified = false;
+    const handleVideoLoaded = () => {
+      if (notified) return;
+      notified = true;
+      onVideoLoadedRef.current?.();
+    };
 
-      return () => {
-        video.removeEventListener('canplay', handleVideoLoaded);
-        video.removeEventListener('canplaythrough', handleVideoLoaded);
-      };
+    // Check readystate to see if it is already loaded/playable
+    if (video.readyState >= 3) {
+      handleVideoLoaded();
+    } else {
+      video.addEventListener('canplay', handleVideoLoaded);
+      video.addEventListener('canplaythrough', handleVideoLoaded);
     }
-  }, [onVideoLoaded]);
+
+    return () => {
+      video.removeEventListener('canplay', handleVideoLoaded);
+      video.removeEventListener('canplaythrough', handleVideoLoaded);
+    };
+  }, []); // Run only once on mount
 
   useEffect(() => {
     if (!startAnimation) return;
@@ -41,35 +51,43 @@ export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProp
     // Start reveal immediately (loader circular wipe has started opening)
     const tl = gsap.timeline({ delay: 0 });
 
-    // 1. Cinematic reveal of the hero container and video (Parallax scale)
+    // 1. Cinematic reveal of the hero container and video (hardware accelerated transforms only)
     tl.fromTo(
       containerRef.current,
-      { scale: 0.8, borderRadius: '60px', filter: 'brightness(0.3)' },
-      { scale: 1, borderRadius: '16px', filter: 'brightness(1)', duration: 1.6, ease: 'expo.inOut' }
+      { scale: 0.8, borderRadius: '60px', willChange: 'transform,border-radius' },
+      { scale: 1, borderRadius: '16px', duration: 1.6, ease: 'expo.inOut', clearProps: 'transform,willChange' }
+    )
+    .fromTo(
+      curtainRef.current,
+      { opacity: 0.75, display: 'block' },
+      { opacity: 0, duration: 1.6, ease: 'expo.inOut', onComplete: () => {
+          if (curtainRef.current) curtainRef.current.style.display = 'none';
+        } },
+      "<"
     )
     .fromTo(
       videoRef.current,
-      { scale: 1.5 },
-      { scale: 1, duration: 1.6, ease: 'expo.inOut' },
+      { scale: 1.25, willChange: 'transform' },
+      { scale: 1, duration: 1.6, ease: 'expo.inOut', clearProps: 'transform,willChange' },
       "<" // Sync with container
     )
     // 2. Text floats in
     .fromTo(
       h1Ref.current,
       { opacity: 0, y: 40, filter: 'blur(8px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out', clearProps: 'filter,transform' },
       "-=0.6"
     )
     .fromTo(
       pRef.current,
       { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' },
+      { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out', clearProps: 'transform' },
       '-=0.8'
     )
     .fromTo(
       btnRef.current,
       { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'transform' },
       '-=0.8'
     );
 
@@ -80,7 +98,7 @@ export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProp
 
   return (
     <section id="hero" className="relative w-full h-screen p-2 md:p-2.5">
-      <div ref={containerRef} className="relative w-full h-full overflow-hidden">
+      <div ref={containerRef} className="relative w-full h-full overflow-hidden rounded-[16px]">
 
         {/* Background Video */}
         <video
@@ -92,6 +110,13 @@ export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProp
           loop
           muted
           playsInline
+          disablePictureInPicture
+        />
+
+        {/* Cinematic reveal curtain (hardware-composited opacity instead of heavy CSS filter shader on video container) */}
+        <div
+          ref={curtainRef}
+          className="absolute inset-0 z-[1] bg-black pointer-events-none opacity-0"
         />
 
         {/* Overlay — cinematic vignette */}
@@ -158,7 +183,7 @@ export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProp
               </svg>
             </button>
             <button
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-md text-white px-8 py-3.5 text-sm font-medium transition-all duration-300 hover:bg-white/20"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 text-white px-8 py-3.5 text-sm font-medium transition-all duration-300 hover:bg-white/25"
               style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 600, letterSpacing: '-0.005em' }}
             >
               See how it works
@@ -177,4 +202,4 @@ export default function Hero({ onVideoLoaded, startAnimation = false }: HeroProp
       </div>
     </section>
   );
-}
+})
