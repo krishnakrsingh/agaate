@@ -190,14 +190,15 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
           {/* Subheading */}
           <p
             ref={pRef}
-            className="opacity-0 mt-6 text-white/80 max-w-xl mx-auto"
+            className="opacity-0 mt-6 max-w-xl mx-auto text-white"
             style={{
               fontFamily: 'Manrope, Inter, Arial, sans-serif',
               fontSize: 'clamp(1rem, 1.2vw, 1.125rem)',
-              fontWeight: 400,
+              fontWeight: 500,
+              color: '#ffffff',
               lineHeight: 1.7,
               textWrap: 'balance',
-              textShadow: '0 2px 15px rgba(0,0,0,0.8)',
+              textShadow: '0 1px 2px rgba(0,0,0,0.95), 0 2px 12px rgba(0,0,0,0.85), 0 4px 24px rgba(0,0,0,0.6)',
             }}
           >
             From the first seed to harvest — AI-driven monitoring, real agronomists, and science-backed inputs, all in one place.
