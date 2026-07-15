@@ -2,7 +2,7 @@ import { useState } from "react";
 import { WaveTransition } from "./SectionTransitions";
 
 /* 6.5 CARBON CREDIT PROGRAM */
-export default function CarbonCredits() {
+export default function Section7() {
   const [selectedPractices, setSelectedPractices] = useState<string[]>(["drip", "tillage"]);
   const practices = [
     { id: "drip", name: "Drip Irrigation", desc: "Saves water and reduces pumping energy footprint.", value: 1.5 },

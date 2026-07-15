@@ -6,7 +6,7 @@ import { ArchTransition } from "./SectionTransitions";
 gsap.registerPlugin(ScrollTrigger);
 
 /* 6. TECHNOLOGY AND FARM MANAGEMENT */
-export default function AgriTech() {
+export default function Section6() {
   const [activeTech, setActiveTech] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);

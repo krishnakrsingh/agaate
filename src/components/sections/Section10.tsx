@@ -3,7 +3,7 @@ import heroPlant from "@/assets/hero-plant.jpg";
 import { ArchTransition } from "./SectionTransitions";
 
 /* 9. MARKET ACCESS */
-export default function MarketAccess() {
+export default function Section10() {
   const [activeMarket, setActiveMarket] = useState(0);
   const channels = [
     { title: "Better Pricing", desc: "Direct integration with institutional channels & transparent grading.", premium: "+18% Avg Price Uplift" },

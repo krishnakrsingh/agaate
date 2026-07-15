@@ -5,7 +5,7 @@ import { ArchTransition } from "./SectionTransitions";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ProblemSolution() {
+export default function Section4() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);

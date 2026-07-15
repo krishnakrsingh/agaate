@@ -3,7 +3,7 @@ import agroPark from "@/assets/agro-park.jpg";
 import { ArchTransition } from "./SectionTransitions";
 
 /* 7. AGRI-ENTREPRENEURSHIP AND BIG-FARM SETUP */
-export default function CommercialFarming() {
+export default function Section8() {
   const [activeStep, setActiveStep] = useState(0);
   const steps = [
     { num: "01", title: "Land Planning & Layout", desc: "Site survey, soil mapping, and block layout.", time: "Week 1-2", deliverable: "Master Blueprint" },

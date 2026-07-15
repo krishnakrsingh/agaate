@@ -3,7 +3,7 @@ import agroPark from "@/assets/agro-park.jpg";
 import { WaveTransition } from "./SectionTransitions";
 
 /* 10. AGRI PARK */
-export default function AgriPark() {
+export default function Section11() {
   const [activeZone, setActiveZone] = useState("Seed");
   const zones = [
     { name: "Seed", desc: "Live trial blocks comparing germination & disease resistance." },

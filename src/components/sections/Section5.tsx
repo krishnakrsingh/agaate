@@ -10,7 +10,7 @@ import { WaveTransition } from "./SectionTransitions";
 gsap.registerPlugin(ScrollTrigger);
 
 /* 5. AGAATE KISAAN MALL */
-export default function Mall() {
+export default function Section5() {
   const [activeIdx, setActiveIdx] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const leftColRef = useRef<HTMLDivElement>(null);

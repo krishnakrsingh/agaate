@@ -1,7 +1,7 @@
 import { ArchTransition } from "./SectionTransitions";
 
 /* 11. FINAL CALL-TO-ACTION SECTION */
-export default function CTA() {
+export default function Section12() {
   return (
     <>
       <ArchTransition topColor="#F8FAF7" bottomColor="#17211B" />

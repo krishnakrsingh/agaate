@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Leaf, Trees, Tractor, BrainCircuit, Shield, Droplets, ArrowUpToLine, Apple, ShoppingBasket } from 'lucide-react';
 
-const CropWorld = lazy(() => import('./CropWorld'));
+const CropWorld = lazy(() => import('../CropWorld'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +19,7 @@ const stages = [
   { num: "09", title: "Market Access", desc: "Direct market integration and better pricing opportunities.", icon: ShoppingBasket }
 ];
 
-export default function PlantJourney() {
+export default function Section2() {
   const containerRef = useRef<HTMLElement>(null);
 
   // This ref is sent down to CropWorld to natively drive 3D transforms

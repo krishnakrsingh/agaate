@@ -7,7 +7,7 @@ interface HeroProps {
   onAnimationComplete?: () => void;
 }
 
-export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAnimationComplete }: HeroProps) {
+export default memo(function Section1({ onVideoLoaded, startAnimation = false, onAnimationComplete }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);

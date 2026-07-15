@@ -48,7 +48,7 @@ function AnimatedStatCard({ num, suffix, label, isLeftColumn, isTopRow }: { num:
 }
 
 /* 2.5 AGAATE INTRODUCTION & IMPACT */
-export default function Introduction() {
+export default function Section3() {
   const stats = [
     { num: 1000, suffix: "+", label: "Farmers Connected" },
     { num: 30, suffix: "+", label: "Vegetable Crops" },

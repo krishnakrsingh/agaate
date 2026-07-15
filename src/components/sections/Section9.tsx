@@ -4,7 +4,7 @@ import t3 from "@/assets/testimonial-3.jpg";
 import { WaveTransition } from "./SectionTransitions";
 
 /* 8. FARMER TESTIMONIALS */
-export default function Testimonials() {
+export default function Section9() {
   const reviews = [
     { name: "Ramesh Patel", place: "Anand, Gujarat", crop: "Tomatoes", yieldGain: "+25% Yield", quote: "Agaate caught a fungal issue early. My tomato crop quality has never been better and yield is up 25%.", img: t1 },
     { name: "Lakshmi Devi", place: "Warangal, Telangana", crop: "Chilli", yieldGain: "40% Less Water", quote: "The nursery saplings establish far better. Sourcing fertilizers is transparent and on time.", img: t2 },
