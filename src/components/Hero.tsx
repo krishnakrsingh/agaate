@@ -15,6 +15,7 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const pRef = useRef<HTMLParagraphElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
+  const hasAnimatedRef = useRef(false);
 
   // Keep latest callback ref to avoid re-running effects or re-binding listeners
   const onVideoLoadedRef = useRef(onVideoLoaded);
@@ -54,73 +55,76 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
   }, []); // Run only once on mount
 
   useEffect(() => {
-    if (!startAnimation) return;
+    if (!startAnimation || hasAnimatedRef.current) return;
+    hasAnimatedRef.current = true;
 
-    // Start reveal immediately (loader circular wipe has started opening)
-    const tl = gsap.timeline({
-      delay: 0,
-      onComplete: () => {
-        onAnimationCompleteRef.current?.();
-      }
-    });
-
-    // 1. Cinematic morph: video starts full-screen and contracts into the rounded padded card as the loader clears
-    tl.fromTo(
-      sectionRef.current,
-      { padding: '0px' },
-      {
-        padding: window.innerWidth < 768 ? '8px' : '10px',
-        duration: 1.6,
-        ease: 'power4.out',
-        clearProps: 'padding'
-      }
-    )
-    .fromTo(
-      containerRef.current,
-      { borderRadius: '0px' },
-      {
-        borderRadius: '16px',
-        duration: 1.6,
-        ease: 'power4.out',
-        clearProps: 'borderRadius,transform,willChange'
-      },
-      "<"
-    )
-    .fromTo(
-      curtainRef.current,
-      { opacity: 0.75, display: 'block' },
-      {
-        opacity: 0,
-        duration: 1.6,
-        ease: 'power4.out',
+    const ctx = gsap.context(() => {
+      // Start reveal immediately (loader circular wipe has started opening)
+      const tl = gsap.timeline({
+        delay: 0,
         onComplete: () => {
-          if (curtainRef.current) curtainRef.current.style.display = 'none';
+          onAnimationCompleteRef.current?.();
         }
-      },
-      "<"
-    )
-    // 2. Text floats in (pure transform & opacity, avoiding heavy filter: blur shaders)
-    .fromTo(
-      h1Ref.current,
-      { opacity: 0, y: 35 },
-      { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', clearProps: 'transform' },
-      "-=0.6"
-    )
-    .fromTo(
-      pRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out', clearProps: 'transform' },
-      '-=0.8'
-    )
-    .fromTo(
-      btnRef.current,
-      { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'transform' },
-      '-=0.8'
-    );
+      });
+
+      // 1. Cinematic morph: video starts full-screen and contracts into the rounded padded card as the loader clears
+      tl.fromTo(
+        sectionRef.current,
+        { padding: '0px' },
+        {
+          padding: window.innerWidth < 768 ? '8px' : '10px',
+          duration: 1.6,
+          ease: 'power4.out',
+          clearProps: 'padding'
+        }
+      )
+      .fromTo(
+        containerRef.current,
+        { borderRadius: '0px' },
+        {
+          borderRadius: '16px',
+          duration: 1.6,
+          ease: 'power4.out',
+          clearProps: 'borderRadius,transform,willChange'
+        },
+        "<"
+      )
+      .fromTo(
+        curtainRef.current,
+        { opacity: 0.75, display: 'block' },
+        {
+          opacity: 0,
+          duration: 1.6,
+          ease: 'power4.out',
+          onComplete: () => {
+            if (curtainRef.current) curtainRef.current.style.display = 'none';
+          }
+        },
+        "<"
+      )
+      // 2. Text floats in (pure transform & opacity, avoiding heavy filter: blur shaders)
+      .fromTo(
+        h1Ref.current,
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', clearProps: 'transform' },
+        "-=0.6"
+      )
+      .fromTo(
+        pRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out', clearProps: 'transform' },
+        '-=0.8'
+      )
+      .fromTo(
+        btnRef.current,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', clearProps: 'transform' },
+        '-=0.8'
+      );
+    }, sectionRef);
 
     return () => {
-      tl.kill();
+      ctx.revert();
     };
   }, [startAnimation]);
 
@@ -171,15 +175,15 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
             style={{
               fontFamily: 'Manrope, Inter, Arial, sans-serif',
               fontSize: 'clamp(2.375rem, 5vw, 4.25rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.035em',
-              lineHeight: 1.05,
+              fontWeight: 300,
+              letterSpacing: '-0.025em',
+              lineHeight: 1.08,
               textWrap: 'balance',
               textShadow: '0 4px 30px rgba(0,0,0,0.5)',
             }}
           >
             We grow{' '}
-            <span style={{ color: '#facc15', fontWeight: 800 }}>
+            <span style={{ color: '#facc15', fontWeight: 500 }}>
               smarter
             </span>
             ,<br />
@@ -193,7 +197,7 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
             style={{
               fontFamily: 'Manrope, Inter, Arial, sans-serif',
               fontSize: 'clamp(1rem, 1.2vw, 1.125rem)',
-              fontWeight: 500,
+              fontWeight: 300,
               color: '#ffffff',
               lineHeight: 1.7,
               textWrap: 'balance',
@@ -206,8 +210,8 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
           {/* CTA Buttons */}
           <div ref={btnRef} className="opacity-0 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              className="group inline-flex items-center gap-3 rounded-full bg-white text-[#1a3c34] px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:bg-[#c8e3d4] hover:shadow-xl hover:-translate-y-0.5"
-              style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 600, letterSpacing: '-0.005em' }}
+              className="group inline-flex items-center gap-3 rounded-full bg-white text-[#1a3c34] px-8 py-3.5 font-normal transition-all duration-300 hover:bg-[#c8e3d4] hover:shadow-xl hover:-translate-y-0.5"
+              style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 400, letterSpacing: '-0.005em' }}
             >
               Get started free
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
@@ -215,8 +219,8 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
               </svg>
             </button>
             <button
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 text-white px-8 py-3.5 text-sm font-medium transition-all duration-300 hover:bg-white/25"
-              style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 600, letterSpacing: '-0.005em' }}
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 text-white px-8 py-3.5 font-normal transition-all duration-300 hover:bg-white/25"
+              style={{ fontFamily: 'Manrope, Inter, Arial, sans-serif', fontSize: '15px', fontWeight: 400, letterSpacing: '-0.005em' }}
             >
               See how it works
             </button>

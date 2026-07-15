@@ -24,10 +24,12 @@ export default function PlantJourney() {
 
   // This ref is sent down to CropWorld to natively drive 3D transforms
   const progressRef = useRef(0);
+  const introRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const playheadRef = useRef<HTMLDivElement>(null);
 
   // React state for text / progress UI
   const [activeStage, setActiveStage] = useState(0);
-  const [progressVal, setProgressVal] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [inView, setInView] = useState(false);
@@ -78,19 +80,18 @@ export default function PlantJourney() {
           // Send raw progress (0 -> 1) down to the 3D scene without React re-renders
           progressRef.current = self.progress;
 
-          // Trigger minimal React updates for text/UI tracking
-          setProgressVal(self.progress);
+          if (introRef.current) introRef.current.style.opacity = self.progress > 0.03 ? '0' : '1';
+          if (lineRef.current) lineRef.current.style.width = `${self.progress * 100}%`;
+          if (playheadRef.current) playheadRef.current.style.left = `${self.progress * 100}%`;
 
           // The 9 stages are evenly distributed across the 0-1 progress
           const currentStage = Math.min(Math.floor(self.progress * 9), 8);
-          if (currentStage !== activeStage) {
-            setActiveStage(currentStage);
-          }
+          setActiveStage((prev) => (prev !== currentStage ? currentStage : prev));
         }
       });
     }, containerRef);
     return () => ctx.revert();
-  }, [mounted, reducedMotion, activeStage]);
+  }, [mounted, reducedMotion]);
 
   if (!mounted) return null;
 
@@ -150,8 +151,8 @@ export default function PlantJourney() {
 
           {/* Top fading intro text - visible briefly at scroll start */}
           <div
+            ref={introRef}
             className="absolute top-12 left-6 lg:left-12 z-20 transition-opacity duration-700 max-w-lg pointer-events-none hidden lg:block"
-            style={{ opacity: progressVal > 0.03 ? 0 : 1 }}
           >
             <div className="flex items-center gap-3 mb-4">
               <span className="w-6 h-[1px] bg-forest/30"></span>
@@ -240,8 +241,9 @@ export default function PlantJourney() {
 
               {/* Trailing Progress Line */}
               <div
+                ref={lineRef}
                 className="absolute top-0 left-0 h-[1.5px] bg-forest/40 -translate-y-[0.25px] transition-none"
-                style={{ width: `${progressVal * 100}%` }}
+                style={{ width: '0%' }}
               />
 
               {/* Static Segment Ticks */}
@@ -255,8 +257,9 @@ export default function PlantJourney() {
 
               {/* Smooth Gliding Playhead Monolith */}
               <div
+                ref={playheadRef}
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[2px] h-[28px] bg-forest pointer-events-none z-10 shadow-[0_0_12px_rgba(18,63,46,0.15)] rounded-[1px] transition-none"
-                style={{ left: `${progressVal * 100}%` }}
+                style={{ left: '0%' }}
               ></div>
             </div>
           </div>
