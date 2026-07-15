@@ -82,7 +82,7 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
         borderRadius: '16px',
         duration: 1.6,
         ease: 'power4.out',
-        clearProps: 'borderRadius'
+        clearProps: 'borderRadius,transform,willChange'
       },
       "<"
     )
@@ -129,7 +129,6 @@ export default memo(function Hero({ onVideoLoaded, startAnimation = false, onAni
       <div
         ref={containerRef}
         className="relative w-full h-full overflow-hidden rounded-[16px]"
-        style={{ willChange: 'transform' }}
       >
 
         {/* Background Video */}

@@ -36,9 +36,9 @@ export default function PlantJourney() {
     if (!mounted || !containerRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        setInView(entry.isIntersecting && entry.intersectionRatio > 0);
       },
-      { rootMargin: '300px 0px 300px 0px' }
+      { rootMargin: '0px 0px 0px 0px', threshold: [0, 0.01] }
     );
     observer.observe(containerRef.current);
     return () => observer.disconnect();

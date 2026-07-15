@@ -23,7 +23,8 @@ export default function Header() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > threshold);
+          const isOverThreshold = window.scrollY > threshold;
+          setScrolled((prev) => (prev !== isOverThreshold ? isOverThreshold : prev));
           ticking = false;
         });
         ticking = true;
