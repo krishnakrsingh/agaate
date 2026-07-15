@@ -30,6 +30,19 @@ export default function PlantJourney() {
   const [progressVal, setProgressVal] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    if (!mounted || !containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: '300px 0px 300px 0px' }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [mounted]);
 
   useEffect(() => {
     setMounted(true);
@@ -58,7 +71,8 @@ export default function PlantJourney() {
         trigger: containerRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 1, // Smooth scrub over 1 second catching up
+        scrub: 0.4,
+        fastScrollEnd: true,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           // Send raw progress (0 -> 1) down to the 3D scene without React re-renders
@@ -157,7 +171,7 @@ export default function PlantJourney() {
           <div className="w-full lg:w-3/5 h-[50vh] lg:h-full relative z-10 flex items-center justify-center">
             <Suspense fallback={null}>
               <div className="w-full h-full absolute inset-0">
-                <CropWorld progressRef={progressRef} />
+                <CropWorld progressRef={progressRef} inView={inView} />
               </div>
             </Suspense>
           </div>

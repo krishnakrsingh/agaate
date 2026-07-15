@@ -28,12 +28,12 @@ export default function Mall() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(leftColRef.current,
-        { opacity: 0, x: -35, rotateY: -8 },
-        { opacity: 1, x: 0, rotateY: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } }
+        { opacity: 0, x: -25 },
+        { opacity: 1, x: 0, duration: 0.65, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true } }
       );
       gsap.fromTo(rightColRef.current?.children || [],
-        { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } }
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.05, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true } }
       );
     }, sectionRef);
     return () => ctx.revert();

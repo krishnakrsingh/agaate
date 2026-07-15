@@ -83,8 +83,8 @@ export default function AgriTech() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(hudRef.current,
-        { scale: 0.94, opacity: 0, y: 30 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } }
+        { scale: 0.96, opacity: 0, y: 16 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.65, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true } }
       );
     }, sectionRef);
     return () => ctx.revert();

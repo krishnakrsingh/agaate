@@ -16,11 +16,12 @@ function AnimatedStatCard({ num, suffix, label, isLeftColumn, isTopRow }: { num:
       const obj = { v: 0 };
       gsap.to(obj, {
         v: num,
-        duration: 2.2,
+        duration: 1.6,
         ease: "power3.out",
         scrollTrigger: {
           trigger: cardRef.current,
-          start: "top 85%",
+          start: "top 95%",
+          once: true,
         },
         onUpdate: () => setVal(Math.floor(obj.v)),
       });
@@ -66,52 +67,52 @@ export default function Introduction() {
     const ctx = gsap.context(() => {
       // Heading reveal
       gsap.fromTo(headingRef.current,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 25 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.65,
           ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true }
         }
       );
 
       // Description reveal
       gsap.fromTo(descRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 16 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          delay: 0.2,
+          duration: 0.6,
+          delay: 0.08,
           ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true }
         }
       );
 
       // Dramatic diagonal clip mask reveal
       gsap.fromTo(imageRef.current,
-        { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", scale: 1.08 },
+        { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", scale: 1.04 },
         {
           clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
           scale: 1,
-          duration: 1.1,
+          duration: 0.75,
           ease: "power3.inOut",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%" }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true }
         }
       );
 
       // Founder quote elastic entrance
       gsap.fromTo(quoteRef.current,
-        { opacity: 0, y: 35, scale: 0.95 },
+        { opacity: 0, y: 25, scale: 0.96 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 1,
-          delay: 0.35,
-          ease: "back.out(1.5)",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%" }
+          duration: 0.65,
+          delay: 0.15,
+          ease: "back.out(1.4)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true }
         }
       );
 
@@ -124,9 +125,9 @@ export default function Introduction() {
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 60%",
+            start: "top 80%",
             end: "bottom 30%",
-            scrub: 1
+            scrub: 0.5
           }
         });
       }

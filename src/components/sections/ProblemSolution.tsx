@@ -51,10 +51,10 @@ export default function ProblemSolution() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(headerRef.current?.children || [],
-        { opacity: 0, y: 25 },
+        { opacity: 0, y: 20 },
         {
-          opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" }
+          opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true }
         }
       );
 
@@ -66,14 +66,14 @@ export default function ProblemSolution() {
         const solution = row.querySelector(".solution-block");
 
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: row, start: "top 85%" }
+          scrollTrigger: { trigger: row, start: "top 95%", once: true }
         });
 
-        tl.fromTo(challenge, { opacity: 0, x: -30, rotateY: -6 }, { opacity: 1, x: 0, rotateY: 0, duration: 0.7, ease: "power3.out" })
-          .fromTo(point, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1.2, duration: 0.5, ease: "back.out(2.5)" }, "-=0.3")
-          .to(point, { scale: 1, duration: 0.3 })
-          .fromTo(line, { width: "0%" }, { width: "100%", duration: 0.6, ease: "power2.inOut" }, "-=0.4")
-          .fromTo(solution, { opacity: 0, x: 30, rotateY: 6 }, { opacity: 1, x: 0, rotateY: 0, duration: 0.7, ease: "power3.out" }, "-=0.4");
+        tl.fromTo(challenge, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" })
+          .fromTo(point, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.1, duration: 0.35, ease: "back.out(2)" }, "-=0.3")
+          .to(point, { scale: 1, duration: 0.2 })
+          .fromTo(line, { width: "0%" }, { width: "100%", duration: 0.4, ease: "power2.inOut" }, "-=0.25")
+          .fromTo(solution, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, "-=0.3");
       });
     }, sectionRef);
 
