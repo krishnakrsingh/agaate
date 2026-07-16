@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArchTransition } from "./SectionTransitions";
+import { ArchUpTransition } from "./SectionTransitions";
+import { AlgorithmicCanvas } from "./AlgorithmicCanvas";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,7 @@ export default function Section6() {
   const [activeTech, setActiveTech] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
+  const hudContentRef = useRef<HTMLDivElement>(null);
 
   const techList = [
     {
@@ -83,27 +85,37 @@ export default function Section6() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(hudRef.current,
-        { scale: 0.96, opacity: 0, y: 16 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.65, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 92%", once: true } }
+        { scale: 0.94, opacity: 0, y: 25 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true } }
       );
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
+  // Animate HUD transition when changing tech tab
+  useEffect(() => {
+    if (!hudContentRef.current) return;
+    gsap.fromTo(hudContentRef.current,
+      { opacity: 0, scale: 0.97 },
+      { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }
+    );
+  }, [activeTech]);
+
   const current = techList[activeTech];
 
   return (
     <>
-      <ArchTransition topColor="#FFFFFF" bottomColor="#F8FAF7" />
-      <section id="tech-section" ref={sectionRef} className="bg-[#F8FAF7] py-24 lg:py-32 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <ArchUpTransition topColor="#FFFFFF" bottomColor="#E3EBE6" />
+      <section id="tech-section" ref={sectionRef} className="bg-[#E3EBE6] py-24 lg:py-32 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
           
           {/* Left Column: Interactive Tech Selector Tabs */}
           <div className="lg:col-span-6 text-left">
-            <div className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest mb-4">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-forest/[0.08] border border-forest/20 font-mono text-[12px] sm:text-[13px] font-bold uppercase tracking-[0.1em] text-forest mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-forest animate-pulse"></span>
               SMART FARMING TELEMETRY
             </div>
-            <h2 className="font-display text-[32px] sm:text-[38px] md:text-[42px] lg:text-[50px] font-bold text-[#17211B] leading-[1.1] tracking-[-0.03em] mb-6">
+            <h2 className="font-display text-[32px] sm:text-[40px] md:text-[46px] lg:text-[52px] font-bold text-[#17211B] leading-[1.1] tracking-[-0.03em] mb-6">
               Manage Your Farm, Not Just Grow It
             </h2>
             <p className="text-[#59635D] text-[16px] md:text-[18px] font-normal leading-[1.7] max-w-[640px] mb-8">
@@ -120,19 +132,19 @@ export default function Section6() {
                     onClick={() => setActiveTech(i)}
                     className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 flex items-start justify-between ${
                       isActive
-                        ? "bg-white border-forest shadow-md scale-[1.01]"
-                        : "bg-transparent border-transparent hover:bg-white/60 hover:border-[#E7ECE8]"
+                        ? "bg-white border-forest shadow-lg scale-[1.02]"
+                        : "bg-white/40 border-transparent hover:bg-white/80 hover:border-[#E7ECE8]"
                     }`}
                   >
                     <div className="flex gap-3.5 items-start">
-                      <span className={`w-3 h-3 rounded-full mt-1.5 transition-all ${isActive ? "bg-forest shadow-[0_0_10px_#2D6A4F]" : "bg-[#C4CFC8]"}`}></span>
+                      <span className={`w-3 h-3 rounded-full mt-1.5 transition-all flex-shrink-0 ${isActive ? "bg-forest shadow-[0_0_12px_#2D6A4F] animate-pulse" : "bg-[#C4CFC8]"}`}></span>
                       <div>
-                        <h3 className={`font-sans font-bold text-[17px] md:text-[19px] leading-[1.3] ${isActive ? "text-forest" : "text-[#17211B]"}`}>{t.title}</h3>
-                        <p className="text-[#667069] text-[14px] md:text-[15px] leading-[1.5] mt-1">{t.desc}</p>
+                        <h3 className={`font-sans font-bold text-[17px] sm:text-[19px] leading-[1.3] ${isActive ? "text-forest" : "text-[#17211B]"}`}>{t.title}</h3>
+                        <p className="text-[#667069] text-[14px] sm:text-[15px] leading-[1.5] mt-1">{t.desc}</p>
                       </div>
                     </div>
                     {isActive && (
-                      <span className="text-xs font-mono font-bold text-forest bg-forest/10 px-2.5 py-1 rounded-md self-center">
+                      <span className="text-xs font-mono font-bold text-forest bg-forest/10 px-2.5 py-1 rounded-md self-center border border-forest/20 flex-shrink-0">
                         ACTIVE HUD
                       </span>
                     )}
@@ -142,58 +154,66 @@ export default function Section6() {
             </div>
           </div>
 
-          {/* Right Column: Live Telemetry HUD Simulation */}
+          {/* Right Column: Live Telemetry HUD Simulation with Algorithmic Radar Canvas */}
           <div className="lg:col-span-6" ref={hudRef}>
-            <div className="aspect-[4/3] w-full bg-[#111A15] border border-forest/30 rounded-3xl p-7 shadow-2xl flex flex-col justify-between text-cream relative overflow-hidden group">
+            <div className="aspect-[4/3] w-full bg-[#111A15] border border-emerald-500/40 rounded-[28px] p-6 sm:p-8 shadow-2xl flex flex-col justify-between text-cream relative overflow-hidden group">
+              {/* Embedded Algorithmic Telemetry Canvas */}
+              <AlgorithmicCanvas mode="telemetry" opacity={0.35} />
+
               {/* Subtle grid line background pattern */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#1F2E25_1px,transparent_1px),linear-gradient(to_bottom,#1F2E25_1px,transparent_1px)] bg-[size:24px_24px] opacity-40 pointer-events-none"></div>
 
               {/* Scanning laser beam effect */}
-              <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-radar-scan pointer-events-none opacity-60"></div>
+              <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-radar-scan pointer-events-none opacity-80"></div>
 
               {/* Top HUD Header */}
-              <div className="relative z-10">
-                <div className="flex items-center justify-between border-b border-cream/15 pb-5 mb-6">
-                  <div>
-                    <span className="font-mono text-[11px] text-emerald-400 tracking-widest uppercase flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                      LIVE SENSOR FEED
+              <div ref={hudContentRef} className="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-cream/15 pb-5 mb-6">
+                    <div>
+                      <span className="font-mono text-[11px] text-emerald-400 tracking-widest uppercase flex items-center gap-2 font-bold">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        LIVE SENSOR TELEMETRY
+                      </span>
+                      <div className="font-display font-bold text-2xl sm:text-3xl text-cream mt-1 drop-shadow">{current.plot}</div>
+                    </div>
+                    <span className="px-3.5 py-1.5 bg-emerald-400/15 border border-emerald-400/40 text-emerald-300 text-xs font-mono rounded-full font-bold shadow-inner">
+                      {current.stage}
                     </span>
-                    <div className="font-display font-bold text-2xl text-cream mt-1">{current.plot}</div>
                   </div>
-                  <span className="px-3.5 py-1.5 bg-emerald-400/15 border border-emerald-400/40 text-emerald-300 text-xs font-mono rounded-full">
-                    {current.stage}
+
+                  {/* Live Dynamic Telemetry Gauges */}
+                  <div className="grid grid-cols-2 gap-4 sm:gap-5">
+                    <div className="bg-white/[0.07] border border-cream/15 rounded-2xl p-4 sm:p-5 backdrop-blur-md group-hover:border-emerald-400/50 transition-colors shadow-lg">
+                      <div className="text-[11px] text-cream/60 font-mono tracking-wider">{current.metric1Label}</div>
+                      <div className="text-2xl sm:text-3xl font-display font-bold text-emerald-400 mt-2">{current.metric1Val}</div>
+                    </div>
+                    <div className="bg-white/[0.07] border border-cream/15 rounded-2xl p-4 sm:p-5 backdrop-blur-md group-hover:border-emerald-400/50 transition-colors shadow-lg">
+                      <div className="text-[11px] text-cream/60 font-mono tracking-wider">{current.metric2Label}</div>
+                      <div className="text-2xl sm:text-3xl font-display font-bold text-cream mt-2">{current.metric2Val}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Interactive Signal Graph Visual */}
+                <div className="relative z-10 my-6 flex items-end gap-1.5 sm:gap-2 h-20 bg-black/30 p-3 rounded-xl border border-cream/10">
+                  {[40, 65, 80, 50, 90, 75, 85, 60, 95, 70, 85, 90, 60, 80].map((h, i) => (
+                    <div
+                      key={i}
+                      className="flex-1 bg-gradient-to-t from-emerald-500/30 to-emerald-400 rounded-full transition-all duration-500 hover:brightness-125"
+                      style={{ height: `${Math.max(16, (h * ((activeTech + 1) * 11 + i * 7) % 64) + 12)}px` }}
+                    ></div>
+                  ))}
+                </div>
+
+                {/* Bottom HUD Footer */}
+                <div className="relative z-10 border-t border-cream/15 pt-4 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-cream/70">
+                  <span>STATUS: <span className="text-cream font-bold">{current.status}</span></span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+                    SYNCED WITH AGAATE AI ✓
                   </span>
                 </div>
-
-                {/* Live Dynamic Telemetry Gauges */}
-                <div className="grid grid-cols-2 gap-5">
-                  <div className="bg-white/5 border border-cream/10 rounded-2xl p-5 backdrop-blur-sm group-hover:border-emerald-400/40 transition-colors">
-                    <div className="text-[11px] text-cream/50 font-mono tracking-wider">{current.metric1Label}</div>
-                    <div className="text-2xl md:text-3xl font-display font-bold text-emerald-400 mt-2">{current.metric1Val}</div>
-                  </div>
-                  <div className="bg-white/5 border border-cream/10 rounded-2xl p-5 backdrop-blur-sm group-hover:border-emerald-400/40 transition-colors">
-                    <div className="text-[11px] text-cream/50 font-mono tracking-wider">{current.metric2Label}</div>
-                    <div className="text-2xl md:text-3xl font-display font-bold text-cream mt-2">{current.metric2Val}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Interactive Signal Graph Visual */}
-              <div className="relative z-10 my-4 flex items-center gap-2">
-                {[40, 65, 80, 50, 90, 75, 85, 60, 95, 70, 85, 90].map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 bg-emerald-400/30 rounded-full transition-all duration-500"
-                    style={{ height: `${Math.max(16, (h * ((activeTech + 1) * 13) % 48) + 16)}px` }}
-                  ></div>
-                ))}
-              </div>
-
-              {/* Bottom HUD Footer */}
-              <div className="relative z-10 border-t border-cream/15 pt-4 flex items-center justify-between text-xs font-mono text-cream/60">
-                <span>SYSTEM STATUS: {current.status}</span>
-                <span className="text-emerald-400 font-bold">SYMBOLS: LOCKED ✓</span>
               </div>
             </div>
           </div>
@@ -203,3 +223,4 @@ export default function Section6() {
     </>
   );
 }
+
