@@ -51,10 +51,13 @@ export default function Section7() {
   // Subtle bounce feedback on banner when total changes
   useEffect(() => {
     if (!bannerRef.current) return;
-    gsap.fromTo(bannerRef.current,
+    const t = gsap.fromTo(bannerRef.current,
       { scale: 0.96 },
       { scale: 1, duration: 0.35, ease: "back.out(2)" }
     );
+    return () => {
+      t.kill();
+    };
   }, [totalCredits]);
 
   return (

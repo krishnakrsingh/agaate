@@ -540,8 +540,8 @@ function CropWorldScene({ progressRef }: { progressRef: MutableRefObject<number>
         intensity={1.8}
         color="#fffcf5"
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={512}
+        shadow-mapSize-height={512}
         shadow-camera-far={25}
         shadow-camera-left={-2.8}
         shadow-camera-right={2.8}

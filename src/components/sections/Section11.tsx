@@ -46,14 +46,18 @@ export default function Section11() {
   // Smooth transition when changing activeZone
   useEffect(() => {
     if (!bannerRef.current || !overlayRef.current) return;
-    gsap.fromTo(bannerRef.current,
+    const t1 = gsap.fromTo(bannerRef.current,
       { y: 8, opacity: 0, scale: 0.96 },
       { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }
     );
-    gsap.fromTo(overlayRef.current,
+    const t2 = gsap.fromTo(overlayRef.current,
       { opacity: 0, y: 10 },
       { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
     );
+    return () => {
+      t1.kill();
+      t2.kill();
+    };
   }, [activeZone]);
 
   return (

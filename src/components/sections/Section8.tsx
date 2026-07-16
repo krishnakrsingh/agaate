@@ -42,10 +42,13 @@ export default function Section8() {
   // Smooth bounce animation on badge when step changes
   useEffect(() => {
     if (!badgeRef.current) return;
-    gsap.fromTo(badgeRef.current,
+    const t = gsap.fromTo(badgeRef.current,
       { y: 10, opacity: 0, scale: 0.95 },
       { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }
     );
+    return () => {
+      t.kill();
+    };
   }, [activeStep]);
 
   return (

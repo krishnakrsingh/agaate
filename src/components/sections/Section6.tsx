@@ -95,10 +95,13 @@ export default function Section6() {
   // Animate HUD transition when changing tech tab
   useEffect(() => {
     if (!hudContentRef.current) return;
-    gsap.fromTo(hudContentRef.current,
+    const t = gsap.fromTo(hudContentRef.current,
       { opacity: 0, scale: 0.97 },
       { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }
     );
+    return () => {
+      t.kill();
+    };
   }, [activeTech]);
 
   const current = techList[activeTech];

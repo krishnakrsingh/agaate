@@ -37,10 +37,13 @@ export default function Section10() {
   // Animate ticker when switching active market
   useEffect(() => {
     if (!tickerRef.current) return;
-    gsap.fromTo(tickerRef.current,
+    const t = gsap.fromTo(tickerRef.current,
       { y: 8, opacity: 0, scale: 0.96 },
       { y: 0, opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }
     );
+    return () => {
+      t.kill();
+    };
   }, [activeMarket]);
 
   return (

@@ -54,6 +54,27 @@ export default memo(function Section1({ onVideoLoaded, startAnimation = false, o
     };
   }, []); // Run only once on mount
 
+  // Pause video when hero section scrolls out of view to save CPU/GPU decode memory
+  useEffect(() => {
+    const video = videoRef.current;
+    const section = sectionRef.current;
+    if (!video || !section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.01 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!startAnimation || hasAnimatedRef.current) return;
     hasAnimatedRef.current = true;

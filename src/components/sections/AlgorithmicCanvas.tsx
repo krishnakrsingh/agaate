@@ -16,6 +16,7 @@ export function AlgorithmicCanvas({
   className = "",
 }: AlgorithmicCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isVisibleRef = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,17 +24,31 @@ export function AlgorithmicCanvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationFrameId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 600);
+    let animationFrameId: number | null = null;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    let width = canvas.parentElement?.clientWidth || window.innerWidth;
+    let height = canvas.parentElement?.clientHeight || 600;
 
-    const handleResize = () => {
+    const setupDimensions = () => {
       if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight;
+      width = canvas.parentElement.clientWidth;
+      height = canvas.parentElement.clientHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    window.addEventListener("resize", handleResize);
+    setupDimensions();
+
+    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+    const handleResize = () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setupDimensions();
+      }, 150);
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
 
     // Particle class for organic capillary/rhizome flow
     class Particle {
@@ -56,18 +71,21 @@ export function AlgorithmicCanvas({
         this.vy = Math.sin(this.angle) * this.speed;
         this.size = Math.random() * 2 + 1;
         this.alpha = Math.random() * 0.5 + 0.2;
-        
-        const colors = mode === "canopy" 
-          ? ["#2D6A4F", "#52B788", "#74C69D"]
-          : mode === "telemetry"
-          ? ["#52B788", "#D97757", "#95D5B2"]
-          : ["#2D6A4F", "#D97757", "#40916C"];
+
+        const colors =
+          mode === "canopy"
+            ? ["#2D6A4F", "#52B788", "#74C69D"]
+            : mode === "telemetry"
+            ? ["#52B788", "#D97757", "#95D5B2"]
+            : ["#2D6A4F", "#D97757", "#40916C"];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
       update(time: number) {
         // Simplex/trig approximation for organic vector flow field
-        const n = Math.sin(this.x * 0.003 + time * 0.001) + Math.cos(this.y * 0.003 + time * 0.001);
+        const n =
+          Math.sin(this.x * 0.003 + time * 0.001) +
+          Math.cos(this.y * 0.003 + time * 0.001);
         this.angle += n * 0.05;
         this.vx = Math.cos(this.angle) * this.speed;
         this.vy = Math.sin(this.angle) * this.speed;
@@ -82,17 +100,15 @@ export function AlgorithmicCanvas({
       }
 
       draw(ctx: CanvasRenderingContext2D) {
-        ctx.save();
         ctx.globalAlpha = this.alpha * opacity;
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       }
     }
 
-    const particleCount = Math.min(Math.floor((width * height) / 12000), 70);
+    const particleCount = Math.min(Math.floor((width * height) / 14000), 55);
     const particles: Particle[] = [];
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle());
@@ -103,6 +119,11 @@ export function AlgorithmicCanvas({
     const maxRadar = Math.max(width, height) * 0.8;
 
     const render = (time: number) => {
+      if (!isVisibleRef.current) {
+        animationFrameId = null;
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       // Draw particle trails and connections
@@ -110,13 +131,13 @@ export function AlgorithmicCanvas({
         particles[i].update(time);
         particles[i].draw(ctx);
 
-        // Connect nearby rhizome nodes
+        // Connect nearby rhizome nodes (optimized with squared distance)
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.save();
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 14400) {
+            const dist = Math.sqrt(distSq);
             ctx.globalAlpha = (1 - dist / 120) * opacity * 0.35;
             ctx.strokeStyle = particles[i].color;
             ctx.lineWidth = 0.8;
@@ -124,7 +145,6 @@ export function AlgorithmicCanvas({
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
-            ctx.restore();
           }
         }
       }
@@ -134,24 +154,43 @@ export function AlgorithmicCanvas({
         radarRadius += 1.2;
         if (radarRadius > maxRadar) radarRadius = 0;
 
-        ctx.save();
         ctx.globalAlpha = (1 - radarRadius / maxRadar) * opacity * 0.4;
         ctx.strokeStyle = "#52B788";
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(width / 2, height / 2, radarRadius, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.restore();
       }
 
       animationFrameId = requestAnimationFrame(render);
     };
 
-    animationFrameId = requestAnimationFrame(render);
+    // IntersectionObserver to start/stop loop based on viewport visibility
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        const wasVisible = isVisibleRef.current;
+        isVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0;
+
+        if (isVisibleRef.current && !wasVisible && animationFrameId === null) {
+          animationFrameId = requestAnimationFrame(render);
+        } else if (!isVisibleRef.current && animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(canvas);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, [mode, opacity]);
 

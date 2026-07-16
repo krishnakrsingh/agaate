@@ -44,14 +44,18 @@ export default function Section5() {
   // Smooth image & badge transition when activeIdx changes
   useEffect(() => {
     if (!imageRef.current || !badgeRef.current) return;
-    gsap.fromTo(imageRef.current,
+    const t1 = gsap.fromTo(imageRef.current,
       { scale: 1.08, opacity: 0.6 },
       { scale: 1, opacity: 1, duration: 0.45, ease: "power2.out" }
     );
-    gsap.fromTo(badgeRef.current,
+    const t2 = gsap.fromTo(badgeRef.current,
       { y: 8, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }
     );
+    return () => {
+      t1.kill();
+      t2.kill();
+    };
   }, [activeIdx]);
 
   const currentCat = categories[activeIdx];
