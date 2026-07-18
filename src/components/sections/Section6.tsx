@@ -109,7 +109,7 @@ export default function Section6() {
   return (
     <>
       <ArchUpTransition topColor="#FFFFFF" bottomColor="#E3EBE6" />
-      <section id="tech-section" ref={sectionRef} className="bg-[#E3EBE6] py-24 lg:py-32 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
+      <section id="tech-section" ref={sectionRef} className="bg-[#E3EBE6] py-12 md:py-16 lg:py-20 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
           
           {/* Left Column: Interactive Tech Selector Tabs */}

@@ -54,7 +54,7 @@ export default function Section8() {
   return (
     <>
       <WaveTransition topColor="#FFFFFF" bottomColor="#FFFFFF" />
-      <section ref={sectionRef} className="bg-white py-24 lg:py-32 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
+      <section ref={sectionRef} className="bg-white py-12 md:py-16 lg:py-20 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Commercial Farm Image with Step Progress Overlay */}

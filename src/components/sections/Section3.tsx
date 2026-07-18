@@ -73,10 +73,10 @@ function AnimatedStatCard({ num, suffix, label, isLeftColumn, isTopRow, index }:
 /* 2.5 AGAATE INTRODUCTION & IMPACT */
 export default function Section3() {
   const stats = [
-    { num: 1000, suffix: "+", label: "Farmers Connected" },
-    { num: 30, suffix: "+", label: "Vegetable Crops" },
-    { num: 50, suffix: "+", label: "Ecosystem Partners" },
-    { num: 100, suffix: "%", label: "Seed-to-Sale Support" },
+    { num: 15000, suffix: "+", label: "Acres Under Association" },
+    { num: 10, suffix: "Cr+", label: "Platform Value" },
+    { num: 500, suffix: "+", label: "Agri-Input Products" },
+    { num: 2000, suffix: "+", label: "Parivaar Farmers" },
   ];
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -159,7 +159,7 @@ export default function Section3() {
       <section
         id="overview-section"
         ref={sectionRef}
-        className="bg-white py-24 lg:py-32 px-6 lg:px-12 relative overflow-hidden text-left"
+        className="bg-white py-12 md:py-16 lg:py-20 px-6 lg:px-12 relative overflow-hidden text-left"
       >
         {/* Living Algorithmic Background Canvas */}
         <AlgorithmicCanvas mode="rhizome" opacity={0.28} />

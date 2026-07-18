@@ -19,68 +19,28 @@ export default function Section9() {
 
   const reviews = [
     {
-      name: "Ramesh Patel",
-      place: "Anand, Gujarat",
-      time: "2 days ago",
-      crop: "Tomatoes & Capsicum",
-      quote: "Agaate caught early blight on our tomato crop using their AI diagnosis before it spread. We saved ₹45,000 in fungicides and our net yield jumped by 25% this season.",
+      name: "Avinash Kumar",
+      place: "Haryana",
+      time: "Recent",
+      crop: "Bio-Boosted Nursery",
+      quote: "⭐⭐⭐⭐⭐ Outstanding nursery quality and reliable agricultural support.",
       img: t1
     },
     {
-      name: "Lakshmi Devi",
-      place: "Warangal, Telangana",
-      time: "3 days ago",
-      crop: "Chilli & Bhendi",
-      quote: "The nursery saplings establish far faster with bio-inoculants. Sourcing water-soluble fertilizers through Kisaan Mall is transparent, genuine, and delivered right to our field.",
+      name: "Pankaj Gupta",
+      place: "Gurugram",
+      time: "Recent",
+      crop: "Kisaan Mall Customer",
+      quote: "Agaate Kisan Mall is a one-stop shop for agricultural inputs.",
       img: t2
     },
     {
-      name: "Arjun Singh",
-      place: "Ludhiana, Punjab",
-      time: "1 week ago",
-      crop: "Cabbage & Cauliflower",
-      quote: "With stage-wise harvest advice and direct institutional linkage, we stopped dumping produce at mandi distress prices. We get direct bank transfer within 24 hours.",
+      name: "JustDial Verified",
+      place: "Bhora Kalan Region",
+      time: "Current Rating",
+      crop: "Community Trust",
+      quote: "Rated 5.0 on local directories. A trusted community hub for agricultural commerce and premium inputs.",
       img: t3
-    },
-    {
-      name: "Sunita Kulkarni",
-      place: "Nashik, Maharashtra",
-      time: "1 week ago",
-      crop: "Onion & Green Peas",
-      quote: "Our drip irrigation grid planned by Agaate cut daily pumping hours from 8 hours down to 3. The automated fertigation schedule improved bulb size uniformity across 12 acres.",
-      img: farmerHands
-    },
-    {
-      name: "Devendra Sharma",
-      place: "Karnal, Haryana",
-      time: "2 weeks ago",
-      crop: "Potato & Gourds",
-      quote: "The carbon credit program is a game changer. We practiced zero tillage and cover cropping, and received an extra ₹38,000 annual payout just for farming sustainably.",
-      img: t1
-    },
-    {
-      name: "Priya Reddy",
-      place: "Kolar, Karnataka",
-      time: "2 weeks ago",
-      crop: "Carrots & Beetroot",
-      quote: "Agronomist weekly visits and soil testing recommendations meant we stopped over-applying urea. Soil health is restored and root coloration is top tier for export quality.",
-      img: t2
-    },
-    {
-      name: "Vikramsinh Jadeja",
-      place: "Rajkot, Gujarat",
-      time: "3 weeks ago",
-      crop: "Brinjal & Ridge Gourd",
-      quote: "Before Agaate, we lost 30% of harvested brinjal to post-harvest rot. Now with structured grading and cold-chain pickup right at our block, rejection rate is zero.",
-      img: t3
-    },
-    {
-      name: "Harjit Singh",
-      place: "Amritsar, Punjab",
-      time: "1 month ago",
-      crop: "Green Peas & Beans",
-      quote: "The seed trial demos at the Agri Park gave me total confidence before sowing. Disease resistance of the new hybrid pea varieties exceeded all our expectations.",
-      img: farmerHands
     }
   ];
 
@@ -133,7 +93,7 @@ export default function Section9() {
   return (
     <>
       <ArchUpTransition topColor="#FFFFFF" bottomColor="#E3EBE6" />
-      <section ref={sectionRef} className="bg-[#E3EBE6] py-24 lg:py-32 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
+      <section ref={sectionRef} className="bg-[#E3EBE6] py-12 md:py-16 lg:py-20 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
         {/* Decorative ambient dot pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(#2D6A4F_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.05] pointer-events-none"></div>
 

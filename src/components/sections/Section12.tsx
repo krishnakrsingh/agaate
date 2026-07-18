@@ -24,7 +24,7 @@ export default function Section12() {
   return (
     <>
       <ArchUpTransition topColor="#E3EBE6" bottomColor="#17211B" />
-      <section id="cta-section" ref={sectionRef} className="bg-[#17211B] py-24 lg:py-36 px-6 lg:px-12 text-cream text-center relative overflow-hidden">
+      <section id="cta-section" ref={sectionRef} className="bg-[#17211B] py-12 md:py-16 lg:py-20 px-6 lg:px-12 text-cream text-center relative overflow-hidden">
         {/* Living rhizome background behind CTA */}
         <AlgorithmicCanvas mode="rhizome" opacity={0.32} />
 

@@ -94,7 +94,7 @@ export default function Section4() {
   return (
     <>
       <ArchUpTransition topColor="#FFFFFF" bottomColor="#E3EBE6" />
-      <section ref={sectionRef} className="bg-[#E3EBE6] py-24 lg:py-32 px-6 lg:px-12 relative overflow-hidden border-b border-[#E7ECE8] text-left">
+      <section ref={sectionRef} className="bg-[#E3EBE6] py-12 md:py-16 lg:py-20 px-6 lg:px-12 relative overflow-hidden border-b border-[#E7ECE8] text-left">
         {/* Subtle decorative background grid pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(#2D6A4F_1px,transparent_1px)] [background-size:32px_32px] opacity-[0.06] pointer-events-none"></div>
 

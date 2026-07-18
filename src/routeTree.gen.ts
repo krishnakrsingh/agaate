@@ -9,38 +9,246 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as AgriParkRouteImport } from './routes/agri-park'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
+import { Route as KnowledgeIndexRouteImport } from './routes/knowledge/index'
+import { Route as ServicesNurseryRouteImport } from './routes/services/nursery'
+import { Route as ServicesMarketLinkageRouteImport } from './routes/services/market-linkage'
+import { Route as ServicesKisaanMallRouteImport } from './routes/services/kisaan-mall'
+import { Route as ServicesFarmTechRouteImport } from './routes/services/farm-tech'
+import { Route as ServicesCarbonCreditsRouteImport } from './routes/services/carbon-credits'
+import { Route as ServicesBigFarmSetupRouteImport } from './routes/services/big-farm-setup'
 
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgriParkRoute = AgriParkRouteImport.update({
+  id: '/agri-park',
+  path: '/agri-park',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeIndexRoute = KnowledgeIndexRouteImport.update({
+  id: '/knowledge/',
+  path: '/knowledge/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesNurseryRoute = ServicesNurseryRouteImport.update({
+  id: '/services/nursery',
+  path: '/services/nursery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesMarketLinkageRoute = ServicesMarketLinkageRouteImport.update({
+  id: '/services/market-linkage',
+  path: '/services/market-linkage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesKisaanMallRoute = ServicesKisaanMallRouteImport.update({
+  id: '/services/kisaan-mall',
+  path: '/services/kisaan-mall',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesFarmTechRoute = ServicesFarmTechRouteImport.update({
+  id: '/services/farm-tech',
+  path: '/services/farm-tech',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesCarbonCreditsRoute = ServicesCarbonCreditsRouteImport.update({
+  id: '/services/carbon-credits',
+  path: '/services/carbon-credits',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesBigFarmSetupRoute = ServicesBigFarmSetupRouteImport.update({
+  id: '/services/big-farm-setup',
+  path: '/services/big-farm-setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agri-park': typeof AgriParkRoute
+  '/careers': typeof CareersRoute
+  '/community': typeof CommunityRoute
+  '/contact': typeof ContactRoute
+  '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
+  '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
+  '/services/farm-tech': typeof ServicesFarmTechRoute
+  '/services/kisaan-mall': typeof ServicesKisaanMallRoute
+  '/services/market-linkage': typeof ServicesMarketLinkageRoute
+  '/services/nursery': typeof ServicesNurseryRoute
+  '/knowledge/': typeof KnowledgeIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agri-park': typeof AgriParkRoute
+  '/careers': typeof CareersRoute
+  '/community': typeof CommunityRoute
+  '/contact': typeof ContactRoute
+  '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
+  '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
+  '/services/farm-tech': typeof ServicesFarmTechRoute
+  '/services/kisaan-mall': typeof ServicesKisaanMallRoute
+  '/services/market-linkage': typeof ServicesMarketLinkageRoute
+  '/services/nursery': typeof ServicesNurseryRoute
+  '/knowledge': typeof KnowledgeIndexRoute
+  '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agri-park': typeof AgriParkRoute
+  '/careers': typeof CareersRoute
+  '/community': typeof CommunityRoute
+  '/contact': typeof ContactRoute
+  '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
+  '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
+  '/services/farm-tech': typeof ServicesFarmTechRoute
+  '/services/kisaan-mall': typeof ServicesKisaanMallRoute
+  '/services/market-linkage': typeof ServicesMarketLinkageRoute
+  '/services/nursery': typeof ServicesNurseryRoute
+  '/knowledge/': typeof KnowledgeIndexRoute
+  '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/agri-park'
+    | '/careers'
+    | '/community'
+    | '/contact'
+    | '/services/big-farm-setup'
+    | '/services/carbon-credits'
+    | '/services/farm-tech'
+    | '/services/kisaan-mall'
+    | '/services/market-linkage'
+    | '/services/nursery'
+    | '/knowledge/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/agri-park'
+    | '/careers'
+    | '/community'
+    | '/contact'
+    | '/services/big-farm-setup'
+    | '/services/carbon-credits'
+    | '/services/farm-tech'
+    | '/services/kisaan-mall'
+    | '/services/market-linkage'
+    | '/services/nursery'
+    | '/knowledge'
+    | '/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/agri-park'
+    | '/careers'
+    | '/community'
+    | '/contact'
+    | '/services/big-farm-setup'
+    | '/services/carbon-credits'
+    | '/services/farm-tech'
+    | '/services/kisaan-mall'
+    | '/services/market-linkage'
+    | '/services/nursery'
+    | '/knowledge/'
+    | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AgriParkRoute: typeof AgriParkRoute
+  CareersRoute: typeof CareersRoute
+  CommunityRoute: typeof CommunityRoute
+  ContactRoute: typeof ContactRoute
+  ServicesBigFarmSetupRoute: typeof ServicesBigFarmSetupRoute
+  ServicesCarbonCreditsRoute: typeof ServicesCarbonCreditsRoute
+  ServicesFarmTechRoute: typeof ServicesFarmTechRoute
+  ServicesKisaanMallRoute: typeof ServicesKisaanMallRoute
+  ServicesMarketLinkageRoute: typeof ServicesMarketLinkageRoute
+  ServicesNurseryRoute: typeof ServicesNurseryRoute
+  KnowledgeIndexRoute: typeof KnowledgeIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agri-park': {
+      id: '/agri-park'
+      path: '/agri-park'
+      fullPath: '/agri-park'
+      preLoaderRoute: typeof AgriParkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +256,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge/': {
+      id: '/knowledge/'
+      path: '/knowledge'
+      fullPath: '/knowledge/'
+      preLoaderRoute: typeof KnowledgeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/nursery': {
+      id: '/services/nursery'
+      path: '/services/nursery'
+      fullPath: '/services/nursery'
+      preLoaderRoute: typeof ServicesNurseryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/market-linkage': {
+      id: '/services/market-linkage'
+      path: '/services/market-linkage'
+      fullPath: '/services/market-linkage'
+      preLoaderRoute: typeof ServicesMarketLinkageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/kisaan-mall': {
+      id: '/services/kisaan-mall'
+      path: '/services/kisaan-mall'
+      fullPath: '/services/kisaan-mall'
+      preLoaderRoute: typeof ServicesKisaanMallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/farm-tech': {
+      id: '/services/farm-tech'
+      path: '/services/farm-tech'
+      fullPath: '/services/farm-tech'
+      preLoaderRoute: typeof ServicesFarmTechRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/carbon-credits': {
+      id: '/services/carbon-credits'
+      path: '/services/carbon-credits'
+      fullPath: '/services/carbon-credits'
+      preLoaderRoute: typeof ServicesCarbonCreditsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/big-farm-setup': {
+      id: '/services/big-farm-setup'
+      path: '/services/big-farm-setup'
+      fullPath: '/services/big-farm-setup'
+      preLoaderRoute: typeof ServicesBigFarmSetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AgriParkRoute: AgriParkRoute,
+  CareersRoute: CareersRoute,
+  CommunityRoute: CommunityRoute,
+  ContactRoute: ContactRoute,
+  ServicesBigFarmSetupRoute: ServicesBigFarmSetupRoute,
+  ServicesCarbonCreditsRoute: ServicesCarbonCreditsRoute,
+  ServicesFarmTechRoute: ServicesFarmTechRoute,
+  ServicesKisaanMallRoute: ServicesKisaanMallRoute,
+  ServicesMarketLinkageRoute: ServicesMarketLinkageRoute,
+  ServicesNurseryRoute: ServicesNurseryRoute,
+  KnowledgeIndexRoute: KnowledgeIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

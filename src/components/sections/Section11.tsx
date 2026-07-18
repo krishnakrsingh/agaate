@@ -63,7 +63,7 @@ export default function Section11() {
   return (
     <>
       <ArchUpTransition topColor="#FFFFFF" bottomColor="#E3EBE6" />
-      <section id="park-section" ref={sectionRef} className="bg-[#E3EBE6] py-24 lg:py-32 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
+      <section id="park-section" ref={sectionRef} className="bg-[#E3EBE6] py-12 md:py-16 lg:py-20 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
         {/* Algorithmic Canopy Background */}
         <AlgorithmicCanvas mode="canopy" opacity={0.24} />
 
@@ -109,7 +109,7 @@ export default function Section11() {
               {/* Dynamic Zone Description Banner */}
               <div
                 ref={bannerRef}
-                className="bg-white/95 backdrop-blur-md border border-forest/30 rounded-2xl p-6 shadow-lg"
+                className="bg-white/95 backdrop-blur-md border border-forest/30 rounded-2xl p-6 shadow-lg mb-6"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-mono text-forest font-bold uppercase flex items-center gap-2">
@@ -121,6 +121,12 @@ export default function Section11() {
                 <p className="text-[16px] text-[#17211B] font-semibold leading-relaxed">
                   {currentZoneInfo.desc}
                 </p>
+              </div>
+
+              <div>
+                <a href="/agri-park" className="inline-flex items-center gap-2 font-semibold text-forest hover:text-emerald-600 transition-colors">
+                  Explore Full Agri Park Details <span className="text-xl leading-none translate-y-[1px]">→</span>
+                </a>
               </div>
             </div>
           </div>

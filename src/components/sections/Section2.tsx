@@ -99,7 +99,7 @@ export default function Section2() {
   // If user disables animations, or WebGL completely fails, we show a clean vertical timeline.
   if (reducedMotion) {
     return (
-      <section className="bg-white py-24 px-6 md:px-12 border-b border-[#E7ECE8]">
+      <section className="bg-white py-12 md:py-16 lg:py-20 px-6 md:px-12 border-b border-[#E7ECE8]">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-left">
             <div className="flex items-center gap-3 mb-4">

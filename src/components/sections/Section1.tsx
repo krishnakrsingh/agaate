@@ -150,7 +150,7 @@ export default memo(function Section1({ onVideoLoaded, startAnimation = false, o
   }, [startAnimation]);
 
   return (
-    <section ref={sectionRef} id="hero" className="relative w-full h-screen p-2 md:p-2.5">
+    <section ref={sectionRef} id="hero" className="relative w-full min-h-[100dvh] p-2 md:p-2.5">
       <div
         ref={containerRef}
         className="relative w-full h-full overflow-hidden rounded-[16px]"
