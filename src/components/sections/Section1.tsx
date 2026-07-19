@@ -195,16 +195,16 @@ export default memo(function Section1({
         <div className="absolute inset-0 z-10 flex items-end px-8 md:px-14 pb-14 md:pb-16">
           <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
 
-            {/* LEFT — Elegant lightweight display headline (pure white) */}
+            {/* LEFT — Elegant display headline (pure white, larger scale) */}
             <h1
               ref={h1Ref}
-              className="opacity-0 text-white md:max-w-[58%]"
+              className="opacity-0 text-white md:max-w-[62%]"
               style={{
                 fontFamily: "Manrope, Inter, Arial, sans-serif",
-                fontSize: "clamp(3rem, 5vw, 4.75rem)",
+                fontSize: "clamp(3.75rem, 6.8vw, 6.5rem)",
                 fontWeight: 300,
-                letterSpacing: "-0.025em",
-                lineHeight: 1.06,
+                letterSpacing: "-0.035em",
+                lineHeight: 1.02,
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
@@ -212,9 +212,9 @@ export default memo(function Section1({
                 Precision Science
               </span>
               <br />
-              for a Stronger
+              for the Fields
               <br />
-              Agriculture.
+              of Bharat.
             </h1>
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
@@ -282,10 +282,16 @@ export default memo(function Section1({
                     cursor: "pointer",
                   }}
                 >
-                  Watch the demo
+                  Services
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
-                    <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
+                    <path
+                      d="M6.5 8h3.25M8.5 6.5L10 8l-1.5 1.5"
+                      stroke="currentColor"
+                      strokeWidth="1.25"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </button>
               </div>

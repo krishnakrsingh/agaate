@@ -116,8 +116,8 @@ export default function Header() {
             to="/contact"
             className={`group flex items-center gap-2 rounded-full font-body font-semibold transition-all duration-500 ease-in-out ${
               scrolled
-                ? "bg-[#c8e3d4] hover:bg-[#b5d6c4] text-[#1a3c34] shadow-sm hover:shadow-md px-4 py-2 text-xs"
-                : "bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg px-5 py-2.5 text-[15px]"
+                ? "bg-[#a3e635] hover:bg-[#91d820] text-[#0f2d25] shadow-sm hover:shadow-md px-4 py-2 text-xs"
+                : "bg-[#a3e635] hover:bg-[#91d820] text-[#0f2d25] shadow-lg px-5 py-2.5 text-[15px]"
             }`}
           >
             Contact Us{" "}
