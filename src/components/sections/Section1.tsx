@@ -67,7 +67,7 @@ export default memo(function Section1({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         } else {
           video.pause();
         }
@@ -175,108 +175,145 @@ export default memo(function Section1({
           className="absolute inset-0 z-[1] bg-black pointer-events-none opacity-0"
         />
 
-        {/* Overlay — cinematic vignette */}
+        {/* Overlay — strong bottom floor so text always reads, light top scrim for nav */}
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           style={{
             background: `
-              radial-gradient(ellipse 85% 85% at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 100%),
-              linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.35) 100%)
+              linear-gradient(to bottom,
+                rgba(0,0,0,0.18) 0%,
+                rgba(0,0,0,0.0) 28%,
+                rgba(0,0,0,0.0) 42%,
+                rgba(0,0,0,0.52) 72%,
+                rgba(0,0,0,0.78) 100%
+              )
             `,
           }}
         />
 
-        {/* ── CENTERED EDITORIAL CENTERPIECE ── */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto pt-12">
-          {/* Headline */}
-          <h1
-            ref={h1Ref}
-            className="opacity-0 text-white"
-            style={{
-              fontFamily: "Manrope, Inter, Arial, sans-serif",
-              fontSize: "clamp(2.375rem, 5vw, 4.25rem)",
-              fontWeight: 300,
-              letterSpacing: "-0.025em",
-              lineHeight: 1.08,
-              textWrap: "balance",
-              textShadow: "0 4px 30px rgba(0,0,0,0.5)",
-            }}
-          >
-            We grow <span style={{ color: "#facc15", fontWeight: 500 }}>smarter</span>
-            ,<br />
-            with every seed.
-          </h1>
+        {/* ── SPLIT BOTTOM LAYOUT ── */}
+        <div className="absolute inset-0 z-10 flex items-end px-8 md:px-14 pb-14 md:pb-16">
+          <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
 
-          {/* Subheading */}
-          <p
-            ref={pRef}
-            className="opacity-0 mt-6 max-w-xl mx-auto text-white"
-            style={{
-              fontFamily: "Manrope, Inter, Arial, sans-serif",
-              fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
-              fontWeight: 300,
-              color: "#ffffff",
-              lineHeight: 1.7,
-              textWrap: "balance",
-              textShadow:
-                "0 1px 2px rgba(0,0,0,0.95), 0 2px 12px rgba(0,0,0,0.85), 0 4px 24px rgba(0,0,0,0.6)",
-            }}
-          >
-            From the first seed to harvest — AI-driven monitoring, real agronomists, and
-            science-backed inputs, all in one place.
-          </p>
-
-          {/* CTA Buttons */}
-          <div
-            ref={btnRef}
-            className="opacity-0 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <button
-              className="group inline-flex items-center gap-3 rounded-full bg-white text-[#1a3c34] px-8 py-3.5 font-normal transition-all duration-300 hover:bg-[#c8e3d4] hover:shadow-xl hover:-translate-y-0.5"
+            {/* LEFT — Elegant lightweight display headline (300 weight, #facc15 gold accent) */}
+            <h1
+              ref={h1Ref}
+              className="opacity-0 text-white md:max-w-[58%]"
               style={{
                 fontFamily: "Manrope, Inter, Arial, sans-serif",
-                fontSize: "15px",
-                fontWeight: 400,
-                letterSpacing: "-0.005em",
+                fontSize: "clamp(3rem, 5vw, 4.75rem)",
+                fontWeight: 300,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.06,
+                textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
-              Get started free
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="transition-transform duration-300 group-hover:translate-x-1"
+              <span style={{ color: "#facc15", fontWeight: 500 }}>
+                Precision Science
+              </span>
+              <br />
+              for a Stronger
+              <br />
+              Agriculture.
+            </h1>
+
+            {/* RIGHT — Subordinate clean subtext + CTAs (34% width, ~15px scale) */}
+            <div
+              className="flex flex-col gap-5 md:max-w-[34%]"
+              style={{
+                borderLeft: "2px solid rgba(255,255,255,0.25)",
+                paddingLeft: "1.5rem",
+              }}
+            >
+              {/* Eyebrow label */}
+              <span
+                style={{
+                  fontFamily: "Manrope, Inter, Arial, sans-serif",
+                  fontSize: "10px",
+                  fontWeight: 600,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.45)",
+                }}
               >
-                <path
-                  d="M3 8h10M9 4l4 4-4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 text-white px-8 py-3.5 font-normal transition-all duration-300 hover:bg-white/25"
-              style={{
-                fontFamily: "Manrope, Inter, Arial, sans-serif",
-                fontSize: "15px",
-                fontWeight: 400,
-                letterSpacing: "-0.005em",
-              }}
-            >
-              See how it works
-            </button>
+                Connected Agri-Ecosystem
+              </span>
+
+              <p
+                ref={pRef}
+                className="opacity-0 text-white"
+                style={{
+                  fontFamily: "Manrope, Inter, Arial, sans-serif",
+                  fontSize: "clamp(0.875rem, 1vw, 0.95rem)",
+                  fontWeight: 400,
+                  color: "rgba(255,255,255,0.82)",
+                  lineHeight: 1.6,
+                }}
+              >
+                Your crop has one season. We give it every advantage — AI that watches
+                the field, agronomists who answer the call, inputs that actually work.
+              </p>
+
+              {/* CTA Buttons (Subordinate 14px scale) */}
+              <div
+                ref={btnRef}
+                className="opacity-0 flex flex-row items-center flex-wrap gap-3 pt-0.5"
+              >
+                <button
+                  className="group inline-flex items-center gap-2.5 rounded-full text-[#0f2d25] px-6 py-2.5 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
+                  style={{
+                    fontFamily: "Manrope, Inter, Arial, sans-serif",
+                    fontSize: "14px",
+                    letterSpacing: "-0.01em",
+                    background: "#a3e635",
+                  }}
+                >
+                  Start for free
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  >
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button
+                  className="inline-flex items-center gap-2 text-white/80 transition-all duration-200 hover:text-white px-2 py-2.5 font-normal"
+                  style={{
+                    fontFamily: "Manrope, Inter, Arial, sans-serif",
+                    fontSize: "14px",
+                    letterSpacing: "-0.005em",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  Watch the demo
+                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
+                    <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
         {/* Navbar top gradient scrim */}
-        <div className="absolute top-0 left-0 right-0 h-32 z-[1] bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-28 z-[1] bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
 
-        {/* Scroll cue — bottom center */}
-        <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-          <div className="w-px h-8 bg-white/25 animate-pulse" />
+        {/* Scroll cue */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5">
+          <div className="w-px h-7 bg-white/20 animate-pulse" />
         </div>
       </div>
     </section>
