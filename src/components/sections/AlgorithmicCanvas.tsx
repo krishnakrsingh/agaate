@@ -170,7 +170,7 @@ export function AlgorithmicCanvas({
       (entries) => {
         const [entry] = entries;
         const wasVisible = isVisibleRef.current;
-        isVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0;
+        isVisibleRef.current = entry.isIntersecting;
 
         if (isVisibleRef.current && !wasVisible && animationFrameId === null) {
           animationFrameId = requestAnimationFrame(render);
@@ -179,7 +179,7 @@ export function AlgorithmicCanvas({
           animationFrameId = null;
         }
       },
-      { threshold: 0 }
+      { rootMargin: '-50px 0px -50px 0px', threshold: 0 }
     );
 
     observer.observe(canvas);

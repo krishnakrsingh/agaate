@@ -38,9 +38,9 @@ export default function Section2() {
     if (!mounted || !containerRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting && entry.intersectionRatio > 0);
+        setInView(entry.isIntersecting);
       },
-      { rootMargin: '0px 0px 0px 0px', threshold: [0, 0.01] }
+      { rootMargin: '-100px 0px -100px 0px', threshold: 0 }
     );
     observer.observe(containerRef.current);
     return () => observer.disconnect();
