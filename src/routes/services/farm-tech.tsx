@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { TelemetryPoint } from "@/types";
 import {
   Cpu,
   ShieldCheck,
@@ -36,11 +37,11 @@ function FarmTech() {
   const [flightProgress, setFlightProgress] = useState(0);
 
   // Generate realistic sensor logs over a 12-hour period based on the selected soil moisture slider
-  const [telemetryData, setTelemetryData] = useState<any[]>([]);
+  const [telemetryData, setTelemetryData] = useState<TelemetryPoint[]>([]);
 
   useEffect(() => {
     const baseMoisture = moisture;
-    const data = [
+    const data: TelemetryPoint[] = [
       { time: "06:00", moisture: baseMoisture - 3, ec: 1.8, temp: 22 },
       { time: "08:00", moisture: baseMoisture - 1, ec: 1.85, temp: 24 },
       { time: "10:00", moisture: baseMoisture + 2, ec: 1.9, temp: 27 },

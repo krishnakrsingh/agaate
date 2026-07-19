@@ -151,4 +151,3 @@ export function ArchTransition(props: {
   return <ArchUpTransition topColor={topColor} bottomColor={bottomColor} />;
 }
 
-export const WaveTransition = ArchTransition;

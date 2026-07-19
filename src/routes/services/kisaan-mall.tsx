@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { CartItem, VerifiedProductInfo } from "@/types";
+import { catalogItems, kisaanMallCategories as categories } from "@/data/services-data";
 import {
   Store,
   ShieldCheck,
@@ -27,80 +29,10 @@ function KisaanMall() {
   const [acres, setAcres] = useState(2);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [cart, setCart] = useState<{ id: string; name: string; category: string; pricePerAc: number; qtyNeeded: number }[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [ordered, setOrdered] = useState(false);
   const [verifyingCode, setVerifyingCode] = useState<string | null>(null);
-  const [verifiedData, setVerifiedData] = useState<any | null>(null);
-
-  const categories = ["All", "Seeds", "Nutrients", "Protection", "Irrigation"];
-
-  // Catalog item index
-  const catalogItems = [
-    {
-      id: "IN-S01",
-      name: "Sakata Tomato Hybrid F1 Seeds",
-      category: "Seeds",
-      pricePerAc: 4500,
-      crop: "Tomato",
-      desc: "High germination vigor seeds, pre-treated with anti-fungal biological film.",
-    },
-    {
-      id: "IN-N01",
-      name: "Mycorrhiza Organic Granules Booster",
-      category: "Nutrients",
-      pricePerAc: 2800,
-      crop: "All",
-      desc: "Fosters early symbiotic root-fungus colonization to accelerate phosphorus absorption.",
-    },
-    {
-      id: "IN-N02",
-      name: "Slow-Release SSP (Super Phosphate)",
-      category: "Nutrients",
-      pricePerAc: 3100,
-      crop: "Tomato",
-      desc: "Granular phosphate stage-released over 60 days to prevent leaching waste.",
-    },
-    {
-      id: "IN-P01",
-      name: "Bio-Fungicide Trichoderma Viride",
-      category: "Protection",
-      pricePerAc: 2200,
-      crop: "All",
-      desc: "Wipes out root rot, damping-off spores, and early blight vectors in root zones.",
-    },
-    {
-      id: "IN-I01",
-      name: "Netafim Drip loop pressure emitters",
-      category: "Irrigation",
-      pricePerAc: 5500,
-      crop: "All",
-      desc: "Self-cleaning pressure compensating loops for direct-to-root hydration.",
-    },
-    {
-      id: "IN-S02",
-      name: "Sakata Chilli Tejaswini Seeds",
-      category: "Seeds",
-      pricePerAc: 3800,
-      crop: "Chilli",
-      desc: "High heat index hybrid plugs with built-in viral leaf curl tolerances.",
-    },
-    {
-      id: "IN-N03",
-      name: "High-Potassium Soluble Foliar Spray",
-      category: "Nutrients",
-      pricePerAc: 2400,
-      crop: "Chilli",
-      desc: "Foliar nutrient supplement boosting vegetable coloring, size uniformities.",
-    },
-    {
-      id: "IN-P02",
-      name: "Botanical Leaf Extract Repellent",
-      category: "Protection",
-      pricePerAc: 1800,
-      crop: "All",
-      desc: "Repels whiteflies, thrips, and sucking pests without toxic chemical residues.",
-    },
-  ];
+  const [verifiedData, setVerifiedData] = useState<VerifiedProductInfo | null>(null);
 
   // Sync preset crop package to cart when crop changes
   const loadPresetPackage = () => {

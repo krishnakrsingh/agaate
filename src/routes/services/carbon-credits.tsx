@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { ForecastPoint } from "@/types";
+import { carbonPractices as practices } from "@/data/services-data";
 import {
   Coins,
   Check,
@@ -32,40 +34,7 @@ function CarbonCredits() {
   const [selected, setSelected] = useState<string[]>(["drip", "tillage"]);
   const [ha, setHa] = useState(4); // total hectares
   const [joined, setJoined] = useState(false);
-  const [forecastData, setForecastData] = useState<any[]>([]);
-
-  const practices = [
-    {
-      id: "drip",
-      name: "Drip Irrigation Setup",
-      desc: "Reduces pumping energy emissions and water runoff waste.",
-      value: 1.5,
-    },
-    {
-      id: "tillage",
-      name: "Zero Tillage Method",
-      desc: "Preserves soil structure, locking atmospheric carbon in the organic layer.",
-      value: 2.0,
-    },
-    {
-      id: "bio",
-      name: "Organic Bio-Inputs Dosing",
-      desc: "Replaces chemical ammonia synthetic nitrogen emissions.",
-      value: 1.8,
-    },
-    {
-      id: "burning",
-      name: "Zero Residue Burning",
-      desc: "Incorporates organic biomass waste back into the field layer.",
-      value: 1.2,
-    },
-    {
-      id: "cover",
-      name: "Cover Cropping Cycle",
-      desc: "Fixes biological nitrogen and builds organic matter year-round.",
-      value: 2.2,
-    },
-  ];
+  const [forecastData, setForecastData] = useState<ForecastPoint[]>([]);
 
   const RATE = 1200; // ₹ per tCO2 credit
 
@@ -78,7 +47,7 @@ function CarbonCredits() {
 
   useEffect(() => {
     // Generate 5-year carbon projection
-    const data = Array.from({ length: 5 }, (_, i) => {
+    const data: ForecastPoint[] = Array.from({ length: 5 }, (_, i) => {
       const year = 2026 + i;
       const accumulationFactor = 1 + i * 0.15; // compound growth of soil organic matter
       const carbonLocked = totalCredits * accumulationFactor;

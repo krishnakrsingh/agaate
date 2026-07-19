@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, ComponentType } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import aboutFarmerAdvisor from "@/assets/about-farmer-advisor.png";
-import { WaveTransition } from "./SectionTransitions";
+import { ArchTransition } from "./SectionTransitions";
 import { AlgorithmicCanvas } from "./AlgorithmicCanvas";
 import { Award, TrendingUp, Users, Heart } from "lucide-react";
 
@@ -177,7 +177,7 @@ export default function SectionImpact() {
 
   return (
     <>
-      <WaveTransition topColor="#FFFFFF" bottomColor="#FFFFFF" />
+      <ArchTransition topColor="#FFFFFF" bottomColor="#FFFFFF" />
       <section
         id="overview-section"
         ref={sectionRef}
