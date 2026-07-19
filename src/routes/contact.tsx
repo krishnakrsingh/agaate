@@ -2,237 +2,280 @@ import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Send,
+  CheckCircle,
+  Building,
+  User,
+  Clock,
+} from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
 function Contact() {
-  const [formState, setFormState] = useState({
-    name: "",
-    phone: "",
-    crop: "Tomato",
-    acres: "",
-    msg: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
+  const [activeHub, setActiveHub] = useState("Jhajjar");
+  const [intakeStep, setIntakeStep] = useState(1);
+  const [intakeSubmitted, setIntakeSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formState.name || !formState.phone) return;
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormState({ name: "", phone: "", crop: "Tomato", acres: "", msg: "" });
-    }, 4000);
+  // Form states
+  const [acres, setAcres] = useState(5);
+  const [crop, setCrop] = useState("Tomato");
+  const [water, setWater] = useState("Borewell");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const hubs = [
+    {
+      name: "Jhajjar",
+      address: "Plot 14, Industrial Area, Jhajjar, Haryana 124103",
+      agronomist: "Chanchala Shukla (Lead Field Pathologist)",
+      phone: "+91 98765 00104",
+      email: "jhajjar.hub@agaate.com",
+    },
+    {
+      name: "Rohtak",
+      address: "Rohtak Agri Park campus, Sector 4, Rohtak, Haryana 124001",
+      agronomist: "Sandeep Phogat (Regional Director)",
+      phone: "+91 98765 00107",
+      email: "rohtak.hub@agaate.com",
+    },
+    {
+      name: "Gurugram",
+      address: "Tower B, DLF Cyber Park, Phase II, Gurugram, Haryana 122008",
+      agronomist: "Ankit Rawat (Founding Board Office)",
+      phone: "+91 98765 00101",
+      email: "hq@agaate.com",
+    },
+  ];
+
+  const currentHub = hubs.find((h) => h.name === activeHub) || hubs[0];
+
+  const handleNextStep = () => {
+    if (intakeStep < 3) {
+      setIntakeStep(intakeStep + 1);
+    } else {
+      setIntakeSubmitted(true);
+      setTimeout(() => {
+        setIntakeSubmitted(false);
+        setIntakeStep(1);
+        setName("");
+        setPhone("");
+      }, 4000);
+    }
   };
 
   return (
-    <main className="bg-white text-ink antialiased min-h-screen flex flex-col">
+    <main className="bg-cream text-ink antialiased min-h-screen flex flex-col font-sans">
       <Header />
 
       {/* Hero */}
-      <div className="pt-36 pb-20 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8]">
-        <div className="max-w-4xl mx-auto text-left">
-          <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-semibold">
-            CONTACT & SUPPORT
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
+        <div className="max-w-4xl mx-auto text-left relative z-10">
+          <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
+            CONTACT COOPERATIVE
           </span>
-          <h1 className="text-5xl md:text-7xl font-display font-bold text-forest-deep mb-6 leading-[1.05] tracking-tight">
-            Connect with our <span className="italic text-terracotta">advisors.</span>
+          <h1 className="text-6xl md:text-8xl font-serif font-bold text-forest-deep mb-6 leading-[1.05] tracking-tight">
+            Connect with our <span className="italic text-terracotta">hubs.</span>
           </h1>
-          <p className="text-lg md:text-xl text-forest/80 leading-relaxed font-sans max-w-2xl">
-            Whether you want to source seedlings, audit your soil nutrition packages, register for
-            carbon payouts, or secure buying linkage, we are on the ground to help.
+          <p className="text-xl md:text-2xl text-forest/80 leading-relaxed font-normal max-w-2xl">
+            Have questions about nursery slot schedules, drone mapping coverage, or buyback contract
+            terms? Reach out or visit our regional hubs.
           </p>
         </div>
       </div>
 
-      <div className="py-20 px-6 lg:px-12 bg-white max-w-7xl mx-auto w-full flex-grow">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Left: Info Directory */}
-          <div className="lg:col-span-5 space-y-10">
+      <div className="py-24 px-6 lg:px-12 max-w-7xl mx-auto w-full flex-grow space-y-32">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          {/* Left side: Regional Hub tabs */}
+          <div className="lg:col-span-7 space-y-8 text-left">
             <div>
               <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
-                Regional Offices
+                Operational Locations
               </span>
-              <h2 className="font-serif text-3xl text-forest-deep font-bold tracking-tight mb-4">
-                Direct channels
+              <h2 className="font-serif text-4xl text-forest-deep font-bold tracking-tight text-left">
+                Regional Coordinates
               </h2>
-              <p className="text-[#59635D] text-sm leading-relaxed">
-                Connect directly to our dedicated agronomists and operators. Call or email to
-                resolve input delivery questions.
-              </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="p-6 rounded-2xl bg-bone/35 border border-[#E7ECE8] flex gap-4">
-                <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0">
-                  <Phone className="w-5 h-5" />
+            <div className="flex gap-2 border-b border-[#E7ECE8] pb-px">
+              {hubs.map((hub) => (
+                <button
+                  key={hub.name}
+                  onClick={() => setActiveHub(hub.name)}
+                  className={`px-6 py-3 font-mono text-xs font-bold uppercase border-b-2 transition-all cursor-pointer ${
+                    activeHub === hub.name
+                      ? "border-forest text-forest-deep"
+                      : "border-transparent text-forest/50 hover:text-forest"
+                  }`}
+                >
+                  {hub.name} Hub
+                </button>
+              ))}
+            </div>
+
+            <div className="bg-white border border-[#E7ECE8] rounded-[2.5rem] p-8 space-y-6 shadow-sm">
+              <div className="space-y-4">
+                <div className="flex gap-4 items-start">
+                  <MapPin className="w-5 h-5 text-forest flex-shrink-0 mt-1" />
+                  <div>
+                    <span className="text-[10px] font-mono text-forest/45 uppercase block mb-1">Office Address</span>
+                    <p className="text-sm md:text-base text-forest-deep font-semibold leading-relaxed">
+                      {currentHub.address}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-serif text-lg font-bold text-forest-deep mb-1">
-                    Advisory Hotline
-                  </h4>
-                  <p className="text-xs text-forest/50 font-semibold mb-2">
-                    Technical and crop scheduling
-                  </p>
-                  <a
-                    href="tel:9487263498"
-                    className="font-mono text-sm text-forest font-bold hover:underline"
-                  >
-                    +91 94872 63498
-                  </a>
+
+                <div className="flex gap-4 items-start pt-4 border-t border-[#E7ECE8]/50">
+                  <User className="w-5 h-5 text-forest flex-shrink-0 mt-1" />
+                  <div>
+                    <span className="text-[10px] font-mono text-forest/45 uppercase block mb-1">Hub Director / Agronomist</span>
+                    <p className="text-sm md:text-base text-forest-deep font-semibold leading-relaxed">
+                      {currentHub.agronomist}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="p-6 rounded-2xl bg-bone/35 border border-[#E7ECE8] flex gap-4">
-                <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-serif text-lg font-bold text-forest-deep mb-1">
-                    General Office
-                  </h4>
-                  <p className="text-xs text-forest/50 font-semibold mb-2">
-                    Partner registrations and input retail
-                  </p>
-                  <a
-                    href="mailto:office@agaate.com"
-                    className="font-mono text-sm text-forest font-bold hover:underline"
-                  >
-                    office@agaate.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-bone/35 border border-[#E7ECE8] flex gap-4">
-                <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-serif text-lg font-bold text-forest-deep mb-1">
-                    Nursery Hub
-                  </h4>
-                  <p className="text-xs text-forest/50 font-semibold mb-2">
-                    17-Acre container chamber
-                  </p>
-                  <span className="text-sm text-forest font-semibold block">
-                    Bhora Kalan Region, Gurugram District, HR
-                  </span>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-[#E7ECE8]/50 text-xs font-mono">
+                <a href={`tel:${currentHub.phone}`} className="flex gap-3 items-center p-4 bg-bone/30 border border-[#E7ECE8] rounded-xl text-forest-deep hover:border-forest transition-colors">
+                  <Phone className="w-4 h-4 text-forest" />
+                  <span>{currentHub.phone}</span>
+                </a>
+                <a href={`mailto:${currentHub.email}`} className="flex gap-3 items-center p-4 bg-bone/30 border border-[#E7ECE8] rounded-xl text-forest-deep hover:border-forest transition-colors">
+                  <Mail className="w-4 h-4 text-forest" />
+                  <span>{currentHub.email}</span>
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Right: Interactive Contact Form */}
-          <div className="lg:col-span-7">
-            <div className="bg-bone/20 rounded-[2rem] border border-[#E7ECE8] p-8 md:p-10">
-              <div className="mb-8">
-                <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
-                  Digital Consult
-                </span>
-                <h3 className="font-serif text-2xl text-forest-deep font-bold">
-                  Request an advisor callback
-                </h3>
-              </div>
+          {/* Right side: Smart Advisory Form */}
+          <div className="lg:col-span-5 bg-bone rounded-[2.5rem] border border-[#E7ECE8] p-8 text-left space-y-8 shadow-sm">
+            <div>
+              <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
+                Field Intake
+              </span>
+              <h3 className="font-serif text-3xl text-forest-deep font-bold">
+                Smart Advisor Setup
+              </h3>
+            </div>
 
-              {submitted ? (
-                <div className="p-8 text-center bg-forest/5 border border-forest/10 rounded-2xl flex flex-col items-center justify-center min-h-[300px] animate-in fade-in zoom-in-95">
-                  <CheckCircle className="w-16 h-16 text-emerald-500 mb-4 animate-bounce" />
-                  <h4 className="font-serif text-2xl text-forest-deep font-bold mb-2">
-                    Request Submitted
-                  </h4>
-                  <p className="text-sm text-forest/75 max-w-sm">
-                    Thank you! An Agaate agronomist will review your soil specifications and phone
-                    you back within 24 hours.
-                  </p>
+            {intakeSubmitted ? (
+              <div className="p-8 text-center bg-white border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[300px] animate-in fade-in zoom-in-95">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-6">
+                  <CheckCircle className="w-8 h-8 animate-bounce" />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5 text-left">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                        Your Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formState.name}
-                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
-                        placeholder="e.g. Ramesh Yadav"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formState.phone}
-                        onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
-                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
-                        placeholder="e.g. +91 98765 43210"
-                      />
-                    </div>
-                  </div>
+                <h4 className="font-serif text-3xl text-forest-deep font-bold mb-2">
+                  Intake Completed
+                </h4>
+                <p className="text-xs text-forest/70 max-w-xs leading-relaxed">
+                  Your crop acreage profile has been logged. An agronomist from the {activeHub} hub will call with custom seed/manure schedules.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Step indicators */}
+                <div className="flex gap-2 font-mono text-[9px] font-bold text-forest/40">
+                  <span className={intakeStep === 1 ? "text-forest" : ""}>01 FIELD</span>
+                  <span>·</span>
+                  <span className={intakeStep === 2 ? "text-forest" : ""}>02 IRRIGATION</span>
+                  <span>·</span>
+                  <span className={intakeStep === 3 ? "text-forest" : ""}>03 CONTACT</span>
+                </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {intakeStep === 1 && (
+                  <div className="space-y-4 animate-in fade-in">
                     <div>
-                      <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                        Primary Crop
-                      </label>
+                      <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Total Farming Acres ({acres} acres)</label>
+                      <input
+                        type="range"
+                        min={1}
+                        max={100}
+                        value={acres}
+                        onChange={(e) => setAcres(parseInt(e.target.value))}
+                        className="w-full h-1.5 bg-[#E7ECE8] rounded-lg appearance-none cursor-pointer accent-forest"
+                      />
+                      <div className="flex justify-between text-[9px] font-mono text-forest/40 mt-1">
+                        <span>1 Acre</span>
+                        <span>100 Acres</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Primary Crop Focus</label>
                       <select
-                        value={formState.crop}
-                        onChange={(e) => setFormState({ ...formState, crop: e.target.value })}
-                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
+                        value={crop}
+                        onChange={(e) => setCrop(e.target.value)}
+                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-3 py-3 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
                       >
                         <option>Tomato</option>
                         <option>Chilli</option>
                         <option>Capsicum</option>
-                        <option>Cucumbers</option>
-                        <option>Others</option>
                       </select>
                     </div>
+                  </div>
+                )}
+
+                {intakeStep === 2 && (
+                  <div className="space-y-4 animate-in fade-in">
                     <div>
-                      <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                        Total Acreage
-                      </label>
+                      <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Water Distribution Method</label>
+                      <select
+                        value={water}
+                        onChange={(e) => setWater(e.target.value)}
+                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-3 py-3 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
+                      >
+                        <option>Borewell groundwater</option>
+                        <option>Canal supply</option>
+                        <option>Rainwater tank harvesting</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {intakeStep === 3 && (
+                  <div className="space-y-4 animate-in fade-in">
+                    <div>
+                      <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Your Full Name *</label>
                       <input
-                        type="number"
-                        value={formState.acres}
-                        onChange={(e) => setFormState({ ...formState, acres: e.target.value })}
-                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
-                        placeholder="e.g. 5"
+                        required
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                        placeholder="e.g. Ramesh Yadav"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Phone Number *</label>
+                      <input
+                        required
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                        placeholder="e.g. +91 98765 43210"
                       />
                     </div>
                   </div>
+                )}
 
-                  <div>
-                    <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                      Message / Inquiry
-                    </label>
-                    <textarea
-                      rows={4}
-                      value={formState.msg}
-                      onChange={(e) => setFormState({ ...formState, msg: e.target.value })}
-                      className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none resize-none"
-                      placeholder="e.g. Need seedling booking availability for mid-September crop cycle..."
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full rounded-xl bg-forest-deep hover:bg-forest text-cream font-semibold text-sm py-4 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                  >
-                    <span>Submit Consultation Request</span>
-                    <Send className="w-4 h-4" />
-                  </button>
-                </form>
-              )}
-            </div>
+                <button
+                  onClick={handleNextStep}
+                  disabled={intakeStep === 3 ? !name || !phone : false}
+                  className="w-full rounded-xl bg-forest-deep hover:bg-forest text-cream font-semibold text-sm py-4 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:bg-forest/40 disabled:cursor-not-allowed"
+                >
+                  <span>{intakeStep === 3 ? "Submit Advisory request" : "Continue"}</span>
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
