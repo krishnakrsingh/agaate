@@ -7,7 +7,6 @@ This directory (`.agents/skills/`) houses the curated set of AI assistant skills
 ### 1. Visual & UI/UX Design
 
 - **[frontend-design](file:///c:/Users/krish/Downloads/agaate/.agents/skills/frontend-design/SKILL.md)**: Distinctive, intentional visual design guidelines when building new UI or modifying existing sections. Focuses on typography, intentional spacing, and curated palettes.
-- **[ui-ux-pro-max](file:///c:/Users/krish/Downloads/agaate/.agents/skills/ui-ux-pro-max/SKILL.md)**: Comprehensive UI/UX design intelligence database containing 67 styles, 96 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types.
 
 ### 2. GSAP Animation Engine (`gsap-*`)
 

@@ -160,7 +160,7 @@ export default memo(function Section1({
         <video
           ref={videoRef}
           className="absolute inset-0 z-0 w-full h-full object-cover"
-          src="/assets/hero.mp4"
+          src="/hero1.mp4"
           preload="auto"
           autoPlay
           loop
@@ -225,20 +225,6 @@ export default memo(function Section1({
                 paddingLeft: "1.35rem",
               }}
             >
-              {/* Eyebrow label */}
-              <span
-                style={{
-                  fontFamily: "Manrope, Inter, Arial, sans-serif",
-                  fontSize: "9.5px",
-                  fontWeight: 600,
-                  letterSpacing: "0.13em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.45)",
-                }}
-              >
-                Connected Agri-Ecosystem
-              </span>
-
               <p
                 ref={pRef}
                 className="opacity-0 text-white"
