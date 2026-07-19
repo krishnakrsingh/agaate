@@ -195,7 +195,7 @@ export default memo(function Section1({
         <div className="absolute inset-0 z-10 flex items-end px-8 md:px-14 pb-14 md:pb-16">
           <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
 
-            {/* LEFT — Elegant lightweight display headline (300 weight, #facc15 gold accent) */}
+            {/* LEFT — Elegant lightweight display headline (pure white) */}
             <h1
               ref={h1Ref}
               className="opacity-0 text-white md:max-w-[58%]"
@@ -208,7 +208,7 @@ export default memo(function Section1({
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
-              <span style={{ color: "#facc15", fontWeight: 500 }}>
+              <span style={{ color: "#ffffff", fontWeight: 500 }}>
                 Precision Science
               </span>
               <br />
@@ -217,21 +217,21 @@ export default memo(function Section1({
               Agriculture.
             </h1>
 
-            {/* RIGHT — Subordinate clean subtext + CTAs (34% width, ~15px scale) */}
+            {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
             <div
-              className="flex flex-col gap-5 md:max-w-[34%]"
+              className="flex flex-col gap-4 md:max-w-[32%]"
               style={{
                 borderLeft: "2px solid rgba(255,255,255,0.25)",
-                paddingLeft: "1.5rem",
+                paddingLeft: "1.35rem",
               }}
             >
               {/* Eyebrow label */}
               <span
                 style={{
                   fontFamily: "Manrope, Inter, Arial, sans-serif",
-                  fontSize: "10px",
+                  fontSize: "9.5px",
                   fontWeight: 600,
-                  letterSpacing: "0.14em",
+                  letterSpacing: "0.13em",
                   textTransform: "uppercase",
                   color: "rgba(255,255,255,0.45)",
                 }}
@@ -244,34 +244,34 @@ export default memo(function Section1({
                 className="opacity-0 text-white"
                 style={{
                   fontFamily: "Manrope, Inter, Arial, sans-serif",
-                  fontSize: "clamp(0.875rem, 1vw, 0.95rem)",
+                  fontSize: "clamp(0.83rem, 0.92vw, 0.88rem)",
                   fontWeight: 400,
                   color: "rgba(255,255,255,0.82)",
-                  lineHeight: 1.6,
+                  lineHeight: 1.55,
                 }}
               >
                 Your crop has one season. We give it every advantage — AI that watches
                 the field, agronomists who answer the call, inputs that actually work.
               </p>
 
-              {/* CTA Buttons (Subordinate 14px scale) */}
+              {/* CTA Buttons (Balanced scale) */}
               <div
                 ref={btnRef}
                 className="opacity-0 flex flex-row items-center flex-wrap gap-3 pt-0.5"
               >
                 <button
-                  className="group inline-flex items-center gap-2.5 rounded-full text-[#0f2d25] px-6 py-2.5 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-5 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
                   style={{
                     fontFamily: "Manrope, Inter, Arial, sans-serif",
-                    fontSize: "14px",
+                    fontSize: "13.5px",
                     letterSpacing: "-0.01em",
                     background: "#a3e635",
                   }}
                 >
                   Start for free
                   <svg
-                    width="14"
-                    height="14"
+                    width="13"
+                    height="13"
                     viewBox="0 0 16 16"
                     fill="none"
                     className="transition-transform duration-300 group-hover:translate-x-0.5"
@@ -286,10 +286,10 @@ export default memo(function Section1({
                   </svg>
                 </button>
                 <button
-                  className="inline-flex items-center gap-2 text-white/80 transition-all duration-200 hover:text-white px-2 py-2.5 font-normal"
+                  className="inline-flex items-center gap-2 text-white/80 transition-all duration-200 hover:text-white px-2 py-2 font-normal"
                   style={{
                     fontFamily: "Manrope, Inter, Arial, sans-serif",
-                    fontSize: "14px",
+                    fontSize: "13.5px",
                     letterSpacing: "-0.005em",
                     background: "none",
                     border: "none",
@@ -297,7 +297,7 @@ export default memo(function Section1({
                   }}
                 >
                   Watch the demo
-                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
                     <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor" />
                   </svg>
