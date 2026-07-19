@@ -1,40 +1,57 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ComponentType } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import aboutFarmerAdvisor from "@/assets/about-farmer-advisor.png";
 import { WaveTransition } from "./SectionTransitions";
 import { AlgorithmicCanvas } from "./AlgorithmicCanvas";
+import { Award, TrendingUp, Users, Heart } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ANIMATED STAT COUNTER */
-function AnimatedStatCard({ num, suffix, label, isLeftColumn, isTopRow, index }: { num: number; suffix: string; label: string; isLeftColumn: boolean; isTopRow: boolean; index: number }) {
+interface AnimatedStatProps {
+  num: number;
+  suffix: string;
+  label: string;
+  isLeftColumn: boolean;
+  isTopRow: boolean;
+  index: number;
+  icon: ComponentType<{ className?: string }>;
+}
+
+function AnimatedStatCard({
+  num,
+  suffix,
+  label,
+  isLeftColumn,
+  isTopRow,
+  index,
+  icon: Icon,
+}: AnimatedStatProps) {
   const [val, setVal] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const obj = { v: 0 };
-      
-      // Card entrance reveal with stagger delay based on index
-      gsap.fromTo(cardRef.current,
-        { opacity: 0, y: 30, scale: 0.95 },
+
+      gsap.fromTo(
+        cardRef.current,
+        { opacity: 0, y: 30, scale: 0.98 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.7,
           delay: index * 0.1,
-          ease: "back.out(1.4)",
+          ease: "back.out(1.2)",
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 95%",
             once: true,
-          }
-        }
+          },
+        },
       );
 
-      // Number counter
       gsap.to(obj, {
         v: num,
         duration: 1.8,
@@ -54,29 +71,36 @@ function AnimatedStatCard({ num, suffix, label, isLeftColumn, isTopRow, index }:
   return (
     <div
       ref={cardRef}
-      className={`text-left p-6 md:px-8 first:pl-0 last:pr-0 group transition-all duration-500 hover:translate-y-[-6px] hover:bg-forest/[0.02] rounded-2xl
-        ${isLeftColumn ? "md:pr-6 md:border-r border-[#E7ECE8]" : "md:pl-6"} 
-        ${isTopRow ? "border-b border-[#E7ECE8] md:border-b-0 md:pb-0" : ""}
+      className={`text-left p-6 md:p-8 group transition-all duration-500 hover:translate-y-[-4px] hover:bg-forest/[0.02] rounded-2xl border border-transparent hover:border-forest/10
+        ${isLeftColumn ? "md:border-r md:border-[#E7ECE8]/50" : ""} 
+        ${isTopRow ? "border-b border-[#E7ECE8]/50 md:border-b-0" : ""}
       `}
     >
-      <div className="font-display text-[40px] sm:text-[48px] md:text-[56px] text-forest font-bold tracking-[-0.04em] leading-none mb-3 group-hover:text-forest-deep transition-colors flex items-baseline gap-0.5">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-8 h-8 rounded-lg bg-forest/5 flex items-center justify-center text-forest group-hover:bg-forest group-hover:text-cream transition-colors duration-300">
+          <Icon className="w-4 h-4" />
+        </div>
+        <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40">
+          Scale Metric
+        </span>
+      </div>
+      <div className="font-serif text-[40px] sm:text-[48px] text-forest-deep font-bold tracking-tight leading-none mb-2">
         <span>{val.toLocaleString()}</span>
         <span className="text-terracotta">{suffix}</span>
       </div>
-      <div className="font-sans text-sm md:text-[15px] font-medium text-[#59635D] leading-snug group-hover:text-ink transition-colors">
+      <div className="font-sans text-xs md:text-sm font-semibold text-forest/70 group-hover:text-forest-deep transition-colors">
         {label}
       </div>
     </div>
   );
 }
 
-/* 2.5 AGAATE INTRODUCTION & IMPACT */
 export default function Section3() {
   const stats = [
-    { num: 15000, suffix: "+", label: "Acres Under Association" },
-    { num: 10, suffix: "Cr+", label: "Platform Value" },
-    { num: 500, suffix: "+", label: "Agri-Input Products" },
-    { num: 2000, suffix: "+", label: "Parivaar Farmers" },
+    { num: 15000, suffix: "+", label: "Acres Under Association", icon: TrendingUp },
+    { num: 10, suffix: "Cr+", label: "Farmer Capital Enabled", icon: Award },
+    { num: 500, suffix: "+", label: "Verified Inputs Available", icon: Heart },
+    { num: 2000, suffix: "+", label: "Agaate Parivaar Farmers", icon: Users },
   ];
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -87,20 +111,20 @@ export default function Section3() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Heading reveal
-      gsap.fromTo(headingRef.current,
+      gsap.fromTo(
+        headingRef.current,
         { opacity: 0, y: 35 },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
           ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true }
-        }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true },
+        },
       );
 
-      // Description reveal
-      gsap.fromTo(descRef.current,
+      gsap.fromTo(
+        descRef.current,
         { opacity: 0, y: 25 },
         {
           opacity: 1,
@@ -108,46 +132,44 @@ export default function Section3() {
           duration: 0.7,
           delay: 0.15,
           ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true }
-        }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true },
+        },
       );
 
-      // Dramatic diagonal clip mask reveal
-      gsap.fromTo(imageRef.current,
-        { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", scale: 1.08 },
+      gsap.fromTo(
+        imageRef.current,
+        { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", scale: 1.05 },
         {
           clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
           scale: 1,
           duration: 0.9,
           ease: "power3.inOut",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true }
-        }
+          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true },
+        },
       );
 
-      // Founder quote elastic entrance
-      gsap.fromTo(quoteRef.current,
-        { opacity: 0, y: 35, scale: 0.94 },
+      gsap.fromTo(
+        quoteRef.current,
+        { opacity: 0, y: 35, scale: 0.98 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.8,
           delay: 0.25,
-          ease: "back.out(1.5)",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true }
-        }
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true },
+        },
       );
 
-      // Subtle continuous organic floating on the image wrapper after entrance
       gsap.to(imageRef.current, {
         y: -6,
         duration: 3.5,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: 1.2
+        delay: 1.2,
       });
-
     }, sectionRef);
 
     return () => ctx.revert();
@@ -159,84 +181,82 @@ export default function Section3() {
       <section
         id="overview-section"
         ref={sectionRef}
-        className="bg-white py-12 md:py-16 lg:py-20 px-6 lg:px-12 relative overflow-hidden text-left"
+        className="bg-white py-20 md:py-28 px-6 lg:px-12 relative overflow-hidden text-left"
       >
-        {/* Living Algorithmic Background Canvas */}
         <AlgorithmicCanvas mode="rhizome" opacity={0.28} />
 
-        <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-16 lg:gap-20 relative z-10">
-          {/* Left Side: About Copy */}
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start gap-16 lg:gap-20 relative z-10">
+          {/* Left Side Copy */}
           <div className="w-full lg:w-[46%] flex flex-col items-start">
-            <div className="inline-flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-forest/[0.08] border border-forest/20 mb-5">
-              <span className="w-2 h-2 rounded-full bg-forest animate-ping"></span>
-              <span className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest">
-                ABOUT AGAATE
-              </span>
-            </div>
+            <span className="font-jet text-[11px] md:text-xs uppercase tracking-[0.22em] text-forest mb-4 block font-semibold">
+              01 / Our Philosophy
+            </span>
 
             <h2
               ref={headingRef}
-              className="font-display text-[32px] sm:text-[40px] md:text-[46px] lg:text-[52px] font-bold text-[#17211B] leading-[1.1] tracking-[-0.03em] mb-6"
+              className="font-serif text-[clamp(2.2rem,4.5vw,3.8rem)] leading-[1.08] text-forest-deep mb-6 tracking-tight"
             >
-              Built around the farmer. <br />
-              Connected from <span className="italic font-normal text-forest underline decoration-terracotta/40 decoration-wavy underline-offset-8">seed to sale</span>.
+              Built around the farmer. Connected from{" "}
+              <span className="italic text-terracotta underline decoration-terracotta/20 underline-offset-8">
+                seed to sale.
+              </span>
             </h2>
 
             <div ref={descRef} className="flex flex-col items-start">
-              <p className="text-[#59635D] text-[16px] md:text-[18px] font-normal leading-[1.7] max-w-[600px] mb-8">
-                Agaate brings trusted agricultural inputs, expert guidance, farm technology, and market access together in one connected ecosystem—helping farmers make better decisions, reduce risk, and grow with confidence.
+              <p className="text-[#59635D] text-[16px] md:text-[18px] leading-[1.7] max-w-xl mb-8">
+                Agaate brings trusted input retail, technical telemetry, agronomic field advisors,
+                and secure post-harvest market channels into a single unified framework — mitigating
+                farmer risk.
               </p>
 
               <a
-                href="#mall-section"
-                className="inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-forest text-cream hover:bg-forest-deep font-semibold text-[15px] md:text-[16px] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.03] group"
+                href="#services-grid"
+                className="inline-flex items-center gap-2.5 rounded-full bg-forest-deep text-cream px-7 py-4 text-[15px] font-semibold hover:bg-forest transition-all duration-300 cursor-pointer"
               >
                 Discover our approach
-                <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
+                <span className="translate-y-[1px]">→</span>
               </a>
             </div>
           </div>
 
-          {/* Right Side: Image and integrated Founder's Note */}
+          {/* Right Side Image and Note */}
           <div className="w-full lg:w-[50%] relative">
             <div
               ref={imageRef}
-              className="aspect-[4/3] w-full rounded-[24px] overflow-hidden border border-[#E7ECE8] shadow-xl relative group"
+              className="aspect-[4/3] w-full rounded-[2rem] overflow-hidden border border-[#E7ECE8] shadow-xl relative group bg-bone"
             >
               <img
                 src={aboutFarmerAdvisor}
                 alt="Indian vegetable farmer and Agaate agronomist naturally examining crops"
-                className="w-full h-full object-cover rounded-[24px] transform group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover rounded-[2rem] transform group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#17211B]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-forest/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
-            {/* Founder's note quote panel */}
+            {/* Founder Note quote panel */}
             <div
               ref={quoteRef}
-              className="mt-6 lg:mt-0 lg:absolute lg:-bottom-10 lg:-left-10 lg:max-w-[410px] bg-white/95 backdrop-blur-md border border-[#E7ECE8] shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-[22px] p-6 lg:p-8 z-20 text-left hover:border-forest/40 hover:shadow-2xl transition-all duration-300"
+              className="mt-6 lg:mt-0 lg:absolute lg:-bottom-10 lg:-left-10 lg:max-w-[400px] bg-white/95 backdrop-blur-md border border-[#E7ECE8] shadow-2xl rounded-2xl p-6 lg:p-8 z-20 text-left hover:border-forest/40 transition-all duration-300"
             >
-              <div className="text-[11px] font-mono tracking-[0.1em] text-terracotta mb-3 font-bold uppercase flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
-                FOUNDER'S NOTE
-              </div>
-              <blockquote className="font-sans text-[16px] sm:text-[17px] font-medium leading-[1.6] text-[#17211B] mb-3">
-                “We built Agaate with a simple belief: every farmer deserves the right guidance, the right tools, and the right support—so their hard work never goes to loss.”
+              <span className="text-[10px] font-mono tracking-[0.15em] text-terracotta mb-3 font-semibold uppercase block">
+                Founder's Note
+              </span>
+              <blockquote className="font-serif text-lg leading-relaxed text-forest-deep mb-4">
+                “We built Agaate with a simple belief: every vegetable farmer deserves the right
+                science, inputs, and linkage so their risk decreases and yields increase.”
               </blockquote>
               <div className="flex items-center justify-between border-t border-[#E7ECE8] pt-3 mt-3">
-                <span className="text-xs text-[#59635D] font-sans font-semibold">
-                  Founder, Agaate
-                </span>
-                <span className="font-mono text-[10px] text-forest font-bold tracking-wider uppercase bg-forest/10 px-2 py-0.5 rounded">
-                  VERIFIED MISSION
+                <span className="text-xs text-forest/70 font-semibold">Ankit Rawat, Founder</span>
+                <span className="font-mono text-[9px] text-forest bg-forest/5 px-2 py-0.5 rounded border border-forest/10">
+                  Verified Mission
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Trust and Impact Transition Strip with Animated Counters */}
-        <div className="border-t border-[#E7ECE8] pt-14 md:pt-16 mt-20 md:mt-28 max-w-[1400px] mx-auto w-full relative z-10">
+        {/* Dynamic Trust and Impact Stats Grid */}
+        <div className="border-t border-[#E7ECE8] pt-14 mt-20 max-w-7xl mx-auto w-full relative z-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-0">
             {stats.map((s, i) => (
               <AnimatedStatCard
@@ -245,6 +265,7 @@ export default function Section3() {
                 num={s.num}
                 suffix={s.suffix}
                 label={s.label}
+                icon={s.icon}
                 isLeftColumn={i % 2 === 0}
                 isTopRow={i < 2}
               />
@@ -255,4 +276,3 @@ export default function Section3() {
     </>
   );
 }
-

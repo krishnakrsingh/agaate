@@ -5,11 +5,14 @@ This directory (`.agents/skills/`) houses the curated set of AI assistant skills
 ## Active Skills & Capabilities
 
 ### 1. Visual & UI/UX Design
+
 - **[frontend-design](file:///c:/Users/krish/Downloads/agaate/.agents/skills/frontend-design/SKILL.md)**: Distinctive, intentional visual design guidelines when building new UI or modifying existing sections. Focuses on typography, intentional spacing, and curated palettes.
 - **[ui-ux-pro-max](file:///c:/Users/krish/Downloads/agaate/.agents/skills/ui-ux-pro-max/SKILL.md)**: Comprehensive UI/UX design intelligence database containing 67 styles, 96 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types.
 
 ### 2. GSAP Animation Engine (`gsap-*`)
+
 Agaate relies heavily on GSAP 3.15 and `@tw-animate-css` for scroll-triggered storytelling and smooth micro-animations.
+
 - **[gsap-core](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-core/SKILL.md)**: Core API guidance (`gsap.to()`, `from()`, `fromTo()`, easing, `gsap.matchMedia()` for responsive and prefers-reduced-motion).
 - **[gsap-react](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-react/SKILL.md)**: Best practices for GSAP in React/TanStack Start (`useGSAP()` hook, ref management, `gsap.context()`, and automatic cleanup).
 - **[gsap-scrolltrigger](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-scrolltrigger/SKILL.md)**: Building scroll-linked animations, pinning sections, and scrubbing parameters (`ScrollTrigger`).
@@ -19,5 +22,6 @@ Agaate relies heavily on GSAP 3.15 and `@tw-animate-css` for scroll-triggered st
 - **[gsap-utils](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-utils/SKILL.md)**: Utility functions (`gsap.utils.clamp`, `mapRange`, `interpolate`, `toArray`, `snap`).
 
 ### 3. Verification & Skill Management
+
 - **[webapp-testing](file:///c:/Users/krish/Downloads/agaate/.agents/skills/webapp-testing/SKILL.md)**: Toolkit for testing local web applications using Playwright (capturing screenshots, verifying UI flows, checking browser logs).
 - **[skill-creator](file:///c:/Users/krish/Downloads/agaate/.agents/skills/skill-creator/SKILL.md)**: Framework for evaluating, benchmarking, creating, or tweaking workspace skills.

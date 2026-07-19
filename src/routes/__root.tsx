@@ -78,17 +78,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Lovable App" },
-      { name: "description", content: "Builds beautiful landing pages from wireframes and sitemaps." },
+      {
+        name: "description",
+        content: "Builds beautiful landing pages from wireframes and sitemaps.",
+      },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Builds beautiful landing pages from wireframes and sitemaps." },
+      {
+        property: "og:description",
+        content: "Builds beautiful landing pages from wireframes and sitemaps.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Builds beautiful landing pages from wireframes and sitemaps." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8b5fe1f9-75ef-420e-9642-83b88e3c162c/id-preview-bde321d4--5f71de86-508b-4bf1-9e09-572641742bf5.lovable.app-1782700326136.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8b5fe1f9-75ef-420e-9642-83b88e3c162c/id-preview-bde321d4--5f71de86-508b-4bf1-9e09-572641742bf5.lovable.app-1782700326136.png" },
+      {
+        name: "twitter:description",
+        content: "Builds beautiful landing pages from wireframes and sitemaps.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8b5fe1f9-75ef-420e-9642-83b88e3c162c/id-preview-bde321d4--5f71de86-508b-4bf1-9e09-572641742bf5.lovable.app-1782700326136.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8b5fe1f9-75ef-420e-9642-83b88e3c162c/id-preview-bde321d4--5f71de86-508b-4bf1-9e09-572641742bf5.lovable.app-1782700326136.png",
+      },
     ],
     links: [
       {
@@ -99,7 +116,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap",
       },
     ],
   }),

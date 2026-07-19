@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -7,7 +7,11 @@ interface LoadingScreenProps {
   onWipeStart?: () => void;
 }
 
-export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: LoadingScreenProps) {
+export default function LoadingScreen({
+  onComplete,
+  videoLoaded,
+  onWipeStart,
+}: LoadingScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const circleRef = useRef<SVGCircleElement>(null);
@@ -34,9 +38,9 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
     if (!containerRef.current || !logoRef.current || !circleRef.current) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ 
-        onComplete: () => onCompleteRef.current(), 
-        delay: 0.05 
+      const tl = gsap.timeline({
+        onComplete: () => onCompleteRef.current(),
+        delay: 0.05,
       });
       tlRef.current = tl;
 
@@ -46,33 +50,41 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
         y: 0,
         scale: 1,
         duration: 1.1,
-        ease: 'power3.out',
+        ease: "power3.out",
         force3D: true,
       })
-      // 2. Logo shrinks out smoothly
-      .to(logoRef.current, {
-        scale: 0,
-        opacity: 0,
-        duration: 0.7,
-        ease: 'power3.in',
-        force3D: true,
-      }, "-=0.15")
-      // Pause point: Wait here if the hero video is not yet loaded
-      .add(() => {
-        if (!videoLoadedRef.current) {
-          tl.pause();
-        }
-      })
-      // High-performance circular mask transition (animates SVG circle radius, avoiding CPU-bound clip-path repaints)
-      .to(circleRef.current, {
-        attr: { r: 2500 },
-        duration: 1.3,
-        ease: 'power4.inOut',
-        onStart: () => {
-          onWipeStartRef.current?.();
-        }
-      }, "-=0.35")
-      .set(containerRef.current, { pointerEvents: 'none' });
+        // 2. Logo shrinks out smoothly
+        .to(
+          logoRef.current,
+          {
+            scale: 0,
+            opacity: 0,
+            duration: 0.7,
+            ease: "power3.in",
+            force3D: true,
+          },
+          "-=0.15",
+        )
+        // Pause point: Wait here if the hero video is not yet loaded
+        .add(() => {
+          if (!videoLoadedRef.current) {
+            tl.pause();
+          }
+        })
+        // High-performance circular mask transition (animates SVG circle radius, avoiding CPU-bound clip-path repaints)
+        .to(
+          circleRef.current,
+          {
+            attr: { r: 2500 },
+            duration: 1.3,
+            ease: "power4.inOut",
+            onStart: () => {
+              onWipeStartRef.current?.();
+            },
+          },
+          "-=0.35",
+        )
+        .set(containerRef.current, { pointerEvents: "none" });
     }, containerRef);
 
     return () => ctx.revert();
@@ -89,25 +101,25 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
     <div
       ref={containerRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         inset: 0,
         zIndex: 9999,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'transparent',
-        pointerEvents: 'auto',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "transparent",
+        pointerEvents: "auto",
       }}
     >
       {/* SVG Iris Mask Background - maintains solid background at start and cuts a circular hole dynamically */}
       <svg
         style={{
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
         }}
       >
         <defs>
@@ -129,16 +141,16 @@ export default function LoadingScreen({ onComplete, videoLoaded, onWipeStart }: 
         decoding="async"
         fetchPriority="high"
         style={{
-          position: 'relative',
+          position: "relative",
           zIndex: 1,
-          width: 'clamp(160px, 20vw, 260px)',
-          height: 'auto',
-          objectFit: 'contain',
-          userSelect: 'none',
-          pointerEvents: 'none',
+          width: "clamp(160px, 20vw, 260px)",
+          height: "auto",
+          objectFit: "contain",
+          userSelect: "none",
+          pointerEvents: "none",
           opacity: 0,
-          transform: 'translate3d(0, 35px, 0) scale(0.85)',
-          willChange: 'transform, opacity',
+          transform: "translate3d(0, 35px, 0) scale(0.85)",
+          willChange: "transform, opacity",
         }}
       />
     </div>

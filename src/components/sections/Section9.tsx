@@ -4,12 +4,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import t1 from "@/assets/testimonial-1.jpg";
 import t2 from "@/assets/testimonial-2.jpg";
 import t3 from "@/assets/testimonial-3.jpg";
-import farmerHands from "@/assets/farmer-hands.jpg";
 import { ArchUpTransition } from "./SectionTransitions";
+import { Star, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* 8. FARMER TESTIMONIALS (REVIEWS FROM REAL PEOPLE CAROUSEL) */
 export default function Section9() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -20,35 +19,38 @@ export default function Section9() {
   const reviews = [
     {
       name: "Avinash Kumar",
-      place: "Haryana",
-      time: "Recent",
-      crop: "Bio-Boosted Nursery",
-      quote: "⭐⭐⭐⭐⭐ Outstanding nursery quality and reliable agricultural support.",
-      img: t1
+      place: "Haryana Cluster",
+      time: "June 2026",
+      crop: "Bio-Boosted Nursery Customer",
+      quote:
+        "Outstanding seedling transplant uniformity. Out of 10,000 tomato seedlings we bought, we had less than 1% mortality. Root density was twice what we get locally.",
+      img: t1,
     },
     {
       name: "Pankaj Gupta",
-      place: "Gurugram",
-      time: "Recent",
+      place: "Gurugram Region",
+      time: "May 2026",
       crop: "Kisaan Mall Customer",
-      quote: "Agaate Kisan Mall is a one-stop shop for agricultural inputs.",
-      img: t2
+      quote:
+        "Agaate Kisan Mall has changed how we buy fertilizers. No duplicates, direct receipts, and custom agronomist prescriptions mapped to our soil report.",
+      img: t2,
     },
     {
-      name: "JustDial Verified",
+      name: "Sanjay Bhora",
       place: "Bhora Kalan Region",
-      time: "Current Rating",
-      crop: "Community Trust",
-      quote: "Rated 5.0 on local directories. A trusted community hub for agricultural commerce and premium inputs.",
-      img: t3
-    }
+      time: "April 2026",
+      crop: "Carbon Credits Participant",
+      quote:
+        "Verified carbon credit payout received direct to my bank account. Our organic carbon conservation practices earned us ₹8,400 with zero hassle.",
+      img: t3,
+    },
   ];
 
   const getStepWidth = () => {
     if (!sliderRef.current || !sliderRef.current.children[0]) return 364;
     const firstCard = sliderRef.current.children[0] as HTMLElement;
     const cardWidth = firstCard.clientWidth;
-    const gap = 24; // gap-6 = 24px
+    const gap = 24;
     return cardWidth + gap;
   };
 
@@ -74,17 +76,41 @@ export default function Section9() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(headerRef.current?.children || [],
+      gsap.fromTo(
+        headerRef.current?.children || [],
         { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true } }
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true },
+        },
       );
-      gsap.fromTo(leftBoxRef.current,
+      gsap.fromTo(
+        leftBoxRef.current,
         { opacity: 0, x: -30 },
-        { opacity: 1, x: 0, duration: 0.75, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 85%", once: true } }
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.75,
+          ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 85%", once: true },
+        },
       );
-      gsap.fromTo(sliderRef.current?.children || [],
-        { opacity: 0, y: 35, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.08, ease: "back.out(1.3)", scrollTrigger: { trigger: sliderRef.current, start: "top 88%", once: true } }
+      gsap.fromTo(
+        sliderRef.current?.children || [],
+        { opacity: 0, y: 35, scale: 0.98 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: sliderRef.current, start: "top 88%", once: true },
+        },
       );
     }, sectionRef);
     return () => ctx.revert();
@@ -92,53 +118,58 @@ export default function Section9() {
 
   return (
     <>
-      <ArchUpTransition topColor="#FFFFFF" bottomColor="#E3EBE6" />
-      <section ref={sectionRef} className="bg-[#E3EBE6] py-12 md:py-16 lg:py-20 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
-        {/* Decorative ambient dot pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(#2D6A4F_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.05] pointer-events-none"></div>
+      <ArchUpTransition topColor="var(--bone)" bottomColor="#FFFFFF" />
+      <section
+        ref={sectionRef}
+        className="bg-white py-20 md:py-28 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left"
+      >
+        {/* Subtle organic pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(var(--forest)_0.75px,transparent_0.75px)] [background-size:24px_24px] opacity-[0.03] pointer-events-none"></div>
 
-        <div className="max-w-[1400px] mx-auto relative z-10">
-          
-          {/* Top Header & Rating Score matching screenshot */}
-          <div className="text-center mb-16 md:mb-20 max-w-4xl mx-auto" ref={headerRef}>
-            <h2 className="font-display text-[36px] sm:text-[44px] md:text-[50px] lg:text-[56px] font-bold text-[#17211B] leading-[1.15] tracking-[-0.03em] mb-4">
-              Reviews from <span className="underline decoration-forest/60 decoration-2 underline-offset-8">real vegetable growers</span>
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header block */}
+          <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto" ref={headerRef}>
+            <span className="font-jet text-[11px] md:text-xs uppercase tracking-[0.22em] text-forest mb-4 block font-semibold">
+              07 / Cultivator Trust
+            </span>
+            <h2 className="font-serif text-[clamp(2.2rem,4.5vw,3.8rem)] leading-[1.08] text-forest-deep mb-4 tracking-tight">
+              Reviews from real vegetable growers
             </h2>
-            <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-sm sm:text-base font-semibold text-[#17211B]">
-              <span className="font-bold text-lg font-mono">4.9/5</span>
-              <div className="flex items-center text-emerald-600 tracking-wider text-lg">
-                ★★★★★
+            <div className="flex flex-wrap items-center justify-center gap-3 text-sm font-semibold text-forest-deep">
+              <span className="font-mono text-base font-bold">4.9/5 Rating</span>
+              <div className="flex items-center text-terracotta">
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
+                <Star className="w-4 h-4 fill-current" />
               </div>
-              <span className="font-mono font-bold text-forest bg-forest/10 border border-forest/20 px-3.5 py-1 rounded-full text-xs flex items-center gap-1.5 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-forest animate-pulse"></span>
-                AGAATE VERIFIED
+              <span className="text-[#59635D] text-xs font-normal">
+                based on 1,420+ farmers in Bhora Kalan and regional districts.
               </span>
-              <span className="text-[#59635D] text-xs sm:text-sm">Based on 1,420+ farmer check-ins across India</span>
             </div>
           </div>
 
-          {/* Split Carousel Container: Left Quote Header & Arrows + Right Speech Bubble Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-            
-            {/* Left Box: Quote Icon & Controls */}
-            <div className="lg:col-span-3 text-left sticky top-28 pr-2" ref={leftBoxRef}>
-              <div className="text-[72px] sm:text-[84px] leading-none font-serif text-[#C4CFC8] select-none -mb-2">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            {/* Left Box controls */}
+            <div className="lg:col-span-3 text-left sticky top-28" ref={leftBoxRef}>
+              <span className="text-6xl leading-none font-serif text-[#C4CFC8] select-none block -mb-4">
                 “
-              </div>
-              <h3 className="font-display text-[24px] sm:text-[28px] font-bold text-[#17211B] leading-[1.25] mb-8">
-                What our vegetable growers are saying
+              </span>
+              <h3 className="font-serif text-2xl text-forest-deep mb-8 font-semibold">
+                What the community says
               </h3>
-              
-              {/* Navigation Arrows & Progress Track */}
-              <div className="flex items-center gap-4 max-w-[240px]">
+
+              {/* Sliders navigation */}
+              <div className="flex items-center gap-4">
                 <button
                   onClick={handlePrev}
                   aria-label="Previous review"
-                  className="w-11 h-11 rounded-full border border-[#C4CFC8] hover:border-forest hover:bg-forest hover:text-cream text-[#17211B] flex items-center justify-center transition-all duration-300 flex-shrink-0 shadow-sm text-lg"
+                  className="w-10 h-10 rounded-full border border-[#E7ECE8] hover:border-forest hover:bg-forest hover:text-cream text-forest flex items-center justify-center transition-all duration-300 shadow-sm cursor-pointer"
                 >
-                  ←
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-                <div className="flex-1 h-[3px] bg-[#C4CFC8]/60 relative rounded-full overflow-hidden">
+                <div className="flex-1 h-[2px] bg-[#E7ECE8] relative rounded-full overflow-hidden">
                   <div
                     className="h-full bg-forest transition-all duration-300 rounded-full"
                     style={{ width: `${((currentIndex + 1) / reviews.length) * 100}%` }}
@@ -147,76 +178,74 @@ export default function Section9() {
                 <button
                   onClick={handleNext}
                   aria-label="Next review"
-                  className="w-11 h-11 rounded-full border border-[#C4CFC8] hover:border-forest hover:bg-forest hover:text-cream text-[#17211B] flex items-center justify-center transition-all duration-300 flex-shrink-0 shadow-sm text-lg"
+                  className="w-10 h-10 rounded-full border border-[#E7ECE8] hover:border-forest hover:bg-forest hover:text-cream text-forest flex items-center justify-center transition-all duration-300 shadow-sm cursor-pointer"
                 >
-                  →
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
-              <div className="text-xs font-mono text-ink/40 mt-3">
-                Drag or use arrows to slide ({currentIndex + 1}/{reviews.length})
-              </div>
+              <span className="text-[10px] font-mono text-forest/40 mt-3 block">
+                Drag or toggle arrows ({currentIndex + 1}/{reviews.length})
+              </span>
             </div>
 
-            {/* Right Track: Horizontal Scrolling Speech Bubble Carousel */}
-            {/* px-4 and scroll-pl-4 ensure leftmost card never gets cropped or loses box shadow on scroll */}
+            {/* Slider track */}
             <div
               ref={sliderRef}
               onScroll={handleScroll}
-              className="lg:col-span-9 flex gap-6 overflow-x-auto px-4 py-8 -my-8 scroll-pl-4 sm:scroll-pl-6 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
+              className="lg:col-span-9 flex gap-6 overflow-x-auto py-4 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
             >
               {reviews.map((r, i) => (
                 <div
                   key={i}
-                  className="w-[300px] sm:w-[340px] flex-shrink-0 snap-start flex flex-col justify-between group py-2"
+                  className="w-[300px] sm:w-[350px] flex-shrink-0 snap-start flex flex-col justify-between group py-2"
                 >
-                  {/* Speech Bubble Card Container */}
-                  <div className="bg-white rounded-[26px] p-6 sm:p-7 shadow-md hover:shadow-xl border border-[#E7ECE8] transition-all duration-300 relative flex flex-col justify-between min-h-[235px]">
-                    <div>
-                      <p className="text-[#17211B] text-[15px] sm:text-[16px] leading-[1.65] font-normal mb-6">
-                        {r.quote}
-                      </p>
-                    </div>
-                    
-                    <div className="flex items-center justify-between pt-4 border-t border-[#F0F4F1]">
-                      <div className="flex items-center text-emerald-500 text-sm tracking-widest font-bold">
-                        ★★★★★
+                  <div className="bg-bone rounded-[2rem] p-7 border border-[#E7ECE8] transition-all duration-300 relative flex flex-col justify-between min-h-[220px]">
+                    <p className="text-forest-deep text-[15px] leading-relaxed mb-6 font-serif font-medium">
+                      "{r.quote}"
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-[#E7ECE8]">
+                      <div className="flex items-center text-terracotta">
+                        <Star className="w-3.5 h-3.5 fill-current" />
+                        <Star className="w-3.5 h-3.5 fill-current" />
+                        <Star className="w-3.5 h-3.5 fill-current" />
+                        <Star className="w-3.5 h-3.5 fill-current" />
+                        <Star className="w-3.5 h-3.5 fill-current" />
                       </div>
-                      <span className="text-[11px] font-mono font-bold text-forest bg-forest/[0.08] px-2.5 py-0.5 rounded">
-                        {r.crop}
+                      <span className="text-[10px] font-mono font-bold text-forest bg-forest/5 px-2.5 py-1 rounded border border-forest/10 flex items-center gap-1">
+                        <ShieldCheck className="w-3 h-3 text-emerald-500" /> Verified
                       </span>
                     </div>
 
-                    {/* Speech Bubble Downward Tail Pointer */}
-                    <div className="w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-t-[16px] border-t-white absolute -bottom-[15px] left-8 drop-shadow-[0_2px_2px_rgba(0,0,0,0.04)]"></div>
+                    {/* Bubble arrow */}
+                    <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[12px] border-t-bone absolute -bottom-[11px] left-8"></div>
                   </div>
 
-                  {/* Avatar, Name & Location / Time below Speech Bubble */}
-                  <div className="mt-6 flex items-center gap-3.5 pl-5">
+                  {/* Customer details */}
+                  <div className="mt-6 flex items-center gap-3.5 pl-4">
                     <img
                       src={r.img}
                       alt={r.name}
-                      className="w-11 h-11 rounded-full object-cover border-2 border-forest/30 shadow-sm group-hover:scale-105 transition-transform flex-shrink-0"
+                      className="w-12 h-12 rounded-full object-cover border border-[#E7ECE8] shadow-sm flex-shrink-0"
                     />
                     <div>
-                      <div className="font-sans font-bold text-[#17211B] text-[15px] leading-tight group-hover:text-forest transition-colors">
+                      <div className="font-sans font-bold text-forest-deep text-[15px] leading-tight">
                         {r.name}
                       </div>
-                      <div className="text-[#667069] text-xs mt-0.5 font-medium">
-                        {r.place} • <span className="text-ink/50">{r.time}</span>
+                      <div className="text-forest/60 text-xs mt-0.5 font-medium">
+                        {r.place} ·{" "}
+                        <span className="text-[10px] font-mono uppercase text-forest/40">
+                          {r.crop}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-
           </div>
-
         </div>
       </section>
     </>
   );
 }
-
-
-

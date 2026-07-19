@@ -76,16 +76,14 @@ export function AlgorithmicCanvas({
           mode === "canopy"
             ? ["#2D6A4F", "#52B788", "#74C69D"]
             : mode === "telemetry"
-            ? ["#52B788", "#D97757", "#95D5B2"]
-            : ["#2D6A4F", "#D97757", "#40916C"];
+              ? ["#52B788", "#D97757", "#95D5B2"]
+              : ["#2D6A4F", "#D97757", "#40916C"];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
       update(time: number) {
         // Simplex/trig approximation for organic vector flow field
-        const n =
-          Math.sin(this.x * 0.003 + time * 0.001) +
-          Math.cos(this.y * 0.003 + time * 0.001);
+        const n = Math.sin(this.x * 0.003 + time * 0.001) + Math.cos(this.y * 0.003 + time * 0.001);
         this.angle += n * 0.05;
         this.vx = Math.cos(this.angle) * this.speed;
         this.vy = Math.sin(this.angle) * this.speed;
@@ -179,7 +177,7 @@ export function AlgorithmicCanvas({
           animationFrameId = null;
         }
       },
-      { rootMargin: '-50px 0px -50px 0px', threshold: 0 }
+      { rootMargin: "-50px 0px -50px 0px", threshold: 0 },
     );
 
     observer.observe(canvas);

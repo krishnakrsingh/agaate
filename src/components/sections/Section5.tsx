@@ -1,153 +1,223 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import pSeeds from "@/assets/product-seeds.jpg";
 import pFert from "@/assets/product-fertiliser.jpg";
 import pIrr from "@/assets/product-irrigation.jpg";
 import pTools from "@/assets/product-tools.jpg";
-import { ArchDownTransition } from "./SectionTransitions";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* 5. AGAATE KISAAN MALL */
-export default function Section5() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
-  const rightColRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
+const categories = [
+  {
+    title: "Hybrid Vegetable Seeds",
+    desc: "Certified high-germination varieties selected for Indian soils and seasons.",
+    img: pSeeds,
+    stat: "98% germination",
+    stage: "Pre-Sowing",
+  },
+  {
+    title: "Bio-Boosted Saplings",
+    desc: "Pre-hardened nursery saplings with active mycorrhizal root networks.",
+    img: pSeeds,
+    stat: "14-day advanced rooting",
+    stage: "Transplanting",
+  },
+  {
+    title: "Custom Soil Nutrition",
+    desc: "Stage-wise NPK and micronutrient blends built from your soil test.",
+    img: pFert,
+    stat: "Soil-mapped basal",
+    stage: "Vegetative Growth",
+  },
+  {
+    title: "Crop Protection",
+    desc: "Preventive organic bio-fungicides and integrated pest management kits.",
+    img: pFert,
+    stat: "Residue-free verified",
+    stage: "Flowering & Fruiting",
+  },
+  {
+    title: "Smart Irrigation",
+    desc: "Precision drip lines, filters, and automated fertigation hardware.",
+    img: pIrr,
+    stat: "40% water saved",
+    stage: "Full Cycle",
+  },
+  {
+    title: "Tools & Mulch",
+    desc: "UV-stabilized mulching film and durable ergonomic field implements.",
+    img: pTools,
+    stat: "Grade-A durability",
+    stage: "Field Prep",
+  },
+];
 
-  const categories = [
-    { title: "Hybrid Vegetable Seeds", desc: "Certified high-germination varieties for Indian soils.", img: pSeeds, badge: "98% Germination Rate", stage: "Pre-Sowing" },
-    { title: "Bio-Boosted Saplings", desc: "Pre-hardened nursery saplings with active mycorrhizae.", img: pSeeds, badge: "14-Day Advance Rooting", stage: "Transplanting" },
-    { title: "Custom Soil Nutrition", desc: "Stage-wise NPK & micronutrient blends based on soil tests.", img: pFert, badge: "Custom Basal Formulations", stage: "Vegetative Growth" },
-    { title: "Crop Protection & Bio-Inputs", desc: "Preventive organic bio-fungicides and integrated pest control.", img: pFert, badge: "Residue-Free Verified", stage: "Flowering & Fruiting" },
-    { title: "Smart Irrigation Systems", desc: "Precision drip lines, filters, and automated fertigation systems.", img: pIrr, badge: "40% Water Saved", stage: "Full Cycle" },
-    { title: "Farming Tools & Mulch", desc: "UV-stabilized mulching film and durable ergonomic implements.", img: pTools, badge: "Grade-A Durability", stage: "Field Preparation" }
-  ];
+export default function Section5() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(leftColRef.current,
-        { opacity: 0, x: -35, scale: 0.96 },
-        { opacity: 1, x: 0, scale: 1, duration: 0.75, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true } }
-      );
-      gsap.fromTo(rightColRef.current?.children || [],
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true } }
+      gsap.fromTo(
+        headerRef.current?.children || [],
+        { opacity: 0, y: 26 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 85%", once: true },
+        },
       );
     }, sectionRef);
-    return () => ctx.revert();
+
+    // Pinned horizontal shelf on desktop only
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 1024px)", () => {
+      const track = trackRef.current;
+      if (!track) return;
+
+      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+
+      gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${distance() + window.innerHeight * 0.2}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (progressRef.current) {
+              progressRef.current.style.transform = `scaleX(${self.progress})`;
+            }
+          },
+        },
+      });
+    });
+
+    return () => {
+      mm.revert();
+      ctx.revert();
+    };
   }, []);
 
-  // Smooth image & badge transition when activeIdx changes
-  useEffect(() => {
-    if (!imageRef.current || !badgeRef.current) return;
-    const t1 = gsap.fromTo(imageRef.current,
-      { scale: 1.08, opacity: 0.6 },
-      { scale: 1, opacity: 1, duration: 0.45, ease: "power2.out" }
-    );
-    const t2 = gsap.fromTo(badgeRef.current,
-      { y: 8, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }
-    );
-    return () => {
-      t1.kill();
-      t2.kill();
-    };
-  }, [activeIdx]);
-
-  const currentCat = categories[activeIdx];
-
   return (
-    <>
-      <ArchDownTransition topColor="#E3EBE6" bottomColor="#FFFFFF" />
-      <section id="mall-section" ref={sectionRef} className="bg-white py-12 md:py-16 lg:py-20 px-6 lg:px-12 border-b border-[#E7ECE8] relative overflow-hidden text-left">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Interactive Product Visual with Floating Badge */}
-          <div className="lg:col-span-6 relative" ref={leftColRef}>
-            <div className="aspect-[4/3] w-full rounded-[28px] overflow-hidden border border-[#E7ECE8] shadow-xl relative group bg-forest/5">
-              <img
-                ref={imageRef}
-                src={currentCat.img}
-                alt={currentCat.title}
-                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/80 via-forest-deep/20 to-transparent opacity-85"></div>
-              
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-cream z-10">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest/90 border border-cream/20 text-[11px] font-mono tracking-widest uppercase shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
-                    STAGE: {currentCat.stage}
-                  </div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold mt-2.5 text-cream drop-shadow-md">{currentCat.title}</h3>
+    <section
+      id="mall-section"
+      ref={sectionRef}
+      className="bg-white text-ink py-20 md:py-24 lg:py-0 lg:h-screen relative overflow-hidden flex flex-col justify-center"
+    >
+      <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-12">
+        {/* Header */}
+        <div ref={headerRef} className="mb-10 lg:mb-14">
+          <div className="flex items-center justify-between gap-6 border-t border-ink/10 pt-5 mb-8">
+            <span className="font-jet text-[11px] md:text-xs uppercase tracking-[0.22em] text-forest">
+              02 / Kisaan Mall
+            </span>
+            <span className="hidden md:block font-jet text-[11px] uppercase tracking-[0.22em] text-ink/40">
+              500+ verified SKUs
+            </span>
+          </div>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <h2 className="font-serif text-[clamp(2rem,4.4vw,3.8rem)] leading-[1.08] text-forest-deep max-w-[640px]">
+              Everything your farm needs, <span className="italic text-forest">on one shelf</span>
+            </h2>
+            <div className="hidden lg:block w-[240px]">
+              <div className="font-jet text-[10px] uppercase tracking-[0.2em] text-ink/40 mb-3">
+                Scroll to browse the shelf →
+              </div>
+              <div className="h-[2px] bg-ink/10 rounded-full overflow-hidden">
+                <div
+                  ref={progressRef}
+                  className="h-full w-full bg-terracotta origin-left"
+                  style={{ transform: "scaleX(0)" }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Shelf viewport: native swipe on mobile, GSAP-pinned on desktop */}
+      <div
+        ref={viewportRef}
+        className="w-full overflow-x-auto lg:overflow-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <div ref={trackRef} className="flex gap-5 md:gap-7 w-max px-6 lg:px-12 pb-4 items-stretch">
+          {categories.map((c, i) => (
+            <article
+              key={i}
+              className="group relative w-[78vw] sm:w-[400px] lg:w-[430px] flex-shrink-0 snap-start bg-cream border border-ink/10 rounded-[1.6rem] overflow-hidden hover:border-forest/40 transition-colors duration-300"
+            >
+              <div className="relative h-[220px] md:h-[250px] overflow-hidden">
+                <img
+                  src={c.img}
+                  alt={c.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/60 via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 font-jet text-[10px] uppercase tracking-[0.18em] bg-cream/95 text-forest px-3 py-1.5 rounded-full">
+                  {c.stage}
+                </span>
+                <span className="absolute bottom-4 right-5 font-serif italic text-[56px] leading-none text-cream/70 select-none">
+                  0{i + 1}
+                </span>
+              </div>
+              <div className="p-6 md:p-7">
+                <h3 className="font-serif text-[24px] md:text-[27px] text-forest-deep leading-tight mb-2.5">
+                  {c.title}
+                </h3>
+                <p className="text-[#59635D] text-[14px] md:text-[15px] leading-[1.6] mb-5">
+                  {c.desc}
+                </p>
+                <div className="flex items-center justify-between border-t border-ink/10 pt-4">
+                  <span className="font-jet text-[10px] md:text-[11px] uppercase tracking-[0.14em] text-terracotta">
+                    ✓ {c.stat}
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-ink/30 group-hover:text-forest group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-            </div>
+            </article>
+          ))}
 
-            {/* Floating Live Verification Badge */}
-            <div
-              ref={badgeRef}
-              className="absolute -top-5 -right-3 md:right-4 bg-white/95 backdrop-blur-md border border-forest/30 shadow-2xl rounded-2xl p-4 sm:p-5 z-20 flex items-center gap-3.5 hover:scale-105 transition-transform"
-            >
-              <div className="w-11 h-11 rounded-full bg-forest/15 text-forest flex items-center justify-center font-bold text-lg shadow-inner">
-                ✓
+          {/* End cap CTA card */}
+          <Link
+            to="/services/kisaan-mall"
+            className="group relative w-[78vw] sm:w-[400px] lg:w-[430px] flex-shrink-0 snap-start bg-forest-deep text-cream rounded-[1.6rem] overflow-hidden flex flex-col justify-between p-7 md:p-9"
+          >
+            <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none" />
+            <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-emerald-400">
+              Full catalogue
+            </span>
+            <div className="relative z-10">
+              <div className="font-serif text-[clamp(2rem,3vw,2.8rem)] leading-[1.1] mb-6">
+                Browse all <span className="italic text-emerald-400">500+</span> farm inputs
               </div>
-              <div className="text-left">
-                <div className="text-[11px] font-mono text-ink/50 uppercase tracking-wider">VERIFIED STANDARD</div>
-                <div className="font-sans font-bold text-sm sm:text-[15px] text-forest">{currentCat.badge}</div>
-              </div>
+              <span className="inline-flex items-center gap-2.5 rounded-full bg-terracotta px-7 py-4 text-[15px] font-bold text-cream group-hover:gap-4 transition-all">
+                Explore Kisaan Mall <ArrowRight className="w-4.5 h-4.5" />
+              </span>
             </div>
-          </div>
-
-          {/* Right Column: Interactive Hoverable Category Cards */}
-          <div className="lg:col-span-6 text-left" ref={rightColRef}>
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-forest/[0.08] border border-forest/20 font-mono text-[12px] sm:text-[13px] font-bold uppercase tracking-[0.1em] text-forest mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-forest animate-ping"></span>
-              KISAAN MALL
-            </div>
-            <h2 className="font-display text-[32px] sm:text-[40px] md:text-[46px] lg:text-[52px] font-bold text-[#17211B] leading-[1.1] tracking-[-0.03em] mb-6">
-              Everything Your Farm Needs, in One Place
-            </h2>
-            <p className="text-[#59635D] text-[16px] md:text-[18px] font-normal leading-[1.7] max-w-[640px] mb-8">
-              Click or hover over a category below to explore tested agricultural inputs directly mapped to your vegetable crop stages:
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-9">
-              {categories.map((c, idx) => {
-                const isActive = activeIdx === idx;
-                return (
-                  <div
-                    key={c.title}
-                    onMouseEnter={() => setActiveIdx(idx)}
-                    onClick={() => setActiveIdx(idx)}
-                    className={`p-4 sm:p-4.5 rounded-2xl border cursor-pointer transition-all duration-300 flex items-start gap-3.5 ${
-                      isActive
-                        ? "bg-forest text-cream border-forest shadow-lg scale-[1.03]"
-                        : "bg-[#E3EBE6]/60 border-[#E7ECE8] text-[#17211B] hover:border-forest/40 hover:bg-white"
-                    }`}
-                  >
-                    <span className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 transition-colors ${isActive ? "bg-yellow-400 animate-pulse shadow-[0_0_8px_#FACC15]" : "bg-forest/60"}`}></span>
-                    <div>
-                      <div className="font-sans font-bold text-[15px] sm:text-[16px] leading-tight">{c.title}</div>
-                      <div className={`text-xs mt-1 leading-relaxed ${isActive ? "text-cream/80" : "text-[#59635D]"}`}>{c.desc}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <button className="rounded-full bg-forest-deep hover:bg-forest text-cream px-8 py-4.5 text-[15px] sm:text-[16px] font-semibold tracking-[-0.005em] transition-all duration-300 shadow-md hover:shadow-xl hover:scale-[1.02]">
-              Explore Kisaan Mall Catalog →
-            </button>
-          </div>
-
+          </Link>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Mobile progress hint */}
+      <div className="lg:hidden px-6 mt-4">
+        <div className="font-jet text-[10px] uppercase tracking-[0.2em] text-ink/40">
+          Swipe to browse →
+        </div>
+      </div>
+    </section>
   );
 }
-

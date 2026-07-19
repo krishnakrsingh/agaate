@@ -30,7 +30,7 @@ export function ArchUpTransition({
       // progress 0 → `)` bowl  (yCorner=0,   yCtrl=35)
       // progress 1 → `(` dome  (yCorner=120, yCtrl=60)
       const yCorner = lerp(0, 120, progress);
-      const yCtrl   = lerp(35, 60, progress);
+      const yCtrl = lerp(35, 60, progress);
       return `M0,${yCorner} C360,${yCtrl} 1080,${yCtrl} 1440,${yCorner} L1440,120 L0,120 Z`;
     };
 
@@ -64,11 +64,7 @@ export function ArchUpTransition({
         fill="none"
         preserveAspectRatio="none"
       >
-        <path
-          ref={pathRef}
-          d="M0,0 C360,70 1080,70 1440,0 L1440,120 L0,120 Z"
-          fill={bottomColor}
-        />
+        <path ref={pathRef} d="M0,0 C360,70 1080,70 1440,0 L1440,120 L0,120 Z" fill={bottomColor} />
       </svg>
     </div>
   );
@@ -95,8 +91,8 @@ export function ArchDownTransition({
     const buildPath = (progress: number) => {
       // progress 0 → `(` dome  (yCorner=120, yCtrl=60)
       // progress 1 → `)` bowl  (yCorner=0,   yCtrl=35)
-      const yCorner = lerp(120, 0,  progress);
-      const yCtrl   = lerp(60,  35, progress);
+      const yCorner = lerp(120, 0, progress);
+      const yCtrl = lerp(60, 35, progress);
       return `M0,${yCorner} C360,${yCtrl} 1080,${yCtrl} 1440,${yCorner} L1440,120 L0,120 Z`;
     };
 

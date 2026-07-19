@@ -1,22 +1,77 @@
-import { useRef, useEffect, useState, lazy, Suspense } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Leaf, Trees, Tractor, BrainCircuit, Shield, Droplets, ArrowUpToLine, Apple, ShoppingBasket } from 'lucide-react';
+import { useRef, useEffect, useState, lazy, Suspense } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  Leaf,
+  Trees,
+  Tractor,
+  BrainCircuit,
+  Shield,
+  Droplets,
+  ArrowUpToLine,
+  Apple,
+  ShoppingBasket,
+} from "lucide-react";
 
-const CropWorld = lazy(() => import('../CropWorld'));
+const CropWorld = lazy(() => import("../CropWorld"));
 
 gsap.registerPlugin(ScrollTrigger);
 
 const stages = [
-  { num: "01", title: "Seed Selection", desc: "High-yield, disease-resistant hybrid varieties.", icon: Leaf },
-  { num: "02", title: "Nursery Growth", desc: "Bio-boosted programs for stronger roots and healthier early growth.", icon: Trees },
-  { num: "03", title: "Land Preparation", desc: "Scientific soil analysis, basal-dose planning, irrigation, and mulching.", icon: Tractor },
-  { num: "04", title: "Expert Advisory", desc: "Crop-specific strategies and stage-wise guidance from sowing to harvest.", icon: BrainCircuit },
-  { num: "05", title: "Preventive Care", desc: "Weather-based disease prevention and crop-specific protection.", icon: Shield },
-  { num: "06", title: "Smart Fertigation", desc: "Stage-wise water and nutrition based on crop and soil data.", icon: Droplets },
-  { num: "07", title: "Crop Support", desc: "Trellising solutions that encourage healthier vertical crop growth.", icon: ArrowUpToLine },
-  { num: "08", title: "Harvest", desc: "Peak-ripeness checks and proper harvesting practices.", icon: Apple },
-  { num: "09", title: "Market Access", desc: "Direct market integration and better pricing opportunities.", icon: ShoppingBasket }
+  {
+    num: "01",
+    title: "Seed Selection",
+    desc: "High-yield, disease-resistant hybrid varieties.",
+    icon: Leaf,
+  },
+  {
+    num: "02",
+    title: "Nursery Growth",
+    desc: "Bio-boosted programs for stronger roots and healthier early growth.",
+    icon: Trees,
+  },
+  {
+    num: "03",
+    title: "Land Preparation",
+    desc: "Scientific soil analysis, basal-dose planning, irrigation, and mulching.",
+    icon: Tractor,
+  },
+  {
+    num: "04",
+    title: "Expert Advisory",
+    desc: "Crop-specific strategies and stage-wise guidance from sowing to harvest.",
+    icon: BrainCircuit,
+  },
+  {
+    num: "05",
+    title: "Preventive Care",
+    desc: "Weather-based disease prevention and crop-specific protection.",
+    icon: Shield,
+  },
+  {
+    num: "06",
+    title: "Smart Fertigation",
+    desc: "Stage-wise water and nutrition based on crop and soil data.",
+    icon: Droplets,
+  },
+  {
+    num: "07",
+    title: "Crop Support",
+    desc: "Trellising solutions that encourage healthier vertical crop growth.",
+    icon: ArrowUpToLine,
+  },
+  {
+    num: "08",
+    title: "Harvest",
+    desc: "Peak-ripeness checks and proper harvesting practices.",
+    icon: Apple,
+  },
+  {
+    num: "09",
+    title: "Market Access",
+    desc: "Direct market integration and better pricing opportunities.",
+    icon: ShoppingBasket,
+  },
 ];
 
 export default function Section2() {
@@ -40,7 +95,7 @@ export default function Section2() {
       ([entry]) => {
         setInView(entry.isIntersecting);
       },
-      { rootMargin: '-100px 0px -100px 0px', threshold: 0 }
+      { rootMargin: "-100px 0px -100px 0px", threshold: 0 },
     );
     observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -48,17 +103,17 @@ export default function Section2() {
 
   useEffect(() => {
     setMounted(true);
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mediaQuery.matches);
     const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handler);
+      mediaQuery.addEventListener("change", handler);
     } else {
       mediaQuery.addListener(handler);
     }
     return () => {
       if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener('change', handler);
+        mediaQuery.removeEventListener("change", handler);
       } else {
         mediaQuery.removeListener(handler);
       }
@@ -80,14 +135,14 @@ export default function Section2() {
           // Send raw progress (0 -> 1) down to the 3D scene without React re-renders
           progressRef.current = self.progress;
 
-          if (introRef.current) introRef.current.style.opacity = self.progress > 0.03 ? '0' : '1';
+          if (introRef.current) introRef.current.style.opacity = self.progress > 0.03 ? "0" : "1";
           if (lineRef.current) lineRef.current.style.width = `${self.progress * 100}%`;
           if (playheadRef.current) playheadRef.current.style.left = `${self.progress * 100}%`;
 
           // The 9 stages are evenly distributed across the 0-1 progress
           const currentStage = Math.min(Math.floor(self.progress * 9), 8);
           setActiveStage((prev) => (prev !== currentStage ? currentStage : prev));
-        }
+        },
       });
     }, containerRef);
     return () => ctx.revert();
@@ -112,7 +167,8 @@ export default function Section2() {
               One Partner for Your <span className="italic text-forest">Complete Crop Journey</span>
             </h2>
             <p className="text-ink/60 text-sm md:text-base mt-2 max-w-xl">
-              Agaate brings agricultural guidance, trusted inputs, technology, and market access together in one connected ecosystem.
+              Agaate brings agricultural guidance, trusted inputs, technology, and market access
+              together in one connected ecosystem.
             </p>
           </div>
           <div className="relative pl-8 border-l border-forest/20 space-y-16 mt-8">
@@ -123,11 +179,15 @@ export default function Section2() {
                   <div className="absolute -left-[56px] top-0 w-12 h-12 rounded-full border border-forest/30 bg-forest/[0.02] flex items-center justify-center">
                     <Icon className="w-5 h-5 text-forest" strokeWidth={1.5} />
                   </div>
-                  <div className="font-mono text-xs font-semibold mb-1 pl-2 text-forest">{stage.num}</div>
-                  <h3 className="font-display text-xl font-bold mb-2 pl-2 text-forest-deep">{stage.title}</h3>
+                  <div className="font-mono text-xs font-semibold mb-1 pl-2 text-forest">
+                    {stage.num}
+                  </div>
+                  <h3 className="font-display text-xl font-bold mb-2 pl-2 text-forest-deep">
+                    {stage.title}
+                  </h3>
                   <p className="text-sm leading-relaxed pl-2 text-ink/70">{stage.desc}</p>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -141,14 +201,12 @@ export default function Section2() {
       id="journey-section"
       ref={containerRef}
       className="bg-white relative"
-      style={{ height: '450vh' }}
+      style={{ height: "450vh" }}
     >
       {/* 100vh Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden">
-
         {/* Main 3D / Info Area */}
         <div className="flex-1 flex flex-col lg:flex-row items-center justify-center w-full max-w-[1400px] mx-auto px-6 lg:px-12 relative">
-
           {/* Top fading intro text - visible briefly at scroll start */}
           <div
             ref={introRef}
@@ -161,10 +219,12 @@ export default function Section2() {
               </span>
             </div>
             <h2 className="font-display text-3xl md:text-4xl text-forest-deep leading-tight font-bold">
-              One Partner for Your <br /><span className="italic font-normal text-forest">Complete Crop Journey</span>
+              One Partner for Your <br />
+              <span className="italic font-normal text-forest">Complete Crop Journey</span>
             </h2>
             <p className="text-ink/65 text-sm md:text-base mt-3 max-w-md font-normal leading-relaxed">
-              Agaate brings agricultural guidance, trusted inputs, technology, and market access together in one connected ecosystem.
+              Agaate brings agricultural guidance, trusted inputs, technology, and market access
+              together in one connected ecosystem.
             </p>
           </div>
 
@@ -188,8 +248,8 @@ export default function Section2() {
                     className="absolute left-0 w-full transition-all duration-700 ease-out"
                     style={{
                       opacity: isActive ? 1 : 0,
-                      transform: `translateY(${isActive ? '0' : (idx < activeStage ? '-20px' : '20px')})`,
-                      pointerEvents: isActive ? 'auto' : 'none'
+                      transform: `translateY(${isActive ? "0" : idx < activeStage ? "-20px" : "20px"})`,
+                      pointerEvents: isActive ? "auto" : "none",
                     }}
                   >
                     <div className="font-mono text-[14px] lg:text-[16px] text-forest font-bold mb-2">
@@ -198,9 +258,7 @@ export default function Section2() {
                     <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4">
                       {stage.title}
                     </h3>
-                    <p className="text-ink/70 text-base lg:text-lg leading-relaxed">
-                      {stage.desc}
-                    </p>
+                    <p className="text-ink/70 text-base lg:text-lg leading-relaxed">{stage.desc}</p>
                   </div>
                 );
               })}
@@ -211,19 +269,25 @@ export default function Section2() {
         {/* Bottom Progress Bar */}
         <div className="w-full bg-white py-6 px-6 lg:px-12 relative z-30 mt-auto">
           <div className="max-w-[1400px] mx-auto">
-
             {/* Desktop Labels */}
             <div className="justify-between items-end mb-8 hidden sm:flex">
               {stages.map((stage, idx) => {
                 const isActive = activeStage === idx;
                 const isPast = activeStage > idx;
                 return (
-                  <div key={idx} className="flex flex-col items-center transition-all duration-300 w-16 relative">
-                    <span className={`font-mono text-[9px] uppercase tracking-wider transition-all duration-300 ${isActive ? 'text-forest font-bold scale-110 -translate-y-1' : (isPast ? 'text-forest/70' : 'text-ink/30')}`}>
+                  <div
+                    key={idx}
+                    className="flex flex-col items-center transition-all duration-300 w-16 relative"
+                  >
+                    <span
+                      className={`font-mono text-[9px] uppercase tracking-wider transition-all duration-300 ${isActive ? "text-forest font-bold scale-110 -translate-y-1" : isPast ? "text-forest/70" : "text-ink/30"}`}
+                    >
                       {stage.num}
                     </span>
-                    <span className={`text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? 'text-forest-deep scale-105' : (isPast ? 'text-forest/75' : 'text-ink/30')}`}>
-                      {stage.title.split(' ')[0]}
+                    <span
+                      className={`text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? "text-forest-deep scale-105" : isPast ? "text-forest/75" : "text-ink/30"}`}
+                    >
+                      {stage.title.split(" ")[0]}
                     </span>
                   </div>
                 );
@@ -238,12 +302,11 @@ export default function Section2() {
 
             {/* Unique "Precision Playhead" Track */}
             <div className="w-full h-[1px] bg-[#E7ECE8] relative mb-4">
-
               {/* Trailing Progress Line */}
               <div
                 ref={lineRef}
                 className="absolute top-0 left-0 h-[1.5px] bg-forest/40 -translate-y-[0.25px] transition-none"
-                style={{ width: '0%' }}
+                style={{ width: "0%" }}
               />
 
               {/* Static Segment Ticks */}
@@ -259,12 +322,11 @@ export default function Section2() {
               <div
                 ref={playheadRef}
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[2px] h-[28px] bg-forest pointer-events-none z-10 shadow-[0_0_12px_rgba(18,63,46,0.15)] rounded-[1px] transition-none"
-                style={{ left: '0%' }}
+                style={{ left: "0%" }}
               ></div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

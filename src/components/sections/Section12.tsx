@@ -3,19 +3,32 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArchUpTransition } from "./SectionTransitions";
 import { AlgorithmicCanvas } from "./AlgorithmicCanvas";
+import { PhoneCall, ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* 11. FINAL CALL-TO-ACTION SECTION */
 export default function Section12() {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(contentRef.current?.children || [],
-        { opacity: 0, y: 35, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.85, stagger: 0.12, ease: "back.out(1.5)", scrollTrigger: { trigger: sectionRef.current, start: "top 88%", once: true } }
+      gsap.fromTo(
+        contentRef.current?.children || [],
+        { opacity: 0, y: 35, scale: 0.98 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            once: true,
+          },
+        },
       );
     }, sectionRef);
     return () => ctx.revert();
@@ -23,41 +36,50 @@ export default function Section12() {
 
   return (
     <>
-      <ArchUpTransition topColor="#E3EBE6" bottomColor="#17211B" />
-      <section id="cta-section" ref={sectionRef} className="bg-[#17211B] py-12 md:py-16 lg:py-20 px-6 lg:px-12 text-cream text-center relative overflow-hidden">
-        {/* Living rhizome background behind CTA */}
+      <ArchUpTransition topColor="#FFFFFF" bottomColor="var(--color-night)" />
+      <section
+        ref={sectionRef}
+        className="bg-color-night py-24 md:py-32 px-6 lg:px-12 text-cream text-center relative overflow-hidden"
+      >
         <AlgorithmicCanvas mode="rhizome" opacity={0.32} />
 
-        {/* Ambient background glowing orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-forest/30 blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"></div>
+        {/* Ambient glow maps */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-forest/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
 
         <div className="max-w-4xl mx-auto relative z-10" ref={contentRef}>
-          <div className="inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full bg-forest/40 border border-cream/20 text-cream font-mono text-xs tracking-widest uppercase mb-6 shadow-lg">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            START YOUR TRANSFORMATION
-          </div>
-          <h2 className="font-display text-[36px] sm:text-[46px] md:text-[54px] lg:text-[64px] font-bold mb-6 leading-[1.08] tracking-[-0.03em] text-cream drop-shadow-lg">
-            Ready to grow with <span className="text-emerald-400 underline decoration-yellow-400/60 decoration-wavy">confidence?</span>
+          <span className="font-mono text-[10px] tracking-[0.25em] text-emerald-400 mb-6 block uppercase font-bold">
+            Start Your Transformation
+          </span>
+          <h2 className="font-serif text-[clamp(2.5rem,5.5vw,4.5rem)] font-bold mb-6 leading-[1.08] text-cream">
+            Ready to grow with{" "}
+            <span className="italic text-yellow-400 underline decoration-yellow-400/20 underline-offset-8">
+              confidence?
+            </span>
           </h2>
-          <p className="text-cream/80 text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[1.7] max-w-[680px] mx-auto mb-10">
-            From choosing the right seed to reaching the right institutional buyer, Agaate supports your complete vegetable crop journey with AI, IoT verification, and on-ground agronomists.
+          <p className="text-cream/80 text-[16px] sm:text-[18px] md:text-[20px] leading-[1.7] max-w-2xl mx-auto mb-12">
+            Mitigate your field risk, standardise your nutrition schedules, and secure direct
+            buyback channels with Agaate. Talk to a regional advisor.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-5">
+
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <a
               href="tel:9487263498"
-              className="rounded-full bg-yellow-400 text-forest-deep hover:bg-white hover:text-forest-deep px-10 py-5 text-[17px] font-bold tracking-[-0.005em] transition-all duration-300 shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto rounded-full bg-yellow-400 text-[#1a3c34] hover:bg-white hover:text-[#1a3c34] px-10 py-5 text-[16px] font-bold tracking-tight transition-all duration-300 shadow-2xl hover:scale-[1.02] flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <span>Start Your Journey Today</span>
-              <span className="text-xl">→</span>
+              <PhoneCall className="w-4 h-4" />
+              <span>Call advisory channel</span>
             </a>
-            <button className="rounded-full border-2 border-cream/30 hover:border-cream/80 hover:bg-white/10 px-9 py-5 text-[17px] font-semibold tracking-[-0.005em] transition-all duration-300">
-              Talk to an Expert
-            </button>
+            <a
+              href="/contact"
+              className="w-full sm:w-auto rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/10 text-white px-9 py-5 text-[16px] font-semibold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Request custom consult</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
     </>
   );
 }
-

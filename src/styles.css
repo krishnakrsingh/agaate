@@ -56,6 +56,10 @@
   --font-sans: "Manrope", "Inter", "Arial", sans-serif;
   --font-mono: "Manrope", "Inter", "Arial", sans-serif;
   --font-body: "Manrope", "Inter", "Arial", sans-serif;
+  --font-serif: "Instrument Serif", "Georgia", serif;
+  --font-jet: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --color-pine: oklch(0.16 0.025 150);
+  --color-night: oklch(0.11 0.018 150);
 }
 
 :root {
@@ -157,7 +161,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, .font-display {
+  h1,
+  h2,
+  h3,
+  .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
@@ -168,7 +175,9 @@
 }
 
 /* Hide scrollbars globally across all elements, root document, and browsers */
-html, body, * {
+html,
+body,
+* {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
@@ -198,24 +207,48 @@ body::-webkit-scrollbar,
 }
 
 @keyframes floatSlow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(0.8deg); }
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.8deg);
+  }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.08); }
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
 }
 
 @keyframes radarScan {
-  0% { transform: translateY(-100%); opacity: 0; }
-  50% { opacity: 0.7; }
-  100% { transform: translateY(300%); opacity: 0; }
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(300%);
+    opacity: 0;
+  }
 }
 
 @keyframes shimmerWave {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .animate-float-slow {
@@ -231,7 +264,7 @@ body::-webkit-scrollbar,
 }
 
 .shimmer-text {
-  background: linear-gradient(90deg, #17211B 0%, #2D6A4F 50%, #17211B 100%);
+  background: linear-gradient(90deg, #17211b 0%, #2d6a4f 50%, #17211b 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

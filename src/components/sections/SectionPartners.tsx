@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArchDownTransition } from "./SectionTransitions";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function SectionPartners() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -11,15 +8,13 @@ export default function SectionPartners() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Marquee animation
       if (marqueeRef.current) {
-        // Find total scrollable width
         const totalWidth = marqueeRef.current.scrollWidth / 2;
-        
+
         gsap.to(marqueeRef.current, {
           x: -totalWidth,
           ease: "none",
-          duration: 30,
+          duration: 25,
           repeat: -1,
         });
       }
@@ -28,36 +23,57 @@ export default function SectionPartners() {
   }, []);
 
   const partners = [
-    "ICAR", "NABARD", "John Deere", "Mahindra Agri", 
-    "Climate Corp", "AWS", "Google Cloud", "SAU"
+    { name: "ICAR", sub: "Agri Research" },
+    { name: "NABARD", sub: "Rural Finance" },
+    { name: "John Deere", sub: "Farm Machinery" },
+    { name: "Mahindra Agri", sub: "Crop Input" },
+    { name: "Climate Corp", sub: "Weather Tech" },
+    { name: "AWS", sub: "Cloud Logistics" },
+    { name: "Google Cloud", sub: "AI Models" },
+    { name: "SAU", sub: "State Universities" },
   ];
-  
-  // Duplicate for seamless infinite scroll
+
   const duplicatedPartners = [...partners, ...partners];
 
   return (
     <>
-      <ArchDownTransition topColor="#E3EBE6" bottomColor="#FFFFFF" />
-      <section ref={sectionRef} className="py-12 md:py-16 lg:py-20 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-forest/5 text-forest/70 text-sm font-bold tracking-wider mb-4 uppercase">Ecosystem Partners</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-forest mb-4">Trusted By 25+ Industry Leaders</h2>
-          <p className="text-forest/70 max-w-2xl mx-auto">We partner with India's top agricultural institutions, equipment manufacturers, and global technology leaders to bring world-class solutions to every farm.</p>
+      <ArchDownTransition topColor="#FFFFFF" bottomColor="var(--bone)" />
+      <section
+        ref={sectionRef}
+        className="py-20 bg-bone relative overflow-hidden text-left border-b border-[#E7ECE8]"
+      >
+        <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
+          <span className="font-jet text-[11px] md:text-xs uppercase tracking-[0.22em] text-forest mb-4 block font-semibold">
+            06 / Ecosystem Alignment
+          </span>
+          <h2 className="font-serif text-[clamp(2.2rem,4.5vw,3.8rem)] leading-[1.08] text-forest-deep mb-4 tracking-tight">
+            Trusted by 25+ industry leaders
+          </h2>
+          <p className="text-[#59635D] text-sm md:text-base leading-relaxed max-w-xl mx-auto">
+            Agaate partners with India's apex research councils, equipment manufacturers, and global
+            compute providers to deliver structured advice to the field.
+          </p>
         </div>
 
-        <div className="relative w-full overflow-hidden flex items-center h-24">
-          {/* Gradient masks for smooth fade effect at edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
-          
-          <div ref={marqueeRef} className="flex gap-16 md:gap-32 items-center whitespace-nowrap pl-8 pr-8 min-w-max">
+        <div className="relative w-full overflow-hidden flex items-center h-28">
+          {/* Edge gradient overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 md:w-40 bg-gradient-to-r from-bone to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 md:w-40 bg-gradient-to-l from-bone to-transparent z-10 pointer-events-none" />
+
+          <div
+            ref={marqueeRef}
+            className="flex gap-6 items-center whitespace-nowrap pl-6 pr-6 min-w-max"
+          >
             {duplicatedPartners.map((partner, idx) => (
-              <div 
-                key={idx} 
-                className="flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-default"
+              <div
+                key={idx}
+                className="flex flex-col justify-center px-8 py-4 bg-white/60 backdrop-blur-sm rounded-xl border border-[#E7ECE8] min-w-[200px] text-center transition-all duration-300 hover:border-forest/30 cursor-default hover:bg-white"
               >
-                <span className="text-2xl md:text-3xl font-display font-bold tracking-tight text-forest uppercase">
-                  {partner}
+                <span className="text-lg md:text-xl font-serif font-bold tracking-tight text-forest-deep">
+                  {partner.name}
+                </span>
+                <span className="text-[9px] font-mono tracking-wider uppercase text-forest/40 mt-1 block">
+                  {partner.sub}
                 </span>
               </div>
             ))}

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -26,7 +27,11 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Agaate — Connected Agri-Ecosystem" },
-      { name: "description", content: "Agaate combines trusted agricultural inputs, expert guidance, farm technology, and market access." },
+      {
+        name: "description",
+        content:
+          "Agaate combines trusted agricultural inputs, expert guidance, farm technology, and market access.",
+      },
     ],
   }),
   component: Index,
@@ -53,6 +58,43 @@ function Index() {
   const handleHeroAnimationComplete = useCallback(() => {
     setContentReady(true);
   }, []);
+
+  useEffect(() => {
+    if (!contentReady) return;
+
+    // GSAP ScrollTrigger needs to recalculate container heights once images are loaded
+    const images = document.querySelectorAll("img");
+    const handleImageLoad = () => {
+      ScrollTrigger.refresh();
+    };
+
+    images.forEach((img) => {
+      if (img.complete) {
+        ScrollTrigger.refresh();
+      } else {
+        img.addEventListener("load", handleImageLoad);
+        img.addEventListener("error", handleImageLoad);
+      }
+    });
+
+    ScrollTrigger.refresh();
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 600);
+
+    const timer2 = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 1800);
+
+    return () => {
+      images.forEach((img) => {
+        img.removeEventListener("load", handleImageLoad);
+        img.removeEventListener("error", handleImageLoad);
+      });
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
+  }, [contentReady]);
 
   return (
     <>
@@ -94,5 +136,3 @@ function Index() {
     </>
   );
 }
-
-
