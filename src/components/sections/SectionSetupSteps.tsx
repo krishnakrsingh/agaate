@@ -51,7 +51,7 @@ const steps = [
   },
 ];
 
-export default function Section8() {
+export default function SectionSetupSteps() {
   const [active, setActive] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);

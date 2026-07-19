@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 
-export const Route = createFileRoute("/knowledge/")({
+export const Route = createFileRoute("/knowledge")({
   component: Knowledge,
 });
 

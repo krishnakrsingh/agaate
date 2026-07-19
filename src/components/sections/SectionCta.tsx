@@ -7,7 +7,7 @@ import { PhoneCall, ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Section12() {
+export default function SectionCta() {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 

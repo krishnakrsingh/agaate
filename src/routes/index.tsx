@@ -1,27 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useCallback, useEffect } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState, useCallback } from "react";
+import { useScrollTriggerRefresh } from "@/hooks/useScrollTriggerRefresh";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
 
 // Homepage Sections
-import Section1 from "@/components/sections/Section1";
-import Section2 from "@/components/sections/Section2";
+import SectionHero from "@/components/sections/SectionHero";
+import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
-import Section4 from "@/components/sections/Section4";
-import Section5 from "@/components/sections/Section5";
-import Section6 from "@/components/sections/Section6";
-import Section7 from "@/components/sections/Section7";
-import Section8 from "@/components/sections/Section8";
-import Section10 from "@/components/sections/Section10";
-import Section3 from "@/components/sections/Section3"; // Impact
+import SectionTransformations from "@/components/sections/SectionTransformations";
+import SectionProducts from "@/components/sections/SectionProducts";
+import SectionSustainability from "@/components/sections/SectionSustainability";
+import SectionSetupSteps from "@/components/sections/SectionSetupSteps";
+import SectionMarketLinkage from "@/components/sections/SectionMarketLinkage";
+import SectionImpact from "@/components/sections/SectionImpact";
 import SectionServicesGrid from "@/components/sections/SectionServicesGrid";
-import Section11 from "@/components/sections/Section11"; // Agri Park
-import SectionPartners from "@/components/sections/SectionPartners"; // Partners Logo Strip
-import Section9 from "@/components/sections/Section9"; // Testimonials
+import SectionAgriPark from "@/components/sections/SectionAgriPark";
+import SectionPartners from "@/components/sections/SectionPartners";
+import SectionTestimonials from "@/components/sections/SectionTestimonials";
 import SectionTeamPreview from "@/components/sections/SectionTeamPreview";
-import Section12 from "@/components/sections/Section12"; // CTA
+import SectionCta from "@/components/sections/SectionCta";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -59,42 +58,7 @@ function Index() {
     setContentReady(true);
   }, []);
 
-  useEffect(() => {
-    if (!contentReady) return;
-
-    // GSAP ScrollTrigger needs to recalculate container heights once images are loaded
-    const images = document.querySelectorAll("img");
-    const handleImageLoad = () => {
-      ScrollTrigger.refresh();
-    };
-
-    images.forEach((img) => {
-      if (img.complete) {
-        ScrollTrigger.refresh();
-      } else {
-        img.addEventListener("load", handleImageLoad);
-        img.addEventListener("error", handleImageLoad);
-      }
-    });
-
-    ScrollTrigger.refresh();
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 600);
-
-    const timer2 = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 1800);
-
-    return () => {
-      images.forEach((img) => {
-        img.removeEventListener("load", handleImageLoad);
-        img.removeEventListener("error", handleImageLoad);
-      });
-      clearTimeout(timer);
-      clearTimeout(timer2);
-    };
-  }, [contentReady]);
+  useScrollTriggerRefresh(contentReady);
 
   return (
     <>
@@ -107,28 +71,27 @@ function Index() {
       )}
       <main className="bg-white text-ink antialiased">
         <Header />
-        <Section1
+        <SectionHero
           onVideoLoaded={handleVideoLoaded}
           startAnimation={startHeroAnimation}
           onAnimationComplete={handleHeroAnimationComplete}
         />
         {contentReady && (
           <>
-            <Section2 />
+            <SectionCropWorld />
             <SectionValueProp />
-            <Section5 />
-            <Section6 />
-            <Section7 />
-            <Section8 />
-            <Section4 />
-            <Section10 />
-            <Section3 />
+            <SectionProducts />
+            <SectionSustainability />
+            <SectionSetupSteps />
+            <SectionTransformations />
+            <SectionMarketLinkage />
+            <SectionImpact />
             <SectionServicesGrid />
-            <Section11 />
+            <SectionAgriPark />
             <SectionPartners />
-            <Section9 />
+            <SectionTestimonials />
             <SectionTeamPreview />
-            <Section12 />
+            <SectionCta />
             <Footer />
           </>
         )}

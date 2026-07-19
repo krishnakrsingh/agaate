@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Section10() {
+export default function SectionMarketLinkage() {
   const [activeMarket, setActiveMarket] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const leftColRef = useRef<HTMLDivElement>(null);

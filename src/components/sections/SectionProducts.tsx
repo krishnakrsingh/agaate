@@ -55,7 +55,7 @@ const categories = [
   },
 ];
 
-export default function Section5() {
+export default function SectionProducts() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);

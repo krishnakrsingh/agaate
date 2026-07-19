@@ -7,7 +7,7 @@ interface HeroProps {
   onAnimationComplete?: () => void;
 }
 
-export default memo(function Section1({
+export default memo(function SectionHero({
   onVideoLoaded,
   startAnimation = false,
   onAnimationComplete,

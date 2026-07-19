@@ -9,7 +9,7 @@ import { Star, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Section9() {
+export default function SectionTestimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const leftBoxRef = useRef<HTMLDivElement>(null);

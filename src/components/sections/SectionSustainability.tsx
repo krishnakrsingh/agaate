@@ -36,7 +36,7 @@ const practices = [
 const MAX_CREDITS = practices.reduce((s, p) => s + p.value, 0); // 8.7
 const RATE = 1200; // ₹ per tCO₂ estimate
 
-export default function Section7() {
+export default function SectionSustainability() {
   const [selected, setSelected] = useState<string[]>(["drip", "tillage"]);
   const [displayCredits, setDisplayCredits] = useState(3.5);
   const [displayPayout, setDisplayPayout] = useState(3.5 * RATE);

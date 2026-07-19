@@ -95,7 +95,7 @@ function AnimatedStatCard({
   );
 }
 
-export default function Section3() {
+export default function SectionImpact() {
   const stats = [
     { num: 15000, suffix: "+", label: "Acres Under Association", icon: TrendingUp },
     { num: 10, suffix: "Cr+", label: "Farmer Capital Enabled", icon: Award },

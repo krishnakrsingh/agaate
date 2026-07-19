@@ -74,7 +74,7 @@ const stages = [
   },
 ];
 
-export default function Section2() {
+export default function SectionCropWorld() {
   const containerRef = useRef<HTMLElement>(null);
 
   // This ref is sent down to CropWorld to natively drive 3D transforms

@@ -6,7 +6,7 @@ import { ArrowRight, HelpCircle, ShieldCheck, ChevronRight } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Section4() {
+export default function SectionTransformations() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);

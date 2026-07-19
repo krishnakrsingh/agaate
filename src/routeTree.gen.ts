@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CareersRouteImport } from './routes/careers'
@@ -16,7 +17,6 @@ import { Route as AgriParkRouteImport } from './routes/agri-park'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
-import { Route as KnowledgeIndexRouteImport } from './routes/knowledge/index'
 import { Route as ServicesNurseryRouteImport } from './routes/services/nursery'
 import { Route as ServicesMarketLinkageRouteImport } from './routes/services/market-linkage'
 import { Route as ServicesKisaanMallRouteImport } from './routes/services/kisaan-mall'
@@ -24,6 +24,11 @@ import { Route as ServicesFarmTechRouteImport } from './routes/services/farm-tec
 import { Route as ServicesCarbonCreditsRouteImport } from './routes/services/carbon-credits'
 import { Route as ServicesBigFarmSetupRouteImport } from './routes/services/big-farm-setup'
 
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -57,11 +62,6 @@ const IndexRoute = IndexRouteImport.update({
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KnowledgeIndexRoute = KnowledgeIndexRouteImport.update({
-  id: '/knowledge/',
-  path: '/knowledge/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesNurseryRoute = ServicesNurseryRouteImport.update({
@@ -102,13 +102,13 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/knowledge': typeof KnowledgeRoute
   '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
   '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
   '/services/farm-tech': typeof ServicesFarmTechRoute
   '/services/kisaan-mall': typeof ServicesKisaanMallRoute
   '/services/market-linkage': typeof ServicesMarketLinkageRoute
   '/services/nursery': typeof ServicesNurseryRoute
-  '/knowledge/': typeof KnowledgeIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -118,13 +118,13 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/knowledge': typeof KnowledgeRoute
   '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
   '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
   '/services/farm-tech': typeof ServicesFarmTechRoute
   '/services/kisaan-mall': typeof ServicesKisaanMallRoute
   '/services/market-linkage': typeof ServicesMarketLinkageRoute
   '/services/nursery': typeof ServicesNurseryRoute
-  '/knowledge': typeof KnowledgeIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -135,13 +135,13 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/knowledge': typeof KnowledgeRoute
   '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
   '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
   '/services/farm-tech': typeof ServicesFarmTechRoute
   '/services/kisaan-mall': typeof ServicesKisaanMallRoute
   '/services/market-linkage': typeof ServicesMarketLinkageRoute
   '/services/nursery': typeof ServicesNurseryRoute
-  '/knowledge/': typeof KnowledgeIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -153,13 +153,13 @@ export interface FileRouteTypes {
     | '/careers'
     | '/community'
     | '/contact'
+    | '/knowledge'
     | '/services/big-farm-setup'
     | '/services/carbon-credits'
     | '/services/farm-tech'
     | '/services/kisaan-mall'
     | '/services/market-linkage'
     | '/services/nursery'
-    | '/knowledge/'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -169,13 +169,13 @@ export interface FileRouteTypes {
     | '/careers'
     | '/community'
     | '/contact'
+    | '/knowledge'
     | '/services/big-farm-setup'
     | '/services/carbon-credits'
     | '/services/farm-tech'
     | '/services/kisaan-mall'
     | '/services/market-linkage'
     | '/services/nursery'
-    | '/knowledge'
     | '/services'
   id:
     | '__root__'
@@ -185,13 +185,13 @@ export interface FileRouteTypes {
     | '/careers'
     | '/community'
     | '/contact'
+    | '/knowledge'
     | '/services/big-farm-setup'
     | '/services/carbon-credits'
     | '/services/farm-tech'
     | '/services/kisaan-mall'
     | '/services/market-linkage'
     | '/services/nursery'
-    | '/knowledge/'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
@@ -202,18 +202,25 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
+  KnowledgeRoute: typeof KnowledgeRoute
   ServicesBigFarmSetupRoute: typeof ServicesBigFarmSetupRoute
   ServicesCarbonCreditsRoute: typeof ServicesCarbonCreditsRoute
   ServicesFarmTechRoute: typeof ServicesFarmTechRoute
   ServicesKisaanMallRoute: typeof ServicesKisaanMallRoute
   ServicesMarketLinkageRoute: typeof ServicesMarketLinkageRoute
   ServicesNurseryRoute: typeof ServicesNurseryRoute
-  KnowledgeIndexRoute: typeof KnowledgeIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -261,13 +268,6 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services/'
       preLoaderRoute: typeof ServicesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/knowledge/': {
-      id: '/knowledge/'
-      path: '/knowledge'
-      fullPath: '/knowledge/'
-      preLoaderRoute: typeof KnowledgeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/nursery': {
@@ -322,13 +322,13 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
+  KnowledgeRoute: KnowledgeRoute,
   ServicesBigFarmSetupRoute: ServicesBigFarmSetupRoute,
   ServicesCarbonCreditsRoute: ServicesCarbonCreditsRoute,
   ServicesFarmTechRoute: ServicesFarmTechRoute,
   ServicesKisaanMallRoute: ServicesKisaanMallRoute,
   ServicesMarketLinkageRoute: ServicesMarketLinkageRoute,
   ServicesNurseryRoute: ServicesNurseryRoute,
-  KnowledgeIndexRoute: KnowledgeIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
