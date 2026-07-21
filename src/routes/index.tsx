@@ -9,6 +9,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
+import SectionProductStory from "@/components/sections/SectionProductStory";
 import SectionInvestorNarrative from "@/components/sections/SectionInvestorNarrative";
 import SectionCta from "@/components/sections/SectionCta";
 
@@ -70,6 +71,7 @@ function Index() {
           <>
             <SectionCropWorld />
             <SectionValueProp />
+            <SectionProductStory />
             <SectionInvestorNarrative />
             <SectionCta />
             <Footer />

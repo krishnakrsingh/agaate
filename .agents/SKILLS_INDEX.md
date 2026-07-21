@@ -20,7 +20,3 @@ Agaate relies heavily on GSAP 3.15 and `@tw-animate-css` for scroll-triggered st
 - **[gsap-plugins](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-plugins/SKILL.md)**: Official GSAP plugins (`SplitText`, `Observer`, `Flip`, `ScrollSmoother`, `Draggable`, `CustomEase`).
 - **[gsap-utils](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-utils/SKILL.md)**: Utility functions (`gsap.utils.clamp`, `mapRange`, `interpolate`, `toArray`, `snap`).
 
-### 3. Verification & Skill Management
-
-- **[webapp-testing](file:///c:/Users/krish/Downloads/agaate/.agents/skills/webapp-testing/SKILL.md)**: Toolkit for testing local web applications using Playwright (capturing screenshots, verifying UI flows, checking browser logs).
-- **[skill-creator](file:///c:/Users/krish/Downloads/agaate/.agents/skills/skill-creator/SKILL.md)**: Framework for evaluating, benchmarking, creating, or tweaking workspace skills.
