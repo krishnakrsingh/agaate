@@ -9,17 +9,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
-import SectionTransformations from "@/components/sections/SectionTransformations";
-import SectionProducts from "@/components/sections/SectionProducts";
-import SectionSustainability from "@/components/sections/SectionSustainability";
-import SectionSetupSteps from "@/components/sections/SectionSetupSteps";
-import SectionMarketLinkage from "@/components/sections/SectionMarketLinkage";
-import SectionImpact from "@/components/sections/SectionImpact";
-import SectionServicesGrid from "@/components/sections/SectionServicesGrid";
-import SectionAgriPark from "@/components/sections/SectionAgriPark";
-import SectionPartners from "@/components/sections/SectionPartners";
-import SectionTestimonials from "@/components/sections/SectionTestimonials";
-import SectionTeamPreview from "@/components/sections/SectionTeamPreview";
+import SectionInvestorNarrative from "@/components/sections/SectionInvestorNarrative";
 import SectionCta from "@/components/sections/SectionCta";
 
 export const Route = createFileRoute("/")({
@@ -29,7 +19,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Agaate combines trusted agricultural inputs, expert guidance, farm technology, and market access.",
+          "Agaate is a connected agri-ecosystem combining Bio-Boosted nursery infrastructure, input commerce, farm technology, advisory, market linkage, and carbon-credit enablement.",
       },
     ],
   }),
@@ -80,17 +70,7 @@ function Index() {
           <>
             <SectionCropWorld />
             <SectionValueProp />
-            <SectionProducts />
-            <SectionSustainability />
-            <SectionSetupSteps />
-            <SectionTransformations />
-            <SectionMarketLinkage />
-            <SectionImpact />
-            <SectionServicesGrid />
-            <SectionAgriPark />
-            <SectionPartners />
-            <SectionTestimonials />
-            <SectionTeamPreview />
+            <SectionInvestorNarrative />
             <SectionCta />
             <Footer />
           </>
