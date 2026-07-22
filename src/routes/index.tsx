@@ -8,11 +8,18 @@ import LoadingScreen from "@/components/LoadingScreen";
 // Homepage Sections
 import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
+import BridgeChapter from "@/components/home/BridgeChapter";
+import AppChapter from "@/components/home/AppChapter";
+import MallChapter from "@/components/home/MallChapter";
+import ScienceChapter from "@/components/home/ScienceChapter";
+import NurseryChapter from "@/components/home/NurseryChapter";
+import AgriParkChapter from "@/components/home/AgriParkChapter";
+import BeyondChapter from "@/components/home/BeyondChapter";
+import ProofChapter from "@/components/home/ProofChapter";
+import SectionKisaanMall from "@/components/sections/SectionKisaanMall";
 import SectionValueProp from "@/components/sections/SectionValueProp";
 import SectionProductStory from "@/components/sections/SectionProductStory";
 import SectionInvestorNarrative from "@/components/sections/SectionInvestorNarrative";
-import { ClosingAction } from "@/components/sections/product-story/ClosingAction";
-import SectionKisaanMall from "@/components/sections/SectionKisaanMall";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,12 +77,30 @@ function Index() {
         />
         {contentReady && (
           <>
-            <SectionCropWorld />
+            {/* 1. High-Level Proposition & Core Offerings */}
             <SectionValueProp />
-            <SectionProductStory />
             <SectionKisaanMall />
+            
+            {/* 2. The Connected Ecosystem Overview */}
+            <SectionProductStory />
+            
+            {/* 3. The Crop Lifecycle Deep Dive */}
+            <SectionCropWorld />
+            
+            {/* 4. The Detailed Journey Chapters */}
+            <BridgeChapter />
+            <AppChapter />
+            <MallChapter />
+            <ScienceChapter />
+            <NurseryChapter />
+            <AgriParkChapter />
+            <BeyondChapter />
+            
+            {/* 5. Validation & Business Logic */}
+            <ProofChapter />
             <SectionInvestorNarrative />
-            <ClosingAction />
+            
+            {/* 6. Conclusion */}
             <Footer />
           </>
         )}
