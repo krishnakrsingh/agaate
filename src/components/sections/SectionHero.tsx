@@ -246,7 +246,7 @@ export default memo(function SectionHero({
                 className="opacity-0 flex flex-row items-center flex-wrap gap-3 pt-0.5"
               >
                 <a
-                  href="#investor-snapshot"
+                  href="#services"
                   className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-5 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
                   style={{
                     fontFamily: "Manrope, Inter, Arial, sans-serif",
@@ -255,7 +255,7 @@ export default memo(function SectionHero({
                     background: "#a3e635",
                   }}
                 >
-                  Investor briefing
+                  Explore our services
                   <svg
                     width="13"
                     height="13"
@@ -273,7 +273,7 @@ export default memo(function SectionHero({
                   </svg>
                 </a>
                 <a
-                  href="#operating-model"
+                  href="#app"
                   className="inline-flex items-center gap-2 text-white/80 transition-all duration-200 hover:text-white px-2 py-2 font-normal"
                   style={{
                     fontFamily: "Manrope, Inter, Arial, sans-serif",
@@ -284,7 +284,7 @@ export default memo(function SectionHero({
                     cursor: "pointer",
                   }}
                 >
-                  Business model
+                  Discover the app
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
                     <path
