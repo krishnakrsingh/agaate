@@ -9,9 +9,8 @@ import LoadingScreen from "@/components/LoadingScreen";
 import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
-import BridgeChapter from "@/components/home/BridgeChapter";
 import AppChapter from "@/components/home/AppChapter";
-import SectionKisaanMall from "@/components/sections/SectionKisaanMall";
+import MallChapter from "@/components/home/MallChapter";
 import ScienceChapter from "@/components/home/ScienceChapter";
 import NurseryChapter from "@/components/home/NurseryChapter";
 import AgriParkChapter from "@/components/home/AgriParkChapter";
@@ -82,31 +81,28 @@ function Index() {
             {/* Section 3: Value Proposition & Core Manifesto */}
             <SectionValueProp />
 
-            {/* Section 4: Where Agaate Becomes Useful (Farmer's Question) */}
-            <BridgeChapter />
-
-            {/* Section 5: The Agaate App & Agronomist Advisory */}
+            {/* Section 4: Agaate App & Agronomist Advisory */}
             <AppChapter />
 
-            {/* Section 6: Agaate Kisaan Mall (Input Commerce) */}
-            <SectionKisaanMall />
+            {/* Section 5: Agaate Kisaan Mall (Input Commerce) */}
+            <MallChapter />
 
-            {/* Section 7: Farm Science & Seedling Quality */}
+            {/* Section 6: Farm Science & Seedling Quality */}
             <ScienceChapter />
 
-            {/* Section 8: 17-Acre Smart Nursery (Dark Forest Accent Section) */}
+            {/* Section 7: 17-Acre Smart Nursery (Dark Forest Accent Section) */}
             <NurseryChapter />
 
-            {/* Section 9: Agaate Agri Park (Living Demonstration Farm) */}
+            {/* Section 8: Agaate Agri Park (Living Demonstration Farm) */}
             <AgriParkChapter />
 
-            {/* Section 10: Advanced Services (Farm Tech, Carbon & Setup) */}
+            {/* Section 9: Advanced Services (Farm Tech, Carbon & Setup) */}
             <BeyondChapter />
 
-            {/* Section 11: Impact Proof & Farmer Testimonial */}
+            {/* Section 10: Impact Proof & Farmer Testimonial */}
             <ProofChapter />
 
-            {/* Section 12: Investor & Ecosystem Governance Narrative */}
+            {/* Section 11: Investor & Ecosystem Governance Narrative */}
             <SectionInvestorNarrative />
 
             {/* Footer */}
@@ -117,4 +113,7 @@ function Index() {
     </>
   );
 }
+
+
+
 
