@@ -294,24 +294,7 @@ export default function SectionValueProp() {
           </div>
         </div>
 
-        {/* Founder pull-quote */}
-        <div ref={quoteRef} className="max-w-[880px] mx-auto text-center mt-24 md:mt-32">
-          <div className="font-serif text-terracotta text-[64px] leading-[0.4] select-none">“</div>
-          <blockquote className="font-serif italic text-[clamp(1.4rem,2.8vw,2.2rem)] leading-[1.35] text-forest-deep mt-6 mb-8">
-            We built Agaate with a simple belief — every farmer deserves the right guidance, the
-            right tools, and the right support, so their hard work never goes to loss.
-          </blockquote>
-          <div className="font-jet text-[11px] uppercase tracking-[0.22em] text-ink/50 mb-8">
-            Ankit Rawat — Founder & CEO
-          </div>
-          <Link
-            to="/about"
-            className="inline-flex items-center gap-2.5 rounded-full border border-forest/30 px-7 py-3.5 text-[15px] font-semibold text-forest hover:bg-forest hover:text-cream transition-all duration-300 group"
-          >
-            Read our story
-            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
-        </div>
+
       </div>
     </section>
   );
