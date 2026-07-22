@@ -29,48 +29,12 @@ const pillars = [
   },
 ];
 
-const metrics = [
-  {
-    label: "Germination & survival",
-    traditional: "50–70%",
-    boosted: "90–98%",
-    from: 58,
-    to: 94,
-    note: "+40% base survival",
-  },
-  {
-    label: "Seed waste",
-    traditional: "High baseline",
-    boosted: "Near zero",
-    from: 100,
-    to: 8,
-    note: "30–50% reduction",
-  },
-  {
-    label: "Chemical dependency",
-    traditional: "High baseline",
-    boosted: "Significantly reduced",
-    from: 100,
-    to: 38,
-    note: "50–70% cut",
-  },
-  {
-    label: "Overall crop yield",
-    traditional: "Average baseline",
-    boosted: "Optimized",
-    from: 72,
-    to: 100,
-    note: "15–30% increase",
-  },
-];
+
 
 export default function SectionValueProp() {
   const sectionRef = useRef<HTMLElement>(null);
   const manifestoRef = useRef<HTMLParagraphElement>(null);
   const pillarsRef = useRef<HTMLDivElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const barsRef = useRef<HTMLDivElement>(null);
-  const quoteRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -103,47 +67,6 @@ export default function SectionValueProp() {
           stagger: 0.1,
           ease: "power3.out",
           scrollTrigger: { trigger: pillarsRef.current, start: "top 85%", once: true },
-        },
-      );
-
-      // Dark paradigm panel entrance
-      gsap.fromTo(
-        panelRef.current,
-        { opacity: 0, y: 60, scale: 0.985 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: panelRef.current, start: "top 85%", once: true },
-        },
-      );
-
-      // Comparison bars grow on entry
-      gsap.utils.toArray<HTMLElement>(".bar-fill", barsRef.current).forEach((bar) => {
-        gsap.fromTo(
-          bar,
-          { width: "0%" },
-          {
-            width: bar.dataset.w + "%",
-            duration: 1.3,
-            ease: "power3.inOut",
-            scrollTrigger: { trigger: bar, start: "top 90%", once: true },
-          },
-        );
-      });
-
-      // Founder quote
-      gsap.fromTo(
-        quoteRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: quoteRef.current, start: "top 88%", once: true },
         },
       );
     }, sectionRef);
@@ -186,7 +109,7 @@ export default function SectionValueProp() {
         </p>
 
         {/* Pillars as ruled rows */}
-        <div ref={pillarsRef} className="border-t border-ink/10 mb-24 md:mb-32">
+        <div ref={pillarsRef} className="border-t border-ink/10">
           {pillars.map((p, i) => {
             const Icon = p.icon;
             return (
@@ -216,83 +139,7 @@ export default function SectionValueProp() {
           })}
         </div>
 
-        {/* Paradigm Shift — dark data panel */}
-        <div
-          ref={panelRef}
-          className="bg-night text-cream rounded-[2rem] md:rounded-[2.5rem] p-7 md:p-12 lg:p-16 relative overflow-hidden"
-        >
-          <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-forest/40 blur-3xl pointer-events-none" />
-          <div className="relative z-10">
-            <div className="flex flex-wrap items-end justify-between gap-6 mb-10 md:mb-14">
-              <div>
-                <span className="font-jet text-[11px] md:text-xs uppercase tracking-[0.22em] text-terracotta">
-                  The Paradigm Shift
-                </span>
-                <h3 className="font-serif text-[clamp(1.7rem,3.4vw,2.9rem)] leading-[1.12] mt-4 max-w-[560px]">
-                  Traditional direct sowing vs the{" "}
-                  <span className="italic text-emerald-400">Bio-Boosted nursery</span>
-                </h3>
-              </div>
-              <p className="font-jet text-[11px] uppercase tracking-[0.18em] text-cream/40 max-w-[220px] leading-relaxed">
-                We don't sell plants. We sell risk mitigation.
-              </p>
-            </div>
 
-            <div ref={barsRef} className="border-t border-cream/10">
-              {metrics.map((m, i) => (
-                <div
-                  key={i}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 items-center py-6 md:py-7 border-b border-cream/10"
-                >
-                  <div className="lg:col-span-3 flex lg:flex-col items-baseline lg:items-start justify-between gap-2">
-                    <span className="font-sans font-bold text-[15px] md:text-[17px]">
-                      {m.label}
-                    </span>
-                    <span className="font-jet text-[10px] uppercase tracking-[0.16em] text-emerald-400">
-                      {m.note}
-                    </span>
-                  </div>
-                  <div className="lg:col-span-6 space-y-2.5">
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 h-[7px] rounded-full bg-cream/[0.07] overflow-hidden">
-                        <div
-                          className="bar-fill h-full rounded-full bg-terracotta/70"
-                          data-w={m.from}
-                          style={{ width: 0 }}
-                        />
-                      </div>
-                      <span className="font-jet text-[10px] md:text-[11px] text-cream/45 w-[104px] md:w-[132px] text-right flex-shrink-0">
-                        {m.traditional}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 h-[7px] rounded-full bg-cream/[0.07] overflow-hidden">
-                        <div
-                          className="bar-fill h-full rounded-full bg-emerald-400"
-                          data-w={m.to}
-                          style={{ width: 0 }}
-                        />
-                      </div>
-                      <span className="font-jet text-[10px] md:text-[11px] text-emerald-300 w-[104px] md:w-[132px] text-right flex-shrink-0">
-                        {m.boosted}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="hidden lg:flex lg:col-span-3 justify-end">
-                    <div className="flex items-center gap-3 font-jet text-[10px] uppercase tracking-[0.16em] text-cream/40">
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-terracotta/70" /> Traditional
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400" /> Agaate
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
 
       </div>

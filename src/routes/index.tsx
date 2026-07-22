@@ -77,15 +77,15 @@ function Index() {
         />
         {contentReady && (
           <>
-            {/* 1. High-Level Proposition & Core Offerings */}
+            {/* 1. The Crop Lifecycle Deep Dive */}
+            <SectionCropWorld />
+            
+            {/* 2. High-Level Proposition & Core Offerings */}
             <SectionValueProp />
             <SectionKisaanMall />
             
-            {/* 2. The Connected Ecosystem Overview */}
+            {/* 3. The Connected Ecosystem Overview */}
             <SectionProductStory />
-            
-            {/* 3. The Crop Lifecycle Deep Dive */}
-            <SectionCropWorld />
             
             {/* 4. The Detailed Journey Chapters */}
             <BridgeChapter />
