@@ -11,7 +11,7 @@ import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
 import AppChapter from "@/components/home/AppChapter";
 import MallChapter from "@/components/home/MallChapter";
-import ScienceChapter from "@/components/home/ScienceChapter";
+
 import NurseryChapter from "@/components/home/NurseryChapter";
 import AgriParkChapter from "@/components/home/AgriParkChapter";
 import BeyondChapter from "@/components/home/BeyondChapter";
@@ -87,8 +87,7 @@ function Index() {
             {/* Section 5: Agaate Kisaan Mall (Input Commerce) */}
             <MallChapter />
 
-            {/* Section 6: Farm Science & Seedling Quality */}
-            <ScienceChapter />
+
 
             {/* Section 7: 17-Acre Smart Nursery (Dark Forest Accent Section) */}
             <NurseryChapter />
