@@ -11,7 +11,7 @@ import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
 import SectionProductStory from "@/components/sections/SectionProductStory";
 import SectionInvestorNarrative from "@/components/sections/SectionInvestorNarrative";
-import SectionCta from "@/components/sections/SectionCta";
+import { ClosingAction } from "@/components/sections/product-story/ClosingAction";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -73,7 +73,7 @@ function Index() {
             <SectionValueProp />
             <SectionProductStory />
             <SectionInvestorNarrative />
-            <SectionCta />
+            <ClosingAction />
             <Footer />
           </>
         )}
