@@ -59,7 +59,7 @@ const proofMetrics: Array<{
 
 export function InvestorSnapshot() {
   return (
-    <section id="investor-snapshot" className="bg-white px-6 py-20 text-ink lg:px-12 lg:py-28">
+    <section id="investor-snapshot" className="bg-white px-6 pt-20 pb-10 text-ink lg:px-12 lg:pt-28 lg:pb-14">
       <div className="mx-auto max-w-[1400px]">
         <div className="mb-12 grid gap-8 border-t border-ink/10 pt-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
