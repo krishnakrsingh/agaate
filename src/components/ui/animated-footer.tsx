@@ -627,10 +627,10 @@ export function AnimatedFooter() {
             </div>
 
             <div className="flex gap-3 mt-6">
-              <AnimatedIconLink href="#" icon={<img src={facebookIcon} className="w-5 h-5 object-contain" alt="Facebook" />} ariaLabel="Facebook" />
+              <AnimatedIconLink href="https://www.facebook.com/p/Agaate-Anzix-Farm-Technologies-61571500574178/" icon={<img src={facebookIcon} className="w-5 h-5 object-contain" alt="Facebook" />} ariaLabel="Facebook" />
               <AnimatedIconLink href="#" icon={<img src={youtubeIcon} className="w-5 h-5 object-contain" alt="YouTube" />} ariaLabel="YouTube" />
-              <AnimatedIconLink href="#" icon={<img src={instagramIcon} className="w-5 h-5 object-contain" alt="Instagram" />} ariaLabel="Instagram" />
-              <AnimatedIconLink href="#" icon={<img src={linkedinIcon} className="w-5 h-5 object-contain" alt="LinkedIn" />} ariaLabel="LinkedIn" />
+              <AnimatedIconLink href="https://www.instagram.com/agaateanzixfarm/" icon={<img src={instagramIcon} className="w-5 h-5 object-contain" alt="Instagram" />} ariaLabel="Instagram" />
+              <AnimatedIconLink href="https://www.linkedin.com/company/agaate-anzixfarm/" icon={<img src={linkedinIcon} className="w-5 h-5 object-contain" alt="LinkedIn" />} ariaLabel="LinkedIn" />
             </div>
           </div>
 
