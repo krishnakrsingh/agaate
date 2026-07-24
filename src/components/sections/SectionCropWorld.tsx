@@ -154,7 +154,7 @@ export default function SectionCropWorld() {
   // If user disables animations, or WebGL completely fails, we show a clean vertical timeline.
   if (reducedMotion) {
     return (
-      <section className="bg-white py-12 md:py-16 lg:py-20 px-6 md:px-12 border-b border-[#E7ECE8]">
+      <section className="bg-card py-12 md:py-16 lg:py-20 px-6 md:px-12 border-b border-border">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-left">
             <div className="flex items-center gap-3 mb-4">
@@ -200,7 +200,7 @@ export default function SectionCropWorld() {
     <section
       id="journey-section"
       ref={containerRef}
-      className="bg-white relative"
+      className="bg-card relative"
       style={{ height: "450vh" }}
     >
       {/* 100vh Sticky Viewport */}
@@ -267,7 +267,7 @@ export default function SectionCropWorld() {
         </div>
 
         {/* Bottom Progress Bar */}
-        <div className="w-full bg-white py-6 px-6 lg:px-12 relative z-30 mt-auto">
+        <div className="w-full bg-card py-6 px-6 lg:px-12 relative z-30 mt-auto">
           <div className="max-w-[1400px] mx-auto">
             {/* Desktop Labels */}
             <div className="justify-between items-end mb-8 hidden sm:flex">
@@ -301,7 +301,7 @@ export default function SectionCropWorld() {
             </div>
 
             {/* Unique "Precision Playhead" Track */}
-            <div className="w-full h-[1px] bg-[#E7ECE8] relative mb-4">
+            <div className="w-full h-[1px] bg-border relative mb-4">
               {/* Trailing Progress Line */}
               <div
                 ref={lineRef}

@@ -57,7 +57,7 @@ export default function Header() {
         style={{ height: scrolled ? "60px" : "76px" }}
       >
         <div className="flex flex-1 items-center justify-start">
-          <Link to="/" className="flex items-center text-white transition-opacity hover:opacity-80">
+          <Link to="/" className="flex items-center text-cream transition-opacity hover:opacity-80">
             <img
               src="/logo.svg"
               alt="Agaate"
@@ -81,7 +81,7 @@ export default function Header() {
               <Link
                 to={link.href}
                 className={`flex items-center gap-1 font-body text-[15px] font-medium transition-colors hover:text-[#c8e3d4] ${
-                  scrolled ? "text-white/90" : "text-white drop-shadow-md"
+                  scrolled ? "text-cream/90" : "text-cream drop-shadow-md"
                 }`}
               >
                 {link.label}
@@ -90,7 +90,7 @@ export default function Header() {
 
               {link.subLinks && hoveredMenu === link.label && (
                 <div className="absolute left-1/2 top-full w-48 -translate-x-1/2 pt-4">
-                  <div className="overflow-hidden rounded-xl border border-black/5 bg-white py-2 shadow-xl animate-in fade-in slide-in-from-top-2">
+                  <div className="overflow-hidden rounded-xl border border-ink/5 bg-card py-2 shadow-xl animate-in fade-in slide-in-from-top-2">
                     {link.subLinks.map((subLink) => (
                       <Link
                         key={subLink.href}

@@ -6,7 +6,7 @@ export default function MallChapter() {
   return (
     <section
       id="kisaan-mall"
-      className="scroll-mt-20 bg-white px-6 py-20 md:px-10 md:py-28 lg:px-12 lg:py-36"
+      className="scroll-mt-20 bg-card px-6 py-20 md:px-10 md:py-28 lg:px-12 lg:py-36"
     >
       <div className="mx-auto max-w-[1400px]">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">

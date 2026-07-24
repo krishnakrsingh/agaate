@@ -47,41 +47,16 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
   center = ["x", "y"],
 }) => {
   const uniforms = React.useMemo(() => {
-    let colorsArray = [
-      colors[0],
-      colors[0],
-      colors[0],
-      colors[0],
-      colors[0],
-      colors[0],
-    ];
+    let colorsArray = [colors[0], colors[0], colors[0], colors[0], colors[0], colors[0]];
     if (colors.length === 2) {
-      colorsArray = [
-        colors[0],
-        colors[0],
-        colors[0],
-        colors[1],
-        colors[1],
-        colors[1],
-      ];
+      colorsArray = [colors[0], colors[0], colors[0], colors[1], colors[1], colors[1]];
     } else if (colors.length === 3) {
-      colorsArray = [
-        colors[0],
-        colors[0],
-        colors[1],
-        colors[1],
-        colors[2],
-        colors[2],
-      ];
+      colorsArray = [colors[0], colors[0], colors[1], colors[1], colors[2], colors[2]];
     }
 
     return {
       u_colors: {
-        value: colorsArray.map((color) => [
-          color[0] / 255,
-          color[1] / 255,
-          color[2] / 255,
-        ]),
+        value: colorsArray.map((color) => [color[0] / 255, color[1] / 255, color[2] / 255]),
         type: "uniform3fv",
       },
       u_opacities: {
@@ -121,14 +96,16 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
         }
         void main() {
             vec2 st = fragCoord.xy;
-            ${center.includes("x")
-          ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
-          : ""
-        }
-            ${center.includes("y")
-          ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
-          : ""
-        }
+            ${
+              center.includes("x")
+                ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
+                : ""
+            }
+            ${
+              center.includes("y")
+                ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
+                : ""
+            }
       float opacity = step(0.0, st.x);
       opacity *= step(0.0, st.y);
 
@@ -159,7 +136,7 @@ const ShinyText = ({
   children,
   isShining = false,
   speed = 1,
-  className = ''
+  className = "",
 }: ShinyTextProps) => {
   const content = children || text;
 
@@ -167,11 +144,12 @@ const ShinyText = ({
     <div
       className={cn("text-inherit bg-clip-text inline-block transition-opacity", className)}
       style={{
-        backgroundImage: 'linear-gradient(120deg, rgba(34, 197, 94, 0) 40%, rgba(34, 197, 94, 0.8) 50%, rgba(34, 197, 94, 0) 60%)',
-        backgroundSize: '200% 100%',
-        WebkitBackgroundClip: 'text',
-        backgroundPosition: isShining ? '-100%' : '110%',
-        transition: isShining ? `background-position ${speed}s linear` : 'none',
+        backgroundImage:
+          "linear-gradient(120deg, rgba(34, 197, 94, 0) 40%, rgba(34, 197, 94, 0.8) 50%, rgba(34, 197, 94, 0) 60%)",
+        backgroundSize: "200% 100%",
+        WebkitBackgroundClip: "text",
+        backgroundPosition: isShining ? "-100%" : "110%",
+        transition: isShining ? `background-position ${speed}s linear` : "none",
       }}
     >
       {content}
@@ -183,7 +161,7 @@ const DecryptText = ({
   text,
   className,
   isDecrypting = false,
-  duration = 0.1
+  duration = 0.1,
 }: {
   text: string;
   className?: string;
@@ -191,7 +169,8 @@ const DecryptText = ({
   duration?: number;
 }) => {
   const [displayText, setDisplayText] = useState(text);
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?/";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?/";
 
   useEffect(() => {
     if (!isDecrypting) {
@@ -206,26 +185,32 @@ const DecryptText = ({
       clearInterval(interval);
     }
 
-    interval = setInterval(() => {
-      setDisplayText(prev =>
-        prev.split("").map((char, index) => {
-          if (char === " ") return " ";
+    interval = setInterval(
+      () => {
+        setDisplayText((prev) =>
+          prev
+            .split("")
+            .map((char, index) => {
+              if (char === " ") return " ";
 
-          if (index < iteration) return text[index];
+              if (index < iteration) return text[index];
 
-          return characters[Math.floor(Math.random() * characters.length)];
-        }).join("")
-      );
+              return characters[Math.floor(Math.random() * characters.length)];
+            })
+            .join(""),
+        );
 
-      iteration += 1 / 3;
+        iteration += 1 / 3;
 
-      if (iteration >= text.length) {
-        if (interval) {
-          clearInterval(interval);
+        if (iteration >= text.length) {
+          if (interval) {
+            clearInterval(interval);
+          }
+          setDisplayText(text);
         }
-        setDisplayText(text);
-      }
-    }, duration * 1000 / text.length);
+      },
+      (duration * 1000) / text.length,
+    );
 
     return () => {
       if (interval) {
@@ -241,7 +226,7 @@ const AnimatedLink = ({
   href,
   children,
   className,
-  icon: Icon
+  icon: Icon,
 }: {
   href: string;
   children: React.ReactNode;
@@ -249,17 +234,20 @@ const AnimatedLink = ({
   icon?: any;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const textContent = typeof children === 'string' ? children : '';
-  const isExternal = href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
+  const textContent = typeof children === "string" ? children : "";
+  const isExternal =
+    href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
 
   const content = (
     <>
       {Icon && <Icon className="w-4 h-4 mr-2" />}
-      {typeof children === 'string' ? (
+      {typeof children === "string" ? (
         <ShinyText isShining={isHovered} speed={1}>
           <DecryptText text={textContent} isDecrypting={isHovered} />
         </ShinyText>
-      ) : children}
+      ) : (
+        children
+      )}
     </>
   );
 
@@ -272,19 +260,25 @@ const AnimatedLink = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        className="absolute inset-0 bg-green-50 z-0"
+        className="absolute inset-0 bg-forest/5 z-0"
         variants={{
           initial: { x: "-100%" },
-          hover: { x: 0 }
+          hover: { x: 0 },
         }}
         transition={{ duration: 0.3 }}
       />
       {isExternal ? (
-        <a href={href} className="z-10 relative h-full flex items-center justify-start py-2 px-4 text-[#667069] hover:text-green-700 transition-colors">
+        <a
+          href={href}
+          className="z-10 relative h-full flex items-center justify-start py-2 px-4 text-muted-foreground hover:text-forest transition-colors"
+        >
           {content}
         </a>
       ) : (
-        <Link to={href as any} className="z-10 relative h-full flex items-center justify-start py-2 px-4 text-[#667069] hover:text-green-700 transition-colors">
+        <Link
+          to={href as any}
+          className="z-10 relative h-full flex items-center justify-start py-2 px-4 text-muted-foreground hover:text-forest transition-colors"
+        >
           {content}
         </Link>
       )}
@@ -296,19 +290,18 @@ const AnimatedIconLink = ({
   href,
   icon,
   ariaLabel,
-  className
+  className,
 }: {
   href: string;
   icon: React.ReactNode;
   ariaLabel: string;
   className?: string;
 }) => {
-  const isExternal = href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
+  const isExternal =
+    href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
 
   const content = (
-    <div className="opacity-80 group-hover:opacity-100 transition-opacity">
-      {icon}
-    </div>
+    <div className="opacity-80 group-hover:opacity-100 transition-opacity">{icon}</div>
   );
 
   return (
@@ -322,7 +315,11 @@ const AnimatedIconLink = ({
           {content}
         </a>
       ) : (
-        <Link to={href as any} aria-label={ariaLabel} className="flex items-center justify-center p-1">
+        <Link
+          to={href as any}
+          aria-label={ariaLabel}
+          className="flex items-center justify-center p-1"
+        >
           {content}
         </Link>
       )}
@@ -379,7 +376,7 @@ const CanvasRevealEffect = ({
           if (requestId) {
             cancelAnimationFrame(requestId);
           }
-        }
+        },
       };
     } else {
       setLastMousePosition(mousePosition);
@@ -409,7 +406,7 @@ const CanvasRevealEffect = ({
           if (requestId) {
             cancelAnimationFrame(requestId);
           }
-        }
+        },
       };
     }
 
@@ -420,15 +417,18 @@ const CanvasRevealEffect = ({
     };
   }, [isHovering, mousePosition]);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition([x, y]);
-    if (!isHovering) {
-      setLastMousePosition([x, y]);
-    }
-  }, [isHovering]);
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      setMousePosition([x, y]);
+      if (!isHovering) {
+        setLastMousePosition([x, y]);
+      }
+    },
+    [isHovering],
+  );
 
   const hoverIntensityValue = hoverIntensity.toFixed(4);
   const currentMousePosition = isHovering ? mousePosition : lastMousePosition;
@@ -444,9 +444,7 @@ const CanvasRevealEffect = ({
         <DotMatrix
           colors={colors ?? [[0, 255, 255]]}
           dotSize={dotSize ?? 3}
-          opacities={
-            opacities ?? [0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1]
-          }
+          opacities={opacities ?? [0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1]}
           shader={`
               float animation_speed_factor = ${animationSpeed.toFixed(1)};
               float intro_offset = distance(u_resolution / 2.0 / u_total_size, st2) * 0.01 + (random(st2) * 0.15);
@@ -528,9 +526,7 @@ const ShaderMaterial = ({
           break;
         case "uniform3fv":
           preparedUniforms[uniformName] = {
-            value: uniform.value.map((v: number[]) =>
-              new THREE.Vector3().fromArray(v)
-            ),
+            value: uniform.value.map((v: number[]) => new THREE.Vector3().fromArray(v)),
             type: "3fv",
           };
           break;
@@ -597,7 +593,7 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
 
 export function AnimatedFooter() {
   return (
-    <footer className="w-full bg-[#FAFBFB] text-[#17211B] relative border-t border-[#E7ECE8] overflow-hidden">
+    <footer className="w-full bg-[#FAFBFB] text-[#17211B] relative border-t border-border overflow-hidden">
       {/* Canvas Background for the whole footer to give it that premium feel */}
       <div className="absolute inset-0 z-0 opacity-60 mix-blend-multiply pointer-events-auto">
         <CanvasRevealEffect
@@ -614,23 +610,41 @@ export function AnimatedFooter() {
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-14 pb-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
-
           {/* Brand Column */}
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <div className="mb-6">
                 <img src="/logo.png" alt="Agaate Logo" className="h-10 lg:h-12 w-auto mb-5" />
-                <p className="text-[#667069] text-sm leading-relaxed max-w-sm">
-                  Empowering Indian farmers through trusted inputs, expert advisory, farm technology, and market access across the entire crop cycle.
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
+                  Empowering Indian farmers through trusted inputs, expert advisory, farm
+                  technology, and market access across the entire crop cycle.
                 </p>
               </div>
             </div>
 
             <div className="flex gap-3 mt-6">
-              <AnimatedIconLink href="https://www.facebook.com/p/Agaate-Anzix-Farm-Technologies-61571500574178/" icon={<img src={facebookIcon} className="w-5 h-5 object-contain" alt="Facebook" />} ariaLabel="Facebook" />
-              <AnimatedIconLink href="#" icon={<img src={youtubeIcon} className="w-5 h-5 object-contain" alt="YouTube" />} ariaLabel="YouTube" />
-              <AnimatedIconLink href="https://www.instagram.com/agaateanzixfarm/" icon={<img src={instagramIcon} className="w-5 h-5 object-contain" alt="Instagram" />} ariaLabel="Instagram" />
-              <AnimatedIconLink href="https://www.linkedin.com/company/agaate-anzixfarm/" icon={<img src={linkedinIcon} className="w-5 h-5 object-contain" alt="LinkedIn" />} ariaLabel="LinkedIn" />
+              <AnimatedIconLink
+                href="https://www.facebook.com/p/Agaate-Anzix-Farm-Technologies-61571500574178/"
+                icon={<img src={facebookIcon} className="w-5 h-5 object-contain" alt="Facebook" />}
+                ariaLabel="Facebook"
+              />
+              <AnimatedIconLink
+                href="#"
+                icon={<img src={youtubeIcon} className="w-5 h-5 object-contain" alt="YouTube" />}
+                ariaLabel="YouTube"
+              />
+              <AnimatedIconLink
+                href="https://www.instagram.com/agaateanzixfarm/"
+                icon={
+                  <img src={instagramIcon} className="w-5 h-5 object-contain" alt="Instagram" />
+                }
+                ariaLabel="Instagram"
+              />
+              <AnimatedIconLink
+                href="https://www.linkedin.com/company/agaate-anzixfarm/"
+                icon={<img src={linkedinIcon} className="w-5 h-5 object-contain" alt="LinkedIn" />}
+                ariaLabel="LinkedIn"
+              />
             </div>
           </div>
 
@@ -638,8 +652,10 @@ export function AnimatedFooter() {
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-10">
             {/* Company */}
             <div className="flex flex-col gap-2">
-              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">Company</h4>
-              <div className="flex flex-col border-l border-[#E7ECE8] pl-2">
+              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
+                Company
+              </h4>
+              <div className="flex flex-col border-l border-border pl-2">
                 <AnimatedLink href="/about">About Us</AnimatedLink>
                 <AnimatedLink href="/agri-park">Agri Park</AnimatedLink>
                 <AnimatedLink href="/careers">Careers</AnimatedLink>
@@ -649,8 +665,10 @@ export function AnimatedFooter() {
 
             {/* Services */}
             <div className="flex flex-col gap-2">
-              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">Services</h4>
-              <div className="flex flex-col border-l border-[#E7ECE8] pl-2">
+              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
+                Services
+              </h4>
+              <div className="flex flex-col border-l border-border pl-2">
                 <AnimatedLink href="/services">All Services</AnimatedLink>
                 <AnimatedLink href="/services/nursery">Bio-Boosted Nursery</AnimatedLink>
                 <AnimatedLink href="/services/kisaan-mall">Kisaan Mall</AnimatedLink>
@@ -660,24 +678,34 @@ export function AnimatedFooter() {
 
             {/* Contact */}
             <div className="flex flex-col gap-2">
-              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">Contact</h4>
-              <div className="flex flex-col border-l border-[#E7ECE8] pl-2">
+              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
+                Contact
+              </h4>
+              <div className="flex flex-col border-l border-border pl-2">
                 <AnimatedLink href="/contact">Contact Us</AnimatedLink>
-                <AnimatedLink href="tel:8350085005" icon={Phone}>8350085005</AnimatedLink>
-                <AnimatedLink href="mailto:info@agaate.in" icon={Mail}>info@agaate.in</AnimatedLink>
+                <AnimatedLink href="tel:8350085005" icon={Phone}>
+                  8350085005
+                </AnimatedLink>
+                <AnimatedLink href="mailto:info@agaate.in" icon={Mail}>
+                  info@agaate.in
+                </AnimatedLink>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 pt-6 border-t border-[#E7ECE8] flex flex-col sm:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-[#667069]">
+        <div className="mt-14 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Anzix Farm Technologies Pvt. Ltd. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
-            <a href="#" className="text-[#667069] hover:text-green-700 transition-colors">Privacy Policy</a>
-            <a href="#" className="text-[#667069] hover:text-green-700 transition-colors">Terms of Service</a>
+            <a href="#" className="text-muted-foreground hover:text-forest transition-colors">
+              Privacy Policy
+            </a>
+            <a href="#" className="text-muted-foreground hover:text-forest transition-colors">
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>

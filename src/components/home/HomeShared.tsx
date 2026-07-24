@@ -5,7 +5,7 @@ export function Eyebrow({ children, inverse = false }: { children: ReactNode; in
   return (
     <p
       className={`font-jet text-[10px] font-semibold uppercase tracking-[0.18em] ${
-        inverse ? "text-[#DCECCB]" : "text-[#477253]"
+        inverse ? "text-moss" : "text-[#477253]"
       }`}
     >
       {children}
@@ -27,7 +27,7 @@ export function TextAction({
       href={href}
       className={`group inline-flex items-center gap-2 border-b pb-1 text-sm font-semibold transition-colors ${
         inverse
-          ? "border-white/35 text-white hover:border-[#DCECCB] hover:text-[#DCECCB]"
+          ? "border-white/35 text-cream hover:border-moss/20 hover:text-moss"
           : "border-[#174735]/30 text-[#174735] hover:border-[#174735]"
       }`}
     >

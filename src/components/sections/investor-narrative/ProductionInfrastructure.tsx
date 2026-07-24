@@ -10,7 +10,7 @@ const nurseryPhases = [
 
 export function ProductionInfrastructure() {
   return (
-    <section className="bg-white px-6 pt-10 pb-20 text-ink md:pt-12 md:pb-24 lg:px-12 lg:pt-14 lg:pb-28">
+    <section className="bg-card px-6 pt-10 pb-20 text-ink md:pt-12 md:pb-24 lg:px-12 lg:pt-14 lg:pb-28">
       <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5 flex flex-col pt-1">
           <div>
@@ -58,20 +58,20 @@ export function ProductionInfrastructure() {
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#10261F]/95 via-[#10261F]/70 to-transparent p-6 text-cream md:p-8 lg:p-10">
               <div className="grid gap-6 sm:grid-cols-3">
                 <div>
-                  <div className="font-serif text-[2rem] text-white leading-none">90-98%</div>
-                  <p className="mt-3 text-[13px] leading-relaxed text-white/70">
+                  <div className="font-serif text-[2rem] text-cream leading-none">90-98%</div>
+                  <p className="mt-3 text-[13px] leading-relaxed text-cream/70">
                     Target germination & survival range
                   </p>
                 </div>
                 <div>
-                  <div className="font-serif text-[2rem] text-white leading-none">30-50%</div>
-                  <p className="mt-3 text-[13px] leading-relaxed text-white/70">
+                  <div className="font-serif text-[2rem] text-cream leading-none">30-50%</div>
+                  <p className="mt-3 text-[13px] leading-relaxed text-cream/70">
                     Seed waste reduction vs direct sowing
                   </p>
                 </div>
                 <div>
-                  <div className="font-serif text-[2rem] text-white leading-none">15-30%</div>
-                  <p className="mt-3 text-[13px] leading-relaxed text-white/70">
+                  <div className="font-serif text-[2rem] text-cream leading-none">15-30%</div>
+                  <p className="mt-3 text-[13px] leading-relaxed text-cream/70">
                     Yield improvement potential
                   </p>
                 </div>

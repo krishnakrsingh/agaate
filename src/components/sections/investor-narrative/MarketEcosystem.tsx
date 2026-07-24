@@ -19,7 +19,7 @@ const parkZones = [
 
 export function MarketEcosystem() {
   return (
-    <section className="bg-white px-6 py-20 text-ink lg:px-12 lg:py-28">
+    <section className="bg-card px-6 py-20 text-ink lg:px-12 lg:py-28">
       <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="sticky top-24 border-t border-ink/10 pt-6">
@@ -28,9 +28,9 @@ export function MarketEcosystem() {
               Kisan Mall, market linkage, and Agri Park should feel connected, not random.
             </h2>
             <p className="mt-6 text-[16px] leading-[1.75] text-[#59635D] md:text-[18px]">
-              Kisan Mall is the retail gateway. Market linkage is the farmer's revenue gateway.
-              Agri Park is the trust gateway where partners, farmers, and buyers can see the full
-              crop journey on real land.
+              Kisan Mall is the retail gateway. Market linkage is the farmer's revenue gateway. Agri
+              Park is the trust gateway where partners, farmers, and buyers can see the full crop
+              journey on real land.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <InlineCta href="/agri-park">Visit Agri Park</InlineCta>
@@ -55,12 +55,20 @@ export function MarketEcosystem() {
               </p>
             </div>
             <div className="overflow-hidden rounded-lg border border-[#DDE7E1] bg-bone">
-              <img src={marketImg} alt="Harvest and market linkage" className="h-full min-h-[320px] w-full object-cover" />
+              <img
+                src={marketImg}
+                alt="Harvest and market linkage"
+                className="h-full min-h-[320px] w-full object-cover"
+              />
             </div>
           </div>
 
           <div className="overflow-hidden rounded-lg border border-[#DDE7E1] bg-bone">
-            <img src={agroPark} alt="Agaate integrated Agri Park" className="h-[340px] w-full object-cover" />
+            <img
+              src={agroPark}
+              alt="Agaate integrated Agri Park"
+              className="h-[340px] w-full object-cover"
+            />
             <div className="p-6 md:p-8">
               <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
                 <h3 className="font-serif text-3xl leading-tight text-forest-deep">
@@ -78,7 +86,7 @@ export function MarketEcosystem() {
                 {parkZones.map((zone) => (
                   <span
                     key={zone}
-                    className="rounded-full border border-forest/20 bg-white px-3 py-1.5 text-xs font-semibold text-forest-deep"
+                    className="rounded-full border border-forest/20 bg-card px-3 py-1.5 text-xs font-semibold text-forest-deep"
                   >
                     {zone}
                   </span>
@@ -95,7 +103,10 @@ export function MarketEcosystem() {
             ].map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="overflow-hidden rounded-lg border border-[#DDE7E1] bg-white">
+                <div
+                  key={item.title}
+                  className="overflow-hidden rounded-lg border border-[#DDE7E1] bg-card"
+                >
                   <img src={item.img} alt={item.title} className="h-40 w-full object-cover" />
                   <div className="flex items-center gap-3 p-4">
                     <Icon className="h-4 w-4 text-forest" />

@@ -48,7 +48,9 @@ export function PeopleGovernance() {
           </div>
           <div className="lg:col-span-6">
             <p className="text-[16px] leading-[1.75] text-[#59635D] md:text-[18px]">
-              Our leadership brings together deep expertise across farm operations, agronomy, retail infrastructure, and data science. We are united by a singular vision: to replace guesswork with science and empower every grower to succeed from seed to sale.
+              Our leadership brings together deep expertise across farm operations, agronomy, retail
+              infrastructure, and data science. We are united by a singular vision: to replace
+              guesswork with science and empower every grower to succeed from seed to sale.
             </p>
           </div>
         </div>
@@ -86,13 +88,15 @@ export function PeopleGovernance() {
             >
               {/* Radial glow */}
               <div className="absolute bottom-0 left-1/2 h-[260px] w-[260px] -translate-x-1/2 rounded-full bg-[#B25D34] opacity-[0.35] blur-[80px] transition-opacity duration-500 group-hover:opacity-50" />
-              
+
               <div className="relative z-10">
-                <h3 className="font-serif text-2xl text-white">{leadership[0].name}</h3>
-                <p className="mt-1 font-sans text-[13px] text-white/70">{leadership[0].role}</p>
-                <p className="mt-6 text-[15px] leading-relaxed text-white/80">{leadership[0].focus}</p>
+                <h3 className="font-serif text-2xl text-cream">{leadership[0].name}</h3>
+                <p className="mt-1 font-sans text-[13px] text-cream/70">{leadership[0].role}</p>
+                <p className="mt-6 text-[15px] leading-relaxed text-cream/80">
+                  {leadership[0].focus}
+                </p>
               </div>
-              
+
               <div className="absolute inset-x-0 bottom-0 flex justify-center">
                 <img
                   src={leadership[0].image}
@@ -126,7 +130,6 @@ export function PeopleGovernance() {
             ))}
           </div>
         </div>
-
 
         <div className="mt-10 flex flex-wrap gap-3">
           <InlineCta href="/about">Meet the leadership team</InlineCta>

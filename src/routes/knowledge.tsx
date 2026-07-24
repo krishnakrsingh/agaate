@@ -78,7 +78,7 @@ function Knowledge() {
       <Header />
 
       {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -96,7 +96,7 @@ function Knowledge() {
 
       <div className="py-24 px-6 lg:px-12 max-w-7xl mx-auto w-full flex-grow space-y-32">
         {/* N-P-K Dosing Worksheet */}
-        <div className="bg-bone rounded-[2.5rem] border border-[#E7ECE8] p-8 md:p-12 text-left space-y-8 max-w-4xl mx-auto shadow-sm">
+        <div className="bg-bone rounded-[2.5rem] border border-border p-8 md:p-12 text-left space-y-8 max-w-4xl mx-auto shadow-sm">
           <div className="flex justify-between items-start">
             <div className="space-y-2">
               <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
@@ -106,21 +106,24 @@ function Knowledge() {
                 N-P-K Fertilizer Dosing Worksheet
               </h3>
               <p className="text-xs text-forest/70 max-w-2xl leading-relaxed font-sans">
-                Set crop, target growth stage, and farming acreage to calculate exact bags of Urea, Single Super Phosphate, and Muriate of Potash required.
+                Set crop, target growth stage, and farming acreage to calculate exact bags of Urea,
+                Single Super Phosphate, and Muriate of Potash required.
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
             <div>
-              <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Crop Type</label>
+              <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                Crop Type
+              </label>
               <select
                 value={calcCrop}
                 onChange={(e) => {
                   setCalcCrop(e.target.value);
                   setShowDosage(true);
                 }}
-                className="w-full bg-white border border-[#E7ECE8] rounded-xl px-3 py-3.5 text-xs focus:border-forest focus:outline-none font-bold text-forest-deep"
+                className="w-full bg-card border border-border rounded-xl px-3 py-3.5 text-xs focus:border-forest focus:outline-none font-bold text-forest-deep"
               >
                 <option>Tomato</option>
                 <option>Chilli</option>
@@ -128,14 +131,16 @@ function Knowledge() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Growth Stage</label>
+              <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                Growth Stage
+              </label>
               <select
                 value={calcStage}
                 onChange={(e) => {
                   setCalcStage(e.target.value);
                   setShowDosage(true);
                 }}
-                className="w-full bg-white border border-[#E7ECE8] rounded-xl px-3 py-3.5 text-xs focus:border-forest focus:outline-none font-bold text-forest-deep"
+                className="w-full bg-card border border-border rounded-xl px-3 py-3.5 text-xs focus:border-forest focus:outline-none font-bold text-forest-deep"
               >
                 <option>Vegetative</option>
                 <option>Flowering</option>
@@ -144,7 +149,9 @@ function Knowledge() {
             </div>
 
             <div>
-              <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Total Farming Acres ({calcAcres} acres)</label>
+              <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                Total Farming Acres ({calcAcres} acres)
+              </label>
               <input
                 type="range"
                 min={1}
@@ -154,16 +161,18 @@ function Knowledge() {
                   setCalcAcres(parseInt(e.target.value) || 1);
                   setShowDosage(true);
                 }}
-                className="w-full h-1.5 bg-[#E7ECE8] rounded-lg appearance-none cursor-pointer accent-forest"
+                className="w-full h-1.5 bg-border rounded-lg appearance-none cursor-pointer accent-forest"
               />
             </div>
           </div>
 
           {showDosage && (
-            <div className="space-y-6 pt-4 border-t border-[#E7ECE8]/50 animate-in slide-in-from-top duration-300">
+            <div className="space-y-6 pt-4 border-t border-border/50 animate-in slide-in-from-top duration-300">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 bg-white border border-[#E7ECE8] rounded-2xl text-xs font-mono shadow-sm text-left">
-                  <span className="text-[9px] text-forest/40 block border-b border-[#E7ECE8]/50 pb-2 uppercase font-bold tracking-wider mb-3">Target Nutrients Ratios</span>
+                <div className="p-6 bg-card border border-border rounded-2xl text-xs font-mono shadow-sm text-left">
+                  <span className="text-[9px] text-forest/40 block border-b border-border/50 pb-2 uppercase font-bold tracking-wider mb-3">
+                    Target Nutrients Ratios
+                  </span>
                   <div className="grid grid-cols-3 gap-2 text-center text-forest-deep">
                     <div>
                       <span className="text-forest/40 block text-[9px]">NITROGEN (N)</span>
@@ -180,12 +189,20 @@ function Knowledge() {
                   </div>
                 </div>
 
-                <div className="p-6 bg-white border border-[#E7ECE8] rounded-2xl text-xs font-mono shadow-sm text-left">
-                  <span className="text-[9px] text-forest/40 block border-b border-[#E7ECE8]/50 pb-2 uppercase font-bold tracking-wider mb-2">Required Input bag quantities</span>
+                <div className="p-6 bg-card border border-border rounded-2xl text-xs font-mono shadow-sm text-left">
+                  <span className="text-[9px] text-forest/40 block border-b border-border/50 pb-2 uppercase font-bold tracking-wider mb-2">
+                    Required Input bag quantities
+                  </span>
                   <div className="space-y-1.5 text-xs text-forest-deep/80 leading-relaxed font-sans">
-                    <p>• Urea Bag: <strong>{dosage.urea} kg</strong></p>
-                    <p>• Single Super Phosphate (SSP): <strong>{dosage.ssp} kg</strong></p>
-                    <p>• Muriate of Potash (MOP): <strong>{dosage.mop} kg</strong></p>
+                    <p>
+                      • Urea Bag: <strong>{dosage.urea} kg</strong>
+                    </p>
+                    <p>
+                      • Single Super Phosphate (SSP): <strong>{dosage.ssp} kg</strong>
+                    </p>
+                    <p>
+                      • Muriate of Potash (MOP): <strong>{dosage.mop} kg</strong>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -202,15 +219,15 @@ function Knowledge() {
         </div>
 
         {/* Search & Category filter */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12 pb-8 border-b border-[#E7ECE8]">
+        <div className="border-t border-border pt-24 text-left">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12 pb-8 border-b border-border">
             <div className="relative max-w-md w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-forest/40" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-[#E7ECE8] rounded-xl pl-11 pr-4 py-3.5 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
+                className="w-full bg-card border border-border rounded-xl pl-11 pr-4 py-3.5 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
                 placeholder="Search guides (e.g. Tomato, Drip...)"
               />
             </div>
@@ -223,7 +240,7 @@ function Knowledge() {
                   className={`px-3.5 py-1.5 rounded-full font-mono text-[9px] font-bold border transition-all cursor-pointer ${
                     selectedCat === cat
                       ? "bg-forest border-forest text-cream"
-                      : "bg-white border-[#E7ECE8] text-forest/70 hover:border-forest"
+                      : "bg-card border-border text-forest/70 hover:border-forest"
                   }`}
                 >
                   {cat}
@@ -238,7 +255,7 @@ function Knowledge() {
               <div
                 key={idx}
                 onClick={() => setSelectedArticle(art)}
-                className="p-8 rounded-[2rem] border border-[#E7ECE8] bg-white hover:shadow-lg hover:border-forest/20 transition-all duration-300 flex flex-col justify-between min-h-[250px] text-left cursor-pointer"
+                className="p-8 rounded-[2rem] border border-border bg-card hover:shadow-lg hover:border-forest/20 transition-all duration-300 flex flex-col justify-between min-h-[250px] text-left cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -256,18 +273,22 @@ function Knowledge() {
                       </span>
                     </div>
                   </div>
-                  <h3 className="font-serif text-2xl text-forest-deep font-bold mb-3 hover:text-forest transition-colors">{art.title}</h3>
-                  <p className="text-[#59635D] text-xs md:text-sm leading-relaxed mb-6">{art.desc}</p>
+                  <h3 className="font-serif text-2xl text-forest-deep font-bold mb-3 hover:text-forest transition-colors">
+                    {art.title}
+                  </h3>
+                  <p className="text-[#59635D] text-xs md:text-sm leading-relaxed mb-6">
+                    {art.desc}
+                  </p>
                 </div>
 
-                <div className="font-semibold text-xs md:text-sm text-forest group-hover:text-forest-deep flex items-center gap-1.5 transition-colors pt-4 border-t border-[#E7ECE8]/50">
+                <div className="font-semibold text-xs md:text-sm text-forest group-hover:text-forest-deep flex items-center gap-1.5 transition-colors pt-4 border-t border-border/50">
                   <span>Read Full Article</span>
                   <ChevronRight className="w-4 h-4" />
                 </div>
               </div>
             ))}
             {filteredArticles.length === 0 && (
-              <div className="col-span-2 p-12 text-center text-forest/40 font-mono text-sm bg-bone/35 rounded-2xl border border-[#E7ECE8]">
+              <div className="col-span-2 p-12 text-center text-forest/40 font-mono text-sm bg-bone/35 rounded-2xl border border-border">
                 No matching articles found. Try another search keyword!
               </div>
             )}
@@ -278,10 +299,10 @@ function Knowledge() {
       {/* Reading Article Overlay Drawer */}
       {selectedArticle && (
         <div className="fixed inset-0 bg-forest-deep/30 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="w-full max-w-2xl bg-cream p-8 md:p-12 shadow-2xl rounded-[3rem] overflow-y-auto border border-[#E7ECE8] relative max-h-[90vh] animate-in zoom-in-95 duration-200 text-left">
+          <div className="w-full max-w-2xl bg-cream p-8 md:p-12 shadow-2xl rounded-[3rem] overflow-y-auto border border-border relative max-h-[90vh] animate-in zoom-in-95 duration-200 text-left">
             <button
               onClick={() => setSelectedArticle(null)}
-              className="absolute right-6 top-6 w-8 h-8 rounded-full bg-white border border-[#E7ECE8] flex items-center justify-center text-forest/65 hover:text-forest cursor-pointer shadow-sm animate-in fade-in"
+              className="absolute right-6 top-6 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center text-forest/65 hover:text-forest cursor-pointer shadow-sm animate-in fade-in"
             >
               <X className="w-4 h-4" />
             </button>
@@ -299,7 +320,7 @@ function Knowledge() {
                 </span>
               </div>
 
-              <div className="text-sm text-forest-deep/80 leading-relaxed font-sans border-t border-[#E7ECE8]/50 pt-6 whitespace-pre-line">
+              <div className="text-sm text-forest-deep/80 leading-relaxed font-sans border-t border-border/50 pt-6 whitespace-pre-line">
                 {selectedArticle.content}
               </div>
 

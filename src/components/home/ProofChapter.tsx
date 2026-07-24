@@ -13,10 +13,10 @@ export default function ProofChapter() {
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div>
               <Eyebrow inverse>Impact in the field</Eyebrow>
-              <p className="mt-8 font-serif text-[clamp(5.5rem,13vw,13rem)] leading-[0.72] tracking-[-0.085em] text-[#DCECCB]">
+              <p className="mt-8 font-serif text-[clamp(5.5rem,13vw,13rem)] leading-[0.72] tracking-[-0.085em] text-moss">
                 15,000+
               </p>
-              <p className="mt-4 lg:mt-8 font-serif text-[clamp(2.2rem,4vw,4rem)] leading-[0.95] tracking-[-0.05em] text-white">
+              <p className="mt-4 lg:mt-8 font-serif text-[clamp(2.2rem,4vw,4rem)] leading-[0.95] tracking-[-0.05em] text-cream">
                 acres under association.
               </p>
             </div>
@@ -29,13 +29,13 @@ export default function ProofChapter() {
                 className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 shrink-0 object-cover rounded-full"
               />
               <blockquote>
-                <p className="font-serif text-[clamp(1.4rem,2vw,2rem)] leading-[1.2] tracking-[-0.02em] text-[#DCECCB]">
-                  “Agaate Kisaan Mall is a one-stop shop for agricultural inputs. Everything a farmer
-                  needs—under one roof, with real advice.”
+                <p className="font-serif text-[clamp(1.4rem,2vw,2rem)] leading-[1.2] tracking-[-0.02em] text-moss">
+                  “Agaate Kisaan Mall is a one-stop shop for agricultural inputs. Everything a
+                  farmer needs—under one roof, with real advice.”
                 </p>
                 <footer className="mt-4 text-[13px] font-semibold text-[#8DAA96]">
                   Pankaj Gupta{" "}
-                  <span className="font-normal text-white/40">· Farmer, Gurugram belt</span>
+                  <span className="font-normal text-cream/40">· Farmer, Gurugram belt</span>
                 </footer>
               </blockquote>
             </div>
@@ -43,11 +43,11 @@ export default function ProofChapter() {
 
           {/* Right Column: Text and Stats */}
           <div className="lg:col-span-5 lg:col-start-8 flex flex-col pt-2 lg:pt-16">
-            <p className="text-[17px] leading-8 text-white/70 max-w-md">
+            <p className="text-[17px] leading-8 text-cream/70 max-w-md">
               The scale only matters because it is grounded in a practical, farmer-first
               relationship—from crop decisions to the systems that support them.
             </p>
-            
+
             <div className="grid grid-cols-2 gap-x-8 gap-y-12 mt-14 lg:mt-auto border-t border-white/10 pt-10">
               {[
                 ["2,000+", "Parivaar farmers"],
@@ -56,7 +56,7 @@ export default function ProofChapter() {
                 ["20+", "Kisaan Sathi on-ground"],
               ].map(([value, label]) => (
                 <div key={label}>
-                  <p className="font-serif text-[2.4rem] leading-none tracking-[-0.05em] text-[#DCECCB]">
+                  <p className="font-serif text-[2.4rem] leading-none tracking-[-0.05em] text-moss">
                     {value}
                   </p>
                   <p className="mt-3 font-jet text-[9px] uppercase tracking-[0.14em] text-[#8DAA96]">

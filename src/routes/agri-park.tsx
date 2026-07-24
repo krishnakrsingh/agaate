@@ -114,9 +114,10 @@ function AgriPark() {
   ];
 
   const filteredTrials = trials.filter((t) => {
-    const matchesSearch = t.crop.toLowerCase().includes(trialSearch.toLowerCase()) ||
-                          t.id.toLowerCase().includes(trialSearch.toLowerCase()) ||
-                          t.partner.toLowerCase().includes(trialSearch.toLowerCase());
+    const matchesSearch =
+      t.crop.toLowerCase().includes(trialSearch.toLowerCase()) ||
+      t.id.toLowerCase().includes(trialSearch.toLowerCase()) ||
+      t.partner.toLowerCase().includes(trialSearch.toLowerCase());
     const matchesStatus = trialStatus === "All" || t.status === trialStatus;
     return matchesSearch && matchesStatus;
   });
@@ -132,7 +133,7 @@ function AgriPark() {
       <Header />
 
       {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -169,7 +170,7 @@ function AgriPark() {
                   className={`px-4 py-2.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
                     activeZone === z.name
                       ? "bg-forest text-cream border border-forest"
-                      : "bg-white border border-[#E7ECE8] text-forest/70 hover:border-forest"
+                      : "bg-card border border-border text-forest/70 hover:border-forest"
                   }`}
                 >
                   {z.name} Zone
@@ -178,7 +179,7 @@ function AgriPark() {
             </div>
 
             {/* Zone Telemetry Block */}
-            <div className="bg-bone rounded-[2rem] p-8 border border-[#E7ECE8] space-y-6 shadow-sm">
+            <div className="bg-bone rounded-[2rem] p-8 border border-border space-y-6 shadow-sm">
               <div>
                 <span className="text-[10px] font-mono tracking-widest uppercase text-terracotta font-bold block mb-2">
                   Active block: {currentZone.name}
@@ -188,7 +189,7 @@ function AgriPark() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 text-xs font-mono pt-4 border-t border-[#E7ECE8]/50">
+              <div className="grid grid-cols-2 gap-4 text-xs font-mono pt-4 border-t border-border/50">
                 <div>
                   <span className="text-forest/40 block text-[9px]">TRIAL VARIETY</span>
                   <span className="text-forest font-bold">{currentZone.crop}</span>
@@ -214,13 +215,28 @@ function AgriPark() {
 
           {/* Interactive SVG Map */}
           <div className="lg:col-span-7">
-            <div className="bg-white rounded-[2.5rem] border border-[#E7ECE8] p-8 md:p-12 text-center flex flex-col justify-between min-h-[400px] shadow-sm relative overflow-hidden">
-              <span className="text-[10px] font-mono text-forest/40 uppercase block mb-4 text-left font-semibold">Interactive Field Layout Sweeps</span>
+            <div className="bg-card rounded-[2.5rem] border border-border p-8 md:p-12 text-center flex flex-col justify-between min-h-[400px] shadow-sm relative overflow-hidden">
+              <span className="text-[10px] font-mono text-forest/40 uppercase block mb-4 text-left font-semibold">
+                Interactive Field Layout Sweeps
+              </span>
               <div className="relative border border-forest/10 rounded-2xl p-6 bg-bone/25 flex flex-col items-center justify-center min-h-[250px] overflow-hidden">
-                <svg className="w-full max-w-md h-56 text-forest" viewBox="0 0 170 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  className="w-full max-w-md h-56 text-forest"
+                  viewBox="0 0 170 110"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   {/* Grid lines */}
-                  <rect x="15" y="15" width="140" height="80" rx="8" stroke="var(--color-border)" strokeWidth="1" />
-                  
+                  <rect
+                    x="15"
+                    y="15"
+                    width="140"
+                    height="80"
+                    rx="8"
+                    stroke="var(--color-border)"
+                    strokeWidth="1"
+                  />
+
                   {/* Render interactive map node pins */}
                   {zones.map((z, idx) => {
                     const isSelected = activeZone === z.name;
@@ -266,7 +282,7 @@ function AgriPark() {
               </div>
 
               <div className="text-center pt-4">
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold bg-[#E7ECE8]/50 text-forest px-3.5 py-1.5 rounded-full border border-forest/10 shadow-sm">
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold bg-border/50 text-forest px-3.5 py-1.5 rounded-full border border-forest/10 shadow-sm">
                   <Compass className="w-3.5 h-3.5 text-emerald-500 animate-spin" />
                   Click on pins to shift telemetry view
                 </span>
@@ -276,7 +292,7 @@ function AgriPark() {
         </div>
 
         {/* Trial Results Table with Filter Controls */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left space-y-8">
+        <div className="border-t border-border pt-24 text-left space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
@@ -294,7 +310,7 @@ function AgriPark() {
                   type="text"
                   value={trialSearch}
                   onChange={(e) => setTrialSearch(e.target.value)}
-                  className="w-full bg-white border border-[#E7ECE8] rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
+                  className="w-full bg-card border border-border rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
                   placeholder="Search crop or lab..."
                 />
               </div>
@@ -307,7 +323,7 @@ function AgriPark() {
                     className={`px-4 py-2 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${
                       trialStatus === st
                         ? "bg-forest border-forest text-cream"
-                        : "bg-white border-[#E7ECE8] text-forest/70 hover:border-forest"
+                        : "bg-card border-border text-forest/70 hover:border-forest"
                     }`}
                   >
                     {st}
@@ -317,10 +333,10 @@ function AgriPark() {
             </div>
           </div>
 
-          <div className="overflow-x-auto border border-[#E7ECE8] rounded-[2rem] bg-white shadow-sm">
+          <div className="overflow-x-auto border border-border rounded-[2rem] bg-card shadow-sm">
             <table className="w-full text-left border-collapse text-xs md:text-sm">
               <thead>
-                <tr className="bg-bone/40 border-b border-[#E7ECE8] font-mono text-[10px] tracking-wider text-forest/50 uppercase">
+                <tr className="bg-bone/40 border-b border-border font-mono text-[10px] tracking-wider text-forest/50 uppercase">
                   <th className="px-6 py-4 font-bold">Trial ID</th>
                   <th className="px-6 py-4 font-bold">Crop & Variety</th>
                   <th className="px-6 py-4 font-bold">Partner Labs</th>
@@ -345,7 +361,10 @@ function AgriPark() {
                 ))}
                 {filteredTrials.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-forest/40 font-mono text-xs bg-bone/10">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-12 text-center text-forest/40 font-mono text-xs bg-bone/10"
+                    >
                       No matching trial entries discovered.
                     </td>
                   </tr>
@@ -356,8 +375,8 @@ function AgriPark() {
         </div>
 
         {/* Visit Booking Form */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left">
-          <div className="bg-bone rounded-[2.5rem] border border-[#E7ECE8] p-8 md:p-12 max-w-4xl mx-auto">
+        <div className="border-t border-border pt-24 text-left">
+          <div className="bg-bone rounded-[2.5rem] border border-border p-8 md:p-12 max-w-4xl mx-auto">
             <div className="mb-8">
               <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
                 Field Consult
@@ -372,7 +391,7 @@ function AgriPark() {
             </div>
 
             {visitBooked ? (
-              <div className="p-6 text-center bg-white border border-forest/10 rounded-xl flex items-center justify-center gap-3 animate-in fade-in">
+              <div className="p-6 text-center bg-card border border-forest/10 rounded-xl flex items-center justify-center gap-3 animate-in fade-in">
                 <ShieldCheck className="w-5 h-5 text-emerald-500 animate-pulse" />
                 <span className="font-sans font-bold text-forest-deep text-sm">
                   Tour request registered! We will call to confirm.
@@ -390,7 +409,7 @@ function AgriPark() {
                   <input
                     required
                     type="text"
-                    className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
+                    className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
                     placeholder="Ramesh Yadav"
                   />
                 </div>
@@ -401,7 +420,7 @@ function AgriPark() {
                   <input
                     required
                     type="tel"
-                    className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
+                    className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm focus:border-forest focus:outline-none"
                     placeholder="+91 98765 43210"
                   />
                 </div>

@@ -36,9 +36,7 @@ function KisaanMall() {
 
   // Sync preset crop package to cart when crop changes
   const loadPresetPackage = () => {
-    const preset = catalogItems.filter(
-      (item) => item.crop === "All" || item.crop === selectedCrop
-    );
+    const preset = catalogItems.filter((item) => item.crop === "All" || item.crop === selectedCrop);
     const cartItems = preset.map((item) => ({
       id: item.id,
       name: item.name,
@@ -60,19 +58,26 @@ function KisaanMall() {
       setCart((prev) => prev.filter((item) => item.id !== id));
       return;
     }
-    setCart((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, qtyNeeded: newQty } : item))
-    );
+    setCart((prev) => prev.map((item) => (item.id === id ? { ...item, qtyNeeded: newQty } : item)));
   };
 
   // Add item to cart from catalog browser
-  const addItemToCart = (item: typeof catalogItems[0]) => {
+  const addItemToCart = (item: (typeof catalogItems)[0]) => {
     setCart((prev) => {
       const exists = prev.find((x) => x.id === item.id);
       if (exists) {
         return prev.map((x) => (x.id === item.id ? { ...x, qtyNeeded: x.qtyNeeded + 1 } : x));
       }
-      return [...prev, { id: item.id, name: item.name, category: item.category, pricePerAc: item.pricePerAc, qtyNeeded: acres }];
+      return [
+        ...prev,
+        {
+          id: item.id,
+          name: item.name,
+          category: item.category,
+          pricePerAc: item.pricePerAc,
+          qtyNeeded: acres,
+        },
+      ];
     });
   };
 
@@ -110,8 +115,9 @@ function KisaanMall() {
   };
 
   const filteredCatalog = catalogItems.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.desc.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch =
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.desc.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === "All" || item.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
@@ -121,7 +127,7 @@ function KisaanMall() {
       <Header />
 
       {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -131,8 +137,8 @@ function KisaanMall() {
             Kisaan <span className="italic text-terracotta">Mall.</span>
           </h1>
           <p className="text-xl md:text-2xl text-forest/80 leading-relaxed font-normal max-w-2xl">
-            A comprehensive agricultural input store containing verified fertilizers,
-            seeds, biological boosters, and drip line accessories.
+            A comprehensive agricultural input store containing verified fertilizers, seeds,
+            biological boosters, and drip line accessories.
           </p>
         </div>
       </div>
@@ -146,18 +152,20 @@ function KisaanMall() {
             </h2>
             <p className="text-forest/75 text-sm md:text-base leading-relaxed">
               Input duplicate counterfeiting and incorrect dosing calculations waste farmer
-              resources and damage soil structures. At Agaate Kisaan Malls, every seed package, chemical
-              protection pouch, or organic conditioner is tracked directly from factory source to
-              your billing receipt, verifying dosage safety.
+              resources and damage soil structures. At Agaate Kisaan Malls, every seed package,
+              chemical protection pouch, or organic conditioner is tracked directly from factory
+              source to your billing receipt, verifying dosage safety.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[#E7ECE8]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-border">
               <div className="flex gap-3">
                 <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0 border border-forest/10">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-forest-deep text-sm md:text-base">Verified Source</h4>
+                  <h4 className="font-bold text-forest-deep text-sm md:text-base">
+                    Verified Source
+                  </h4>
                   <p className="text-xs text-forest/65 mt-1 leading-relaxed">
                     Direct partner logistics loops with Bayer, Yara, Sakata, and Netafim.
                   </p>
@@ -181,10 +189,15 @@ function KisaanMall() {
             {/* QR Tracing Simulator */}
             <div className="bg-[#eef3f0]/50 rounded-[2rem] border border-forest/10 p-8 space-y-6 text-left">
               <div>
-                <span className="font-jet text-[9px] tracking-widest text-forest font-bold uppercase block mb-1">Authenticity audit</span>
-                <h3 className="font-serif text-2xl text-forest-deep font-bold">Input Batch Verification Hub</h3>
+                <span className="font-jet text-[9px] tracking-widest text-forest font-bold uppercase block mb-1">
+                  Authenticity audit
+                </span>
+                <h3 className="font-serif text-2xl text-forest-deep font-bold">
+                  Input Batch Verification Hub
+                </h3>
                 <p className="text-xs text-forest/70 mt-1 leading-relaxed">
-                  Enter a batch verification serial code to simulate tracking the packet's origin logistics journey.
+                  Enter a batch verification serial code to simulate tracking the packet's origin
+                  logistics journey.
                 </p>
               </div>
 
@@ -192,7 +205,7 @@ function KisaanMall() {
                 <input
                   type="text"
                   placeholder="e.g. TR-9482-B"
-                  className="bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-xs font-mono font-bold text-forest-deep focus:outline-none focus:border-forest flex-grow"
+                  className="bg-card border border-border rounded-xl px-4 py-3 text-xs font-mono font-bold text-forest-deep focus:outline-none focus:border-forest flex-grow"
                   id="trace-input"
                 />
                 <button
@@ -207,15 +220,15 @@ function KisaanMall() {
               </div>
 
               {verifyingCode && (
-                <div className="p-4 bg-white border border-[#E7ECE8] rounded-xl flex items-center justify-center gap-3 text-xs text-forest/70 font-mono">
+                <div className="p-4 bg-card border border-border rounded-xl flex items-center justify-center gap-3 text-xs text-forest/70 font-mono">
                   <RefreshCw className="w-4 h-4 text-forest animate-spin" />
                   <span>Verifying batch {verifyingCode} signatures...</span>
                 </div>
               )}
 
               {verifiedData && (
-                <div className="p-5 bg-white border border-forest/20 rounded-xl space-y-3 text-xs font-mono animate-in fade-in">
-                  <div className="flex justify-between text-[10px] text-emerald-600 font-bold border-b border-[#E7ECE8] pb-2">
+                <div className="p-5 bg-card border border-forest/20 rounded-xl space-y-3 text-xs font-mono animate-in fade-in">
+                  <div className="flex justify-between text-[10px] text-emerald-600 font-bold border-b border-border pb-2">
                     <span>STATUS: {verifiedData.purity}</span>
                     <span>TIMESTAMP: {verifiedData.verifiedAt}</span>
                   </div>
@@ -228,9 +241,13 @@ function KisaanMall() {
                       <span className="text-forest/40 block text-[9px]">CHEMICAL FORMULATION</span>
                       <span className="font-bold text-forest-deep">{verifiedData.composition}</span>
                     </div>
-                    <div className="col-span-2 pt-2 border-t border-[#E7ECE8]/50">
-                      <span className="text-forest/40 block text-[9px]">DISTRIBUTION STORAGE PATH</span>
-                      <span className="font-bold text-forest-deep">{verifiedData.distribution}</span>
+                    <div className="col-span-2 pt-2 border-t border-border/50">
+                      <span className="text-forest/40 block text-[9px]">
+                        DISTRIBUTION STORAGE PATH
+                      </span>
+                      <span className="font-bold text-forest-deep">
+                        {verifiedData.distribution}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -239,16 +256,18 @@ function KisaanMall() {
           </div>
 
           {/* Interactive Calculator/Shopping Bag */}
-          <div className="lg:col-span-5 bg-bone rounded-[2.5rem] border border-[#E7ECE8] p-8 text-left space-y-8 shadow-sm">
+          <div className="lg:col-span-5 bg-bone rounded-[2.5rem] border border-border p-8 text-left space-y-8 shadow-sm">
             <div>
               <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
                 Acreage Synced Basket
               </span>
-              <h3 className="font-serif text-3xl text-forest-deep font-bold">Input Package Planner</h3>
+              <h3 className="font-serif text-3xl text-forest-deep font-bold">
+                Input Package Planner
+              </h3>
             </div>
 
             {ordered ? (
-              <div className="p-8 text-center bg-white border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[380px] animate-in fade-in zoom-in-95">
+              <div className="p-8 text-center bg-card border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[380px] animate-in fade-in zoom-in-95">
                 <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-6">
                   <ShieldCheck className="w-8 h-8 animate-bounce" />
                 </div>
@@ -256,7 +275,8 @@ function KisaanMall() {
                   Inputs Reserved
                 </h4>
                 <p className="text-xs text-forest/70 max-w-xs leading-relaxed">
-                  Your custom input package order has been successfully queued. An agronomist will review your crop-block details and call to dispatch trays.
+                  Your custom input package order has been successfully queued. An agronomist will
+                  review your crop-block details and call to dispatch trays.
                 </p>
               </div>
             ) : (
@@ -277,7 +297,7 @@ function KisaanMall() {
                         className={`flex-1 py-3 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                           selectedCrop === c
                             ? "bg-forest text-cream border border-forest"
-                            : "bg-white border border-[#E7ECE8] text-forest/70 hover:border-forest"
+                            : "bg-card border border-border text-forest/70 hover:border-forest"
                         }`}
                       >
                         {c}
@@ -296,18 +316,27 @@ function KisaanMall() {
                     max={25}
                     value={acres}
                     onChange={(e) => syncCartToAcres(parseInt(e.target.value))}
-                    className="w-full h-1.5 bg-[#E7ECE8] rounded-lg appearance-none cursor-pointer accent-forest"
+                    className="w-full h-1.5 bg-border rounded-lg appearance-none cursor-pointer accent-forest"
                   />
                 </div>
 
                 {/* Shopping list inside form */}
-                <div className="space-y-3 bg-white p-5 border border-[#E7ECE8] rounded-2xl max-h-[220px] overflow-y-auto">
-                  <span className="text-[10px] font-mono text-forest/40 uppercase block border-b border-[#E7ECE8]/50 pb-2">Shopping Bag List ({cart.length} items)</span>
+                <div className="space-y-3 bg-card p-5 border border-border rounded-2xl max-h-[220px] overflow-y-auto">
+                  <span className="text-[10px] font-mono text-forest/40 uppercase block border-b border-border/50 pb-2">
+                    Shopping Bag List ({cart.length} items)
+                  </span>
                   {cart.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center text-xs font-mono py-1">
+                    <div
+                      key={item.id}
+                      className="flex justify-between items-center text-xs font-mono py-1"
+                    >
                       <div className="max-w-[70%] text-left">
-                        <span className="font-bold text-forest-deep block truncate">{item.name}</span>
-                        <span className="text-[9px] text-forest/40">₹{item.pricePerAc.toLocaleString()}/ac</span>
+                        <span className="font-bold text-forest-deep block truncate">
+                          {item.name}
+                        </span>
+                        <span className="text-[9px] text-forest/40">
+                          ₹{item.pricePerAc.toLocaleString()}/ac
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -329,11 +358,13 @@ function KisaanMall() {
                     </div>
                   ))}
                   {cart.length === 0 && (
-                    <span className="text-xs text-forest/35 block py-4 text-center">Cart is empty. Select products below.</span>
+                    <span className="text-xs text-forest/35 block py-4 text-center">
+                      Cart is empty. Select products below.
+                    </span>
                   )}
                 </div>
 
-                <div className="p-4 bg-white border border-[#E7ECE8] rounded-2xl flex justify-between items-center text-xs font-mono shadow-sm">
+                <div className="p-4 bg-card border border-border rounded-2xl flex justify-between items-center text-xs font-mono shadow-sm">
                   <span className="text-forest/40">EST. TOTAL SYSTEM COST</span>
                   <span className="text-terracotta font-bold text-lg">
                     ₹{cartTotal.toLocaleString("en-IN")}
@@ -358,7 +389,7 @@ function KisaanMall() {
         </div>
 
         {/* Input Catalog Browser */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left space-y-8">
+        <div className="border-t border-border pt-24 text-left space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
@@ -377,7 +408,7 @@ function KisaanMall() {
                   className={`px-4 py-2.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
                     activeCategory === cat
                       ? "bg-forest text-cream border border-forest"
-                      : "bg-white border border-[#E7ECE8] text-forest/70 hover:border-forest"
+                      : "bg-card border border-border text-forest/70 hover:border-forest"
                   }`}
                 >
                   {cat}
@@ -388,7 +419,10 @@ function KisaanMall() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredCatalog.map((item, idx) => (
-              <div key={idx} className="bg-white border border-[#E7ECE8] rounded-2xl p-6 flex flex-col justify-between min-h-[260px] hover:shadow-md transition-all duration-300">
+              <div
+                key={idx}
+                className="bg-card border border-border rounded-2xl p-6 flex flex-col justify-between min-h-[260px] hover:shadow-md transition-all duration-300"
+              >
                 <div>
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-[9px] font-mono font-bold bg-[#eef3f0] text-forest border border-forest/10 px-2 py-0.5 rounded">
@@ -398,14 +432,18 @@ function KisaanMall() {
                       ID: {item.id}
                     </span>
                   </div>
-                  <h4 className="font-serif text-lg font-bold text-forest-deep mb-2">{item.name}</h4>
+                  <h4 className="font-serif text-lg font-bold text-forest-deep mb-2">
+                    {item.name}
+                  </h4>
                   <p className="text-forest/65 text-xs leading-relaxed mb-4">{item.desc}</p>
                 </div>
 
-                <div className="pt-4 border-t border-[#E7ECE8]/50 flex justify-between items-center">
+                <div className="pt-4 border-t border-border/50 flex justify-between items-center">
                   <div>
                     <span className="text-[9px] text-forest/40 font-mono block">PRICE / ACRE</span>
-                    <span className="font-mono text-sm font-bold text-terracotta">₹{item.pricePerAc.toLocaleString("en-IN")}</span>
+                    <span className="font-mono text-sm font-bold text-terracotta">
+                      ₹{item.pricePerAc.toLocaleString("en-IN")}
+                    </span>
                   </div>
                   <button
                     onClick={() => addItemToCart(item)}

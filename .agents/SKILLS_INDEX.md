@@ -19,4 +19,3 @@ Agaate relies heavily on GSAP 3.15 and `@tw-animate-css` for scroll-triggered st
 - **[gsap-performance](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-performance/SKILL.md)**: Optimizing for 60fps (`will-change`, transform preference, avoiding layout thrashing, batching).
 - **[gsap-plugins](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-plugins/SKILL.md)**: Official GSAP plugins (`SplitText`, `Observer`, `Flip`, `ScrollSmoother`, `Draggable`, `CustomEase`).
 - **[gsap-utils](file:///c:/Users/krish/Downloads/agaate/.agents/skills/gsap-utils/SKILL.md)**: Utility functions (`gsap.utils.clamp`, `mapRange`, `interpolate`, `toArray`, `snap`).
-

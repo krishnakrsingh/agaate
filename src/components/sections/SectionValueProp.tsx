@@ -29,8 +29,6 @@ const pillars = [
   },
 ];
 
-
-
 export default function SectionValueProp() {
   const sectionRef = useRef<HTMLElement>(null);
   const manifestoRef = useRef<HTMLParagraphElement>(null);
@@ -138,10 +136,6 @@ export default function SectionValueProp() {
             );
           })}
         </div>
-
-
-
-
       </div>
     </section>
   );

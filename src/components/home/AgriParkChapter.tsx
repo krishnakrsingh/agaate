@@ -16,7 +16,7 @@ export default function AgriParkChapter() {
   return (
     <section
       id="agri-park"
-      className="scroll-mt-20 bg-white px-6 py-20 md:px-10 md:py-24 lg:px-12 lg:py-28"
+      className="scroll-mt-20 bg-card px-6 py-20 md:px-10 md:py-24 lg:px-12 lg:py-28"
     >
       <div className="mx-auto max-w-[1400px]">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
@@ -27,7 +27,7 @@ export default function AgriParkChapter() {
                 A farm made for seeing before believing.
               </h2>
             </div>
-            
+
             <div className="mt-12 lg:mt-0">
               <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-8 border-t border-[#174735]/15 pt-6">
                 {zones.map((zone, index) => (

@@ -2,7 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState, useRef } from "react";
-import { Leaf, Award, Globe, Shield, Calendar, Compass, ChevronRight, BookOpen } from "lucide-react";
+import {
+  Leaf,
+  Award,
+  Globe,
+  Shield,
+  Calendar,
+  Compass,
+  ChevronRight,
+  BookOpen,
+} from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -91,7 +100,7 @@ function About() {
       <Header />
 
       {/* Hero Header */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -115,7 +124,7 @@ function About() {
             return (
               <div
                 key={idx}
-                className="p-8 rounded-[2.5rem] bg-white border border-[#E7ECE8] transition-all duration-300 hover:border-forest/20 hover:shadow-md text-left"
+                className="p-8 rounded-[2.5rem] bg-card border border-border transition-all duration-300 hover:border-forest/20 hover:shadow-md text-left"
               >
                 <div className="w-12 h-12 rounded-2xl bg-forest/5 flex items-center justify-center text-forest mb-6 border border-forest/10">
                   <Icon className="w-6 h-6" />
@@ -128,7 +137,7 @@ function About() {
         </div>
 
         {/* Interactive Timeline block */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left">
+        <div className="border-t border-border pt-24 text-left">
           <div className="max-w-2xl mb-12">
             <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
               Our Milestones
@@ -148,7 +157,7 @@ function About() {
                   className={`w-full text-left p-6 border rounded-[2rem] transition-all cursor-pointer ${
                     activeMilestone === idx
                       ? "bg-forest border-forest text-cream shadow-md"
-                      : "bg-white border-[#E7ECE8] hover:border-forest/30 text-forest-deep"
+                      : "bg-card border-border hover:border-forest/30 text-forest-deep"
                   }`}
                 >
                   <span className="font-serif text-3xl font-bold block">{m.year}</span>
@@ -158,10 +167,12 @@ function About() {
             </div>
 
             {/* Right side: Detailed Milestone View */}
-            <div className="lg:col-span-8 bg-bone rounded-[3rem] p-8 md:p-12 min-h-[260px] flex flex-col justify-between border border-[#E7ECE8] text-left relative overflow-hidden">
+            <div className="lg:col-span-8 bg-bone rounded-[3rem] p-8 md:p-12 min-h-[260px] flex flex-col justify-between border border-border text-left relative overflow-hidden">
               <div className="absolute right-0 bottom-0 w-64 h-64 bg-forest/5 rounded-full blur-2xl pointer-events-none" />
               <div className="relative z-10 space-y-4">
-                <span className="font-jet text-[10px] tracking-widest text-terracotta font-bold uppercase block">MILESTONE HIGHLIGHT</span>
+                <span className="font-jet text-[10px] tracking-widest text-terracotta font-bold uppercase block">
+                  MILESTONE HIGHLIGHT
+                </span>
                 <h3 className="font-serif text-3xl md:text-4xl text-forest-deep font-bold leading-tight">
                   {milestones[activeMilestone].title}
                 </h3>
@@ -174,7 +185,7 @@ function About() {
         </div>
 
         {/* Leadership Team block */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left">
+        <div className="border-t border-border pt-24 text-left">
           <div className="max-w-2xl mb-12">
             <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
               Operational Leadership
@@ -183,7 +194,8 @@ function About() {
               Ecosystem guides
             </h2>
             <p className="text-forest/70 text-sm mt-2 leading-relaxed">
-              Click on any leadership profile to view their recent agronomy publications or field data research papers.
+              Click on any leadership profile to view their recent agronomy publications or field
+              data research papers.
             </p>
           </div>
 
@@ -198,28 +210,40 @@ function About() {
                   className={`rounded-[2rem] p-6 border transition-all duration-300 flex flex-col justify-between min-h-[240px] cursor-pointer text-left ${
                     isSelected
                       ? "bg-forest border-forest text-cream shadow-md scale-[1.02]"
-                      : "bg-white border-[#E7ECE8] hover:border-forest/20 hover:shadow-sm text-forest-deep"
+                      : "bg-card border-border hover:border-forest/20 hover:shadow-sm text-forest-deep"
                   }`}
                 >
                   <div>
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-6 border ${
-                      isSelected ? "bg-white/10 border-white/20 text-cream" : "bg-forest/5 border-forest/10 text-forest"
-                    }`}>
+                    <div
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center mb-6 border ${
+                        isSelected
+                          ? "bg-cream/10 border-white/20 text-cream"
+                          : "bg-forest/5 border-forest/10 text-forest"
+                      }`}
+                    >
                       <Icon className="w-5 h-5" />
                     </div>
                     <h3 className="font-serif text-xl font-bold mb-1">{member.name}</h3>
-                    <p className={`font-mono text-[9px] tracking-wider uppercase font-semibold ${
-                      isSelected ? "text-terracotta/90" : "text-terracotta"
-                    }`}>
+                    <p
+                      className={`font-mono text-[9px] tracking-wider uppercase font-semibold ${
+                        isSelected ? "text-terracotta/90" : "text-terracotta"
+                      }`}
+                    >
                       {member.role}
                     </p>
                   </div>
                   <div>
-                    <span className={`text-[10px] font-semibold border-t pt-3 mt-4 block flex items-center justify-between ${
-                      isSelected ? "border-white/10 text-cream/80" : "border-[#E7ECE8] text-forest/60"
-                    }`}>
+                    <span
+                      className={`text-[10px] font-semibold border-t pt-3 mt-4 block flex items-center justify-between ${
+                        isSelected
+                          ? "border-white/10 text-cream/80"
+                          : "border-border text-forest/60"
+                      }`}
+                    >
                       <span>{isSelected ? "Hide details" : "View research"}</span>
-                      <ChevronRight className={`w-3.5 h-3.5 transform transition-transform ${isSelected ? "rotate-90" : ""}`} />
+                      <ChevronRight
+                        className={`w-3.5 h-3.5 transform transition-transform ${isSelected ? "rotate-90" : ""}`}
+                      />
                     </span>
                   </div>
                 </div>

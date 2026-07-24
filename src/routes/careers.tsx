@@ -54,7 +54,7 @@ function Careers() {
       <Header />
 
       {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -89,7 +89,7 @@ function Careers() {
           ].map((c, idx) => (
             <div
               key={idx}
-              className="p-8 rounded-[2.5rem] bg-white border border-[#E7ECE8] text-left hover:shadow-sm transition-all duration-300"
+              className="p-8 rounded-[2.5rem] bg-card border border-border text-left hover:shadow-sm transition-all duration-300"
             >
               <h3 className="font-serif text-2xl font-bold text-forest-deep mb-4">{c.title}</h3>
               <p className="text-forest/70 text-sm leading-relaxed">{c.desc}</p>
@@ -98,7 +98,7 @@ function Careers() {
         </div>
 
         {/* Jobs Listing */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left">
+        <div className="border-t border-border pt-24 text-left">
           <div className="max-w-2xl mb-12">
             <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
               Active Positions
@@ -113,7 +113,7 @@ function Careers() {
               <div
                 key={job.id}
                 onClick={() => handleOpenJob(job)}
-                className="bg-white border border-[#E7ECE8] rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:border-forest/20 hover:shadow-md transition-all duration-300 cursor-pointer"
+                className="bg-card border border-border rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:border-forest/20 hover:shadow-md transition-all duration-300 cursor-pointer"
               >
                 <div className="space-y-2 text-left">
                   <div className="flex flex-wrap items-center gap-3">
@@ -143,12 +143,11 @@ function Careers() {
       {/* Application Drawer / Modal */}
       {selectedJob && (
         <div className="fixed inset-0 bg-forest-deep/30 backdrop-blur-sm z-50 flex justify-end">
-          <div className="w-full max-w-lg bg-cream min-h-screen p-8 md:p-12 shadow-2xl overflow-y-auto flex flex-col justify-between border-l border-[#E7ECE8] relative animate-in slide-in-from-right duration-300">
-            
+          <div className="w-full max-w-lg bg-cream min-h-screen p-8 md:p-12 shadow-2xl overflow-y-auto flex flex-col justify-between border-l border-border relative animate-in slide-in-from-right duration-300">
             {/* Close button */}
             <button
               onClick={() => setSelectedJob(null)}
-              className="absolute right-6 top-6 w-8 h-8 rounded-full bg-white border border-[#E7ECE8] flex items-center justify-center text-forest/65 hover:text-forest cursor-pointer shadow-sm"
+              className="absolute right-6 top-6 w-8 h-8 rounded-full bg-card border border-border flex items-center justify-center text-forest/65 hover:text-forest cursor-pointer shadow-sm"
             >
               <X className="w-4 h-4" />
             </button>
@@ -167,7 +166,7 @@ function Careers() {
               </div>
 
               {applied ? (
-                <div className="p-8 text-center bg-white border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[300px] animate-in fade-in zoom-in-95">
+                <div className="p-8 text-center bg-card border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[300px] animate-in fade-in zoom-in-95">
                   <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-6">
                     <CheckCircle className="w-8 h-8 animate-bounce" />
                   </div>
@@ -175,7 +174,8 @@ function Careers() {
                     Application Logged
                   </h4>
                   <p className="text-xs text-forest/70 max-w-xs leading-relaxed">
-                    Thank you, your application details have been submitted. Our operations team will check your profile experience logs and call within 48 hours.
+                    Thank you, your application details have been submitted. Our operations team
+                    will check your profile experience logs and call within 48 hours.
                   </p>
                 </div>
               ) : (
@@ -192,24 +192,28 @@ function Careers() {
                   {step === 1 && (
                     <div className="space-y-4 animate-in fade-in">
                       <div>
-                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Your Full Name *</label>
+                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                          Your Full Name *
+                        </label>
                         <input
                           required
                           type="text"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                          className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
                           placeholder="e.g. Sandeep Phogat"
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Phone Number *</label>
+                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                          Phone Number *
+                        </label>
                         <input
                           required
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                          className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
                           placeholder="e.g. +91 99887 76655"
                         />
                       </div>
@@ -219,11 +223,13 @@ function Careers() {
                   {step === 2 && (
                     <div className="space-y-4 animate-in fade-in">
                       <div>
-                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Professional Experience *</label>
+                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                          Professional Experience *
+                        </label>
                         <select
                           value={exp}
                           onChange={(e) => setExp(e.target.value)}
-                          className="w-full bg-white border border-[#E7ECE8] rounded-xl px-3 py-3 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
+                          className="w-full bg-card border border-border rounded-xl px-3 py-3 text-xs focus:border-forest focus:outline-none font-semibold text-forest-deep"
                         >
                           <option>1-3 Years</option>
                           <option>3-5 Years</option>
@@ -231,12 +237,14 @@ function Careers() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">Key Crop / Hardware Experience</label>
+                        <label className="block text-[10px] font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
+                          Key Crop / Hardware Experience
+                        </label>
                         <input
                           type="text"
                           value={cropExp}
                           onChange={(e) => setCropExp(e.target.value)}
-                          className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                          className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
                           placeholder="e.g. Solanaceae pathology / PCB debugging"
                         />
                       </div>
@@ -245,14 +253,23 @@ function Careers() {
 
                   {step === 3 && (
                     <div className="space-y-4 animate-in fade-in leading-relaxed">
-                      <div className="p-4 bg-white border border-[#E7ECE8] rounded-xl text-xs space-y-2">
-                        <p><strong>Name:</strong> {name || "Not provided"}</p>
-                        <p><strong>Phone:</strong> {phone || "Not provided"}</p>
-                        <p><strong>Experience:</strong> {exp}</p>
-                        <p><strong>Focus Area:</strong> {cropExp || "General"}</p>
+                      <div className="p-4 bg-card border border-border rounded-xl text-xs space-y-2">
+                        <p>
+                          <strong>Name:</strong> {name || "Not provided"}
+                        </p>
+                        <p>
+                          <strong>Phone:</strong> {phone || "Not provided"}
+                        </p>
+                        <p>
+                          <strong>Experience:</strong> {exp}
+                        </p>
+                        <p>
+                          <strong>Focus Area:</strong> {cropExp || "General"}
+                        </p>
                       </div>
                       <p className="text-xs text-forest/70">
-                        By clicking submit, you confirm the accuracy of your details. A recruiter will follow up via WhatsApp/call.
+                        By clicking submit, you confirm the accuracy of your details. A recruiter
+                        will follow up via WhatsApp/call.
                       </p>
                     </div>
                   )}
@@ -269,11 +286,12 @@ function Careers() {
               )}
             </div>
 
-            <div className="pt-8 border-t border-[#E7ECE8]/50 text-[10px] font-mono text-forest/40 flex justify-between items-center text-left">
+            <div className="pt-8 border-t border-border/50 text-[10px] font-mono text-forest/40 flex justify-between items-center text-left">
               <span>AG-HR-PORTAL</span>
-              <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> 48h Response</span>
+              <span className="flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5" /> 48h Response
+              </span>
             </div>
-
           </div>
         </div>
       )}

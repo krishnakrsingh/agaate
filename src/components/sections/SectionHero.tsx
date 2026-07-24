@@ -67,7 +67,7 @@ export default memo(function SectionHero({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => { });
+          video.play().catch(() => {});
         } else {
           video.pause();
         }
@@ -172,7 +172,7 @@ export default memo(function SectionHero({
         {/* Cinematic reveal curtain (hardware-composited opacity instead of heavy CSS filter shader on video container) */}
         <div
           ref={curtainRef}
-          className="absolute inset-0 z-[1] bg-black pointer-events-none opacity-0"
+          className="absolute inset-0 z-[1] bg-ink pointer-events-none opacity-0"
         />
 
         {/* Overlay — strong bottom floor so text always reads, light top scrim for nav */}
@@ -194,11 +194,10 @@ export default memo(function SectionHero({
         {/* ── SPLIT BOTTOM LAYOUT ── */}
         <div className="absolute inset-0 z-10 flex items-end px-8 md:px-14 pb-14 md:pb-16">
           <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
-
             {/* LEFT — Elegant display headline (pure white, larger scale) */}
             <h1
               ref={h1Ref}
-              className="opacity-0 text-white md:max-w-[62%]"
+              className="opacity-0 text-cream md:max-w-[62%]"
               style={{
                 fontFamily: "Manrope, Inter, Arial, sans-serif",
                 fontSize: "clamp(3.75rem, 6.8vw, 6.5rem)",
@@ -208,9 +207,7 @@ export default memo(function SectionHero({
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
-              <span style={{ color: "#ffffff", fontWeight: 500 }}>
-                Precision Science
-              </span>
+              <span style={{ color: "#ffffff", fontWeight: 500 }}>Precision Science</span>
               <br />
               for the Fields
               <br />
@@ -227,7 +224,7 @@ export default memo(function SectionHero({
             >
               <p
                 ref={pRef}
-                className="opacity-0 text-white"
+                className="opacity-0 text-cream"
                 style={{
                   fontFamily: "Manrope, Inter, Arial, sans-serif",
                   fontSize: "clamp(0.83rem, 0.92vw, 0.88rem)",
@@ -236,8 +233,8 @@ export default memo(function SectionHero({
                   lineHeight: 1.55,
                 }}
               >
-                Your crop has one season. We give it every advantage — AI that watches
-                the field, agronomists who answer the call, inputs that actually work.
+                Your crop has one season. We give it every advantage — AI that watches the field,
+                agronomists who answer the call, inputs that actually work.
               </p>
 
               {/* CTA Buttons (Balanced scale) */}
@@ -274,7 +271,7 @@ export default memo(function SectionHero({
                 </a>
                 <a
                   href="#app"
-                  className="inline-flex items-center gap-2 text-white/80 transition-all duration-200 hover:text-white px-2 py-2 font-normal"
+                  className="inline-flex items-center gap-2 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal"
                   style={{
                     fontFamily: "Manrope, Inter, Arial, sans-serif",
                     fontSize: "13.5px",
@@ -298,7 +295,6 @@ export default memo(function SectionHero({
                 </a>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -307,7 +303,7 @@ export default memo(function SectionHero({
 
         {/* Scroll cue */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5">
-          <div className="w-px h-7 bg-white/20 animate-pulse" />
+          <div className="w-px h-7 bg-cream/20 animate-pulse" />
         </div>
       </div>
     </section>

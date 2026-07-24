@@ -72,16 +72,14 @@ function Community() {
     },
   ];
 
-  const filteredPosts = posts.filter(
-    (p) => activeCrop === "All" || p.crop === activeCrop
-  );
+  const filteredPosts = posts.filter((p) => activeCrop === "All" || p.crop === activeCrop);
 
   return (
     <main className="bg-cream text-ink antialiased min-h-screen flex flex-col font-sans">
       <Header />
 
       {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -119,7 +117,7 @@ function Community() {
                     className={`px-3 py-1.5 rounded-full font-mono text-[9px] font-bold border transition-all cursor-pointer ${
                       activeCrop === c
                         ? "bg-forest border-forest text-cream"
-                        : "bg-white border-[#E7ECE8] text-forest/70 hover:border-forest"
+                        : "bg-card border-border text-forest/70 hover:border-forest"
                     }`}
                   >
                     {c}
@@ -133,7 +131,7 @@ function Community() {
               {filteredPosts.map((post, idx) => (
                 <div
                   key={idx}
-                  className="bg-white border border-[#E7ECE8] rounded-[2rem] p-6 text-left space-y-4 hover:shadow-sm transition-all duration-300"
+                  className="bg-card border border-border rounded-[2rem] p-6 text-left space-y-4 hover:shadow-sm transition-all duration-300"
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex gap-3">
@@ -142,9 +140,7 @@ function Community() {
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-forest-deep text-sm">
-                            {post.author}
-                          </span>
+                          <span className="font-bold text-forest-deep text-sm">{post.author}</span>
                           {post.verified && (
                             <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 font-mono text-[8px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5">
                               <ShieldCheck className="w-2.5 h-2.5" /> Verified
@@ -156,7 +152,7 @@ function Community() {
                         </span>
                       </div>
                     </div>
-                    <span className="font-mono text-[9px] font-bold bg-[#F9FAF9] text-forest px-2.5 py-1 rounded border border-[#E7ECE8]">
+                    <span className="font-mono text-[9px] font-bold bg-[#F9FAF9] text-forest px-2.5 py-1 rounded border border-border">
                       {post.crop.toUpperCase()}
                     </span>
                   </div>
@@ -165,7 +161,7 @@ function Community() {
                     {post.text}
                   </p>
 
-                  <div className="flex items-center gap-4 text-xs font-mono pt-3 border-t border-[#E7ECE8]/50">
+                  <div className="flex items-center gap-4 text-xs font-mono pt-3 border-t border-border/50">
                     <button className="flex items-center gap-1.5 text-forest/50 hover:text-terracotta transition-colors">
                       <Heart className="w-4 h-4" />
                       <span>{post.likes}</span>
@@ -195,13 +191,15 @@ function Community() {
               {events.map((ev) => (
                 <div
                   key={ev.id}
-                  className="bg-bone rounded-[2rem] border border-[#E7ECE8] p-6 text-left space-y-4 shadow-sm"
+                  className="bg-bone rounded-[2rem] border border-border p-6 text-left space-y-4 shadow-sm"
                 >
                   <div className="flex justify-between items-start">
                     <span className="text-[10px] font-mono text-terracotta font-bold uppercase tracking-wider">
                       Seminar Pass
                     </span>
-                    <span className="font-mono text-[9px] text-forest/50">{ev.date.split(",")[0]}</span>
+                    <span className="font-mono text-[9px] text-forest/50">
+                      {ev.date.split(",")[0]}
+                    </span>
                   </div>
                   <h4 className="font-serif text-lg font-bold text-forest-deep leading-tight">
                     {ev.title}
@@ -211,11 +209,15 @@ function Community() {
                   <div className="grid grid-cols-2 gap-2 text-[10px] font-mono text-forest/50 pt-2">
                     <div>
                       <span className="block text-[8px] text-forest/40">TIME</span>
-                      <span className="font-bold text-forest-deep">{ev.time.split(" ")[0] + " " + ev.time.split(" ")[1]}</span>
+                      <span className="font-bold text-forest-deep">
+                        {ev.time.split(" ")[0] + " " + ev.time.split(" ")[1]}
+                      </span>
                     </div>
                     <div>
                       <span className="block text-[8px] text-forest/40">VENUE</span>
-                      <span className="font-bold text-forest-deep truncate block">{ev.venue.split(" ")[2]}</span>
+                      <span className="font-bold text-forest-deep truncate block">
+                        {ev.venue.split(" ")[2]}
+                      </span>
                     </div>
                   </div>
 
@@ -224,7 +226,7 @@ function Community() {
                     className={`w-full py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all cursor-pointer ${
                       rsvpEvent === ev.id
                         ? "bg-emerald-600 text-cream"
-                        : "bg-white border border-[#E7ECE8] hover:border-forest text-forest"
+                        : "bg-card border border-border hover:border-forest text-forest"
                     }`}
                   >
                     {rsvpEvent === ev.id ? "Ticket Secured ✓" : "RSVP & Claim Pass"}
@@ -235,13 +237,17 @@ function Community() {
 
             {/* Generated RSVP Pass Overlay Modal */}
             {rsvpEvent && (
-              <div className="bg-white border border-[#E7ECE8] rounded-[2rem] p-6 text-center space-y-4 shadow-md animate-in zoom-in-95">
+              <div className="bg-card border border-border rounded-[2rem] p-6 text-center space-y-4 shadow-md animate-in zoom-in-95">
                 <Ticket className="w-10 h-10 text-terracotta mx-auto" />
-                <h4 className="font-serif text-xl font-bold text-forest-deep">Digital Seminar Pass</h4>
-                <div className="bg-bone/40 p-4 rounded-xl text-xs font-mono space-y-1.5 text-left border border-[#E7ECE8]">
+                <h4 className="font-serif text-xl font-bold text-forest-deep">
+                  Digital Seminar Pass
+                </h4>
+                <div className="bg-bone/40 p-4 rounded-xl text-xs font-mono space-y-1.5 text-left border border-border">
                   <div className="flex justify-between">
                     <span className="text-forest/40">PASS CODE:</span>
-                    <span className="font-bold text-forest-deep">AG-EVENT-{rsvpEvent.toUpperCase()}</span>
+                    <span className="font-bold text-forest-deep">
+                      AG-EVENT-{rsvpEvent.toUpperCase()}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-forest/40">DATE:</span>
@@ -257,8 +263,10 @@ function Community() {
                   </div>
                 </div>
                 {/* Mock Barcode */}
-                <div className="h-10 bg-mono bg-[repeating-linear-gradient(90deg,var(--color-forest),var(--color-forest)_2px,transparent_2px,transparent_6px)] w-full opacity-65 border-t border-[#E7ECE8]/50 pt-2" />
-                <span className="text-[9px] font-mono text-forest/40 uppercase font-bold tracking-wider">Present pass barcode at regional registration desk</span>
+                <div className="h-10 bg-mono bg-[repeating-linear-gradient(90deg,var(--color-forest),var(--color-forest)_2px,transparent_2px,transparent_6px)] w-full opacity-65 border-t border-border/50 pt-2" />
+                <span className="text-[9px] font-mono text-forest/40 uppercase font-bold tracking-wider">
+                  Present pass barcode at regional registration desk
+                </span>
               </div>
             )}
           </div>

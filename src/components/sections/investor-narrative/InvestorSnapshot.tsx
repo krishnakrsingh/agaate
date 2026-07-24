@@ -1,14 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ComponentType } from "react";
-import {
-  ArrowUpRight,
-  BarChart3,
-  Boxes,
-  Factory,
-  Handshake,
-  Tractor,
-  Users,
-} from "lucide-react";
+import { ArrowUpRight, BarChart3, Boxes, Factory, Handshake, Tractor, Users } from "lucide-react";
 import { Eyebrow, InlineCta } from "./Shared";
 
 type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
@@ -59,7 +51,10 @@ const proofMetrics: Array<{
 
 export function InvestorSnapshot() {
   return (
-    <section id="investor-snapshot" className="bg-white px-6 pt-20 pb-10 text-ink lg:px-12 lg:pt-28 lg:pb-14">
+    <section
+      id="investor-snapshot"
+      className="bg-card px-6 pt-20 pb-10 text-ink lg:px-12 lg:pt-28 lg:pb-14"
+    >
       <div className="mx-auto max-w-[1400px]">
         <div className="mb-12 grid gap-8 border-t border-ink/10 pt-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
@@ -100,7 +95,7 @@ export function InvestorSnapshot() {
                 <h3 className="mt-3 text-[15px] font-bold text-ink md:text-[16px]">
                   {metric.label}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#667069]">{metric.note}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{metric.note}</p>
               </div>
             );
           })}
@@ -114,7 +109,7 @@ export function InvestorSnapshot() {
           </p>
           <Link
             to="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-forest-deep ring-1 ring-forest/20 transition-colors hover:bg-forest hover:text-cream"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-card px-5 py-3 text-sm font-semibold text-forest-deep ring-1 ring-forest/20 transition-colors hover:bg-forest hover:text-cream"
           >
             Ask for diligence data
             <ArrowUpRight className="h-4 w-4" />

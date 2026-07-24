@@ -65,7 +65,7 @@ function Index() {
           onWipeStart={handleWipeStart}
         />
       )}
-      <main className="bg-white text-ink antialiased">
+      <main className="bg-card text-ink antialiased">
         <Header />
         {/* Section 1: Hero Section */}
         <SectionHero
@@ -86,8 +86,6 @@ function Index() {
 
             {/* Section 5: Agaate Kisaan Mall (Input Commerce) */}
             <MallChapter />
-
-
 
             {/* Section 7: 17-Acre Smart Nursery (Dark Forest Accent Section) */}
             <NurseryChapter />
@@ -112,7 +110,3 @@ function Index() {
     </>
   );
 }
-
-
-
-

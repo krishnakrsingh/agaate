@@ -28,7 +28,10 @@ function Nursery() {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
   // Recommendations: seedlings per acre
-  const recommendations: Record<string, { qty: number; cost: number; desc: string; mortalityTrad: string; mortalityAgaate: string }> = {
+  const recommendations: Record<
+    string,
+    { qty: number; cost: number; desc: string; mortalityTrad: string; mortalityAgaate: string }
+  > = {
     Tomato: {
       qty: 7000,
       cost: 2.5,
@@ -112,7 +115,7 @@ function Nursery() {
       <Header />
 
       {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-[#E7ECE8] relative overflow-hidden">
+      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
@@ -136,10 +139,13 @@ function Nursery() {
               Why seedling quality dictates final yield
             </h2>
             <p className="text-forest/75 text-sm md:text-base leading-relaxed">
-              Direct seed sowing has high mortality due to unpredictable heat, uneven moisture, and soil-borne fungal spores. Agaate's seedlings are germinated in sterile cocopeat plugs inoculated with biological beneficials (Trichoderma, Pseudomonas) inside automated climate vaults.
+              Direct seed sowing has high mortality due to unpredictable heat, uneven moisture, and
+              soil-borne fungal spores. Agaate's seedlings are germinated in sterile cocopeat plugs
+              inoculated with biological beneficials (Trichoderma, Pseudomonas) inside automated
+              climate vaults.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[#E7ECE8]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-border">
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0 border border-forest/10">
                   <ShieldCheck className="w-5 h-5" />
@@ -149,7 +155,8 @@ function Nursery() {
                     Organic Bio-Inoculation
                   </h4>
                   <p className="text-xs text-forest/65 leading-relaxed mt-1">
-                    Accelerates early root colonization, protecting against damping-off and soil fungi attacks.
+                    Accelerates early root colonization, protecting against damping-off and soil
+                    fungi attacks.
                   </p>
                 </div>
               </div>
@@ -162,7 +169,8 @@ function Nursery() {
                     Double Root Density
                   </h4>
                   <p className="text-xs text-forest/65 leading-relaxed mt-1">
-                    Chamber temperature rhythms stimulate dense lateral root branching for immediate transplant establishment.
+                    Chamber temperature rhythms stimulate dense lateral root branching for immediate
+                    transplant establishment.
                   </p>
                 </div>
               </div>
@@ -170,26 +178,37 @@ function Nursery() {
 
             {/* Yield Benefits Summary Box */}
             <div className="bg-[#eef3f0]/50 rounded-2xl border border-forest/10 p-6 space-y-4">
-              <span className="font-jet text-[9px] tracking-widest text-forest font-bold uppercase block">Yield metrics contrast</span>
+              <span className="font-jet text-[9px] tracking-widest text-forest font-bold uppercase block">
+                Yield metrics contrast
+              </span>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white p-4 rounded-xl border border-[#E7ECE8] text-xs">
+                <div className="bg-card p-4 rounded-xl border border-border text-xs">
                   <span className="text-forest/50 block font-mono">TRADITIONAL SOWING</span>
-                  <span className="text-destructive font-serif text-2xl font-bold block mt-1">{currentRec.mortalityTrad}</span>
-                  <span className="text-forest/60 text-[10px] mt-1 block">Due to weak radicles & weather shock</span>
-                </div>
-                <div className="bg-white p-4 rounded-xl border border-forest/20 text-xs">
-                  <span className="text-forest block font-bold font-mono flex items-center gap-1">
-                    <Check className="w-3.5 h-3.5 text-emerald-500" strokeWidth={3} /> AGAATE SMART PLUGS
+                  <span className="text-destructive font-serif text-2xl font-bold block mt-1">
+                    {currentRec.mortalityTrad}
                   </span>
-                  <span className="text-forest font-serif text-2xl font-bold block mt-1">{currentRec.mortalityAgaate}</span>
-                  <span className="text-forest/60 text-[10px] mt-1 block">Inoculated roots anchor instantly</span>
+                  <span className="text-forest/60 text-[10px] mt-1 block">
+                    Due to weak radicles & weather shock
+                  </span>
+                </div>
+                <div className="bg-card p-4 rounded-xl border border-forest/20 text-xs">
+                  <span className="text-forest block font-bold font-mono flex items-center gap-1">
+                    <Check className="w-3.5 h-3.5 text-emerald-500" strokeWidth={3} /> AGAATE SMART
+                    PLUGS
+                  </span>
+                  <span className="text-forest font-serif text-2xl font-bold block mt-1">
+                    {currentRec.mortalityAgaate}
+                  </span>
+                  <span className="text-forest/60 text-[10px] mt-1 block">
+                    Inoculated roots anchor instantly
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Interactive Calculator Box */}
-          <div className="lg:col-span-5 bg-bone rounded-[2.5rem] border border-[#E7ECE8] p-8 text-left space-y-8 shadow-sm">
+          <div className="lg:col-span-5 bg-bone rounded-[2.5rem] border border-border p-8 text-left space-y-8 shadow-sm">
             <div>
               <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
                 Interactive Planner
@@ -200,7 +219,7 @@ function Nursery() {
             </div>
 
             {booked ? (
-              <div className="p-8 text-center bg-white border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[380px] animate-in fade-in zoom-in-95">
+              <div className="p-8 text-center bg-card border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[380px] animate-in fade-in zoom-in-95">
                 <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-6">
                   <ShieldCheck className="w-8 h-8 animate-bounce" />
                 </div>
@@ -208,7 +227,11 @@ function Nursery() {
                   Booking Registered
                 </h4>
                 <p className="text-xs text-forest/70 max-w-xs leading-relaxed">
-                  We have reserved your seedling trays for <span className="font-semibold text-forest">{selectedSlot || "the next available slot"}</span>. An agronomy coordinator will contact you to finalize delivery logistics.
+                  We have reserved your seedling trays for{" "}
+                  <span className="font-semibold text-forest">
+                    {selectedSlot || "the next available slot"}
+                  </span>
+                  . An agronomy coordinator will contact you to finalize delivery logistics.
                 </p>
               </div>
             ) : (
@@ -220,7 +243,7 @@ function Nursery() {
                   <select
                     value={crop}
                     onChange={(e) => setCrop(e.target.value)}
-                    className="w-full bg-white border border-[#E7ECE8] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-forest font-semibold text-forest-deep"
+                    className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-forest font-semibold text-forest-deep"
                   >
                     <option>Tomato</option>
                     <option>Chilli</option>
@@ -238,7 +261,7 @@ function Nursery() {
                     max={25}
                     value={acres}
                     onChange={(e) => setAcres(parseInt(e.target.value))}
-                    className="w-full h-1.5 bg-[#E7ECE8] rounded-lg appearance-none cursor-pointer accent-forest"
+                    className="w-full h-1.5 bg-border rounded-lg appearance-none cursor-pointer accent-forest"
                   />
                   <div className="flex justify-between text-[10px] font-mono text-forest/40 mt-1">
                     <span>1 Acre</span>
@@ -263,22 +286,29 @@ function Nursery() {
                           onClick={() => setSelectedSlot(s.date)}
                           className={`w-full text-left p-3 border rounded-xl flex items-center justify-between transition-all text-xs font-mono cursor-pointer ${
                             isFullyBooked
-                              ? "bg-bone/40 border-[#E7ECE8]/50 text-forest/30 cursor-not-allowed opacity-50"
+                              ? "bg-bone/40 border-border/50 text-forest/30 cursor-not-allowed opacity-50"
                               : isSelected
                                 ? "bg-forest border-forest text-cream font-bold"
-                                : "bg-white border-[#E7ECE8] text-forest-deep hover:border-forest"
+                                : "bg-card border-border text-forest-deep hover:border-forest"
                           }`}
                         >
-                          <span>{s.date} <span className="text-[10px] block opacity-75 font-sans mt-0.5">{s.desc}</span></span>
-                          <span className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-bold ${
-                            isFullyBooked
-                              ? "bg-[#eef3f0]/10"
-                              : isSelected
-                                ? "bg-white/20 text-cream"
-                                : s.status === "Available"
-                                  ? "bg-emerald-50 text-emerald-600"
-                                  : "bg-amber-50 text-amber-600"
-                          }`}>
+                          <span>
+                            {s.date}{" "}
+                            <span className="text-[10px] block opacity-75 font-sans mt-0.5">
+                              {s.desc}
+                            </span>
+                          </span>
+                          <span
+                            className={`text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-bold ${
+                              isFullyBooked
+                                ? "bg-[#eef3f0]/10"
+                                : isSelected
+                                  ? "bg-cream/20 text-cream"
+                                  : s.status === "Available"
+                                    ? "bg-emerald-50 text-emerald-600"
+                                    : "bg-amber-50 text-amber-600"
+                            }`}
+                          >
                             {s.status}
                           </span>
                         </button>
@@ -287,7 +317,7 @@ function Nursery() {
                   </div>
                 </div>
 
-                <div className="p-5 bg-white border border-[#E7ECE8] rounded-2xl grid grid-cols-2 gap-4 text-xs font-mono shadow-sm">
+                <div className="p-5 bg-card border border-border rounded-2xl grid grid-cols-2 gap-4 text-xs font-mono shadow-sm">
                   <div>
                     <span className="text-forest/40 block">SEEDLINGS REQUIRED</span>
                     <span className="text-forest-deep font-bold text-sm">
@@ -300,7 +330,7 @@ function Nursery() {
                       ₹{estimatedCost.toLocaleString("en-IN")}
                     </span>
                   </div>
-                  <div className="col-span-2 pt-3 border-t border-[#E7ECE8]/50">
+                  <div className="col-span-2 pt-3 border-t border-border/50">
                     <span className="text-forest/40 block">DESCRIPTION</span>
                     <span className="text-forest/70 font-sans text-xs mt-1 block leading-relaxed">
                       {currentRec.desc}
@@ -326,7 +356,7 @@ function Nursery() {
         </div>
 
         {/* Seedling Batch Tracer Dashboard */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left space-y-12">
+        <div className="border-t border-border pt-24 text-left space-y-12">
           <div>
             <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
               REAL-TIME CHAMBER SYSTEM
@@ -335,13 +365,17 @@ function Nursery() {
               Active Seedling Batch Telemetry
             </h2>
             <p className="text-forest/70 text-sm mt-2 max-w-2xl leading-relaxed">
-              Every germinated batch is tracked by automated ambient sensor clusters inside our smart greenhouses. Review active readings below before placing orders.
+              Every germinated batch is tracked by automated ambient sensor clusters inside our
+              smart greenhouses. Review active readings below before placing orders.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {activeBatches.map((b, idx) => (
-              <div key={idx} className="bg-white border border-[#E7ECE8] rounded-[2rem] p-6 hover:shadow-lg transition-all duration-300 relative overflow-hidden">
+              <div
+                key={idx}
+                className="bg-card border border-border rounded-[2rem] p-6 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+              >
                 {/* Visual glow indicator */}
                 <div className="absolute -right-16 -top-16 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
 
@@ -360,7 +394,9 @@ function Nursery() {
                     <h4 className="font-bold text-forest-deep text-base">{b.crop}</h4>
                   </div>
                   <div>
-                    <span className="text-forest/40 text-[10px] font-mono block">GERMINATION STAGE</span>
+                    <span className="text-forest/40 text-[10px] font-mono block">
+                      GERMINATION STAGE
+                    </span>
                     <span className="text-sm font-semibold text-forest">{b.stage}</span>
                   </div>
 
@@ -371,11 +407,14 @@ function Nursery() {
                       <span>{b.progress}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-bone rounded-full overflow-hidden">
-                      <div className="h-full bg-forest rounded-full" style={{ width: `${b.progress}%` }} />
+                      <div
+                        className="h-full bg-forest rounded-full"
+                        style={{ width: `${b.progress}%` }}
+                      />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#E7ECE8]/50 text-xs font-mono">
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border/50 text-xs font-mono">
                     <div className="flex items-center gap-1.5">
                       <Thermometer className="w-4 h-4 text-terracotta" />
                       <div>
@@ -392,9 +431,12 @@ function Nursery() {
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E7ECE8]/50 flex items-center gap-1.5 text-xs text-forest/70">
+                  <div className="pt-4 border-t border-border/50 flex items-center gap-1.5 text-xs text-forest/70">
                     <Clock className="w-4 h-4 text-forest/45" />
-                    <span>Hardening finishes in <span className="font-bold text-forest-deep">{b.daysLeft} days</span></span>
+                    <span>
+                      Hardening finishes in{" "}
+                      <span className="font-bold text-forest-deep">{b.daysLeft} days</span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -403,7 +445,7 @@ function Nursery() {
         </div>
 
         {/* Nursery FAQ accordions */}
-        <div className="border-t border-[#E7ECE8] pt-24 text-left max-w-4xl mx-auto space-y-12">
+        <div className="border-t border-border pt-24 text-left max-w-4xl mx-auto space-y-12">
           <div className="text-center">
             <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block mb-2">
               FREQUENT QUESTIONS
@@ -428,7 +470,7 @@ function Nursery() {
                 a: "Plugs are delivered inside structural plastic tray crates loaded into ventilated, shock-absorbing logistics trucks. Deliveries are scheduled for early morning or evening to ensure seedlings do not face temperature stress during transit.",
               },
             ].map((faq, idx) => (
-              <div key={idx} className="bg-white border border-[#E7ECE8] rounded-2xl p-6 shadow-sm">
+              <div key={idx} className="bg-card border border-border rounded-2xl p-6 shadow-sm">
                 <h4 className="font-serif text-xl font-bold text-forest-deep flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 text-forest/40 flex-shrink-0" />
                   {faq.q}

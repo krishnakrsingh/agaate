@@ -62,20 +62,27 @@ export function DataAdvisoryLayer() {
           {technologyModules.map((module) => {
             const Icon = module.icon;
             return (
-              <div key={module.title} className="group lg:col-span-3 rounded-2xl border border-ink/5 bg-white p-5 md:p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-forest/20 hover:-translate-y-1">
+              <div
+                key={module.title}
+                className="group lg:col-span-3 rounded-2xl border border-ink/5 bg-card p-5 md:p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-forest/20 hover:-translate-y-1"
+              >
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-bone group-hover:bg-forest/10 transition-colors duration-300">
                   <Icon className="h-4.5 w-4.5 text-forest" strokeWidth={1.75} />
                 </div>
-                <h3 className="font-serif text-[1.2rem] md:text-[1.3rem] leading-tight text-forest-deep">{module.title}</h3>
-                <p className="mt-2 text-[12px] md:text-[13px] leading-relaxed text-ink/70">{module.desc}</p>
+                <h3 className="font-serif text-[1.2rem] md:text-[1.3rem] leading-tight text-forest-deep">
+                  {module.title}
+                </h3>
+                <p className="mt-2 text-[12px] md:text-[13px] leading-relaxed text-ink/70">
+                  {module.desc}
+                </p>
               </div>
             );
           })}
 
-          <div className="lg:col-span-7 rounded-2xl border border-ink/5 bg-white p-5 lg:p-6 shadow-sm relative overflow-hidden transition-all duration-300 hover:shadow-md">
+          <div className="lg:col-span-7 rounded-2xl border border-ink/5 bg-card p-5 lg:p-6 shadow-sm relative overflow-hidden transition-all duration-300 hover:shadow-md">
             {/* Subtle decorative background element */}
             <div className="absolute top-0 right-0 -mr-12 -mt-12 h-64 w-64 rounded-full bg-forest/[0.03] blur-3xl pointer-events-none"></div>
-            
+
             <div className="relative z-10 flex flex-col h-full justify-between">
               <div className="mb-5 flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-terracotta/10">
@@ -88,7 +95,9 @@ export function DataAdvisoryLayer() {
               <div className="grid gap-4 md:grid-cols-3 mt-auto">
                 {["Training", "Inputs", "Buyback ecosystem"].map((pillar) => (
                   <div key={pillar} className="border-t border-ink/10 pt-3">
-                    <h4 className="font-serif text-[1.1rem] md:text-[1.2rem] text-forest-deep">{pillar}</h4>
+                    <h4 className="font-serif text-[1.1rem] md:text-[1.2rem] text-forest-deep">
+                      {pillar}
+                    </h4>
                     <p className="mt-1.5 text-[12px] md:text-[13px] leading-relaxed text-ink/70">
                       A repeatable touchpoint that keeps Agaate engaged before, during, and after
                       harvest.
@@ -103,7 +112,9 @@ export function DataAdvisoryLayer() {
             <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-forest/10 text-forest transition-colors duration-300 group-hover:bg-forest/15">
               <WalletCards className="h-4.5 w-4.5" strokeWidth={1.75} />
             </div>
-            <h3 className="font-serif text-[1.5rem] md:text-[1.8rem] leading-tight text-forest-deep">Carbon credit upside</h3>
+            <h3 className="font-serif text-[1.5rem] md:text-[1.8rem] leading-tight text-forest-deep">
+              Carbon credit upside
+            </h3>
             <p className="mt-2 text-[13px] md:text-[14px] leading-relaxed text-ink/80 flex-grow">
               Drip irrigation, reduced tillage, bio-inputs, no residue burning, cover cropping, and
               better input efficiency can become verified climate income when MRV is handled well.
