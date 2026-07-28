@@ -57,7 +57,7 @@ export default function Header() {
       <header
         className={`pointer-events-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
           scrolled
-            ? "w-[92%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 backdrop-blur-xl border border-white/10 px-6 shadow-2xl md:translate-y-0 md:px-8"
+            ? "w-[92%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 backdrop-blur-xl border border-white/10 px-6 shadow-none md:translate-y-0 md:px-8"
             : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-6 pt-4 md:px-10"
         }`}
         style={{ height: scrolled ? "60px" : "76px" }}
@@ -103,7 +103,7 @@ export default function Header() {
 
               {link.subLinks && hoveredMenu === link.key && (
                 <div className="absolute left-1/2 top-full w-48 -translate-x-1/2 pt-4">
-                  <div className="overflow-hidden rounded-xl border border-white/10 bg-[#14332b]/95 p-2 shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2">
+                  <div className="overflow-hidden rounded-xl border border-white/10 bg-[#14332b]/95 p-2 shadow-none backdrop-blur-xl animate-in fade-in slide-in-from-top-2">
                     {link.subLinks.map((subLink) => (
                       <Link
                         key={subLink.href}
@@ -126,16 +126,13 @@ export default function Header() {
 
           <Link
             to={getLocalizedPath("/contact", currentLang) as any}
-            className={`whitespace-nowrap shrink-0 group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full font-body font-bold text-[#091e17] bg-[#a3e635] hover:bg-[#8ee01d] transition-all duration-300 shadow-[0_0_20px_rgba(163,230,53,0.35)] hover:shadow-[0_0_25px_rgba(163,230,53,0.55)] hover:scale-[1.02] active:scale-95 ${
+            className={`whitespace-nowrap shrink-0 group flex items-center justify-center gap-2 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${
               scrolled ? "px-4 py-2 text-xs" : "px-5 py-2.5 text-sm"
             }`}
           >
-            {/* Glossy shimmer shine effect */}
-            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
-
-            <span className="relative z-10">{t("nav.contactUs")}</span>
+            <span>{t("nav.contactUs")}</span>
             <ArrowRight
-              className={`relative z-10 transition-transform duration-300 group-hover:translate-x-1 ${
+              className={`transition-transform duration-300 group-hover:translate-x-1 ${
                 scrolled ? "h-3.5 w-3.5" : "h-4 w-4"
               }`}
             />

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { Globe, ChevronDown, Check, Search } from "lucide-react";
+import { ChevronDown, Check, Search } from "lucide-react";
 import { setLocale, getLocalizedPath } from "@/lib/i18n";
 
 const LANGUAGES = [
@@ -30,6 +30,24 @@ const LANGUAGES = [
   { code: "brx", label: "Bodo", native: "बड़ो" },
   { code: "es", label: "Spanish", native: "Español" },
 ];
+
+function GlobeIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+      <path d="M2 12h20" />
+    </svg>
+  );
+}
 
 export function LanguageSwitcher() {
   const navigate = useNavigate();
@@ -74,17 +92,29 @@ export function LanguageSwitcher() {
 
   return (
     <div className="relative inline-block text-left shrink-0" ref={dropdownRef}>
-      {/* Trigger Button */}
+      {/* Designed Globe Pill Trigger */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="whitespace-nowrap shrink-0 group flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs md:text-sm font-medium text-cream backdrop-blur-md transition-all duration-300 hover:border-[#a3e635]/60 hover:bg-white/20 hover:shadow-lg hover:shadow-[#a3e635]/10"
+        className="whitespace-nowrap shrink-0 group flex items-center gap-2 rounded-full border border-white/15 bg-white/5 pl-1.5 pr-3 py-1 text-xs md:text-sm font-medium text-cream transition-all duration-300 hover:border-white/30 hover:bg-white/10"
         aria-expanded={isOpen}
       >
-        <Globe className="h-4 w-4 text-[#a3e635] transition-transform duration-500 group-hover:rotate-45" />
+        {/* Globe Badge Circle */}
+        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#a3e635]/20 text-[#a3e635] border border-[#a3e635]/30 transition-colors duration-300 group-hover:bg-[#a3e635] group-hover:text-[#0d2820]">
+          <GlobeIcon className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-45" />
+        </div>
+
+        {/* Language Native Name */}
         <span className="font-sans font-semibold tracking-wide">{currentLang.native}</span>
+
+        {/* Code Tag */}
+        <span className="rounded bg-white/10 px-1.5 py-0.5 font-jet text-[9px] uppercase tracking-wider text-cream/70 font-bold">
+          {currentLang.code}
+        </span>
+
+        {/* Chevron */}
         <ChevronDown
-          className={`h-3.5 w-3.5 opacity-70 transition-transform duration-300 ${
+          className={`h-3.5 w-3.5 opacity-60 transition-transform duration-300 ${
             isOpen ? "rotate-180 text-[#a3e635]" : ""
           }`}
         />
@@ -92,7 +122,7 @@ export function LanguageSwitcher() {
 
       {/* Popover Menu */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2.5 w-64 origin-top-right rounded-2xl border border-white/15 bg-[#122b23]/95 p-2 text-cream shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 z-50">
+        <div className="absolute right-0 top-full mt-2 w-64 origin-top-right rounded-2xl border border-white/15 bg-[#14332b] p-2 text-cream shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 z-50">
           {/* Search Box */}
           <div className="relative mb-2 px-1 pt-1">
             <Search className="absolute left-3.5 top-3.5 h-3.5 w-3.5 text-cream/40" />
@@ -101,7 +131,7 @@ export function LanguageSwitcher() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search language..."
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-1.5 pl-8 pr-3 text-xs text-cream placeholder-cream/40 focus:border-[#a3e635]/50 focus:bg-white/10 focus:outline-none"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-1.5 pl-8 pr-3 text-xs text-cream placeholder-cream/40 focus:border-[#a3e635] focus:outline-none"
               autoFocus
             />
           </div>
@@ -115,7 +145,7 @@ export function LanguageSwitcher() {
                   <button
                     key={lang.code}
                     onClick={() => switchTo(lang.code)}
-                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs transition-all ${
+                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs transition-colors ${
                       isActive
                         ? "bg-[#a3e635]/20 font-bold text-[#a3e635]"
                         : "text-cream/80 hover:bg-white/10 hover:text-cream"
