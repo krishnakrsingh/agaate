@@ -1,0 +1,18 @@
+{
+  "agriPark": {
+    "eyebrow": "Agri-Park Infrastructure",
+    "title": "A Blueprint for Modern Farming",
+    "cta": "Explore the park",
+    "desc": "Agaate's Agri-Park is a state-of-the-art facility combining agronomy research, seed development, and advanced farming techniques. We test and validate solutions before they ever reach your field.",
+    "zones": [
+      "Seed",
+      "Nursery",
+      "Irrigation",
+      "Nutrition",
+      "Protection",
+      "Tech & drone",
+      "Training",
+      "Market"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "beyond": {
+    "eyebrow": "02 / El más allá",
+    "title": "Más allá de la granja",
+    "cta": "Más información",
+    "items": [
+      {
+        "title": "Tecnología agrícola",
+        "desc": "Acceda a sensores y drones de última generación para gestionar la salud de los cultivos."
+      },
+      {
+        "title": "Créditos de carbono",
+        "desc": "Obtenga ingresos adicionales adoptando prácticas agrícolas sostenibles."
+      },
+      {
+        "title": "Configuración de una gran granja",
+        "desc": "Soporte integral para el establecimiento y gestión de operaciones a gran escala."
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "گھر",
+    "services": "خدمات",
+    "agriPark": "ایگری پارک",
+    "community": "برادری",
+    "about": "کے بارے میں",
+    "careers": "کیریئرز",
+    "contact": "رابطہ کریں۔",
+    "contactUs": "ہم سے رابطہ کریں۔"
+  },
+  "servicesSub": {
+    "nursery": "بائیو بوسٹڈ نرسری",
+    "kisaanMall": "کسان مال",
+    "farmTech": "فارم ٹیک",
+    "carbonCredits": "کاربن کریڈٹس",
+    "bigFarmSetup": "بڑا فارم سیٹ اپ",
+    "marketLinkage": "مارکیٹ لنکیج"
+  },
+  "footer": {
+    "tagline": "بھروسہ مند آدانوں، ماہرین کے مشورے، فارم ٹیکنالوجی، اور فصل کے پورے دور میں مارکیٹ تک رسائی کے ذریعے ہندوستانی کسانوں کو بااختیار بنانا۔",
+    "company": "کمپنی",
+    "aboutUs": "ہمارے بارے میں",
+    "services": "خدمات",
+    "allServices": "تمام خدمات",
+    "contactHeading": "رابطہ کریں۔",
+    "contactUs": "ہم سے رابطہ کریں۔",
+    "privacyPolicy": "رازداری کی پالیسی",
+    "termsOfService": "سروس کی شرائط",
+    "copyright": "© {{year}} Anzix Farm Technologies Pvt. لمیٹڈ تمام حقوق محفوظ ہیں۔"
+  }
+}

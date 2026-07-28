@@ -18,63 +18,21 @@ const CropWorld = lazy(() => import("../CropWorld"));
 gsap.registerPlugin(ScrollTrigger);
 
 const stages = [
-  {
-    num: "01",
-    title: "Seed Selection",
-    desc: "High-yield, disease-resistant hybrid varieties.",
-    icon: Leaf,
-  },
-  {
-    num: "02",
-    title: "Nursery Growth",
-    desc: "Bio-boosted programs for stronger roots and healthier early growth.",
-    icon: Trees,
-  },
-  {
-    num: "03",
-    title: "Land Preparation",
-    desc: "Scientific soil analysis, basal-dose planning, irrigation, and mulching.",
-    icon: Tractor,
-  },
-  {
-    num: "04",
-    title: "Expert Advisory",
-    desc: "Crop-specific strategies and stage-wise guidance from sowing to harvest.",
-    icon: BrainCircuit,
-  },
-  {
-    num: "05",
-    title: "Preventive Care",
-    desc: "Weather-based disease prevention and crop-specific protection.",
-    icon: Shield,
-  },
-  {
-    num: "06",
-    title: "Smart Fertigation",
-    desc: "Stage-wise water and nutrition based on crop and soil data.",
-    icon: Droplets,
-  },
-  {
-    num: "07",
-    title: "Crop Support",
-    desc: "Trellising solutions that encourage healthier vertical crop growth.",
-    icon: ArrowUpToLine,
-  },
-  {
-    num: "08",
-    title: "Harvest",
-    desc: "Peak-ripeness checks and proper harvesting practices.",
-    icon: Apple,
-  },
-  {
-    num: "09",
-    title: "Market Access",
-    desc: "Direct market integration and better pricing opportunities.",
-    icon: ShoppingBasket,
-  },
+  { num: "01", key: "01", icon: Leaf },
+  { num: "02", key: "02", icon: Trees },
+  { num: "03", key: "03", icon: Tractor },
+  { num: "04", key: "04", icon: BrainCircuit },
+  { num: "05", key: "05", icon: Shield },
+  { num: "06", key: "06", icon: Droplets },
+  { num: "07", key: "07", icon: ArrowUpToLine },
+  { num: "08", key: "08", icon: Apple },
+  { num: "09", key: "09", icon: ShoppingBasket }
 ];
 
+import { useTranslation } from "react-i18next";
+
 export default function SectionCropWorld() {
+  const { t } = useTranslation("crop-world");
   const containerRef = useRef<HTMLElement>(null);
 
   // This ref is sent down to CropWorld to natively drive 3D transforms
@@ -160,15 +118,14 @@ export default function SectionCropWorld() {
             <div className="flex items-center gap-3 mb-4">
               <span className="w-6 h-[1px] bg-forest/30"></span>
               <span className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest">
-                CROP LIFECYCLE
+                {t("cropWorld.eyebrow")}
               </span>
             </div>
             <h2 className="font-display text-4xl md:text-5xl text-forest-deep leading-tight">
-              One Partner for Your <span className="italic text-forest">Complete Crop Journey</span>
+              {t("cropWorld.title1")} <span className="italic text-forest">{t("cropWorld.title2")}</span>
             </h2>
             <p className="text-ink/60 text-sm md:text-base mt-2 max-w-xl">
-              Agaate brings agricultural guidance, trusted inputs, technology, and market access
-              together in one connected ecosystem.
+              {t("cropWorld.description")}
             </p>
           </div>
           <div className="relative pl-8 border-l border-forest/20 space-y-16 mt-8">
@@ -183,9 +140,9 @@ export default function SectionCropWorld() {
                     {stage.num}
                   </div>
                   <h3 className="font-display text-xl font-bold mb-2 pl-2 text-forest-deep">
-                    {stage.title}
+                    {t(`cropWorld.stages.${stage.key}.title` as any)}
                   </h3>
-                  <p className="text-sm leading-relaxed pl-2 text-ink/70">{stage.desc}</p>
+                  <p className="text-sm leading-relaxed pl-2 text-ink/70">{t(`cropWorld.stages.${stage.key}.desc` as any)}</p>
                 </div>
               );
             })}
@@ -215,16 +172,15 @@ export default function SectionCropWorld() {
             <div className="flex items-center gap-3 mb-4">
               <span className="w-6 h-[1px] bg-forest/30"></span>
               <span className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest">
-                CROP LIFECYCLE
+                {t("cropWorld.eyebrow")}
               </span>
             </div>
             <h2 className="font-display text-3xl md:text-4xl text-forest-deep leading-tight font-bold">
-              One Partner for Your <br />
-              <span className="italic font-normal text-forest">Complete Crop Journey</span>
+              {t("cropWorld.title1")} <br />
+              <span className="italic font-normal text-forest">{t("cropWorld.title2")}</span>
             </h2>
             <p className="text-ink/65 text-sm md:text-base mt-3 max-w-md font-normal leading-relaxed">
-              Agaate brings agricultural guidance, trusted inputs, technology, and market access
-              together in one connected ecosystem.
+              {t("cropWorld.description")}
             </p>
           </div>
 
@@ -256,9 +212,9 @@ export default function SectionCropWorld() {
                       {stage.num}
                     </div>
                     <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4">
-                      {stage.title}
+                      {t(`cropWorld.stages.${stage.key}.title` as any)}
                     </h3>
-                    <p className="text-ink/70 text-base lg:text-lg leading-relaxed">{stage.desc}</p>
+                    <p className="text-ink/70 text-base lg:text-lg leading-relaxed">{t(`cropWorld.stages.${stage.key}.desc` as any)}</p>
                   </div>
                 );
               })}
@@ -287,7 +243,7 @@ export default function SectionCropWorld() {
                     <span
                       className={`text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? "text-forest-deep scale-105" : isPast ? "text-forest/75" : "text-ink/30"}`}
                     >
-                      {stage.title.split(" ")[0]}
+                      {t(`cropWorld.stages.${stage.key}.title` as any).split(" ")[0]}
                     </span>
                   </div>
                 );
@@ -296,7 +252,7 @@ export default function SectionCropWorld() {
 
             {/* Mobile Simple Label */}
             <div className="sm:hidden flex justify-between items-center mb-8 font-mono text-xs font-bold text-forest">
-              <span>{stages[activeStage]?.title}</span>
+              <span>{stages[activeStage] && t(`cropWorld.stages.${stages[activeStage].key}.title` as any)}</span>
               <span>{stages[activeStage]?.num} / 09</span>
             </div>
 

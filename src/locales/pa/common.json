@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "ਘਰ",
+    "services": "ਸੇਵਾਵਾਂ",
+    "agriPark": "ਐਗਰੀ ਪਾਰਕ",
+    "community": "ਭਾਈਚਾਰਾ",
+    "about": "ਬਾਰੇ",
+    "careers": "ਕਰੀਅਰ",
+    "contact": "ਸੰਪਰਕ ਕਰੋ",
+    "contactUs": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ"
+  },
+  "servicesSub": {
+    "nursery": "ਬਾਇਓ-ਬੂਸਟਡ ਨਰਸਰੀ",
+    "kisaanMall": "ਕਿਸਾਨ ਮਾਲ",
+    "farmTech": "ਫਾਰਮ ਟੈਕ",
+    "carbonCredits": "ਕਾਰਬਨ ਕ੍ਰੈਡਿਟ",
+    "bigFarmSetup": "ਵੱਡੇ ਫਾਰਮ ਸੈੱਟਅੱਪ",
+    "marketLinkage": "ਮਾਰਕੀਟ ਲਿੰਕੇਜ"
+  },
+  "footer": {
+    "tagline": "ਭਰੋਸੇਮੰਦ ਇਨਪੁਟਸ, ਮਾਹਰ ਸਲਾਹਕਾਰ, ਫਾਰਮ ਤਕਨਾਲੋਜੀ, ਅਤੇ ਪੂਰੇ ਫਸਲੀ ਚੱਕਰ ਵਿੱਚ ਮਾਰਕੀਟ ਪਹੁੰਚ ਦੁਆਰਾ ਭਾਰਤੀ ਕਿਸਾਨਾਂ ਨੂੰ ਸ਼ਕਤੀ ਪ੍ਰਦਾਨ ਕਰਨਾ।",
+    "company": "ਕੰਪਨੀ",
+    "aboutUs": "ਸਾਡੇ ਬਾਰੇ",
+    "services": "ਸੇਵਾਵਾਂ",
+    "allServices": "ਸਾਰੀਆਂ ਸੇਵਾਵਾਂ",
+    "contactHeading": "ਸੰਪਰਕ ਕਰੋ",
+    "contactUs": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+    "privacyPolicy": "ਪਰਾਈਵੇਟ ਨੀਤੀ",
+    "termsOfService": "ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ",
+    "copyright": "© {{year}} Anzix Farm Technologies Pvt. ਲਿਮਿਟੇਡ ਸਾਰੇ ਅਧਿਕਾਰ ਰਾਖਵੇਂ ਹਨ।"
+  }
+}

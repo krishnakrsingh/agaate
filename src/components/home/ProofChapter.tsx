@@ -1,7 +1,10 @@
 import testimonialImage from "@/assets/testimonial-1.jpg";
 import { Eyebrow } from "./HomeShared";
 
+import { useTranslation } from "react-i18next";
+
 export default function ProofChapter() {
+  const { t } = useTranslation("proof");
   return (
     <section
       id="impact"
@@ -12,13 +15,11 @@ export default function ProofChapter() {
           {/* Left Column: Big Numbers + Testimonial */}
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div>
-              <Eyebrow inverse>Impact in the field</Eyebrow>
+              <Eyebrow inverse>{t("proof.eyebrow")}</Eyebrow>
               <p className="mt-8 font-serif text-[clamp(5.5rem,13vw,13rem)] leading-[0.72] tracking-[-0.085em] text-moss">
                 15,000+
               </p>
-              <p className="mt-4 lg:mt-8 font-serif text-[clamp(2.2rem,4vw,4rem)] leading-[0.95] tracking-[-0.05em] text-cream">
-                acres under association.
-              </p>
+              <p className="mt-4 lg:mt-8 font-serif text-[clamp(2.2rem,4vw,4rem)] leading-[0.95] tracking-[-0.05em] text-cream">{t("proof.stat1_desc")}</p>
             </div>
 
             {/* Testimonial nested in left column */}
@@ -29,13 +30,10 @@ export default function ProofChapter() {
                 className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 shrink-0 object-cover rounded-full"
               />
               <blockquote>
-                <p className="font-serif text-[clamp(1.4rem,2vw,2rem)] leading-[1.2] tracking-[-0.02em] text-moss">
-                  “Agaate Kisaan Mall is a one-stop shop for agricultural inputs. Everything a
-                  farmer needs—under one roof, with real advice.”
-                </p>
+                <p className="font-serif text-[clamp(1.4rem,2vw,2rem)] leading-[1.2] tracking-[-0.02em] text-moss">{t("proof.quote")}</p>
                 <footer className="mt-4 text-[13px] font-semibold text-[#8DAA96]">
-                  Pankaj Gupta{" "}
-                  <span className="font-normal text-cream/40">· Farmer, Gurugram belt</span>
+                  {t("proof.author")}{" "}
+                  <span className="font-normal text-cream/40">· {t("proof.authorDesc")}</span>
                 </footer>
               </blockquote>
             </div>
@@ -43,24 +41,16 @@ export default function ProofChapter() {
 
           {/* Right Column: Text and Stats */}
           <div className="lg:col-span-5 lg:col-start-8 flex flex-col pt-2 lg:pt-16">
-            <p className="text-[17px] leading-8 text-cream/70 max-w-md">
-              The scale only matters because it is grounded in a practical, farmer-first
-              relationship—from crop decisions to the systems that support them.
-            </p>
+            <p className="text-[17px] leading-8 text-cream/70 max-w-md">{t("proof.desc")}</p>
 
             <div className="grid grid-cols-2 gap-x-8 gap-y-12 mt-14 lg:mt-auto border-t border-white/10 pt-10">
-              {[
-                ["2,000+", "Parivaar farmers"],
-                ["500+", "Agri-input SKUs"],
-                ["25+", "Trusted partners"],
-                ["20+", "Kisaan Sathi on-ground"],
-              ].map(([value, label]) => (
-                <div key={label}>
+              {[0, 1, 2, 3].map((idx) => (
+                <div key={idx}>
                   <p className="font-serif text-[2.4rem] leading-none tracking-[-0.05em] text-moss">
-                    {value}
+                    {t(`proof.items.${idx}.val` as any)}
                   </p>
                   <p className="mt-3 font-jet text-[9px] uppercase tracking-[0.14em] text-[#8DAA96]">
-                    {label}
+                    {t(`proof.items.${idx}.label` as any)}
                   </p>
                 </div>
               ))}

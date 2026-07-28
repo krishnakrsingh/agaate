@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "বাড়ি",
+    "services": "সেবা",
+    "agriPark": "এগ্রি পার্ক",
+    "community": "সম্প্রদায়",
+    "about": "সম্পর্কে",
+    "careers": "কেরিয়ার",
+    "contact": "যোগাযোগ",
+    "contactUs": "আমাদের সাথে যোগাযোগ করুন"
+  },
+  "servicesSub": {
+    "nursery": "বায়ো-বুস্টেড নার্সারি",
+    "kisaanMall": "কিসান মল",
+    "farmTech": "ফার্ম টেক",
+    "carbonCredits": "কার্বন ক্রেডিট",
+    "bigFarmSetup": "বড় খামার সেটআপ",
+    "marketLinkage": "বাজার সংযোগ"
+  },
+  "footer": {
+    "tagline": "বিশ্বস্ত ইনপুট, বিশেষজ্ঞ পরামর্শ, খামার প্রযুক্তি এবং সমগ্র শস্য চক্র জুড়ে বাজার অ্যাক্সেসের মাধ্যমে ভারতীয় কৃষকদের ক্ষমতায়ন করা।",
+    "company": "কোম্পানি",
+    "aboutUs": "আমাদের সম্পর্কে",
+    "services": "সেবা",
+    "allServices": "সমস্ত পরিষেবা",
+    "contactHeading": "যোগাযোগ",
+    "contactUs": "আমাদের সাথে যোগাযোগ করুন",
+    "privacyPolicy": "গোপনীয়তা নীতি",
+    "termsOfService": "পরিষেবার শর্তাবলী",
+    "copyright": "© {{year}} Anzix Farm Technologies Pvt. লিমিটেড সর্বস্বত্ব সংরক্ষিত।"
+  }
+}

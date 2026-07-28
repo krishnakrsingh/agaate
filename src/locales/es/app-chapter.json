@@ -1,0 +1,21 @@
+{
+  "app": {
+    "eyebrow1": "05 / Soporte Integrado",
+    "title1_1": "Las decisiones no deberían suceder",
+    "title1_2": "En aislamiento.",
+    "title1_3": "",
+    "desc1": "Una hoja cambia. Llega una etapa de cultivo. La compra debe realizarse hoy. Agaate existe para ese momento exacto entre la incertidumbre y la acción.",
+    "eyebrow2": "Gestión agrícola",
+    "title2": "La aplicación Crop Life",
+    "desc2": "Registre observaciones, obtenga asesoramiento agronómico instantáneo basado en modelos climáticos locales y coordine con agrónomos terrestres.",
+    "cta": "Obtén la aplicación",
+    "placeholderLabel": "[MAQUETA DE UI DE LA APLICACIÓN]",
+    "placeholderDetail": "Calendario de cultivos, alerta de enfermedades, lista de tareas.",
+    "placeholderCaption": "Aquí pertenece una pantalla de aplicación real, no un tablero fabricado.",
+    "list": [
+      "Cargue fotografías de problemas de cultivos para un análisis instantáneo",
+      "Realice un seguimiento de todos los insumos aplicados a lo largo de la temporada.",
+      "Videoconsulta directa con expertos en el campo"
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
+import { useTranslation } from "react-i18next";
 
 interface HeroProps {
   onVideoLoaded?: () => void;
@@ -20,6 +21,7 @@ export default memo(function SectionHero({
   const pRef = useRef<HTMLParagraphElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
+  const { t } = useTranslation('hero');
 
   // Keep latest callback ref to avoid re-running effects or re-binding listeners
   const onVideoLoadedRef = useRef(onVideoLoaded);
@@ -67,7 +69,7 @@ export default memo(function SectionHero({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         } else {
           video.pause();
         }
@@ -207,11 +209,14 @@ export default memo(function SectionHero({
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
-              <span style={{ color: "#ffffff", fontWeight: 500 }}>Precision Science</span>
+              <span style={{ color: "#ffffff", fontWeight: 500 }}>{t('title_start')}</span>
               <br />
-              for the Fields
-              <br />
-              of Bharat.
+              {t('title_end').split('\n').map((line, i) => (
+                <span key={i}>
+                  {line}
+                  <br />
+                </span>
+              ))}
             </h1>
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
@@ -233,8 +238,7 @@ export default memo(function SectionHero({
                   lineHeight: 1.55,
                 }}
               >
-                Your crop has one season. We give it every advantage — AI that watches the field,
-                agronomists who answer the call, inputs that actually work.
+                {t('subtitle')}
               </p>
 
               {/* CTA Buttons (Balanced scale) */}
@@ -252,7 +256,7 @@ export default memo(function SectionHero({
                     background: "#a3e635",
                   }}
                 >
-                  Explore our services
+                  {t('cta_primary')}
                   <svg
                     width="13"
                     height="13"
@@ -281,7 +285,7 @@ export default memo(function SectionHero({
                     cursor: "pointer",
                   }}
                 >
-                  Discover the app
+                  {t('cta_secondary')}
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
                     <path

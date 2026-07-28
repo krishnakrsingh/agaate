@@ -1,18 +1,10 @@
 import agroParkImage from "@/assets/agro-park.jpg";
 import { Eyebrow, TextAction } from "./HomeShared";
-
-const zones = [
-  "Seed",
-  "Nursery",
-  "Irrigation",
-  "Nutrition",
-  "Protection",
-  "Tech & drone",
-  "Training",
-  "Market",
-];
+import { useTranslation } from "react-i18next";
 
 export default function AgriParkChapter() {
+  const { t } = useTranslation("agri-park");
+  const zones = t("agriPark.zones", { returnObjects: true }) as string[];
   return (
     <section
       id="agri-park"
@@ -22,17 +14,15 @@ export default function AgriParkChapter() {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4 flex flex-col justify-between">
             <div>
-              <Eyebrow>Agaate Agri Park</Eyebrow>
-              <h2 className="mt-6 font-serif text-[clamp(3rem,5.2vw,5.6rem)] leading-[0.91] tracking-[-0.06em] text-[#143D31]">
-                A farm made for seeing before believing.
-              </h2>
+              <Eyebrow>{t("agriPark.eyebrow")}</Eyebrow>
+              <h2 className="mt-6 font-serif text-[clamp(3rem,5.2vw,5.6rem)] leading-[0.91] tracking-[-0.06em] text-[#143D31]">{t("agriPark.title")}</h2>
             </div>
 
             <div className="mt-12 lg:mt-0">
               <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-8 border-t border-[#174735]/15 pt-6">
-                {zones.map((zone, index) => (
+                {Array.isArray(zones) && zones.map((zone, index) => (
                   <div
-                    key={zone}
+                    key={index}
                     className="flex items-baseline justify-between border-b border-[#174735]/10 pb-2.5"
                   >
                     <span className="font-serif text-[1.15rem] tracking-[-0.02em] text-[#143D31]">
@@ -42,20 +32,16 @@ export default function AgriParkChapter() {
                   </div>
                 ))}
               </div>
-              <TextAction href="/agri-park">Plan a visit to Agri Park</TextAction>
+              <TextAction href="/agri-park">{t("agriPark.cta")}</TextAction>
             </div>
           </div>
           <div className="lg:col-span-7 lg:col-start-6">
             <img
               src={agroParkImage}
-              alt="Agaate Agri Park"
+              alt={t("agriPark.eyebrow")}
               className="aspect-[16/9] w-full object-cover"
             />
-            <p className="mt-8 max-w-2xl text-[17px] leading-8 text-[#566C5D]">
-              Agaate brings seed, nursery, irrigation, nutrition, protection, technology, training,
-              and market access onto one living farm—so farmers can judge solutions on real crops,
-              not catalogues.
-            </p>
+            <p className="mt-8 max-w-2xl text-[17px] leading-8 text-[#566C5D]">{t("agriPark.desc")}</p>
           </div>
         </div>
       </div>

@@ -9,327 +9,380 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as KnowledgeRouteImport } from './routes/knowledge'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CommunityRouteImport } from './routes/community'
-import { Route as CareersRouteImport } from './routes/careers'
-import { Route as AgriParkRouteImport } from './routes/agri-park'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServicesIndexRouteImport } from './routes/services/index'
-import { Route as ServicesNurseryRouteImport } from './routes/services/nursery'
-import { Route as ServicesMarketLinkageRouteImport } from './routes/services/market-linkage'
-import { Route as ServicesKisaanMallRouteImport } from './routes/services/kisaan-mall'
-import { Route as ServicesFarmTechRouteImport } from './routes/services/farm-tech'
-import { Route as ServicesCarbonCreditsRouteImport } from './routes/services/carbon-credits'
-import { Route as ServicesBigFarmSetupRouteImport } from './routes/services/big-farm-setup'
+import { Route as Char123LocaleChar125RouteRouteImport } from './routes/{-$locale}/route'
+import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
+import { Route as Char123LocaleChar125KnowledgeRouteImport } from './routes/{-$locale}/knowledge'
+import { Route as Char123LocaleChar125ContactRouteImport } from './routes/{-$locale}/contact'
+import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
+import { Route as Char123LocaleChar125CareersRouteImport } from './routes/{-$locale}/careers'
+import { Route as Char123LocaleChar125AgriParkRouteImport } from './routes/{-$locale}/agri-park'
+import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
+import { Route as Char123LocaleChar125ServicesIndexRouteImport } from './routes/{-$locale}/services/index'
+import { Route as Char123LocaleChar125ServicesNurseryRouteImport } from './routes/{-$locale}/services/nursery'
+import { Route as Char123LocaleChar125ServicesMarketLinkageRouteImport } from './routes/{-$locale}/services/market-linkage'
+import { Route as Char123LocaleChar125ServicesKisaanMallRouteImport } from './routes/{-$locale}/services/kisaan-mall'
+import { Route as Char123LocaleChar125ServicesFarmTechRouteImport } from './routes/{-$locale}/services/farm-tech'
+import { Route as Char123LocaleChar125ServicesCarbonCreditsRouteImport } from './routes/{-$locale}/services/carbon-credits'
+import { Route as Char123LocaleChar125ServicesBigFarmSetupRouteImport } from './routes/{-$locale}/services/big-farm-setup'
 
-const KnowledgeRoute = KnowledgeRouteImport.update({
-  id: '/knowledge',
-  path: '/knowledge',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AgriParkRoute = AgriParkRouteImport.update({
-  id: '/agri-park',
-  path: '/agri-park',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesIndexRoute = ServicesIndexRouteImport.update({
-  id: '/services/',
-  path: '/services/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesNurseryRoute = ServicesNurseryRouteImport.update({
-  id: '/services/nursery',
-  path: '/services/nursery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesMarketLinkageRoute = ServicesMarketLinkageRouteImport.update({
-  id: '/services/market-linkage',
-  path: '/services/market-linkage',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesKisaanMallRoute = ServicesKisaanMallRouteImport.update({
-  id: '/services/kisaan-mall',
-  path: '/services/kisaan-mall',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesFarmTechRoute = ServicesFarmTechRouteImport.update({
-  id: '/services/farm-tech',
-  path: '/services/farm-tech',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesCarbonCreditsRoute = ServicesCarbonCreditsRouteImport.update({
-  id: '/services/carbon-credits',
-  path: '/services/carbon-credits',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesBigFarmSetupRoute = ServicesBigFarmSetupRouteImport.update({
-  id: '/services/big-farm-setup',
-  path: '/services/big-farm-setup',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const Char123LocaleChar125RouteRoute =
+  Char123LocaleChar125RouteRouteImport.update({
+    id: '/{-$locale}',
+    path: '/{-$locale}',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125IndexRoute =
+  Char123LocaleChar125IndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125KnowledgeRoute =
+  Char123LocaleChar125KnowledgeRouteImport.update({
+    id: '/knowledge',
+    path: '/knowledge',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ContactRoute =
+  Char123LocaleChar125ContactRouteImport.update({
+    id: '/contact',
+    path: '/contact',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125CommunityRoute =
+  Char123LocaleChar125CommunityRouteImport.update({
+    id: '/community',
+    path: '/community',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125CareersRoute =
+  Char123LocaleChar125CareersRouteImport.update({
+    id: '/careers',
+    path: '/careers',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125AgriParkRoute =
+  Char123LocaleChar125AgriParkRouteImport.update({
+    id: '/agri-park',
+    path: '/agri-park',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125AboutRoute =
+  Char123LocaleChar125AboutRouteImport.update({
+    id: '/about',
+    path: '/about',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesIndexRoute =
+  Char123LocaleChar125ServicesIndexRouteImport.update({
+    id: '/services/',
+    path: '/services/',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesNurseryRoute =
+  Char123LocaleChar125ServicesNurseryRouteImport.update({
+    id: '/services/nursery',
+    path: '/services/nursery',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesMarketLinkageRoute =
+  Char123LocaleChar125ServicesMarketLinkageRouteImport.update({
+    id: '/services/market-linkage',
+    path: '/services/market-linkage',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesKisaanMallRoute =
+  Char123LocaleChar125ServicesKisaanMallRouteImport.update({
+    id: '/services/kisaan-mall',
+    path: '/services/kisaan-mall',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesFarmTechRoute =
+  Char123LocaleChar125ServicesFarmTechRouteImport.update({
+    id: '/services/farm-tech',
+    path: '/services/farm-tech',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesCarbonCreditsRoute =
+  Char123LocaleChar125ServicesCarbonCreditsRouteImport.update({
+    id: '/services/carbon-credits',
+    path: '/services/carbon-credits',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125ServicesBigFarmSetupRoute =
+  Char123LocaleChar125ServicesBigFarmSetupRouteImport.update({
+    id: '/services/big-farm-setup',
+    path: '/services/big-farm-setup',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/agri-park': typeof AgriParkRoute
-  '/careers': typeof CareersRoute
-  '/community': typeof CommunityRoute
-  '/contact': typeof ContactRoute
-  '/knowledge': typeof KnowledgeRoute
-  '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
-  '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
-  '/services/farm-tech': typeof ServicesFarmTechRoute
-  '/services/kisaan-mall': typeof ServicesKisaanMallRoute
-  '/services/market-linkage': typeof ServicesMarketLinkageRoute
-  '/services/nursery': typeof ServicesNurseryRoute
-  '/services/': typeof ServicesIndexRoute
+  '/{-$locale}': typeof Char123LocaleChar125RouteRouteWithChildren
+  '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
+  '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
+  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
+  '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
+  '/{-$locale}/knowledge': typeof Char123LocaleChar125KnowledgeRoute
+  '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/{-$locale}/services/big-farm-setup': typeof Char123LocaleChar125ServicesBigFarmSetupRoute
+  '/{-$locale}/services/carbon-credits': typeof Char123LocaleChar125ServicesCarbonCreditsRoute
+  '/{-$locale}/services/farm-tech': typeof Char123LocaleChar125ServicesFarmTechRoute
+  '/{-$locale}/services/kisaan-mall': typeof Char123LocaleChar125ServicesKisaanMallRoute
+  '/{-$locale}/services/market-linkage': typeof Char123LocaleChar125ServicesMarketLinkageRoute
+  '/{-$locale}/services/nursery': typeof Char123LocaleChar125ServicesNurseryRoute
+  '/{-$locale}/services/': typeof Char123LocaleChar125ServicesIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/agri-park': typeof AgriParkRoute
-  '/careers': typeof CareersRoute
-  '/community': typeof CommunityRoute
-  '/contact': typeof ContactRoute
-  '/knowledge': typeof KnowledgeRoute
-  '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
-  '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
-  '/services/farm-tech': typeof ServicesFarmTechRoute
-  '/services/kisaan-mall': typeof ServicesKisaanMallRoute
-  '/services/market-linkage': typeof ServicesMarketLinkageRoute
-  '/services/nursery': typeof ServicesNurseryRoute
-  '/services': typeof ServicesIndexRoute
+  '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
+  '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
+  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
+  '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
+  '/{-$locale}/knowledge': typeof Char123LocaleChar125KnowledgeRoute
+  '/{-$locale}': typeof Char123LocaleChar125IndexRoute
+  '/{-$locale}/services/big-farm-setup': typeof Char123LocaleChar125ServicesBigFarmSetupRoute
+  '/{-$locale}/services/carbon-credits': typeof Char123LocaleChar125ServicesCarbonCreditsRoute
+  '/{-$locale}/services/farm-tech': typeof Char123LocaleChar125ServicesFarmTechRoute
+  '/{-$locale}/services/kisaan-mall': typeof Char123LocaleChar125ServicesKisaanMallRoute
+  '/{-$locale}/services/market-linkage': typeof Char123LocaleChar125ServicesMarketLinkageRoute
+  '/{-$locale}/services/nursery': typeof Char123LocaleChar125ServicesNurseryRoute
+  '/{-$locale}/services': typeof Char123LocaleChar125ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/agri-park': typeof AgriParkRoute
-  '/careers': typeof CareersRoute
-  '/community': typeof CommunityRoute
-  '/contact': typeof ContactRoute
-  '/knowledge': typeof KnowledgeRoute
-  '/services/big-farm-setup': typeof ServicesBigFarmSetupRoute
-  '/services/carbon-credits': typeof ServicesCarbonCreditsRoute
-  '/services/farm-tech': typeof ServicesFarmTechRoute
-  '/services/kisaan-mall': typeof ServicesKisaanMallRoute
-  '/services/market-linkage': typeof ServicesMarketLinkageRoute
-  '/services/nursery': typeof ServicesNurseryRoute
-  '/services/': typeof ServicesIndexRoute
+  '/{-$locale}': typeof Char123LocaleChar125RouteRouteWithChildren
+  '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
+  '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
+  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
+  '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
+  '/{-$locale}/knowledge': typeof Char123LocaleChar125KnowledgeRoute
+  '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/{-$locale}/services/big-farm-setup': typeof Char123LocaleChar125ServicesBigFarmSetupRoute
+  '/{-$locale}/services/carbon-credits': typeof Char123LocaleChar125ServicesCarbonCreditsRoute
+  '/{-$locale}/services/farm-tech': typeof Char123LocaleChar125ServicesFarmTechRoute
+  '/{-$locale}/services/kisaan-mall': typeof Char123LocaleChar125ServicesKisaanMallRoute
+  '/{-$locale}/services/market-linkage': typeof Char123LocaleChar125ServicesMarketLinkageRoute
+  '/{-$locale}/services/nursery': typeof Char123LocaleChar125ServicesNurseryRoute
+  '/{-$locale}/services/': typeof Char123LocaleChar125ServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/about'
-    | '/agri-park'
-    | '/careers'
-    | '/community'
-    | '/contact'
-    | '/knowledge'
-    | '/services/big-farm-setup'
-    | '/services/carbon-credits'
-    | '/services/farm-tech'
-    | '/services/kisaan-mall'
-    | '/services/market-linkage'
-    | '/services/nursery'
-    | '/services/'
+    | '/{-$locale}'
+    | '/{-$locale}/about'
+    | '/{-$locale}/agri-park'
+    | '/{-$locale}/careers'
+    | '/{-$locale}/community'
+    | '/{-$locale}/contact'
+    | '/{-$locale}/knowledge'
+    | '/{-$locale}/'
+    | '/{-$locale}/services/big-farm-setup'
+    | '/{-$locale}/services/carbon-credits'
+    | '/{-$locale}/services/farm-tech'
+    | '/{-$locale}/services/kisaan-mall'
+    | '/{-$locale}/services/market-linkage'
+    | '/{-$locale}/services/nursery'
+    | '/{-$locale}/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/about'
-    | '/agri-park'
-    | '/careers'
-    | '/community'
-    | '/contact'
-    | '/knowledge'
-    | '/services/big-farm-setup'
-    | '/services/carbon-credits'
-    | '/services/farm-tech'
-    | '/services/kisaan-mall'
-    | '/services/market-linkage'
-    | '/services/nursery'
-    | '/services'
+    | '/{-$locale}/about'
+    | '/{-$locale}/agri-park'
+    | '/{-$locale}/careers'
+    | '/{-$locale}/community'
+    | '/{-$locale}/contact'
+    | '/{-$locale}/knowledge'
+    | '/{-$locale}'
+    | '/{-$locale}/services/big-farm-setup'
+    | '/{-$locale}/services/carbon-credits'
+    | '/{-$locale}/services/farm-tech'
+    | '/{-$locale}/services/kisaan-mall'
+    | '/{-$locale}/services/market-linkage'
+    | '/{-$locale}/services/nursery'
+    | '/{-$locale}/services'
   id:
     | '__root__'
-    | '/'
-    | '/about'
-    | '/agri-park'
-    | '/careers'
-    | '/community'
-    | '/contact'
-    | '/knowledge'
-    | '/services/big-farm-setup'
-    | '/services/carbon-credits'
-    | '/services/farm-tech'
-    | '/services/kisaan-mall'
-    | '/services/market-linkage'
-    | '/services/nursery'
-    | '/services/'
+    | '/{-$locale}'
+    | '/{-$locale}/about'
+    | '/{-$locale}/agri-park'
+    | '/{-$locale}/careers'
+    | '/{-$locale}/community'
+    | '/{-$locale}/contact'
+    | '/{-$locale}/knowledge'
+    | '/{-$locale}/'
+    | '/{-$locale}/services/big-farm-setup'
+    | '/{-$locale}/services/carbon-credits'
+    | '/{-$locale}/services/farm-tech'
+    | '/{-$locale}/services/kisaan-mall'
+    | '/{-$locale}/services/market-linkage'
+    | '/{-$locale}/services/nursery'
+    | '/{-$locale}/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  AgriParkRoute: typeof AgriParkRoute
-  CareersRoute: typeof CareersRoute
-  CommunityRoute: typeof CommunityRoute
-  ContactRoute: typeof ContactRoute
-  KnowledgeRoute: typeof KnowledgeRoute
-  ServicesBigFarmSetupRoute: typeof ServicesBigFarmSetupRoute
-  ServicesCarbonCreditsRoute: typeof ServicesCarbonCreditsRoute
-  ServicesFarmTechRoute: typeof ServicesFarmTechRoute
-  ServicesKisaanMallRoute: typeof ServicesKisaanMallRoute
-  ServicesMarketLinkageRoute: typeof ServicesMarketLinkageRoute
-  ServicesNurseryRoute: typeof ServicesNurseryRoute
-  ServicesIndexRoute: typeof ServicesIndexRoute
+  Char123LocaleChar125RouteRoute: typeof Char123LocaleChar125RouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/knowledge': {
-      id: '/knowledge'
-      path: '/knowledge'
-      fullPath: '/knowledge'
-      preLoaderRoute: typeof KnowledgeRouteImport
+    '/{-$locale}': {
+      id: '/{-$locale}'
+      path: '/{-$locale}'
+      fullPath: '/{-$locale}'
+      preLoaderRoute: typeof Char123LocaleChar125RouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agri-park': {
-      id: '/agri-park'
-      path: '/agri-park'
-      fullPath: '/agri-park'
-      preLoaderRoute: typeof AgriParkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/{-$locale}/': {
+      id: '/{-$locale}/'
       path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/'
+      preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/': {
-      id: '/services/'
+    '/{-$locale}/knowledge': {
+      id: '/{-$locale}/knowledge'
+      path: '/knowledge'
+      fullPath: '/{-$locale}/knowledge'
+      preLoaderRoute: typeof Char123LocaleChar125KnowledgeRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/contact': {
+      id: '/{-$locale}/contact'
+      path: '/contact'
+      fullPath: '/{-$locale}/contact'
+      preLoaderRoute: typeof Char123LocaleChar125ContactRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/community': {
+      id: '/{-$locale}/community'
+      path: '/community'
+      fullPath: '/{-$locale}/community'
+      preLoaderRoute: typeof Char123LocaleChar125CommunityRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/careers': {
+      id: '/{-$locale}/careers'
+      path: '/careers'
+      fullPath: '/{-$locale}/careers'
+      preLoaderRoute: typeof Char123LocaleChar125CareersRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/agri-park': {
+      id: '/{-$locale}/agri-park'
+      path: '/agri-park'
+      fullPath: '/{-$locale}/agri-park'
+      preLoaderRoute: typeof Char123LocaleChar125AgriParkRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/about': {
+      id: '/{-$locale}/about'
+      path: '/about'
+      fullPath: '/{-$locale}/about'
+      preLoaderRoute: typeof Char123LocaleChar125AboutRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/services/': {
+      id: '/{-$locale}/services/'
       path: '/services'
-      fullPath: '/services/'
-      preLoaderRoute: typeof ServicesIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesIndexRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/nursery': {
-      id: '/services/nursery'
+    '/{-$locale}/services/nursery': {
+      id: '/{-$locale}/services/nursery'
       path: '/services/nursery'
-      fullPath: '/services/nursery'
-      preLoaderRoute: typeof ServicesNurseryRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/nursery'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesNurseryRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/market-linkage': {
-      id: '/services/market-linkage'
+    '/{-$locale}/services/market-linkage': {
+      id: '/{-$locale}/services/market-linkage'
       path: '/services/market-linkage'
-      fullPath: '/services/market-linkage'
-      preLoaderRoute: typeof ServicesMarketLinkageRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/market-linkage'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesMarketLinkageRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/kisaan-mall': {
-      id: '/services/kisaan-mall'
+    '/{-$locale}/services/kisaan-mall': {
+      id: '/{-$locale}/services/kisaan-mall'
       path: '/services/kisaan-mall'
-      fullPath: '/services/kisaan-mall'
-      preLoaderRoute: typeof ServicesKisaanMallRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/kisaan-mall'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesKisaanMallRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/farm-tech': {
-      id: '/services/farm-tech'
+    '/{-$locale}/services/farm-tech': {
+      id: '/{-$locale}/services/farm-tech'
       path: '/services/farm-tech'
-      fullPath: '/services/farm-tech'
-      preLoaderRoute: typeof ServicesFarmTechRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/farm-tech'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesFarmTechRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/carbon-credits': {
-      id: '/services/carbon-credits'
+    '/{-$locale}/services/carbon-credits': {
+      id: '/{-$locale}/services/carbon-credits'
       path: '/services/carbon-credits'
-      fullPath: '/services/carbon-credits'
-      preLoaderRoute: typeof ServicesCarbonCreditsRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/carbon-credits'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesCarbonCreditsRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/services/big-farm-setup': {
-      id: '/services/big-farm-setup'
+    '/{-$locale}/services/big-farm-setup': {
+      id: '/{-$locale}/services/big-farm-setup'
       path: '/services/big-farm-setup'
-      fullPath: '/services/big-farm-setup'
-      preLoaderRoute: typeof ServicesBigFarmSetupRouteImport
-      parentRoute: typeof rootRouteImport
+      fullPath: '/{-$locale}/services/big-farm-setup'
+      preLoaderRoute: typeof Char123LocaleChar125ServicesBigFarmSetupRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
     }
   }
 }
 
+interface Char123LocaleChar125RouteRouteChildren {
+  Char123LocaleChar125AboutRoute: typeof Char123LocaleChar125AboutRoute
+  Char123LocaleChar125AgriParkRoute: typeof Char123LocaleChar125AgriParkRoute
+  Char123LocaleChar125CareersRoute: typeof Char123LocaleChar125CareersRoute
+  Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
+  Char123LocaleChar125ContactRoute: typeof Char123LocaleChar125ContactRoute
+  Char123LocaleChar125KnowledgeRoute: typeof Char123LocaleChar125KnowledgeRoute
+  Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
+  Char123LocaleChar125ServicesBigFarmSetupRoute: typeof Char123LocaleChar125ServicesBigFarmSetupRoute
+  Char123LocaleChar125ServicesCarbonCreditsRoute: typeof Char123LocaleChar125ServicesCarbonCreditsRoute
+  Char123LocaleChar125ServicesFarmTechRoute: typeof Char123LocaleChar125ServicesFarmTechRoute
+  Char123LocaleChar125ServicesKisaanMallRoute: typeof Char123LocaleChar125ServicesKisaanMallRoute
+  Char123LocaleChar125ServicesMarketLinkageRoute: typeof Char123LocaleChar125ServicesMarketLinkageRoute
+  Char123LocaleChar125ServicesNurseryRoute: typeof Char123LocaleChar125ServicesNurseryRoute
+  Char123LocaleChar125ServicesIndexRoute: typeof Char123LocaleChar125ServicesIndexRoute
+}
+
+const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChildren =
+  {
+    Char123LocaleChar125AboutRoute: Char123LocaleChar125AboutRoute,
+    Char123LocaleChar125AgriParkRoute: Char123LocaleChar125AgriParkRoute,
+    Char123LocaleChar125CareersRoute: Char123LocaleChar125CareersRoute,
+    Char123LocaleChar125CommunityRoute: Char123LocaleChar125CommunityRoute,
+    Char123LocaleChar125ContactRoute: Char123LocaleChar125ContactRoute,
+    Char123LocaleChar125KnowledgeRoute: Char123LocaleChar125KnowledgeRoute,
+    Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
+    Char123LocaleChar125ServicesBigFarmSetupRoute:
+      Char123LocaleChar125ServicesBigFarmSetupRoute,
+    Char123LocaleChar125ServicesCarbonCreditsRoute:
+      Char123LocaleChar125ServicesCarbonCreditsRoute,
+    Char123LocaleChar125ServicesFarmTechRoute:
+      Char123LocaleChar125ServicesFarmTechRoute,
+    Char123LocaleChar125ServicesKisaanMallRoute:
+      Char123LocaleChar125ServicesKisaanMallRoute,
+    Char123LocaleChar125ServicesMarketLinkageRoute:
+      Char123LocaleChar125ServicesMarketLinkageRoute,
+    Char123LocaleChar125ServicesNurseryRoute:
+      Char123LocaleChar125ServicesNurseryRoute,
+    Char123LocaleChar125ServicesIndexRoute:
+      Char123LocaleChar125ServicesIndexRoute,
+  }
+
+const Char123LocaleChar125RouteRouteWithChildren =
+  Char123LocaleChar125RouteRoute._addFileChildren(
+    Char123LocaleChar125RouteRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  AgriParkRoute: AgriParkRoute,
-  CareersRoute: CareersRoute,
-  CommunityRoute: CommunityRoute,
-  ContactRoute: ContactRoute,
-  KnowledgeRoute: KnowledgeRoute,
-  ServicesBigFarmSetupRoute: ServicesBigFarmSetupRoute,
-  ServicesCarbonCreditsRoute: ServicesCarbonCreditsRoute,
-  ServicesFarmTechRoute: ServicesFarmTechRoute,
-  ServicesKisaanMallRoute: ServicesKisaanMallRoute,
-  ServicesMarketLinkageRoute: ServicesMarketLinkageRoute,
-  ServicesNurseryRoute: ServicesNurseryRoute,
-  ServicesIndexRoute: ServicesIndexRoute,
+  Char123LocaleChar125RouteRoute: Char123LocaleChar125RouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

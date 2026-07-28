@@ -1,0 +1,28 @@
+{
+  "proof": {
+    "eyebrow": "04 / La prueba",
+    "stat1_desc": "Los agricultores confían en Agaate.",
+    "quote": "\"Con Agaate, finalmente tengo la ciencia de mi lado en lugar de solo esperanza\".",
+    "author": "Rajesh Kumar",
+    "authorDesc": "Miembro desde 2021",
+    "desc": "No solo suministramos insumos. Nos quedamos con el cultivo hasta la cosecha, asegurando el máximo rendimiento y el máximo beneficio.",
+    "items": [
+      {
+        "val": "25%",
+        "label": "Aumento del rendimiento promedio"
+      },
+      {
+        "val": "40+",
+        "label": "Distritos cubiertos"
+      },
+      {
+        "val": "100%",
+        "label": "Insumos genuinos"
+      },
+      {
+        "val": "24/7",
+        "label": "Apoyo a la agronomía"
+      }
+    ]
+  }
+}

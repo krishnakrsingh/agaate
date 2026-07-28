@@ -1,10 +1,12 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import React, { useMemo, useRef, useState, MouseEvent, useCallback, useEffect } from "react";
 import * as THREE from "three";
 import { useMotionValue, motion, useMotionTemplate, animate, useTransform } from "framer-motion";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { getLocalizedPath } from "@/lib/i18n";
 import facebookIcon from "@/assets/social/facebook.svg";
 import instagramIcon from "@/assets/social/instagram.svg";
 import linkedinIcon from "@/assets/social/linkedin.svg";
@@ -233,6 +235,9 @@ const AnimatedLink = ({
   className?: string;
   icon?: any;
 }) => {
+  const { locale } = useParams({ strict: false }) as any;
+  const { i18n } = useTranslation();
+  const currentLang = locale ?? i18n.language ?? "en";
   const [isHovered, setIsHovered] = useState(false);
   const textContent = typeof children === "string" ? children : "";
   const isExternal =
@@ -276,7 +281,7 @@ const AnimatedLink = ({
         </a>
       ) : (
         <Link
-          to={href as any}
+          to={getLocalizedPath(href, currentLang) as any}
           className="z-10 relative h-full flex items-center justify-start py-2 px-4 text-muted-foreground hover:text-forest transition-colors"
         >
           {content}
@@ -592,6 +597,7 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
 };
 
 export function AnimatedFooter() {
+  const { t } = useTranslation("common");
   return (
     <footer className="w-full bg-[#FAFBFB] text-[#17211B] relative border-t border-border overflow-hidden">
       {/* Canvas Background for the whole footer to give it that premium feel */}
@@ -616,8 +622,7 @@ export function AnimatedFooter() {
               <div className="mb-6">
                 <img src="/logo.png" alt="Agaate Logo" className="h-10 lg:h-12 w-auto mb-5" />
                 <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
-                  Empowering Indian farmers through trusted inputs, expert advisory, farm
-                  technology, and market access across the entire crop cycle.
+                  {t("footer.tagline")}
                 </p>
               </div>
             </div>
@@ -653,36 +658,36 @@ export function AnimatedFooter() {
             {/* Company */}
             <div className="flex flex-col gap-2">
               <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
-                Company
+                {t("footer.company")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
-                <AnimatedLink href="/about">About Us</AnimatedLink>
-                <AnimatedLink href="/agri-park">Agri Park</AnimatedLink>
-                <AnimatedLink href="/careers">Careers</AnimatedLink>
-                <AnimatedLink href="/community">Community</AnimatedLink>
+                <AnimatedLink href="/about">{t("footer.aboutUs")}</AnimatedLink>
+                <AnimatedLink href="/agri-park">{t("nav.agriPark")}</AnimatedLink>
+                <AnimatedLink href="/careers">{t("nav.careers")}</AnimatedLink>
+                <AnimatedLink href="/community">{t("nav.community")}</AnimatedLink>
               </div>
             </div>
 
             {/* Services */}
             <div className="flex flex-col gap-2">
               <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
-                Services
+                {t("footer.services")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
-                <AnimatedLink href="/services">All Services</AnimatedLink>
-                <AnimatedLink href="/services/nursery">Bio-Boosted Nursery</AnimatedLink>
-                <AnimatedLink href="/services/kisaan-mall">Kisaan Mall</AnimatedLink>
-                <AnimatedLink href="/services/farm-tech">Farm Tech</AnimatedLink>
+                <AnimatedLink href="/services">{t("footer.allServices")}</AnimatedLink>
+                <AnimatedLink href="/services/nursery">{t("servicesSub.nursery")}</AnimatedLink>
+                <AnimatedLink href="/services/kisaan-mall">{t("servicesSub.kisaanMall")}</AnimatedLink>
+                <AnimatedLink href="/services/farm-tech">{t("servicesSub.farmTech")}</AnimatedLink>
               </div>
             </div>
 
             {/* Contact */}
             <div className="flex flex-col gap-2">
               <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
-                Contact
+                {t("footer.contactHeading")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
-                <AnimatedLink href="/contact">Contact Us</AnimatedLink>
+                <AnimatedLink href="/contact">{t("footer.contactUs")}</AnimatedLink>
                 <AnimatedLink href="tel:8350085005" icon={Phone}>
                   8350085005
                 </AnimatedLink>
@@ -697,14 +702,14 @@ export function AnimatedFooter() {
         {/* Bottom Bar */}
         <div className="mt-14 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-6">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Anzix Farm Technologies Pvt. Ltd. All rights reserved.
+            {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-muted-foreground hover:text-forest transition-colors">
-              Privacy Policy
+              {t("footer.privacyPolicy")}
             </a>
             <a href="#" className="text-muted-foreground hover:text-forest transition-colors">
-              Terms of Service
+              {t("footer.termsOfService")}
             </a>
           </div>
         </div>

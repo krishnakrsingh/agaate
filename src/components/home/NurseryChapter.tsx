@@ -1,7 +1,10 @@
 import nurseryImage from "@/assets/hero-plant.jpg";
 import { Eyebrow, TextAction } from "./HomeShared";
 
+import { useTranslation } from "react-i18next";
+
 export default function NurseryChapter() {
+  const { t } = useTranslation("nursery");
   return (
     <section
       id="smart-nursery"
@@ -11,49 +14,27 @@ export default function NurseryChapter() {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
-              <Eyebrow inverse>17-acre Smart Nursery</Eyebrow>
-              <h2 className="mt-6 max-w-xl font-serif text-[clamp(3rem,5.2vw,5.6rem)] leading-[0.91] tracking-[-0.06em]">
-                The science behind a stronger start.
-              </h2>
-              <p className="mt-7 max-w-md text-[16px] leading-7 text-cream/68">
-                The nursery turns research, cultivation, quality checks, and distribution into one
-                visible beginning for the crop.
-              </p>
+              <Eyebrow inverse>{t("nursery.eyebrow")}</Eyebrow>
+              <h2 className="mt-6 max-w-xl font-serif text-[clamp(3rem,5.2vw,5.6rem)] leading-[0.91] tracking-[-0.06em]">{t("nursery.title")}</h2>
+              <p className="mt-7 max-w-md text-[16px] leading-7 text-cream/68">{t("nursery.desc")}</p>
             </div>
 
             <div className="mt-12 lg:mt-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 mb-8 border-t border-white/18 pt-8 mt-12 lg:mt-16">
-                {[
-                  [
-                    "01",
-                    "Research & selection",
-                    "Test varieties and approaches before they reach a farmer’s field.",
-                  ],
-                  [
-                    "02",
-                    "Cultivation",
-                    "Give each seedling a more controlled and supported early stage.",
-                  ],
-                  [
-                    "03",
-                    "Quality testing",
-                    "Use standard checks to make batches easier to assess and trace.",
-                  ],
-                  ["04", "Distribution", "Move crop-ready saplings to the farm at the right time."],
-                ].map(([number, title, copy]) => (
+                {["01", "02", "03", "04"].map((number, idx) => (
                   <div key={number}>
                     <div className="flex items-baseline gap-2 mb-2">
                       <span className="font-jet text-[9px] text-moss">{number}</span>
                       <h3 className="font-serif text-[1.1rem] leading-tight tracking-[-0.02em]">
-                        {title}
+                        {t(`nursery.items.${idx}.title` as any)}
                       </h3>
                     </div>
-                    <p className="text-[13px] leading-5 text-cream/62">{copy}</p>
+                    <p className="text-[13px] leading-5 text-cream/62">{t(`nursery.items.${idx}.desc` as any)}</p>
                   </div>
                 ))}
               </div>
               <TextAction href="/services/nursery" inverse>
-                Explore the nursery
+                {t("nursery.cta")}
               </TextAction>
             </div>
           </div>
@@ -64,7 +45,7 @@ export default function NurseryChapter() {
               className="aspect-[4/3] w-full object-cover"
             />
             <p className="mt-4 font-jet text-[9px] uppercase tracking-[0.15em] text-cream/45">
-              Agaate Smart Nursery · Kukrola, Gurugram
+              {t("nursery.caption")}
             </p>
           </div>
         </div>

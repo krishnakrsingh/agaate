@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "ઘર",
+    "services": "સેવાઓ",
+    "agriPark": "એગ્રી પાર્ક",
+    "community": "સમુદાય",
+    "about": "વિશે",
+    "careers": "કારકિર્દી",
+    "contact": "સંપર્ક કરો",
+    "contactUs": "અમારો સંપર્ક કરો"
+  },
+  "servicesSub": {
+    "nursery": "બાયો-બુસ્ટેડ નર્સરી",
+    "kisaanMall": "કિસાન મોલ",
+    "farmTech": "ફાર્મ ટેક",
+    "carbonCredits": "કાર્બન ક્રેડિટ્સ",
+    "bigFarmSetup": "મોટા ફાર્મ સેટઅપ",
+    "marketLinkage": "બજાર જોડાણ"
+  },
+  "footer": {
+    "tagline": "ભરોસાપાત્ર ઇનપુટ્સ, નિષ્ણાત સલાહકાર, ફાર્મ ટેક્નોલોજી અને સમગ્ર પાક ચક્રમાં બજાર પ્રવેશ દ્વારા ભારતીય ખેડૂતોને સશક્તિકરણ.",
+    "company": "કંપની",
+    "aboutUs": "અમારા વિશે",
+    "services": "સેવાઓ",
+    "allServices": "બધી સેવાઓ",
+    "contactHeading": "સંપર્ક કરો",
+    "contactUs": "અમારો સંપર્ક કરો",
+    "privacyPolicy": "ગોપનીયતા નીતિ",
+    "termsOfService": "સેવાની શરતો",
+    "copyright": "© {{year}} Anzix Farm Technologies Pvt. Ltd. સર્વાધિકાર સુરક્ષિત."
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "investorSnapshot": {
+    "eyebrow": "07 / Narrativa del inversor",
+    "title": "Una plataforma agronómica de alto vigor",
+    "desc": "Construido sobre puntos de contacto directos sobre el terreno, demanda institucional e infraestructura de vivero patentada.",
+    "cta1": "Ponte en contacto",
+    "cta2": "Ver modelo operativo",
+    "ctaData": "Solicitar acceso a la sala de datos",
+    "proofPoint": "Punto de prueba",
+    "disclaimer": "Las métricas representan operaciones de campo activas, huella de la red minorista e instalaciones de socios en las principales regiones objetivo.",
+    "metrics": [
+      {
+        "value": "15.000+",
+        "label": "Acres bajo asociación",
+        "note": "Profundidad de la red de campo para programas de aportes, asesoramiento y mercado."
+      },
+      {
+        "value": "2000+",
+        "label": "Agricultores de Agaate Parivaar",
+        "note": "Una base de agricultores en crecimiento para repetir el compromiso estacional."
+      },
+      {
+        "value": "25+",
+        "label": "Socios de suministro directo",
+        "note": "Acceso liderado por los fabricantes en semillas, nutrición, riego y protección de cultivos."
+      },
+      {
+        "value": "500+",
+        "label": "SKU de insumos agrícolas",
+        "note": "Profundidad del comercio minorista a través de Kisan Mall y adquisiciones basadas en asesoramiento."
+      },
+      {
+        "value": "200+",
+        "label": "Instalaciones de riego",
+        "note": "Prueba de ejecución del hardware en campo, no solo de la intención del software."
+      },
+      {
+        "value": "17 acres",
+        "label": "Guardería inteligente",
+        "note": "Producción controlada, ensayos, pruebas de calidad e infraestructura de distribución."
+      }
+    ]
+  },
+  "production": {
+    "eyebrow": "Infraestructura de producción",
+    "title": "El vivero inteligente de 17 acres es el centro de control de calidad de la empresa.",
+    "desc": "El modelo de vivero de Agaate reemplaza la riesgosa siembra directa con germinación controlada, raíces bioimpulsadas, protocolos estandarizados, pruebas internas y trazabilidad antes de que las plántulas lleguen al campo del agricultor.",
+    "phases": [
+      "Investigación y planificación de cultivos",
+      "Cultivo controlado",
+      "Pruebas de calidad",
+      "Distribución y transporte"
+    ],
+    "cta1": "Inspeccionar el modelo de vivero.",
+    "cta2": "Reservar visita a las instalaciones",
+    "stats": [
+      {
+        "value": "90-98%",
+        "desc": "Rango objetivo de germinación y supervivencia"
+      },
+      {
+        "value": "30-50%",
+        "desc": "Reducción del desperdicio de semillas vs siembra directa"
+      },
+      {
+        "value": "15-30%",
+        "desc": "Potencial de mejora del rendimiento"
+      }
+    ]
+  },
+  "dataAdvisory": {
+    "eyebrow": "Capa de datos y asesoramiento",
+    "title": "La oportunidad del software está oculta dentro de cada ciclo de cultivo.",
+    "desc": "Cada imagen que envía un agricultor, cada informe sobre el suelo, cada registro de fertirrigación, cada requisito del comprador y cada práctica de carbono pueden convertirse en un sistema operativo más inteligente para el cultivo de hortalizas en la India.",
+    "modules": [
+      {
+        "title": "Seguimiento de cultivos por WhatsApp",
+        "desc": "Orientación diaria y por etapas, detección de problemas de imágenes y conexión directa con expertos."
+      },
+      {
+        "title": "Aplicación de gestión agrícola",
+        "desc": "Etapas de cultivos, registros de insumos, registros de actividades, alertas, herramientas de planificación y paneles de control para agricultores."
+      },
+      {
+        "title": "Sensores, drones e inteligencia artificial",
+        "desc": "Humedad, clima, exploración, detección de la salud de los cultivos, apoyo a la fumigación y avisos basados ​​en datos."
+      },
+      {
+        "title": "Calidad trazable",
+        "desc": "Protocolos de vivero, seguimiento de lotes, aportes respaldados por socios y controles de calidad antes del despliegue en el campo."
+      }
+    ],
+    "platformEyebrow": "Plataforma de capacitación para agricultores",
+    "platformPillars": [
+      "Capacitación",
+      "Entradas",
+      "Ecosistema de recompra"
+    ],
+    "platformDesc": "Un punto de contacto repetible que mantiene a Agaate involucrado antes, durante y después de la cosecha.",
+    "carbonTitle": "Los créditos de carbono aumentan",
+    "carbonDesc": "El riego por goteo, la reducción de la labranza, los bioinsumos, la no quema de residuos, los cultivos de cobertura y una mejor eficiencia de los insumos pueden convertirse en ingresos climáticos verificados cuando se maneja bien el MRV.",
+    "carbonCta": "Ver programa de carbono"
+  },
+  "market": {
+    "eyebrow": "Mercado y ecosistema",
+    "title": "Kisan Mall, el vínculo con el mercado y Agri Park deberían sentirse conectados, no aleatorios.",
+    "desc": "Kisan Mall es la puerta de entrada al comercio minorista. La vinculación con el mercado es la puerta de entrada de ingresos para los agricultores. Agri Park es la puerta de entrada de confianza donde socios, agricultores y compradores pueden ver el recorrido completo de los cultivos en tierras reales.",
+    "cta1": "Visita el parque agrícola",
+    "cta2": "Revisar la vinculación con el mercado",
+    "kisanMallTitle": "Kisan Mall como nodo fiduciario y de distribución.",
+    "kisanMallDesc": "En lugar de incluir una sección del centro comercial en la página de inicio, la página de inicio ahora explica por qué existe: insumos verificados, recetas, educación para agricultores y acceso a fabricantes bajo un mismo techo.",
+    "agriParkTitle": "El primer concepto integrado de Agri Park de la India.",
+    "agriParkTag": "Granja de demostración en vivo",
+    "agriParkDesc": "Una granja de Agaate donde se pueden demostrar semillas, viveros, riego, nutrición, protección, tecnología, capacitación y socios de mercado en cultivos reales a través de una caminata.",
+    "parkZones": [
+      "Semilla",
+      "Vivero",
+      "Riego",
+      "Nutrición",
+      "Protección",
+      "Tecnología y drones",
+      "Capacitación",
+      "Mercado"
+    ],
+    "techCards": [
+      {
+        "title": "Cuidado preventivo de cultivos"
+      },
+      {
+        "title": "Riego de precisión"
+      },
+      {
+        "title": "Inteligencia de campo y drones"
+      }
+    ]
+  },
+  "people": {
+    "eyebrow": "Personas y gobernanza",
+    "title": "Las personas que conducen el motor de campo.",
+    "desc": "Nuestro liderazgo reúne una profunda experiencia en operaciones agrícolas, agronomía, infraestructura minorista y ciencia de datos. Nos une una visión singular: reemplazar las conjeturas con ciencia y capacitar a cada productor para que tenga éxito desde la semilla hasta la venta.",
+    "cta1": "Conozca al equipo de liderazgo",
+    "cta2": "Contacto con el mostrador de inversores",
+    "team": [
+      {
+        "name": "Ankit Rawat",
+        "role": "Fundador y director ejecutivo",
+        "focus": "Visión de la empresa, sostenibilidad, estrategia de socios y narrativa de capital."
+      },
+      {
+        "name": "Kuldeep Singh Singhar",
+        "role": "Jefe de Operaciones",
+        "focus": "Ejecución agrícola, ventas de cultivos, confiabilidad de la cadena de suministro y disciplina operativa."
+      },
+      {
+        "name": "Abhay Ranjan",
+        "role": "Jefe de estado mayor",
+        "focus": "Operaciones de guardería, ejecución de Kisan Mall e infraestructura multifuncional."
+      },
+      {
+        "name": "Chanchala Shukla",
+        "role": "Agrónomo",
+        "focus": "Viabilidad de cultivos, desarrollo de productos, nutrición y manejo integrado de plagas."
+      },
+      {
+        "name": "Ravi Kumar",
+        "role": "Datos y estrategia",
+        "focus": "Análisis, ciclos de cultivos inteligentes, informes e inteligencia operativa estratégica."
+      }
+    ]
+  }
+}

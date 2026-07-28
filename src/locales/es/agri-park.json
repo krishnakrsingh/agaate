@@ -1,0 +1,18 @@
+{
+  "agriPark": {
+    "eyebrow": "Infraestructura de parques agrícolas",
+    "title": "Un plan para la agricultura moderna",
+    "cta": "Explora el parque",
+    "desc": "El Agri-Park de Agaate es una instalación de última generación que combina investigación agronómica, desarrollo de semillas y técnicas agrícolas avanzadas. Probamos y validamos soluciones antes de que lleguen a su campo.",
+    "zones": [
+      "Semilla",
+      "Vivero",
+      "Riego",
+      "Nutrición",
+      "Protección",
+      "Tecnología y drones",
+      "Capacitación",
+      "Mercado"
+    ]
+  }
+}

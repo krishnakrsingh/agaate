@@ -1,0 +1,21 @@
+{
+  "app": {
+    "eyebrow1": "05 / Integrated Support",
+    "title1_1": "Decisions shouldn't happen",
+    "title1_2": "in isolation.",
+    "title1_3": "",
+    "desc1": "A leaf changes. A crop stage arrives. A purchase needs to happen today. Agaate exists for that exact moment between uncertainty and action.",
+    "eyebrow2": "Farm Management",
+    "title2": "The Crop Life App",
+    "desc2": "Log observations, get instant agronomic advice based on local weather models, and coordinate with ground agronomists.",
+    "cta": "Get the App",
+    "placeholderLabel": "[APP UI MOCKUP]",
+    "placeholderDetail": "Crop calendar, disease alert, task list",
+    "placeholderCaption": "A real app screen belongs here—not a fabricated dashboard.",
+    "list": [
+      "Upload photos of crop distress for instant analysis",
+      "Track all inputs applied throughout the season",
+      "Direct video consultation with field experts"
+    ]
+  }
+}

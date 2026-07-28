@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "घर",
+    "services": "सेवा",
+    "agriPark": "आगरी पार्क",
+    "community": "समुदाय",
+    "about": "बद्दल",
+    "careers": "करिअर",
+    "contact": "संपर्क करा",
+    "contactUs": "आमच्याशी संपर्क साधा"
+  },
+  "servicesSub": {
+    "nursery": "बायो-बूस्ट नर्सरी",
+    "kisaanMall": "किसान मॉल",
+    "farmTech": "फार्म टेक",
+    "carbonCredits": "कार्बन क्रेडिट्स",
+    "bigFarmSetup": "मोठा फार्म सेटअप",
+    "marketLinkage": "मार्केट लिंकेज"
+  },
+  "footer": {
+    "tagline": "संपूर्ण पीक चक्रामध्ये विश्वसनीय इनपुट, तज्ञ सल्लागार, शेती तंत्रज्ञान आणि बाजारपेठेतील प्रवेशाद्वारे भारतीय शेतकऱ्यांना सक्षम बनवणे.",
+    "company": "कंपनी",
+    "aboutUs": "आमच्याबद्दल",
+    "services": "सेवा",
+    "allServices": "सर्व सेवा",
+    "contactHeading": "संपर्क करा",
+    "contactUs": "आमच्याशी संपर्क साधा",
+    "privacyPolicy": "गोपनीयता धोरण",
+    "termsOfService": "सेवा अटी",
+    "copyright": "© {{year}} Anzix Farm Technologies Pvt. Ltd. सर्व हक्क राखीव."
+  }
+}
