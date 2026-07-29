@@ -18,11 +18,7 @@ for (const path in localeModules) {
   }
 }
 
-// All 22 Official Scheduled Languages of India + English + Spanish
-const SUPPORTED_LNGS = [
-  'en', 'hi', 'bn', 'te', 'mr', 'ta', 'ur', 'gu', 'kn', 'or', 'ml', 'pa', 'as',
-  'ne', 'mai', 'sat', 'ks', 'kok', 'sd', 'doi', 'mni', 'sa', 'brx', 'es'
-];
+const SUPPORTED_LNGS = ['en', 'hi'];
 
 i18n.use(initReactI18next).init({
   lng: 'en',
