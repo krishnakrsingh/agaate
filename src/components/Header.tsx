@@ -48,6 +48,7 @@ export default function Header() {
       }
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -55,12 +56,10 @@ export default function Header() {
   return (
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-4">
       <header
-        className={`pointer-events-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
-          scrolled
-            ? "w-[92%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 backdrop-blur-xl border border-white/10 px-6 shadow-none md:translate-y-0 md:px-8"
-            : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-6 pt-4 md:px-10"
+        className={`pointer-events-auto flex w-[92%] max-w-5xl items-center justify-between rounded-full border border-white/10 bg-[#14332b]/95 px-6 shadow-none backdrop-blur-xl transition-all duration-500 ease-in-out md:px-8 ${
+          scrolled ? "translate-y-1 md:translate-y-0" : "translate-y-0"
         }`}
-        style={{ height: scrolled ? "60px" : "76px" }}
+        style={{ height: scrolled ? "60px" : "68px" }}
       >
         {/* Brand Logo */}
         <div className="flex shrink-0 items-center justify-start">
@@ -72,7 +71,7 @@ export default function Header() {
               src="/logo.svg"
               alt="Agaate"
               className={`w-auto transition-all duration-500 ease-in-out ${
-                scrolled ? "h-6 md:h-7" : "h-8 drop-shadow-md md:h-9"
+                scrolled ? "h-6 md:h-7" : "h-7 md:h-8"
               }`}
             />
           </Link>
@@ -93,9 +92,7 @@ export default function Header() {
             >
               <Link
                 to={getLocalizedPath(link.href, currentLang) as any}
-                className={`whitespace-nowrap flex items-center gap-1 font-body text-[15px] font-medium transition-colors hover:text-[#c8e3d4] ${
-                  scrolled ? "text-cream/90" : "text-cream drop-shadow-md"
-                }`}
+                className="whitespace-nowrap flex items-center gap-1 font-body text-[15px] font-medium text-cream/90 transition-colors hover:text-[#c8e3d4]"
               >
                 {t(`nav.${link.key}` as any)}
                 {link.subLinks && <ChevronDown className="h-3.5 w-3.5 opacity-70" />}
