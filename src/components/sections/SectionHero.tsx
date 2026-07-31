@@ -194,18 +194,18 @@ export default memo(function SectionHero({
         />
 
         {/* ── SPLIT BOTTOM LAYOUT ── */}
-        <div className="absolute inset-0 z-10 flex items-end px-8 md:px-14 pb-14 md:pb-16">
-          <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
+        <div className="absolute inset-0 z-10 flex items-end px-5 pb-10 sm:px-8 md:px-14 md:pb-16">
+          <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-12">
             {/* LEFT — Elegant display headline (pure white, larger scale) */}
             <h1
               ref={h1Ref}
               className="opacity-0 text-cream md:max-w-[62%]"
               style={{
                 fontFamily: "Manrope, Inter, Arial, sans-serif",
-                fontSize: "clamp(3.75rem, 6.8vw, 6.5rem)",
+                fontSize: "clamp(2.5rem, 6.8vw, 6.5rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.035em",
-                lineHeight: 1.02,
+                lineHeight: 1.05,
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
@@ -221,11 +221,7 @@ export default memo(function SectionHero({
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
             <div
-              className="flex flex-col gap-4 md:max-w-[32%]"
-              style={{
-                borderLeft: "2px solid rgba(255,255,255,0.25)",
-                paddingLeft: "1.35rem",
-              }}
+              className="flex flex-col gap-5 border-l-2 border-white/25 pl-4 md:max-w-[32%] md:gap-4 md:pl-[1.35rem]"
             >
               <p
                 ref={pRef}
@@ -244,7 +240,7 @@ export default memo(function SectionHero({
               {/* CTA Buttons (Balanced scale) */}
               <div
                 ref={btnRef}
-                className="opacity-0 flex flex-row items-center flex-wrap gap-3 pt-0.5"
+                className="opacity-0 flex flex-col items-start gap-3 pt-1 sm:flex-row sm:items-center sm:flex-wrap"
               >
                 <a
                   href="#services"

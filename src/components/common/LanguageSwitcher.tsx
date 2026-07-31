@@ -39,7 +39,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => switchTo("en")}
         aria-pressed={!isHindi}
-        className={`relative z-10 min-w-[2.5rem] rounded-full px-2.5 py-1 text-xs font-bold tracking-wide transition-colors duration-300 ${
+        className={`relative z-10 min-w-[2rem] rounded-full px-2 py-1 text-[11px] font-bold tracking-wide transition-colors duration-300 md:min-w-[2.5rem] md:px-2.5 md:text-xs ${
           !isHindi ? "text-[#0d2820]" : "text-cream/70 hover:text-cream"
         }`}
       >
@@ -50,7 +50,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => switchTo("hi")}
         aria-pressed={isHindi}
-        className={`relative z-10 min-w-[2.5rem] rounded-full px-2.5 py-1 text-xs font-bold tracking-wide transition-colors duration-300 ${
+        className={`relative z-10 min-w-[2rem] rounded-full px-2 py-1 text-[11px] font-bold tracking-wide transition-colors duration-300 md:min-w-[2.5rem] md:px-2.5 md:text-xs ${
           isHindi ? "text-[#0d2820]" : "text-cream/70 hover:text-cream"
         }`}
       >

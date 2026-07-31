@@ -29,7 +29,7 @@ export const C = {
   calyx: "#2D5A27",
   crateWood: "#C49A5A",
   hose: "#2C2C2C",
-  mulch: "#D0D0D0",
+  mulch: "#0E120F",
 };
 
 // --- Shared Materials (created once, reused everywhere) ---
@@ -152,7 +152,12 @@ export const materials = {
   wood: new THREE.MeshStandardMaterial({ color: C.wood, roughness: 0.75, metalness: 0.05 }),
   steel: new THREE.MeshStandardMaterial({ color: C.steel, roughness: 0.25, metalness: 0.7 }),
   brass: new THREE.MeshStandardMaterial({ color: C.brass, roughness: 0.3, metalness: 0.8 }),
-  mulchSheet: new THREE.MeshStandardMaterial({ color: C.mulch, roughness: 0.2, metalness: 0.65 }),
+  // Kept matte (was incorrectly chrome with metalness 0.65)
+  mulchSheet: new THREE.MeshStandardMaterial({
+    color: C.mulch,
+    roughness: 0.55,
+    metalness: 0.0,
+  }),
   hose: new THREE.MeshStandardMaterial({ color: C.hose, roughness: 0.7, metalness: 0.15 }),
   telemetryNode: new THREE.MeshBasicMaterial({ color: C.glowCyan }),
   crate: new THREE.MeshStandardMaterial({ color: C.crateWood, roughness: 0.7, metalness: 0.05 }),
@@ -187,13 +192,13 @@ export const SOIL_CLODS = [
 // ======================================================================
 const leafShape = (() => {
   const s = new THREE.Shape();
-  s.moveTo(0, 0); // base (petiole attachment)
-  s.bezierCurveTo(0.03, 0.02, 0.055, 0.05, 0.06, 0.09); // right edge lower curve
-  s.bezierCurveTo(0.062, 0.11, 0.058, 0.14, 0.05, 0.16); // right edge mid bulge
-  s.bezierCurveTo(0.04, 0.19, 0.02, 0.21, 0, 0.22); // tip
-  s.bezierCurveTo(-0.02, 0.21, -0.04, 0.19, -0.05, 0.16); // left edge tip to mid
-  s.bezierCurveTo(-0.058, 0.14, -0.062, 0.11, -0.06, 0.09); // left edge mid bulge
-  s.bezierCurveTo(-0.055, 0.05, -0.03, 0.02, 0, 0); // left edge back to base
+  s.moveTo(0, 0);
+  s.bezierCurveTo(0.03, 0.02, 0.055, 0.05, 0.06, 0.09);
+  s.bezierCurveTo(0.062, 0.11, 0.058, 0.14, 0.05, 0.16);
+  s.bezierCurveTo(0.04, 0.19, 0.02, 0.21, 0, 0.22);
+  s.bezierCurveTo(-0.02, 0.21, -0.04, 0.19, -0.05, 0.16);
+  s.bezierCurveTo(-0.058, 0.14, -0.062, 0.11, -0.06, 0.09);
+  s.bezierCurveTo(-0.055, 0.05, -0.03, 0.02, 0, 0);
   return s;
 })();
 
