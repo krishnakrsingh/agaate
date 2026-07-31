@@ -215,7 +215,7 @@ function CropWorldScene({ progressRef }: { progressRef: MutableRefObject<number>
             ))}
           </group>
 
-          {/* Row 2 (Center â€” main plant row) */}
+          {/* Row 2 (Center — main plant row) */}
           <group position={[0, 0.15, 0]}>
             <mesh material={materials.soil} rotation={[0, 0, Math.PI / 2]} castShadow receiveShadow>
               <cylinderGeometry args={[0.18, 0.18, 4.2, 64]} />
