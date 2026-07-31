@@ -54,7 +54,7 @@
   --color-bone: var(--bone);
   --font-display: "Manrope", "Inter", "Arial", sans-serif;
   --font-sans: "Manrope", "Inter", "Arial", sans-serif;
-  --font-mono: "Manrope", "Inter", "Arial", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
   --font-body: "Manrope", "Inter", "Arial", sans-serif;
   --font-serif: "Instrument Serif", "Georgia", serif;
   --font-jet: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;

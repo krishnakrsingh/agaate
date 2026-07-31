@@ -11,9 +11,12 @@
 | `--forest-deep` | `oklch(0.24 0.05 155)`  | Primary buttons, dark headings  |
 | `--moss`        | `oklch(0.55 0.09 145)`  | Secondary accents, growth cues  |
 | `--terracotta`  | `oklch(0.62 0.14 45)`   | Accent, CTAs, highlights        |
+| `--pine`        | `oklch(0.16 0.025 150)` | Deep dark section bands         |
 | `--destructive` | `oklch(0.55 0.2 27)`    | Errors, crisis section          |
 
 Semantic mapping: `background = cream`, `foreground = ink`, `primary = forest-deep`, `accent = terracotta`, `muted = bone`.
+
+Hero primary CTA uses lime `#a3e635` on `#0f2d25` text — the page signature accent for primary actions.
 
 ## Typography
 
@@ -21,12 +24,13 @@ Loaded via Google Fonts in `src/routes/__root.tsx`.
 
 | Role                       | Family                        | CSS variable     |
 | -------------------------- | ----------------------------- | ---------------- |
-| Display / headings (h1–h3) | **Instrument Serif**          | `--font-display` |
-| Body / UI                  | **Inter** (300–700)           | `--font-sans`    |
-| Labels / meta              | **JetBrains Mono** (400, 500) | `--font-mono`    |
+| Display / headings (h1–h3) | **Manrope** (300–700)         | `--font-display` |
+| Body / UI                  | **Manrope** (300–700)         | `--font-sans`    |
+| Labels / meta              | **JetBrains Mono** (400, 500) | `--font-mono` / `--font-jet` |
 
-- Heading tracking: `letter-spacing: -0.02em`
-- Body OpenType features: `ss01`, `cv11`
+- Heading tracking: `letter-spacing: -0.035em` (display), weight light–medium
+- Title accents: italic `text-forest` / `text-moss` (CropWorld pattern)
+- Eyebrow: hairline + uppercase mono, `0.1em` tracking, `text-forest`
 - `.label-mono` utility: uppercase, `0.18em` tracking, `0.7rem`, muted
 
 ## Radius
