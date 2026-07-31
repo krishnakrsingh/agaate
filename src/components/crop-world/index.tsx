@@ -1,3 +1,5 @@
+"use client";
+
 import { MutableRefObject } from "react";
 import { Canvas } from "@react-three/fiber";
 import CropWorldScene from "./CropWorldScene";
