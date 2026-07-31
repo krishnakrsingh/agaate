@@ -1,6 +1,8 @@
+"use client";
+
 import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
-import { useTranslation } from "react-i18next";
+import { heroContent } from "@/lib/home-content";
 
 interface HeroProps {
   onVideoLoaded?: () => void;
@@ -21,9 +23,7 @@ export default memo(function SectionHero({
   const pRef = useRef<HTMLParagraphElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
-  const { t } = useTranslation('hero');
 
-  // Keep latest callback ref to avoid re-running effects or re-binding listeners
   const onVideoLoadedRef = useRef(onVideoLoaded);
   const onAnimationCompleteRef = useRef(onAnimationComplete);
 
@@ -46,7 +46,6 @@ export default memo(function SectionHero({
       onVideoLoadedRef.current?.();
     };
 
-    // Check readystate to see if it is already loaded/playable
     if (video.readyState >= 3) {
       handleVideoLoaded();
     } else {
@@ -58,9 +57,8 @@ export default memo(function SectionHero({
       video.removeEventListener("canplay", handleVideoLoaded);
       video.removeEventListener("canplaythrough", handleVideoLoaded);
     };
-  }, []); // Run only once on mount
+  }, []);
 
-  // Pause video when hero section scrolls out of view to save CPU/GPU decode memory
   useEffect(() => {
     const video = videoRef.current;
     const section = sectionRef.current;
@@ -69,7 +67,7 @@ export default memo(function SectionHero({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => { });
+          video.play().catch(() => {});
         } else {
           video.pause();
         }
@@ -86,7 +84,6 @@ export default memo(function SectionHero({
     hasAnimatedRef.current = true;
 
     const ctx = gsap.context(() => {
-      // Start reveal immediately (loader circular wipe has started opening)
       const tl = gsap.timeline({
         delay: 0,
         onComplete: () => {
@@ -94,7 +91,6 @@ export default memo(function SectionHero({
         },
       });
 
-      // 1. Cinematic morph: video starts full-screen and contracts into the rounded padded card as the loader clears
       tl.fromTo(
         sectionRef.current,
         { padding: "0px" },
@@ -129,7 +125,6 @@ export default memo(function SectionHero({
           },
           "<",
         )
-        // 2. Text floats in (pure transform & opacity, avoiding heavy filter: blur shaders)
         .fromTo(
           h1Ref.current,
           { opacity: 0, y: 35 },
@@ -158,7 +153,6 @@ export default memo(function SectionHero({
   return (
     <section ref={sectionRef} id="hero" className="relative w-full h-[100dvh] p-2 md:p-2.5">
       <div ref={containerRef} className="relative w-full h-full overflow-hidden rounded-[16px]">
-        {/* Background Video */}
         <video
           ref={videoRef}
           className="absolute inset-0 z-0 w-full h-full object-cover"
@@ -171,13 +165,11 @@ export default memo(function SectionHero({
           disablePictureInPicture
         />
 
-        {/* Cinematic reveal curtain (hardware-composited opacity instead of heavy CSS filter shader on video container) */}
         <div
           ref={curtainRef}
           className="absolute inset-0 z-[1] bg-ink pointer-events-none opacity-0"
         />
 
-        {/* Overlay — strong bottom floor so text always reads, light top scrim for nav */}
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           style={{
@@ -193,15 +185,13 @@ export default memo(function SectionHero({
           }}
         />
 
-        {/* ── SPLIT BOTTOM LAYOUT ── */}
         <div className="absolute inset-0 z-10 flex items-end px-5 pb-10 sm:px-8 md:px-14 md:pb-16">
           <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-12">
-            {/* LEFT — Elegant display headline (pure white, larger scale) */}
             <h1
               ref={h1Ref}
               className="opacity-0 text-cream md:max-w-[62%]"
               style={{
-                fontFamily: "Manrope, Inter, Arial, sans-serif",
+                fontFamily: "var(--font-manrope), Manrope, Inter, Arial, sans-serif",
                 fontSize: "clamp(2.5rem, 6.8vw, 6.5rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.035em",
@@ -209,9 +199,9 @@ export default memo(function SectionHero({
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
               }}
             >
-              <span style={{ color: "#ffffff", fontWeight: 500 }}>{t('title_start')}</span>
+              <span style={{ color: "#ffffff", fontWeight: 500 }}>{heroContent.titleStart}</span>
               <br />
-              {t('title_end').split('\n').map((line, i) => (
+              {heroContent.titleEnd.split("\n").map((line, i) => (
                 <span key={i}>
                   {line}
                   <br />
@@ -219,25 +209,21 @@ export default memo(function SectionHero({
               ))}
             </h1>
 
-            {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
-            <div
-              className="flex flex-col gap-5 border-l-2 border-white/25 pl-4 md:max-w-[32%] md:gap-4 md:pl-[1.35rem]"
-            >
+            <div className="flex flex-col gap-5 border-l-2 border-white/25 pl-4 md:max-w-[32%] md:gap-4 md:pl-[1.35rem]">
               <p
                 ref={pRef}
                 className="opacity-0 text-cream"
                 style={{
-                  fontFamily: "Manrope, Inter, Arial, sans-serif",
+                  fontFamily: "var(--font-manrope), Manrope, Inter, Arial, sans-serif",
                   fontSize: "clamp(0.83rem, 0.92vw, 0.88rem)",
                   fontWeight: 400,
                   color: "rgba(255,255,255,0.82)",
                   lineHeight: 1.55,
                 }}
               >
-                {t('subtitle')}
+                {heroContent.subtitle}
               </p>
 
-              {/* CTA Buttons (Balanced scale) */}
               <div
                 ref={btnRef}
                 className="opacity-0 flex flex-col items-start gap-3 pt-1 sm:flex-row sm:items-center sm:flex-wrap"
@@ -246,13 +232,13 @@ export default memo(function SectionHero({
                   href="#services"
                   className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-5 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
                   style={{
-                    fontFamily: "Manrope, Inter, Arial, sans-serif",
+                    fontFamily: "var(--font-manrope), Manrope, Inter, Arial, sans-serif",
                     fontSize: "13.5px",
                     letterSpacing: "-0.01em",
                     background: "#a3e635",
                   }}
                 >
-                  {t('cta_primary')}
+                  {heroContent.ctaPrimary}
                   <svg
                     width="13"
                     height="13"
@@ -270,10 +256,10 @@ export default memo(function SectionHero({
                   </svg>
                 </a>
                 <a
-                  href="#app"
+                  href="#journey-section"
                   className="inline-flex items-center gap-2 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal"
                   style={{
-                    fontFamily: "Manrope, Inter, Arial, sans-serif",
+                    fontFamily: "var(--font-manrope), Manrope, Inter, Arial, sans-serif",
                     fontSize: "13.5px",
                     letterSpacing: "-0.005em",
                     background: "none",
@@ -281,7 +267,7 @@ export default memo(function SectionHero({
                     cursor: "pointer",
                   }}
                 >
-                  {t('cta_secondary')}
+                  {heroContent.ctaSecondary}
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
                     <path
@@ -298,10 +284,8 @@ export default memo(function SectionHero({
           </div>
         </div>
 
-        {/* Navbar top gradient scrim */}
         <div className="absolute top-0 left-0 right-0 h-28 z-[1] bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
 
-        {/* Scroll cue */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5">
           <div className="w-px h-7 bg-cream/20 animate-pulse" />
         </div>

@@ -1,9 +1,9 @@
+"use client";
+
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
-import { Link, useParams } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import { getLocalizedPath } from "@/lib/i18n";
-import { LanguageSwitcher } from "./common/LanguageSwitcher";
+import Link from "next/link";
+import { navContent } from "@/lib/home-content";
 
 const navStructure = [
   { key: "home", href: "/" },
@@ -11,18 +11,18 @@ const navStructure = [
     key: "services",
     href: "/services",
     subLinks: [
-      { key: "nursery", href: "/services/nursery" },
-      { key: "kisaanMall", href: "/services/kisaan-mall" },
-      { key: "farmTech", href: "/services/farm-tech" },
-      { key: "carbonCredits", href: "/services/carbon-credits" },
-      { key: "bigFarmSetup", href: "/services/big-farm-setup" },
-      { key: "marketLinkage", href: "/services/market-linkage" },
+      { key: "nursery", href: "/services" },
+      { key: "kisaanMall", href: "/services" },
+      { key: "farmTech", href: "/technology" },
+      { key: "carbonCredits", href: "/services" },
+      { key: "bigFarmSetup", href: "/services" },
+      { key: "marketLinkage", href: "/services" },
     ],
   },
   { key: "agriPark", href: "/agri-park" },
-  { key: "community", href: "/community" },
+  { key: "community", href: "/success-stories" },
   { key: "about", href: "/about" },
-  { key: "careers", href: "/careers" },
+  { key: "careers", href: "/contact" },
 ];
 
 const morph =
@@ -35,10 +35,6 @@ function shouldHeaderFloat() {
 }
 
 export default function Header() {
-  const { t, i18n } = useTranslation("common");
-  const { locale } = useParams({ strict: false }) as any;
-  const currentLang = locale ?? i18n.language ?? "en";
-
   const [floating, setFloating] = useState(false);
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -106,10 +102,9 @@ export default function Header() {
               : "h-16 gap-4 rounded-none border border-transparent bg-transparent px-6 backdrop-blur-none md:h-20 md:gap-8 md:px-10 lg:px-16"
           }`}
         >
-          {/* Brand Logo */}
           <div className="flex shrink-0 items-center justify-start">
             <Link
-              to={getLocalizedPath("/", currentLang) as any}
+              href="/"
               onClick={closeMobile}
               className="flex items-center text-cream transition-opacity duration-300 hover:opacity-80"
             >
@@ -123,7 +118,6 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Navigation Links — desktop only */}
           <nav
             className={`hidden items-center justify-center lg:flex transition-[gap] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               floating ? "gap-7" : "gap-9 xl:gap-11"
@@ -137,10 +131,10 @@ export default function Header() {
                 onMouseLeave={() => setHoveredMenu(null)}
               >
                 <Link
-                  to={getLocalizedPath(link.href, currentLang) as any}
+                  href={link.href}
                   className="whitespace-nowrap flex items-center gap-1.5 font-body text-[15px] font-semibold tracking-[-0.01em] text-cream transition-colors duration-300 hover:text-[#c8e3d4]"
                 >
-                  {t(`nav.${link.key}` as any)}
+                  {navContent.nav[link.key as keyof typeof navContent.nav]}
                   {link.subLinks && <ChevronDown className="h-3.5 w-3.5 opacity-70" />}
                 </Link>
 
@@ -149,11 +143,11 @@ export default function Header() {
                     <div className="overflow-hidden rounded-xl border border-white/10 bg-[#14332b]/95 p-2 shadow-none backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-300">
                       {link.subLinks.map((subLink) => (
                         <Link
-                          key={subLink.href}
-                          to={getLocalizedPath(subLink.href, currentLang) as any}
+                          key={subLink.key}
+                          href={subLink.href}
                           className="block whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-medium text-cream/80 transition-colors duration-200 hover:bg-white/10 hover:text-cream"
                         >
-                          {t(`servicesSub.${subLink.key}` as any)}
+                          {navContent.servicesSub[subLink.key as keyof typeof navContent.servicesSub]}
                         </Link>
                       ))}
                     </div>
@@ -163,31 +157,25 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right Actions */}
           <div
             className={`flex shrink-0 items-center justify-end transition-[gap] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               floating || mobileOpen ? "gap-2 md:gap-3.5" : "gap-2.5 md:gap-5"
             }`}
           >
-            <div className="hidden sm:block">
-              <LanguageSwitcher />
-            </div>
-
             <Link
-              to={getLocalizedPath("/contact", currentLang) as any}
+              href="/contact"
               onClick={closeMobile}
-              aria-label={t("nav.contactUs")}
+              aria-label={navContent.nav.contactUs}
               className={`hidden sm:inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-2 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] shadow-none transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 floating
                   ? "h-9 px-3 text-xs md:h-auto md:px-5 md:py-2.5"
                   : "h-9 px-3 text-xs md:h-auto md:px-6 md:py-2.5 md:text-sm"
               }`}
             >
-              <span>{t("nav.contactUs")}</span>
+              <span>{navContent.nav.contactUs}</span>
               <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-1 md:h-4 md:w-4" />
             </Link>
 
-            {/* Mobile menu toggle */}
             <button
               type="button"
               className="lg:hidden flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-cream transition-colors hover:bg-white/15"
@@ -201,7 +189,6 @@ export default function Header() {
         </header>
       </div>
 
-      {/* Mobile full-screen menu */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
           mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
@@ -231,7 +218,7 @@ export default function Header() {
                       onClick={() => setMobileServicesOpen((open) => !open)}
                       aria-expanded={mobileServicesOpen}
                     >
-                      {t(`nav.${link.key}` as any)}
+                      {navContent.nav[link.key as keyof typeof navContent.nav]}
                       <ChevronDown
                         className={`h-5 w-5 opacity-70 transition-transform duration-300 ${
                           mobileServicesOpen ? "rotate-180" : ""
@@ -247,21 +234,21 @@ export default function Header() {
                         <ul className="mb-2 ml-2 flex flex-col gap-0.5 border-l border-white/10 pl-3">
                           <li>
                             <Link
-                              to={getLocalizedPath(link.href, currentLang) as any}
+                              href={link.href}
                               onClick={closeMobile}
                               className="block rounded-lg px-3 py-2.5 text-sm font-medium text-cream/70 transition-colors hover:bg-white/5 hover:text-cream"
                             >
-                              {t(`nav.${link.key}` as any)}
+                              {navContent.nav[link.key as keyof typeof navContent.nav]}
                             </Link>
                           </li>
                           {link.subLinks.map((subLink) => (
-                            <li key={subLink.href}>
+                            <li key={subLink.key}>
                               <Link
-                                to={getLocalizedPath(subLink.href, currentLang) as any}
+                                href={subLink.href}
                                 onClick={closeMobile}
                                 className="block rounded-lg px-3 py-2.5 text-sm font-medium text-cream/70 transition-colors hover:bg-white/5 hover:text-cream"
                               >
-                                {t(`servicesSub.${subLink.key}` as any)}
+                                {navContent.servicesSub[subLink.key as keyof typeof navContent.servicesSub]}
                               </Link>
                             </li>
                           ))}
@@ -271,11 +258,11 @@ export default function Header() {
                   </div>
                 ) : (
                   <Link
-                    to={getLocalizedPath(link.href, currentLang) as any}
+                    href={link.href}
                     onClick={closeMobile}
                     className="block rounded-xl px-3 py-3.5 font-body text-lg font-semibold text-cream transition-colors hover:bg-white/5"
                   >
-                    {t(`nav.${link.key}` as any)}
+                    {navContent.nav[link.key as keyof typeof navContent.nav]}
                   </Link>
                 )}
               </li>
@@ -283,17 +270,12 @@ export default function Header() {
           </ul>
 
           <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6">
-            <div className="flex items-center justify-between px-1">
-              <span className="text-sm font-medium text-cream/60">Language</span>
-              <LanguageSwitcher />
-            </div>
-
             <Link
-              to={getLocalizedPath("/contact", currentLang) as any}
+              href="/contact"
               onClick={closeMobile}
               className="group flex w-full items-center justify-center gap-2 rounded-full bg-[#a3e635] px-5 py-3.5 font-body text-sm font-semibold text-[#0d2820] transition-colors hover:bg-[#91d820]"
             >
-              {t("nav.contactUs")}
+              {navContent.nav.contactUs}
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>

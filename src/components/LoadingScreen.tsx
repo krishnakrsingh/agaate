@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
@@ -17,7 +19,6 @@ export default function LoadingScreen({
   const circleRef = useRef<SVGCircleElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  // Keep refs of callbacks and state to prevent stale closures and timeline resets
   const videoLoadedRef = useRef(videoLoaded);
   const onCompleteRef = useRef(onComplete);
   const onWipeStartRef = useRef(onWipeStart);
@@ -44,7 +45,6 @@ export default function LoadingScreen({
       });
       tlRef.current = tl;
 
-      // 1. Logo floats up smoothly at locked 60 FPS
       tl.to(logoRef.current, {
         opacity: 1,
         y: 0,
@@ -53,7 +53,6 @@ export default function LoadingScreen({
         ease: "power3.out",
         force3D: true,
       })
-        // 2. Logo shrinks out smoothly
         .to(
           logoRef.current,
           {
@@ -65,13 +64,11 @@ export default function LoadingScreen({
           },
           "-=0.15",
         )
-        // Pause point: Wait here if the hero video is not yet loaded
         .add(() => {
           if (!videoLoadedRef.current) {
             tl.pause();
           }
         })
-        // High-performance circular mask transition (animates SVG circle radius, avoiding CPU-bound clip-path repaints)
         .to(
           circleRef.current,
           {
@@ -90,7 +87,6 @@ export default function LoadingScreen({
     return () => ctx.revert();
   }, []);
 
-  // Resume timeline once the video has loaded
   useEffect(() => {
     if (videoLoaded && tlRef.current) {
       tlRef.current.play();
@@ -112,7 +108,6 @@ export default function LoadingScreen({
         pointerEvents: "auto",
       }}
     >
-      {/* SVG Iris Mask Background - maintains solid background at start and cuts a circular hole dynamically */}
       <svg
         style={{
           position: "absolute",
@@ -124,16 +119,13 @@ export default function LoadingScreen({
       >
         <defs>
           <mask id="iris-mask">
-            {/* The white rect keeps the loader background visible */}
             <rect x="0" y="0" width="100%" height="100%" fill="white" />
-            {/* The black circle cuts a transparent hole in the background */}
             <circle ref={circleRef} cx="50%" cy="50%" r="0" fill="black" />
           </mask>
         </defs>
         <rect x="0" y="0" width="100%" height="100%" fill="#f4f8f5" mask="url(#iris-mask)" />
       </svg>
 
-      {/* Logo optimized with inline initial transform so 0 layout shift or jank occurs */}
       <img
         ref={logoRef}
         src="/logo.png"
