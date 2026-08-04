@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap",
       },
     ],
   }),
@@ -146,31 +146,15 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-import { motion, AnimatePresence } from "framer-motion";
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { i18n } = useTranslation();
-  const router = useRouter();
-  const localeMatch = router.state.matches.find(m => m.routeId === '/{-$locale}');
-  const lang = (localeMatch?.params as any)?.locale ?? 'en';
 
   return (
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={lang}
-            initial={{ opacity: 0, filter: "blur(4px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, filter: "blur(4px)" }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="flex min-h-screen flex-col"
-          >
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
       </I18nextProvider>
     </QueryClientProvider>
   );

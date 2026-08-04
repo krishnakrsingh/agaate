@@ -201,7 +201,6 @@ export default memo(function SectionHero({
               ref={h1Ref}
               className="opacity-0 text-cream md:max-w-[62%]"
               style={{
-                fontFamily: "Manrope, Inter, Arial, sans-serif",
                 fontSize: "clamp(3.75rem, 6.8vw, 6.5rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.035em",
@@ -231,7 +230,6 @@ export default memo(function SectionHero({
                 ref={pRef}
                 className="opacity-0 text-cream"
                 style={{
-                  fontFamily: "Manrope, Inter, Arial, sans-serif",
                   fontSize: "clamp(0.83rem, 0.92vw, 0.88rem)",
                   fontWeight: 400,
                   color: "rgba(255,255,255,0.82)",
@@ -250,7 +248,6 @@ export default memo(function SectionHero({
                   href="#services"
                   className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-5 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
                   style={{
-                    fontFamily: "Manrope, Inter, Arial, sans-serif",
                     fontSize: "13.5px",
                     letterSpacing: "-0.01em",
                     background: "#a3e635",
@@ -277,7 +274,6 @@ export default memo(function SectionHero({
                   href="#app"
                   className="inline-flex items-center gap-2 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal"
                   style={{
-                    fontFamily: "Manrope, Inter, Arial, sans-serif",
                     fontSize: "13.5px",
                     letterSpacing: "-0.005em",
                     background: "none",

@@ -52,10 +52,10 @@
   --color-moss: var(--moss);
   --color-terracotta: var(--terracotta);
   --color-bone: var(--bone);
-  --font-display: "Manrope", "Inter", "Arial", sans-serif;
-  --font-sans: "Manrope", "Inter", "Arial", sans-serif;
-  --font-mono: "Manrope", "Inter", "Arial", sans-serif;
-  --font-body: "Manrope", "Inter", "Arial", sans-serif;
+  --font-display: "Manrope", "Arial", sans-serif;
+  --font-sans: "Manrope", "Arial", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-body: "Inter", "Arial", sans-serif;
   --font-serif: "Instrument Serif", "Georgia", serif;
   --font-jet: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
   --color-pine: oklch(0.16 0.025 150);
@@ -156,7 +156,7 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
   }

@@ -33,18 +33,13 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function Index() {
-  const hasLoadedBefore = typeof window !== 'undefined' && sessionStorage.getItem('agaate-loaded');
-
-  const [loading, setLoading] = useState(!hasLoadedBefore);
+  const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [startHeroAnimation, setStartHeroAnimation] = useState(!!hasLoadedBefore);
-  const [contentReady, setContentReady] = useState(!!hasLoadedBefore);
+  const [startHeroAnimation, setStartHeroAnimation] = useState(false);
+  const [contentReady, setContentReady] = useState(false);
 
   const handleComplete = useCallback(() => {
     setLoading(false);
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('agaate-loaded', 'true');
-    }
   }, []);
 
   const handleWipeStart = useCallback(() => {
