@@ -146,15 +146,31 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { motion, AnimatePresence } from "framer-motion";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { i18n } = useTranslation();
+  const router = useRouter();
+  const localeMatch = router.state.matches.find(m => m.routeId === '/{-$locale}');
+  const lang = (localeMatch?.params as any)?.locale ?? 'en';
 
   return (
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={lang}
+            initial={{ opacity: 0, filter: "blur(4px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(4px)" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="flex min-h-screen flex-col"
+          >
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </I18nextProvider>
     </QueryClientProvider>
   );
