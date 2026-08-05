@@ -1,56 +1,30 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Trees, Microscope, Handshake, ArrowUpRight } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { ArrowDown, Check, Sprout, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const pillarIcons = [Trees, Microscope, Handshake];
+const comparisonRows = ["survival", "waste", "chemicals", "yield"] as const;
 
 export default function SectionValueProp() {
   const { t } = useTranslation("value-prop");
   const sectionRef = useRef<HTMLElement>(null);
-  const manifestoRef = useRef<HTMLParagraphElement>(null);
-  const pillarsRef = useRef<HTMLDivElement>(null);
-
-  // Get accent word indices from the translation file (language-aware)
-  const accentIndices = new Set<number>(
-    (t("valueProp.accentIndices", { returnObjects: true }) as number[]) || []
-  );
+  const rowsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Manifesto: word-by-word scrub reveal
-      const words = gsap.utils.toArray<HTMLElement>(".manifesto-word", sectionRef.current);
       gsap.fromTo(
-        words,
-        { opacity: 0.13 },
-        {
-          opacity: 1,
-          stagger: 0.05,
-          ease: "none",
-          scrollTrigger: {
-            trigger: manifestoRef.current,
-            start: "top 80%",
-            end: "bottom 45%",
-            scrub: 0.6,
-          },
-        },
-      );
-
-      // Pillars ruled rows
-      gsap.fromTo(
-        pillarsRef.current?.children || [],
-        { opacity: 0, y: 28 },
+        rowsRef.current?.children ?? [],
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.7,
+          duration: 0.65,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: pillarsRef.current, start: "top 85%", once: true },
+          scrollTrigger: { trigger: rowsRef.current, start: "top 78%", once: true },
         },
       );
     }, sectionRef);
@@ -61,64 +35,85 @@ export default function SectionValueProp() {
   return (
     <section
       ref={sectionRef}
-      id="value-prop-section"
-      className="bg-cream text-ink py-20 md:py-28 lg:py-36 px-6 lg:px-12 relative overflow-hidden"
+      id="why-agaate"
+      className="relative overflow-hidden bg-[#E8F0E4] px-6 py-20 text-[#143D31] md:px-10 md:py-28 lg:px-12 lg:py-32"
     >
-      <div className="max-w-[1400px] mx-auto relative z-10">
-        {/* Kicker */}
-        <div className="flex items-center justify-between gap-6 border-t border-ink/10 pt-5 mb-14 md:mb-20">
-          <span className="font-jet text-[11px] md:text-xs uppercase tracking-[0.22em] text-forest">
+      <div className="absolute -right-24 top-0 h-[30rem] w-[30rem] rounded-full bg-[#B8D29D]/35 blur-3xl" />
+      <div className="relative mx-auto max-w-[1400px]">
+        <div className="grid gap-10 border-t border-[#143D31]/15 pt-5 lg:grid-cols-12 lg:items-end lg:gap-16">
+          <p className="font-jet text-[10px] font-semibold uppercase tracking-[0.2em] text-[#527B58] lg:col-span-3">
             {t("valueProp.kicker")}
-          </span>
-          <span className="hidden md:block font-jet text-[11px] uppercase tracking-[0.22em] text-ink/40">
-            {t("valueProp.kickerTag")}
-          </span>
+          </p>
+          <div className="lg:col-span-8">
+            <h2 className="max-w-5xl font-serif text-[clamp(3rem,5.6vw,6rem)] leading-[0.9] tracking-[-0.06em]">
+              {t("valueProp.titleStart")}{" "}
+              <span className="italic text-[#5D8D53]">{t("valueProp.titleEmphasis")}</span>
+            </h2>
+            <p className="mt-6 max-w-2xl text-[16px] leading-7 text-[#4F6757] md:text-[18px] md:leading-8">
+              {t("valueProp.intro")}
+            </p>
+          </div>
         </div>
 
-        {/* Manifesto */}
-        <p
-          ref={manifestoRef}
-          className="font-serif text-[clamp(1.9rem,4.6vw,4rem)] leading-[1.18] tracking-[-0.01em] text-forest-deep max-w-[1200px] mb-20 md:mb-28"
-        >
-          {t("valueProp.manifesto").split(" ").map((word: string, i: number) => (
-            <span
-              key={i}
-              className={`manifesto-word inline-block mr-[0.28em] ${
-                accentIndices.has(i) ? "italic text-terracotta" : ""
-              }`}
-            >
-              {word}
-            </span>
-          ))}
-        </p>
-
-        {/* Pillars as ruled rows */}
-        <div ref={pillarsRef} className="border-t border-ink/10">
-          {pillarIcons.map((Icon, i) => (
-            <div
-              key={i}
-              className="group grid grid-cols-12 items-start gap-4 md:gap-8 py-7 md:py-9 border-b border-ink/10 hover:bg-forest/[0.03] transition-colors duration-300 px-2 md:px-4 -mx-2 md:-mx-4"
-            >
-              <div className="col-span-2 md:col-span-1 font-jet text-xs md:text-sm text-terracotta pt-1.5">
-                0{i + 1}
-              </div>
-              <div className="col-span-10 md:col-span-4 flex items-center gap-4">
-                <span className="w-10 h-10 rounded-full border border-forest/25 flex items-center justify-center text-forest group-hover:bg-forest group-hover:text-cream transition-all duration-300 flex-shrink-0">
-                  <Icon className="w-4.5 h-4.5" strokeWidth={1.6} />
+        <div className="mt-14 overflow-hidden border border-[#143D31]/15 bg-[#F7F9F4] shadow-[0_24px_70px_rgba(20,61,49,0.08)] md:mt-20">
+          <div className="grid border-b border-[#143D31]/15 md:grid-cols-[1.05fr_1fr_1fr]">
+            <div className="hidden p-6 md:block" />
+            <div className="border-l border-[#143D31]/15 bg-[#F0E5CF] p-5 md:p-6">
+              <div className="flex items-center gap-3 text-[#76573A]">
+                <X className="h-4 w-4" strokeWidth={1.8} />
+                <span className="font-jet text-[10px] font-semibold uppercase tracking-[0.16em]">
+                  {t("valueProp.directLabel")}
                 </span>
-                <h3 className="font-serif text-[22px] md:text-[28px] text-forest-deep leading-tight">
-                  {t(`valueProp.pillars.${i}.title` as any)}
-                </h3>
               </div>
-              <p className="col-span-10 col-start-3 md:col-span-6 md:col-start-6 text-[#59635D] text-[15px] md:text-[17px] leading-[1.65]">
-                {t(`valueProp.pillars.${i}.desc` as any)}
+              <p className="mt-3 font-serif text-2xl tracking-[-0.04em]">
+                {t("valueProp.directTitle")}
               </p>
-              <div className="hidden md:flex col-span-1 justify-end pt-1">
-                <ArrowUpRight className="w-5 h-5 text-ink/25 group-hover:text-terracotta group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
-              </div>
             </div>
-          ))}
+            <div className="border-l border-[#143D31]/15 bg-[#1D4B3B] p-5 text-[#F4F6EE] md:p-6">
+              <div className="flex items-center gap-3 text-[#B9D896]">
+                <Sprout className="h-4 w-4" strokeWidth={1.8} />
+                <span className="font-jet text-[10px] font-semibold uppercase tracking-[0.16em]">
+                  {t("valueProp.agaateLabel")}
+                </span>
+              </div>
+              <p className="mt-3 font-serif text-2xl tracking-[-0.04em]">
+                {t("valueProp.agaateTitle")}
+              </p>
+            </div>
+          </div>
+
+          <div ref={rowsRef}>
+            {comparisonRows.map((row) => (
+              <div
+                key={row}
+                className="grid border-b border-[#143D31]/12 last:border-b-0 md:grid-cols-[1.05fr_1fr_1fr]"
+              >
+                <div className="p-5 md:p-6">
+                  <p className="font-serif text-xl tracking-[-0.03em] md:text-[1.4rem]">
+                    {t(`valueProp.comparison.${row}.label`)}
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-[#647266]">
+                    {t(`valueProp.comparison.${row}.note`)}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 border-t border-[#143D31]/12 bg-[#FBF5E9] p-5 text-[#76573A] md:border-l md:border-t-0 md:p-6">
+                  <ArrowDown className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+                  <p className="text-sm leading-6 md:text-[15px]">
+                    {t(`valueProp.comparison.${row}.direct`)}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 border-t border-[#143D31]/12 bg-[#EFF6E9] p-5 text-[#234E3D] md:border-l md:border-t-0 md:p-6">
+                  <Check className="h-4 w-4 shrink-0 text-[#5E9B5D]" strokeWidth={2} />
+                  <p className="text-sm font-medium leading-6 md:text-[15px]">
+                    {t(`valueProp.comparison.${row}.agaate`)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <p className="mt-6 max-w-3xl text-sm leading-6 text-[#58705E]">{t("valueProp.footnote")}</p>
       </div>
     </section>
   );

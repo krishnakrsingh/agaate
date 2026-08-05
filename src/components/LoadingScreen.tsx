@@ -14,7 +14,7 @@ export default function LoadingScreen({
 }: LoadingScreenProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
-  const circleRef = useRef<SVGCircleElement>(null);
+  const wipeRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   // Keep refs of callbacks and state to prevent stale closures and timeline resets
@@ -35,7 +35,7 @@ export default function LoadingScreen({
   }, [onWipeStart]);
 
   useEffect(() => {
-    if (!containerRef.current || !logoRef.current || !circleRef.current) return;
+    if (!containerRef.current || !logoRef.current || !wipeRef.current) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -49,7 +49,7 @@ export default function LoadingScreen({
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 1.1,
+        duration: 0.9,
         ease: "power3.out",
         force3D: true,
       })
@@ -59,11 +59,11 @@ export default function LoadingScreen({
           {
             scale: 0,
             opacity: 0,
-            duration: 0.7,
+            duration: 0.5,
             ease: "power3.in",
             force3D: true,
           },
-          "-=0.15",
+          "-=0.1",
         )
         // Pause point: Wait here if the hero video is not yet loaded
         .add(() => {
@@ -71,18 +71,18 @@ export default function LoadingScreen({
             tl.pause();
           }
         })
-        // High-performance circular mask transition (animates SVG circle radius, avoiding CPU-bound clip-path repaints)
+        // Hardware-accelerated circular clip-path transition (GPU composited, zero layout thrashing)
         .to(
-          circleRef.current,
+          wipeRef.current,
           {
-            attr: { r: 2500 },
-            duration: 1.3,
-            ease: "power4.inOut",
+            clipPath: "circle(0% at 50% 50%)",
+            duration: 1.1,
+            ease: "power3.inOut",
             onStart: () => {
               onWipeStartRef.current?.();
             },
           },
-          "-=0.35",
+          "-=0.15",
         )
         .set(containerRef.current, { pointerEvents: "none" });
     }, containerRef);
@@ -112,26 +112,18 @@ export default function LoadingScreen({
         pointerEvents: "auto",
       }}
     >
-      {/* SVG Iris Mask Background - maintains solid background at start and cuts a circular hole dynamically */}
-      <svg
+      {/* GPU-composited Iris Wipe Overlay */}
+      <div
+        ref={wipeRef}
         style={{
           position: "absolute",
           inset: 0,
-          width: "100%",
-          height: "100%",
+          background: "#f4f8f5",
+          clipPath: "circle(150% at 50% 50%)",
+          willChange: "clip-path",
           pointerEvents: "none",
         }}
-      >
-        <defs>
-          <mask id="iris-mask">
-            {/* The white rect keeps the loader background visible */}
-            <rect x="0" y="0" width="100%" height="100%" fill="white" />
-            {/* The black circle cuts a transparent hole in the background */}
-            <circle ref={circleRef} cx="50%" cy="50%" r="0" fill="black" />
-          </mask>
-        </defs>
-        <rect x="0" y="0" width="100%" height="100%" fill="#f4f8f5" mask="url(#iris-mask)" />
-      </svg>
+      />
 
       {/* Logo optimized with inline initial transform so 0 layout shift or jank occurs */}
       <img

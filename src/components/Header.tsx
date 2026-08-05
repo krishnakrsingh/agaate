@@ -55,9 +55,9 @@ export default function Header() {
   return (
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-4">
       <header
-        className={`pointer-events-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
+        className={`pointer-events-auto flex items-center justify-between transition-[width,max-width,padding,background-color,transform,box-shadow,height,border-radius] duration-300 ease-out ${
           scrolled
-            ? "w-[92%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 backdrop-blur-xl border border-white/10 px-6 shadow-none md:translate-y-0 md:px-8"
+            ? "w-[92%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 backdrop-blur-xl px-6 shadow-none md:translate-y-0 md:px-8"
             : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-6 pt-4 md:px-10"
         }`}
         style={{ height: scrolled ? "60px" : "76px" }}
@@ -71,7 +71,7 @@ export default function Header() {
             <img
               src="/logo.svg"
               alt="Agaate"
-              className={`w-auto transition-all duration-500 ease-in-out ${
+              className={`w-auto transition-[height] duration-300 ease-out ${
                 scrolled ? "h-6 md:h-7" : "h-8 drop-shadow-md md:h-9"
               }`}
             />
@@ -80,7 +80,7 @@ export default function Header() {
 
         {/* Navigation Links */}
         <nav
-          className={`hidden items-center justify-center transition-all duration-500 ease-in-out lg:flex ${
+          className={`hidden items-center justify-center transition-[gap] duration-300 ease-out lg:flex ${
             scrolled ? "gap-6" : "gap-7"
           }`}
         >

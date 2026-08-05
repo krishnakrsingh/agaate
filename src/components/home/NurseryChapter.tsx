@@ -2,21 +2,28 @@ import nurseryImage from "@/assets/hero-plant.jpg";
 import { Eyebrow, TextAction } from "./HomeShared";
 
 import { useTranslation } from "react-i18next";
+import { useHomeChapterReveal } from "./useHomeChapterReveal";
 
 export default function NurseryChapter() {
   const { t } = useTranslation("nursery");
+  const sectionRef = useHomeChapterReveal();
   return (
     <section
+      ref={sectionRef}
       id="smart-nursery"
       className="scroll-mt-20 bg-[#143D31] px-6 py-20 text-cream md:px-10 md:py-24 lg:px-12 lg:py-28"
     >
       <div className="mx-auto max-w-[1400px]">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5 flex flex-col justify-between">
+          <div data-home-reveal className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <Eyebrow inverse>{t("nursery.eyebrow")}</Eyebrow>
-              <h2 className="mt-6 max-w-xl font-serif text-[clamp(3rem,5.2vw,5.6rem)] leading-[0.91] tracking-[-0.06em]">{t("nursery.title")}</h2>
-              <p className="mt-7 max-w-md text-[16px] leading-7 text-cream/68">{t("nursery.desc")}</p>
+              <h2 className="mt-6 max-w-xl font-serif text-[clamp(3rem,5.2vw,5.6rem)] leading-[0.91] tracking-[-0.06em]">
+                {t("nursery.title")}
+              </h2>
+              <p className="mt-7 max-w-md text-[16px] leading-7 text-cream/68">
+                {t("nursery.desc")}
+              </p>
             </div>
 
             <div className="mt-12 lg:mt-0">
@@ -29,7 +36,9 @@ export default function NurseryChapter() {
                         {t(`nursery.items.${idx}.title` as any)}
                       </h3>
                     </div>
-                    <p className="text-[13px] leading-5 text-cream/62">{t(`nursery.items.${idx}.desc` as any)}</p>
+                    <p className="text-[13px] leading-5 text-cream/62">
+                      {t(`nursery.items.${idx}.desc` as any)}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -38,7 +47,7 @@ export default function NurseryChapter() {
               </TextAction>
             </div>
           </div>
-          <div className="lg:col-span-6 lg:col-start-7">
+          <div data-home-reveal className="lg:col-span-6 lg:col-start-7">
             <img
               src={nurseryImage}
               alt="Young plants growing in a nursery"

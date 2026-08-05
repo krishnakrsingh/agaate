@@ -21,7 +21,7 @@ export default memo(function SectionHero({
   const pRef = useRef<HTMLParagraphElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
-  const { t } = useTranslation('hero');
+  const { t } = useTranslation("hero");
 
   // Keep latest callback ref to avoid re-running effects or re-binding listeners
   const onVideoLoadedRef = useRef(onVideoLoaded);
@@ -69,7 +69,7 @@ export default memo(function SectionHero({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.play().catch(() => { });
+          video.play().catch(() => {});
         } else {
           video.pause();
         }
@@ -94,59 +94,50 @@ export default memo(function SectionHero({
         },
       });
 
-      // 1. Cinematic morph: video starts full-screen and contracts into the rounded padded card as the loader clears
+      // 1. Cinematic reveal: container scales smoothly on GPU, curtain fades out smoothly without layout thrashing
       tl.fromTo(
-        sectionRef.current,
-        { padding: "0px" },
+        containerRef.current,
+        { scale: 0.985 },
         {
-          padding: window.innerWidth < 768 ? "8px" : "10px",
-          duration: 1.6,
-          ease: "power4.out",
-          clearProps: "padding",
+          scale: 1,
+          duration: 1.4,
+          ease: "power3.out",
+          force3D: true,
+          clearProps: "transform",
         },
       )
-        .fromTo(
-          containerRef.current,
-          { borderRadius: "0px" },
-          {
-            borderRadius: "16px",
-            duration: 1.6,
-            ease: "power4.out",
-            clearProps: "borderRadius,transform,willChange",
-          },
-          "<",
-        )
         .fromTo(
           curtainRef.current,
           { opacity: 0.75, display: "block" },
           {
             opacity: 0,
-            duration: 1.6,
-            ease: "power4.out",
+            duration: 1.4,
+            ease: "power3.out",
+            force3D: true,
             onComplete: () => {
               if (curtainRef.current) curtainRef.current.style.display = "none";
             },
           },
           "<",
         )
-        // 2. Text floats in (pure transform & opacity, avoiding heavy filter: blur shaders)
+        // 2. Hardware-accelerated text reveal on GPU compositor thread (zero layout thrashing)
         .fromTo(
           h1Ref.current,
-          { opacity: 0, y: 35 },
-          { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", clearProps: "transform" },
-          "-=0.6",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", force3D: true, clearProps: "transform" },
+          "-=0.7",
         )
         .fromTo(
           pRef.current,
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", clearProps: "transform" },
-          "-=0.8",
+          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", force3D: true, clearProps: "transform" },
+          "-=0.7",
         )
         .fromTo(
           btnRef.current,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", clearProps: "transform" },
-          "-=0.8",
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", force3D: true, clearProps: "transform" },
+          "-=0.7",
         );
     }, sectionRef);
 
@@ -206,16 +197,20 @@ export default memo(function SectionHero({
                 letterSpacing: "-0.035em",
                 lineHeight: 1.02,
                 textShadow: "0 4px 30px rgba(0,0,0,0.5)",
+                willChange: "transform, opacity",
+                transform: "translate3d(0, 30px, 0)",
               }}
             >
-              <span style={{ color: "#ffffff", fontWeight: 500 }}>{t('title_start')}</span>
+              <span style={{ color: "#ffffff", fontWeight: 500 }}>{t("title_start")}</span>
               <br />
-              {t('title_end').split('\n').map((line, i) => (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ))}
+              {t("title_end")
+                .split("\n")
+                .map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
             </h1>
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
@@ -234,18 +229,24 @@ export default memo(function SectionHero({
                   fontWeight: 400,
                   color: "rgba(255,255,255,0.82)",
                   lineHeight: 1.55,
+                  willChange: "transform, opacity",
+                  transform: "translate3d(0, 20px, 0)",
                 }}
               >
-                {t('subtitle')}
+                {t("subtitle")}
               </p>
 
               {/* CTA Buttons (Balanced scale) */}
               <div
                 ref={btnRef}
                 className="opacity-0 flex flex-row items-center flex-wrap gap-3 pt-0.5"
+                style={{
+                  willChange: "transform, opacity",
+                  transform: "translate3d(0, 15px, 0)",
+                }}
               >
                 <a
-                  href="#services"
+                  href="#start-here"
                   className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-5 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
                   style={{
                     fontSize: "13.5px",
@@ -253,7 +254,7 @@ export default memo(function SectionHero({
                     background: "#a3e635",
                   }}
                 >
-                  {t('cta_primary')}
+                  {t("cta_primary")}
                   <svg
                     width="13"
                     height="13"
@@ -271,7 +272,7 @@ export default memo(function SectionHero({
                   </svg>
                 </a>
                 <a
-                  href="#app"
+                  href="#agaate-app"
                   className="inline-flex items-center gap-2 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal"
                   style={{
                     fontSize: "13.5px",
@@ -281,7 +282,7 @@ export default memo(function SectionHero({
                     cursor: "pointer",
                   }}
                 >
-                  {t('cta_secondary')}
+                  {t("cta_secondary")}
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
                     <path

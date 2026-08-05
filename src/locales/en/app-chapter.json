@@ -1,21 +1,28 @@
 {
   "app": {
-    "eyebrow1": "05 / Integrated Support",
-    "title1_1": "Decisions shouldn't happen",
-    "title1_2": "in isolation.",
+    "eyebrow1": "Crop intelligence, on the ground",
+    "title1_1": "Every field question gets",
+    "title1_2": "a next step.",
     "title1_3": "",
-    "desc1": "A leaf changes. A crop stage arrives. A purchase needs to happen today. Agaate exists for that exact moment between uncertainty and action.",
-    "eyebrow2": "Farm Management",
-    "title2": "The Crop Life App",
-    "desc2": "Log observations, get instant agronomic advice based on local weather models, and coordinate with ground agronomists.",
-    "cta": "Get the App",
-    "placeholderLabel": "[APP UI MOCKUP]",
-    "placeholderDetail": "Crop calendar, disease alert, task list",
-    "placeholderCaption": "A real app screen belongs here—not a fabricated dashboard.",
+    "desc1": "A leaf changes. Weather turns. An input needs to be applied today. Agaate connects the observation, the advice and the person who can help you act.",
+    "eyebrow2": "Farm management",
+    "title2": "Your crop, kept in view",
+    "desc2": "Record what you see, understand the crop stage and work with an agronomist who knows the context behind the alert.",
+    "cta": "Talk to an agronomist",
+    "dashboardLabel": "Agaate field desk",
+    "dashboardField": "Active crop plan",
+    "dashboardCrop": "Tomato · Block 03",
+    "dashboardStage": "Current crop stage",
+    "dashboardStageValue": "Vegetative growth",
+    "dashboardWeather": "Weather window",
+    "dashboardWeatherValue": "Clear for 2 days",
+    "dashboardAction": "Next field action",
+    "dashboardActionValue": "Inspect lower leaves",
+    "dashboardNote": "A shared picture of the crop keeps on-field advice, tasks and input decisions working together.",
     "list": [
-      "Upload photos of crop distress for instant analysis",
-      "Track all inputs applied throughout the season",
-      "Direct video consultation with field experts"
+      "Share crop observations with an agronomist who can respond",
+      "Track inputs and field tasks across the season",
+      "Use local weather and crop-stage context to plan action"
     ]
   }
 }

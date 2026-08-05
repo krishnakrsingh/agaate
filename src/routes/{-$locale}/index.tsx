@@ -9,6 +9,8 @@ import LoadingScreen from "@/components/LoadingScreen";
 import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import SectionValueProp from "@/components/sections/SectionValueProp";
+import ConversionChapter from "@/components/home/ConversionChapter";
+import ClosingChapter from "@/components/home/ClosingChapter";
 import AppChapter from "@/components/home/AppChapter";
 import MallChapter from "@/components/home/MallChapter";
 
@@ -16,7 +18,6 @@ import NurseryChapter from "@/components/home/NurseryChapter";
 import AgriParkChapter from "@/components/home/AgriParkChapter";
 import BeyondChapter from "@/components/home/BeyondChapter";
 import ProofChapter from "@/components/home/ProofChapter";
-import SectionInvestorNarrative from "@/components/sections/SectionInvestorNarrative";
 
 export const Route = createFileRoute("/{-$locale}/")({
   head: () => ({
@@ -73,39 +74,39 @@ function Index() {
           startAnimation={startHeroAnimation}
           onAnimationComplete={handleHeroAnimationComplete}
         />
-        {contentReady && (
-          <>
-            {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
-            <SectionCropWorld />
 
-            {/* Section 3: Value Proposition & Core Manifesto */}
-            <SectionValueProp />
+        {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
+        <SectionCropWorld />
 
-            {/* Section 4: Agaate App & Agronomist Advisory */}
-            <AppChapter />
+        {/* Section 3: High-intent conversion paths */}
+        <ConversionChapter />
 
-            {/* Section 5: Agaate Kisaan Mall (Input Commerce) */}
-            <MallChapter />
+        {/* Section 4: Why the nursery model matters */}
+        <SectionValueProp />
 
-            {/* Section 7: 17-Acre Smart Nursery (Dark Forest Accent Section) */}
-            <NurseryChapter />
+        {/* Section 5: Smart Nursery */}
+        <NurseryChapter />
 
-            {/* Section 8: Agaate Agri Park (Living Demonstration Farm) */}
-            <AgriParkChapter />
+        {/* Section 6: Agronomist advisory */}
+        <AppChapter />
 
-            {/* Section 9: Advanced Services (Farm Tech, Carbon & Setup) */}
-            <BeyondChapter />
+        {/* Section 7: Kisaan Mall */}
+        <MallChapter />
 
-            {/* Section 10: Impact Proof & Farmer Testimonial */}
-            <ProofChapter />
+        {/* Section 8: Advanced services */}
+        <BeyondChapter />
 
-            {/* Section 11: Investor & Ecosystem Governance Narrative */}
-            <SectionInvestorNarrative />
+        {/* Section 9: Agri Park */}
+        <AgriParkChapter />
 
-            {/* Footer */}
-            <Footer />
-          </>
-        )}
+        {/* Section 10: Impact Proof */}
+        <ProofChapter />
+
+        {/* Final conversion */}
+        <ClosingChapter />
+
+        {/* Footer */}
+        <Footer />
       </main>
     </>
   );

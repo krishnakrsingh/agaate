@@ -1,19 +1,14 @@
 {
   "mall": {
-    "eyebrow1": "06 / Kisaan Mall",
-    "title1_1": "Tested inputs.",
-    "title1_2": "Fair prices.",
-    "placeholderLabel": "[PHYSICAL MALL / PRODUCTS]",
-    "placeholderDetail": "Store exterior and inventory aisles",
-    "desc": "We don’t just recommend solutions—we supply them. The Agaate Kisaan Mall stocks only verified, high-quality seeds, fertilizers, and equipment that have proven effective in our own Agri-Park.",
-    "items": [
-      "Premium Seeds",
-      "Specialty Fertilizers",
-      "Crop Protection",
-      "Farming Implements"
-    ],
-    "cta": "View products",
-    "eyebrow2": "Our Guarantee",
-    "title2": "If we wouldn't use it on our farm, we won't sell it for yours."
+    "eyebrow1": "Kisaan Mall",
+    "title1_1": "The right input.",
+    "title1_2": "Right when it matters.",
+    "placeholderLabel": "A local supply point",
+    "placeholderDetail": "From one crop stage to the next, without guesswork.",
+    "desc": "Advice only works when the right input is within reach. The Agaate Kisaan Mall brings seeds, nutrition, protection and equipment together—selected for real crop conditions, not just shelf space.",
+    "items": ["Premium Seeds", "Crop Nutrition", "Protection", "Farming Implements"],
+    "cta": "Explore the mall",
+    "eyebrow2": "Our standard",
+    "title2": "We stock what we can stand behind in the field."
   }
 }

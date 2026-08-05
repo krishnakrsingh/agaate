@@ -1,22 +1,39 @@
 {
   "valueProp": {
-    "kicker": "01 / The Proposition",
-    "kickerTag": "Seed → Sale",
-    "manifesto": "Agaate replaces risky guesswork with science-backed farming — so every grower can plant with certainty, build from stronger roots, and finish at the right sale.",
-    "accentIndices": [5, 8, 17, 22],
-    "pillars": [
-      {
-        "title": "Seeds to sales, one partner",
-        "desc": "Complete crop support across the entire vegetable journey — sowing, growing, protecting, harvesting, selling."
+    "kicker": "The Agaate difference",
+    "titleStart": "A stronger crop starts",
+    "titleEmphasis": "before the field.",
+    "intro": "The first few weeks decide how much of a crop survives, how much input is wasted, and how confidently a farmer can plan the season. We build that certainty into every seedling.",
+    "directLabel": "The old starting point",
+    "directTitle": "Direct sowing",
+    "agaateLabel": "The Agaate starting point",
+    "agaateTitle": "Bio-Boosted nursery",
+    "comparison": {
+      "survival": {
+        "label": "Germination & survival",
+        "note": "The crop's first and most vulnerable stage.",
+        "direct": "50–70% typical survival",
+        "agaate": "90–98% targeted survival"
       },
-      {
-        "title": "Science over superstition",
-        "desc": "Practical field research converted into stage-wise actions a farmer can actually execute on an acre."
+      "waste": {
+        "label": "Seed use",
+        "note": "Pay for plants that make it to the field.",
+        "direct": "High loss during establishment",
+        "agaate": "30–50% less seed waste"
       },
-      {
-        "title": "Partnerships that hold",
-        "desc": "Certified inputs from 25+ manufacturers and institutional buyers who pay for verified quality."
+      "chemicals": {
+        "label": "Early intervention",
+        "note": "Protection begins before a problem spreads.",
+        "direct": "Reactive, field-wide treatment",
+        "agaate": "50–70% lower chemical dependence"
+      },
+      "yield": {
+        "label": "Season potential",
+        "note": "Healthy starts carry through the crop cycle.",
+        "direct": "Uneven stand, uneven harvest",
+        "agaate": "15–30% higher yield potential"
       }
-    ]
+    },
+    "footnote": "Outcomes vary by crop, climate and farm practice. Agaate combines nursery protocol, field guidance and quality inputs to improve the odds at every stage."
   }
 }

@@ -1,26 +1,26 @@
 {
   "nursery": {
-    "eyebrow": "03 / The Nursery",
-    "title": "Smart Nursery",
-    "desc": "A fully automated environment that creates ideal conditions for healthy, robust seedlings.",
-    "cta": "Tour the facility",
+    "eyebrow": "01 / A stronger starting point",
+    "title": "The nursery is where certainty takes root.",
+    "desc": "Our 17-acre smart nursery gives each seedling the controlled start a field cannot: attentive climate management, consistent feeding and traceable quality checks.",
+    "cta": "See the nursery model",
     "caption": "Agaate Smart Nursery · Kukrola, Gurugram",
     "items": [
       {
-        "title": "Climate Control",
-        "desc": "Precision management of temperature and humidity."
+        "title": "Research",
+        "desc": "Crop-specific trials inform the protocol before planting begins."
       },
       {
-        "title": "Automated Irrigation",
-        "desc": "Water delivery synchronized with plant needs."
+        "title": "Cultivation",
+        "desc": "Controlled conditions establish a stronger, more uniform plant."
       },
       {
-        "title": "Nutrient Dosing",
-        "desc": "Optimal nutrient mixtures for every growth stage."
+        "title": "Quality testing",
+        "desc": "Every batch is checked before it is prepared for dispatch."
       },
       {
-        "title": "Disease Prevention",
-        "desc": "Sterile environment and monitoring to prevent outbreaks."
+        "title": "Field readiness",
+        "desc": "Seedlings arrive with guidance for their next critical stage."
       }
     ]
   }

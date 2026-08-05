@@ -13,12 +13,22 @@ export function LanguageSwitcher() {
 
   const switchTo = async (lng: string) => {
     if (lng === currentLangCode) return;
-    await setLocale(lng);
-    const targetPath = getLocalizedPath(location.pathname, lng);
-    navigate({
-      to: targetPath as any,
-      replace: true,
-    });
+    
+    const updateLang = async () => {
+      await setLocale(lng);
+      const targetPath = getLocalizedPath(location.pathname, lng);
+      await navigate({
+        to: targetPath as any,
+        replace: true,
+        resetScroll: false,
+      });
+    };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(() => updateLang());
+    } else {
+      await updateLang();
+    }
   };
 
   return (

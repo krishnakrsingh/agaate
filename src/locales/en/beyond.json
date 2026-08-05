@@ -1,20 +1,20 @@
 {
   "beyond": {
-    "eyebrow": "02 / The Beyond",
-    "title": "Beyond the Farm",
-    "cta": "Learn more",
+    "eyebrow": "Support beyond the seedling",
+    "title": "Build a farm that keeps getting smarter.",
+    "cta": "Explore support",
     "items": [
       {
-        "title": "Farm Tech",
-        "desc": "Access cutting-edge sensors and drones to manage crop health."
+        "title": "Farm tech",
+        "desc": "Use sensors, drone scans and field data to spot risk earlier and act with a clearer picture."
       },
       {
-        "title": "Carbon Credits",
-        "desc": "Earn additional income by adopting sustainable farming practices."
+        "title": "Carbon credits",
+        "desc": "Turn better irrigation, biological inputs and soil practices into another route to farm income."
       },
       {
-        "title": "Big Farm Setup",
-        "desc": "Comprehensive support for setting up and managing large-scale operations."
+        "title": "Big-farm setup",
+        "desc": "Plan, build and operate commercial farms with one team from land layout to market linkage."
       }
     ]
   }

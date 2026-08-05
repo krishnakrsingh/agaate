@@ -9,7 +9,7 @@ export const Route = createFileRoute("/{-$locale}/contact")({
 });
 
 function Contact() {
-  const [activeHub, setActiveHub] = useState("Jhajjar");
+  const [activeHub, setActiveHub] = useState("Smart Nursery");
   const [intakeStep, setIntakeStep] = useState(1);
   const [intakeSubmitted, setIntakeSubmitted] = useState(false);
 
@@ -22,25 +22,25 @@ function Contact() {
 
   const hubs = [
     {
-      name: "Jhajjar",
-      address: "Plot 14, Industrial Area, Jhajjar, Haryana 124103",
-      agronomist: "Chanchala Shukla (Lead Field Pathologist)",
-      phone: "+91 98765 00104",
-      email: "jhajjar.hub@agaate.com",
+      name: "Smart Nursery",
+      address: "NH8, opposite Bikanervala, Kukrola, Gurugram, Haryana 122413",
+      agronomist: "Agaate field advisory team",
+      phone: "+91 94872 63498",
+      email: "info@agaate.in",
     },
     {
-      name: "Rohtak",
-      address: "Rohtak Agri Park campus, Sector 4, Rohtak, Haryana 124001",
-      agronomist: "Sandeep Phogat (Regional Director)",
-      phone: "+91 98765 00107",
-      email: "rohtak.hub@agaate.com",
+      name: "Kisaan Mall",
+      address: "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
+      agronomist: "Agaate mall and field support team",
+      phone: "+91 94872 63498",
+      email: "info@agaate.in",
     },
     {
-      name: "Gurugram",
-      address: "Tower B, DLF Cyber Park, Phase II, Gurugram, Haryana 122008",
-      agronomist: "Ankit Rawat (Founding Board Office)",
-      phone: "+91 98765 00101",
-      email: "hq@agaate.com",
+      name: "Agaate Office",
+      address: "I-205 Bestech Park View, Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+      agronomist: "Agaate farmer enablement team",
+      phone: "+91 94872 63498",
+      email: "info@agaate.in",
     },
   ];
 
@@ -69,14 +69,14 @@ function Contact() {
         <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
         <div className="max-w-4xl mx-auto text-left relative z-10">
           <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
-            CONTACT COOPERATIVE
+            FIELD SUPPORT
           </span>
           <h1 className="text-6xl md:text-8xl font-serif font-bold text-forest-deep mb-6 leading-[1.05] tracking-tight">
-            Connect with our <span className="italic text-terracotta">hubs.</span>
+            Talk to an <span className="italic text-terracotta">agronomist.</span>
           </h1>
           <p className="text-xl md:text-2xl text-forest/80 leading-relaxed font-normal max-w-2xl">
-            Have questions about nursery slot schedules, drone mapping coverage, or buyback contract
-            terms? Reach out or visit our regional hubs.
+            Tell us what you are growing and where you need help. We will start with your crop,
+            field conditions and the next practical decision.
           </p>
         </div>
       </div>
@@ -90,7 +90,7 @@ function Contact() {
                 Operational Locations
               </span>
               <h2 className="font-serif text-4xl text-forest-deep font-bold tracking-tight text-left">
-                Regional Coordinates
+                Visit Agaate
               </h2>
             </div>
 
@@ -128,7 +128,7 @@ function Contact() {
                   <User className="w-5 h-5 text-forest flex-shrink-0 mt-1" />
                   <div>
                     <span className="text-[10px] font-mono text-forest/45 uppercase block mb-1">
-                      Hub Director / Agronomist
+                      Field support
                     </span>
                     <p className="text-sm md:text-base text-forest-deep font-semibold leading-relaxed">
                       {currentHub.agronomist}
@@ -163,7 +163,7 @@ function Contact() {
                 Field Intake
               </span>
               <h3 className="font-serif text-3xl text-forest-deep font-bold">
-                Smart Advisor Setup
+                Start your field plan
               </h3>
             </div>
 
@@ -176,8 +176,8 @@ function Contact() {
                   Intake Completed
                 </h4>
                 <p className="text-xs text-forest/70 max-w-xs leading-relaxed">
-                  Your crop acreage profile has been logged. An agronomist from the {activeHub} hub
-                  will call with custom seed/manure schedules.
+                  Your crop profile has been logged. An Agaate agronomist will call to understand
+                  your field and help you plan the next step.
                 </p>
               </div>
             ) : (

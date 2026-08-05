@@ -1,0 +1,33 @@
+{
+  "conversion": {
+    "eyebrow": "Start where you need us",
+    "titleStart": "One farm. Three clear ways to",
+    "titleEmphasis": "move forward.",
+    "description": "Get a field plan from an agronomist, source dependable inputs at Kisaan Mall, or experience the complete system at our Agri Park. Choose the help that matters today.",
+    "paths": [
+      {
+        "title": "Talk to an agronomist",
+        "description": "Share your crop, acreage and the problem in front of you. We’ll start with the next practical action.",
+        "cta": "Get field guidance"
+      },
+      {
+        "title": "Visit Kisaan Mall",
+        "description": "Find the seed, nutrition, protection and equipment your crop stage actually calls for.",
+        "cta": "Explore the mall"
+      },
+      {
+        "title": "Walk the Agri Park",
+        "description": "See varieties, systems and field practices working on real crops before you make your choice.",
+        "cta": "Plan a visit"
+      }
+    ]
+  },
+  "closing": {
+    "eyebrow": "Your next crop starts here",
+    "titleStart": "A better season begins with",
+    "titleEmphasis": "one conversation.",
+    "description": "Tell us what you’re growing and where you need confidence. An Agaate agronomist can help you identify the next step for your field.",
+    "primaryCta": "Talk to an agronomist",
+    "callCta": "Call Agaate: 94872 63498"
+  }
+}
