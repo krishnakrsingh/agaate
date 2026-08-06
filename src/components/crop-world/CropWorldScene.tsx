@@ -1,4 +1,4 @@
-﻿import { useRef, MutableRefObject, useMemo } from "react";
+import { useRef, MutableRefObject, useMemo } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { materials, C, SOIL_CLODS } from "./CropWorldMaterials";

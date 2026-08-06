@@ -171,15 +171,15 @@ export default function SectionCropWorld() {
           >
             <div className="flex items-center gap-3 mb-4">
               <span className="w-6 h-[1px] bg-forest/30"></span>
-              <span className="font-mono text-[12px] md:text-[13px] font-bold uppercase tracking-[0.1em] text-forest">
+              <span className="font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-forest">
                 {t("cropWorld.eyebrow")}
               </span>
             </div>
-            <h2 className="font-display text-3xl md:text-4xl text-forest-deep leading-tight font-bold">
+            <h2 className="font-display text-3xl md:text-4xl text-forest-deep leading-tight font-extrabold tracking-tight">
               {t("cropWorld.title1")} <br />
-              <span className="italic font-normal text-forest">{t("cropWorld.title2")}</span>
+              <span className="font-serif italic font-normal text-forest">{t("cropWorld.title2")}</span>
             </h2>
-            <p className="text-ink/65 text-sm md:text-base mt-3 max-w-md font-normal leading-relaxed">
+            <p className="font-sans text-ink/75 text-sm md:text-base mt-3 max-w-md font-normal leading-relaxed">
               {t("cropWorld.description")}
             </p>
           </div>
@@ -208,13 +208,13 @@ export default function SectionCropWorld() {
                       pointerEvents: isActive ? "auto" : "none",
                     }}
                   >
-                    <div className="font-mono text-[14px] lg:text-[16px] text-forest font-bold mb-2">
+                    <div className="font-jet text-[13px] text-forest font-bold mb-2 tracking-wider">
                       {stage.num}
                     </div>
-                    <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4">
+                    <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4 tracking-tight">
                       {t(`cropWorld.stages.${stage.key}.title` as any)}
                     </h3>
-                    <p className="text-ink/70 text-base lg:text-lg leading-relaxed">{t(`cropWorld.stages.${stage.key}.desc` as any)}</p>
+                    <p className="font-sans text-ink/75 text-base lg:text-lg leading-relaxed">{t(`cropWorld.stages.${stage.key}.desc` as any)}</p>
                   </div>
                 );
               })}
@@ -236,12 +236,12 @@ export default function SectionCropWorld() {
                     className="flex flex-col items-center transition-all duration-300 w-16 relative"
                   >
                     <span
-                      className={`font-mono text-[9px] uppercase tracking-wider transition-all duration-300 ${isActive ? "text-forest font-bold scale-110 -translate-y-1" : isPast ? "text-forest/70" : "text-ink/30"}`}
+                      className={`font-jet text-[10px] uppercase tracking-wider transition-all duration-300 ${isActive ? "text-forest font-bold scale-110 -translate-y-1" : isPast ? "text-forest/70" : "text-ink/30"}`}
                     >
                       {stage.num}
                     </span>
                     <span
-                      className={`text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? "text-forest-deep scale-105" : isPast ? "text-forest/75" : "text-ink/30"}`}
+                      className={`font-sans text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? "text-forest-deep scale-105" : isPast ? "text-forest/75" : "text-ink/30"}`}
                     >
                       {t(`cropWorld.stages.${stage.key}.title` as any).split(" ")[0]}
                     </span>

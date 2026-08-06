@@ -1,88 +1,159 @@
-import { MapPin } from "lucide-react";
-import seedsImage from "@/assets/product-seeds.jpg";
-import { Eyebrow, TextAction } from "./HomeShared";
-
+import { ArrowRight, ShoppingBag } from "lucide-react";
+import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
+import seedsImage from "@/assets/product-seeds.jpg";
+import fertiliserImage from "@/assets/product-fertiliser.jpg";
+import irrigationImage from "@/assets/product-irrigation.jpg";
+import toolsImage from "@/assets/product-tools.jpg";
+
+const shelves = [
+  {
+    label: "Seeds",
+    solves: "Right variety for your soil and season",
+    detail: "Vegetable and staple varieties from certified partners",
+    image: seedsImage,
+  },
+  {
+    label: "Bio-inputs",
+    solves: "Better growth, lower chemical dependency",
+    detail: "Biocures, growth promoters, biological nutrition",
+    image: fertiliserImage,
+  },
+  {
+    label: "Irrigation",
+    solves: "Water and nutrients exactly when needed",
+    detail: "Drip systems, fertigation, precision water planning",
+    image: irrigationImage,
+  },
+  {
+    label: "Crop support",
+    solves: "Protect yield from sowing to harvest",
+    detail: "Mulching, staking, tools, harvest gear",
+    image: toolsImage,
+  },
+];
+
+const comparison = [
+  {
+    before: "Guessing between similar products",
+    after: "Expert-matched inputs for your exact crop and stage",
+  },
+  {
+    before: "Unknown brands and mixed quality",
+    after: "25+ verified manufacturer partners — no middlemen",
+  },
+  {
+    before: "Multiple shops, multiple trips",
+    after: "500+ essentials in one place, one visit",
+  },
+];
 
 export default function MallChapter() {
-  const { t } = useTranslation("mall");
   const sectionRef = useHomeChapterReveal();
+  const { i18n } = useTranslation();
+  const { locale } = useParams({ strict: false }) as any;
+  const currentLang = locale ?? i18n.language ?? "en";
+
   return (
     <section
       ref={sectionRef}
       id="kisaan-mall"
-      className="scroll-mt-20 bg-card px-6 py-20 md:px-10 md:py-28 lg:px-12 lg:py-36"
+      className="relative scroll-mt-20 overflow-hidden bg-[#fffdf4] px-5 py-20 md:px-10 md:py-28"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <div data-home-reveal className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-3">
-            <Eyebrow>{t("mall.eyebrow1")}</Eyebrow>
-          </div>
-          <div className="lg:col-span-8">
-            <h2 className="max-w-5xl font-serif text-[clamp(3rem,6vw,6.5rem)] leading-[0.9] tracking-[-0.06em] text-[#143D31]">
-              {t("mall.title1_1")}{" "}
-              <span className="italic text-[#5D8D53]">{t("mall.title1_2")}</span>
+      <div className="mx-auto max-w-7xl">
+
+        {/* Header */}
+        <div data-home-reveal className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-5 h-[1px] bg-[#9a5a2c]/40" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#9a5a2c]">
+                Agaate Kisaan Mall
+              </p>
+            </div>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
+              Once you know what your crop needs, <span className="font-serif italic font-normal text-[#9a5a2c]">getting the right input matters just as much.</span>
             </h2>
           </div>
-        </div>
-
-        <div data-home-reveal className="mt-16 grid lg:grid-cols-12 lg:items-end lg:gap-16">
-          <div className="lg:col-span-6">
-            <div className="relative min-h-[460px] overflow-hidden bg-[#DDEBCF] p-7 md:p-10">
-              <p className="font-jet text-[10px] uppercase tracking-[0.18em] text-[#477253]">
-                {t("mall.placeholderLabel")}
-              </p>
-              <p className="mt-5 max-w-xs font-serif text-[clamp(2rem,3.4vw,3.6rem)] leading-[0.95] tracking-[-0.05em] text-[#143D31]">
-                {t("mall.placeholderDetail")}
-              </p>
-              <div className="absolute bottom-0 left-0 right-0 grid grid-cols-3 gap-px border-t border-[#174735]/15 bg-[#174735]/15">
-                {[0, 1, 2].map((item) => (
-                  <div key={item} className="h-28 bg-[#CBE0AF]" />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="mt-10 lg:col-span-5 lg:mt-0">
-            <p className="max-w-md text-[17px] leading-8 text-[#566C5D]">{t("mall.desc")}</p>
-            <div className="mt-12 border-y border-[#174735]/15">
-              {[0, 1, 2, 3].map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-baseline justify-between gap-6 border-b border-[#174735]/15 py-5 last:border-b-0"
-                >
-                  <span className="font-serif text-[1.65rem] leading-none tracking-[-0.035em] text-[#143D31]">
-                    {t(`mall.items.${index}` as any)}
-                  </span>
-                  <span className="font-jet text-[10px] text-[#5D8D53]">0{index + 1}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <TextAction href="/services/kisaan-mall">{t("mall.cta")}</TextAction>
-              <span className="flex items-center gap-2 text-sm text-[#566C5D]">
-                <MapPin className="h-4 w-4 text-[#4F8553]" /> Bhora Kalan, Gurugram
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div
-          data-home-reveal
-          className="mt-16 grid overflow-hidden bg-[#DDEBCF] md:grid-cols-[1fr_1.65fr]"
-        >
-          <div className="p-7 md:p-10">
-            <Eyebrow>{t("mall.eyebrow2")}</Eyebrow>
-            <p className="mt-12 font-serif text-[clamp(2rem,3.5vw,3.4rem)] leading-[0.98] tracking-[-0.045em] text-[#143D31]">
-              {t("mall.title2")}
+          <div className="max-w-2xl">
+            <p className="font-sans border-l border-[#143d31]/15 pl-6 text-sm md:text-base leading-relaxed text-[#536253] font-normal md:pl-8">
+              Farmers should not have to guess between ten similar packets on a shelf. Kisaan Mall
+              connects expert guidance with genuine seeds, biologicals, irrigation systems,
+              mulching, staking material, and harvest tools — all sourced from trusted partners.
             </p>
           </div>
-          <img
-            src={seedsImage}
-            alt="Agaate agricultural input products"
-            className="h-full min-h-64 w-full object-cover"
-          />
         </div>
+
+        {/* Product shelves — 4 image cards */}
+        <div data-home-reveal className="mt-12 grid gap-4 md:grid-cols-4">
+          {shelves.map((item) => (
+            <div
+              key={item.label}
+              className="group relative min-h-[320px] overflow-hidden rounded-2xl shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-[#143d31]/10"
+            >
+              <img
+                src={item.image}
+                alt={`${item.label} at Agaate Kisaan Mall`}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#102c24]/92 via-[#102c24]/30 to-transparent transition-opacity duration-300 group-hover:opacity-90" />
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white transition-transform duration-300 group-hover:-translate-y-1">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b7cf79]">
+                  {item.solves}
+                </p>
+                <p className="font-display mt-1 text-xl md:text-2xl font-bold tracking-tight text-white">{item.label}</p>
+                <p className="font-sans mt-1 text-xs leading-relaxed text-white/80 font-normal">{item.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Before / After comparison strip */}
+        <div data-home-reveal className="mt-12 overflow-hidden rounded-2xl border border-[#143d31]/10">
+          <div className="grid bg-[#f3f1e7] px-7 py-4 md:grid-cols-2 md:px-10">
+            <p className="font-jet text-[10px] font-bold uppercase tracking-[0.18em] text-[#143d31]/40">
+              Traditional input buying
+            </p>
+            <p className="font-jet text-[10px] font-bold uppercase tracking-[0.18em] text-[#5d7d37] md:pl-6 md:border-l md:border-[#143d31]/10">
+              Agaate Kisaan Mall
+            </p>
+          </div>
+          {comparison.map((row, i) => (
+            <div
+              key={i}
+              className="grid border-t border-[#143d31]/8 bg-white md:grid-cols-2"
+            >
+              <div className="px-7 py-5 text-sm leading-6 text-[#888a7a] line-through md:px-10">
+                {row.before}
+              </div>
+              <div className="border-t border-[#143d31]/8 px-7 py-5 text-sm font-semibold leading-6 text-[#143d31] md:border-l md:border-t-0 md:px-10">
+                <span className="mr-2 text-[#5d7d37]">→</span>
+                {row.after}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTAs */}
+        <div data-home-reveal className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <Link
+            to={getLocalizedPath("/services/kisaan-mall", currentLang) as any}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-8 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#143d31]/20"
+          >
+            <ShoppingBag className="h-4 w-4" />
+            Shop at Kisaan Mall
+          </Link>
+          <a
+            href="tel:9487263498"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 px-8 py-4 text-sm font-extrabold text-[#143d31] transition-all hover:bg-[#edf5dd] hover:-translate-y-1"
+          >
+            Call for recommendations
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+
       </div>
     </section>
   );

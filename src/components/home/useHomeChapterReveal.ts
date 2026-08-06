@@ -14,14 +14,22 @@ export function useHomeChapterReveal() {
     const targets = section.querySelectorAll<HTMLElement>("[data-home-reveal]");
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from(targets, {
-        autoAlpha: 0,
-        y: 36,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: section, start: "top 76%", once: true },
-      });
+      gsap.fromTo(targets, 
+        {
+          autoAlpha: 0,
+          y: 40,
+          scale: 0.96,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "expo.out",
+          scrollTrigger: { trigger: section, start: "top 80%", once: true },
+        }
+      );
     });
 
     return () => mm.revert();

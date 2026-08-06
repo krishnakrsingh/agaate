@@ -8,16 +8,13 @@ import LoadingScreen from "@/components/LoadingScreen";
 // Homepage Sections
 import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
-import SectionValueProp from "@/components/sections/SectionValueProp";
-import ConversionChapter from "@/components/home/ConversionChapter";
-import ClosingChapter from "@/components/home/ClosingChapter";
+import FieldSignal from "@/components/home/FieldSignal";
+import PeopleChapter from "@/components/home/PeopleChapter";
 import AppChapter from "@/components/home/AppChapter";
 import MallChapter from "@/components/home/MallChapter";
-
-import NurseryChapter from "@/components/home/NurseryChapter";
 import AgriParkChapter from "@/components/home/AgriParkChapter";
-import BeyondChapter from "@/components/home/BeyondChapter";
 import ProofChapter from "@/components/home/ProofChapter";
+import ClosingChapter from "@/components/home/ClosingChapter";
 
 export const Route = createFileRoute("/{-$locale}/")({
   head: () => ({
@@ -78,31 +75,25 @@ function Index() {
         {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
         <SectionCropWorld />
 
-        {/* Section 3: High-intent conversion paths */}
-        <ConversionChapter />
+        {/* Section 3: Farmer pain points — establish empathy first */}
+        <FieldSignal />
 
-        {/* Section 4: Why the nursery model matters */}
-        <SectionValueProp />
+        {/* Section 4: Who Agaate is — build trust before products */}
+        <PeopleChapter />
 
-        {/* Section 5: Smart Nursery */}
-        <NurseryChapter />
-
-        {/* Section 6: Agronomist advisory */}
+        {/* Section 5: Talk to Agronomist App — first product */}
         <AppChapter />
 
-        {/* Section 7: Kisaan Mall */}
+        {/* Section 6: Agaate Kisaan Mall — inputs after advice */}
         <MallChapter />
 
-        {/* Section 8: Advanced services */}
-        <BeyondChapter />
-
-        {/* Section 9: Agri Park */}
+        {/* Section 7: Agri Park & Bio-Boosted Nursery — physical proof */}
         <AgriParkChapter />
 
-        {/* Section 10: Impact Proof */}
+        {/* Section 8: Trust, stats, and social proof */}
         <ProofChapter />
 
-        {/* Final conversion */}
+        {/* Section 9: Final conversion — three clear paths */}
         <ClosingChapter />
 
         {/* Footer */}

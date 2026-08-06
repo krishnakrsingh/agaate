@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
@@ -5,6 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --animate-marquee: marquee var(--duration, 40s) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -52,10 +56,11 @@
   --color-moss: var(--moss);
   --color-terracotta: var(--terracotta);
   --color-bone: var(--bone);
-  --font-display: "Manrope", "Arial", sans-serif;
-  --font-sans: "Manrope", "Arial", sans-serif;
+  --font-display: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-dm: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
-  --font-body: "Inter", "Arial", sans-serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Instrument Serif", "Georgia", serif;
   --font-jet: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
   --color-pine: oklch(0.16 0.025 150);
@@ -166,10 +171,19 @@
   h3,
   .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
 
-  .font-mono {
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .font-sans {
+    font-family: var(--font-body);
+  }
+
+  .font-mono,
+  .font-jet {
     font-family: var(--font-mono);
   }
 }
@@ -196,8 +210,8 @@ body::-webkit-scrollbar,
 
 @utility label-mono {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted-foreground);
 }
@@ -269,4 +283,22 @@ body::-webkit-scrollbar,
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmerWave 6s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap, 1rem)));
+  }
 }

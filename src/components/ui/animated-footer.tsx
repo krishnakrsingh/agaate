@@ -657,7 +657,7 @@ export function AnimatedFooter() {
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-10">
             {/* Company */}
             <div className="flex flex-col gap-2">
-              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
+              <h4 className="font-jet text-[11px] font-bold text-[#17211B] mb-4 tracking-[0.18em] uppercase">
                 {t("footer.company")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
@@ -670,7 +670,7 @@ export function AnimatedFooter() {
 
             {/* Services */}
             <div className="flex flex-col gap-2">
-              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
+              <h4 className="font-jet text-[11px] font-bold text-[#17211B] mb-4 tracking-[0.18em] uppercase">
                 {t("footer.services")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
@@ -683,7 +683,7 @@ export function AnimatedFooter() {
 
             {/* Contact */}
             <div className="flex flex-col gap-2">
-              <h4 className="text-sm font-semibold text-[#17211B] mb-4 tracking-wider uppercase">
+              <h4 className="font-jet text-[11px] font-bold text-[#17211B] mb-4 tracking-[0.18em] uppercase">
                 {t("footer.contactHeading")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
