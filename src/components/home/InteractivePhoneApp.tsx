@@ -32,7 +32,7 @@ const getFreshWelcomeMessage = (): Message[] => [
   {
     id: "welcome-1",
     sender: "agronomist",
-    text: "Namaste! I am your Agaate AI Agronomist. Describe any crop issue (yellow leaves, pest attack, fertigation query) or tap a question below to get instant expert guidance!",
+    text: "Namaste! I'm your Agaate Agronomist. Describe your crop issue or tap a question below for quick help!",
     time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     verified: true,
   },
@@ -135,23 +135,49 @@ export default function InteractivePhoneApp() {
     if (!customText) setInputQuery("");
     setIsLoading(true);
 
+    const aiMsgId = (Date.now() + 1).toString();
+    const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    // Create an empty AI message target for real-time text streaming
+    const initialAiMsg: Message = {
+      id: aiMsgId,
+      sender: "agronomist",
+      text: "",
+      time: timeStr,
+      verified: true,
+    };
+
+    setMessages((prev) => [...prev, initialAiMsg]);
+
+    const updateAiText = (newText: string) => {
+      setMessages((prev) =>
+        prev.map((msg) => (msg.id === aiMsgId ? { ...msg, text: newText } : msg))
+      );
+    };
+
+    const animateTextStream = async (fullText: string) => {
+      const words = fullText.split(" ");
+      let currentText = "";
+      for (let i = 0; i < words.length; i++) {
+        currentText += (i === 0 ? "" : " ") + words[i];
+        updateAiText(currentText);
+        await new Promise((res) => setTimeout(res, 25));
+      }
+    };
+
     try {
-      // Build multi-turn conversation history for Gemini API
       const updatedMessages = [...messages, userMsg];
       const systemPrompt =
-        "System Instruction: You are Agaate Senior AI Agronomist, an expert agricultural consultant for Indian vegetable, fruit & staple crops. You MUST maintain strict conversation context and memory of previous turns with the farmer. Respond directly in 2-3 friendly, helpful, practical sentences with crop remedies, fertigation dosage, pest control, or bio-input advice for Indian conditions.";
+        "You are an expert Indian Agronomist chatting with a farmer on the Agaate App. Speak like a real human agronomist on WhatsApp: very brief, warm, practical, and direct. Keep your answer under 2 short sentences (max 30 words). Give one immediate action item or remedy (e.g. specific spray/dose). Never write long lists, bullet points, or robotic disclaimers.";
 
-      // Convert messages to Gemini role format ('user' | 'model')
       const conversationTurns: { role: "user" | "model"; parts: { text: string }[] }[] = [];
 
       updatedMessages.forEach((m) => {
-        // Skip default static welcome message if it's the first message
-        if (m.id === "1" && m.sender === "agronomist") return;
+        if (m.id === "welcome-1" && m.sender === "agronomist") return;
 
         const role = m.sender === "farmer" ? "user" : "model";
         const lastTurn = conversationTurns[conversationTurns.length - 1];
 
-        // Ensure alternating roles as required by Gemini REST API
         if (lastTurn && lastTurn.role === role) {
           lastTurn.parts[0].text += `\n${m.text}`;
         } else {
@@ -162,12 +188,10 @@ export default function InteractivePhoneApp() {
         }
       });
 
-      // Prepend system instruction to the first user turn
       if (conversationTurns.length > 0 && conversationTurns[0].role === "user") {
         conversationTurns[0].parts[0].text = `${systemPrompt}\n\nFarmer question: ${conversationTurns[0].parts[0].text}`;
       }
 
-      // Fallback if conversation turns is empty
       const payloadContents =
         conversationTurns.length > 0
           ? conversationTurns
@@ -178,75 +202,86 @@ export default function InteractivePhoneApp() {
               },
             ];
 
-      // Get environment API key dynamically
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-
-      if (!apiKey) {
-        console.error(
-          "Agaate AI Agronomist Notice: VITE_GEMINI_API_KEY is not set in environment variables. Falling back to default advisory response."
-        );
-      }
-
-      // Call Gemini 2.0 Flash API (with fallback to 1.5 Flash)
       const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
-      let replyText = "";
+      let streamedSuccess = false;
+      let accumulatedText = "";
 
       if (apiKey) {
         for (const model of modelsToTry) {
           try {
             const response = await fetch(
-              `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+              `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: payloadContents }),
+                body: JSON.stringify({
+                  contents: payloadContents,
+                  generationConfig: {
+                    maxOutputTokens: 100,
+                    temperature: 0.7,
+                  },
+                }),
               }
             );
 
-            if (!response.ok) {
+            if (!response.ok || !response.body) {
               const errData = await response.json().catch(() => null);
-              console.warn(`Gemini API (${model}) returned HTTP ${response.status}:`, errData);
+              console.warn(`Gemini API stream (${model}) HTTP ${response.status}:`, errData);
               continue;
             }
 
-            const data = await response.json();
-            console.log(`Gemini API (${model}) Response:`, data);
-            const generated = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let buffer = "";
 
-            if (generated) {
-              replyText = generated;
+            while (true) {
+              const { value, done } = await reader.read();
+              if (done) break;
+
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split("\n");
+              buffer = lines.pop() || "";
+
+              for (const line of lines) {
+                const trimmed = line.trim();
+                if (trimmed.startsWith("data:")) {
+                  const jsonStr = trimmed.replace(/^data:\s*/, "");
+                  if (jsonStr === "[DONE]") continue;
+                  try {
+                    const parsed = JSON.parse(jsonStr);
+                    const chunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (chunk) {
+                      accumulatedText += chunk;
+                      updateAiText(accumulatedText);
+                      streamedSuccess = true;
+                    }
+                  } catch (e) {
+                    // Ignore parse errors on partial chunks
+                  }
+                }
+              }
+            }
+
+            if (streamedSuccess && accumulatedText.trim()) {
               break;
             }
           } catch (mErr) {
-            console.warn(`Model ${model} call failed, trying next...`, mErr);
+            console.warn(`Model ${model} stream call failed, trying next...`, mErr);
           }
         }
       }
 
-      if (!replyText) {
-        replyText =
-          "Namaste! For this crop condition, maintain consistent moisture, check for pest activity under leaves, and apply a balanced NPK or micronutrient foliar spray.";
+      if (!streamedSuccess || !accumulatedText.trim()) {
+        const fallbackText =
+          "Namaste! Apply 2g Copper Oxychloride or Trichoderma per litre of water and check leaf undersides for thrips.";
+        await animateTextStream(fallbackText);
       }
-
-      const aiMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        sender: "agronomist",
-        text: replyText,
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        verified: true,
-      };
-
-      setMessages((prev) => [...prev, aiMsg]);
     } catch (err) {
       console.error("Gemini API Error:", err);
-      const fallbackMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        sender: "agronomist",
-        text: "Namaste! For your crop question, apply a balanced bio-cure (Trichoderma/Neem) and ensure optimal fertigation. You can also connect with our on-ground Kisan Sathi.",
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        verified: true,
-      };
-      setMessages((prev) => [...prev, fallbackMsg]);
+      const fallbackText =
+        "Namaste! Spray Neem oil (5ml/L) and ensure optimum soil moisture. Our Kisan Sathi is also available for field visit.";
+      await animateTextStream(fallbackText);
     } finally {
       setIsLoading(false);
     }
