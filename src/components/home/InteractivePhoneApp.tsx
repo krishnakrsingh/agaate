@@ -96,8 +96,6 @@ const MALL_PRODUCTS = [
   },
 ];
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-
 export default function InteractivePhoneApp() {
   const [activeTab, setActiveTab] = useState<"chat" | "mall" | "farm" | "park">("chat");
   const [messages, setMessages] = useState<Message[]>(getFreshWelcomeMessage());
@@ -180,31 +178,48 @@ export default function InteractivePhoneApp() {
               },
             ];
 
-      // Call Gemini 2.5 Flash API (with automatic fallback to 2.0 / 1.5 Flash)
-      const modelsToTry = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+      // Get environment API key dynamically
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+
+      if (!apiKey) {
+        console.error(
+          "Agaate AI Agronomist Notice: VITE_GEMINI_API_KEY is not set in environment variables. Falling back to default advisory response."
+        );
+      }
+
+      // Call Gemini 2.0 Flash API (with fallback to 1.5 Flash)
+      const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
       let replyText = "";
 
-      for (const model of modelsToTry) {
-        try {
-          const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ contents: payloadContents }),
+      if (apiKey) {
+        for (const model of modelsToTry) {
+          try {
+            const response = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: payloadContents }),
+              }
+            );
+
+            if (!response.ok) {
+              const errData = await response.json().catch(() => null);
+              console.warn(`Gemini API (${model}) returned HTTP ${response.status}:`, errData);
+              continue;
             }
-          );
 
-          const data = await response.json();
-          console.log(`Gemini API (${model}) Response:`, data);
-          const generated = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+            const data = await response.json();
+            console.log(`Gemini API (${model}) Response:`, data);
+            const generated = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
-          if (generated) {
-            replyText = generated;
-            break;
+            if (generated) {
+              replyText = generated;
+              break;
+            }
+          } catch (mErr) {
+            console.warn(`Model ${model} call failed, trying next...`, mErr);
           }
-        } catch (mErr) {
-          console.warn(`Model ${model} call failed, trying next...`, mErr);
         }
       }
 

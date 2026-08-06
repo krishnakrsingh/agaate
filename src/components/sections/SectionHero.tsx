@@ -215,7 +215,7 @@ export default memo(function SectionHero({
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
             <div
-              className="flex flex-col gap-4 md:max-w-[32%]"
+              className="flex flex-col gap-4 md:max-w-[420px]"
               style={{
                 borderLeft: "2px solid rgba(255,255,255,0.25)",
                 paddingLeft: "1.35rem",
@@ -236,10 +236,10 @@ export default memo(function SectionHero({
                 {t("subtitle")}
               </p>
 
-              {/* CTA Buttons (Balanced scale) */}
+              {/* CTA Buttons (Balanced scale - Side by side) */}
               <div
                 ref={btnRef}
-                className="opacity-0 flex flex-row items-center flex-wrap gap-3 pt-0.5"
+                className="opacity-0 flex flex-row items-center flex-nowrap gap-3 pt-0.5"
                 style={{
                   willChange: "transform, opacity",
                   transform: "translate3d(0, 15px, 0)",
@@ -247,7 +247,7 @@ export default memo(function SectionHero({
               >
                 <a
                   href="#start-here"
-                  className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-5 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-4 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98] whitespace-nowrap shrink-0"
                   style={{
                     fontSize: "13.5px",
                     letterSpacing: "-0.01em",
@@ -273,7 +273,7 @@ export default memo(function SectionHero({
                 </a>
                 <a
                   href="#agaate-app"
-                  className="inline-flex items-center gap-2 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal"
+                  className="inline-flex items-center gap-1.5 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal whitespace-nowrap shrink-0"
                   style={{
                     fontSize: "13.5px",
                     letterSpacing: "-0.005em",
