@@ -104,7 +104,7 @@ export function DataAdvisoryLayer() {
             </p>
             <div className="mt-5">
               <Link
-                to={getLocalizedPath("/services/carbon-credits", currentLang) as any}
+                to={getLocalizedPath("/technology", currentLang) as any}
                 className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-[12px] md:text-[13px] font-semibold text-cream transition-all duration-300 hover:bg-forest-deep hover:shadow-lg hover:shadow-forest/20 group-hover:-translate-y-0.5"
               >
                 {t("dataAdvisory.carbonCta")}

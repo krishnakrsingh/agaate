@@ -1,9 +1,9 @@
 {
   "cropWorld": {
-    "eyebrow": "Crop World 3D",
+    "eyebrow": "Crop Journey",
     "title1": "Precision Agronomy",
-    "title2": "Interactive Lifecycle",
-    "description": "Scroll down to observe how Agaate supports every growth stage from seed germination to market distribution.",
+    "title2": "from seed to sale",
+    "description": "Scroll to follow how Agaate supports every growth stage — from seed selection through harvest and market.",
     "stages": {
       "01": {
         "title": "Seed Selection & Soil Prep",

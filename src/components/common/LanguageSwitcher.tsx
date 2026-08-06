@@ -31,7 +31,7 @@ export function LanguageSwitcher() {
           currentLangCode === "en" ? "text-[#0d2820]" : "text-cream/70 hover:text-cream"
         }`}
       >
-        English
+        En
         {currentLangCode === "en" && (
           <motion.div
             layoutId="active-lang-pill"
@@ -48,7 +48,7 @@ export function LanguageSwitcher() {
           currentLangCode === "hi" ? "text-[#0d2820]" : "text-cream/70 hover:text-cream"
         }`}
       >
-        हिंदी
+        हि
         {currentLangCode === "hi" && (
           <motion.div
             layoutId="active-lang-pill"

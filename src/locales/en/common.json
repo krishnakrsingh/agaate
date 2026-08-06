@@ -1,32 +1,29 @@
 {
   "nav": {
-    "home": "Home",
-    "services": "Services",
-    "agriPark": "Agri Park",
-    "community": "Community",
-    "about": "About",
-    "careers": "Careers",
+    "about": "About Us",
+    "agriPark": "Our Farms",
+    "offerings": "Offerings",
+    "learn": "Learn",
+    "services": "Products & Services",
+    "technology": "Technology",
+    "successStories": "Success Stories",
+    "knowledgeCenter": "Knowledge Center",
     "contact": "Contact",
-    "contactUs": "Talk to an agronomist"
-  },
-  "servicesSub": {
-    "nursery": "Bio-Boosted Nursery",
-    "kisaanMall": "Kisaan Mall",
-    "farmTech": "Farm Tech",
-    "carbonCredits": "Carbon Credits",
-    "bigFarmSetup": "Big Farm Setup",
-    "marketLinkage": "Market Linkage"
+    "contactUs": "Let's talk",
+    "freeConsultation": "Free Farm Consultation"
   },
   "footer": {
     "tagline": "Empowering Indian farmers through trusted inputs, expert advisory, farm technology, and market access across the entire crop cycle.",
     "company": "Company",
     "aboutUs": "About Us",
-    "services": "Services",
+    "explore": "Explore",
+    "services": "Products & Services",
     "allServices": "All Services",
     "contactHeading": "Contact",
     "contactUs": "Contact Us",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy",
     "copyright": "© {{year}} Anzix Farm Technologies Pvt. Ltd. All rights reserved."
   }
 }

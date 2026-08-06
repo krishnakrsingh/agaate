@@ -139,7 +139,7 @@ export default function MallChapter() {
         {/* CTAs */}
         <div data-home-reveal className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
-            to={getLocalizedPath("/services/kisaan-mall", currentLang) as any}
+            to={getLocalizedPath("/services", currentLang) as any}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-8 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#143d31]/20"
           >
             <ShoppingBag className="h-4 w-4" />
