@@ -597,7 +597,9 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
 };
 
 export function AnimatedFooter() {
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
+  const { locale } = useParams({ strict: false }) as any;
+  const currentLang = locale ?? i18n.language ?? "en";
   return (
     <footer className="w-full bg-[#FAFBFB] text-[#17211B] relative border-t border-border overflow-hidden">
       {/* Canvas Background for the whole footer to give it that premium feel */}
@@ -663,21 +665,23 @@ export function AnimatedFooter() {
               <div className="flex flex-col border-l border-border pl-2">
                 <AnimatedLink href="/about">{t("footer.aboutUs")}</AnimatedLink>
                 <AnimatedLink href="/agri-park">{t("nav.agriPark")}</AnimatedLink>
-                <AnimatedLink href="/careers">{t("nav.careers")}</AnimatedLink>
-                <AnimatedLink href="/community">{t("nav.community")}</AnimatedLink>
+                <AnimatedLink href="/services">{t("footer.services")}</AnimatedLink>
+                <AnimatedLink href="/technology">{t("nav.technology")}</AnimatedLink>
               </div>
             </div>
 
-            {/* Services */}
+            {/* Explore */}
             <div className="flex flex-col gap-2">
               <h4 className="font-jet text-[11px] font-bold text-[#17211B] mb-4 tracking-[0.18em] uppercase">
-                {t("footer.services")}
+                {t("footer.explore")}
               </h4>
               <div className="flex flex-col border-l border-border pl-2">
-                <AnimatedLink href="/services">{t("footer.allServices")}</AnimatedLink>
-                <AnimatedLink href="/services/nursery">{t("servicesSub.nursery")}</AnimatedLink>
-                <AnimatedLink href="/services/kisaan-mall">{t("servicesSub.kisaanMall")}</AnimatedLink>
-                <AnimatedLink href="/services/farm-tech">{t("servicesSub.farmTech")}</AnimatedLink>
+                <AnimatedLink href="/success-stories">{t("nav.successStories")}</AnimatedLink>
+                <AnimatedLink href="/knowledge-center">{t("nav.knowledgeCenter")}</AnimatedLink>
+                <AnimatedLink href="/free-farm-consultation">
+                  {t("nav.freeConsultation")}
+                </AnimatedLink>
+                <AnimatedLink href="/contact">{t("footer.contactUs")}</AnimatedLink>
               </div>
             </div>
 
@@ -704,13 +708,25 @@ export function AnimatedFooter() {
           <p className="text-sm text-muted-foreground">
             {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-forest transition-colors">
+          <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <Link
+              to={getLocalizedPath("/privacy-policy", currentLang) as any}
+              className="text-muted-foreground hover:text-forest transition-colors"
+            >
               {t("footer.privacyPolicy")}
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-forest transition-colors">
+            </Link>
+            <Link
+              to={getLocalizedPath("/terms-of-service", currentLang) as any}
+              className="text-muted-foreground hover:text-forest transition-colors"
+            >
               {t("footer.termsOfService")}
-            </a>
+            </Link>
+            <Link
+              to={getLocalizedPath("/cookie-policy", currentLang) as any}
+              className="text-muted-foreground hover:text-forest transition-colors"
+            >
+              {t("footer.cookiePolicy")}
+            </Link>
           </div>
         </div>
       </div>

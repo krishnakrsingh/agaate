@@ -29,7 +29,7 @@ export function MarketEcosystem() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <InlineCta href="/agri-park">{t("market.cta1")}</InlineCta>
-              <InlineCta href="/services/market-linkage" variant="light">
+              <InlineCta href="/services" variant="light">
                 {t("market.cta2")}
               </InlineCta>
             </div>

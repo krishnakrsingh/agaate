@@ -1,7 +1,12 @@
 {
   "title_start": "Precision Science",
   "title_end": "for the Fields\nof Bharat.",
-  "subtitle": "Your crop has one season. We give it every advantage — AI that watches the field, agronomists who answer the call, inputs that actually work.",
-  "cta_primary": "Choose how to start",
-  "cta_secondary": "Talk to an agronomist"
+  "subtitle_lead": "Your crop has one season. We give it every advantage.",
+  "subtitle_points": [
+    "AI that watches the field",
+    "Agronomists who answer the call",
+    "Inputs that actually work"
+  ],
+  "cta_primary": "Get Started",
+  "cta_secondary": "Talk to an Agronomist"
 }

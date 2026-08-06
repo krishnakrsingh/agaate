@@ -18,7 +18,7 @@ export default memo(function SectionHero({
   const videoRef = useRef<HTMLVideoElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
-  const pRef = useRef<HTMLParagraphElement>(null);
+  const pRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
   const { t } = useTranslation("hero");
@@ -221,7 +221,7 @@ export default memo(function SectionHero({
                 paddingLeft: "1.35rem",
               }}
             >
-              <p
+              <div
                 ref={pRef}
                 className="opacity-0 text-cream"
                 style={{
@@ -233,8 +233,26 @@ export default memo(function SectionHero({
                   transform: "translate3d(0, 20px, 0)",
                 }}
               >
-                {t("subtitle")}
-              </p>
+                <p className="mb-3">{t("subtitle_lead")}</p>
+                <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
+                  {(t("subtitle_points", { returnObjects: true }) as string[]).map(
+                    (point, i) => (
+                      <li key={i} className="flex items-start gap-2.5">
+                        <span
+                          className="mt-[0.45em] shrink-0 rounded-full"
+                          style={{
+                            width: 5,
+                            height: 5,
+                            background: "#a3e635",
+                          }}
+                          aria-hidden
+                        />
+                        <span>{point}</span>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
 
               {/* CTA Buttons (Balanced scale) */}
               <div

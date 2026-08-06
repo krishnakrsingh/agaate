@@ -15,7 +15,7 @@ import {
   X,
 } from "lucide-react";
 
-export const Route = createFileRoute("/{-$locale}/knowledge")({
+export const Route = createFileRoute("/{-$locale}/knowledge-center")({
   component: Knowledge,
 });
 

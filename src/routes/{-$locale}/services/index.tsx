@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Sprout,
@@ -14,62 +13,60 @@ import {
   ShieldCheck,
   Check,
   X,
-  HelpCircle,
   Sparkles,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { getLocalizedPath } from "@/lib/i18n";
 
 export const Route = createFileRoute("/{-$locale}/services/")({
   component: Services,
 });
 
 function Services() {
+  const { locale } = useParams({ strict: false }) as any;
+  const { i18n } = useTranslation();
+  const currentLang = locale ?? i18n.language ?? "en";
   const servicesList = [
     {
       icon: Sprout,
-      title: "Bio-Boosted Smart Nursery",
-      desc: "Our 17-acre smart climate facility. Containerized vegetable seedlings with accelerated root density, guaranteeing higher transplant survival rates.",
-      link: "/services/nursery",
-      tag: "Seedlings",
+      title: "High-yield seedlings",
+      desc: "Bio-boosted plugs from our 17-acre smart nursery — denser roots, higher transplant survival, and crop-ready vigor.",
+      tag: "Nursery",
       bgGradient: "from-emerald-500/10 to-teal-500/5",
     },
     {
       icon: Store,
-      title: "Kisaan Mall Input Hub",
-      desc: "Source 500+ authentic seeds, customized fertilizers, crop protection formulas, and machinery tools. All with agronomist prescriptions.",
-      link: "/services/kisaan-mall",
-      tag: "Inputs Retail",
+      title: "Custom bio-formulas",
+      desc: "Authentic seeds, crop-stage nutrition, and biological soil boosters prescribed against field conditions — not dealer guesswork.",
+      tag: "Inputs",
       bgGradient: "from-amber-500/10 to-orange-500/5",
     },
     {
       icon: Cpu,
-      title: "Farm Management & Tech",
-      desc: "LoRa sensor arrays, solar moisture probes, and drone multispectral maps feeding direct telemetry to your advisor dashboards.",
-      link: "/services/farm-tech",
-      tag: "IoT & Telemetry",
+      title: "Farmer support packages",
+      desc: "Agronomist advisory, technology signals, and market linkage bundled so growers get help across the full crop cycle.",
+      tag: "Support",
       bgGradient: "from-blue-500/10 to-indigo-500/5",
     },
     {
       icon: Coins,
-      title: "Carbon Credit Program",
-      desc: "Verify zero-tillage and residue preservation methods with global satellites. Convert carbon offsets into bank transfers.",
-      link: "/services/carbon-credits",
+      title: "Carbon & regenerative",
+      desc: "Practice verification and sustainability pathways that reward residue management and soil-building methods.",
       tag: "Sustainability",
       bgGradient: "from-green-500/10 to-emerald-500/5",
     },
     {
       icon: Hammer,
-      title: "Big Farm Turnkey Setup",
-      desc: "Complete planning from bare land to first harvest. Includes automated drip loops, polyhouse design, and field management SOPs.",
-      link: "/services/big-farm-setup",
-      tag: "Turnkey Project",
+      title: "Turnkey farm setup",
+      desc: "From bare land to first harvest — drip design, polyhouse planning, and field SOPs for larger acreage projects.",
+      tag: "Projects",
       bgGradient: "from-orange-500/10 to-red-500/5",
     },
     {
       icon: Truck,
-      title: "Direct Market Linkage",
-      desc: "Contract buybacks that skip traditional auction middlemen. Clean grading assays and logistics direct to premium food buyers.",
-      link: "/services/market-linkage",
-      tag: "Buyer Linkage",
+      title: "Market linkage",
+      desc: "Contract buybacks and graded logistics that skip auction middlemen and lock cleaner floor prices.",
+      tag: "Buyback",
       bgGradient: "from-purple-500/10 to-pink-500/5",
     },
   ];
@@ -93,27 +90,21 @@ function Services() {
   };
 
   const getWizardRecommendation = () => {
-    const { acres, crop, pain } = quizAnswers;
+    const { pain } = quizAnswers;
     if (pain === "yields" || pain === "mortality") {
       return {
-        title: "Bio-Boosted Nursery + Kisaan Mall Nutrients",
-        desc: "To solve seedling mortality and boost starting vigor, start with containerized plug seedlings and match them to crop-specific basal nutrition packages.",
-        primaryLink: "/services/nursery",
-        secondaryLink: "/services/kisaan-mall",
+        title: "Nursery seedlings + bio-formulas",
+        desc: "Start with containerized plugs and stage-matched nutrition to cut mortality and build early vigor.",
       };
     } else if (pain === "water" || pain === "labor") {
       return {
-        title: "Farm Management Tech + Turnkey Setup",
-        desc: "Automated drip lines, solar moisture telemetry, and customized block plans will cut your water usage by 40% and save labor hours.",
-        primaryLink: "/services/farm-tech",
-        secondaryLink: "/services/big-farm-setup",
+        title: "Technology + turnkey setup",
+        desc: "Moisture telemetry and drip planning can cut water waste and labor hours while protecting root health.",
       };
     } else {
       return {
-        title: "Market Linkage + Carbon Credits Program",
-        desc: "Secure floor pricing with buyer contract buybacks and lock in sustainable cover crop practices to claim extra carbon credits payouts.",
-        primaryLink: "/services/market-linkage",
-        secondaryLink: "/services/carbon-credits",
+        title: "Market linkage + grower support",
+        desc: "Secure floor pricing with buyback pathways and keep agronomist support through harvest.",
       };
     }
   };
@@ -132,11 +123,11 @@ function Services() {
             AGAATE SERVICES
           </span>
           <h1 className="text-6xl md:text-8xl font-serif font-bold text-forest-deep mb-6 leading-[1.05] tracking-tight">
-            Our ecosystem <span className="italic text-terracotta">verticals.</span>
+            Products & <span className="italic text-terracotta">services.</span>
           </h1>
           <p className="text-xl md:text-2xl text-forest/80 leading-relaxed font-normal max-w-2xl">
-            A closed-loop system coordinate of agricultural inputs, telemetry data monitoring,
-            carbon conservation audits, and direct retail buyer integrations.
+            High-yield seedlings, custom bio-formulas, and farmer support packages built around the
+            full vegetable crop cycle.
           </p>
         </div>
       </div>
@@ -146,21 +137,20 @@ function Services() {
         <div className="space-y-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="font-serif text-4xl md:text-5xl text-forest-deep font-bold mb-4">
-              Explore Our Pillars
+              What growers get
             </h2>
             <p className="text-forest/70 text-sm md:text-base">
-              Click into any service vertical to use our calculators, request specific trial data,
-              and schedule custom setups.
+              One ecosystem for nursery stock, inputs, advisory, technology, and market access —
+              without juggling disconnected vendors.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {servicesList.map((service, idx) => {
               const Icon = service.icon;
               return (
-                <Link
+                <div
                   key={idx}
-                  to={service.link}
-                  className={`group block bg-gradient-to-br ${service.bgGradient} bg-card rounded-[2rem] p-8 border border-border hover:shadow-xl hover:border-forest/30 transition-all duration-300 relative flex flex-col justify-between min-h-[340px] cursor-pointer`}
+                  className={`group bg-gradient-to-br ${service.bgGradient} bg-card rounded-[2rem] p-8 border border-border hover:shadow-xl hover:border-forest/30 transition-all duration-300 relative flex flex-col justify-between min-h-[340px]`}
                 >
                   <div>
                     <div className="flex justify-between items-start mb-6">
@@ -176,12 +166,7 @@ function Services() {
                     </h3>
                     <p className="text-forest/70 text-sm leading-relaxed mb-6">{service.desc}</p>
                   </div>
-
-                  <div className="font-semibold text-xs md:text-sm text-forest group-hover:text-forest-deep flex items-center gap-2 transition-colors pt-4 border-t border-border/50">
-                    <span>Explore Service Details</span>
-                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
-                </Link>
+                </div>
               );
             })}
           </div>
@@ -309,10 +294,10 @@ function Services() {
                   <p className="text-forest/75 text-sm leading-relaxed">{recommendation.desc}</p>
                   <div className="flex flex-wrap gap-4 pt-2">
                     <Link
-                      to={recommendation.primaryLink}
+                      to={getLocalizedPath("/free-farm-consultation", currentLang) as any}
                       className="rounded-full bg-forest-deep hover:bg-forest text-cream font-semibold text-xs md:text-sm px-6 py-3 transition-all cursor-pointer shadow-md"
                     >
-                      Primary Service Details
+                      Book free consultation
                     </Link>
                     <button
                       onClick={resetWizard}

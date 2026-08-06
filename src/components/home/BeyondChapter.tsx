@@ -20,7 +20,7 @@ export default function BeyondChapter() {
           </h2>
         </div>
         <div data-home-reveal className="mt-16">
-          {["/services/farm-tech", "/services/carbon-credits", "/services/big-farm-setup"].map(
+          {["/technology", "/services", "/free-farm-consultation"].map(
             (href, index) => (
               <article
                 key={href}

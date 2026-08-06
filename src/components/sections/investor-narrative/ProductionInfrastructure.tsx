@@ -36,7 +36,7 @@ export function ProductionInfrastructure() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <InlineCta href="/services/nursery">{t("production.cta1")}</InlineCta>
+              <InlineCta href="/services">{t("production.cta1")}</InlineCta>
               <InlineCta href="/contact" variant="light">
                 {t("production.cta2")}
               </InlineCta>
