@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from "react";
+import { useEffect, useRef, memo, useState } from "react";
 import gsap from "gsap";
 import { useTranslation } from "react-i18next";
 
@@ -23,6 +23,15 @@ export default memo(function SectionHero({
   const hasAnimatedRef = useRef(false);
   const { t } = useTranslation("hero");
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const subtitlePoints = t("subtitle_points", { returnObjects: true }) as string[];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % subtitlePoints.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, [subtitlePoints.length]);
   // Keep latest callback ref to avoid re-running effects or re-binding listeners
   const onVideoLoadedRef = useRef(onVideoLoaded);
   const onAnimationCompleteRef = useRef(onAnimationComplete);
@@ -236,47 +245,70 @@ export default memo(function SectionHero({
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
             <div
-              className="flex flex-col gap-4 md:max-w-[420px]"
+              className="flex flex-col gap-4 md:max-w-[380px]"
               style={{
-                borderLeft: "2px solid rgba(255,255,255,0.25)",
-                paddingLeft: "1.35rem",
+                borderLeft: "2px solid rgba(255,255,255,0.18)",
+                paddingLeft: "1.25rem",
               }}
             >
               <div
                 ref={pRef}
-                className="opacity-0 text-cream"
+                className="opacity-0 flex flex-col gap-3"
                 style={{
-                  fontSize: "clamp(0.83rem, 0.92vw, 0.88rem)",
-                  fontWeight: 400,
-                  color: "rgba(255,255,255,0.82)",
-                  lineHeight: 1.55,
                   willChange: "transform, opacity",
                   transform: "translate3d(0, 20px, 0)",
                 }}
               >
-                <p className="mb-3">{t("subtitle_lead")}</p>
-                <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
-                  {(t("subtitle_points", { returnObjects: true }) as string[]).map((point, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
+                {/* Lead line */}
+                <p
+                  style={{
+                    fontSize: "clamp(0.85rem, 0.92vw, 0.9rem)",
+                    fontWeight: 400,
+                    color: "rgba(255,255,255,0.9)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {t("subtitle_lead")}
+                </p>
+
+                {/* Rotating tag */}
+                <div className="flex items-center gap-2.5 mt-0.5">
+                  <span
+                    className="shrink-0 rounded-full bg-[#a3e635]"
+                    style={{ width: 4.5, height: 4.5, boxShadow: "0 0 6px rgba(163,230,53,0.5)" }}
+                    aria-hidden
+                  />
+                  <div className="relative h-6 flex-1 overflow-hidden">
+                    {subtitlePoints.map((point, i) => (
                       <span
-                        className="mt-[0.45em] shrink-0 rounded-full"
+                        key={i}
+                        className="absolute inset-0 flex items-center whitespace-nowrap transition-all duration-500 ease-in-out"
                         style={{
-                          width: 5,
-                          height: 5,
-                          background: "#a3e635",
+                          fontSize: "clamp(0.85rem, 0.92vw, 0.9rem)",
+                          fontWeight: 400,
+                          color: "rgba(255,255,255,0.75)",
+                          letterSpacing: "0.01em",
+                          opacity: activeIndex === i ? 1 : 0,
+                          transform:
+                            activeIndex === i
+                              ? "translateY(0)"
+                              : activeIndex === (i + 1) % subtitlePoints.length
+                                ? "translateY(-110%)"
+                                : "translateY(110%)",
+                          pointerEvents: activeIndex === i ? "auto" : "none",
                         }}
-                        aria-hidden
-                      />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
+                      >
+                        {point}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* CTA Buttons (Balanced scale - Side by side) */}
               <div
                 ref={btnRef}
-                className="opacity-0 flex flex-row items-center flex-nowrap gap-3 pt-0.5"
+                className="opacity-0 flex flex-row items-center flex-nowrap gap-3"
                 style={{
                   willChange: "transform, opacity",
                   transform: "translate3d(0, 15px, 0)",
