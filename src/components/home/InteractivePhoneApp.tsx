@@ -56,7 +56,8 @@ const MALL_PRODUCTS = [
     rating: "4.9 ★ (128)",
     badge: "Certified",
     deliveryTime: "⚡ 24h Delivery",
-    image: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?auto=format&fit=crop&w=400&q=80",
+    image:
+      "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?auto=format&fit=crop&w=400&q=80",
   },
   {
     id: "2",
@@ -68,7 +69,8 @@ const MALL_PRODUCTS = [
     rating: "4.8 ★ (94)",
     badge: "100% Organic",
     deliveryTime: "⚡ 24h Delivery",
-    image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=400&q=80",
+    image:
+      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=400&q=80",
   },
   {
     id: "3",
@@ -80,7 +82,8 @@ const MALL_PRODUCTS = [
     rating: "4.9 ★ (215)",
     badge: "Best Seller",
     deliveryTime: "⚡ Same Day",
-    image: "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=400&q=80",
+    image:
+      "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=400&q=80",
   },
   {
     id: "4",
@@ -92,7 +95,8 @@ const MALL_PRODUCTS = [
     rating: "4.7 ★ (82)",
     badge: "300m Roll",
     deliveryTime: "⚡ Same Day",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80",
+    image:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80",
   },
 ];
 
@@ -103,7 +107,7 @@ export default function InteractivePhoneApp() {
   const [isLoading, setIsLoading] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [addedItemToast, setAddedItemToast] = useState<string | null>(null);
-  
+
   // Internal container ref (only scrolls inside the phone screen, NOT the webpage window!)
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -151,7 +155,7 @@ export default function InteractivePhoneApp() {
 
     const updateAiText = (newText: string) => {
       setMessages((prev) =>
-        prev.map((msg) => (msg.id === aiMsgId ? { ...msg, text: newText } : msg))
+        prev.map((msg) => (msg.id === aiMsgId ? { ...msg, text: newText } : msg)),
       );
     };
 
@@ -222,7 +226,7 @@ export default function InteractivePhoneApp() {
                     temperature: 0.7,
                   },
                 }),
-              }
+              },
             );
 
             if (!response.ok || !response.body) {
@@ -295,7 +299,6 @@ export default function InteractivePhoneApp() {
 
   return (
     <div className="font-dm relative mx-auto w-full max-w-[350px] sm:max-w-[370px]">
-      
       {/* Toast notification */}
       {addedItemToast && (
         <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-[#a3e635] shadow-xl border border-[#a3e635]/30 animate-bounce">
@@ -305,10 +308,8 @@ export default function InteractivePhoneApp() {
 
       {/* Galaxy S25 Edge Ultra-Thin Bezel Frame */}
       <div className="relative rounded-[2.4rem] border-[2.5px] border-[#0a1814] bg-[#0a1814] p-1 shadow-2xl shadow-black/40 ring-1 ring-black/20">
-        
         {/* Edge-to-Edge Screen Container */}
         <div className="relative overflow-hidden rounded-[2.1rem] bg-[#fffdf4] text-[#143d31] flex flex-col h-[550px] sm:h-[580px] justify-between">
-          
           {/* Top System Status Bar — Clean Light Theme */}
           <div className="relative bg-[#fffdf4] px-4 pt-2.5 pb-1 text-[#143d31] shrink-0 border-b border-[#143d31]/6">
             <div className="flex items-center justify-between text-[10px] font-bold text-[#143d31]/80">
@@ -453,7 +454,9 @@ export default function InteractivePhoneApp() {
 
               {/* Quick Prompt Chips */}
               <div className="px-3 py-1.5 bg-[#f6f9f0] border-t border-[#143d31]/8 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-                <span className="text-[9px] font-mono text-[#143d31]/50 uppercase shrink-0">Ask:</span>
+                <span className="text-[9px] font-mono text-[#143d31]/50 uppercase shrink-0">
+                  Ask:
+                </span>
                 {SUGGESTED_PROMPTS.map((prompt) => (
                   <button
                     key={prompt}
@@ -489,7 +492,6 @@ export default function InteractivePhoneApp() {
           {/* TAB 2: KISAAN MALL E-COMMERCE STORE */}
           {activeTab === "mall" && (
             <div className="flex-1 flex flex-col overflow-y-auto p-3.5 bg-[#fffdf4] space-y-3">
-              
               {/* Category Filter Chips — Fixed & Clean */}
               <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5 shrink-0">
                 {["All Inputs", "Seeds 🌾", "Bio-Cures 🧪", "Drip 💧", "Mulch 🛡️"].map((cat, i) => (
@@ -512,8 +514,12 @@ export default function InteractivePhoneApp() {
                   <span className="inline-flex items-center gap-1 rounded-full bg-[#a3e635] px-2 py-0.5 text-[8px] font-mono font-extrabold text-[#143d31] uppercase">
                     Direct Partner Supply
                   </span>
-                  <p className="mt-1 text-xs font-extrabold leading-tight text-white">500+ Genuine Agri Inputs</p>
-                  <p className="mt-0.5 text-[9px] text-white/70">Up to 35% off · 24h NCR Farm Delivery</p>
+                  <p className="mt-1 text-xs font-extrabold leading-tight text-white">
+                    500+ Genuine Agri Inputs
+                  </p>
+                  <p className="mt-0.5 text-[9px] text-white/70">
+                    Up to 35% off · 24h NCR Farm Delivery
+                  </p>
                 </div>
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-[#a3e635] shrink-0">
                   <Package className="h-4.5 w-4.5" />
@@ -565,8 +571,12 @@ export default function InteractivePhoneApp() {
                       {/* Bottom Row: Price & Swiggy ADD Button */}
                       <div className="flex items-center justify-between border-t border-[#143d31]/8 pt-1">
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-xs font-extrabold text-[#143d31]">{prod.price}</span>
-                          <span className="text-[9px] text-[#143d31]/40 line-through">{prod.originalPrice}</span>
+                          <span className="text-xs font-extrabold text-[#143d31]">
+                            {prod.price}
+                          </span>
+                          <span className="text-[9px] text-[#143d31]/40 line-through">
+                            {prod.originalPrice}
+                          </span>
                         </div>
 
                         <button
@@ -589,14 +599,12 @@ export default function InteractivePhoneApp() {
                 <span>•</span>
                 <span>✓ Free Delivery</span>
               </div>
-
             </div>
           )}
 
           {/* TAB 3: MY FARM PLOT DASHBOARD */}
           {activeTab === "farm" && (
             <div className="flex-1 flex flex-col overflow-y-auto p-3.5 bg-[#fffdf4] space-y-3">
-              
               {/* Rounded Corner Square Satellite Field Map */}
               <div className="relative w-full h-44 rounded-2xl overflow-hidden border border-[#143d31]/15 shadow-sm group">
                 {/* Satellite Background Image */}
@@ -610,7 +618,11 @@ export default function InteractivePhoneApp() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
 
                 {/* SVG Field Plot Boundary & GPS Radar Marker */}
-                <svg className="absolute inset-0 h-full w-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <svg
+                  className="absolute inset-0 h-full w-full pointer-events-none"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                >
                   <polygon
                     points="20,25 75,18 85,70 30,82"
                     className="fill-[#a3e635]/25 stroke-[#a3e635] stroke-[2.5] stroke-dasharray-2 animate-pulse"
@@ -702,19 +714,27 @@ export default function InteractivePhoneApp() {
               {/* Stage Advisory Action Plan */}
               <div className="rounded-2xl bg-white p-3.5 border border-[#143d31]/10 space-y-2.5 shadow-xs">
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-extrabold text-[#143d31]">Flowering Advisory Action Plan</p>
-                  <span className="text-[9px] font-mono text-[#476f2d] font-bold">2 Tasks Active</span>
+                  <p className="text-xs font-extrabold text-[#143d31]">
+                    Flowering Advisory Action Plan
+                  </p>
+                  <span className="text-[9px] font-mono text-[#476f2d] font-bold">
+                    2 Tasks Active
+                  </span>
                 </div>
                 <div className="flex items-start gap-2.5 text-xs pt-1 border-t border-[#143d31]/8">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-[#476f2d] mt-0.5" />
-                  <p className="text-[#536253] leading-tight">Apply NPK 19:19:19 fertigation (2.5 kg/acre) this Thursday through drip.</p>
+                  <p className="text-[#536253] leading-tight">
+                    Apply NPK 19:19:19 fertigation (2.5 kg/acre) this Thursday through drip.
+                  </p>
                 </div>
                 <div className="flex items-start gap-2.5 text-xs pt-2 border-t border-[#143d31]/6">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-[#476f2d] mt-0.5" />
-                  <p className="text-[#536253] leading-tight">Inspect underside of leaves for yellow thrips nymph activity & set yellow sticky traps.</p>
+                  <p className="text-[#536253] leading-tight">
+                    Inspect underside of leaves for yellow thrips nymph activity & set yellow sticky
+                    traps.
+                  </p>
                 </div>
               </div>
-
             </div>
           )}
 
@@ -736,7 +756,9 @@ export default function InteractivePhoneApp() {
                   <span className="font-bold text-[#143d31]">Next Open Farmer Tour:</span>
                   <span className="font-mono text-[#5d7d37] font-bold">This Saturday</span>
                 </div>
-                <p className="text-[11px] text-[#536253]">Free entry for registered Agaate Parivaar farmers.</p>
+                <p className="text-[11px] text-[#536253]">
+                  Free entry for registered Agaate Parivaar farmers.
+                </p>
                 <button
                   onClick={() => {
                     setAddedItemToast("Agri Park Tour Reserved!");
@@ -800,7 +822,6 @@ export default function InteractivePhoneApp() {
               <span className="text-[10px]">Park</span>
             </button>
           </div>
-
         </div>
       </div>
     </div>

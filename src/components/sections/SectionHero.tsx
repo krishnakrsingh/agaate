@@ -124,19 +124,40 @@ export default memo(function SectionHero({
         .fromTo(
           h1Ref.current,
           { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", force3D: true, clearProps: "transform" },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.0,
+            ease: "power3.out",
+            force3D: true,
+            clearProps: "transform",
+          },
           "-=0.7",
         )
         .fromTo(
           pRef.current,
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", force3D: true, clearProps: "transform" },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            force3D: true,
+            clearProps: "transform",
+          },
           "-=0.7",
         )
         .fromTo(
           btnRef.current,
           { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", force3D: true, clearProps: "transform" },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            force3D: true,
+            clearProps: "transform",
+          },
           "-=0.7",
         );
     }, sectionRef);
@@ -235,22 +256,20 @@ export default memo(function SectionHero({
               >
                 <p className="mb-3">{t("subtitle_lead")}</p>
                 <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
-                  {(t("subtitle_points", { returnObjects: true }) as string[]).map(
-                    (point, i) => (
-                      <li key={i} className="flex items-start gap-2.5">
-                        <span
-                          className="mt-[0.45em] shrink-0 rounded-full"
-                          style={{
-                            width: 5,
-                            height: 5,
-                            background: "#a3e635",
-                          }}
-                          aria-hidden
-                        />
-                        <span>{point}</span>
-                      </li>
-                    ),
-                  )}
+                  {(t("subtitle_points", { returnObjects: true }) as string[]).map((point, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span
+                        className="mt-[0.45em] shrink-0 rounded-full"
+                        style={{
+                          width: 5,
+                          height: 5,
+                          background: "#a3e635",
+                        }}
+                        aria-hidden
+                      />
+                      <span>{point}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 

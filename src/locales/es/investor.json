@@ -91,11 +91,7 @@
       }
     ],
     "platformEyebrow": "Plataforma de capacitación para agricultores",
-    "platformPillars": [
-      "Capacitación",
-      "Entradas",
-      "Ecosistema de recompra"
-    ],
+    "platformPillars": ["Capacitación", "Entradas", "Ecosistema de recompra"],
     "platformDesc": "Un punto de contacto repetible que mantiene a Agaate involucrado antes, durante y después de la cosecha.",
     "carbonTitle": "Los créditos de carbono aumentan",
     "carbonDesc": "El riego por goteo, la reducción de la labranza, los bioinsumos, la no quema de residuos, los cultivos de cobertura y una mejor eficiencia de los insumos pueden convertirse en ingresos climáticos verificados cuando se maneja bien el MRV.",

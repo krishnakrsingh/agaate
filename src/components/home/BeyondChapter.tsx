@@ -20,25 +20,23 @@ export default function BeyondChapter() {
           </h2>
         </div>
         <div data-home-reveal className="mt-16">
-          {["/technology", "/services", "/free-farm-consultation"].map(
-            (href, index) => (
-              <article
-                key={href}
-                className="grid gap-5 border-t border-[#174735]/18 py-8 md:grid-cols-[7rem_1.2fr_.8fr] md:items-end md:gap-10"
-              >
-                <span className="font-jet text-[10px] text-[#5D8D53]">0{index + 1}</span>
-                <div>
-                  <h3 className="font-serif text-[clamp(2rem,3.5vw,3.6rem)] leading-none tracking-[-0.045em] text-[#143D31]">
-                    {t(`beyond.items.${index}.title` as any)}
-                  </h3>
-                  <p className="mt-3 max-w-xl text-[15px] leading-7 text-[#52685A]">
-                    {t(`beyond.items.${index}.desc` as any)}
-                  </p>
-                </div>
-                <TextAction href={href}>{t("beyond.cta")}</TextAction>
-              </article>
-            ),
-          )}
+          {["/technology", "/services", "/free-farm-consultation"].map((href, index) => (
+            <article
+              key={href}
+              className="grid gap-5 border-t border-[#174735]/18 py-8 md:grid-cols-[7rem_1.2fr_.8fr] md:items-end md:gap-10"
+            >
+              <span className="font-jet text-[10px] text-[#5D8D53]">0{index + 1}</span>
+              <div>
+                <h3 className="font-serif text-[clamp(2rem,3.5vw,3.6rem)] leading-none tracking-[-0.045em] text-[#143D31]">
+                  {t(`beyond.items.${index}.title` as any)}
+                </h3>
+                <p className="mt-3 max-w-xl text-[15px] leading-7 text-[#52685A]">
+                  {t(`beyond.items.${index}.desc` as any)}
+                </p>
+              </div>
+              <TextAction href={href}>{t("beyond.cta")}</TextAction>
+            </article>
+          ))}
         </div>
       </div>
     </section>

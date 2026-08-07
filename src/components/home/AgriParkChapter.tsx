@@ -42,11 +42,31 @@ const nurseryComparison = [
 const zones = [
   { icon: Sprout, label: "Seed Zone", benefit: "Choose the right variety before you sow" },
   { icon: Microscope, label: "Nursery Zone", benefit: "See Bio-Boosted seedlings at every stage" },
-  { icon: Droplets, label: "Irrigation Zone", benefit: "Compare drip and fertigation systems live" },
-  { icon: FlaskConical, label: "Nutrition Zone", benefit: "Understand inputs from real crop trials" },
-  { icon: BrainCircuit, label: "Tech & Drone Zone", benefit: "Watch AI and drone monitoring in action" },
-  { icon: GraduationCap, label: "Training Hub", benefit: "Hands-on workshops and field learning days" },
-  { icon: ShieldCheck, label: "Protection Zone", benefit: "Test crop protection on real disease pressure" },
+  {
+    icon: Droplets,
+    label: "Irrigation Zone",
+    benefit: "Compare drip and fertigation systems live",
+  },
+  {
+    icon: FlaskConical,
+    label: "Nutrition Zone",
+    benefit: "Understand inputs from real crop trials",
+  },
+  {
+    icon: BrainCircuit,
+    label: "Tech & Drone Zone",
+    benefit: "Watch AI and drone monitoring in action",
+  },
+  {
+    icon: GraduationCap,
+    label: "Training Hub",
+    benefit: "Hands-on workshops and field learning days",
+  },
+  {
+    icon: ShieldCheck,
+    label: "Protection Zone",
+    benefit: "Test crop protection on real disease pressure",
+  },
   { icon: ShoppingCart, label: "Market Zone", benefit: "See how output connects to direct buyers" },
 ];
 
@@ -63,7 +83,6 @@ export default function AgriParkChapter() {
       className="relative scroll-mt-20 overflow-hidden bg-[#eaf0df] px-5 py-20 md:px-10 md:py-28"
     >
       <div className="mx-auto max-w-7xl">
-
         {/* ── Part 1: Bio-Boosted Nursery ────────────────────────────── */}
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div data-home-reveal>
@@ -74,18 +93,24 @@ export default function AgriParkChapter() {
               </p>
             </div>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              Strong roots are the difference between <span className="font-serif italic font-normal text-[#5d7d37]">a good season and a lost one.</span>
+              Strong roots are the difference between{" "}
+              <span className="font-serif italic font-normal text-[#5d7d37]">
+                a good season and a lost one.
+              </span>
             </h2>
             <p className="font-sans mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-[#4f624f] font-normal">
               Direct seed sowing is the biggest source of early-stage loss for most vegetable
               farmers. Agaate's Bio-Boosted nursery produces seedlings in a 17-acre AI-monitored
-              facility — with dramatically better survival, reduced chemical need, and higher
-              final yield.
+              facility — with dramatically better survival, reduced chemical need, and higher final
+              yield.
             </p>
           </div>
 
           {/* Nursery before/after table */}
-          <div data-home-reveal className="overflow-hidden rounded-2xl border border-[#143d31]/10 shadow-sm">
+          <div
+            data-home-reveal
+            className="overflow-hidden rounded-2xl border border-[#143d31]/10 shadow-sm"
+          >
             <div className="grid grid-cols-3 bg-[#143d31] px-5 py-4 text-xs font-bold uppercase tracking-[0.12em]">
               <span className="text-white/50">Metric</span>
               <span className="text-white/50">Traditional sowing</span>
@@ -127,12 +152,15 @@ export default function AgriParkChapter() {
                 </p>
               </div>
               <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-                One farm. Every solution. <span className="font-serif italic font-normal text-[#5d7d37]">Walk the complete crop journey.</span>
+                One farm. Every solution.{" "}
+                <span className="font-serif italic font-normal text-[#5d7d37]">
+                  Walk the complete crop journey.
+                </span>
               </h3>
               <p className="font-sans mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-[#4f624f] font-normal">
                 India's leading seed, irrigation, nutrition, protection, machinery, and market
-                partners — demonstrated on real crops across the full seed-to-sale journey, all
-                in one living farm. See it work before you use it on your land.
+                partners — demonstrated on real crops across the full seed-to-sale journey, all in
+                one living farm. See it work before you use it on your land.
               </p>
             </div>
 
@@ -154,7 +182,10 @@ export default function AgriParkChapter() {
           </div>
 
           {/* Farm image card */}
-          <div data-home-reveal className="relative min-h-[480px] overflow-hidden rounded-[2.5rem] bg-[#143d31] shadow-xl shadow-[#143d31]/10 border-[6px] border-white/50">
+          <div
+            data-home-reveal
+            className="relative min-h-[480px] overflow-hidden rounded-[2.5rem] bg-[#143d31] shadow-xl shadow-[#143d31]/10 border-[6px] border-white/50"
+          >
             <img
               src={agroParkImage}
               alt="Agaate Agri Park and Bio-Boosted nursery"
@@ -167,8 +198,8 @@ export default function AgriParkChapter() {
                 Kukrola, Gurugram — 17 acres
               </div>
               <p className="font-display max-w-md text-xl md:text-2xl font-bold leading-snug text-white">
-                Live demo plots, nursery trials, AI climate monitoring, drone spraying, and
-                hands-on farmer training — all on one real farm.
+                Live demo plots, nursery trials, AI climate monitoring, drone spraying, and hands-on
+                farmer training — all on one real farm.
               </p>
             </div>
           </div>
@@ -191,7 +222,9 @@ export default function AgriParkChapter() {
                     <Icon className="h-6 w-6 text-[#476f2d]" strokeWidth={1.8} />
                   </div>
                   <div>
-                    <p className="text-base font-extrabold leading-tight text-[#143d31]">{zone.label}</p>
+                    <p className="text-base font-extrabold leading-tight text-[#143d31]">
+                      {zone.label}
+                    </p>
                     <p className="mt-1.5 text-xs leading-5 text-[#536253]">{zone.benefit}</p>
                   </div>
                 </div>
@@ -199,7 +232,6 @@ export default function AgriParkChapter() {
             })}
           </div>
         </div>
-
       </div>
     </section>
   );

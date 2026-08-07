@@ -3,12 +3,7 @@
     "kicker": "01 / La Proposición",
     "kickerTag": "Semilla → Venta",
     "manifesto": "Agaate reemplaza las conjeturas arriesgadas con una agricultura respaldada por la ciencia, para que cada productor pueda plantar con certeza, construir a partir de raíces más fuertes y terminar con la venta correcta.",
-    "accentIndices": [
-      5,
-      8,
-      17,
-      22
-    ],
+    "accentIndices": [5, 8, 17, 22],
     "pillars": [
       {
         "title": "Semillas para ventas, un socio",

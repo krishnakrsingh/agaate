@@ -91,11 +91,7 @@
       }
     ],
     "platformEyebrow": "Farmer enablement platform",
-    "platformPillars": [
-      "Training",
-      "Inputs",
-      "Buyback ecosystem"
-    ],
+    "platformPillars": ["Training", "Inputs", "Buyback ecosystem"],
     "platformDesc": "A repeatable touchpoint that keeps Agaate engaged before, during, and after harvest.",
     "carbonTitle": "Carbon credit upside",
     "carbonDesc": "Drip irrigation, reduced tillage, bio-inputs, no residue burning, cover cropping, and better input efficiency can become verified climate income when MRV is handled well.",

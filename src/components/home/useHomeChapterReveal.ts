@@ -14,7 +14,8 @@ export function useHomeChapterReveal() {
     const targets = section.querySelectorAll<HTMLElement>("[data-home-reveal]");
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(targets, 
+      gsap.fromTo(
+        targets,
         {
           autoAlpha: 0,
           y: 40,
@@ -28,7 +29,7 @@ export function useHomeChapterReveal() {
           stagger: 0.15,
           ease: "expo.out",
           scrollTrigger: { trigger: section, start: "top 80%", once: true },
-        }
+        },
       );
     });
 

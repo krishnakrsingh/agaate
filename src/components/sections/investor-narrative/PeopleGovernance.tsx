@@ -53,7 +53,9 @@ export function PeopleGovernance() {
                 className="group relative flex h-[260px] flex-col overflow-hidden rounded-[1.25rem] bg-[#F4F5F4] p-6 transition-colors hover:bg-[#EAECEA]"
               >
                 <div className="relative z-10">
-                  <h3 className="font-serif text-xl font-medium text-forest-deep">{person?.name}</h3>
+                  <h3 className="font-serif text-xl font-medium text-forest-deep">
+                    {person?.name}
+                  </h3>
                   <p className="mt-1 font-sans text-[13px] text-[#59635D]">{person?.role}</p>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 flex justify-center">
@@ -79,9 +81,7 @@ export function PeopleGovernance() {
               <div className="relative z-10">
                 <h3 className="font-serif text-2xl text-cream">{team[0]?.name}</h3>
                 <p className="mt-1 font-sans text-[13px] text-cream/70">{team[0]?.role}</p>
-                <p className="mt-6 text-[15px] leading-relaxed text-cream/80">
-                  {team[0]?.focus}
-                </p>
+                <p className="mt-6 text-[15px] leading-relaxed text-cream/80">{team[0]?.focus}</p>
               </div>
 
               <div className="absolute inset-x-0 bottom-0 flex justify-center">
@@ -103,7 +103,9 @@ export function PeopleGovernance() {
                 className="group relative flex h-[260px] flex-col overflow-hidden rounded-[1.25rem] bg-[#F4F5F4] p-6 transition-colors hover:bg-[#EAECEA]"
               >
                 <div className="relative z-10">
-                  <h3 className="font-serif text-xl font-medium text-forest-deep">{person?.name}</h3>
+                  <h3 className="font-serif text-xl font-medium text-forest-deep">
+                    {person?.name}
+                  </h3>
                   <p className="mt-1 font-sans text-[13px] text-[#59635D]">{person?.role}</p>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 flex justify-center">

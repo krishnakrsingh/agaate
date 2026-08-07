@@ -20,7 +20,10 @@ export function DataAdvisoryLayer() {
   const { t, i18n } = useTranslation("investor");
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
-  const modules = t("dataAdvisory.modules", { returnObjects: true }) as Array<{ title: string; desc: string }>;
+  const modules = t("dataAdvisory.modules", { returnObjects: true }) as Array<{
+    title: string;
+    desc: string;
+  }>;
   const pillars = t("dataAdvisory.platformPillars", { returnObjects: true }) as string[];
 
   return (
@@ -44,25 +47,26 @@ export function DataAdvisoryLayer() {
 
         {/* Bento Grid */}
         <div className="grid gap-4 lg:grid-cols-12">
-          {Array.isArray(modules) && modules.map((module, idx) => {
-            const Icon = moduleIcons[idx];
-            return (
-              <div
-                key={idx}
-                className="group lg:col-span-3 rounded-2xl border border-ink/5 bg-card p-5 md:p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-forest/20 hover:-translate-y-1"
-              >
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-bone group-hover:bg-forest/10 transition-colors duration-300">
-                  <Icon className="h-4.5 w-4.5 text-forest" strokeWidth={1.75} />
+          {Array.isArray(modules) &&
+            modules.map((module, idx) => {
+              const Icon = moduleIcons[idx];
+              return (
+                <div
+                  key={idx}
+                  className="group lg:col-span-3 rounded-2xl border border-ink/5 bg-card p-5 md:p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-forest/20 hover:-translate-y-1"
+                >
+                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-bone group-hover:bg-forest/10 transition-colors duration-300">
+                    <Icon className="h-4.5 w-4.5 text-forest" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="font-serif text-[1.2rem] md:text-[1.3rem] leading-tight text-forest-deep">
+                    {module.title}
+                  </h3>
+                  <p className="mt-2 text-[12px] md:text-[13px] leading-relaxed text-ink/70">
+                    {module.desc}
+                  </p>
                 </div>
-                <h3 className="font-serif text-[1.2rem] md:text-[1.3rem] leading-tight text-forest-deep">
-                  {module.title}
-                </h3>
-                <p className="mt-2 text-[12px] md:text-[13px] leading-relaxed text-ink/70">
-                  {module.desc}
-                </p>
-              </div>
-            );
-          })}
+              );
+            })}
 
           <div className="lg:col-span-7 rounded-2xl border border-ink/5 bg-card p-5 lg:p-6 shadow-sm relative overflow-hidden transition-all duration-300 hover:shadow-md">
             {/* Subtle decorative background element */}
@@ -78,16 +82,17 @@ export function DataAdvisoryLayer() {
                 </span>
               </div>
               <div className="grid gap-4 md:grid-cols-3 mt-auto">
-                {Array.isArray(pillars) && pillars.map((pillar, idx) => (
-                  <div key={idx} className="border-t border-ink/10 pt-3">
-                    <h4 className="font-serif text-[1.1rem] md:text-[1.2rem] text-forest-deep">
-                      {pillar}
-                    </h4>
-                    <p className="mt-1.5 text-[12px] md:text-[13px] leading-relaxed text-ink/70">
-                      {t("dataAdvisory.platformDesc")}
-                    </p>
-                  </div>
-                ))}
+                {Array.isArray(pillars) &&
+                  pillars.map((pillar, idx) => (
+                    <div key={idx} className="border-t border-ink/10 pt-3">
+                      <h4 className="font-serif text-[1.1rem] md:text-[1.2rem] text-forest-deep">
+                        {pillar}
+                      </h4>
+                      <p className="mt-1.5 text-[12px] md:text-[13px] leading-relaxed text-ink/70">
+                        {t("dataAdvisory.platformDesc")}
+                      </p>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

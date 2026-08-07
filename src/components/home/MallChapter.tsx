@@ -63,7 +63,6 @@ export default function MallChapter() {
       className="relative scroll-mt-20 overflow-hidden bg-[#fffdf4] px-5 py-20 md:px-10 md:py-28"
     >
       <div className="mx-auto max-w-7xl">
-
         {/* Header */}
         <div data-home-reveal className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
           <div>
@@ -74,7 +73,10 @@ export default function MallChapter() {
               </p>
             </div>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              Once you know what your crop needs, <span className="font-serif italic font-normal text-[#9a5a2c]">getting the right input matters just as much.</span>
+              Once you know what your crop needs,{" "}
+              <span className="font-serif italic font-normal text-[#9a5a2c]">
+                getting the right input matters just as much.
+              </span>
             </h2>
           </div>
           <div className="max-w-2xl">
@@ -103,15 +105,22 @@ export default function MallChapter() {
                 <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b7cf79]">
                   {item.solves}
                 </p>
-                <p className="font-display mt-1 text-xl md:text-2xl font-bold tracking-tight text-white">{item.label}</p>
-                <p className="font-sans mt-1 text-xs leading-relaxed text-white/80 font-normal">{item.detail}</p>
+                <p className="font-display mt-1 text-xl md:text-2xl font-bold tracking-tight text-white">
+                  {item.label}
+                </p>
+                <p className="font-sans mt-1 text-xs leading-relaxed text-white/80 font-normal">
+                  {item.detail}
+                </p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Before / After comparison strip */}
-        <div data-home-reveal className="mt-12 overflow-hidden rounded-2xl border border-[#143d31]/10">
+        <div
+          data-home-reveal
+          className="mt-12 overflow-hidden rounded-2xl border border-[#143d31]/10"
+        >
           <div className="grid bg-[#f3f1e7] px-7 py-4 md:grid-cols-2 md:px-10">
             <p className="font-jet text-[10px] font-bold uppercase tracking-[0.18em] text-[#143d31]/40">
               Traditional input buying
@@ -121,10 +130,7 @@ export default function MallChapter() {
             </p>
           </div>
           {comparison.map((row, i) => (
-            <div
-              key={i}
-              className="grid border-t border-[#143d31]/8 bg-white md:grid-cols-2"
-            >
+            <div key={i} className="grid border-t border-[#143d31]/8 bg-white md:grid-cols-2">
               <div className="px-7 py-5 text-sm leading-6 text-[#888a7a] line-through md:px-10">
                 {row.before}
               </div>
@@ -153,7 +159,6 @@ export default function MallChapter() {
             <ArrowRight className="h-4 w-4" />
           </a>
         </div>
-
       </div>
     </section>
   );

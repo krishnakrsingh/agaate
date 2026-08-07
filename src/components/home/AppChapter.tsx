@@ -70,11 +70,14 @@ export default function AppChapter() {
             </p>
           </div>
           <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
-            Whatever the crop problem — <span className="font-serif italic font-normal text-[#5d7d37]">a real expert gives you a specific answer.</span>
+            Whatever the crop problem —{" "}
+            <span className="font-serif italic font-normal text-[#5d7d37]">
+              a real expert gives you a specific answer.
+            </span>
           </h2>
           <p className="font-sans mt-4 max-w-2xl text-sm leading-relaxed text-[#4f624f] font-normal md:text-base">
-            Whether it is a disease you cannot identify, a new season to plan, or an input decision you
-            are unsure about — the Agaate app connects you directly to an agronomist.
+            Whether it is a disease you cannot identify, a new season to plan, or an input decision
+            you are unsure about — the Agaate app connects you directly to an agronomist.
           </p>
 
           {/* Farmers ask about chips */}
@@ -103,13 +106,20 @@ export default function AppChapter() {
             {appSteps.map((step) => {
               const Icon = step.icon;
               return (
-                <div key={step.title} className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-4">
+                <div
+                  key={step.title}
+                  className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-4"
+                >
                   <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#143d31] text-[#b7cf79] shadow-sm">
                     <Icon className="h-4.5 w-4.5" strokeWidth={1.8} />
                   </div>
                   <div>
-                    <h3 className="font-display text-base md:text-lg font-bold tracking-tight text-[#143d31]">{step.title}</h3>
-                    <p className="font-sans mt-1 max-w-xl text-xs leading-relaxed text-[#4f624f] md:text-sm">{step.text}</p>
+                    <h3 className="font-display text-base md:text-lg font-bold tracking-tight text-[#143d31]">
+                      {step.title}
+                    </h3>
+                    <p className="font-sans mt-1 max-w-xl text-xs leading-relaxed text-[#4f624f] md:text-sm">
+                      {step.text}
+                    </p>
                   </div>
                 </div>
               );

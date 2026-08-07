@@ -30,7 +30,6 @@ export default function FieldSignal() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#173d30]/15" />
 
       <div className="mx-auto max-w-7xl">
-
         {/* Header */}
         <div data-home-reveal className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
@@ -41,7 +40,10 @@ export default function FieldSignal() {
               </p>
             </div>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              Every farmer faces moments where <span className="font-serif italic font-normal text-[#5d7d37]">guesswork costs money.</span>
+              Every farmer faces moments where{" "}
+              <span className="font-serif italic font-normal text-[#5d7d37]">
+                guesswork costs money.
+              </span>
             </h2>
           </div>
           <p className="font-sans max-w-2xl border-l border-[#143d31]/20 pl-6 text-sm md:text-base leading-relaxed text-[#4b5f51] md:pl-8 font-normal">
@@ -52,7 +54,10 @@ export default function FieldSignal() {
         </div>
 
         {/* Three pain points */}
-        <div data-home-reveal className="mt-12 grid gap-px border-y border-[#143d31]/12 bg-[#143d31]/12 overflow-hidden md:grid-cols-3">
+        <div
+          data-home-reveal
+          className="mt-12 grid gap-px border-y border-[#143d31]/12 bg-[#143d31]/12 overflow-hidden md:grid-cols-3"
+        >
           {painPoints.map((point) => (
             <div
               key={point.number}
@@ -64,7 +69,9 @@ export default function FieldSignal() {
               <h3 className="font-display text-xl md:text-2xl font-semibold leading-snug tracking-tight text-[#143d31]">
                 {point.headline}
               </h3>
-              <p className="font-sans text-xs md:text-sm leading-relaxed text-[#536253] font-normal">{point.body}</p>
+              <p className="font-sans text-xs md:text-sm leading-relaxed text-[#536253] font-normal">
+                {point.body}
+              </p>
             </div>
           ))}
         </div>
@@ -89,7 +96,6 @@ export default function FieldSignal() {
             </p>
           </div>
         </div>
-
       </div>
     </section>
   );

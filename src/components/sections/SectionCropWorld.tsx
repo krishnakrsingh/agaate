@@ -26,7 +26,7 @@ const stages = [
   { num: "06", key: "06", icon: Droplets },
   { num: "07", key: "07", icon: ArrowUpToLine },
   { num: "08", key: "08", icon: Apple },
-  { num: "09", key: "09", icon: ShoppingBasket }
+  { num: "09", key: "09", icon: ShoppingBasket },
 ];
 
 import { useTranslation } from "react-i18next";
@@ -122,7 +122,8 @@ export default function SectionCropWorld() {
               </span>
             </div>
             <h2 className="font-display text-4xl md:text-5xl text-forest-deep leading-tight">
-              {t("cropWorld.title1")} <span className="italic text-forest">{t("cropWorld.title2")}</span>
+              {t("cropWorld.title1")}{" "}
+              <span className="italic text-forest">{t("cropWorld.title2")}</span>
             </h2>
             <p className="text-ink/60 text-sm md:text-base mt-2 max-w-xl">
               {t("cropWorld.description")}
@@ -142,7 +143,9 @@ export default function SectionCropWorld() {
                   <h3 className="font-display text-xl font-bold mb-2 pl-2 text-forest-deep">
                     {t(`cropWorld.stages.${stage.key}.title` as any)}
                   </h3>
-                  <p className="text-sm leading-relaxed pl-2 text-ink/70">{t(`cropWorld.stages.${stage.key}.desc` as any)}</p>
+                  <p className="text-sm leading-relaxed pl-2 text-ink/70">
+                    {t(`cropWorld.stages.${stage.key}.desc` as any)}
+                  </p>
                 </div>
               );
             })}
@@ -177,7 +180,9 @@ export default function SectionCropWorld() {
             </div>
             <h2 className="font-display text-3xl md:text-4xl text-forest-deep leading-tight font-extrabold tracking-tight">
               {t("cropWorld.title1")} <br />
-              <span className="font-serif italic font-normal text-forest">{t("cropWorld.title2")}</span>
+              <span className="font-serif italic font-normal text-forest">
+                {t("cropWorld.title2")}
+              </span>
             </h2>
             <p className="font-sans text-ink/75 text-sm md:text-base mt-3 max-w-md font-normal leading-relaxed">
               {t("cropWorld.description")}
@@ -214,7 +219,9 @@ export default function SectionCropWorld() {
                     <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4 tracking-tight">
                       {t(`cropWorld.stages.${stage.key}.title` as any)}
                     </h3>
-                    <p className="font-sans text-ink/75 text-base lg:text-lg leading-relaxed">{t(`cropWorld.stages.${stage.key}.desc` as any)}</p>
+                    <p className="font-sans text-ink/75 text-base lg:text-lg leading-relaxed">
+                      {t(`cropWorld.stages.${stage.key}.desc` as any)}
+                    </p>
                   </div>
                 );
               })}
@@ -252,7 +259,10 @@ export default function SectionCropWorld() {
 
             {/* Mobile Simple Label */}
             <div className="sm:hidden flex justify-between items-center mb-8 font-mono text-xs font-bold text-forest">
-              <span>{stages[activeStage] && t(`cropWorld.stages.${stages[activeStage].key}.title` as any)}</span>
+              <span>
+                {stages[activeStage] &&
+                  t(`cropWorld.stages.${stages[activeStage].key}.title` as any)}
+              </span>
               <span>{stages[activeStage]?.num} / 09</span>
             </div>
 

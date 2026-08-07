@@ -19,7 +19,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div
@@ -31,7 +31,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
             "flex-row": !vertical,
             "flex-col": vertical,
           },
-          className
+          className,
         )}
       >
         {Array(repeat)
@@ -51,6 +51,6 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
           ))}
       </div>
     );
-  }
+  },
 );
 Marquee.displayName = "Marquee";

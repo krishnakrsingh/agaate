@@ -130,9 +130,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const localeMatch = router.state.matches.find(m => m.routeId === '/{-$locale}');
-  const lang = (localeMatch?.params as any)?.locale ?? 'en';
-  const path = typeof window !== 'undefined' ? window.location.pathname.replace(/^\/(hi|bn|te|mr|ta|ur|gu|kn|or|ml|pa|as|es)/, '') : '';
+  const localeMatch = router.state.matches.find((m) => m.routeId === "/{-$locale}");
+  const lang = (localeMatch?.params as any)?.locale ?? "en";
+  const path =
+    typeof window !== "undefined"
+      ? window.location.pathname.replace(/^\/(hi|bn|te|mr|ta|ur|gu|kn|or|ml|pa|as|es)/, "")
+      : "";
   return (
     <html lang={lang}>
       <head>

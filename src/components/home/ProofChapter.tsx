@@ -23,14 +23,16 @@ const manufacturerBrands = [
 
 const testimonials = [
   {
-    quote: "Agaate Kisan Mall is a one-stop shop for authentic agricultural inputs directly from manufacturers.",
+    quote:
+      "Agaate Kisan Mall is a one-stop shop for authentic agricultural inputs directly from manufacturers.",
     name: "Pankaj Gupta",
     detail: "Verified Farmer · Karnal, Haryana",
     image: testimonialImage,
     stars: 5,
   },
   {
-    quote: "A farm to experience — multiple farming technologies, seed varieties, nursery, and best practices all in one place.",
+    quote:
+      "A farm to experience — multiple farming technologies, seed varieties, nursery, and best practices all in one place.",
     name: "Abhay Ranjan",
     detail: "Agaate Parivaar Member · Gurugram",
     image: null,
@@ -51,7 +53,6 @@ export default function ProofChapter() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#143d31]/10" />
 
       <div className="mx-auto max-w-7xl space-y-16">
-
         {/* ---------------------------------------------------- */}
         {/* SUB-SECTION 1: IMPACT NUMBERS & SCALE */}
         {/* ---------------------------------------------------- */}
@@ -65,14 +66,18 @@ export default function ProofChapter() {
                 </p>
               </div>
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-                Proof on the ground. <span className="font-serif italic font-normal text-[#5d7d37]">The numbers show our reach.</span>
+                Proof on the ground.{" "}
+                <span className="font-serif italic font-normal text-[#5d7d37]">
+                  The numbers show our reach.
+                </span>
               </h2>
             </div>
             <div>
               <p className="font-sans max-w-3xl text-sm md:text-base leading-relaxed text-[#4b5f51] font-normal">
                 Agaate has enough operational scale to give farmers genuine confidence. A large
-                associated farm network, a growing Parivaar community, on-ground Kisan Sathi members,
-                and direct manufacturer supply — concentrated in the Gurugram and NCR farming belt.
+                associated farm network, a growing Parivaar community, on-ground Kisan Sathi
+                members, and direct manufacturer supply — concentrated in the Gurugram and NCR
+                farming belt.
               </p>
               <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/90 border border-[#143d31]/12 px-3.5 py-1.5 text-xs font-bold text-[#143d31] shadow-xs">
                 <MapPin className="h-3.5 w-3.5 text-[#5d7d37]" strokeWidth={2} />
@@ -90,7 +95,8 @@ export default function ProofChapter() {
                   "p-6 sm:p-8 transition-colors hover:bg-white",
                   idx > 0 && idx % 3 !== 0 && "md:border-l border-[#143d31]/10",
                   idx > 0 && idx % 2 !== 0 && "max-md:border-l border-[#143d31]/10",
-                  (idx === 3 || idx === 4 || idx === 5) && "md:border-t lg:border-t-0 border-[#143d31]/10"
+                  (idx === 3 || idx === 4 || idx === 5) &&
+                    "md:border-t lg:border-t-0 border-[#143d31]/10",
                 )}
               >
                 <div className="flex flex-col justify-between h-full gap-4">
@@ -109,7 +115,10 @@ export default function ProofChapter() {
         {/* ---------------------------------------------------- */}
         {/* SUB-SECTION 2: DIRECT MANUFACTURER BRAND PARTNERS */}
         {/* ---------------------------------------------------- */}
-        <div data-home-reveal className="rounded-3xl bg-white/80 border border-[#143d31]/12 p-6 md:p-8 shadow-xs space-y-4">
+        <div
+          data-home-reveal
+          className="rounded-3xl bg-white/80 border border-[#143d31]/12 p-6 md:p-8 shadow-xs space-y-4"
+        >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#143d31]/10">
             <div className="flex items-center gap-2">
               <Building2 className="h-4 w-4 text-[#5d7d37]" />
@@ -123,7 +132,8 @@ export default function ProofChapter() {
           </div>
 
           <p className="text-xs md:text-sm font-medium text-[#4b5f51]">
-            Direct supply partnerships with India's leading certified agri-input manufacturers — no middlemen, no duplicates.
+            Direct supply partnerships with India's leading certified agri-input manufacturers — no
+            middlemen, no duplicates.
           </p>
 
           <div className="flex flex-wrap items-center gap-2.5 pt-2">
@@ -154,8 +164,6 @@ export default function ProofChapter() {
             <Testimonials />
           </div>
         </div>
-
-
       </div>
     </section>
   );

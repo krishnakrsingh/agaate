@@ -1,11 +1,4 @@
-import { 
-  Building2, 
-  Sprout, 
-  Wheat, 
-  Tractor, 
-  Sun, 
-  CloudRain 
-} from "lucide-react";
+import { Building2, Sprout, Wheat, Tractor, Sun, CloudRain } from "lucide-react";
 import { ComponentProps } from "react";
 
 export const Logo01 = (props: ComponentProps<"svg">) => <Building2 {...props} />;

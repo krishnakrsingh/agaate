@@ -58,7 +58,6 @@ export default function ClosingChapter() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#173d30]/15" />
 
       <div className="mx-auto max-w-7xl">
-
         {/* Header */}
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
           <div data-home-reveal>
@@ -69,20 +68,24 @@ export default function ClosingChapter() {
               </p>
             </div>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              Your farm's next step <span className="font-serif italic font-normal text-[#9a5a2c]">starts here.</span>
+              Your farm's next step{" "}
+              <span className="font-serif italic font-normal text-[#9a5a2c]">starts here.</span>
             </h2>
           </div>
           <div data-home-reveal>
             <p className="font-sans max-w-3xl text-sm md:text-base leading-relaxed text-[#536253] font-normal">
-              Whether you need crop advice, the right inputs, nursery plants, or want to visit
-              the farm and see Agaate's ecosystem in person — choose the path that fits where
-              you are right now.
+              Whether you need crop advice, the right inputs, nursery plants, or want to visit the
+              farm and see Agaate's ecosystem in person — choose the path that fits where you are
+              right now.
             </p>
           </div>
         </div>
 
         {/* Trust strip */}
-        <div data-home-reveal className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:divide-x sm:divide-[#143d31]/15">
+        <div
+          data-home-reveal
+          className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:divide-x sm:divide-[#143d31]/15"
+        >
           {trustFacts.map((fact) => (
             <span
               key={fact}
@@ -173,7 +176,6 @@ export default function ClosingChapter() {
         >
           "Agaate stands with the farmer at every step — from seed to sale."
         </p>
-
       </div>
     </section>
   );

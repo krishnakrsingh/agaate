@@ -99,31 +99,20 @@ const Testimonials = () => (
 
 const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
   testimonials.map((testimonial) => (
-    <div
-      className="-mx-1 flex w-full max-w-sm flex-col odd:flex-col-reverse"
-      key={testimonial.id}
-    >
-      <div
-        className={cn("rounded-xl border bg-background shadow-xs/3", className)}
-        {...props}
-      >
+    <div className="-mx-1 flex w-full max-w-sm flex-col odd:flex-col-reverse" key={testimonial.id}>
+      <div className={cn("rounded-xl border bg-background shadow-xs/3", className)} {...props}>
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="size-10">
-                <AvatarImage
-                  className="object-cover"
-                  src={testimonial.avatar}
-                />
+                <AvatarImage className="object-cover" src={testimonial.avatar} />
                 <AvatarFallback className="bg-primary font-medium text-primary-foreground text-xl">
                   {testimonial.name.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <p className="font-medium">{testimonial.name}</p>
-                <p className="text-muted-foreground text-sm">
-                  {testimonial.designation}
-                </p>
+                <p className="text-muted-foreground text-sm">{testimonial.designation}</p>
               </div>
             </div>
             <Button asChild size="icon" variant="ghost">
@@ -188,12 +177,7 @@ const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
   ));
 
 const TwitterLogo = (props: ComponentProps<"svg">) => (
-  <svg
-    role="img"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
     <title>X</title>
     <path
       d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"

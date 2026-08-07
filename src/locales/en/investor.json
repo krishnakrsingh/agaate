@@ -99,7 +99,16 @@
     "agriParkTitle": "India's first integrated Agri Park concept.",
     "agriParkTag": "Live demonstration farm",
     "agriParkDesc": "One Agaate farm where seed, nursery, irrigation, nutrition, protection, technology, training, and market partners can be demonstrated on real crops through one walk.",
-    "parkZones": ["Seed", "Nursery", "Irrigation", "Nutrition", "Protection", "Tech and drone", "Training", "Market"],
+    "parkZones": [
+      "Seed",
+      "Nursery",
+      "Irrigation",
+      "Nutrition",
+      "Protection",
+      "Tech and drone",
+      "Training",
+      "Market"
+    ],
     "techCards": [
       { "title": "Preventive crop care" },
       { "title": "Precision irrigation" },

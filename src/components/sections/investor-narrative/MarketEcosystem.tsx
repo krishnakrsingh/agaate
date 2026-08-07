@@ -75,35 +75,37 @@ export function MarketEcosystem() {
                 {t("market.agriParkDesc")}
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {Array.isArray(parkZones) && parkZones.map((zone, idx) => (
-                  <span
-                    key={idx}
-                    className="rounded-full border border-forest/20 bg-card px-3 py-1.5 text-xs font-semibold text-forest-deep"
-                  >
-                    {zone}
-                  </span>
-                ))}
+                {Array.isArray(parkZones) &&
+                  parkZones.map((zone, idx) => (
+                    <span
+                      key={idx}
+                      className="rounded-full border border-forest/20 bg-card px-3 py-1.5 text-xs font-semibold text-forest-deep"
+                    >
+                      {zone}
+                    </span>
+                  ))}
               </div>
             </div>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
-            {Array.isArray(techCards) && techCards.map((item, idx) => {
-              const Icon = techIcons[idx];
-              const img = techImages[idx];
-              return (
-                <div
-                  key={idx}
-                  className="overflow-hidden rounded-lg border border-[#DDE7E1] bg-card"
-                >
-                  <img src={img} alt={item.title} className="h-40 w-full object-cover" />
-                  <div className="flex items-center gap-3 p-4">
-                    <Icon className="h-4 w-4 text-forest" />
-                    <span className="text-sm font-semibold text-forest-deep">{item.title}</span>
+            {Array.isArray(techCards) &&
+              techCards.map((item, idx) => {
+                const Icon = techIcons[idx];
+                const img = techImages[idx];
+                return (
+                  <div
+                    key={idx}
+                    className="overflow-hidden rounded-lg border border-[#DDE7E1] bg-card"
+                  >
+                    <img src={img} alt={item.title} className="h-40 w-full object-cover" />
+                    <div className="flex items-center gap-3 p-4">
+                      <Icon className="h-4 w-4 text-forest" />
+                      <span className="text-sm font-semibold text-forest-deep">{item.title}</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>

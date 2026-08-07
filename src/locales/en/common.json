@@ -1,16 +1,34 @@
 {
   "nav": {
+    "home": "Home",
     "about": "About Us",
-    "agriPark": "Our Farms",
-    "offerings": "Offerings",
-    "learn": "Learn",
-    "services": "Products & Services",
+    "agriPark": "Agri Park",
+    "services": "Services",
+    "community": "Community",
+    "careers": "Careers",
     "technology": "Technology",
     "successStories": "Success Stories",
     "knowledgeCenter": "Knowledge Center",
     "contact": "Contact",
     "contactUs": "Let's talk",
     "freeConsultation": "Free Farm Consultation"
+  },
+  "servicesSub": {
+    "nursery": "Bio-Boosted Nursery",
+    "kisaanMall": "Kisaan Mall",
+    "farmTech": "Farm Tech",
+    "carbonCredits": "Carbon Credits",
+    "bigFarmSetup": "Big Farm Setup",
+    "marketLinkage": "Market Linkage",
+    "allServices": "All Services & Offerings"
+  },
+  "servicesSubDesc": {
+    "nursery": "High-yield saplings & plug plants",
+    "kisaanMall": "Verified seeds, fertilizers & inputs",
+    "farmTech": "Drones & automated smart farming",
+    "carbonCredits": "Monetize eco-friendly farm practices",
+    "bigFarmSetup": "Turnkey orchards & estate setups",
+    "marketLinkage": "Direct buyer access & buyback"
   },
   "footer": {
     "tagline": "Empowering Indian farmers through trusted inputs, expert advisory, farm technology, and market access across the entire crop cycle.",

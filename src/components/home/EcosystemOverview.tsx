@@ -37,9 +37,16 @@ export default function EcosystemOverview() {
   const sectionRef = useHomeChapterReveal();
 
   return (
-    <section ref={sectionRef} id="start-here" className="relative overflow-hidden bg-[#f7f4ea] px-5 py-20 md:px-10 md:py-28">
+    <section
+      ref={sectionRef}
+      id="start-here"
+      className="relative overflow-hidden bg-[#f7f4ea] px-5 py-20 md:px-10 md:py-28"
+    >
       <div className="mx-auto max-w-7xl">
-        <div data-home-reveal className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-end bg-white/40 rounded-3xl p-8 md:p-12 shadow-sm border border-white">
+        <div
+          data-home-reveal
+          className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-end bg-white/40 rounded-3xl p-8 md:p-12 shadow-sm border border-white"
+        >
           <div>
             <p className="font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-[#5d7d37]">
               Start here
@@ -56,9 +63,15 @@ export default function EcosystemOverview() {
               The page now follows that exact decision journey.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-bold tracking-wide text-[#143d31] uppercase">
-              <span className="font-jet border border-white/60 px-4 py-2 bg-white/80 rounded-full shadow-sm">1000+ farmers connected</span>
-              <span className="font-jet border border-white/60 px-4 py-2 bg-white/80 rounded-full shadow-sm">500+ agri-input SKUs</span>
-              <span className="font-jet border border-white/60 px-4 py-2 bg-white/80 rounded-full shadow-sm">17-acre smart nursery</span>
+              <span className="font-jet border border-white/60 px-4 py-2 bg-white/80 rounded-full shadow-sm">
+                1000+ farmers connected
+              </span>
+              <span className="font-jet border border-white/60 px-4 py-2 bg-white/80 rounded-full shadow-sm">
+                500+ agri-input SKUs
+              </span>
+              <span className="font-jet border border-white/60 px-4 py-2 bg-white/80 rounded-full shadow-sm">
+                17-acre smart nursery
+              </span>
             </div>
           </div>
         </div>
@@ -85,7 +98,9 @@ export default function EcosystemOverview() {
                   <h3 className="font-display mt-8 text-2xl font-bold tracking-tight text-[#143d31] md:text-3xl">
                     {item.title}
                   </h3>
-                  <p className="font-sans mt-4 max-w-sm text-base leading-relaxed text-[#506353]">{item.text}</p>
+                  <p className="font-sans mt-4 max-w-sm text-base leading-relaxed text-[#506353]">
+                    {item.text}
+                  </p>
                 </div>
                 <span className="font-sans mt-10 inline-flex items-center gap-2 text-sm font-bold text-[#143d31] transition-transform group-hover:translate-x-1">
                   See how it works
@@ -96,7 +111,10 @@ export default function EcosystemOverview() {
           })}
         </div>
 
-        <div data-home-reveal className="mt-14 bg-white/40 rounded-3xl p-8 shadow-sm border border-white">
+        <div
+          data-home-reveal
+          className="mt-14 bg-white/40 rounded-3xl p-8 shadow-sm border border-white"
+        >
           <div className="mb-5 flex items-center gap-3 text-[#143d31]">
             <Route className="h-5 w-5" strokeWidth={1.5} />
             <p className="font-jet text-[10px] font-bold uppercase tracking-[0.18em]">
