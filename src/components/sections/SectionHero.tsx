@@ -283,7 +283,7 @@ export default memo(function SectionHero({
                 }}
               >
                 <a
-                  href="#start-here"
+                  href="#agaate-app"
                   className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-4 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98] whitespace-nowrap shrink-0"
                   style={{
                     fontSize: "13.5px",
@@ -309,8 +309,8 @@ export default memo(function SectionHero({
                   </svg>
                 </a>
                 <a
-                  href="#agaate-app"
-                  className="inline-flex items-center gap-1.5 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal whitespace-nowrap shrink-0"
+                  href="#kisaan-mall"
+                  className="inline-flex items-center gap-1.5 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal whitespace-nowrap shrink-0 group"
                   style={{
                     fontSize: "13.5px",
                     letterSpacing: "-0.005em",
@@ -320,7 +320,13 @@ export default memo(function SectionHero({
                   }}
                 >
                   {t("cta_secondary")}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  >
                     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.25" />
                     <path
                       d="M6.5 8h3.25M8.5 6.5L10 8l-1.5 1.5"
