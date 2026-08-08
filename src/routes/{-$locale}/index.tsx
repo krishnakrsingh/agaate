@@ -72,32 +72,37 @@ function Index() {
           onAnimationComplete={handleHeroAnimationComplete}
         />
 
-        {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
-        <SectionCropWorld />
+        {/* Defer rendering heavy components until hero animation completes to prevent initial loading screen lag */}
+        {contentReady && (
+          <>
+            {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
+            <SectionCropWorld />
 
-        {/* Section 3: Farmer pain points — establish empathy & problem */}
-        <FieldSignal />
+            {/* Section 3: Farmer pain points — establish empathy & problem */}
+            <FieldSignal />
 
-        {/* Section 4: Talk to Agronomist App — first digital solution */}
-        <AppChapter />
+            {/* Section 4: Talk to Agronomist App — first digital solution */}
+            <AppChapter />
 
-        {/* Section 5: Agaate Kisaan Mall — physical input store */}
-        <MallChapter />
+            {/* Section 5: Agaate Kisaan Mall — physical input store */}
+            <MallChapter />
 
-        {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
-        <AgriParkChapter />
+            {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
+            <AgriParkChapter />
 
-        {/* Section 7: Who Agaate is — founder vision & core commitments */}
-        <PeopleChapter />
+            {/* Section 7: Who Agaate is — founder vision & core commitments */}
+            <PeopleChapter />
 
-        {/* Section 8: Trust, scale stats, and testimonials */}
-        <ProofChapter />
+            {/* Section 8: Trust, scale stats, and testimonials */}
+            <ProofChapter />
 
-        {/* Section 9: Final conversion — three clear action paths */}
-        <ClosingChapter />
+            {/* Section 9: Final conversion — three clear action paths */}
+            <ClosingChapter />
 
-        {/* Footer */}
-        <Footer />
+            {/* Footer */}
+            <Footer />
+          </>
+        )}
       </main>
     </>
   );

@@ -71,12 +71,12 @@ export default function LoadingScreen({
             tl.pause();
           }
         })
-        // Hardware-accelerated circular clip-path transition (GPU composited, zero layout thrashing)
+        // Hardware-accelerated transform transition (GPU composited, zero layout thrashing)
         .to(
           wipeRef.current,
           {
-            clipPath: "circle(0% at 50% 50%)",
-            duration: 1.1,
+            yPercent: -100,
+            duration: 0.8,
             ease: "power3.inOut",
             onStart: () => {
               onWipeStartRef.current?.();
@@ -112,15 +112,14 @@ export default function LoadingScreen({
         pointerEvents: "auto",
       }}
     >
-      {/* GPU-composited Iris Wipe Overlay */}
+      {/* GPU-composited Transform Wipe Overlay */}
       <div
         ref={wipeRef}
         style={{
           position: "absolute",
           inset: 0,
           background: "#f4f8f5",
-          clipPath: "circle(150% at 50% 50%)",
-          willChange: "clip-path",
+          willChange: "transform",
           pointerEvents: "none",
         }}
       />
