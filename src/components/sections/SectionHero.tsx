@@ -282,19 +282,17 @@ export default memo(function SectionHero({
                     {subtitlePoints.map((point, i) => (
                       <span
                         key={i}
-                        className="absolute inset-0 flex items-center whitespace-nowrap transition-all duration-500 ease-in-out"
+                        className="absolute inset-0 flex items-center whitespace-nowrap"
                         style={{
                           fontSize: "clamp(0.85rem, 0.92vw, 0.9rem)",
                           fontWeight: 400,
-                          color: "rgba(255,255,255,0.75)",
+                          color: "rgba(255,255,255,0.78)",
                           letterSpacing: "0.01em",
                           opacity: activeIndex === i ? 1 : 0,
-                          transform:
-                            activeIndex === i
-                              ? "translateY(0)"
-                              : activeIndex === (i + 1) % subtitlePoints.length
-                                ? "translateY(-110%)"
-                                : "translateY(110%)",
+                          transform: activeIndex === i ? "translate3d(0, 0, 0)" : "translate3d(0, 6px, 0)",
+                          filter: activeIndex === i ? "blur(0px)" : "blur(4px)",
+                          transition:
+                            "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1), filter 600ms cubic-bezier(0.16, 1, 0.3, 1)",
                           pointerEvents: activeIndex === i ? "auto" : "none",
                         }}
                       >

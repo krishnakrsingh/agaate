@@ -75,25 +75,25 @@ function Index() {
         {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
         <SectionCropWorld />
 
-        {/* Section 3: Farmer pain points — establish empathy first */}
+        {/* Section 3: Farmer pain points — establish empathy & problem */}
         <FieldSignal />
 
-        {/* Section 4: Who Agaate is — build trust before products */}
-        <PeopleChapter />
-
-        {/* Section 5: Talk to Agronomist App — first product */}
+        {/* Section 4: Talk to Agronomist App — first digital solution */}
         <AppChapter />
 
-        {/* Section 6: Agaate Kisaan Mall — inputs after advice */}
+        {/* Section 5: Agaate Kisaan Mall — physical input store */}
         <MallChapter />
 
-        {/* Section 7: Agri Park & Bio-Boosted Nursery — physical proof */}
+        {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
         <AgriParkChapter />
 
-        {/* Section 8: Trust, stats, and social proof */}
+        {/* Section 7: Who Agaate is — founder vision & core commitments */}
+        <PeopleChapter />
+
+        {/* Section 8: Trust, scale stats, and testimonials */}
         <ProofChapter />
 
-        {/* Section 9: Final conversion — three clear paths */}
+        {/* Section 9: Final conversion — three clear action paths */}
         <ClosingChapter />
 
         {/* Footer */}

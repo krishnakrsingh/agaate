@@ -171,8 +171,12 @@ export default function InteractivePhoneApp() {
 
     try {
       const updatedMessages = [...messages, userMsg];
-      const systemPrompt =
-        "You are an expert Indian Agronomist chatting with a farmer on the Agaate App. Speak like a real human agronomist on WhatsApp: very brief, warm, practical, and direct. Keep your answer under 2 short sentences (max 30 words). Give one immediate action item or remedy (e.g. specific spray/dose). Never write long lists, bullet points, or robotic disclaimers.";
+
+      // Ultra-clean WhatsApp Agronomist System Prompt
+      const AGRONOMIST_SYSTEM_PROMPT = `You are a friendly Indian field agronomist chatting with a farmer on WhatsApp.
+- Speak naturally and casually in 1 or 2 short sentences (max 30 words).
+- Give immediate, practical advice (e.g. spray name, dose, or simple field check).
+- Never sound robotic, textbook-like, or overly formal.`;
 
       const conversationTurns: { role: "user" | "model"; parts: { text: string }[] }[] = [];
 
@@ -192,19 +196,12 @@ export default function InteractivePhoneApp() {
         }
       });
 
-      if (conversationTurns.length > 0 && conversationTurns[0].role === "user") {
-        conversationTurns[0].parts[0].text = `${systemPrompt}\n\nFarmer question: ${conversationTurns[0].parts[0].text}`;
+      if (conversationTurns.length === 0 || conversationTurns[conversationTurns.length - 1].role !== "user") {
+        conversationTurns.push({
+          role: "user",
+          parts: [{ text: textToSend }],
+        });
       }
-
-      const payloadContents =
-        conversationTurns.length > 0
-          ? conversationTurns
-          : [
-              {
-                role: "user" as const,
-                parts: [{ text: `${systemPrompt}\n\nFarmer question: "${textToSend}"` }],
-              },
-            ];
 
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
       const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
@@ -220,10 +217,13 @@ export default function InteractivePhoneApp() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  contents: payloadContents,
+                  systemInstruction: {
+                    parts: [{ text: AGRONOMIST_SYSTEM_PROMPT }],
+                  },
+                  contents: conversationTurns,
                   generationConfig: {
                     maxOutputTokens: 100,
-                    temperature: 0.7,
+                    temperature: 0.3,
                   },
                 }),
               },
@@ -277,14 +277,55 @@ export default function InteractivePhoneApp() {
       }
 
       if (!streamedSuccess || !accumulatedText.trim()) {
-        const fallbackText =
-          "Namaste! Apply 2g Copper Oxychloride or Trichoderma per litre of water and check leaf undersides for thrips.";
+        const getFallbackAnswer = (q: string): string => {
+          const lower = q.trim().toLowerCase();
+
+          // Greetings
+          if (/^(hi|hello|hey|namaste|hallo|good morning|ram ram|pranam)/i.test(lower) || lower === "hi") {
+            return "Namaste! How can I help with your crop today?";
+          }
+
+          // Identity / Who are you
+          if (lower.includes("who are you") || lower.includes("who r u") || lower.includes("agaate")) {
+            return "I'm your Agaate Agronomist! Ask me anything about crop diseases, sprays, fertilizers, or soil care.";
+          }
+
+          // Thanks
+          if (lower.includes("thank") || lower.includes("dhanyawad") || lower.includes("shukriya") || lower === "ok" || lower === "okay") {
+            return "You're welcome! Let me know whenever you need field advice. Happy farming!";
+          }
+
+          // Tomato / Yellow spots
+          if (lower.includes("yellow") || lower.includes("spot") || lower.includes("tomato")) {
+            return "Sounds like Early Blight! Spray Copper Oxychloride (2.5g per litre) or Neem oil. Keep leaf surfaces dry.";
+          }
+
+          // Fertigation / Dose / Chilli / NPK
+          if (lower.includes("fertigation") || lower.includes("chilli") || lower.includes("dose") || lower.includes("npk") || lower.includes("fertiliz")) {
+            return "For chilli growth stage, give NPK 19:19:19 (2.5 kg/acre) via drip every 3 days. Switch to 0:52:34 once flowering starts.";
+          }
+
+          // Root rot / Fungus / Soil
+          if (lower.includes("root rot") || lower.includes("biocure") || lower.includes("fungus") || lower.includes("wilt") || lower.includes("soil")) {
+            return "Drench the root zone with Trichoderma Viride (5g per litre of water). It stops root rot naturally without chemical shock.";
+          }
+
+          // Thrips / Pests / Leaf curl
+          if (lower.includes("thrip") || lower.includes("pest") || lower.includes("curl") || lower.includes("insect")) {
+            return "Spray Spinetoram 11.7% SC (1ml/L) in early morning and hang blue sticky traps across your field.";
+          }
+
+          // Default natural simple response
+          return "What crop are you growing and what symptom do you see? Tell me and I'll give you the exact spray dose!";
+        };
+
+        const fallbackText = getFallbackAnswer(textToSend);
         await animateTextStream(fallbackText);
       }
     } catch (err) {
       console.error("Gemini API Error:", err);
       const fallbackText =
-        "Namaste! Spray Neem oil (5ml/L) and ensure optimum soil moisture. Our Kisan Sathi is also available for field visit.";
+        "Namaste! Spray Neem oil (5ml/L) and check soil moisture. Our Kisan Sathi agronomist is also available for a field visit.";
       await animateTextStream(fallbackText);
     } finally {
       setIsLoading(false);
