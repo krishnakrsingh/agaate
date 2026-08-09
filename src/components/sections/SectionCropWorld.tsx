@@ -230,10 +230,10 @@ export default function SectionCropWorld() {
         </div>
 
         {/* Bottom Progress Bar */}
-        <div className="w-full bg-white pt-6 pb-14 md:pb-20 px-6 lg:px-12 relative z-30 mt-auto">
+        <div className="w-full bg-white pt-4 pb-6 md:pb-8 px-6 lg:px-12 relative z-30 mt-auto">
           <div className="max-w-[1400px] mx-auto">
             {/* Desktop Labels */}
-            <div className="justify-between items-end mb-8 hidden sm:flex">
+            <div className="justify-between items-end mb-4 hidden sm:flex">
               {stages.map((stage, idx) => {
                 const isActive = activeStage === idx;
                 const isPast = activeStage > idx;
@@ -258,7 +258,7 @@ export default function SectionCropWorld() {
             </div>
 
             {/* Mobile Simple Label */}
-            <div className="sm:hidden flex justify-between items-center mb-8 font-mono text-xs font-bold text-forest">
+            <div className="sm:hidden flex justify-between items-center mb-4 font-mono text-xs font-bold text-forest">
               <span>
                 {stages[activeStage] &&
                   t(`cropWorld.stages.${stages[activeStage].key}.title` as any)}
@@ -267,7 +267,7 @@ export default function SectionCropWorld() {
             </div>
 
             {/* Unique "Precision Playhead" Track */}
-            <div className="w-full h-[1px] bg-border relative mb-4">
+            <div className="w-full h-[1px] bg-border relative mb-3">
               {/* Trailing Progress Line */}
               <div
                 ref={lineRef}

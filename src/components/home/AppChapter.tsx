@@ -1,17 +1,15 @@
+import { useState } from "react";
 import {
-  ArrowRight,
   Bell,
   Bug,
   Camera,
   Leaf,
+  MapPin,
   MessageCircle,
   Sprout,
   TestTube,
   Wheat,
 } from "lucide-react";
-import { Link, useParams } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import InteractivePhoneApp from "./InteractivePhoneApp";
 import googlePlayBadge from "@/assets/google-play-badge.svg";
@@ -22,33 +20,34 @@ const appSteps = [
     icon: Camera,
     title: "Send a crop photo or describe the problem",
     text: "Leaf spots, fruit damage, yellowing, pest attack — share it directly from the field.",
+    tab: "chat" as const,
   },
   {
     icon: Bell,
     title: "Stay ahead with stage-wise alerts",
     text: "Fertigation timing, preventive care, irrigation, harvest readiness — get guidance before losses begin.",
+    tab: "farm" as const,
   },
   {
     icon: MessageCircle,
     title: "Chat with a real agronomist",
     text: "Not a bot. A qualified expert gives specific advice for your crop, stage, soil, and weather — right in the app.",
+    tab: "chat" as const,
   },
 ];
 
 const farmersAskAbout = [
-  { icon: Bug, label: "Diseases & pests" },
-  { icon: Leaf, label: "Fertilizer advisory" },
-  { icon: TestTube, label: "Pesticide selection" },
-  { icon: Sprout, label: "Soil guidance" },
-  { icon: Wheat, label: "Best practices" },
-  { icon: MessageCircle, label: "Any crop issue" },
+  { icon: Bug, label: "Diseases & pests", tab: "chat" as const },
+  { icon: Leaf, label: "Fertilizer advisory", tab: "chat" as const },
+  { icon: TestTube, label: "Pesticide selection", tab: "mall" as const },
+  { icon: Sprout, label: "Soil guidance", tab: "farm" as const },
+  { icon: Wheat, label: "Best practices", tab: "farm" as const },
+  { icon: MapPin, label: "Agri Park Tour", tab: "park" as const },
 ];
 
 export default function AppChapter() {
   const sectionRef = useHomeChapterReveal("slide-right");
-  const { i18n } = useTranslation();
-  const { locale } = useParams({ strict: false }) as any;
-  const currentLang = locale ?? i18n.language ?? "en";
+  const [activeTab, setActiveTab] = useState<"chat" | "mall" | "farm" | "park">("chat");
 
   return (
     <section
@@ -76,37 +75,49 @@ export default function AppChapter() {
             you need a second opinion — all from the Agaate app.
           </p>
 
-          {/* Farmers ask about chips */}
-          <div className="mt-6">
+          {/* Farmers use the app for */}
+          <div className="mt-8">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#143d31]/50">
               Farmers use the app for
             </p>
-            <div className="mt-2.5 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-2.5">
               {farmersAskAbout.map((item) => {
                 const Icon = item.icon;
+                const isTabActive = activeTab === item.tab;
                 return (
-                  <span
+                  <button
                     key={item.label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-[#143d31]/15 bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-[#143d31] shadow-xs"
+                    onClick={() => setActiveTab(item.tab)}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold shadow-xs transition-all duration-300 cursor-pointer ${
+                      isTabActive
+                        ? "bg-[#143d31] border-[#143d31] text-[#a3e635] scale-105"
+                        : "bg-white border-[#143d31]/15 text-[#143d31] hover:bg-white hover:border-[#143d31]/30"
+                    }`}
                   >
-                    <Icon className="h-3.5 w-3.5 text-[#5d7d37]" strokeWidth={1.8} />
+                    <Icon className={`h-3.5 w-3.5 transition-colors ${
+                      isTabActive ? "text-[#a3e635]" : "text-[#5d7d37]"
+                    }`} strokeWidth={1.8} />
                     {item.label}
-                  </span>
+                  </button>
                 );
               })}
             </div>
           </div>
 
           {/* Steps */}
-          <div className="mt-6 grid gap-4">
+          <div className="mt-10 grid gap-6">
             {appSteps.map((step) => {
               const Icon = step.icon;
+              const isTabActive = activeTab === step.tab;
               return (
                 <div
                   key={step.title}
-                  className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-4"
+                  onClick={() => setActiveTab(step.tab)}
+                  className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-5 first:border-t-0 first:pt-0 transition-all duration-300 cursor-pointer"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#143d31] text-[#b7cf79] shadow-sm">
+                  <div className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${
+                    isTabActive ? "bg-[#143d31] text-[#a3e635] shadow-md scale-105" : "bg-[#143d31] text-[#b7cf79]"
+                  }`}>
                     <Icon className="h-4.5 w-4.5" strokeWidth={1.8} />
                   </div>
                   <div>
@@ -122,51 +133,44 @@ export default function AppChapter() {
             })}
           </div>
 
-          {/* CTAs */}
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:flex-wrap">
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#"
-                aria-label="Get it on Google Play (coming soon)"
-                aria-disabled="true"
-                title="Coming soon"
-                className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
-                onClick={(e) => e.preventDefault()}
-              >
-                <img
-                  src={googlePlayBadge}
-                  alt="Get it on Google Play"
-                  className="h-12 w-auto"
-                />
-              </a>
-              <a
-                href="#"
-                aria-label="Download on the App Store (coming soon)"
-                aria-disabled="true"
-                title="Coming soon"
-                className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
-                onClick={(e) => e.preventDefault()}
-              >
-                <img
-                  src={appStoreBadge}
-                  alt="Download on the App Store"
-                  className="h-12 w-auto"
-                />
-              </a>
-            </div>
-            <Link
-              to={getLocalizedPath("/contact", currentLang) as any}
-              className="font-sans inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 px-8 py-4 text-xs font-bold text-[#143d31] transition-all hover:bg-white/60 hover:-translate-y-0.5 tracking-wide uppercase"
+          {/* Store badges */}
+          <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+            <a
+              href="https://play.google.com/store/apps"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Get it on Google Play"
+              className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
             >
-              Ask for crop advice
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+              <img
+                src={googlePlayBadge}
+                alt="Get it on Google Play"
+                className="h-10 w-[135px] sm:h-12 sm:w-[162px]"
+              />
+            </a>
+            <a
+              href="https://apps.apple.com/us/app"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download on the App Store"
+              className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+            >
+              <img
+                src={appStoreBadge}
+                alt="Download on the App Store"
+                className="h-10 w-[135px] sm:h-12 sm:w-[162px]"
+              />
+            </a>
           </div>
         </div>
 
         {/* Right — Interactive Agaate Phone OS App */}
         <div data-home-reveal className="relative mx-auto w-full flex justify-center lg:sticky lg:top-32 self-start h-max pb-12">
-          <InteractivePhoneApp />
+          {/* Ambient Glow */}
+          <div className="pointer-events-none absolute -inset-10 -z-10 flex items-center justify-center opacity-65 filter blur-3xl">
+            <div className="h-[300px] w-[300px] rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 animate-pulse" style={{ animationDuration: "5s" }} />
+          </div>
+          <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
         </div>
       </div>
     </section>
