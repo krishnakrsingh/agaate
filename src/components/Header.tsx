@@ -11,6 +11,7 @@ import {
   Users,
   Info,
   Briefcase,
+  Phone,
   Sprout,
   ShoppingBag,
   Drone,
@@ -82,9 +83,8 @@ const navStructure: NavItem[] = [
     ],
   },
   { key: "agriPark", href: "/agri-park", icon: Compass },
-  { key: "community", href: "/community", icon: Users },
   { key: "about", href: "/about", icon: Info },
-  { key: "careers", href: "/careers", icon: Briefcase },
+  { key: "contact", href: "/contact", icon: Phone },
 ];
 
 export default function Header() {

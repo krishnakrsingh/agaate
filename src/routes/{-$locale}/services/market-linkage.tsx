@@ -1,341 +1,613 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Truck,
-  ShieldCheck,
   TrendingUp,
-  Check,
+  ShieldCheck,
+  CheckCircle2,
+  Users,
+  Handshake,
+  DollarSign,
   ArrowRight,
-  UserCheck,
-  FileText,
-  Building,
+  Sparkles,
+  PhoneCall,
+  X,
+  Building2,
+  Scale,
+  Clock,
+  ChevronDown,
+  Award,
 } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import {
+  AnimatedHeadline,
+  CountUp,
+  EASE,
+  MagneticButton,
+  Marquee,
+  PageHero,
+  Reveal,
+  SectionHeader,
+  Stagger,
+  StaggerItem,
+  TiltCard,
+} from "@/components/common/motion";
+import { useParams } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/{-$locale}/services/market-linkage")({
-  component: MarketLinkage,
+  component: MarketLinkagePage,
 });
 
-function MarketLinkage() {
-  const [inquired, setInquired] = useState(false);
-  const [contractCrop, setContractCrop] = useState("Tomato");
-  const [contractAcres, setContractAcres] = useState(3);
-  const [showContractDraft, setShowContractDraft] = useState(false);
+type CommodityItem = {
+  crop: string;
+  mandiPrice: number; // ₹ per kg
+  agaateFloorPrice: number; // ₹ per kg
+  retailPrice: number; // ₹ per kg
+  gainPct: string;
+  gradeAStd: string;
+};
 
-  const pricing = [
-    {
-      crop: "Tomato (A-Grade)",
-      local: "₹18 / kg",
-      buyback: "₹23 / kg",
-      premium: "+27%",
-      buyer: "BigBasket Hubs",
-    },
-    {
-      crop: "Chilli (Tejaswini)",
-      local: "₹42 / kg",
-      buyback: "₹50 / kg",
-      premium: "+19%",
-      buyer: "Spices Processors",
-    },
-    {
-      crop: "Capsicum (Green)",
-      local: "₹30 / kg",
-      buyback: "₹38 / kg",
-      premium: "+26%",
-      buyer: "Reliance Retail",
-    },
-  ];
+const COMMODITIES: CommodityItem[] = [
+  {
+    crop: "Tomato (Hybrid F1)",
+    mandiPrice: 14,
+    agaateFloorPrice: 19,
+    retailPrice: 28,
+    gainPct: "+35.7%",
+    gradeAStd: "Firm red skin, 55-65mm diameter, zero physical blemishes",
+  },
+  {
+    crop: "Watermelon (Black Boy)",
+    mandiPrice: 9,
+    agaateFloorPrice: 13,
+    retailPrice: 20,
+    gainPct: "+44.4%",
+    gradeAStd: "TSS > 11.5° Brix sweetness, deep red flesh, 3-5kg size",
+  },
+  {
+    crop: "Chilli (Green Pungent)",
+    mandiPrice: 32,
+    agaateFloorPrice: 42,
+    retailPrice: 65,
+    gainPct: "+31.2%",
+    gradeAStd: "8-10cm length, uniform deep green, crisp firm skin",
+  },
+  {
+    crop: "Cauliflower (Snowball)",
+    mandiPrice: 16,
+    agaateFloorPrice: 22,
+    retailPrice: 35,
+    gainPct: "+37.5%",
+    gradeAStd: "Pure white compact curd, 800g-1.2kg weight, zero yellowing",
+  },
+  {
+    crop: "Cucumber (Polyhouse)",
+    mandiPrice: 12,
+    agaateFloorPrice: 17,
+    retailPrice: 26,
+    gainPct: "+41.6%",
+    gradeAStd: "Straight cylindrical shape, uniform dark green, seedless core",
+  },
+];
 
-  const handleInquiry = (e: React.FormEvent) => {
+const GRADING_STEPS = [
+  {
+    grade: "Grade A",
+    badge: "Premium Export / Supermarket",
+    priceMultiplier: "100% Top Buyback Floor Price",
+    desc: "Blemish-free, uniform sizing, peak ripeness. Directly packed for quick-commerce apps (Blinkit/Zepto) and supermarket chains.",
+    icon: Award,
+  },
+  {
+    grade: "Grade B",
+    badge: "Regional Retail & Mandi Premium",
+    priceMultiplier: "85% Floor Price",
+    desc: "Slight size variation but excellent nutritional quality. Supplied to regional retail hubs and hotel chains.",
+    icon: Building2,
+  },
+  {
+    grade: "Grade C",
+    badge: "Processing & Food Industry",
+    priceMultiplier: "70% Industrial Price",
+    desc: "Cosmetically imperfect crops purchased by puree, sauce, and food processing partners so zero harvest goes to waste.",
+    icon: Scale,
+  },
+];
+
+function MarketLinkagePage() {
+  const { locale } = useParams({ strict: false }) as { locale?: string };
+  const currentLang = locale ?? "en";
+
+  // Comparison ROI Widget State
+  const [harvestQuintals, setHarvestQuintals] = useState<number>(100);
+  const [selectedCropIndex, setSelectedCropIndex] = useState<number>(0);
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSubmitted, setModalSubmitted] = useState(false);
+  const [farmerName, setFarmerName] = useState("");
+  const [farmerPhone, setFarmerPhone] = useState("");
+  const [farmerLocation, setFarmerLocation] = useState("");
+  const [expectedYieldQuintals, setExpectedYieldQuintals] = useState("100");
+
+  const crop = COMMODITIES[selectedCropIndex];
+  const harvestKg = harvestQuintals * 100;
+
+  // Financial Calculations
+  const mandiRevenue = harvestKg * crop.mandiPrice;
+  const mandiMiddlemanCommission = mandiRevenue * 0.1; // 10% commission
+  const mandiTransportDeduction = harvestQuintals * 80; // ₹80 per quintal transport
+  const mandiWeightLoss = mandiRevenue * 0.05; // 5% shrinkage loss
+  const mandiNetIncome = mandiRevenue - mandiMiddlemanCommission - mandiTransportDeduction - mandiWeightLoss;
+
+  const agaateRevenue = harvestKg * crop.agaateFloorPrice;
+  const agaateMiddlemanCommission = 0; // 0%
+  const agaateTransportDeduction = 0; // Farmgate pickup
+  const agaateNetIncome = agaateRevenue;
+
+  const netExtraProfit = agaateNetIncome - mandiNetIncome;
+
+  const handleModalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setInquired(true);
+    setModalSubmitted(true);
     setTimeout(() => {
-      setInquired(false);
-      setShowContractDraft(false);
-    }, 4000);
+      setModalSubmitted(false);
+      setIsModalOpen(false);
+      setFarmerName("");
+      setFarmerPhone("");
+      setFarmerLocation("");
+    }, 3500);
   };
-
-  const getContractDetails = () => {
-    const rate = contractCrop === "Tomato" ? 23 : contractCrop === "Chilli" ? 50 : 38;
-    const estYieldKg = contractAcres * 12000; // 12,000 kg per acre
-    const minPayout = estYieldKg * rate;
-    return {
-      rate,
-      estYieldKg,
-      minPayout,
-    };
-  };
-
-  const contract = getContractDetails();
 
   return (
-    <main className="bg-cream text-ink antialiased min-h-screen flex flex-col font-sans">
+    <main className="min-h-screen flex flex-col bg-cream font-sans text-ink antialiased">
       <Header />
 
-      {/* Hero */}
-      <div className="pt-40 pb-24 px-6 lg:px-12 bg-bone border-b border-border relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(var(--color-forest)_0.8px,transparent_0.8px)] [background-size:24px_24px] opacity-5 pointer-events-none" />
-        <div className="max-w-4xl mx-auto text-left relative z-10">
-          <span className="font-jet text-[11px] uppercase tracking-[0.22em] text-forest mb-4 block font-bold">
-            SERVICE VERTICAL · 06
-          </span>
-          <h1 className="text-6xl md:text-8xl font-serif font-bold text-forest-deep mb-6 leading-[1.05] tracking-tight">
-            Market <span className="italic text-terracotta">Linkage.</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-forest/80 leading-relaxed font-normal max-w-2xl">
-            Bypass local middleman commissions and trade directly with leading supermarket networks
-            and institutional food processors.
-          </p>
+      {/* Hero Section */}
+      <PageHero
+        eyebrow="DIRECT SALES & BUYBACK ECOSYSTEM"
+        title={
+          <>
+            Direct Market Access. <br />
+            <span className="italic text-terracotta">Guaranteed Buyback Floor Prices.</span>
+          </>
+        }
+        description="Bypass local mandi middleman commissions (10%+). Trade directly with supermarket chains, Handpick buyer networks, and food processors with guaranteed contract prices and 24-48 hour payouts."
+      >
+        {/* Live Hero Stats */}
+        <div className="mt-8 flex flex-wrap gap-3">
+          {[
+            { to: 2000, suffix: "+", label: "Parivaar Farmers Connected" },
+            { to: 15000, suffix: "+", label: "Acres Under Buyback" },
+            { to: 25, suffix: "+", label: "Direct Buyer Tie-Ups" },
+            { to: 0, suffix: "%", label: "Middleman Commission" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="flex items-center gap-3 rounded-full border border-forest/15 bg-card/90 px-5 py-3 shadow-sm backdrop-blur"
+            >
+              <Handshake className="h-4 w-4 shrink-0 text-moss" />
+              <div>
+                <span className="font-serif text-xl font-bold leading-none text-forest-deep">
+                  <CountUp to={stat.to} suffix={stat.suffix} duration={2} />
+                </span>
+                <span className="ml-2 font-jet text-[9px] font-bold uppercase tracking-wider text-forest/60">
+                  {stat.label}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
+
+        {/* CTA Buttons */}
+        <div className="mt-10 flex flex-wrap items-center gap-4">
+          <MagneticButton onClick={() => setIsModalOpen(true)} strength={0.3}>
+            <span className="inline-flex items-center gap-2 rounded-full bg-forest-deep px-7 py-3.5 font-bold text-sm text-cream shadow-xl hover:bg-forest transition-colors cursor-pointer">
+              Enroll in Buyback Program <ArrowRight className="h-4 w-4" />
+            </span>
+          </MagneticButton>
+
+          <MagneticButton as="a" href="#roi-calculator" strength={0.3}>
+            <span className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-card px-7 py-3.5 font-bold text-sm text-forest-deep shadow-sm hover:bg-cream">
+              Calculate Direct Profit Gain
+            </span>
+          </MagneticButton>
+        </div>
+      </PageHero>
+
+      {/* Marquee Strip */}
+      <div className="border-b border-border bg-card/70 py-4 overflow-hidden">
+        <Marquee duration={32}>
+          {[
+            "Handpick Buyer Integration",
+            "Guaranteed Minimum Buyback Price",
+            "Zero Middleman Commissions",
+            "24-48 Hour Direct Bank Payouts",
+            "Grade A/B/C Transparent Sorting",
+            "Farmgate Doorstep Pickup",
+          ].map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center gap-3 font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-forest/70"
+            >
+              <span>{item}</span>
+              <Sparkles className="h-3.5 w-3.5 text-terracotta" />
+            </span>
+          ))}
+        </Marquee>
       </div>
 
-      <div className="py-24 px-6 lg:px-12 max-w-7xl mx-auto w-full flex-grow space-y-32">
-        {/* Core detail & Pricing Index */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          <div className="lg:col-span-7 space-y-8 text-left">
-            <h2 className="font-serif text-4xl md:text-5xl text-forest-deep font-bold tracking-tight leading-tight">
-              Contract security before the seed lands
-            </h2>
-            <p className="text-forest/75 text-sm md:text-base leading-relaxed">
-              Price collapses during harvest peaks wipe out grower margins. Agaate establishes buyer
-              demand loops, signing minimum buyback commitments with farmers based on size and
-              weight parameters to ensure stable returns.
-            </p>
+      <div className="mx-auto w-full max-w-7xl flex-grow space-y-32 px-6 py-24 lg:px-12">
+        {/* Section 1: Live Commodity Price Board / Rate Ticker */}
+        <section id="live-prices" className="scroll-mt-28">
+          <SectionHeader
+            align="center"
+            eyebrow="TRANSPARENT COMMODITY PRICING"
+            title="Live Commodity Rate Board."
+            description="Comparing traditional Mandi auction prices against Agaate Buyback Floor Prices."
+          />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-border">
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0 border border-forest/10">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-forest-deep text-sm md:text-base">
-                    Guaranteed Price Baselines
-                  </h4>
-                  <p className="text-xs text-forest/65 leading-relaxed mt-1">
-                    We establish floor rates in contracts, guarding against sudden mandi auction
-                    crashes.
-                  </p>
+          <div className="mt-12 overflow-x-auto rounded-[2.5rem] border border-border bg-card shadow-sm">
+            <table className="w-full text-left font-sans text-xs md:text-sm">
+              <thead>
+                <tr className="border-b border-border bg-bone font-mono text-[10px] font-bold uppercase tracking-wider text-forest/60">
+                  <th className="p-5">Vegetable Commodity</th>
+                  <th className="p-5 text-destructive">Traditional Mandi Rate</th>
+                  <th className="p-5 text-emerald-700 bg-emerald-50/50">Agaate Buyback Floor Rate</th>
+                  <th className="p-5 text-forest-deep">Supermarket Grade A Retail</th>
+                  <th className="p-5 text-terracotta">Net Price Boost</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {COMMODITIES.map((c, idx) => (
+                  <tr
+                    key={c.crop}
+                    onClick={() => setSelectedCropIndex(idx)}
+                    className={`cursor-pointer transition-colors ${
+                      selectedCropIndex === idx ? "bg-forest/5 font-semibold" : "hover:bg-bone/40"
+                    }`}
+                  >
+                    <td className="p-5 font-serif text-lg font-bold text-forest-deep">
+                      {c.crop}
+                    </td>
+                    <td className="p-5 font-mono text-destructive">
+                      ₹{c.mandiPrice} / kg
+                    </td>
+                    <td className="p-5 font-mono text-emerald-800 font-bold bg-emerald-50/30">
+                      ₹{c.agaateFloorPrice} / kg
+                    </td>
+                    <td className="p-5 font-mono text-forest/70">
+                      ₹{c.retailPrice} / kg
+                    </td>
+                    <td className="p-5 font-mono font-bold text-terracotta">
+                      {c.gainPct}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* Section 2: Interactive Middlemen vs Agaate Direct Market ROI Comparison Widget */}
+        <section id="roi-calculator" className="scroll-mt-28">
+          <SectionHeader
+            align="center"
+            eyebrow="FINANCIAL COMPARISON CALCULATOR"
+            title="Middlemen Auctions vs Agaate Direct Buyback."
+            description="Adjust harvest volume below to compare net payouts between local mandi agents and Agaate guaranteed buyback."
+          />
+
+          <div className="mt-12 rounded-[2.5rem] border border-border bg-card p-8 md:p-12 shadow-sm space-y-10">
+            {/* Controls */}
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 items-center">
+              <div>
+                <label className="block font-mono text-xs font-bold uppercase tracking-wider text-forest/60 mb-2">
+                  Select Crop Variety:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {COMMODITIES.map((c, idx) => (
+                    <button
+                      key={c.crop}
+                      onClick={() => setSelectedCropIndex(idx)}
+                      className={`rounded-xl px-4 py-2 font-mono text-xs font-bold transition-all cursor-pointer ${
+                        selectedCropIndex === idx
+                          ? "bg-forest-deep text-cream shadow-sm"
+                          : "border border-border bg-bone text-forest/80 hover:border-forest/40"
+                      }`}
+                    >
+                      {c.crop.split(" ")[0]}
+                    </button>
+                  ))}
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest flex-shrink-0 border border-forest/10">
-                  <TrendingUp className="w-5 h-5" />
+
+              <div>
+                <div className="flex justify-between items-baseline font-mono text-xs font-bold mb-2">
+                  <span className="text-forest/60">HARVEST VOLUME:</span>
+                  <span className="rounded-md bg-forest/10 px-3 py-1 font-serif text-xl text-forest-deep">
+                    {harvestQuintals} Quintals ({harvestKg.toLocaleString("en-IN")} kg)
+                  </span>
                 </div>
-                <div>
-                  <h4 className="font-bold text-forest-deep text-sm md:text-base">
-                    Integrated Logistics
-                  </h4>
-                  <p className="text-xs text-forest/65 leading-relaxed mt-1">
-                    Agaate coordinates direct collection runs from regional hubs to minimize transit
-                    waste.
-                  </p>
-                </div>
+                <input
+                  type="range"
+                  min={10}
+                  max={500}
+                  step={10}
+                  value={harvestQuintals}
+                  onChange={(e) => setHarvestQuintals(Number(e.target.value))}
+                  className="w-full accent-forest cursor-pointer"
+                />
               </div>
             </div>
 
-            {/* Buyer Integration Logos strip */}
-            <div className="bg-[#eef3f0]/50 rounded-[2rem] border border-forest/10 p-8 space-y-4">
-              <span className="font-jet text-[9px] tracking-widest text-forest font-bold uppercase block">
-                Partner buyer networks
-              </span>
-              <h3 className="font-serif text-2xl text-forest-deep font-bold">
-                Institutional Purchasing Chains
-              </h3>
-              <div className="grid grid-cols-3 gap-4 pt-2">
-                {[
-                  { name: "BigBasket", tags: "Supermarkets" },
-                  { name: "Reliance Retail", tags: "Hypermarkets" },
-                  { name: "Zomato Hyperpure", tags: "Kitchen Supply" },
-                ].map((buyer, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-card p-4 rounded-xl border border-border text-center text-xs font-mono"
-                  >
-                    <Building className="w-5 h-5 text-forest/40 mx-auto mb-2" />
-                    <span className="font-bold text-forest-deep block">{buyer.name}</span>
-                    <span className="text-[9px] text-forest/50 mt-0.5 block">{buyer.tags}</span>
+            {/* Side-by-Side Breakdown Cards */}
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              {/* Mandi Card */}
+              <div className="rounded-3xl border border-destructive/20 bg-red-50/30 p-8 space-y-4 text-left">
+                <div className="flex items-center justify-between border-b border-destructive/10 pb-3">
+                  <h4 className="font-serif text-2xl font-bold text-forest-deep">
+                    Local Mandi Auction
+                  </h4>
+                  <span className="font-mono text-xs font-bold text-destructive">10%+ Deductions</span>
+                </div>
+
+                <div className="space-y-2 font-mono text-xs text-forest/80">
+                  <div className="flex justify-between">
+                    <span>Gross Sales (₹{crop.mandiPrice}/kg):</span>
+                    <span>₹{mandiRevenue.toLocaleString("en-IN")}</span>
                   </div>
-                ))}
+                  <div className="flex justify-between text-destructive">
+                    <span>Middleman Commission (10%):</span>
+                    <span>-₹{mandiMiddlemanCommission.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="flex justify-between text-destructive">
+                    <span>Transport Fee (₹80/Qtl):</span>
+                    <span>-₹{mandiTransportDeduction.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="flex justify-between text-destructive">
+                    <span>Weight Shrinkage (5%):</span>
+                    <span>-₹{mandiWeightLoss.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="border-t border-destructive/20 pt-2 flex justify-between font-bold text-sm text-forest-deep">
+                    <span>Net Farmer Payout:</span>
+                    <span>₹{mandiNetIncome.toLocaleString("en-IN")}</span>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-destructive/20 bg-card p-3 font-sans text-xs text-forest/70">
+                  Payout delayed 15-30 days with arbitrary price drops upon truck arrival.
+                </div>
+              </div>
+
+              {/* Agaate Direct Card */}
+              <div className="rounded-3xl border border-forest/30 bg-emerald-50/40 p-8 space-y-4 text-left relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-forest/15 pb-3">
+                  <h4 className="font-serif text-2xl font-bold text-forest-deep">
+                    Agaate Direct Buyback
+                  </h4>
+                  <span className="font-mono text-xs font-bold text-emerald-800">0% Commission</span>
+                </div>
+
+                <div className="space-y-2 font-mono text-xs text-forest/80">
+                  <div className="flex justify-between">
+                    <span>Gross Sales (₹{crop.agaateFloorPrice}/kg Floor):</span>
+                    <span>₹{agaateRevenue.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="flex justify-between text-emerald-700">
+                    <span>Middleman Commission:</span>
+                    <span>₹0 (Direct Contract)</span>
+                  </div>
+                  <div className="flex justify-between text-emerald-700">
+                    <span>Transport Fee:</span>
+                    <span>₹0 (Farmgate Pickup)</span>
+                  </div>
+                  <div className="border-t border-forest/20 pt-2 flex justify-between font-bold text-sm text-emerald-800">
+                    <span>Net Farmer Payout:</span>
+                    <span>₹{agaateNetIncome.toLocaleString("en-IN")}</span>
+                  </div>
+                </div>
+
+                <div className="rounded-xl bg-forest-deep p-4 text-cream font-sans space-y-1">
+                  <span className="font-mono text-[10px] font-bold text-terracotta uppercase">
+                    NET EXTRA PROFIT FOR GROWER
+                  </span>
+                  <p className="font-serif text-2xl font-bold">
+                    +₹{netExtraProfit.toLocaleString("en-IN")} Additional Income
+                  </p>
+                  <p className="text-xs text-cream/70">
+                    Guaranteed contract floor price with direct bank transfer in 24-48 hours.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Pricing board & inquiry */}
-          <div className="lg:col-span-5 bg-bone rounded-[2.5rem] border border-border p-8 text-left space-y-8 shadow-sm">
-            <div>
-              <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
-                Contract Telemetry
+        {/* Section 3: Transparent Grading Standards */}
+        <section id="grading" className="scroll-mt-28">
+          <SectionHeader
+            align="center"
+            eyebrow="QUALITY & CLASSIFICATION"
+            title="Handpick & Buyer Grading Standards."
+            description="Transparent grade sorting ensuring even non-export crops earn fair industrial value."
+          />
+
+          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+            {GRADING_STEPS.map((gr) => {
+              const GIcon = gr.icon;
+              return (
+                <TiltCard key={gr.grade} maxTilt={8} className="h-full">
+                  <div className="flex h-full flex-col justify-between rounded-3xl border border-border bg-card p-8 shadow-sm transition-all hover:border-forest/40 hover:shadow-xl">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-full bg-forest-deep px-3 py-1 font-mono text-xs font-bold text-cream">
+                          {gr.grade}
+                        </span>
+                        <GIcon className="h-6 w-6 text-moss" />
+                      </div>
+                      <span className="block font-mono text-[10px] font-bold uppercase text-terracotta">
+                        {gr.badge}
+                      </span>
+                      <h4 className="font-serif text-xl font-bold text-forest-deep">
+                        {gr.priceMultiplier}
+                      </h4>
+                      <p className="text-xs text-forest/75 leading-relaxed">{gr.desc}</p>
+                    </div>
+
+                    <div className="mt-6 border-t border-border pt-4 font-mono text-[10px] font-bold text-forest/60 uppercase">
+                      Transparent Weighing at Farmgate
+                    </div>
+                  </div>
+                </TiltCard>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Section 4: Final CTA */}
+        <section id="buyback-cta" className="scroll-mt-28">
+          <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-forest-deep via-forest to-forest-deep p-10 md:p-16 text-center text-cream shadow-2xl">
+            <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+              <span className="font-jet text-xs font-bold uppercase tracking-[0.2em] text-moss">
+                GUARANTEED MARKET BUYBACK
               </span>
-              <h3 className="font-serif text-3xl text-forest-deep font-bold">Buyer Index</h3>
-            </div>
+              <h2 className="font-serif text-4xl font-bold md:text-6xl text-cream">
+                Lock Your Floor Price Before Planting.
+              </h2>
+              <p className="text-base text-cream/80 max-w-xl mx-auto leading-relaxed">
+                Never gamble with mandi auctions again. Sign a buyback contract with Agaate today.
+              </p>
 
-            <div className="space-y-6">
-              <div className="overflow-hidden border border-border rounded-2xl bg-card shadow-sm text-xs">
-                <div className="grid grid-cols-4 gap-2 bg-[#F9FAF9] p-3 border-b border-border font-mono text-[9px] tracking-wider text-forest/40 uppercase font-semibold">
-                  <span>COMMODITY</span>
-                  <span>MANDI</span>
-                  <span>AGAATE</span>
-                  <span>BUYER</span>
-                </div>
-                {pricing.map((p, idx) => (
-                  <div
-                    key={idx}
-                    className="grid grid-cols-4 gap-2 p-3 border-b border-border last:border-b-0 items-center"
-                  >
-                    <span className="font-bold text-forest-deep">{p.crop.split(" ")[0]}</span>
-                    <span className="text-forest/65 line-through">{p.local}</span>
-                    <span className="text-terracotta font-mono font-bold">{p.buyback}</span>
-                    <span className="text-[10px] text-forest/50 truncate font-semibold">
-                      {p.buyer.split(" ")[0]}
-                    </span>
-                  </div>
-                ))}
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+                <MagneticButton onClick={() => setIsModalOpen(true)} strength={0.35}>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-terracotta px-8 py-4 font-bold text-sm text-cream shadow-xl hover:bg-terracotta/90 transition-colors cursor-pointer">
+                    Enroll in Buyback Program <ArrowRight className="h-4 w-4" />
+                  </span>
+                </MagneticButton>
+
+                <a
+                  href="tel:9487263498"
+                  className="inline-flex items-center gap-2 rounded-full border border-cream/30 bg-cream/10 px-8 py-4 font-bold text-sm text-cream hover:bg-cream/20 transition-colors"
+                >
+                  <PhoneCall className="h-4 w-4" /> Call Buyback Desk: 9487263498
+                </a>
               </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
-              {inquired ? (
-                <div className="p-8 text-center bg-card border border-forest/10 rounded-3xl flex flex-col items-center justify-center min-h-[300px] animate-in fade-in zoom-in-95">
-                  <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-6">
-                    <UserCheck className="w-8 h-8 animate-bounce" />
+      {/* Buyback Enrollment Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-lg rounded-3xl border border-border bg-card p-8 shadow-2xl space-y-6 text-left"
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-6 right-6 text-forest/40 hover:text-forest cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              {modalSubmitted ? (
+                <div className="py-8 text-center space-y-4">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                    <CheckCircle2 className="h-8 w-8 animate-bounce" />
                   </div>
-                  <h4 className="font-serif text-3xl text-forest-deep font-bold mb-2">
-                    Contract Requested
+                  <h4 className="font-serif text-2xl font-bold text-forest-deep">
+                    Buyback Registration Received!
                   </h4>
-                  <p className="text-xs text-forest/70 max-w-xs leading-relaxed">
-                    We have logged your buyback inquiry. A market linkages advisor will review your
-                    acreage capacity and call with a draft agreement.
+                  <p className="text-xs text-forest/70 max-w-xs mx-auto">
+                    We have registered your {crop.crop} crop ({expectedYieldQuintals} Quintals) for guaranteed buyback. A procurement officer will contact {farmerPhone}.
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleInquiry} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                      required
-                      type="text"
-                      className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-forest"
-                      placeholder="Name"
-                    />
-                    <input
-                      required
-                      type="tel"
-                      className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-forest"
-                      placeholder="Phone"
-                    />
+                <form onSubmit={handleModalSubmit} className="space-y-4">
+                  <div className="space-y-1">
+                    <span className="font-mono text-[10px] font-bold text-terracotta uppercase">
+                      DIRECT MARKET CONTRACT
+                    </span>
+                    <h4 className="font-serif text-2xl font-bold text-forest-deep">
+                      Enroll Harvest in Buyback
+                    </h4>
+                    <p className="text-xs text-forest/60">
+                      Lock floor price of ₹{crop.agaateFloorPrice}/kg for {crop.crop}.
+                    </p>
                   </div>
+
+                  <div className="space-y-3 font-mono text-xs">
+                    <div>
+                      <label className="block text-forest/60 mb-1">Full Name:</label>
+                      <input
+                        type="text"
+                        required
+                        value={farmerName}
+                        onChange={(e) => setFarmerName(e.target.value)}
+                        placeholder="e.g. Balwan Singh"
+                        className="w-full rounded-xl border border-border bg-bone p-3 font-bold text-forest-deep focus:outline-none focus:border-forest"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-forest/60 mb-1">WhatsApp Phone Number:</label>
+                      <input
+                        type="tel"
+                        required
+                        value={farmerPhone}
+                        onChange={(e) => setFarmerPhone(e.target.value)}
+                        placeholder="e.g. 9812345678"
+                        className="w-full rounded-xl border border-border bg-bone p-3 font-bold text-forest-deep focus:outline-none focus:border-forest"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-forest/60 mb-1">Tehsil / District Location:</label>
+                      <input
+                        type="text"
+                        required
+                        value={farmerLocation}
+                        onChange={(e) => setFarmerLocation(e.target.value)}
+                        placeholder="e.g. Kukrola, Gurugram"
+                        className="w-full rounded-xl border border-border bg-bone p-3 font-bold text-forest-deep focus:outline-none focus:border-forest"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-forest/60 mb-1">Expected Harvest Volume (Quintals):</label>
+                      <input
+                        type="number"
+                        required
+                        value={expectedYieldQuintals}
+                        onChange={(e) => setExpectedYieldQuintals(e.target.value)}
+                        className="w-full rounded-xl border border-border bg-bone p-3 font-bold text-forest-deep focus:outline-none focus:border-forest"
+                      />
+                    </div>
+                  </div>
+
                   <button
                     type="submit"
-                    className="w-full rounded-xl bg-forest-deep hover:bg-forest text-cream font-semibold text-xs py-4 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                    className="w-full rounded-xl bg-forest-deep py-3.5 font-bold text-xs text-cream hover:bg-forest transition-colors cursor-pointer mt-4"
                   >
-                    <Truck className="w-4 h-4" />
-                    <span>Inquire for Buyback Contract</span>
+                    Submit Buyback Application
                   </button>
                 </form>
               )}
-            </div>
+            </motion.div>
           </div>
-        </div>
-
-        {/* Dynamic Contract draft generator */}
-        <div className="border-t border-border pt-24 text-left">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            <div className="lg:col-span-5 space-y-6">
-              <span className="font-jet text-[10px] tracking-widest uppercase text-forest/40 font-bold block">
-                BUYBACK PREVIEW GENERATOR
-              </span>
-              <h3 className="font-serif text-4xl md:text-5xl text-forest-deep font-bold leading-tight">
-                Preview Purchase Agreements
-              </h3>
-              <p className="text-forest/75 text-sm leading-relaxed">
-                Input your target crop and acreage scale to compile an instant draft minimum
-                guarantee schedule detailing floor payout models and collection logistics intervals.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                    Crop Type
-                  </label>
-                  <select
-                    value={contractCrop}
-                    onChange={(e) => {
-                      setContractCrop(e.target.value);
-                      setShowContractDraft(true);
-                    }}
-                    className="w-full bg-card border border-border rounded-xl px-3 py-3 text-xs focus:outline-none focus:border-forest font-bold text-forest-deep"
-                  >
-                    <option>Tomato</option>
-                    <option>Chilli</option>
-                    <option>Capsicum</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-mono tracking-wider text-forest/60 mb-2 uppercase font-semibold">
-                    Acreage
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={50}
-                    value={contractAcres}
-                    onChange={(e) => {
-                      setContractAcres(parseInt(e.target.value) || 1);
-                      setShowContractDraft(true);
-                    }}
-                    className="w-full bg-card border border-border rounded-xl px-3 py-3 text-xs focus:outline-none focus:border-forest font-bold text-forest-deep"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7">
-              {showContractDraft ? (
-                <div className="bg-card border border-border rounded-[2.5rem] p-8 space-y-6 text-xs font-mono text-left shadow-sm animate-in slide-in-from-right duration-300">
-                  <div className="flex justify-between items-center border-b border-border/50 pb-3">
-                    <span className="font-bold text-forest flex items-center gap-1.5">
-                      <FileText className="w-4 h-4" /> DRAFT AGREEMENT SCHEDULING
-                    </span>
-                    <span className="text-forest/40">CODE: AG-ML-DRAFT</span>
-                  </div>
-
-                  <div className="space-y-4 text-forest-deep/80 leading-relaxed font-sans">
-                    <p>
-                      <strong>1. GUARANTEED RATE FLOOR:</strong> Agaate agrees to purchase certified
-                      A-Grade {contractCrop} from the grower at a minimum floor rate of{" "}
-                      <strong>₹{contract.rate} / kg</strong>.
-                    </p>
-                    <p>
-                      <strong>2. ESTIMATED DELIVERY CAPACITY:</strong> The contract block covering{" "}
-                      {contractAcres} acres targets a seasonal harvest of{" "}
-                      <strong>{contract.estYieldKg.toLocaleString()} kg</strong>.
-                    </p>
-                    <p>
-                      <strong>3. LOGISTICS DISPATCH SCHEDULE:</strong> Agaate vehicles will run
-                      collection sweeps directly from the Jhajjar Regional Hub every{" "}
-                      <strong>48 hours</strong> during peak picking.
-                    </p>
-                    <p className="border-t border-border/50 pt-4 text-xs font-mono text-forest font-bold">
-                      ESTIMATED FLOOR REVENUE: ₹{contract.minPayout.toLocaleString("en-IN")}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="bg-bone rounded-[2.5rem] border border-border p-12 text-center flex flex-col justify-center min-h-[220px]">
-                  <FileText className="w-10 h-10 text-forest/30 mx-auto mb-4" />
-                  <h4 className="font-serif text-2xl text-forest-deep font-bold mb-1">
-                    Contract Draft Standby
-                  </h4>
-                  <p className="text-xs text-forest/65 max-w-xs mx-auto">
-                    Select crop and acreage in the inputs generator to compile purchase baseline
-                    floor clauses.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </main>
   );
 }
+
+export default MarketLinkagePage;
