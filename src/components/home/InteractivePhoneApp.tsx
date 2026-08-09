@@ -404,7 +404,7 @@ export default function InteractivePhoneApp({
               <div>
                 <p className="text-xs font-extrabold text-[#143d31] leading-tight">
                   {activeTab === "chat" && "Agaate AI Agronomist"}
-                  {activeTab === "mall" && "Kisaan Mall Store"}
+                  {activeTab === "mall" && "Agaate Mall Store"}
                   {activeTab === "farm" && "My Chilli Farm Plot"}
                   {activeTab === "park" && "Agaate Agri Park"}
                 </p>

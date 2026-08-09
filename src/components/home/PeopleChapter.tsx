@@ -14,21 +14,16 @@ import {
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, TiltCard, MagneticButton, Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 
-import agroParkImg from "@/assets/agro-park.jpg";
-import advisorImg from "@/assets/about-farmer-advisor.png";
-import productSeedsImg from "@/assets/product-seeds.jpg";
-import marketImg from "@/assets/journey-09-market.png";
-
 const ecosystemPillars = [
   {
     id: "nursery",
     number: "01",
     label: "Bio Nursery",
     title: "High-Yield Bio-Boosted Seedling Infrastructure",
-    subtitle: "Pathogen-free, climate-smart nurseries engineered for zero seedling mortality.",
-    desc: "Agaate operates disease-free plug nurseries using climate-controlled misting, bio-fortified coco-peat media, and root-booster treatments so farmers start every season with 100% healthy plants.",
+    desc: "Pathogen-free plug nurseries built for zero seedling mortality and 100% strong crop start.",
     icon: Sprout,
-    image: agroParkImg,
+    image: "/nursery.png",
+    isPng: true,
     badge: "Nursery Infrastructure",
     metrics: [
       { label: "Plants Delivered", num: 500000, suffix: "+" },
@@ -48,10 +43,10 @@ const ecosystemPillars = [
     number: "02",
     label: "Field Advisory",
     title: "On-Ground Expert Agronomist Support",
-    subtitle: "Qualified agronomists available directly in the field and on the Agaate App.",
-    desc: "No bots, no generic tips. Our field experts and in-app agronomists diagnose crop diseases, calculate exact fertigation doses, and provide hyper-local weather alerts tailored to your soil.",
+    desc: "Qualified agronomists providing direct disease diagnosis, exact fertigation doses, and field visits.",
     icon: Stethoscope,
-    image: advisorImg,
+    image: "/farm.png",
+    isPng: true,
     badge: "Field Advisory",
     metrics: [
       { label: "Field Experts", num: 20, suffix: "+" },
@@ -69,12 +64,12 @@ const ecosystemPillars = [
   {
     id: "mall",
     number: "03",
-    label: "Kisaan Mall",
+    label: "Agaate Mall",
     title: "100% Genuine Direct Supply Chain",
-    subtitle: "Verified seeds, biologicals, and drip kits delivered right to the farm gate.",
-    desc: "We partner exclusively with certified seed brands and bio-input manufacturers. Every bag and bottle is batch-tested for zero counterfeits and 100% purity.",
+    desc: "100% verified seeds, biologicals, and drip kits delivered direct-from-brand to your farm.",
     icon: ShoppingBag,
-    image: productSeedsImg,
+    image: "/kisaan mall.png",
+    isPng: true,
     badge: "Input Commerce",
     metrics: [
       { label: "Verified Products", num: 500, suffix: "+" },
@@ -86,7 +81,7 @@ const ecosystemPillars = [
       "QR-verified authenticity guarantee",
       "Custom drip & micro-irrigation packages",
     ],
-    cta: "Browse Kisaan Mall",
+    cta: "Browse Agaate Mall",
     ctaLink: "/services/kisaan-mall",
   },
   {
@@ -94,10 +89,10 @@ const ecosystemPillars = [
     number: "04",
     label: "Market & Carbon",
     title: "Guaranteed Off-take & Carbon Credits",
-    subtitle: "Transparent pricing, direct buyer access, and extra carbon monetization.",
-    desc: "Agaate connects farmers directly to wholesale buyers, institutions, and carbon credit pools — eliminating middleman cuts and boosting net farmer income.",
+    desc: "Direct buyer buyback contracts and soil carbon offset credits to maximize net farm profits.",
     icon: TrendingUp,
-    image: marketImg,
+    image: "/carbon credits.png",
+    isPng: true,
     badge: "Market Linkage",
     metrics: [
       { label: "Acres Associated", num: 15000, suffix: "+" },
@@ -182,11 +177,11 @@ export default function PeopleChapter() {
                     className="w-vw h-screen shrink-0 flex flex-col justify-center px-6 sm:px-12 lg:px-20 pt-[104px] pb-6 lg:pb-8"
                     style={{ width: "100vw" }}
                   >
-                    <div className="mx-auto w-full max-w-[1380px] grid gap-8 lg:grid-cols-12 lg:items-center">
+                    <div className="mx-auto w-full max-w-[1440px] grid gap-8 lg:grid-cols-12 lg:items-center">
                       
-                      {/* Left Column (7 cols): Dynamic Content & Motion */}
+                      {/* Left Column (6 cols): Dynamic Content & Motion */}
                       <motion.div
-                        className="lg:col-span-7 flex flex-col justify-center"
+                        className="lg:col-span-6 flex flex-col justify-center"
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.7, ease: EASE }}
@@ -208,8 +203,8 @@ export default function PeopleChapter() {
                           {pillar.title}
                         </h3>
 
-                        {/* 3. Description */}
-                        <p className="font-sans mt-3 text-sm sm:text-base lg:text-lg text-[#4f624f] leading-relaxed max-w-2xl font-normal">
+                        {/* 3. Subtext Description */}
+                        <p className="font-sans mt-2.5 text-xs sm:text-sm lg:text-base text-[#4f624f] leading-relaxed max-w-xl font-normal">
                           {pillar.desc}
                         </p>
 
@@ -258,16 +253,30 @@ export default function PeopleChapter() {
                         </div>
                       </motion.div>
 
-                      {/* Right Column (5 cols): Pure Clean Image Frame (Nothing on Image, No Shadows, No Gradients) */}
-                      <div className="lg:col-span-5 relative">
+                      {/* Right Column (6 cols): Large Freestanding Cutout PNG or Image Frame */}
+                      <div className="lg:col-span-6 relative flex items-center justify-center">
                         <TiltCard maxTilt={6} glare={false} className="w-full">
-                          <div className="relative aspect-[4/3] lg:aspect-[1.12/1] max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] w-full overflow-hidden rounded-3xl border border-[#143d31]/15 bg-white">
-                            <img
-                              src={pillar.image}
-                              alt={pillar.title}
-                              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                            />
-                          </div>
+                          {pillar.isPng ? (
+                            <motion.div
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                              className="relative w-full flex items-center justify-center p-0"
+                            >
+                              <img
+                                src={pillar.image}
+                                alt={pillar.title}
+                                className="w-full max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] object-contain transition-transform duration-500 drop-shadow-2xl"
+                              />
+                            </motion.div>
+                          ) : (
+                            <div className="relative aspect-[4/3] lg:aspect-[1.12/1] max-h-[440px] sm:max-h-[520px] lg:max-h-[580px] w-full overflow-hidden rounded-3xl border border-[#143d31]/15 bg-white">
+                              <img
+                                src={pillar.image}
+                                alt={pillar.title}
+                                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                              />
+                            </div>
+                          )}
                         </TiltCard>
                       </div>
 
