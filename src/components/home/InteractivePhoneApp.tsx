@@ -101,12 +101,30 @@ const MALL_PRODUCTS = [
   },
 ];
 
-export default function InteractivePhoneApp() {
-  const [activeTab, setActiveTab] = useState<"chat" | "mall" | "farm" | "park">("chat");
+interface InteractivePhoneAppProps {
+  activeTab?: "chat" | "mall" | "farm" | "park";
+  onChangeTab?: (tab: "chat" | "mall" | "farm" | "park") => void;
+}
+
+export default function InteractivePhoneApp({
+  activeTab: propActiveTab,
+  onChangeTab,
+}: InteractivePhoneAppProps = {}) {
+  const [internalActiveTab, setInternalActiveTab] = useState<"chat" | "mall" | "farm" | "park">("chat");
+
+  const activeTab = propActiveTab !== undefined ? propActiveTab : internalActiveTab;
+  const setActiveTab = (tab: "chat" | "mall" | "farm" | "park") => {
+    setInternalActiveTab(tab);
+    if (onChangeTab) {
+      onChangeTab(tab);
+    }
+  };
+
   const [messages, setMessages] = useState<Message[]>(getFreshWelcomeMessage());
   const [inputQuery, setInputQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [isCartPulsing, setIsCartPulsing] = useState(false);
   const [addedItemToast, setAddedItemToast] = useState<string | null>(null);
 
   // Internal container ref (only scrolls inside the phone screen, NOT the webpage window!)
@@ -116,7 +134,14 @@ export default function InteractivePhoneApp() {
     if (activeTab === "chat" && chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages, activeTab]);
+  }, [messages, activeTab, isLoading]);
+
+  useEffect(() => {
+    if (isCartPulsing) {
+      const timer = setTimeout(() => setIsCartPulsing(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isCartPulsing]);
 
   const handleResetChat = () => {
     setMessages(getFreshWelcomeMessage());
@@ -335,12 +360,13 @@ export default function InteractivePhoneApp() {
 
   const handleAddToCart = (productName: string) => {
     setCartCount((prev) => prev + 1);
+    setIsCartPulsing(true);
     setAddedItemToast(`${productName} added!`);
     setTimeout(() => setAddedItemToast(null), 2200);
   };
 
   return (
-    <div className="font-dm relative mx-auto w-full max-w-[350px] sm:max-w-[370px]">
+    <div className="font-dm relative mx-auto w-full max-w-[300px] sm:max-w-[325px]">
       {/* Toast notification */}
       {addedItemToast && (
         <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-[#a3e635] shadow-xl border border-[#a3e635]/30 animate-bounce">
@@ -348,20 +374,20 @@ export default function InteractivePhoneApp() {
         </div>
       )}
 
-      {/* Galaxy S25 Edge Ultra-Thin Bezel Frame */}
-      <div className="relative rounded-[2.4rem] border-[2.5px] border-[#0a1814] bg-[#0a1814] p-1 shadow-2xl shadow-black/40 ring-1 ring-black/20">
+      {/* iPhone 16 Style Thin Bezel Frame */}
+      <div className="relative rounded-[2.6rem] border-[3px] border-[#0a1814] bg-[#0a1814] p-1.5 shadow-2xl shadow-black/40 ring-1 ring-black/20">
         {/* Edge-to-Edge Screen Container */}
-        <div className="relative overflow-hidden rounded-[2.1rem] bg-[#fffdf4] text-[#143d31] flex flex-col h-[550px] sm:h-[580px] justify-between">
+        <div className="relative overflow-hidden rounded-[2.3rem] bg-[#fffdf4] text-[#143d31] flex flex-col h-[600px] sm:h-[650px] justify-between">
           {/* Top System Status Bar — Clean Light Theme */}
-          <div className="relative bg-[#fffdf4] px-4 pt-2.5 pb-1 text-[#143d31] shrink-0 border-b border-[#143d31]/6">
-            <div className="flex items-center justify-between text-[10px] font-bold text-[#143d31]/80">
+          <div className="relative bg-[#fffdf4] px-4 pt-2 pb-1 text-[#143d31] shrink-0 border-b border-[#143d31]/6">
+            <div className="grid grid-cols-3 items-center text-[9px] font-bold text-[#143d31]/80">
               <span>9:41 AM</span>
-              {/* Punch Hole Camera Dot */}
-              <div className="h-2.5 w-2.5 rounded-full bg-black ring-1 ring-black/10" />
-              <div className="flex items-center gap-1.5 text-[#143d31]/80">
-                <Signal className="h-3 w-3" />
-                <Wifi className="h-3 w-3" />
-                <Battery className="h-3.5 w-3.5" />
+              {/* Dynamic Island pill shape */}
+              <div className="h-3.5 w-14 rounded-full bg-black mx-auto shrink-0" />
+              <div className="flex items-center justify-end gap-1 text-[#143d31]/80">
+                <Signal className="h-2.5 w-2.5" />
+                <Wifi className="h-2.5 w-2.5" />
+                <Battery className="h-3 w-3" />
               </div>
             </div>
           </div>
@@ -404,14 +430,22 @@ export default function InteractivePhoneApp() {
                 </button>
               )}
               {activeTab === "mall" && (
-                <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-[#143d31]/8 text-[#143d31]">
+                <motion.div
+                  animate={isCartPulsing ? { scale: [1, 1.25, 1], rotate: [0, -10, 10, -5, 5, 0] } : {}}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="relative flex h-7 w-7 items-center justify-center rounded-full bg-[#143d31]/8 text-[#143d31]"
+                >
                   <ShoppingBag className="h-3.5 w-3.5" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#143d31] text-[9px] font-extrabold text-[#a3e635]">
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#143d31] text-[9px] font-extrabold text-[#a3e635]"
+                    >
                       {cartCount}
-                    </span>
+                    </motion.span>
                   )}
-                </div>
+                </motion.div>
               )}
               <a
                 href="tel:9487263498"
@@ -491,10 +525,20 @@ export default function InteractivePhoneApp() {
                 </AnimatePresence>
 
                 {isLoading && (
-                  <div className="flex items-center gap-2 rounded-2xl bg-white p-3 text-xs text-[#5d7d37] max-w-[75%] border border-[#143d31]/8">
-                    <Loader2 className="h-4 w-4 animate-spin text-[#5d7d37]" />
-                    <span>Agronomist analyzing crop issue...</span>
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    className="flex flex-col items-start"
+                  >
+                    <div className="max-w-[75%] rounded-2xl rounded-bl-xs bg-white px-3.5 py-2.5 border border-[#143d31]/12 shadow-xs flex items-center gap-2">
+                      <div className="flex gap-1 items-center py-1.5 px-0.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5d7d37] animate-bounce" style={{ animationDelay: "0ms" }} />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5d7d37] animate-bounce" style={{ animationDelay: "150ms" }} />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5d7d37] animate-bounce" style={{ animationDelay: "300ms" }} />
+                      </div>
+                      <span className="text-[10px] font-bold text-[#5d7d37]">Agronomist typing...</span>
+                    </div>
+                  </motion.div>
                 )}
               </div>
 
