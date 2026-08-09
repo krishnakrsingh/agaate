@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 export type NavSubItem = {
   label: string;
   description: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
 };
 
 export type NavSubMenu = {

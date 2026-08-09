@@ -7,7 +7,7 @@ const TRUST_POINTS: { icon: LucideIcon; label: string }[] = [
   { icon: Target, label: "Assured market linkage" },
 ];
 
-export function FinalCta() {
+export function FinalCta({ onOpenConsultation }: { onOpenConsultation?: () => void }) {
   return (
     <section className="relative overflow-hidden py-28 px-6 lg:px-12 bg-forest-deep">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(var(--color-cream)_0.8px,transparent_0.8px)] [background-size:26px_26px] opacity-[0.05]" />
@@ -63,13 +63,14 @@ export function FinalCta() {
                 Call Agaate · 9487263498
               </span>
             </MagneticButton>
-            <a
-              href="#calculator"
-              className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-8 py-4 text-sm font-semibold text-cream/90 transition-all hover:-translate-y-0.5 hover:border-cream/50"
+            <button
+              type="button"
+              onClick={onOpenConsultation}
+              className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-8 py-4 text-sm font-semibold text-cream/90 transition-all hover:-translate-y-0.5 hover:border-cream/50 cursor-pointer"
             >
               <LayoutGrid className="h-4 w-4" />
               Request Field Survey
-            </a>
+            </button>
           </div>
         </Reveal>
         <Reveal variant="fade-up" delay={0.55}>

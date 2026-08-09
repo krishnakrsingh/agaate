@@ -250,7 +250,7 @@ function CarbonCredits() {
               </Reveal>
               <Reveal variant="fade-up" delay={0.1}>
                 <p className="text-sm leading-relaxed text-forest/75 md:text-base">
-                  Every tonne of carbon dioxide equivalent ($\text{CO}_2\text{e}$) you lock into your soil
+                  Every tonne of carbon dioxide equivalent (CO₂e) you lock into your soil
                   or prevent from entering the atmosphere through zero residue burning generates one verified carbon credit.
                   Agaate coordinates Sentinel-2 satellite orbit checks and on-field core audits, distributing payouts directly to grower bank accounts.
                 </p>
@@ -622,7 +622,7 @@ function CarbonCredits() {
               />
               <Reveal variant="fade-up" delay={0.25}>
                 <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-cream/80 md:text-base">
-                  Enrol your farm today, keep farming the sustainable way, and let Agaate convert every verified tonne of stored $\text{CO}_2$ into direct bank transfers.
+                  Enrol your farm today, keep farming the sustainable way, and let Agaate convert every verified tonne of stored CO₂ into direct bank transfers.
                 </p>
               </Reveal>
               <Reveal variant="fade-up" delay={0.4}>
