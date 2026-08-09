@@ -20,11 +20,11 @@ import ClosingChapter from "@/components/home/ClosingChapter";
 export const Route = createFileRoute("/{-$locale}/")({
   head: () => ({
     meta: [
-      { title: "Agaate — Connected Agri-Ecosystem" },
+      { title: "Agaate — Integrated Seed-to-Market Agri Business" },
       {
         name: "description",
         content:
-          "Agaate is a connected agri-ecosystem combining Bio-Boosted nursery infrastructure, input commerce, farm technology, advisory, market linkage, and carbon-credit enablement.",
+          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, market linkage, and carbon monetization.",
       },
     ],
   }),

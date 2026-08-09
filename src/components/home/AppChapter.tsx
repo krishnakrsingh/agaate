@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Bell,
   Bug,
@@ -11,6 +12,7 @@ import {
   Wheat,
 } from "lucide-react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
+import { Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import InteractivePhoneApp from "./InteractivePhoneApp";
 import googlePlayBadge from "@/assets/google-play-badge.svg";
 import appStoreBadge from "@/assets/app-store-badge.svg";
@@ -53,125 +55,158 @@ export default function AppChapter() {
     <section
       ref={sectionRef}
       id="agaate-app"
-      className="relative scroll-mt-28 overflow-hidden bg-[#eaf0df] px-5 py-16 md:px-10 md:py-24"
+      className="relative scroll-mt-28 bg-[#eaf0df] px-5 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start relative">
         {/* Left — content */}
         <div data-home-reveal className="relative z-10">
-          <div className="flex items-center gap-2.5 mb-3">
-            <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
-            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-              The Agaate app
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: EASE }}
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                The Agaate app
+              </p>
+            </div>
+            <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
+              Your whole farm —{" "}
+              <span className="font-serif italic font-normal text-[#5d7d37]">
+                in one app.
+              </span>
+            </h2>
+          </motion.div>
+
+          <Reveal variant="fade-up" delay={0.15}>
+            <p className="font-sans mt-4 max-w-2xl text-sm leading-relaxed text-[#4f624f] font-normal md:text-base">
+              Track crop stages, log inputs, get stage-wise alerts, and chat with an agronomist when
+              you need a second opinion — all from the Agaate app.
             </p>
-          </div>
-          <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
-            Your whole farm —{" "}
-            <span className="font-serif italic font-normal text-[#5d7d37]">
-              in one app.
-            </span>
-          </h2>
-          <p className="font-sans mt-4 max-w-2xl text-sm leading-relaxed text-[#4f624f] font-normal md:text-base">
-            Track crop stages, log inputs, get stage-wise alerts, and chat with an agronomist when
-            you need a second opinion — all from the Agaate app.
-          </p>
+          </Reveal>
 
           {/* Farmers use the app for */}
           <div className="mt-8">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#143d31]/50">
               Farmers use the app for
             </p>
-            <div className="mt-3 flex flex-wrap gap-2.5">
+            <Stagger stagger={0.06} delayChildren={0.1} className="mt-3 flex flex-wrap gap-2.5">
               {farmersAskAbout.map((item) => {
                 const Icon = item.icon;
                 const isTabActive = activeTab === item.tab;
                 return (
-                  <button
-                    key={item.label}
-                    onClick={() => setActiveTab(item.tab)}
-                    className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold shadow-xs transition-all duration-300 cursor-pointer ${
-                      isTabActive
-                        ? "bg-[#143d31] border-[#143d31] text-[#a3e635] scale-105"
-                        : "bg-white border-[#143d31]/15 text-[#143d31] hover:bg-white hover:border-[#143d31]/30"
-                    }`}
-                  >
-                    <Icon className={`h-3.5 w-3.5 transition-colors ${
-                      isTabActive ? "text-[#a3e635]" : "text-[#5d7d37]"
-                    }`} strokeWidth={1.8} />
-                    {item.label}
-                  </button>
+                  <StaggerItem key={item.label} variant="scale-up">
+                    <motion.button
+                      onClick={() => setActiveTab(item.tab)}
+                      whileHover={{ scale: 1.08, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold shadow-xs transition-colors duration-300 cursor-pointer ${
+                        isTabActive
+                          ? "bg-[#143d31] border-[#143d31] text-[#a3e635]"
+                          : "bg-white border-[#143d31]/15 text-[#143d31] hover:bg-white hover:border-[#143d31]/30"
+                      }`}
+                    >
+                      <Icon className={`h-3.5 w-3.5 transition-colors ${
+                        isTabActive ? "text-[#a3e635]" : "text-[#5d7d37]"
+                      }`} strokeWidth={1.8} />
+                      {item.label}
+                    </motion.button>
+                  </StaggerItem>
                 );
               })}
-            </div>
+            </Stagger>
           </div>
 
           {/* Steps */}
-          <div className="mt-10 grid gap-6">
+          <Stagger stagger={0.12} delayChildren={0.2} className="mt-10 grid gap-6">
             {appSteps.map((step) => {
               const Icon = step.icon;
               const isTabActive = activeTab === step.tab;
               return (
-                <div
-                  key={step.title}
-                  onClick={() => setActiveTab(step.tab)}
-                  className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-5 first:border-t-0 first:pt-0 transition-all duration-300 cursor-pointer"
-                >
-                  <div className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${
-                    isTabActive ? "bg-[#143d31] text-[#a3e635] shadow-md scale-105" : "bg-[#143d31] text-[#b7cf79]"
-                  }`}>
-                    <Icon className="h-4.5 w-4.5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-base md:text-lg font-bold tracking-tight text-[#143d31]">
-                      {step.title}
-                    </h3>
-                    <p className="font-sans mt-1 max-w-xl text-xs leading-relaxed text-[#4f624f] md:text-sm">
-                      {step.text}
-                    </p>
-                  </div>
-                </div>
+                <StaggerItem key={step.title} variant="fade-up">
+                  <motion.div
+                    onClick={() => setActiveTab(step.tab)}
+                    whileHover={{ x: 6 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-5 first:border-t-0 first:pt-0 transition-colors duration-300 cursor-pointer group"
+                  >
+                    <motion.div
+                      whileHover={{ rotate: 12, scale: 1.1 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                      className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${
+                        isTabActive ? "bg-[#143d31] text-[#a3e635] shadow-md scale-105" : "bg-[#143d31] text-[#b7cf79]"
+                      }`}
+                    >
+                      <Icon className="h-4.5 w-4.5" strokeWidth={1.8} />
+                    </motion.div>
+                    <div>
+                      <h3 className="font-display text-base md:text-lg font-bold tracking-tight text-[#143d31] group-hover:text-[#5d7d37] transition-colors">
+                        {step.title}
+                      </h3>
+                      <p className="font-sans mt-1 max-w-xl text-xs leading-relaxed text-[#4f624f] md:text-sm">
+                        {step.text}
+                      </p>
+                    </div>
+                  </motion.div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </Stagger>
 
           {/* Store badges */}
-          <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
-            <a
+          <Reveal variant="scale-up" delay={0.3} className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+            <motion.a
               href="https://play.google.com/store/apps"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Get it on Google Play"
-              className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+              whileHover={{ scale: 1.06, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 350, damping: 20 }}
+              className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
             >
               <img
                 src={googlePlayBadge}
                 alt="Get it on Google Play"
                 className="h-10 w-[135px] sm:h-12 sm:w-[162px]"
               />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="https://apps.apple.com/us/app"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download on the App Store"
-              className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+              whileHover={{ scale: 1.06, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 350, damping: 20 }}
+              className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
             >
               <img
                 src={appStoreBadge}
                 alt="Download on the App Store"
                 className="h-10 w-[135px] sm:h-12 sm:w-[162px]"
               />
-            </a>
-          </div>
+            </motion.a>
+          </Reveal>
         </div>
 
         {/* Right — Interactive Agaate Phone OS App */}
-        <div data-home-reveal className="relative mx-auto w-full flex justify-center lg:sticky lg:top-32 self-start h-max pb-12">
-          {/* Ambient Glow */}
-          <div className="pointer-events-none absolute -inset-10 -z-10 flex items-center justify-center opacity-65 filter blur-3xl">
-            <div className="h-[300px] w-[300px] rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 animate-pulse" style={{ animationDuration: "5s" }} />
-          </div>
-          <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
-        </div>
+        <Reveal variant="fade-left" delay={0.2} className="relative mx-auto w-full flex justify-center lg:sticky lg:top-32 self-start h-max pb-12">
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-full flex justify-center relative"
+          >
+            {/* Ambient Glow */}
+            <div className="pointer-events-none absolute -inset-10 -z-10 flex items-center justify-center opacity-65 filter blur-3xl">
+              <div className="h-[300px] w-[300px] rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 animate-pulse" style={{ animationDuration: "5s" }} />
+            </div>
+            <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
+          </motion.div>
+        </Reveal>
       </div>
     </section>
   );

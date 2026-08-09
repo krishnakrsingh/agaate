@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
 
 const teamImages = [
-  "/team/ankit.png",
+  "/team/ankit.png?v=2",
   "/team/kuldeep.png",
   "/team/abhay.png",
   "/team/chanchala.png",

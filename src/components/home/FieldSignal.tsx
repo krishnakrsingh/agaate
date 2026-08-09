@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+import { Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 
 const painPoints = [
@@ -31,7 +33,12 @@ export default function FieldSignal() {
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div data-home-reveal className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: EASE }}
+          >
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-5 h-[1px] bg-[#5d7d37]/40" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
@@ -44,56 +51,74 @@ export default function FieldSignal() {
                 guesswork costs money.
               </span>
             </h2>
-          </div>
-          <p className="font-sans max-w-2xl border-l border-[#143d31]/20 pl-6 text-sm md:text-base leading-relaxed text-[#4b5f51] md:pl-8 font-normal">
-            Farming in India is already hard. Unpredictable weather, fluctuating prices, disease
-            pressure. What makes it harder is facing critical decisions — alone, without expert
-            backup, and with no room for error.
-          </p>
+          </motion.div>
+          <Reveal variant="fade-left" delay={0.2}>
+            <p className="font-sans max-w-2xl border-l border-[#143d31]/20 pl-6 text-sm md:text-base leading-relaxed text-[#4b5f51] md:pl-8 font-normal">
+              Farming in India is already hard. Unpredictable weather, fluctuating prices, disease
+              pressure. What makes it harder is facing critical decisions — alone, without expert
+              backup, and with no room for error.
+            </p>
+          </Reveal>
         </div>
 
         {/* Three pain points */}
-        <div
-          data-home-reveal
+        <Stagger
+          stagger={0.14}
+          delayChildren={0.1}
           className="mt-12 grid gap-px border-y border-[#143d31]/12 bg-[#143d31]/12 overflow-hidden md:grid-cols-3"
         >
           {painPoints.map((point) => (
-            <div
-              key={point.number}
-              className="flex flex-col gap-4 bg-[#f3f1e7] px-7 py-8 md:px-8 md:py-10"
-            >
-              <span className="font-mono text-[11px] font-bold tracking-[0.16em] text-[#143d31]/40">
-                {point.number}
-              </span>
-              <h3 className="font-display text-xl md:text-2xl font-semibold leading-snug tracking-tight text-[#143d31]">
-                {point.headline}
-              </h3>
-              <p className="font-sans text-xs md:text-sm leading-relaxed text-[#536253] font-normal">
-                {point.body}
-              </p>
-            </div>
+            <StaggerItem key={point.number} variant="fade-up">
+              <motion.div
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                className="group flex flex-col gap-4 bg-[#f3f1e7] px-7 py-8 md:px-8 md:py-10 h-full transition-colors duration-300 hover:bg-[#eae7d8] cursor-pointer"
+              >
+                <span className="font-mono text-[11px] font-bold tracking-[0.16em] text-[#143d31]/40 group-hover:text-[#143d31] transition-colors duration-300">
+                  {point.number}
+                </span>
+                <h3 className="font-display text-xl md:text-2xl font-semibold leading-snug tracking-tight text-[#143d31] group-hover:text-[#5d7d37] transition-colors duration-300">
+                  {point.headline}
+                </h3>
+                <p className="font-sans text-xs md:text-sm leading-relaxed text-[#536253] font-normal">
+                  {point.body}
+                </p>
+              </motion.div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
 
         {/* Pull-quote + bridge */}
         <div data-home-reveal className="mt-10 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div className="rounded-2xl bg-[#143d31] px-7 py-6 md:px-9 md:py-8">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#b7cf79]">
-              Field reality
-            </p>
-            <p className="font-sans mt-3 text-lg md:text-xl font-medium leading-relaxed text-white/90">
-              Most Indian farmers make 3 or more critical crop decisions every season without access
-              to any expert guidance.
-            </p>
-          </div>
-          <div className="max-w-sm lg:text-right">
-            <p className="font-display text-base md:text-lg font-bold leading-relaxed text-[#143d31]">
-              Agaate was built to fix exactly this.
-            </p>
-            <p className="font-sans mt-1 text-xs md:text-sm leading-relaxed text-[#65766b]">
-              From crop advice to the right input — seed to sale, with you at every step.
-            </p>
-          </div>
+          <Reveal variant="scale-up" delay={0.15}>
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="rounded-2xl bg-[#143d31] px-7 py-6 md:px-9 md:py-8 transition-colors duration-300 hover:bg-[#103329]"
+            >
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#b7cf79] animate-pulse" />
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#b7cf79]">
+                  Field reality
+                </p>
+              </div>
+              <p className="font-sans mt-3 text-lg md:text-xl font-medium leading-relaxed text-white/90">
+                Most Indian farmers make 3 or more critical crop decisions every season without access
+                to any expert guidance.
+              </p>
+            </motion.div>
+          </Reveal>
+          
+          <Reveal variant="fade-left" delay={0.25} className="max-w-sm lg:text-right">
+            <div>
+              <p className="font-display text-base md:text-lg font-bold leading-relaxed text-[#143d31]">
+                Agaate was built to fix exactly this.
+              </p>
+              <p className="font-sans mt-1 text-xs md:text-sm leading-relaxed text-[#65766b]">
+                From crop advice to the right input — seed to sale, with you at every step.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

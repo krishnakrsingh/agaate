@@ -366,7 +366,7 @@ export default function InteractivePhoneApp({
   };
 
   return (
-    <div className="font-dm relative mx-auto w-full max-w-[300px] sm:max-w-[325px]">
+    <div className="font-dm relative mx-auto w-full max-w-[310px] sm:max-w-[335px] lg:max-w-[350px]">
       {/* Toast notification */}
       {addedItemToast && (
         <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-[#a3e635] shadow-xl border border-[#a3e635]/30 animate-bounce">
@@ -374,17 +374,15 @@ export default function InteractivePhoneApp({
         </div>
       )}
 
-      {/* iPhone 16 Style Thin Bezel Frame */}
-      <div className="relative rounded-[2.6rem] border-[3px] border-[#0a1814] bg-[#0a1814] p-1.5 shadow-2xl shadow-black/40 ring-1 ring-black/20">
+      {/* iPhone 16 Pro Style Thin Bezel Frame */}
+      <div className="relative rounded-[2.8rem] border-[4px] border-[#0a1814] bg-[#0a1814] p-1.5 shadow-2xl shadow-black/40 ring-1 ring-black/20">
         {/* Edge-to-Edge Screen Container */}
-        <div className="relative overflow-hidden rounded-[2.3rem] bg-[#fffdf4] text-[#143d31] flex flex-col h-[600px] sm:h-[650px] justify-between">
+        <div className="relative overflow-hidden rounded-[2.4rem] bg-[#fffdf4] text-[#143d31] flex flex-col h-[510px] sm:h-[545px] lg:h-[570px] justify-between">
           {/* Top System Status Bar — Clean Light Theme */}
-          <div className="relative bg-[#fffdf4] px-4 pt-2 pb-1 text-[#143d31] shrink-0 border-b border-[#143d31]/6">
-            <div className="grid grid-cols-3 items-center text-[9px] font-bold text-[#143d31]/80">
+          <div className="relative bg-[#fffdf4] px-4 pt-2 pb-1.5 text-[#143d31] shrink-0 border-b border-[#143d31]/6">
+            <div className="flex items-center justify-between text-[9px] font-bold text-[#143d31]/80">
               <span>9:41 AM</span>
-              {/* Dynamic Island pill shape */}
-              <div className="h-3.5 w-14 rounded-full bg-black mx-auto shrink-0" />
-              <div className="flex items-center justify-end gap-1 text-[#143d31]/80">
+              <div className="flex items-center gap-1.5 text-[#143d31]/80">
                 <Signal className="h-2.5 w-2.5" />
                 <Wifi className="h-2.5 w-2.5" />
                 <Battery className="h-3 w-3" />
