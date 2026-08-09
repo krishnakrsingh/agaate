@@ -49,7 +49,7 @@ const farmersAskAbout = [
 ];
 
 export default function AppChapter() {
-  const sectionRef = useHomeChapterReveal();
+  const sectionRef = useHomeChapterReveal("slide-right");
   const { i18n } = useTranslation();
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
@@ -60,7 +60,7 @@ export default function AppChapter() {
       id="agaate-app"
       className="relative scroll-mt-28 overflow-hidden bg-[#eaf0df] px-5 pt-24 pb-14 md:px-10 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24"
     >
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start relative">
         {/* Left — content */}
         <div data-home-reveal className="relative z-10">
           <div className="flex items-center gap-2.5 mb-3">
@@ -146,7 +146,7 @@ export default function AppChapter() {
         </div>
 
         {/* Right — Interactive Agaate Phone OS App */}
-        <div data-home-reveal className="relative mx-auto w-full flex justify-center">
+        <div data-home-reveal className="relative mx-auto w-full flex justify-center lg:sticky lg:top-32 self-start h-max pb-12">
           <InteractivePhoneApp />
         </div>
       </div>

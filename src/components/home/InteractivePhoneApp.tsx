@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Battery,
   CheckCircle2,
@@ -427,9 +428,12 @@ export default function InteractivePhoneApp() {
             <div className="flex-1 flex flex-col overflow-hidden bg-[#fffdf4]">
               {/* Chat Messages Container */}
               <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-3.5 space-y-3">
+                <AnimatePresence>
                 {messages.map((msg) => (
-                  <div
+                  <motion.div
                     key={msg.id}
+                    initial={{ opacity: 0, scale: 0.9, y: 10, transformOrigin: msg.sender === "farmer" ? "bottom right" : "bottom left" }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
                     className={`flex flex-col ${
                       msg.sender === "farmer" ? "items-end" : "items-start"
                     }`}
@@ -482,8 +486,9 @@ export default function InteractivePhoneApp() {
                         </div>
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
+                </AnimatePresence>
 
                 {isLoading && (
                   <div className="flex items-center gap-2 rounded-2xl bg-white p-3 text-xs text-[#5d7d37] max-w-[75%] border border-[#143d31]/8">
@@ -569,9 +574,14 @@ export default function InteractivePhoneApp() {
 
               {/* Product List — 1 Horizontal Rectangular Card Per Row */}
               <div className="space-y-2.5">
-                {MALL_PRODUCTS.map((prod) => (
-                  <div
+                {MALL_PRODUCTS.map((prod, i) => (
+                  <motion.div
                     key={prod.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     className="flex items-center gap-3 rounded-2xl bg-white p-2.5 border border-[#143d31]/12 shadow-xs hover:border-[#5d7d37] transition-all group"
                   >
                     {/* Left: Rectangular Image Box */}
@@ -628,7 +638,7 @@ export default function InteractivePhoneApp() {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 

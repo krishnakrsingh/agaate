@@ -12,6 +12,9 @@ import {
 } from "lucide-react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import agroParkImage from "@/assets/agro-park.jpg";
@@ -70,11 +73,35 @@ const zones = [
   { icon: ShoppingCart, label: "Market Zone", benefit: "See how output connects to direct buyers" },
 ];
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function AgriParkChapter() {
   const sectionRef = useHomeChapterReveal();
+  const imageRef = useRef<HTMLImageElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  
   const { i18n } = useTranslation();
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
+
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      if (imageRef.current && imageContainerRef.current) {
+        gsap.to(imageRef.current, {
+          y: "20%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: imageContainerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          }
+        });
+      }
+    });
+    return () => mm.revert();
+  }, []);
 
   return (
     <section
@@ -183,13 +210,15 @@ export default function AgriParkChapter() {
 
           {/* Farm image card */}
           <div
+            ref={imageContainerRef}
             data-home-reveal
             className="relative min-h-[480px] overflow-hidden rounded-[2.5rem] bg-[#143d31] shadow-xl shadow-[#143d31]/10 border-[6px] border-white/50"
           >
             <img
+              ref={imageRef}
               src={agroParkImage}
               alt="Agaate Agri Park and Bio-Boosted nursery"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 hover:scale-105"
+              className="absolute -top-[10%] -bottom-[10%] -left-[10%] -right-[10%] h-[120%] w-[120%] max-w-none object-cover transition-transform duration-1000 hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#07120f]/90 via-[#07120f]/25 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">

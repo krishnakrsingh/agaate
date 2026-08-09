@@ -27,7 +27,7 @@ const team = [
 ];
 
 export default function PeopleChapter() {
-  const sectionRef = useHomeChapterReveal();
+  const sectionRef = useHomeChapterReveal("slide-left");
 
   return (
     <section
