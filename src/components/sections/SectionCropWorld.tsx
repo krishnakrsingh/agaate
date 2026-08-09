@@ -2,34 +2,89 @@ import { useRef, useEffect, useState, lazy, Suspense } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  Leaf,
-  Trees,
-  Tractor,
-  BrainCircuit,
-  Shield,
+  Sprout,
   Droplets,
-  ArrowUpToLine,
+  ShieldCheck,
   Apple,
   ShoppingBasket,
+  ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const CropWorld = lazy(() => import("../CropWorld"));
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stages = [
-  { num: "01", key: "01", icon: Leaf },
-  { num: "02", key: "02", icon: Trees },
-  { num: "03", key: "03", icon: Tractor },
-  { num: "04", key: "04", icon: BrainCircuit },
-  { num: "05", key: "05", icon: Shield },
-  { num: "06", key: "06", icon: Droplets },
-  { num: "07", key: "07", icon: ArrowUpToLine },
-  { num: "08", key: "08", icon: Apple },
-  { num: "09", key: "09", icon: ShoppingBasket },
-];
+interface StageData {
+  num: string;
+  key: string;
+  icon: typeof Sprout;
+  badge: string;
+  title: string;
+  desc: string;
+  metrics: string[];
+  ctaText: string;
+  ctaLink: string;
+}
 
-import { useTranslation } from "react-i18next";
+const stages: StageData[] = [
+  {
+    num: "01",
+    key: "01",
+    icon: Sprout,
+    badge: "Stage 01 • Bio Nursery",
+    title: "Bio-Boosted Nursery Sprout",
+    desc: "Pathogen-free, climate-controlled plug nurseries inoculated with Trichoderma & Mycorrhiza for 100% strong crop start.",
+    metrics: ["98% Survival Rate", "15 Days Saved"],
+    ctaText: "Order Nursery Seedlings",
+    ctaLink: "/services/nursery",
+  },
+  {
+    num: "02",
+    key: "02",
+    icon: Droplets,
+    badge: "Stage 02 • Precision Planting",
+    title: "Soil & Root Optimization",
+    desc: "Field mapping and custom fertigation schedules that maximize root-zone nutrient absorption and stop water waste.",
+    metrics: ["35% Water Saved", "Optimal Root Setup"],
+    ctaText: "Book Soil & Drip Audit",
+    ctaLink: "/services/farm-tech",
+  },
+  {
+    num: "03",
+    key: "03",
+    icon: ShieldCheck,
+    badge: "Stage 03 • AI Advisory & Protection",
+    title: "Biological Crop Shield",
+    desc: "Real-time photo pest diagnosis via Agaate App + 100% authentic bio-inputs delivered from your local Kisaan Mall.",
+    metrics: ["40% Chemical Savings", "< 15-Min Advisory"],
+    ctaText: "Talk to Agronomist",
+    ctaLink: "/services/farm-tech",
+  },
+  {
+    num: "04",
+    key: "04",
+    icon: Apple,
+    badge: "Stage 04 • Growth & Flowering",
+    title: "Bloom Retention & Sizing",
+    desc: "Stage-wise micronutrient boosting to maximize flower retention, uniform fruit sizing, and peak harvest quality.",
+    metrics: ["+25% Yield Increase", "Grade-A Crop Quality"],
+    ctaText: "Get Fertigation Plan",
+    ctaLink: "/services/kisaan-mall",
+  },
+  {
+    num: "05",
+    key: "05",
+    icon: ShoppingBasket,
+    badge: "Stage 05 • Market Linkage",
+    title: "Guaranteed Farm-Gate Sale",
+    desc: "Direct buyer buyback contracts for hotels, exporters, and retail chains with digital weighment and instant payouts.",
+    metrics: ["+20% Net Income", "Zero Mandi Cut"],
+    ctaText: "Connect with Buyers",
+    ctaLink: "/services/market-linkage",
+  },
+];
 
 export default function SectionCropWorld() {
   const { t } = useTranslation("crop-world");
@@ -97,8 +152,8 @@ export default function SectionCropWorld() {
           if (lineRef.current) lineRef.current.style.width = `${self.progress * 100}%`;
           if (playheadRef.current) playheadRef.current.style.left = `${self.progress * 100}%`;
 
-          // The 9 stages are evenly distributed across the 0-1 progress
-          const currentStage = Math.min(Math.floor(self.progress * 9), 8);
+          // The 5 stages are evenly distributed across the 0-1 progress
+          const currentStage = Math.min(Math.floor(self.progress * 5), 4);
           setActiveStage((prev) => (prev !== currentStage ? currentStage : prev));
         },
       });
@@ -106,10 +161,25 @@ export default function SectionCropWorld() {
     return () => ctx.revert();
   }, [mounted, reducedMotion]);
 
+  const scrollToStage = (stageIdx: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const targetProgress = stageIdx / 4;
+    const sectionHeight = containerRef.current.offsetHeight - window.innerHeight;
+    const targetScrollY = scrollTop + rect.top + targetProgress * sectionHeight;
+    window.scrollTo({ top: targetScrollY, behavior: "smooth" });
+  };
+
   if (!mounted) return null;
 
+  // Safe translation helper
+  const getStageField = (key: string, field: "badge" | "title" | "desc" | "ctaText" | "ctaLink", fallback: string): string => {
+    const res = t(`cropWorld.stages.${key}.${field}` as any);
+    return typeof res === "string" && res ? res : fallback;
+  };
+
   // --- REDUCED MOTION FALLBACK ---
-  // If user disables animations, or WebGL completely fails, we show a clean vertical timeline.
   if (reducedMotion) {
     return (
       <section className="bg-white py-12 md:py-16 lg:py-20 px-6 md:px-12 border-b border-border">
@@ -129,23 +199,45 @@ export default function SectionCropWorld() {
               {t("cropWorld.description")}
             </p>
           </div>
-          <div className="relative pl-8 border-l border-forest/20 space-y-16 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {stages.map((stage) => {
               const Icon = stage.icon;
               return (
-                <div key={stage.num} className="relative flex flex-col items-start">
-                  <div className="absolute -left-[56px] top-0 w-12 h-12 rounded-full border border-forest/30 bg-forest/[0.02] flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-forest" strokeWidth={1.5} />
+                <div key={stage.num} className="border border-border rounded-2xl p-6 bg-cream/30 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-10 h-10 rounded-full border border-forest/30 bg-forest/5 flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-forest" strokeWidth={1.5} />
+                      </div>
+                      <span className="font-mono text-xs font-bold text-forest/60">
+                        {stage.num} / 05
+                      </span>
+                    </div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-forest/10 text-forest mb-2">
+                      {getStageField(stage.key, "badge", stage.badge)}
+                    </span>
+                    <h3 className="font-display text-xl font-bold mb-2 text-forest-deep">
+                      {getStageField(stage.key, "title", stage.title)}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-ink/70 mb-4">
+                      {getStageField(stage.key, "desc", stage.desc)}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {stage.metrics.map((m, idx) => (
+                        <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono bg-forest/10 text-forest-deep border border-forest/20">
+                          <CheckCircle2 className="w-3 h-3 text-forest" />
+                          {m}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="font-mono text-xs font-semibold mb-1 pl-2 text-forest">
-                    {stage.num}
-                  </div>
-                  <h3 className="font-display text-xl font-bold mb-2 pl-2 text-forest-deep">
-                    {t(`cropWorld.stages.${stage.key}.title` as any)}
-                  </h3>
-                  <p className="text-sm leading-relaxed pl-2 text-ink/70">
-                    {t(`cropWorld.stages.${stage.key}.desc` as any)}
-                  </p>
+                  <a
+                    href={getStageField(stage.key, "ctaLink", stage.ctaLink)}
+                    className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-forest-deep text-cream text-xs font-semibold hover:bg-forest transition-colors"
+                  >
+                    <span>{getStageField(stage.key, "ctaText", stage.ctaText)}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               );
             })}
@@ -199,10 +291,11 @@ export default function SectionCropWorld() {
           </div>
 
           {/* Text Area (approx 40%) */}
-          <div className="w-full lg:w-2/5 flex items-center justify-start lg:pl-16 relative z-20 h-[30vh] lg:h-auto">
+          <div className="w-full lg:w-2/5 flex items-center justify-start lg:pl-16 relative z-20 h-[36vh] lg:h-auto">
             <div className="relative w-full max-w-md h-full flex items-center">
               {stages.map((stage, idx) => {
                 const isActive = activeStage === idx;
+
                 return (
                   <div
                     key={stage.num}
@@ -213,15 +306,39 @@ export default function SectionCropWorld() {
                       pointerEvents: isActive ? "auto" : "none",
                     }}
                   >
-                    <div className="font-jet text-[13px] text-forest font-bold mb-2 tracking-wider">
-                      {stage.num}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-forest/10 text-forest border border-forest/20 mb-3">
+                      <span>{getStageField(stage.key, "badge", stage.badge)}</span>
                     </div>
-                    <h3 className="font-display text-2xl lg:text-4xl text-forest-deep font-bold mb-4 tracking-tight">
-                      {t(`cropWorld.stages.${stage.key}.title` as any)}
+
+                    <h3 className="font-display text-2xl lg:text-3xl text-forest-deep font-bold mb-3 tracking-tight">
+                      {getStageField(stage.key, "title", stage.title)}
                     </h3>
-                    <p className="font-sans text-ink/75 text-base lg:text-lg leading-relaxed">
-                      {t(`cropWorld.stages.${stage.key}.desc` as any)}
+
+                    <p className="font-sans text-ink/75 text-sm lg:text-base leading-relaxed mb-4">
+                      {getStageField(stage.key, "desc", stage.desc)}
                     </p>
+
+                    {/* Impact Badges */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {stage.metrics.map((m, mIdx) => (
+                        <span
+                          key={mIdx}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-white text-forest-deep border border-forest/20 shadow-sm"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 text-forest" />
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Direct Action CTA Button */}
+                    <a
+                      href={getStageField(stage.key, "ctaLink", stage.ctaLink)}
+                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-forest-deep text-cream font-sans text-xs lg:text-sm font-semibold tracking-wide hover:bg-forest hover:shadow-lg transition-all transform hover:-translate-y-0.5 group"
+                    >
+                      <span>{getStageField(stage.key, "ctaText", stage.ctaText)}</span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </a>
                   </div>
                 );
               })}
@@ -232,27 +349,45 @@ export default function SectionCropWorld() {
         {/* Bottom Progress Bar */}
         <div className="w-full bg-white pt-4 pb-6 md:pb-8 px-6 lg:px-12 relative z-30 mt-auto">
           <div className="max-w-[1400px] mx-auto">
-            {/* Desktop Labels */}
+            {/* Desktop Stage Selector Buttons */}
             <div className="justify-between items-end mb-4 hidden sm:flex">
               {stages.map((stage, idx) => {
                 const isActive = activeStage === idx;
                 const isPast = activeStage > idx;
+                const Icon = stage.icon;
+
                 return (
-                  <div
+                  <button
                     key={idx}
-                    className="flex flex-col items-center transition-all duration-300 w-16 relative"
+                    onClick={() => scrollToStage(idx)}
+                    className="flex flex-col items-center transition-all duration-300 w-24 relative group cursor-pointer"
                   >
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 mb-1.5 ${
+                        isActive
+                          ? "bg-forest-deep text-cream shadow-md scale-110"
+                          : isPast
+                          ? "bg-forest/10 text-forest"
+                          : "bg-gray-100 text-ink/40 group-hover:bg-forest/10 group-hover:text-forest"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                    </div>
                     <span
-                      className={`font-jet text-[10px] uppercase tracking-wider transition-all duration-300 ${isActive ? "text-forest font-bold scale-110 -translate-y-1" : isPast ? "text-forest/70" : "text-ink/30"}`}
+                      className={`font-jet text-[10px] uppercase tracking-wider transition-all duration-300 ${
+                        isActive ? "text-forest font-bold" : isPast ? "text-forest/70" : "text-ink/40"
+                      }`}
                     >
                       {stage.num}
                     </span>
                     <span
-                      className={`font-sans text-[10px] lg:text-[11px] font-semibold mt-1.5 tracking-wider uppercase transition-all duration-300 ${isActive ? "text-forest-deep scale-105" : isPast ? "text-forest/75" : "text-ink/30"}`}
+                      className={`font-sans text-[11px] font-semibold mt-0.5 tracking-tight text-center leading-tight transition-all duration-300 ${
+                        isActive ? "text-forest-deep font-bold" : isPast ? "text-forest/75" : "text-ink/40"
+                      }`}
                     >
-                      {t(`cropWorld.stages.${stage.key}.title` as any).split(" ")[0]}
+                      {getStageField(stage.key, "title", stage.title).split(" ")[0]}
                     </span>
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -261,12 +396,12 @@ export default function SectionCropWorld() {
             <div className="sm:hidden flex justify-between items-center mb-4 font-mono text-xs font-bold text-forest">
               <span>
                 {stages[activeStage] &&
-                  t(`cropWorld.stages.${stages[activeStage].key}.title` as any)}
+                  getStageField(stages[activeStage].key, "title", stages[activeStage].title)}
               </span>
-              <span>{stages[activeStage]?.num} / 09</span>
+              <span>{stages[activeStage]?.num} / 05</span>
             </div>
 
-            {/* Unique "Precision Playhead" Track */}
+            {/* Precision Playhead Track */}
             <div className="w-full h-[1px] bg-border relative mb-3">
               {/* Trailing Progress Line */}
               <div
@@ -277,11 +412,12 @@ export default function SectionCropWorld() {
 
               {/* Static Segment Ticks */}
               {stages.map((_, idx) => (
-                <div
+                <button
                   key={idx}
-                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[1px] h-[8px] bg-[#C6CFC9]"
-                  style={{ left: `${(idx / 8) * 100}%` }}
-                ></div>
+                  onClick={() => scrollToStage(idx)}
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[3px] h-[10px] bg-[#C6CFC9] hover:bg-forest transition-colors cursor-pointer"
+                  style={{ left: `${(idx / 4) * 100}%` }}
+                ></button>
               ))}
 
               {/* Smooth Gliding Playhead Monolith */}

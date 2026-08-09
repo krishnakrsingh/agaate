@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
   Sprout,
   Stethoscope,
@@ -7,7 +7,6 @@ import {
   TrendingUp,
   Microscope,
   ShieldCheck,
-  HeartHandshake,
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
@@ -19,8 +18,8 @@ const ecosystemPillars = [
     id: "nursery",
     number: "01",
     label: "Bio Nursery",
-    title: "High-Yield Bio-Boosted Seedling Infrastructure",
-    desc: "Pathogen-free plug nurseries built for zero seedling mortality and 100% strong crop start.",
+    title: "Bio-Boosted Seedling Infrastructure",
+    desc: "Pathogen-free plug nurseries engineered for zero seedling mortality and a strong crop start.",
     icon: Sprout,
     image: "/nursery.png",
     isPng: true,
@@ -31,9 +30,9 @@ const ecosystemPillars = [
       { label: "Varieties Sourced", num: 25, suffix: "+" },
     ],
     features: [
-      "Automated misting & humidity regulation",
-      "Trichoderma & mycorrhiza root inoculation",
-      "Trays packed in sterile anti-fungal casing",
+      "Automated misting & humidity control",
+      "Trichoderma & mycorrhiza inoculation",
+      "Sterile anti-fungal tray casing",
     ],
     cta: "Explore Bio Nurseries",
     ctaLink: "/services/nursery",
@@ -43,7 +42,7 @@ const ecosystemPillars = [
     number: "02",
     label: "Field Advisory",
     title: "On-Ground Expert Agronomist Support",
-    desc: "Qualified agronomists providing direct disease diagnosis, exact fertigation doses, and field visits.",
+    desc: "Field agronomists providing direct disease diagnosis, exact fertigation doses, and farm visits.",
     icon: Stethoscope,
     image: "/farm.png",
     isPng: true,
@@ -54,9 +53,9 @@ const ecosystemPillars = [
       { label: "Response Time", num: 15, prefix: "< ", suffix: " Mins" },
     ],
     features: [
-      "Photo-based pest & disease identification",
-      "Stage-wise fertigation & spray schedule",
-      "Direct phone call with senior agronomists",
+      "Photo pest & disease identification",
+      "Stage-wise spray & fertigation schedules",
+      "Direct access to senior agronomists",
     ],
     cta: "Talk to Agronomist",
     ctaLink: "/services/farm-tech",
@@ -65,8 +64,8 @@ const ecosystemPillars = [
     id: "mall",
     number: "03",
     label: "Agaate Mall",
-    title: "100% Genuine Direct Supply Chain",
-    desc: "100% verified seeds, biologicals, and drip kits delivered direct-from-brand to your farm.",
+    title: "Direct-From-Brand Agri Input Supply",
+    desc: "Verified seeds, biologicals, and drip kits delivered direct to your farm at honest prices.",
     icon: ShoppingBag,
     image: "/kisaan mall.png",
     isPng: true,
@@ -77,9 +76,9 @@ const ecosystemPillars = [
       { label: "Doorstep Delivery", num: 48, prefix: "24-", suffix: " Hrs" },
     ],
     features: [
-      "Direct-from-brand inputs at honest prices",
-      "QR-verified authenticity guarantee",
-      "Custom drip & micro-irrigation packages",
+      "Direct-from-brand honest pricing",
+      "QR-verified product authenticity",
+      "Custom drip & irrigation packages",
     ],
     cta: "Browse Agaate Mall",
     ctaLink: "/services/kisaan-mall",
@@ -88,8 +87,8 @@ const ecosystemPillars = [
     id: "market",
     number: "04",
     label: "Market & Carbon",
-    title: "Guaranteed Off-take & Carbon Credits",
-    desc: "Direct buyer buyback contracts and soil carbon offset credits to maximize net farm profits.",
+    title: "Guaranteed Buyback & Carbon Credits",
+    desc: "Direct buyer buyback contracts and soil carbon offset credits to maximize farm profit.",
     icon: TrendingUp,
     image: "/carbon credits.png",
     isPng: true,
@@ -100,38 +99,123 @@ const ecosystemPillars = [
       { label: "Carbon Enablement", num: 100, suffix: "%" },
     ],
     features: [
-      "Guaranteed buyback contract options",
+      "Guaranteed buyback contract terms",
       "Digital weighment & instant payouts",
-      "Enrolment in soil carbon offset credits",
+      "Soil carbon credit monetization",
     ],
     cta: "View Market Linkage",
     ctaLink: "/services/market-linkage",
   },
 ];
 
-const pillars = [
+const impactColumns = [
   {
-    number: "01",
-    title: "Practical Research",
-    text: "Field-tested science grounded in real farm conditions — not unproven theory.",
+    id: "research",
+    label: "Field Science",
     icon: Microscope,
-    tag: "Field Science",
+    accent: "#5d7d37",
+    headline: "Research-led agronomy, proven on real farms.",
+    bars: [
+      { label: "Farm Trials Conducted", value: 120, suffix: "+", heightPct: 72 },
+      { label: "Crop Varieties Tested", value: 25, suffix: "+", heightPct: 48 },
+      { label: "Disease Protocols", value: 60, suffix: "+", heightPct: 58 },
+      { label: "Agronomist Field Visits / Month", value: 200, suffix: "+", heightPct: 85 },
+    ],
   },
   {
-    number: "02",
-    title: "Quality Inputs",
-    text: "Seeds, biologicals, and drip kits sourced from verified partner brands.",
+    id: "inputs",
+    label: "Verified Inputs",
     icon: ShieldCheck,
-    tag: "100% Verified",
+    accent: "#3a6b28",
+    headline: "Every product QR-traced from brand to farm.",
+    bars: [
+      { label: "Verified SKUs", value: 500, suffix: "+", heightPct: 80 },
+      { label: "Brand Partners", value: 25, suffix: "+", heightPct: 42 },
+      { label: "QR Authentications", value: 10000, suffix: "+", heightPct: 100 },
+      { label: "Avg Delivery (Hrs)", value: 36, suffix: "", heightPct: 55 },
+    ],
   },
   {
-    number: "03",
-    title: "Farmer-First Thinking",
-    text: "Every service designed around one question: does this protect the farmer's profit?",
-    icon: HeartHandshake,
-    tag: "Impact Driven",
+    id: "impact",
+    label: "Farmer Impact",
+    icon: Sprout,
+    accent: "#143d31",
+    headline: "Real income gains for real farm families.",
+    bars: [
+      { label: "Farmers Served", value: 2000, suffix: "+", heightPct: 68 },
+      { label: "Acres Under Advisory", value: 15000, suffix: "+", heightPct: 95 },
+      { label: "Avg Yield Increase", value: 22, suffix: "%", heightPct: 50 },
+      { label: "Farmer Value Generated (₹ Cr)", value: 10, suffix: "+", heightPct: 38 },
+    ],
   },
 ];
+
+function ImpactBarChart({ col }: { col: typeof impactColumns[0] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.35 });
+  const Icon = col.icon;
+
+  return (
+    <div ref={ref} className="flex flex-col h-full">
+      {/* Column Header */}
+      <div className="flex items-center gap-2.5 mb-6">
+        <div
+          className="flex h-9 w-9 items-center justify-center rounded-xl shrink-0"
+          style={{ backgroundColor: col.accent }}
+        >
+          <Icon className="h-4.5 w-4.5 text-[#a3e635]" style={{ height: 18, width: 18 }} />
+        </div>
+        <div>
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: col.accent }}>
+            {col.label}
+          </p>
+          <p className="font-sans text-xs text-[#4f624f] leading-snug mt-0.5">{col.headline}</p>
+        </div>
+      </div>
+
+      {/* Bar Chart */}
+      <div className="flex items-end gap-3 h-44 mt-auto">
+        {col.bars.map((bar, i) => (
+          <div key={bar.label} className="flex flex-col items-center flex-1 gap-1.5">
+            {/* Animated count above bar */}
+            <motion.p
+              className="font-display text-sm font-extrabold"
+              style={{ color: col.accent }}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 0.4 + i * 0.12, duration: 0.4 }}
+            >
+              <CountUp to={bar.value} suffix={bar.suffix} />
+            </motion.p>
+
+            {/* The bar itself */}
+            <div className="relative w-full flex items-end" style={{ height: 128 }}>
+              {/* Background track */}
+              <div className="absolute inset-0 rounded-t-lg bg-[#143d31]/6" />
+              {/* Animated fill */}
+              <motion.div
+                className="relative w-full rounded-t-lg"
+                style={{ backgroundColor: col.accent }}
+                initial={{ height: 0 }}
+                animate={inView ? { height: `${bar.heightPct}%` } : { height: 0 }}
+                transition={{
+                  delay: 0.25 + i * 0.1,
+                  duration: 0.9,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              />
+            </div>
+
+            {/* Bar label */}
+            <p className="font-mono text-center text-[8px] font-bold uppercase tracking-wide text-[#4f624f] leading-tight">
+              {bar.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const team = [
   { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
@@ -181,7 +265,7 @@ export default function PeopleChapter() {
                       
                       {/* Left Column (6 cols): Dynamic Content & Motion */}
                       <motion.div
-                        className="lg:col-span-6 flex flex-col justify-center"
+                        className="lg:col-span-6 flex flex-col justify-center max-w-xl"
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.7, ease: EASE }}
@@ -189,65 +273,68 @@ export default function PeopleChapter() {
                         
                         {/* 1. Division Tag with Index */}
                         <div className="flex items-center gap-3 mb-3">
-                          <span className="font-mono text-lg sm:text-xl font-extrabold text-[#5d7d37]">
+                          <span className="font-mono text-base sm:text-lg font-extrabold text-[#5d7d37]">
                             {pillar.number}
                           </span>
-                          <span className="h-3.5 w-[1.5px] bg-[#143d31]/20" />
-                          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#143d31]">
+                          <span className="h-3 w-[1.5px] bg-[#143d31]/20" />
+                          <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#143d31]">
                             {pillar.label}
                           </span>
                         </div>
 
                         {/* 2. Display Headline */}
-                        <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
+                        <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.12]">
                           {pillar.title}
                         </h3>
 
                         {/* 3. Subtext Description */}
-                        <p className="font-sans mt-2.5 text-xs sm:text-sm lg:text-base text-[#4f624f] leading-relaxed max-w-xl font-normal">
+                        <p className="font-sans mt-3 text-xs sm:text-sm lg:text-base text-[#4f624f] leading-relaxed font-normal">
                           {pillar.desc}
                         </p>
 
-                        {/* 4. Integrated Metrics & Features HUD Box */}
-                        <div className="mt-6 space-y-4">
-                          {/* Metrics Row with Live Animated Counters */}
-                          <div className="grid grid-cols-3 gap-3 rounded-2xl bg-white p-4 border border-[#143d31]/12 transition-colors duration-300 hover:border-[#143d31]/25">
-                            {pillar.metrics.map((m) => (
-                              <div key={m.label} className="text-left border-l-2 border-[#5d7d37] pl-3">
-                                <p className="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#143d31]">
-                                  <CountUp
-                                    to={m.num}
-                                    prefix={m.prefix}
-                                    suffix={m.suffix}
-                                  />
-                                </p>
-                                <p className="font-mono text-[9.5px] sm:text-[10.5px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                                  {m.label}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Capabilities Feature Chips */}
-                          <div className="flex flex-wrap gap-2 pt-1">
-                            {pillar.features.map((feat) => (
-                              <div
-                                key={feat}
-                                className="group flex items-center gap-2 rounded-full border border-[#143d31]/15 bg-white px-3.5 py-1.5 text-xs font-semibold text-[#143d31] transition-all duration-300 hover:bg-[#143d31] hover:text-[#a3e635] hover:border-[#143d31]"
-                              >
-                                <CheckCircle2 className="h-3.5 w-3.5 text-[#5d7d37] transition-colors group-hover:text-[#a3e635] shrink-0" />
-                                <span>{feat}</span>
-                              </div>
-                            ))}
-                          </div>
+                        {/* 4. Sleek Minimal Metrics Strip */}
+                        <div className="my-5 border-y border-[#143d31]/12 py-3.5 grid grid-cols-3 gap-2">
+                          {pillar.metrics.map((m) => (
+                            <div key={m.label} className="text-left border-l border-[#5d7d37]/40 pl-3 first:border-l-0 first:pl-0">
+                              <p className="font-display text-lg sm:text-xl lg:text-2xl font-extrabold text-[#143d31]">
+                                <CountUp
+                                  to={m.num}
+                                  prefix={m.prefix}
+                                  suffix={m.suffix}
+                                />
+                              </p>
+                              <p className="font-mono text-[9px] sm:text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                                {m.label}
+                              </p>
+                            </div>
+                          ))}
                         </div>
 
-                        {/* 5. Magnetic CTA Button */}
-                        <div className="mt-6">
+                        {/* 5. Clean Feature Highlights List (No bulky pills) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-6">
+                          {pillar.features.map((feat) => (
+                            <div
+                              key={feat}
+                              className="flex items-center gap-2 text-xs font-semibold text-[#143d31]"
+                            >
+                              <CheckCircle2 className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
+                              <span>{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* 6. Magnetic CTA Button with Curtain Hover Effect */}
+                        <div>
                           <MagneticButton strength={0.25} as="a" href={pillar.ctaLink}>
-                            <span className="inline-flex items-center gap-3 rounded-full bg-[#143d31] px-7 py-3.5 text-xs sm:text-sm font-bold text-[#a3e635] transition-all hover:bg-[#143d31]/90 hover:gap-4 cursor-pointer">
-                              <span>{pillar.cta}</span>
-                              <ArrowRight className="h-4 w-4" />
+                            <span className="group relative inline-flex items-center gap-3 rounded-full bg-[#143d31] px-7 py-3.5 text-xs sm:text-sm font-bold text-white overflow-hidden shadow-md transition-all duration-300 cursor-pointer">
+                              {/* Curtain Color Slide Overlay */}
+                              <span className="absolute inset-0 bg-[#5d7d37] transition-transform duration-500 ease-out -translate-x-full group-hover:translate-x-0 origin-left" />
+                              
+                              {/* Foreground Content */}
+                              <span className="relative z-10 flex items-center gap-3">
+                                <span>{pillar.cta}</span>
+                                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                              </span>
                             </span>
                           </MagneticButton>
                         </div>
@@ -290,50 +377,24 @@ export default function PeopleChapter() {
         </div>
       </div>
 
-      {/* Static Section: Commitments, Founder Quote & Leadership */}
+      {/* Static Section: Impact Stats, Founder Quote & Leadership */}
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24 border-t border-[#143d31]/10">
-        {/* Three commitments bar */}
+        {/* Animated Stat Bar Chart: Agaate by the Numbers */}
         <div>
-          <div className="flex items-center gap-2.5 mb-6">
+          <div className="flex items-center gap-2.5 mb-10">
             <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-              Our three commitments
+              Agaate by the numbers
             </p>
           </div>
-          <Stagger stagger={0.12} className="grid gap-6 md:grid-cols-3">
-            {pillars.map((pillar) => {
-              const Icon = pillar.icon;
-              return (
-                <StaggerItem key={pillar.number} variant="fade-up">
-                  <motion.div
-                    whileHover={{ y: -6, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="group relative flex flex-col justify-between rounded-3xl border border-[#143d31]/12 bg-white p-7 transition-colors duration-300 hover:border-[#143d31]/30 cursor-pointer h-full"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <motion.div
-                          whileHover={{ rotate: 12, scale: 1.1 }}
-                          transition={{ type: "spring", stiffness: 400 }}
-                          className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#143d31] text-[#a3e635]"
-                        >
-                          <Icon className="h-5 w-5" />
-                        </motion.div>
-                        <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#5d7d37] bg-[#eaf0df] px-3 py-1 rounded-full group-hover:bg-[#143d31] group-hover:text-[#a3e635] transition-colors duration-300">
-                          {pillar.tag}
-                        </span>
-                      </div>
-                      <h3 className="font-display text-xl font-bold text-[#143d31] mb-2 group-hover:text-[#5d7d37] transition-colors">
-                        {pillar.number}. {pillar.title}
-                      </h3>
-                      <p className="font-sans text-sm text-[#4f624f] leading-relaxed">
-                        {pillar.text}
-                      </p>
-                    </div>
-                  </motion.div>
-                </StaggerItem>
-              );
-            })}
+          <Stagger stagger={0.15} className="grid gap-8 md:grid-cols-3">
+            {impactColumns.map((col) => (
+              <StaggerItem key={col.id} variant="fade-up">
+                <div className="rounded-3xl border border-[#143d31]/10 bg-white p-6 md:p-8 h-full hover:border-[#143d31]/25 transition-colors duration-300 hover:shadow-lg hover:shadow-[#143d31]/5">
+                  <ImpactBarChart col={col} />
+                </div>
+              </StaggerItem>
+            ))}
           </Stagger>
         </div>
 

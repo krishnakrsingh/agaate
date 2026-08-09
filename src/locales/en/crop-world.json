@@ -1,159 +1,49 @@
 {
   "cropWorld": {
-    "eyebrow": "Crop Journey",
-    "title1": "Precision Agronomy",
-    "title2": "from seed to sale",
-    "description": "Scroll to follow how Agaate supports every growth stage — from seed selection through harvest and market.",
-    "tabs": {
-      "overview": "Overview",
-      "metrics": "Key Metrics",
-      "solution": "Agaate Solution"
-    },
-    "hotspotLabel": "Tech Highlight",
+    "eyebrow": "Seed-to-Sale Journey",
+    "title1": "Precision Partnership",
+    "title2": "at every growth stage",
+    "description": "Scroll to experience how Agaate supports farmers from plug nurseries to guaranteed market sales.",
     "stages": {
       "01": {
-        "title": "Seed Selection & Soil Prep",
-        "desc": "Genetic purity assessment and bio-enhancement of seed beds.",
-        "metric": "99.2% Germination Vigor",
-        "metricLabel": "Target Seed Viability",
-        "secondaryMetric": "92 / 100",
-        "secondaryMetricLabel": "Soil Health Score",
-        "solutionName": "Agaate Bio-Boosted Seed Tech",
-        "solutionDesc": "End-to-end genetic verification and bio-primed seed bed formulation.",
-        "solutionLink": "/services/nursery",
-        "solutionCta": "Explore Nursery Solutions →",
-        "hotspots": [
-          { "title": "Genetic Screening", "desc": "DNA purity verification to eliminate seed-borne pathogens." },
-          { "title": "Mycorrhizal Coating", "desc": "Root-inoculated beneficial fungi for enhanced phosphorus intake." }
-        ]
+        "badge": "Stage 01 • Bio Nursery",
+        "title": "Bio-Boosted Nursery Sprout",
+        "desc": "Pathogen-free, climate-controlled plug nurseries inoculated with Trichoderma & Mycorrhiza for 100% strong crop start.",
+        "metrics": ["98% Survival Rate", "15 Days Saved"],
+        "ctaText": "Order Nursery Seedlings",
+        "ctaLink": "/services/nursery"
       },
       "02": {
-        "title": "Germination & Nursery",
-        "desc": "Climate-controlled nursery sprouting for maximum seedling vigor.",
-        "metric": "100% Pathogen Free",
-        "metricLabel": "Nursery Health Assurance",
-        "secondaryMetric": "2.5x",
-        "secondaryMetricLabel": "Root Mass Vigor",
-        "solutionName": "Smart Bio-Nursery Infrastructure",
-        "solutionDesc": "High-tech automated plug tray propagation under optimized light & misting.",
-        "solutionLink": "/services/nursery",
-        "solutionCta": "View Bio-Nursery Tech →",
-        "hotspots": [
-          { "title": "Precision Micro-Climate", "desc": "Automated humidity and thermal regulation for rapid germination." },
-          { "title": "Bio-Boost Priming", "desc": "Organic immunity induction against early-stage dampening." }
-        ]
+        "badge": "Stage 02 • Precision Planting",
+        "title": "Soil & Root Optimization",
+        "desc": "Field mapping and custom fertigation schedules that maximize root-zone nutrient absorption and stop water waste.",
+        "metrics": ["35% Water Saved", "Optimal Root Setup"],
+        "ctaText": "Book Soil & Drip Audit",
+        "ctaLink": "/services/farm-tech"
       },
       "03": {
-        "title": "Transplanting",
-        "desc": "Precision spacing and root-zone biological inoculation.",
-        "metric": "98.5%",
-        "metricLabel": "Field Establishment",
-        "secondaryMetric": "< 0.5%",
-        "secondaryMetricLabel": "Transplant Mortality",
-        "solutionName": "Precision Field Setting & Advisory",
-        "solutionDesc": "Expert transplant timing aligned with micro-weather forecasts.",
-        "solutionLink": "/services/farm-tech",
-        "solutionCta": "Get Agronomist Guidance →",
-        "hotspots": [
-          { "title": "Root Ball Lock", "desc": "Intact media plugs for instant field soil binding." },
-          { "title": "Micro-Inoculation", "desc": "Rhizobacteria flush applied directly to root zones during planting." }
-        ]
+        "badge": "Stage 03 • AI Advisory & Protection",
+        "title": "Biological Crop Shield",
+        "desc": "Real-time photo pest diagnosis via Agaate App + 100% authentic bio-inputs delivered from your local Kisaan Mall.",
+        "metrics": ["40% Chemical Savings", "< 15-Min Advisory"],
+        "ctaText": "Talk to Agronomist",
+        "ctaLink": "/services/farm-tech"
       },
       "04": {
-        "title": "Vegetative Growth",
-        "desc": "Nutrient timing and AI field observation for stress detection.",
-        "metric": "+35%",
-        "metricLabel": "Biomass Accumulation",
-        "secondaryMetric": "24 / 7",
-        "secondaryMetricLabel": "AI Field Monitoring",
-        "solutionName": "Agaate Agronomist App & IoT",
-        "solutionDesc": "Multispectral canopy analysis and custom daily fertigation schedules.",
-        "solutionLink": "/services/farm-tech",
-        "solutionCta": "Discover Farm Tech AI →",
-        "hotspots": [
-          { "title": "Satellite NDVI Tracking", "desc": "Real-time chlorophyll & nitrogen deficit detection." },
-          { "title": "Leaf Stress AI", "desc": "Instant disease diagnosis via camera upload on Agronomist app." }
-        ]
+        "badge": "Stage 04 • Growth & Flowering",
+        "title": "Bloom Retention & Sizing",
+        "desc": "Stage-wise micronutrient boosting to maximize flower retention, uniform fruit sizing, and peak harvest quality.",
+        "metrics": ["+25% Yield Increase", "Grade-A Crop Quality"],
+        "ctaText": "Get Fertigation Plan",
+        "ctaLink": "/services/kisaan-mall"
       },
       "05": {
-        "title": "Crop Protection",
-        "desc": "Targeted bio-protection to suppress pests without chemical overkill.",
-        "metric": "-65%",
-        "metricLabel": "Chemical Input Reduction",
-        "secondaryMetric": "95%",
-        "secondaryMetricLabel": "Target Pest Control",
-        "solutionName": "Agaate Kisaan Mall Bio-Protection",
-        "solutionDesc": "Botanical bio-pesticides, pheromone traps, and bio-control kits delivered direct.",
-        "solutionLink": "/services/kisaan-mall",
-        "solutionCta": "Shop Bio-Inputs at Mall →",
-        "hotspots": [
-          { "title": "Bio-OrganicShield", "desc": "Neem-based extracts & beneficial microbes for sustainable defense." },
-          { "title": "Targeted Scouting", "desc": "Pheromone trap monitoring for threshold-based precise spraying." }
-        ]
-      },
-      "06": {
-        "title": "Irrigation Management",
-        "desc": "Moisture sensor integration to eliminate over-watering.",
-        "metric": "40%",
-        "metricLabel": "Water Saved",
-        "secondaryMetric": "72%",
-        "secondaryMetricLabel": "Optimal Soil Hydration",
-        "solutionName": "Smart Sub-surface Telemetry",
-        "solutionDesc": "Wireless soil moisture sensors linked with automated drip valves.",
-        "solutionLink": "/services/farm-tech",
-        "solutionCta": "Explore Smart Irrigation →",
-        "hotspots": [
-          { "title": "Root Telemetry", "desc": "Continuous volumetric water content and electrical conductivity sensing." },
-          { "title": "Evapotranspiration Sync", "desc": "Weather-linked irrigation duration calculations." }
-        ]
-      },
-      "07": {
-        "title": "Flowering & Fruit Set",
-        "desc": "Micronutrient boosting to maximize bloom retention.",
-        "metric": "88%",
-        "metricLabel": "Bloom Retention Rate",
-        "secondaryMetric": "+22%",
-        "secondaryMetricLabel": "Fruit Count / Plant",
-        "solutionName": "Bio-Boosted Micronutrient Spray",
-        "solutionDesc": "Chelated zinc, boron, and organic amino acid sprays for maximum pod set.",
-        "solutionLink": "/services/kisaan-mall",
-        "solutionCta": "Order Nutrient Boosters →",
-        "hotspots": [
-          { "title": "Pollen Vigor Boost", "desc": "Boron & calcium foliar application to prevent blossom drop." },
-          { "title": "Hormonal Balance", "desc": "Seaweed extracts promoting sink strength toward fruit clusters." }
-        ]
-      },
-      "08": {
-        "title": "Harvesting",
-        "desc": "Maturity timing for peak nutritional value and shelf life.",
-        "metric": "Grade A+",
-        "metricLabel": "Produce Classification",
-        "secondaryMetric": "+15%",
-        "secondaryMetricLabel": "Average Harvest Yield",
-        "solutionName": "Agaate Precision Harvest Timing",
-        "solutionDesc": "BRIX & firmness testing protocol to hit peak market windows.",
-        "solutionLink": "/services/big-farm-setup",
-        "solutionCta": "View Big Farm Setup →",
-        "hotspots": [
-          { "title": "Optical Sugar Index", "desc": "BRIX refractometry to schedule harvest at maximum sweetness." },
-          { "title": "Gentle Handling", "desc": "Crate sorting protocol to prevent post-harvest bruising." }
-        ]
-      },
-      "09": {
-        "title": "Market Distribution",
-        "desc": "Direct institutional linkage for premium prices at farm gate.",
-        "metric": "+18%",
-        "metricLabel": "Farmer Income Realization",
-        "secondaryMetric": "0 Days",
-        "secondaryMetricLabel": "Payment Settlement Delay",
-        "solutionName": "Direct Agaate Market Linkage",
-        "solutionDesc": "Farm-gate aggregation, cold storage, and direct institutional buyer contracts.",
-        "solutionLink": "/services/market-linkage",
-        "solutionCta": "Connect to Market Network →",
-        "hotspots": [
-          { "title": "Cold-Chain Dispatch", "desc": "Pre-cooled transport maintaining farm freshness to buyer hub." },
-          { "title": "Transparent Ledger", "desc": "Instant digital weight ticket and direct bank transfer." }
-        ]
+        "badge": "Stage 05 • Market Linkage",
+        "title": "Guaranteed Farm-Gate Sale",
+        "desc": "Direct buyer buyback contracts for hotels, exporters, and retail chains with digital weighment and instant payouts.",
+        "metrics": ["+20% Net Income", "Zero Mandi Cut"],
+        "ctaText": "Connect with Buyers",
+        "ctaLink": "/services/market-linkage"
       }
     }
   }
