@@ -1,25 +1,21 @@
 import {
   ArrowRight,
-  Battery,
   Bell,
   Bug,
   Camera,
-  CheckCircle2,
   Leaf,
   MessageCircle,
-  Phone,
-  Signal,
-  Smartphone,
   Sprout,
   TestTube,
   Wheat,
-  Wifi,
 } from "lucide-react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import InteractivePhoneApp from "./InteractivePhoneApp";
+import googlePlayBadge from "@/assets/google-play-badge.svg";
+import appStoreBadge from "@/assets/app-store-badge.svg";
 
 const appSteps = [
   {
@@ -28,14 +24,14 @@ const appSteps = [
     text: "Leaf spots, fruit damage, yellowing, pest attack — share it directly from the field.",
   },
   {
-    icon: MessageCircle,
-    title: "A real agronomist responds",
-    text: "Not a bot. A qualified expert gives specific advice for your crop, stage, soil, and weather.",
-  },
-  {
     icon: Bell,
     title: "Stay ahead with stage-wise alerts",
     text: "Fertigation timing, preventive care, irrigation, harvest readiness — get guidance before losses begin.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Chat with a real agronomist",
+    text: "Not a bot. A qualified expert gives specific advice for your crop, stage, soil, and weather — right in the app.",
   },
 ];
 
@@ -58,7 +54,7 @@ export default function AppChapter() {
     <section
       ref={sectionRef}
       id="agaate-app"
-      className="relative scroll-mt-28 overflow-hidden bg-[#eaf0df] px-5 pt-24 pb-14 md:px-10 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24"
+      className="relative scroll-mt-28 overflow-hidden bg-[#eaf0df] px-5 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start relative">
         {/* Left — content */}
@@ -66,18 +62,18 @@ export default function AppChapter() {
           <div className="flex items-center gap-2.5 mb-3">
             <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-              Talk to agronomist — mobile app
+              The Agaate app
             </p>
           </div>
           <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
-            Whatever the crop problem —{" "}
+            Your whole farm —{" "}
             <span className="font-serif italic font-normal text-[#5d7d37]">
-              a real expert gives you a specific answer.
+              in one app.
             </span>
           </h2>
           <p className="font-sans mt-4 max-w-2xl text-sm leading-relaxed text-[#4f624f] font-normal md:text-base">
-            Whether it is a disease you cannot identify, a new season to plan, or an input decision
-            you are unsure about — the Agaate app connects you directly to an agronomist.
+            Track crop stages, log inputs, get stage-wise alerts, and chat with an agronomist when
+            you need a second opinion — all from the Agaate app.
           </p>
 
           {/* Farmers ask about chips */}
@@ -127,14 +123,37 @@ export default function AppChapter() {
           </div>
 
           {/* CTAs */}
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="tel:9487263498"
-              className="font-sans inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-8 py-4 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#143d31]/20 tracking-wide uppercase"
-            >
-              <Phone className="h-4 w-4" />
-              Download the App
-            </a>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:flex-wrap">
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="#"
+                aria-label="Get it on Google Play (coming soon)"
+                aria-disabled="true"
+                title="Coming soon"
+                className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+                onClick={(e) => e.preventDefault()}
+              >
+                <img
+                  src={googlePlayBadge}
+                  alt="Get it on Google Play"
+                  className="h-12 w-auto"
+                />
+              </a>
+              <a
+                href="#"
+                aria-label="Download on the App Store (coming soon)"
+                aria-disabled="true"
+                title="Coming soon"
+                className="inline-block transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+                onClick={(e) => e.preventDefault()}
+              >
+                <img
+                  src={appStoreBadge}
+                  alt="Download on the App Store"
+                  className="h-12 w-auto"
+                />
+              </a>
+            </div>
             <Link
               to={getLocalizedPath("/contact", currentLang) as any}
               className="font-sans inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 px-8 py-4 text-xs font-bold text-[#143d31] transition-all hover:bg-white/60 hover:-translate-y-0.5 tracking-wide uppercase"

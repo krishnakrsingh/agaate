@@ -33,12 +33,9 @@ export default function PeopleChapter() {
     <section
       ref={sectionRef}
       id="who-we-are"
-      className="relative scroll-mt-20 overflow-hidden bg-[#fffdf4] px-5 py-14 md:px-10 md:py-20"
+      className="relative scroll-mt-20 overflow-hidden bg-white px-4 pt-6 pb-10 md:px-8 md:pt-8 md:pb-14"
     >
-      {/* Top rule */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#173d30]/10" />
-
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl bg-[#fffdf4] rounded-3xl border border-[#143d31]/10 p-6 sm:p-10 md:p-14 shadow-xs">
         {/* Header row */}
         <div data-home-reveal className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
@@ -99,7 +96,7 @@ export default function PeopleChapter() {
           </p>
           <div className="mt-4 grid gap-px border border-[#143d31]/10 bg-[#143d31]/10 overflow-hidden rounded-2xl md:grid-cols-3">
             {pillars.map((pillar) => (
-              <div key={pillar.number} className="flex flex-col gap-3 bg-[#fffdf4] p-7 md:p-9">
+              <div key={pillar.number} className="flex flex-col gap-3 bg-white p-7 md:p-9">
                 <span className="font-mono text-[11px] font-bold text-[#143d31]/40 tracking-[0.16em]">
                   {pillar.number}
                 </span>

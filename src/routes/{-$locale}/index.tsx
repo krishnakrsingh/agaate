@@ -10,6 +10,7 @@ import SectionHero from "@/components/sections/SectionHero";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import FieldSignal from "@/components/home/FieldSignal";
 import PeopleChapter from "@/components/home/PeopleChapter";
+import SectionStatsMarquee from "@/components/home/SectionStatsMarquee";
 import AppChapter from "@/components/home/AppChapter";
 import MallChapter from "@/components/home/MallChapter";
 import AgriParkChapter from "@/components/home/AgriParkChapter";
@@ -63,7 +64,7 @@ function Index() {
           onWipeStart={handleWipeStart}
         />
       )}
-      <main className="bg-card text-ink antialiased">
+      <main className="bg-white text-ink antialiased">
         <Header />
         {/* Section 1: Hero Section */}
         <SectionHero
@@ -75,23 +76,26 @@ function Index() {
         {/* Defer rendering heavy components until hero animation completes to prevent initial loading screen lag */}
         {contentReady && (
           <>
-            {/* Section 2: Interactive Crop Lifecycle Deep Dive */}
+            {/* Stats Marquee Section */}
+            <SectionStatsMarquee />
+
+            {/* Section 2: Who Agaate is — founder vision & core commitments */}
+            <PeopleChapter />
+
+            {/* Section 3: Interactive Crop Lifecycle Deep Dive */}
             <SectionCropWorld />
 
-            {/* Section 3: Farmer pain points — establish empathy & problem */}
+            {/* Section 4: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
 
-            {/* Section 4: Talk to Agronomist App — first digital solution */}
+            {/* Section 5: Talk to Agronomist App — first digital solution */}
             <AppChapter />
 
-            {/* Section 5: Agaate Kisaan Mall — physical input store */}
+            {/* Section 6: Agaate Kisaan Mall — physical input store */}
             <MallChapter />
 
-            {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
+            {/* Section 7: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
             <AgriParkChapter />
-
-            {/* Section 7: Who Agaate is — founder vision & core commitments */}
-            <PeopleChapter />
 
             {/* Section 8: Trust, scale stats, and testimonials */}
             <ProofChapter />
