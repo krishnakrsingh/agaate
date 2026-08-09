@@ -25,9 +25,8 @@ export default function FieldSignal() {
     <section
       ref={sectionRef}
       id="start-here"
-      className="relative scroll-mt-20 overflow-hidden bg-[#f3f1e7] px-5 py-14 md:px-10 md:py-20"
+      className="relative scroll-mt-20 overflow-hidden bg-[#fffdf4] px-5 py-16 md:px-10 md:py-24"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#173d30]/15" />
 
       <div className="mx-auto max-w-7xl">
         {/* Header */}

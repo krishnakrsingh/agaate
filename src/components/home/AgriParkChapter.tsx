@@ -107,7 +107,7 @@ export default function AgriParkChapter() {
     <section
       ref={sectionRef}
       id="agri-park"
-      className="relative scroll-mt-20 overflow-hidden bg-[#eaf0df] px-5 py-20 md:px-10 md:py-28"
+      className="relative scroll-mt-20 overflow-hidden bg-[#eaf0df] px-5 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto max-w-7xl">
         {/* ── Part 1: Bio-Boosted Nursery ────────────────────────────── */}

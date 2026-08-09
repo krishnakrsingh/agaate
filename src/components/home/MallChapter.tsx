@@ -60,7 +60,7 @@ export default function MallChapter() {
     <section
       ref={sectionRef}
       id="kisaan-mall"
-      className="relative scroll-mt-20 overflow-hidden bg-[#fffdf4] px-5 py-20 md:px-10 md:py-28"
+      className="relative scroll-mt-20 overflow-hidden bg-white px-5 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto max-w-7xl">
         {/* Header */}
