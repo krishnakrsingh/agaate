@@ -73,7 +73,7 @@ export default function MallChapter() {
             {/* Feature Cards on Left Side */}
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <div className="rounded-2xl bg-[#f4f7ef] px-4 py-3 border border-[#143d31]/12 flex items-center gap-3 shadow-xs">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-[#a3e635]">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-white">
                   <Store className="h-4.5 w-4.5" />
                 </div>
                 <div>
@@ -88,7 +88,7 @@ export default function MallChapter() {
                 </div>
                 <div>
                   <p className="text-xs font-extrabold text-white">24-48h Delivery</p>
-                  <p className="text-[10px] text-[#a3e635] font-mono">Direct to Field Gate</p>
+                  <p className="text-[10px] text-white/90 font-mono">Direct to Field Gate</p>
                 </div>
               </div>
             </div>
@@ -102,8 +102,8 @@ export default function MallChapter() {
         {/* ── Agaate Direct Supply Guarantee (UNTOUCHED) ── */}
         <div data-home-reveal className="mt-16 rounded-3xl bg-[#fafbf7] p-6 sm:p-10 border border-[#143d31]/15 shadow-sm">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-4 py-1 text-[11px] font-mono font-bold text-[#a3e635] uppercase tracking-widest mb-3">
-              <ShieldCheck className="h-3.5 w-3.5 text-[#a3e635]" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-4 py-1 text-[11px] font-mono font-bold text-white uppercase tracking-widest mb-3">
+              <ShieldCheck className="h-3.5 w-3.5 text-white" />
               AGAATE DIRECT SUPPLY GUARANTEE
             </span>
             <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#143d31]">
@@ -126,7 +126,7 @@ export default function MallChapter() {
                     <span className="font-mono text-xs font-extrabold text-[#5d7d37]">
                       STEP {s.step}
                     </span>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#143d31] text-[#a3e635] group-hover:scale-110 transition-transform">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#143d31] text-white group-hover:scale-110 transition-transform">
                       <Icon className="h-4.5 w-4.5" />
                     </div>
                   </div>
@@ -145,7 +145,7 @@ export default function MallChapter() {
         {/* ── CTA Banner ── */}
         <div data-home-reveal className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 rounded-3xl bg-[#143d31] p-8 text-white shadow-xl">
           <div>
-            <span className="font-mono text-xs font-bold text-[#a3e635] uppercase tracking-widest">
+            <span className="font-mono text-xs font-bold text-white/90 uppercase tracking-widest">
               DIRECT AGRONOMIST RECOMMENDATION
             </span>
             <h3 className="font-display text-2xl font-bold text-white mt-1">
@@ -167,7 +167,7 @@ export default function MallChapter() {
               href="tel:9487263498"
               className="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-xs font-bold text-white hover:bg-white/10 transition-colors"
             >
-              <PhoneCall className="h-3.5 w-3.5 text-[#a3e635]" />
+              <PhoneCall className="h-3.5 w-3.5 text-white" />
               <span>Call Agronomist</span>
             </a>
           </div>

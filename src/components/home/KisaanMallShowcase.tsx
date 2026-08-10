@@ -44,7 +44,7 @@ export default function KisaanMallShowcase() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
               >
-                <div className="flex items-center gap-1.5 text-[#a3e635] font-mono text-[10px] font-bold uppercase">
+                <div className="flex items-center gap-1.5 text-white font-mono text-[10px] font-bold uppercase">
                   <MapPin className="h-3 w-3" />
                   <span>Flagship Storefront</span>
                 </div>
@@ -60,7 +60,7 @@ export default function KisaanMallShowcase() {
               onMouseEnter={() => setActivePin(2)}
               onMouseLeave={() => setActivePin(null)}
               onClick={() => setActivePin(activePin === 2 ? null : 2)}
-              className="relative group flex items-center justify-center h-7 w-7 rounded-full bg-[#143d31] text-[#a3e635] shadow-xl border-2 border-[#a3e635] cursor-pointer hover:scale-125 transition-transform"
+              className="relative group flex items-center justify-center h-7 w-7 rounded-full bg-[#143d31] text-white shadow-xl border-2 border-white/60 cursor-pointer hover:scale-125 transition-transform"
               aria-label="Store Inventory Information"
             >
               <PackageCheck className="h-3.5 w-3.5" />
@@ -72,7 +72,7 @@ export default function KisaanMallShowcase() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
               >
-                <div className="flex items-center gap-1.5 text-[#a3e635] font-mono text-[10px] font-bold uppercase">
+                <div className="flex items-center gap-1.5 text-white font-mono text-[10px] font-bold uppercase">
                   <Store className="h-3 w-3" />
                   <span>500+ Verified SKUs</span>
                 </div>
@@ -100,7 +100,7 @@ export default function KisaanMallShowcase() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
               >
-                <div className="flex items-center gap-1.5 text-[#a3e635] font-mono text-[10px] font-bold uppercase">
+                <div className="flex items-center gap-1.5 text-white font-mono text-[10px] font-bold uppercase">
                   <UserCheck className="h-3 w-3" />
                   <span>In-Store Agronomist</span>
                 </div>

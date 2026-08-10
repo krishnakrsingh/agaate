@@ -15,82 +15,82 @@ import { cn } from "@/lib/utils";
 const testimonials = [
   {
     id: 1,
-    name: "John Doe",
-    designation: "Software Engineer",
-    company: "TechCorp",
+    name: "Pankaj Gupta",
+    designation: "Agaate Parivaar Member",
+    company: "Karnal, Haryana · 12 Acres",
     testimonial:
-      "This product has completely transformed the way we work. The efficiency and ease of use are unmatched!",
+      "Agaate Kisan Mall is a game changer. Getting batch-verified seeds and Bio-Cures direct from manufacturers saved my chilli crop from wilt and boosted yield by 25%.",
     avatar:
-      "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?auto=format&fit=crop&w=600&q=80",
     logo: Logo01,
   },
   {
     id: 2,
-    name: "Sophia Lee",
-    designation: "Data Analyst",
-    company: "InsightTech",
+    name: "Rameshwar Singh",
+    designation: "Progressive Vegetable Farmer",
+    company: "Kukrola, Gurugram · 8 Acres",
     testimonial:
-      "This tool has saved me hours of work! The analytics and reporting features are incredibly powerful.",
+      "Visiting the 17-acre Agri Park before buying my drip fertigation kit helped me see the exact dose results on living crops. Zero guesswork.",
     avatar:
-      "https://images.pexels.com/photos/1520760/pexels-photo-1520760.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=80",
     logo: Logo02,
   },
   {
     id: 3,
-    name: "Michael Johnson",
-    designation: "UX Designer",
-    company: "DesignPro",
+    name: "Rajesh Yadav",
+    designation: "Kisan Sathi & Lead Grower",
+    company: "Rewari, Haryana · 18 Acres",
     testimonial:
-      "An amazing tool that simplifies complex tasks. Highly recommended for professionals in the industry.",
+      "Agaate's Bio-Boosted nursery seedlings have 98% survival compared to 60% from traditional seed sowing. My input cost dropped by 40%.",
     avatar:
-      "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
     logo: Logo03,
   },
   {
     id: 4,
-    name: "Emily Davis",
-    designation: "Marketing Specialist",
-    company: "BrandBoost",
+    name: "Sunita Devi",
+    designation: "Woman Agri-Entrepreneur",
+    company: "Sonipat, Haryana · 15 Acres",
     testimonial:
-      "I've seen a significant improvement in our team's productivity since we started using this service.",
+      "Doorstep delivery in 24 hours with QR batch tracking gives us complete peace of mind against duplicate chemicals. Highest tomato harvest ever.",
     avatar:
-      "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
     logo: Logo04,
   },
   {
     id: 5,
-    name: "Daniel Martinez",
-    designation: "Full-Stack Developer",
-    company: "CodeCrafters",
+    name: "Vikramaditya Rao",
+    designation: "Horticulture Specialist",
+    company: "Rohtak, Haryana · 25 Acres",
     testimonial:
-      "The best investment we've made! The support team is also super responsive and helpful.",
+      "Senior Agronomist field visits and soil testing guide exact spray charts. We saved over ₹85,000 on unnecessary pesticides this season.",
     avatar:
-      "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
     logo: Logo05,
   },
   {
     id: 6,
-    name: "Jane Smith",
-    designation: "Product Manager",
-    company: "InnovateX",
+    name: "Abhay Ranjan",
+    designation: "Agaate Parivaar Member",
+    company: "Farrukhnagar, Haryana · 10 Acres",
     testimonial:
-      "The user experience is top-notch! The interface is clean, intuitive, and easy to navigate.",
+      "From seed selection to direct buyer market linkages, Agaate provides an end-to-end ecosystem that doubled our farm profitability.",
     avatar:
-      "https://images.pexels.com/photos/2613260/pexels-photo-2613260.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80",
     logo: Logo06,
   },
 ];
 
 const Testimonials = () => (
-  <div className="px-6 py-20">
-    <h2 className="text-center font-medium text-4xl tracking-[-0.04em] md:text-[2.75rem]">
-      Success Stories
+  <div className="px-6 py-12">
+    <h2 className="text-center font-display font-bold text-3xl md:text-4xl text-[#143d31] tracking-tight">
+      Farmer Success Stories
     </h2>
-    <p className="mt-3.5 text-center text-muted-foreground text-xl tracking-[-0.015em] md:text-2xl">
-      Real stories from people who use and love our product every day
+    <p className="mt-3 text-center text-[#4f624f] text-base md:text-lg max-w-2xl mx-auto">
+      Real voices from Agaate Parivaar members across Haryana & NCR
     </p>
-    <div className="mask-x-from-80% mt-14 space-y-px border bg-muted">
-      <Marquee className="py-0 [--duration:60s] [--gap:0px]" pauseOnHover>
+    <div className="mask-x-from-80% mt-10 space-y-px border-y border-[#143d31]/10 bg-[#f4f8f5]">
+      <Marquee className="py-0 [--duration:50s] [--gap:0px]" pauseOnHover>
         <TestimonialList />
       </Marquee>
     </div>
@@ -100,32 +100,26 @@ const Testimonials = () => (
 const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
   testimonials.map((testimonial) => (
     <div className="-mx-1 flex w-full max-w-sm flex-col odd:flex-col-reverse" key={testimonial.id}>
-      <div className={cn("rounded-xl border bg-background shadow-xs/3", className)} {...props}>
-        <div className="p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Avatar className="size-10">
-                <AvatarImage className="object-cover" src={testimonial.avatar} />
-                <AvatarFallback className="bg-primary font-medium text-primary-foreground text-xl">
-                  {testimonial.name.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-medium">{testimonial.name}</p>
-                <p className="text-muted-foreground text-sm">{testimonial.designation}</p>
-              </div>
+      <div className={cn("rounded-2xl border border-[#143d31]/12 bg-white shadow-xs p-6", className)} {...props}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Avatar className="size-11 border-2 border-[#5d7d37]/30">
+              <AvatarImage className="object-cover" src={testimonial.avatar} />
+              <AvatarFallback className="bg-[#143d31] font-bold text-white text-lg">
+                {testimonial.name.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-bold text-[#143d31] text-sm">{testimonial.name}</p>
+              <p className="text-[#5d7d37] text-xs font-semibold">{testimonial.designation}</p>
+              <p className="text-[#4f624f] text-[10px] font-mono">{testimonial.company}</p>
             </div>
-            <Button asChild size="icon" variant="ghost">
-              <a href="#" target="_blank" rel="noreferrer">
-                <TwitterLogo className="h-4 w-4" />
-              </a>
-            </Button>
           </div>
-          <p className="mt-5 text-[17px]">{testimonial.testimonial}</p>
         </div>
+        <p className="mt-4 text-xs sm:text-sm text-[#143d31] leading-relaxed font-normal">"{testimonial.testimonial}"</p>
       </div>
-      <div className="mask-y-from-75% mask-x-from-75% relative flex h-42 w-96 items-center justify-center p-6">
-        <testimonial.logo className="h-20 w-50 text-muted-foreground" />
+      <div className="mask-y-from-75% mask-x-from-75% relative flex h-36 w-96 items-center justify-center p-6">
+        <testimonial.logo className="h-16 w-44 text-[#143d31]/30" />
 
         <div
           className="absolute inset-0 isolate -z-1 opacity-15"
@@ -175,15 +169,5 @@ const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
       </div>
     </div>
   ));
-
-const TwitterLogo = (props: ComponentProps<"svg">) => (
-  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <title>X</title>
-    <path
-      d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
-      fill="currentColor"
-    />
-  </svg>
-);
 
 export default Testimonials;
