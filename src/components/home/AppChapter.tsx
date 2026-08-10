@@ -105,12 +105,12 @@ export default function AppChapter() {
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
                       className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold shadow-xs transition-colors duration-300 cursor-pointer ${
                         isTabActive
-                          ? "bg-[#143d31] border-[#143d31] text-[#a3e635]"
+                          ? "bg-[#143d31] border-[#143d31] text-white"
                           : "bg-white border-[#143d31]/15 text-[#143d31] hover:bg-white hover:border-[#143d31]/30"
                       }`}
                     >
                       <Icon className={`h-3.5 w-3.5 transition-colors ${
-                        isTabActive ? "text-[#a3e635]" : "text-[#5d7d37]"
+                        isTabActive ? "text-white" : "text-[#5d7d37]"
                       }`} strokeWidth={1.8} />
                       {item.label}
                     </motion.button>
@@ -137,7 +137,7 @@ export default function AppChapter() {
                       whileHover={{ rotate: 12, scale: 1.1 }}
                       transition={{ type: "spring", stiffness: 400 }}
                       className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${
-                        isTabActive ? "bg-[#143d31] text-[#a3e635] shadow-md scale-105" : "bg-[#143d31] text-[#b7cf79]"
+                        isTabActive ? "bg-[#143d31] text-white shadow-md scale-105" : "bg-[#143d31] text-white/90"
                       }`}
                     >
                       <Icon className="h-4.5 w-4.5" strokeWidth={1.8} />
