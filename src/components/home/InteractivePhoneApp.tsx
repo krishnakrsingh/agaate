@@ -369,7 +369,7 @@ export default function InteractivePhoneApp({
     <div className="font-dm relative mx-auto w-full max-w-[310px] sm:max-w-[335px] lg:max-w-[350px]">
       {/* Toast notification */}
       {addedItemToast && (
-        <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-[#a3e635] shadow-xl border border-[#a3e635]/30 animate-bounce">
+        <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-white shadow-xl border border-white/30 animate-bounce">
           ✓ {addedItemToast}
         </div>
       )}
@@ -438,7 +438,7 @@ export default function InteractivePhoneApp({
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#143d31] text-[9px] font-extrabold text-[#a3e635]"
+                      className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#143d31] text-[9px] font-extrabold text-white"
                     >
                       {cartCount}
                     </motion.span>
@@ -447,7 +447,7 @@ export default function InteractivePhoneApp({
               )}
               <a
                 href="tel:9487263498"
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-[#143d31] text-[#a3e635] hover:bg-[#3a6b28] transition-colors"
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-[#143d31] text-white hover:bg-[#3a6b28] transition-colors"
                 title="Call Hotline"
               >
                 <PhoneCall className="h-3.5 w-3.5" />
@@ -494,8 +494,8 @@ export default function InteractivePhoneApp({
                             </span>
                           </div>
                           {msg.verified && (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31] px-2 py-0.5 text-[8px] font-mono font-bold text-[#a3e635] tracking-wider uppercase shadow-xs">
-                              <ShieldCheck className="h-2.5 w-2.5 text-[#a3e635]" />
+                            <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31] px-2 py-0.5 text-[8px] font-mono font-bold text-white tracking-wider uppercase shadow-xs">
+                              <ShieldCheck className="h-2.5 w-2.5 text-white" />
                               Verified Advisory
                             </span>
                           )}
@@ -569,7 +569,7 @@ export default function InteractivePhoneApp({
                 <button
                   onClick={() => handleSendMessage()}
                   disabled={isLoading || !inputQuery.trim()}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-[#a3e635] disabled:opacity-40 transition-all hover:scale-105"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-white disabled:opacity-40 transition-all hover:scale-105"
                 >
                   <Send className="h-3.5 w-3.5" />
                 </button>
@@ -587,7 +587,7 @@ export default function InteractivePhoneApp({
                     key={cat}
                     className={`shrink-0 rounded-full px-3 py-1 text-[10px] font-bold transition-all ${
                       i === 0
-                        ? "bg-[#143d31] text-[#a3e635] shadow-xs"
+                        ? "bg-[#143d31] text-white shadow-xs"
                         : "bg-white border border-[#143d31]/12 text-[#143d31]"
                     }`}
                   >
@@ -609,7 +609,7 @@ export default function InteractivePhoneApp({
                     Up to 35% off · 24h NCR Farm Delivery
                   </p>
                 </div>
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-[#a3e635] shrink-0">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
                   <Package className="h-4.5 w-4.5" />
                 </div>
               </div>
@@ -634,7 +634,7 @@ export default function InteractivePhoneApp({
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       {/* Discount Badge */}
-                      <span className="absolute top-1 left-1 rounded-md bg-[#143d31] px-1.5 py-0.5 text-[8px] font-extrabold text-[#a3e635]">
+                      <span className="absolute top-1 left-1 rounded-md bg-[#143d31] px-1.5 py-0.5 text-[8px] font-extrabold text-white">
                         {prod.discount}
                       </span>
                     </div>
@@ -674,7 +674,7 @@ export default function InteractivePhoneApp({
 
                         <button
                           onClick={() => handleAddToCart(prod.name)}
-                          className="rounded-lg border-2 border-[#143d31] bg-white px-2.5 py-0.5 text-[10px] font-extrabold text-[#143d31] shadow-2xs hover:bg-[#143d31] hover:text-[#a3e635] transition-all active:scale-95"
+                          className="rounded-lg border-2 border-[#143d31] bg-white px-2.5 py-0.5 text-[10px] font-extrabold text-[#143d31] shadow-2xs hover:bg-[#143d31] hover:text-white transition-all active:scale-95"
                         >
                           ADD +
                         </button>
@@ -731,7 +731,7 @@ export default function InteractivePhoneApp({
                 {/* Map Top Floating Badges */}
                 <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between">
                   <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31]/90 backdrop-blur-md px-2.5 py-1 text-[9px] font-bold text-white shadow-xs">
-                    <MapPin className="h-3 w-3 text-[#a3e635]" />
+                    <MapPin className="h-3 w-3 text-white" />
                     <span>Plot A · Karnal, HR</span>
                   </span>
                   <span className="rounded-full bg-[#a3e635] px-2.5 py-1 text-[9px] font-extrabold text-[#143d31] shadow-xs">
@@ -745,7 +745,7 @@ export default function InteractivePhoneApp({
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span>NDVI 0.84 · High Health</span>
                   </span>
-                  <button className="rounded-lg bg-[#143d31] px-2 py-1 text-[8px] font-extrabold text-[#a3e635] shadow-xs hover:bg-[#3a6b28] transition-colors">
+                  <button className="rounded-lg bg-[#143d31] px-2 py-1 text-[8px] font-extrabold text-white shadow-xs hover:bg-[#3a6b28] transition-colors">
                     🌐 Live Scan
                   </button>
                 </div>
@@ -835,7 +835,7 @@ export default function InteractivePhoneApp({
           {activeTab === "park" && (
             <div className="flex-1 flex flex-col overflow-y-auto p-3.5 bg-[#fffdf4] space-y-3">
               <div className="rounded-xl bg-[#143d31] p-3 text-white">
-                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold text-[#a3e635]">
+                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white">
                   Gurugram 17-Acre Farm
                 </span>
                 <p className="mt-2 text-sm font-extrabold">Walk the Living Agri Park</p>
@@ -857,7 +857,7 @@ export default function InteractivePhoneApp({
                     setAddedItemToast("Agri Park Tour Reserved!");
                     setTimeout(() => setAddedItemToast(null), 2200);
                   }}
-                  className="w-full rounded-lg bg-[#143d31] py-2 text-xs font-bold text-[#a3e635] hover:bg-[#3a6b28] transition-colors"
+                  className="w-full rounded-lg bg-[#143d31] py-2 text-xs font-bold text-white hover:bg-[#3a6b28] transition-colors"
                 >
                   Reserve Visitor Slot
                 </button>

@@ -98,7 +98,7 @@ export default function AgriParkChapter() {
               to={getLocalizedPath("/agri-park", currentLang) as any}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3 text-xs font-bold text-white shadow-md hover:bg-[#1a4d3e] transition-all cursor-pointer"
             >
-              <Sparkles className="h-4 w-4 text-[#a3e635]" />
+              <Sparkles className="h-4 w-4 text-white" />
               <span>Plan Agri Park Visit</span>
             </Link>
             <a
