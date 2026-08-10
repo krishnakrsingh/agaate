@@ -92,26 +92,26 @@ export default function AgriParkChapter() {
             </p>
           </div>
 
-          {/* Action CTAs */}
+          {/* Action CTAs — Clean Corporate Styling */}
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
               to={getLocalizedPath("/agri-park", currentLang) as any}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3 text-xs font-extrabold text-[#a3e635] shadow-md hover:bg-[#1a4d3e] transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3 text-xs font-bold text-white shadow-md hover:bg-[#1a4d3e] transition-all cursor-pointer"
             >
-              <Sparkles className="h-4 w-4" />
+              <Sparkles className="h-4 w-4 text-[#a3e635]" />
               <span>Plan Agri Park Visit</span>
             </Link>
             <a
               href="tel:9487263498"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 px-5 py-3 text-xs font-bold text-[#143d31] hover:bg-white/60 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/25 px-5 py-3 text-xs font-bold text-[#143d31] hover:bg-[#143d31] hover:text-white transition-all"
             >
-              <PhoneCall className="h-3.5 w-3.5 text-[#5d7d37]" />
+              <PhoneCall className="h-3.5 w-3.5" />
               <span>Order Seedlings</span>
             </a>
           </div>
         </div>
 
-        {/* ── 2. Side-by-Side Content Grid (Aligned Heights) ── */}
+        {/* ── 2. Side-by-Side Content Grid ── */}
         <div data-home-reveal className="grid gap-8 lg:grid-cols-12 lg:items-center">
           
           {/* Left Column: Spec Table (6 cols) */}
@@ -125,7 +125,7 @@ export default function AgriParkChapter() {
                   Nursery vs. Direct Sowing
                 </h3>
               </div>
-              <span className="rounded-full bg-[#143d31] px-3 py-1 text-[10px] font-mono font-bold text-[#a3e635]">
+              <span className="rounded-full bg-[#eaf0df] px-3 py-1 text-xs font-bold text-[#143d31] border border-[#5d7d37]/25">
                 98% Survival
               </span>
             </div>
@@ -162,24 +162,24 @@ export default function AgriParkChapter() {
                 Kukrola, Gurugram
               </span>
 
-              {/* Minimal Tab Switcher */}
-              <div className="inline-flex rounded-full bg-[#143d31]/10 p-0.5">
+              {/* Segmented Tab Switcher */}
+              <div className="inline-flex rounded-full bg-[#143d31]/8 p-0.5 border border-[#143d31]/10">
                 <button
                   onClick={() => setActiveTab("nursery")}
-                  className={`rounded-full px-3 py-0.5 text-xs font-mono font-bold transition-all cursor-pointer ${
+                  className={`rounded-full px-3.5 py-1 text-xs font-sans font-bold transition-all cursor-pointer ${
                     activeTab === "nursery"
-                      ? "bg-[#143d31] text-[#a3e635] shadow-xs"
-                      : "text-[#143d31]/70 hover:text-[#143d31]"
+                      ? "bg-[#143d31] text-white shadow-xs"
+                      : "text-[#4f624f] hover:text-[#143d31]"
                   }`}
                 >
                   Nursery Facility
                 </button>
                 <button
                   onClick={() => setActiveTab("park")}
-                  className={`rounded-full px-3 py-0.5 text-xs font-mono font-bold transition-all cursor-pointer ${
+                  className={`rounded-full px-3.5 py-1 text-xs font-sans font-bold transition-all cursor-pointer ${
                     activeTab === "park"
-                      ? "bg-[#143d31] text-[#a3e635] shadow-xs"
-                      : "text-[#143d31]/70 hover:text-[#143d31]"
+                      ? "bg-[#143d31] text-white shadow-xs"
+                      : "text-[#4f624f] hover:text-[#143d31]"
                   }`}
                 >
                   Agri Park Farm
@@ -197,8 +197,8 @@ export default function AgriParkChapter() {
                     className="max-h-full w-full object-contain drop-shadow-[0_15px_25px_rgba(20,61,49,0.2)] transition-transform duration-500 hover:scale-[1.02]"
                   />
                   <div className="absolute top-2 left-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-3 py-1 text-[10px] font-mono font-bold text-[#a3e635] shadow-md">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#a3e635] animate-ping" />
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3 py-1 text-xs font-sans font-semibold text-white shadow-md">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#a3e635]" />
                       17-Acre AI Greenhouse
                     </span>
                   </div>
@@ -222,7 +222,7 @@ export default function AgriParkChapter() {
 
         </div>
 
-        {/* ── 3. 8-Zone Minimal Strip (Full Width) ── */}
+        {/* ── 3. 8-Zone Minimal Strip ── */}
         <div data-home-reveal className="pt-6 border-t border-[#143d31]/10">
           <div className="flex items-center justify-between mb-4">
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
