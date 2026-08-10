@@ -134,7 +134,7 @@ export default function Header() {
   return (
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-4">
       <header
-        className={`pointer-events-auto relative flex items-center justify-between transition-all duration-300 ease-out ${
+        className={`pointer-events-auto relative flex items-center gap-2 transition-all duration-300 ease-out sm:gap-3 ${
           solid
             ? "w-[94%] max-w-6xl translate-y-1 rounded-full bg-[#14332b]/95 border border-white/10 backdrop-blur-xl px-3 shadow-2xl sm:px-5 md:translate-y-0 md:px-7"
             : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-3 pt-3 sm:px-5 md:px-10"
@@ -142,24 +142,24 @@ export default function Header() {
         style={{ height: solid ? "60px" : "74px" }}
       >
         {/* Brand Logo */}
-        <div className="flex shrink-0 items-center justify-start">
+        <div className="relative z-10 flex min-w-0 shrink-0 items-center justify-start">
           <Link
             to={getLocalizedPath("/", currentLang) as any}
-            className="flex items-center text-cream transition-opacity hover:opacity-80"
+            className="flex max-w-[42vw] items-center text-cream transition-opacity hover:opacity-80 sm:max-w-none"
           >
             <img
               src="/logo.svg"
               alt="Agaate"
-              className={`w-auto transition-[height] duration-300 ease-out ${
-                solid ? "h-6 md:h-7" : "h-8 drop-shadow-md md:h-9"
+              className={`h-auto max-h-full w-auto max-w-full object-contain object-left transition-[height] duration-300 ease-out ${
+                solid ? "h-6 md:h-7" : "h-7 drop-shadow-md sm:h-8 md:h-9"
               }`}
             />
           </Link>
         </div>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links — absolute so it never steals mobile flex space */}
         <nav
-          className={`hidden items-center justify-center transition-[gap] duration-300 ease-out lg:flex ${
+          className={`pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center transition-[gap] duration-300 ease-out lg:flex ${
             solid ? "gap-1 xl:gap-2" : "gap-1.5 xl:gap-2.5"
           }`}
         >
@@ -313,7 +313,7 @@ export default function Header() {
         </nav>
 
         {/* Right Actions: Language (desktop), CTA, Mobile Menu */}
-        <div className="flex shrink-0 items-center justify-end gap-1.5 sm:gap-2.5 md:gap-4">
+        <div className="relative z-10 ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-2.5 md:gap-4">
           <div className="hidden lg:block">
             <LanguageSwitcher layoutId="active-lang-pill-desktop" />
           </div>
@@ -323,21 +323,19 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${
-              solid ? "px-3.5 py-2 text-xs sm:px-4 sm:py-2.5 sm:text-sm md:px-5" : "px-4 py-2 text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3"
+              solid
+                ? "px-4 py-2 text-sm sm:px-5 sm:py-2.5 md:px-5"
+                : "px-4 py-2.5 text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3 md:text-[15px]"
             }`}
           >
             <span>{t("nav.contactUs", "Let's talk")}</span>
-            <ArrowRight
-              className={`transition-transform duration-300 group-hover:translate-x-1 ${
-                solid ? "h-3.5 w-3.5 sm:h-4 sm:w-4" : "h-4 w-4"
-              }`}
-            />
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
 
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="flex items-center justify-center rounded-full p-2 text-cream transition-colors hover:bg-white/10 focus:outline-none lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-cream transition-colors hover:bg-white/10 focus:outline-none lg:hidden"
             aria-label="Toggle Navigation Menu"
             aria-expanded={mobileMenuOpen}
           >

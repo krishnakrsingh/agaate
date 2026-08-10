@@ -215,14 +215,14 @@ export default memo(function SectionHero({
         />
 
         {/* ── SPLIT BOTTOM LAYOUT ── */}
-        <div className="absolute inset-0 z-10 flex items-end px-8 md:px-14 pb-14 md:pb-16">
-          <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
+        <div className="absolute inset-0 z-10 flex items-end px-5 sm:px-8 md:px-14 pb-14 md:pb-16">
+          <div className="w-full min-w-0 flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
             {/* LEFT — Elegant display headline (pure white, larger scale) */}
             <h1
               ref={h1Ref}
-              className="opacity-0 text-cream md:max-w-[62%]"
+              className="opacity-0 text-cream max-w-full min-w-0 break-words md:max-w-[62%]"
               style={{
-                fontSize: "clamp(3.75rem, 6.8vw, 6.5rem)",
+                fontSize: "clamp(2.5rem, 9vw, 6.5rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.035em",
                 lineHeight: 1.02,
@@ -282,7 +282,7 @@ export default memo(function SectionHero({
                     {subtitlePoints.map((point, i) => (
                       <span
                         key={i}
-                        className="absolute inset-0 flex items-center whitespace-nowrap"
+                        className="absolute inset-0 flex items-center truncate"
                         style={{
                           fontSize: "clamp(0.85rem, 0.92vw, 0.9rem)",
                           fontWeight: 400,
@@ -306,7 +306,7 @@ export default memo(function SectionHero({
               {/* CTA Buttons (Balanced scale - Side by side) */}
               <div
                 ref={btnRef}
-                className="opacity-0 flex flex-row items-center flex-nowrap gap-3"
+                className="opacity-0 flex flex-row flex-wrap items-center gap-3"
                 style={{
                   willChange: "transform, opacity",
                   transform: "translate3d(0, 15px, 0)",

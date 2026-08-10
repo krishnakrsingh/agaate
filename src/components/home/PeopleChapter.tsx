@@ -429,37 +429,41 @@ export default function PeopleChapter() {
           </motion.div>
         </Reveal>
 
-        {/* Team strip */}
+        {/* Team list */}
         <Reveal variant="fade-up" delay={0.2} className="mt-16 border-t border-[#143d31]/10 pt-10">
-          <div className="flex flex-wrap items-center justify-between gap-6">
-            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-              Leadership Team
-            </p>
-            <Stagger stagger={0.08} delayChildren={0.1} className="flex flex-wrap items-center gap-6 md:gap-10">
-              {team.map((member) => (
-                <StaggerItem key={member.name} variant="fade-right">
-                  <motion.div
-                    whileHover={{ y: -4, scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                    className="group flex items-center gap-3 cursor-pointer"
-                  >
-                    <motion.img
-                      whileHover={{ scale: 1.15 }}
-                      src={member.image}
-                      alt={member.name}
-                      className="h-11 w-11 rounded-full object-cover border border-[#143d31]/15 transition-transform duration-300"
-                    />
-                    <div>
-                      <p className="font-display text-base font-bold text-[#143d31] group-hover:text-[#5d7d37] transition-colors">{member.name}</p>
-                      <p className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#5d7d37]">
-                        {member.role}
-                      </p>
-                    </div>
-                  </motion.div>
-                </StaggerItem>
-              ))}
-            </Stagger>
-          </div>
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+            Leadership Team
+          </p>
+          <Stagger
+            stagger={0.08}
+            delayChildren={0.1}
+            className="mt-6 flex flex-col gap-5"
+          >
+            {team.map((member) => (
+              <StaggerItem key={member.name} variant="fade-up">
+                <motion.div
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="group flex items-center gap-3.5 cursor-pointer"
+                >
+                  <motion.img
+                    whileHover={{ scale: 1.08 }}
+                    src={member.image}
+                    alt={member.name}
+                    className="h-11 w-11 shrink-0 rounded-full object-cover border border-[#143d31]/15 transition-transform duration-300"
+                  />
+                  <div className="min-w-0">
+                    <p className="font-display text-base font-bold text-[#143d31] group-hover:text-[#5d7d37] transition-colors">
+                      {member.name}
+                    </p>
+                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#5d7d37]">
+                      {member.role}
+                    </p>
+                  </div>
+                </motion.div>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </Reveal>
       </div>
     </section>
