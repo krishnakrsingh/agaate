@@ -3,7 +3,13 @@ import { useTranslation } from "react-i18next";
 import { setLocale, getLocalizedPath } from "@/lib/i18n";
 import { motion } from "framer-motion";
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({
+  layoutId = "active-lang-pill",
+  className = "",
+}: {
+  layoutId?: string;
+  className?: string;
+}) {
   const navigate = useNavigate();
   const location = useLocation();
   const { locale } = useParams({ strict: false }) as any;
@@ -23,7 +29,9 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="relative flex items-center rounded-full border border-white/15 bg-white/5 p-1 backdrop-blur-md">
+    <div
+      className={`relative flex items-center rounded-full border border-white/15 bg-white/5 p-1 backdrop-blur-md ${className}`}
+    >
       <button
         type="button"
         onClick={() => switchTo("en")}
@@ -34,7 +42,7 @@ export function LanguageSwitcher() {
         En
         {currentLangCode === "en" && (
           <motion.div
-            layoutId="active-lang-pill"
+            layoutId={layoutId}
             className="absolute inset-0 -z-10 rounded-full bg-[#a3e635] shadow-sm"
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
           />
@@ -51,7 +59,7 @@ export function LanguageSwitcher() {
         हि
         {currentLangCode === "hi" && (
           <motion.div
-            layoutId="active-lang-pill"
+            layoutId={layoutId}
             className="absolute inset-0 -z-10 rounded-full bg-[#a3e635] shadow-sm"
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
           />

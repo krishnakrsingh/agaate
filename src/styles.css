@@ -302,3 +302,20 @@ body::-webkit-scrollbar,
     transform: translateY(calc(-100% - var(--gap, 1rem)));
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-pulse-glow,
+  .animate-radar-scan,
+  .shimmer-text,
+  .animate-spin,
+  .animate-pulse,
+  .animate-marquee,
+  .animate-marquee-vertical {
+    animation: none !important;
+  }
+
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+}

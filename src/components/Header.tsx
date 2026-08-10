@@ -136,8 +136,8 @@ export default function Header() {
       <header
         className={`pointer-events-auto relative flex items-center justify-between transition-all duration-300 ease-out ${
           solid
-            ? "w-[94%] max-w-6xl translate-y-1 rounded-full bg-[#14332b]/95 border border-white/10 backdrop-blur-xl px-5 shadow-2xl md:translate-y-0 md:px-7"
-            : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-5 pt-3 md:px-10"
+            ? "w-[94%] max-w-6xl translate-y-1 rounded-full bg-[#14332b]/95 border border-white/10 backdrop-blur-xl px-3 shadow-2xl sm:px-5 md:translate-y-0 md:px-7"
+            : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-3 pt-3 sm:px-5 md:px-10"
         }`}
         style={{ height: solid ? "60px" : "74px" }}
       >
@@ -312,32 +312,34 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Right Actions: Language Switcher, WhatsApp CTA, Mobile Menu Button */}
-        <div className="flex shrink-0 items-center justify-end gap-2.5 md:gap-4">
-          <LanguageSwitcher />
+        {/* Right Actions: Language (desktop), CTA, Mobile Menu */}
+        <div className="flex shrink-0 items-center justify-end gap-1.5 sm:gap-2.5 md:gap-4">
+          <div className="hidden lg:block">
+            <LanguageSwitcher layoutId="active-lang-pill-desktop" />
+          </div>
 
           <a
             href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
             target="_blank"
             rel="noopener noreferrer"
-            className={`whitespace-nowrap shrink-0 group flex items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${
-              solid ? "px-4 py-2 text-xs" : "px-5 py-2.5 text-sm"
+            className={`inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${
+              solid ? "px-3.5 py-2 text-xs sm:px-4 sm:py-2.5 sm:text-sm md:px-5" : "px-4 py-2 text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3"
             }`}
           >
             <span>{t("nav.contactUs", "Let's talk")}</span>
             <ArrowRight
               className={`transition-transform duration-300 group-hover:translate-x-1 ${
-                solid ? "h-3.5 w-3.5" : "h-4 w-4"
+                solid ? "h-3.5 w-3.5 sm:h-4 sm:w-4" : "h-4 w-4"
               }`}
             />
           </a>
 
-          {/* Mobile Menu Toggle Button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             className="flex items-center justify-center rounded-full p-2 text-cream transition-colors hover:bg-white/10 focus:outline-none lg:hidden"
             aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
               <X className="h-6 w-6 text-[#a3e635]" />
@@ -360,9 +362,18 @@ export default function Header() {
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
                 className="rounded-full p-1 text-cream/70 hover:text-cream"
+                aria-label="Close menu"
               >
                 <X className="h-5 w-5" />
               </button>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold text-cream">Language</span>
+                <span className="text-[11px] text-cream/55">Choose English or Hindi</span>
+              </div>
+              <LanguageSwitcher layoutId="active-lang-pill-mobile" />
             </div>
 
             <nav className="flex flex-col gap-2">
