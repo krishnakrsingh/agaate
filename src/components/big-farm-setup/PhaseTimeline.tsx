@@ -29,7 +29,7 @@ import {
   motion,
 } from "@/components/common/motion";
 
-export type PhaseData = {
+type PhaseData = {
   num: string;
   title: string;
   subtitle: string;
@@ -41,7 +41,7 @@ export type PhaseData = {
   blueprintType: "land" | "infra" | "inputs" | "ops" | "roi" | "management";
 };
 
-export const PHASES_DATA: PhaseData[] = [
+const PHASES_DATA: PhaseData[] = [
   {
     num: "01",
     title: "Land Planning & Layout",

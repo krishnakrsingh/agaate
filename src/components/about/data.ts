@@ -201,7 +201,6 @@ export const locations = [
   },
 ];
 
-export const board = ["Ankit Rawat", "Nisha Kumari", "Naveen Panwar"];
 
 export const corporateFacts = [
   { label: "Legal Entity Name", value: "Anzix Farm Technologies Private Limited" },

@@ -9,12 +9,13 @@ import {
   ShieldCheck,
   ShoppingCart,
   Sprout,
+  CheckCircle2,
+  PhoneCall,
+  Sparkles,
 } from "lucide-react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import agroParkImage from "@/assets/agro-park.jpg";
@@ -27,12 +28,12 @@ const nurseryComparison = [
   },
   {
     label: "Seed waste",
-    traditional: "High — 30 to 50% wasted",
+    traditional: "30 – 50% wasted",
     bioBoosted: "Near zero",
   },
   {
     label: "Chemical usage",
-    traditional: "Baseline — heavy dependency",
+    traditional: "Heavy dependency",
     bioBoosted: "50 – 70% reduction",
   },
   {
@@ -43,224 +44,219 @@ const nurseryComparison = [
 ];
 
 const zones = [
-  { icon: Sprout, label: "Seed Zone", benefit: "Choose the right variety before you sow" },
-  { icon: Microscope, label: "Nursery Zone", benefit: "See Bio-Boosted seedlings at every stage" },
-  {
-    icon: Droplets,
-    label: "Irrigation Zone",
-    benefit: "Compare drip and fertigation systems live",
-  },
-  {
-    icon: FlaskConical,
-    label: "Nutrition Zone",
-    benefit: "Understand inputs from real crop trials",
-  },
-  {
-    icon: BrainCircuit,
-    label: "Tech & Drone Zone",
-    benefit: "Watch AI and drone monitoring in action",
-  },
-  {
-    icon: GraduationCap,
-    label: "Training Hub",
-    benefit: "Hands-on workshops and field learning days",
-  },
-  {
-    icon: ShieldCheck,
-    label: "Protection Zone",
-    benefit: "Test crop protection on real disease pressure",
-  },
-  { icon: ShoppingCart, label: "Market Zone", benefit: "See how output connects to direct buyers" },
+  { number: "01", icon: Sprout, label: "Seed Zone", sub: "Variety selection" },
+  { number: "02", icon: Microscope, label: "Nursery Zone", sub: "Plug stage trials" },
+  { number: "03", icon: Droplets, label: "Irrigation Zone", sub: "Live fertigation" },
+  { number: "04", icon: FlaskConical, label: "Nutrition Zone", sub: "Crop input trials" },
+  { number: "05", icon: BrainCircuit, label: "Tech & Drone", sub: "AI & drone monitoring" },
+  { number: "06", icon: GraduationCap, label: "Training Hub", sub: "Farmer workshops" },
+  { number: "07", icon: ShieldCheck, label: "Protection Zone", sub: "Bio-cure testing" },
+  { number: "08", icon: ShoppingCart, label: "Market Zone", sub: "Direct buyer linkage" },
 ];
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function AgriParkChapter() {
   const sectionRef = useHomeChapterReveal();
-  const imageRef = useRef<HTMLImageElement>(null);
-  const imageContainerRef = useRef<HTMLDivElement>(null);
-  
+  const [activeTab, setActiveTab] = useState<"nursery" | "park">("nursery");
+
   const { i18n } = useTranslation();
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
-
-  useEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      if (imageRef.current && imageContainerRef.current) {
-        gsap.to(imageRef.current, {
-          y: "20%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: imageContainerRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          }
-        });
-      }
-    });
-    return () => mm.revert();
-  }, []);
 
   return (
     <section
       ref={sectionRef}
       id="agri-park"
-      className="relative scroll-mt-20 overflow-hidden bg-[#eaf0df] px-5 py-16 md:px-10 md:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] px-5 py-12 md:px-10 md:py-16"
     >
-      <div className="mx-auto max-w-7xl">
-        {/* ── Part 1: Bio-Boosted Nursery ────────────────────────────── */}
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <div data-home-reveal>
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-5 h-[1px] bg-[#5d7d37]/40" />
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                Bio-Boosted nursery · 17-acre smart facility
-              </p>
+      <div className="mx-auto max-w-7xl space-y-8">
+        
+        {/* ── 1. Top Section Header (Full Width) ── */}
+        <div data-home-reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-2xl space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-[1.5px] bg-[#5d7d37]" />
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37]">
+                17-Acre Smart Nursery & Agri Park · Kukrola, Gurugram
+              </span>
             </div>
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              Strong roots are the difference between{" "}
+
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
+              One 17-acre farm.{" "}
               <span className="font-serif italic font-normal text-[#5d7d37]">
-                a good season and a lost one.
+                Every solution demonstrated live.
               </span>
             </h2>
-            <p className="font-sans mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-[#4f624f] font-normal">
-              Direct seed sowing is the biggest source of early-stage loss for most vegetable
-              farmers. Agaate's Bio-Boosted nursery produces seedlings in a 17-acre AI-monitored
-              facility — with dramatically better survival, reduced chemical need, and higher final
-              yield.
+
+            <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
+              From Bio-Boosted seedlings with 98% survival to AI drone monitoring and 8 crop journey zones — see it work on real land before applying it to yours.
             </p>
           </div>
 
-          {/* Nursery before/after table */}
-          <div
-            data-home-reveal
-            className="overflow-hidden rounded-2xl border border-[#143d31]/10 shadow-sm"
-          >
-            <div className="grid grid-cols-3 bg-[#143d31] px-5 py-4 text-xs font-bold uppercase tracking-[0.12em]">
-              <span className="text-white/50">Metric</span>
-              <span className="text-white/50">Traditional sowing</span>
-              <span className="text-[#b7cf79]">Bio-Boosted nursery</span>
-            </div>
-            {nurseryComparison.map((row, i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 border-t border-[#143d31]/10 bg-white px-5 py-4 text-sm"
-              >
-                <span className="font-semibold text-[#143d31]">{row.label}</span>
-                <span className="text-[#888a7a] line-through">{row.traditional}</span>
-                <span className="font-bold text-[#3a6b28]">{row.bioBoosted}</span>
-              </div>
-            ))}
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              to={getLocalizedPath("/agri-park", currentLang) as any}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3 text-xs font-extrabold text-[#a3e635] shadow-md hover:bg-[#1a4d3e] transition-colors cursor-pointer"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>Plan Agri Park Visit</span>
+            </Link>
+            <a
+              href="tel:9487263498"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 px-5 py-3 text-xs font-bold text-[#143d31] hover:bg-white/60 transition-colors"
+            >
+              <PhoneCall className="h-3.5 w-3.5 text-[#5d7d37]" />
+              <span>Order Seedlings</span>
+            </a>
           </div>
         </div>
 
-        {/* ── Divider ─────────────────────────────────────────────────── */}
-        <div className="my-16 flex items-center gap-6">
-          <div className="h-px flex-1 bg-[#143d31]/12" />
-          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#143d31]/40">
-            And there is more
-          </span>
-          <div className="h-px flex-1 bg-[#143d31]/12" />
-        </div>
-
-        {/* ── Part 2: Agri Park ───────────────────────────────────────── */}
-        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
-          <div data-home-reveal className="flex flex-col justify-between">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-[#b7cf79]">
-                ★ India's First of Its Kind
-              </div>
-              <div className="flex items-center gap-2.5 mt-5 mb-2">
-                <span className="w-5 h-[1px] bg-[#5d7d37]/40" />
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                  Agri Park — Kukrola, Gurugram
-                </p>
-              </div>
-              <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-                One farm. Every solution.{" "}
-                <span className="font-serif italic font-normal text-[#5d7d37]">
-                  Walk the complete crop journey.
+        {/* ── 2. Side-by-Side Content Grid (Aligned Heights) ── */}
+        <div data-home-reveal className="grid gap-8 lg:grid-cols-12 lg:items-center">
+          
+          {/* Left Column: Spec Table (6 cols) */}
+          <div className="lg:col-span-6 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[#143d31]/12">
+              <div>
+                <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
+                  BIO-BOOSTED SEEDLING ADVANTAGE
                 </span>
-              </h3>
-              <p className="font-sans mt-4 max-w-2xl text-sm md:text-base leading-relaxed text-[#4f624f] font-normal">
-                India's leading seed, irrigation, nutrition, protection, machinery, and market
-                partners — demonstrated on real crops across the full seed-to-sale journey, all in
-                one living farm. See it work before you use it on your land.
-              </p>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                to={getLocalizedPath("/agri-park", currentLang) as any}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-8 py-4 text-sm font-extrabold text-white transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#143d31]/20"
-              >
-                Plan an Agri Park visit
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <a
-                href="tel:9487263498"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 px-8 py-4 text-sm font-extrabold text-[#143d31] transition-all hover:bg-white/60 hover:-translate-y-1"
-              >
-                Order nursery plants
-              </a>
-            </div>
-          </div>
-
-          {/* Farm image card */}
-          <div
-            ref={imageContainerRef}
-            data-home-reveal
-            className="relative min-h-[480px] overflow-hidden rounded-[2.5rem] bg-[#143d31] shadow-xl shadow-[#143d31]/10 border-[6px] border-white/50"
-          >
-            <img
-              ref={imageRef}
-              src={agroParkImage}
-              alt="Agaate Agri Park and Bio-Boosted nursery"
-              className="absolute -top-[10%] -bottom-[10%] -left-[10%] -right-[10%] h-[120%] w-[120%] max-w-none object-cover transition-transform duration-1000 hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#07120f]/90 via-[#07120f]/25 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-xs font-bold backdrop-blur-md shadow-sm">
-                <MapPin className="h-4 w-4 text-[#a3e635]" />
-                Kukrola, Gurugram — 17 acres
+                <h3 className="font-display text-xl font-bold text-[#143d31] mt-0.5">
+                  Nursery vs. Direct Sowing
+                </h3>
               </div>
-              <p className="font-display max-w-md text-xl md:text-2xl font-bold leading-snug text-white">
-                Live demo plots, nursery trials, AI climate monitoring, drone spraying, and hands-on
-                farmer training — all on one real farm.
-              </p>
+              <span className="rounded-full bg-[#143d31] px-3 py-1 text-[10px] font-mono font-bold text-[#a3e635]">
+                98% Survival
+              </span>
+            </div>
+
+            <div className="divide-y divide-[#143d31]/10">
+              <div className="grid grid-cols-3 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[#5d7d37]">
+                <span>Metric</span>
+                <span className="text-[#888a7a]">Traditional Sowing</span>
+                <span className="text-[#143d31]">Bio-Boosted Nursery</span>
+              </div>
+              {nurseryComparison.map((row) => (
+                <div key={row.label} className="grid grid-cols-3 py-3 text-xs sm:text-sm items-center">
+                  <span className="font-semibold text-[#143d31]">{row.label}</span>
+                  <span className="text-[#888a7a] line-through font-mono">{row.traditional}</span>
+                  <div className="flex items-center gap-1.5 font-extrabold text-[#143d31]">
+                    <span>{row.bioBoosted}</span>
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-2 flex items-center justify-between text-xs text-[#4f624f]">
+              <span className="font-medium">17-Acre AI Climate-Controlled Facility</span>
+              <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase">Zero Mortality Protocol</span>
             </div>
           </div>
+
+          {/* Right Column: Visual Showcase (6 cols) */}
+          <div className="lg:col-span-6 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[#143d31]/12">
+              <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider flex items-center gap-1.5">
+                <MapPin className="h-3 w-3 text-[#5d7d37]" />
+                Kukrola, Gurugram
+              </span>
+
+              {/* Minimal Tab Switcher */}
+              <div className="inline-flex rounded-full bg-[#143d31]/10 p-0.5">
+                <button
+                  onClick={() => setActiveTab("nursery")}
+                  className={`rounded-full px-3 py-0.5 text-xs font-mono font-bold transition-all cursor-pointer ${
+                    activeTab === "nursery"
+                      ? "bg-[#143d31] text-[#a3e635] shadow-xs"
+                      : "text-[#143d31]/70 hover:text-[#143d31]"
+                  }`}
+                >
+                  Nursery Facility
+                </button>
+                <button
+                  onClick={() => setActiveTab("park")}
+                  className={`rounded-full px-3 py-0.5 text-xs font-mono font-bold transition-all cursor-pointer ${
+                    activeTab === "park"
+                      ? "bg-[#143d31] text-[#a3e635] shadow-xs"
+                      : "text-[#143d31]/70 hover:text-[#143d31]"
+                  }`}
+                >
+                  Agri Park Farm
+                </button>
+              </div>
+            </div>
+
+            {/* Showcase Visual */}
+            <div className="relative aspect-[16/10] w-full flex items-center justify-center">
+              {activeTab === "nursery" ? (
+                <div className="relative h-full w-full flex items-center justify-center">
+                  <img
+                    src="/nursery.png"
+                    alt="Bio-Boosted Nursery Facility"
+                    className="max-h-full w-full object-contain drop-shadow-[0_15px_25px_rgba(20,61,49,0.2)] transition-transform duration-500 hover:scale-[1.02]"
+                  />
+                  <div className="absolute top-2 left-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-3 py-1 text-[10px] font-mono font-bold text-[#a3e635] shadow-md">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#a3e635] animate-ping" />
+                      17-Acre AI Greenhouse
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[#143d31]/15 shadow-md">
+                  <img
+                    src={agroParkImage}
+                    alt="Agri Park Kukrola"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#143d31]/85 via-[#143d31]/20 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 text-white">
+                    <p className="font-display text-base font-bold">17-Acre Demonstration Farm</p>
+                    <p className="text-xs text-white/80">AI monitoring, drone spraying & live trials</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
         </div>
 
-        {/* Zone grid */}
-        <div data-home-reveal className="mt-14">
-          <p className="mb-6 font-jet text-[10px] font-bold uppercase tracking-[0.18em] text-[#143d31]/60">
-            Walk the full crop journey — 8 dedicated zones
-          </p>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-4">
-            {zones.map((zone) => {
-              const Icon = zone.icon;
+        {/* ── 3. 8-Zone Minimal Strip (Full Width) ── */}
+        <div data-home-reveal className="pt-6 border-t border-[#143d31]/10">
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+              WALK THE CROP JOURNEY · 8 FIELD ZONES
+            </span>
+            <span className="font-mono text-[10px] text-[#4f624f]">01 – 08 Interactive Stations</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            {zones.map((z) => {
+              const Icon = z.icon;
               return (
                 <div
-                  key={zone.label}
-                  className="group flex flex-col gap-4 rounded-3xl bg-white/50 p-6 shadow-sm border border-white transition-all duration-300 hover:bg-white hover:-translate-y-1 hover:shadow-md hover:shadow-[#143d31]/5"
+                  key={z.number}
+                  className="group flex flex-col justify-between p-2.5 rounded-xl border border-transparent hover:border-[#5d7d37]/30 hover:bg-white/60 transition-all duration-300"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4f7ef] transition-colors group-hover:bg-[#e4edcc]">
-                    <Icon className="h-6 w-6 text-[#476f2d]" strokeWidth={1.8} />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="font-mono text-[10px] font-extrabold text-[#5d7d37]">
+                      {z.number}
+                    </span>
+                    <Icon className="h-3.5 w-3.5 text-[#143d31] group-hover:scale-110 transition-transform" />
                   </div>
-                  <div>
-                    <p className="text-base font-extrabold leading-tight text-[#143d31]">
-                      {zone.label}
-                    </p>
-                    <p className="mt-1.5 text-xs leading-5 text-[#536253]">{zone.benefit}</p>
-                  </div>
+                  <p className="font-display text-xs font-bold text-[#143d31] leading-tight group-hover:text-[#5d7d37] transition-colors">
+                    {z.label}
+                  </p>
+                  <p className="text-[9px] text-[#4f624f] truncate mt-0.5 font-mono">
+                    {z.sub}
+                  </p>
                 </div>
               );
             })}
           </div>
         </div>
+
       </div>
     </section>
   );

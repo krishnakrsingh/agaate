@@ -53,7 +53,7 @@ export default function ClosingChapter() {
     <section
       ref={sectionRef}
       id="get-started"
-      className="relative scroll-mt-20 overflow-hidden bg-[#f3f1e7] px-5 py-16 md:px-10 md:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
 
       <div className="mx-auto max-w-7xl">

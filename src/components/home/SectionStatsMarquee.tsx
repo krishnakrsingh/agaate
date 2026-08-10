@@ -23,10 +23,10 @@ const stats = [
 
 export default function SectionStatsMarquee() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#fafbf7] pt-1 pb-3.5 md:pt-1.5 md:pb-4.5">
-      {/* Soft gradient edge masks matching Section 2 #fafbf7 background */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#fafbf7] via-[#fafbf7]/80 to-transparent md:w-40" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#fafbf7] via-[#fafbf7]/80 to-transparent md:w-40" />
+    <section className="relative w-full overflow-hidden bg-[#f4f8f5] pt-1 pb-3.5 md:pt-1.5 md:pb-4.5">
+      {/* Soft gradient edge masks matching Section 2 #f4f8f5 background */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#f4f8f5] via-[#f4f8f5]/80 to-transparent md:w-40" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#f4f8f5] via-[#f4f8f5]/80 to-transparent md:w-40" />
 
       <Marquee className="[--duration:35s] [--gap:0.4rem] md:[--gap:0.5rem]" pauseOnHover>
         {stats.map((stat, idx) => {

@@ -7,7 +7,6 @@ import LoadingScreen from "@/components/LoadingScreen";
 
 // Homepage Sections
 import SectionHero from "@/components/sections/SectionHero";
-import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import FieldSignal from "@/components/home/FieldSignal";
 import PeopleChapter from "@/components/home/PeopleChapter";
 import SectionStatsMarquee from "@/components/home/SectionStatsMarquee";
@@ -82,25 +81,22 @@ function Index() {
             {/* Section 2: Who Agaate is — founder vision & core commitments */}
             <PeopleChapter />
 
-            {/* Section 3: Interactive Crop Lifecycle Deep Dive */}
-            <SectionCropWorld />
-
-            {/* Section 4: Farmer pain points — establish empathy & problem */}
+            {/* Section 3: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
 
-            {/* Section 5: Talk to Agronomist App — first digital solution */}
+            {/* Section 4: Talk to Agronomist App — first digital solution */}
             <AppChapter />
 
-            {/* Section 6: Agaate Kisaan Mall — physical input store */}
+            {/* Section 5: Section 03 AGAATE MALL — Direct Input Commerce */}
             <MallChapter />
 
-            {/* Section 7: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
+            {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
             <AgriParkChapter />
 
-            {/* Section 8: Trust, scale stats, and testimonials */}
+            {/* Section 7: Trust, scale stats, and testimonials */}
             <ProofChapter />
 
-            {/* Section 9: Final conversion — three clear action paths */}
+            {/* Section 8: Final conversion — three clear action paths */}
             <ClosingChapter />
 
             {/* Footer */}

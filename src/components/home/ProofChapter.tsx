@@ -47,7 +47,7 @@ export default function ProofChapter() {
     <section
       ref={sectionRef}
       id="impact"
-      className="relative scroll-mt-28 overflow-hidden bg-[#fffdf4] px-5 py-16 text-[#143d31] md:px-10 md:py-24"
+      className="relative scroll-mt-28 overflow-hidden bg-white px-5 py-16 text-[#143d31] md:px-10 md:py-24"
     >
       {/* Top rule */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#143d31]/10" />

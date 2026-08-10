@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, TiltCard, MagneticButton, Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
+import KisaanMallShowcase from "./KisaanMallShowcase";
 
 const ecosystemPillars = [
   {
@@ -241,7 +242,7 @@ export default function PeopleChapter() {
     <section
       ref={sectionRef}
       id="who-we-are"
-      className="relative bg-[#fafbf7]"
+      className="relative bg-[#f4f8f5]"
     >
       {/* 400vh Scroll Track for Pinned 100vw Cinematic Horizontal Panels */}
       <div ref={scrollTargetRef} className="relative h-[380vh]">
@@ -342,29 +343,33 @@ export default function PeopleChapter() {
 
                       {/* Right Column (6 cols): Large Freestanding Cutout PNG or Image Frame */}
                       <div className="lg:col-span-6 relative flex items-center justify-center">
-                        <TiltCard maxTilt={6} glare={false} className="w-full">
-                          {pillar.isPng ? (
-                            <motion.div
-                              whileHover={{ scale: 1.05 }}
-                              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                              className="relative w-full flex items-center justify-center p-0"
-                            >
-                              <img
-                                src={pillar.image}
-                                alt={pillar.title}
-                                className="w-full max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] object-contain transition-transform duration-500 drop-shadow-2xl"
-                              />
-                            </motion.div>
-                          ) : (
-                            <div className="relative aspect-[4/3] lg:aspect-[1.12/1] max-h-[440px] sm:max-h-[520px] lg:max-h-[580px] w-full overflow-hidden rounded-3xl border border-[#143d31]/15 bg-white">
-                              <img
-                                src={pillar.image}
-                                alt={pillar.title}
-                                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                              />
-                            </div>
-                          )}
-                        </TiltCard>
+                        {pillar.id === "mall" ? (
+                          <KisaanMallShowcase />
+                        ) : (
+                          <TiltCard maxTilt={6} glare={false} className="w-full">
+                            {pillar.isPng ? (
+                              <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                className="relative w-full flex items-center justify-center p-0"
+                              >
+                                <img
+                                  src={pillar.image}
+                                  alt={pillar.title}
+                                  className="w-full max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] object-contain transition-transform duration-500 drop-shadow-2xl"
+                                />
+                              </motion.div>
+                            ) : (
+                              <div className="relative aspect-[4/3] lg:aspect-[1.12/1] max-h-[440px] sm:max-h-[520px] lg:max-h-[580px] w-full overflow-hidden rounded-3xl border border-[#143d31]/15 bg-white">
+                                <img
+                                  src={pillar.image}
+                                  alt={pillar.title}
+                                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                                />
+                              </div>
+                            )}
+                          </TiltCard>
+                        )}
                       </div>
 
                     </div>

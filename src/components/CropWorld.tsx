@@ -1,4 +1,3 @@
-import CropWorld, { CropWorldProps } from "./crop-world";
+import CropWorld from "./crop-world";
 
-export type { CropWorldProps };
 export default CropWorld;

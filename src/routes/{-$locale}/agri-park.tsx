@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowRight, Calendar, MapPin, Shield, Sprout, Compass, Sparkles, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SectionCropWorld from "@/components/sections/SectionCropWorld";
 import {
   CountUp,
   Marquee,
@@ -19,7 +20,6 @@ import { ZoneBoard } from "@/components/agri-park/zone-board";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 import {
   FirstOfKind,
-  Lifecycle,
   SmartNursery,
   TaglineBand,
   ZonesOverview,
@@ -35,8 +35,11 @@ function AgriPark() {
   return (
     <main className="min-h-screen flex flex-col bg-cream font-sans text-ink antialiased">
       <Header />
+      
+      {/* New Hero Section: Interactive Seed-to-Sale Journey */}
+      <SectionCropWorld />
 
-      {/* Page Hero */}
+      {/* Page Hero (Now secondary intro) */}
       <PageHero
         eyebrow="India's First Collaborative Living Farm · Kukrola, Gurugram"
         title={
@@ -119,10 +122,7 @@ function AgriPark() {
         {/* Section 4: 17-Acre Smart Nursery Controlled Environment */}
         <SmartNursery />
 
-        {/* Section 5: The Four-Phase Seed-to-Sale Lifecycle */}
-        <Lifecycle />
-
-        {/* Section 6: Final Call-To-Action Band */}
+        {/* Section 5: Final Call-To-Action Band */}
         <TaglineBand />
       </div>
 

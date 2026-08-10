@@ -55,7 +55,7 @@ export default function AppChapter() {
     <section
       ref={sectionRef}
       id="agaate-app"
-      className="relative scroll-mt-28 bg-[#eaf0df] px-5 py-16 md:px-10 md:py-24"
+      className="relative scroll-mt-28 bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start relative">
         {/* Left — content */}

@@ -1,13 +1,3 @@
-export interface Article {
-  id: string;
-  title: string;
-  cat: string;
-  time: string;
-  date: string;
-  desc: string;
-  content: string;
-}
-
 export interface JobPosition {
   id: string;
   title: string;

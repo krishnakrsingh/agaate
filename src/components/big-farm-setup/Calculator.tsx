@@ -53,7 +53,7 @@ export function TabSwitcher({
 
 export type CropCategory = "vegetables" | "polyhouse" | "fruits";
 
-export const CROP_PRESETS: Record<
+const CROP_PRESETS: Record<
   CropCategory,
   {
     name: string;

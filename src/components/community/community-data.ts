@@ -51,7 +51,7 @@ export const posts: Post[] = [
   },
 ];
 
-export type CommunityEvent = {
+type CommunityEvent = {
   id: string;
   title: string;
   date: string;
@@ -60,7 +60,7 @@ export type CommunityEvent = {
   desc: string;
 };
 
-export const events: CommunityEvent[] = [
+const events: CommunityEvent[] = [
   {
     id: "ev-01",
     title: "Jhajjar Drip Calibration Seminar",
@@ -113,16 +113,16 @@ export const PILLARS: Pillar[] = [
   },
 ];
 
-export type TabId = "track" | "advisory" | "app" | "venture";
+type TabId = "track" | "advisory" | "app" | "venture";
 
-export type ServiceTab = {
+type ServiceTab = {
   id: TabId;
   icon: LucideIcon;
   label: string;
   blurb: string;
 };
 
-export const SERVICE_TABS: ServiceTab[] = [
+const SERVICE_TABS: ServiceTab[] = [
   {
     id: "track",
     icon: MessageCircle,
@@ -151,7 +151,7 @@ export const SERVICE_TABS: ServiceTab[] = [
   },
 ];
 
-export const CHAT_CHIPS = [
+const CHAT_CHIPS = [
   "Daily & stage-wise guidance",
   "Photo-based issue detection",
   "Direct expert connect",
@@ -194,7 +194,7 @@ export const WHATSAPP_SCRIPTS: Record<"track" | "advisory", ChatMsg[]> = {
   ],
 };
 
-export const APP_FEATURES: { icon: LucideIcon; title: string; text: string }[] = [
+const APP_FEATURES: { icon: LucideIcon; title: string; text: string }[] = [
   {
     icon: Sprout,
     title: "Track crop stages",
@@ -212,7 +212,7 @@ export const APP_FEATURES: { icon: LucideIcon; title: string; text: string }[] =
   },
 ];
 
-export const VENTURE_STEPS = [
+const VENTURE_STEPS = [
   {
     number: "01",
     title: "Setup",
@@ -262,7 +262,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-export type MapNode = {
+type MapNode = {
   x: number;
   y: number;
   label: string;
@@ -270,7 +270,7 @@ export type MapNode = {
   hub?: boolean;
 };
 
-export const MAP_NODES: MapNode[] = [
+const MAP_NODES: MapNode[] = [
   { x: 50, y: 50, label: "Parivaar Hub", sub: "2,000+ farmers", hub: true },
   { x: 21, y: 21, label: "Jhajjar Hub", sub: "Regional seminars" },
   { x: 14, y: 66, label: "Rohtak Agri Park", sub: "Soil carbon events" },
@@ -279,7 +279,7 @@ export const MAP_NODES: MapNode[] = [
   { x: 62, y: 85, label: "Kanpur Campus", sub: "CSA University" },
 ];
 
-export const STAGE_CHIPS = [
+const STAGE_CHIPS = [
   { label: "Nursery", done: true },
   { label: "Land Prep", done: true },
   { label: "Vegetative", done: true },

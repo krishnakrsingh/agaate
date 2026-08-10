@@ -22,7 +22,7 @@ export type RevealVariant =
   | "flip"
   | "clip-up";
 
-export const revealVariants: Record<RevealVariant, Variants> = {
+const revealVariants: Record<RevealVariant, Variants> = {
   "fade-up": {
     hidden: { opacity: 0, y: 48 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
@@ -517,4 +517,4 @@ export function MagneticButton({
   );
 }
 
-export { animate, motion, useInView, useMotionValue, useScroll, useSpring, useTransform };
+export { motion, useInView, useScroll, useSpring };

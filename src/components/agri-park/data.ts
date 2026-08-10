@@ -43,13 +43,7 @@ export type Zone = {
   trialHighlights: string[];
   svgCoords: { cx: number; cy: number };
 };
-export type Trial = {
-  id: string;
-  crop: string;
-  partner: string;
-  result: string;
-  status: string;
-};
+
 
 export const ZONES_EIGHT: ZoneEight[] = [
   { icon: Sprout, label: "Seed Zone", benefit: "Choose the right variety before you sow" },
@@ -184,10 +178,6 @@ export const FIELD_LINES = [
   { x1: 85, y1: 15, x2: 85, y2: 95 },
 ];
 
-export const rowVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
-};
 
 export const ALL_8_ZONES: Zone[] = [
   {
@@ -328,35 +318,4 @@ export const ALL_8_ZONES: Zone[] = [
   },
 ];
 
-export const ZONES = ALL_8_ZONES; // Alias for backwards compatibility
 
-export const TRIALS: Trial[] = [
-  {
-    id: "AG-T21",
-    crop: "Tomato (Abhinav)",
-    partner: "Sakata",
-    result: "98.6% Germination",
-    status: "Verified",
-  },
-  {
-    id: "AG-I08",
-    crop: "Cucumber (Nishant)",
-    partner: "Netafim",
-    result: "-42% Water Usage",
-    status: "Verified",
-  },
-  {
-    id: "AG-N15",
-    crop: "Chilli (Tejaswini)",
-    partner: "Agaate Bio",
-    result: "2.4x Root Density",
-    status: "Verified",
-  },
-  {
-    id: "AG-C03",
-    crop: "Spinach (All Green)",
-    partner: "Yara",
-    result: "+1.1% Soil Carbon",
-    status: "Audit",
-  },
-];
