@@ -15,7 +15,6 @@ import {
   Smartphone,
   Sparkles,
   Sprout,
-  ShieldCheck,
   FlaskConical,
   Droplets,
   Wifi,
@@ -45,6 +44,20 @@ const SUGGESTED_PROMPTS = [
   "Biocure for root rot?",
   "How to control thrips attack?",
 ];
+
+/** Free AI turns before WhatsApp handoff */
+const FREE_CHAT_LIMIT = 3;
+
+const WHATSAPP_AGRONOMIST_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20chatted%20on%20the%20app%20and%20want%20to%20continue%20with%20a%20real%20agronomist%20for%20my%20crop.";
+
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
 
 const MALL_PRODUCTS = [
   {
@@ -123,6 +136,7 @@ export default function InteractivePhoneApp({
   const [messages, setMessages] = useState<Message[]>(getFreshWelcomeMessage());
   const [inputQuery, setInputQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [chatLocked, setChatLocked] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [isCartPulsing, setIsCartPulsing] = useState(false);
   const [addedItemToast, setAddedItemToast] = useState<string | null>(null);
@@ -130,11 +144,14 @@ export default function InteractivePhoneApp({
   // Internal container ref (only scrolls inside the phone screen, NOT the webpage window!)
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
+  const farmerChatCount = messages.filter((m) => m.sender === "farmer").length;
+  const chatsLeft = Math.max(0, FREE_CHAT_LIMIT - farmerChatCount);
+
   useEffect(() => {
     if (activeTab === "chat" && chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages, activeTab, isLoading]);
+  }, [messages, activeTab, isLoading, chatLocked]);
 
   useEffect(() => {
     if (isCartPulsing) {
@@ -146,13 +163,18 @@ export default function InteractivePhoneApp({
   const handleResetChat = () => {
     setMessages(getFreshWelcomeMessage());
     setInputQuery("");
+    setChatLocked(false);
+    setIsLoading(false);
     setAddedItemToast("Fresh Chat Started!");
     setTimeout(() => setAddedItemToast(null), 2000);
   };
 
   const handleSendMessage = async (customText?: string) => {
     const textToSend = customText || inputQuery;
-    if (!textToSend.trim() || isLoading) return;
+    if (!textToSend.trim() || isLoading || chatLocked) return;
+
+    const nextFarmerCount = farmerChatCount + 1;
+    const willLockAfterReply = nextFarmerCount >= FREE_CHAT_LIMIT;
 
     const userMsg: Message = {
       id: Date.now().toString(),
@@ -355,6 +377,9 @@ export default function InteractivePhoneApp({
       await animateTextStream(fallbackText);
     } finally {
       setIsLoading(false);
+      if (willLockAfterReply) {
+        setChatLocked(true);
+      }
     }
   };
 
@@ -499,23 +524,37 @@ export default function InteractivePhoneApp({
                     ) : (
                       <div className="max-w-[94%] rounded-2xl bg-white p-3.5 text-xs leading-relaxed text-[#143d31] border border-[#143d31]/12 shadow-sm rounded-bl-xs">
                         {/* Advisory Card Header */}
-                        <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#143d31]/8">
-                          <div className="flex items-center gap-2">
-                            <div className="h-5 w-5 rounded-full bg-[#e7edd9] p-0.5 border border-[#143d31]/12 flex items-center justify-center shrink-0">
-                              <img
-                                src="/logo11.png"
-                                alt="Agaate"
-                                className="h-full w-full rounded-full object-cover"
-                              />
-                            </div>
-                            <span className="font-extrabold text-[11px] text-[#143d31]">
-                              Agaate Agronomist
-                            </span>
+                        <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[#143d31]/8">
+                          <div className="h-5 w-5 rounded-full bg-[#e7edd9] p-0.5 border border-[#143d31]/12 flex items-center justify-center shrink-0">
+                            <img
+                              src="/logo11.png"
+                              alt="Agaate"
+                              className="h-full w-full rounded-full object-cover"
+                            />
                           </div>
+                          <span className="font-extrabold text-[11px] text-[#143d31]">
+                            Agaate Agronomist
+                          </span>
                           {msg.verified && (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31] px-2 py-0.5 text-[8px] font-mono font-bold text-white tracking-wider uppercase shadow-xs">
-                              <ShieldCheck className="h-2.5 w-2.5 text-white" />
-                              Verified Advisory
+                            <span
+                              className="inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#25D366]"
+                              aria-label="Verified"
+                              title="Verified"
+                            >
+                              <svg
+                                viewBox="0 0 16 16"
+                                className="h-2.5 w-2.5 text-white"
+                                fill="none"
+                                aria-hidden
+                              >
+                                <path
+                                  d="M3.5 8.2 6.4 11l6.1-6.5"
+                                  stroke="currentColor"
+                                  strokeWidth="2.2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
                             </span>
                           )}
                         </div>
@@ -529,10 +568,13 @@ export default function InteractivePhoneApp({
                         <div className="mt-2.5 pt-2 border-t border-[#143d31]/6 flex items-center justify-between text-[9px] text-[#536253]">
                           <span className="font-mono text-[#143d31]/40">{msg.time}</span>
                           <a
-                            href="tel:9487263498"
-                            className="inline-flex items-center gap-1 text-[#476f2d] font-bold hover:underline"
+                            href={WHATSAPP_AGRONOMIST_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-[#128C7E] font-bold hover:underline"
                           >
-                            <span>📞 Call Kisan Sathi</span>
+                            <WhatsAppIcon className="h-3 w-3" />
+                            <span>Chat now</span>
                           </a>
                         </div>
                       </div>
@@ -557,42 +599,93 @@ export default function InteractivePhoneApp({
                     </div>
                   </motion.div>
                 )}
-              </div>
 
-              {/* Quick Prompt Chips */}
-              <div className="px-3 py-1.5 bg-[#f6f9f0] border-t border-[#143d31]/8 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-                <span className="text-[9px] font-mono text-[#143d31]/50 uppercase shrink-0">
-                  Ask:
-                </span>
-                {SUGGESTED_PROMPTS.map((prompt) => (
-                  <button
-                    key={prompt}
-                    onClick={() => handleSendMessage(prompt)}
-                    className="shrink-0 rounded-full bg-white border border-[#143d31]/12 px-2.5 py-1 text-[10px] font-semibold text-[#143d31] hover:bg-[#a3e635]/20 hover:border-[#5d7d37] transition-all"
+                {chatLocked && !isLoading && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    className="rounded-2xl border border-[#25D366]/35 bg-gradient-to-b from-[#e8fff0] to-white p-3.5 shadow-sm"
                   >
-                    {prompt}
-                  </button>
-                ))}
+                    <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#128C7E]">
+                      Free AI chats used
+                    </p>
+                    <p className="mt-1 text-[12px] font-extrabold leading-snug text-[#143d31]">
+                      Get a real agronomist on WhatsApp for your field.
+                    </p>
+                    <p className="mt-1 text-[10px] leading-relaxed text-[#143d31]/65 font-medium">
+                      Photo diagnosis, spray dose, and follow-up — usually replies within minutes.
+                    </p>
+                    <a
+                      href={WHATSAPP_AGRONOMIST_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2.5 text-[12px] font-extrabold text-white shadow-md shadow-[#25D366]/30 transition-transform active:scale-[0.98] hover:bg-[#1ebe57]"
+                    >
+                      <WhatsAppIcon className="h-4 w-4" />
+                      Continue on WhatsApp
+                    </a>
+                  </motion.div>
+                )}
               </div>
 
-              {/* Chat Input Bar */}
-              <div className="p-2.5 bg-white border-t border-[#143d31]/10 flex items-center gap-2">
-                <input
-                  type="text"
-                  value={inputQuery}
-                  onChange={(e) => setInputQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                  placeholder="Ask crop advice or symptoms..."
-                  className="flex-1 rounded-full bg-[#f4f7ef] px-3.5 py-2 text-xs text-[#143d31] outline-none placeholder:text-[#143d31]/40 focus:ring-1 focus:ring-[#5d7d37]"
-                />
-                <button
-                  onClick={() => handleSendMessage()}
-                  disabled={isLoading || !inputQuery.trim()}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-white disabled:opacity-40 transition-all hover:scale-105"
-                >
-                  <Send className="h-3.5 w-3.5" />
-                </button>
-              </div>
+              {/* Quick Prompt Chips — hidden once gated */}
+              {!chatLocked && (
+                <div className="px-3 py-1.5 bg-[#f6f9f0] border-t border-[#143d31]/8 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                  <span className="text-[9px] font-mono text-[#143d31]/50 uppercase shrink-0">
+                    Ask:
+                  </span>
+                  {SUGGESTED_PROMPTS.map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      onClick={() => handleSendMessage(prompt)}
+                      disabled={isLoading}
+                      className="shrink-0 rounded-full bg-white border border-[#143d31]/12 px-2.5 py-1 text-[10px] font-semibold text-[#143d31] hover:bg-[#a3e635]/20 hover:border-[#5d7d37] transition-all disabled:opacity-50"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                  {chatsLeft > 0 && chatsLeft < FREE_CHAT_LIMIT && (
+                    <span className="shrink-0 ml-auto text-[9px] font-mono text-[#143d31]/40">
+                      {chatsLeft} left
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Chat Input Bar OR WhatsApp gate CTA */}
+              {chatLocked ? (
+                <div className="p-2.5 bg-white border-t border-[#143d31]/10">
+                  <a
+                    href={WHATSAPP_AGRONOMIST_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-[12px] font-extrabold text-white shadow-md shadow-[#25D366]/25 transition-transform active:scale-[0.98] hover:bg-[#1ebe57]"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" />
+                    WhatsApp an Agronomist
+                  </a>
+                </div>
+              ) : (
+                <div className="p-2.5 bg-white border-t border-[#143d31]/10 flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={inputQuery}
+                    onChange={(e) => setInputQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                    placeholder="Ask crop advice or symptoms..."
+                    className="flex-1 rounded-full bg-[#f4f7ef] px-3.5 py-2 text-xs text-[#143d31] outline-none placeholder:text-[#143d31]/40 focus:ring-1 focus:ring-[#5d7d37]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleSendMessage()}
+                    disabled={isLoading || !inputQuery.trim()}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-white disabled:opacity-40 transition-all hover:scale-105"
+                  >
+                    <Send className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
