@@ -17,8 +17,13 @@ export const ALT_PHONE = "+91 94872 63498";
 export const TEL_PRIMARY = "+918350085005";
 export const TEL_ALT = "+919487263498";
 export const EMAIL = "info@agaate.in";
-export const WHATSAPP_URL =
-  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20connect%20with%20an%20agronomist%20for%20a%20farm%20consultation.";
+
+export const CONTACT_PREFILL_MESSAGE =
+  "Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.";
+
+export const WHATSAPP_URL = `https://wa.me/918350085005?text=${encodeURIComponent(CONTACT_PREFILL_MESSAGE)}`;
+
+export const MAILTO_URL = `mailto:${EMAIL}?subject=${encodeURIComponent("Inquiry — Agaate")}&body=${encodeURIComponent(CONTACT_PREFILL_MESSAGE)}`;
 
 export type Facility = {
   id: string;

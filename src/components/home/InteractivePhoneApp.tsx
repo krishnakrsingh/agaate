@@ -366,7 +366,7 @@ export default function InteractivePhoneApp({
   };
 
   return (
-    <div className="font-dm relative mx-auto w-full max-w-[310px] sm:max-w-[335px] lg:max-w-[350px]">
+    <div className="font-dm relative mx-auto w-full max-w-[270px] sm:max-w-[290px] lg:max-w-[300px]">
       {/* Toast notification */}
       {addedItemToast && (
         <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-white shadow-xl border border-white/30 animate-bounce">
@@ -374,12 +374,31 @@ export default function InteractivePhoneApp({
         </div>
       )}
 
-      {/* iPhone 16 Pro Style Thin Bezel Frame */}
-      <div className="relative rounded-[2.8rem] border-[4px] border-[#0a1814] bg-[#0a1814] p-1.5 shadow-2xl shadow-black/40 ring-1 ring-black/20">
-        {/* Edge-to-Edge Screen Container */}
-        <div className="relative overflow-hidden rounded-[2.4rem] bg-[#fffdf4] text-[#143d31] flex flex-col h-[510px] sm:h-[545px] lg:h-[570px] justify-between">
+      {/* Nothing Phone (1) — 20:9 frame, thin uniform bezels, punch-hole */}
+      <div className="relative aspect-[9/20] rounded-[2.15rem] border-[3px] border-[#1a1a1a] bg-[#1a1a1a] p-[5px] shadow-2xl shadow-black/40 ring-1 ring-white/10">
+        {/* Side buttons (volume / power) */}
+        <div
+          className="pointer-events-none absolute -left-[5px] top-[18%] h-10 w-[3px] rounded-l-sm bg-[#2a2a2a]"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -left-[5px] top-[28%] h-14 w-[3px] rounded-l-sm bg-[#2a2a2a]"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -right-[5px] top-[24%] h-16 w-[3px] rounded-r-sm bg-[#2a2a2a]"
+          aria-hidden="true"
+        />
+
+        <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[1.85rem] bg-[#fffdf4] text-[#143d31]">
+          {/* Punch-hole camera */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-2.5 z-30 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#0a0a0a] ring-1 ring-black/40"
+            aria-hidden="true"
+          />
+
           {/* Top System Status Bar — Clean Light Theme */}
-          <div className="relative bg-[#fffdf4] px-4 pt-2 pb-1.5 text-[#143d31] shrink-0 border-b border-[#143d31]/6">
+          <div className="relative shrink-0 border-b border-[#143d31]/6 bg-[#fffdf4] px-4 pb-1.5 pt-3.5 text-[#143d31]">
             <div className="flex items-center justify-between text-[9px] font-bold text-[#143d31]/80">
               <span>9:41 AM</span>
               <div className="flex items-center gap-1.5 text-[#143d31]/80">
@@ -866,7 +885,7 @@ export default function InteractivePhoneApp({
           )}
 
           {/* FLUSH INTEGRATED BOTTOM OS NAVIGATION BAR */}
-          <div className="bg-[#143d31] px-3 py-2 text-white shrink-0 flex items-center justify-around rounded-b-[2rem] border-t border-[#143d31]/10">
+          <div className="flex shrink-0 items-center justify-around border-t border-[#143d31]/10 bg-[#143d31] px-3 py-2.5 text-white">
             <button
               onClick={() => setActiveTab("chat")}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${

@@ -1,9 +1,8 @@
-import { Clock, Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import {
-  ALT_PHONE,
   EMAIL,
+  MAILTO_URL,
   PRIMARY_PHONE,
-  TEL_ALT,
   TEL_PRIMARY,
   WHATSAPP_URL,
 } from "./data";
@@ -35,25 +34,13 @@ export default function QuickContactBar() {
             {PRIMARY_PHONE}
           </a>
           <a
-            href={`tel:${TEL_ALT}`}
-            onClick={() => track("phone_clicked", { source: "quickbar", line: "alt" })}
-            className="inline-flex items-center gap-2 text-forest-deep hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
-          >
-            <Phone className="h-3.5 w-3.5 text-neutral-400" strokeWidth={1.75} />
-            {ALT_PHONE}
-          </a>
-          <a
-            href={`mailto:${EMAIL}?subject=Agaate%20inquiry`}
+            href={MAILTO_URL}
             onClick={() => track("email_clicked", { source: "quickbar" })}
             className="inline-flex items-center gap-2 text-forest-deep hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
           >
             <Mail className="h-3.5 w-3.5 text-neutral-400" strokeWidth={1.75} />
             {EMAIL}
           </a>
-          <span className="inline-flex items-center gap-2 text-neutral-500">
-            <Clock className="h-3.5 w-3.5 text-neutral-400" strokeWidth={1.75} />
-            Mon–Sat
-          </span>
           <a
             href={WHATSAPP_URL}
             target="_blank"

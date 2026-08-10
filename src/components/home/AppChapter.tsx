@@ -57,7 +57,7 @@ export default function AppChapter() {
       id="agaate-app"
       className="relative scroll-mt-28 bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start relative">
+      <div className="relative mx-auto grid max-w-7xl gap-16 sm:gap-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-12">
         {/* Left — content */}
         <div data-home-reveal className="relative z-10">
           <motion.div
@@ -121,7 +121,7 @@ export default function AppChapter() {
           </div>
 
           {/* Steps */}
-          <Stagger stagger={0.12} delayChildren={0.2} className="mt-10 grid gap-6">
+          <Stagger stagger={0.12} delayChildren={0.2} className="mt-10 grid gap-8 sm:gap-6">
             {appSteps.map((step) => {
               const Icon = step.icon;
               const isTabActive = activeTab === step.tab;
@@ -157,7 +157,11 @@ export default function AppChapter() {
           </Stagger>
 
           {/* Store badges */}
-          <Reveal variant="scale-up" delay={0.3} className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+          <Reveal
+            variant="scale-up"
+            delay={0.3}
+            className="mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-4 pb-2 sm:mt-14 sm:gap-x-6 lg:mt-10 lg:justify-start lg:gap-4 lg:pb-0"
+          >
             <motion.a
               href="https://play.google.com/store/apps"
               target="_blank"
@@ -171,7 +175,7 @@ export default function AppChapter() {
               <img
                 src={googlePlayBadge}
                 alt="Get it on Google Play"
-                className="h-10 w-[135px] sm:h-12 sm:w-[162px]"
+                className="h-11 w-[148px] sm:h-12 sm:w-[162px]"
               />
             </motion.a>
             <motion.a
@@ -187,14 +191,14 @@ export default function AppChapter() {
               <img
                 src={appStoreBadge}
                 alt="Download on the App Store"
-                className="h-10 w-[135px] sm:h-12 sm:w-[162px]"
+                className="h-11 w-[148px] sm:h-12 sm:w-[162px]"
               />
             </motion.a>
           </Reveal>
         </div>
 
         {/* Right — Interactive Agaate Phone OS App */}
-        <Reveal variant="fade-left" delay={0.2} className="relative mx-auto w-full flex justify-center lg:sticky lg:top-32 self-start h-max pb-12">
+        <Reveal variant="fade-left" delay={0.2} className="relative mx-auto mt-10 w-full flex justify-center self-start h-max pb-8 sm:mt-14 lg:mt-0 lg:sticky lg:top-32 lg:pb-12">
           <motion.div
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}

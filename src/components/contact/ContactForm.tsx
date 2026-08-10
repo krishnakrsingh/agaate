@@ -12,7 +12,7 @@ import {
   FORM_STORAGE_KEY,
   MESSAGE_MAX,
 } from "./data";
-import { ChannelGroup, TopicSelector } from "./TopicSelector";
+import { TopicSelector } from "./TopicSelector";
 import {
   ConsentCheckbox,
   EmailField,
@@ -165,7 +165,7 @@ export default function ContactForm({
   const whatsappHref = useMemo(() => {
     const topicLabel = CONSULTATION_TOPICS.find((t) => t.id === topic)?.label || "General";
     const text = encodeURIComponent(
-      `Hello Agaate Team,\nI submitted a consultation request on agaate.in.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Looking forward to your guidance."}`,
+      `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\nI submitted a request via agaate.in.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`,
     );
     return `https://wa.me/918350085005?text=${text}`;
   }, [ticketId, topic, form]);
@@ -441,13 +441,6 @@ export default function ContactForm({
                       />
                     </div>
                   ) : null}
-
-                  <ChannelGroup
-                    options={CHANNEL_OPTIONS}
-                    value={form.channel}
-                    disabled={isSubmitting}
-                    onChange={(v) => setField("channel", v)}
-                  />
 
                   <TextareaField
                     id="message"

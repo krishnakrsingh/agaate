@@ -1,5 +1,5 @@
 import { MessageCircle, Phone } from "lucide-react";
-import heroImage from "@/assets/field-advisory-gen.png";
+import heroImage from "@/assets/contact-team.png";
 import { PRIMARY_PHONE, TEL_PRIMARY, WHATSAPP_URL } from "./data";
 import { track } from "@/lib/analytics";
 
@@ -41,8 +41,8 @@ export default function ContactHero() {
         <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-neutral-100 lg:aspect-[5/4]">
           <img
             src={heroImage}
-            alt="Agaate agronomist advising a farmer in the field"
-            className="h-full w-full object-cover"
+            alt="The Agaate team at the Gurugram hub"
+            className="h-full w-full object-cover object-center"
             width={960}
             height={768}
           />
