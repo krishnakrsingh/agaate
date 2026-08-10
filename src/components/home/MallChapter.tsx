@@ -71,24 +71,32 @@ export default function MallChapter() {
             </p>
 
             {/* Feature Cards on Left Side */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <div className="rounded-2xl bg-[#f4f7ef] px-4 py-3 border border-[#143d31]/12 flex items-center gap-3 shadow-xs">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-white">
-                  <Store className="h-4.5 w-4.5" />
+            <div className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-3">
+              <div className="rounded-2xl bg-[#f4f7ef] px-2.5 py-2.5 sm:px-4 sm:py-3 border border-[#143d31]/12 flex items-center gap-2 sm:gap-3 shadow-xs min-w-0">
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-white">
+                  <Store className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
                 </div>
-                <div>
-                  <p className="text-xs font-extrabold text-[#143d31]">15+ Physical Hubs</p>
-                  <p className="text-[10px] text-[#536253] font-mono">Walk-in or Doorstep</p>
+                <div className="min-w-0">
+                  <p className="text-[11px] sm:text-xs font-extrabold text-[#143d31] leading-tight">
+                    15+ Physical Hubs
+                  </p>
+                  <p className="text-[9px] sm:text-[10px] text-[#536253] font-mono leading-tight mt-0.5">
+                    Walk-in or Doorstep
+                  </p>
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-[#143d31] px-4 py-3 text-white border border-[#a3e635]/30 flex items-center gap-3 shadow-md">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#a3e635] text-[#143d31]">
-                  <Truck className="h-4.5 w-4.5" />
+              <div className="rounded-2xl bg-[#143d31] px-2.5 py-2.5 sm:px-4 sm:py-3 text-white border border-[#a3e635]/30 flex items-center gap-2 sm:gap-3 shadow-md min-w-0">
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-[#a3e635] text-[#143d31]">
+                  <Truck className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
                 </div>
-                <div>
-                  <p className="text-xs font-extrabold text-white">24-48h Delivery</p>
-                  <p className="text-[10px] text-white/90 font-mono">Direct to Field Gate</p>
+                <div className="min-w-0">
+                  <p className="text-[11px] sm:text-xs font-extrabold text-white leading-tight">
+                    24-48h Delivery
+                  </p>
+                  <p className="text-[9px] sm:text-[10px] text-white/90 font-mono leading-tight mt-0.5">
+                    Direct to Field Gate
+                  </p>
                 </div>
               </div>
             </div>
