@@ -16,9 +16,9 @@ const actions = [
     number: "01",
     title: "Talk to an Agronomist",
     text: "Describe your crop problem or planning question — a real agronomy expert responds directly. Crop diseases, pest issues, fertilizer, soil, or anything in the field.",
-    cta: "Download the App",
+    cta: "Chat Now",
     subCta: null,
-    href: "tel:9487263498",
+    href: "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20am%20reaching%20out%20for%20assistance%20and%20would%20appreciate%20a%20response%20at%20your%20earliest%20convenience.",
     accent: "#143d31",
   },
   {
@@ -160,8 +160,17 @@ export default function ClosingChapter() {
               );
             }
 
+            const isExternal = action.href.startsWith("http");
             return (
-              <a key={action.title} href={action.href} className={cardClass} data-home-reveal>
+              <a
+                key={action.title}
+                href={action.href}
+                className={cardClass}
+                data-home-reveal
+                {...(isExternal
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
                 {content}
               </a>
             );

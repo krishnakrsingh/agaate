@@ -1,4 +1,27 @@
-import { Award, Compass, Globe, Leaf, Shield, Sprout, Building2, UserCheck, Cpu, Factory, Droplets, Users, type LucideIcon } from "lucide-react";
+import {
+  Award,
+  Compass,
+  Globe,
+  Leaf,
+  Shield,
+  Sprout,
+  UserCheck,
+  Factory,
+  Droplets,
+  Users,
+  ShoppingBag,
+  FlaskConical,
+  Handshake,
+  type LucideIcon,
+} from "lucide-react";
+
+export const brochureHref = "/agaate-brochure.pdf";
+
+export const WHATSAPP_ABOUT_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20Agaate%20and%20your%20farm%20services.";
+
+export const TEL_ABOUT = "tel:+918350085005";
+export const PHONE_DISPLAY = "+91 83500 85005";
 
 export const marqueePhrases = [
   "Growing Better Tomorrow",
@@ -8,6 +31,26 @@ export const marqueePhrases = [
   "Zero Seed Waste",
   "15,000+ Associated Acres",
 ];
+
+export const whoWeAre = {
+  eyebrow: "Who we are",
+  headline: "Built for farmers, always.",
+  body: "Agaate stands with Indian farmers through the entire vegetable crop journey — from seed to harvest. By bringing together trusted agri companies, modern technologies, and practical support, we help growers farm with confidence, reduce risk, and make better decisions at every step.",
+  pullQuote: "From seed to sale — Agaate stays with you at every step.",
+  image: "/farm.png",
+  imageAlt: "Agaate farm fields in Gurugram",
+};
+
+export const mission = {
+  eyebrow: "Our Mission",
+  title: "Growing Better Tomorrow",
+  body: "Agaate's mission is to strengthen Indian farmers by providing science-backed, sustainable agriculture solutions that improve crop survival, reduce early-stage losses, and build long-term productivity through reliable Bio-Boosted nursery systems nationwide.",
+  support:
+    "We focus on practical research, quality inputs, and farmer-first thinking to create confidence, resilience, and growth across Indian agriculture.",
+};
+
+export const introBlurb =
+  "Agaate empowers Indian farmers with science-backed, sustainable nursery solutions that build stronger crops from the very beginning.";
 
 export const pillars = [
   {
@@ -42,18 +85,49 @@ export const pillars = [
 export const guarantees = [
   {
     title: "Organic & Pure",
-    desc: "Naturally grown without harmful chemical residues, prioritizing soil microbe recovery.",
+    desc: "Naturally grown without harmful chemicals",
     icon: Leaf,
   },
   {
     title: "Sustainable",
-    desc: "Environmentally responsible farming practices saving water, carbon, and runoffs.",
+    desc: "Environmentally responsible farming practices",
     icon: Sprout,
   },
   {
     title: "High Quality",
-    desc: "Certified seedlings with 90-98% guaranteed germination and zero transit shock.",
+    desc: "Certified seedlings with guaranteed germination",
     icon: Award,
+  },
+];
+
+export const whatWeDo = [
+  {
+    id: "seed-to-sale",
+    title: "From Seeds to Sales",
+    desc: "Complete crop support — from sowing to selling.",
+    icon: Sprout,
+    href: "/services",
+  },
+  {
+    id: "science",
+    title: "Science-Backed Decisions",
+    desc: "Helping farmers understand their crops and reduce losses.",
+    icon: FlaskConical,
+    href: "/services/nursery",
+  },
+  {
+    id: "partners",
+    title: "Trusted Agri Partnerships",
+    desc: "Working with the best agri brands for reliable solutions.",
+    icon: Handshake,
+    href: "/services",
+  },
+  {
+    id: "mall",
+    title: "Agaate Kisaan Mall",
+    desc: "One place for all essential agri inputs.",
+    icon: ShoppingBag,
+    href: "/services/kisaan-mall",
   },
 ];
 
@@ -66,6 +140,41 @@ export const stats = [
   { to: 20, suffix: "+", label: "Kisan Sathi Field Team", sub: "Dedicated on-ground advisors", icon: UserCheck },
 ];
 
+export const paradigmMetrics = [
+  {
+    id: "survival",
+    label: "Metric 01 · Survival Rate",
+    title: "90% – 98% Base Survival",
+    desc: "Direct seed sowing yields only 50–70% survival due to weather shock, soil crusting, and early pests. Agaate Bio-Boosted nursery saplings guarantee up to 98% field survival.",
+    metricLabel: "Net Survival Lift",
+    metricValue: "+40% Increase",
+  },
+  {
+    id: "seed-waste",
+    label: "Metric 02 · Seed Waste & Cost",
+    title: "Near Zero Seed Waste",
+    desc: "Expensive hybrid seeds sown directly into open fields often rot or get washed away. Our climate chambers eliminate 30–50% wasted seed expense for the farmer.",
+    metricLabel: "Seed Savings",
+    metricValue: "30% – 50% Saved",
+  },
+  {
+    id: "yield",
+    label: "Metric 03 · Final Market Yield",
+    title: "15% – 30% Yield Boost",
+    desc: "Vigorous initial root architecture leads to faster canopy development, reduced chemical dependency, and uniform export-grade vegetable harvests.",
+    metricLabel: "Harvest Output",
+    metricValue: "15% – 30% Higher Yield",
+  },
+];
+
+export const founderNote = {
+  quote:
+    "We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss.",
+  name: "Ankit Rawat",
+  role: "Founder & CEO",
+  image: "/team/ankit.png?v=2",
+};
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -73,6 +182,7 @@ export interface TeamMember {
   focus: string;
   tag: string;
   icon: LucideIcon;
+  image: string;
   bio: string;
   keyAch: string[];
   pub: string;
@@ -87,6 +197,7 @@ export const team: TeamMember[] = [
     focus: "Net-Zero Sustainability & Corporate Vision",
     tag: "Bharat Climate Summit Speaker",
     icon: Leaf as LucideIcon,
+    image: "/team/ankit.png?v=2",
     bio: "Pioneer in tech-enabled vegetable crop ecosystems and net-zero mission advocate. Ankit leads corporate strategy, institutional partnerships, and campus leadership initiatives across North India. He was a featured speaker at the Bharat Climate Summit, presenting pathways for Net-Zero 2070 in Indian agriculture.",
     keyAch: [
       "Keynote Speaker at Bharat Climate Summit on Net-Zero AgTech",
@@ -94,15 +205,17 @@ export const team: TeamMember[] = [
       "Pioneered direct buyback market linkages for 2,000+ farmers",
     ],
     pub: "Investigating Nitrogen optimization loops in sub-tropical Solanaceae cultivation blocks (2024)",
-    quote: "Every farmer deserves the right guidance, the right tools, and the right support so that their hard work never goes to loss.",
+    quote:
+      "Every farmer deserves the right guidance, the right tools, and the right support so that their hard work never goes to loss.",
   },
   {
     id: "kuldeep-singh",
-    name: "Kuldeep Singh Singhar",
+    name: "Kuldeep Singh",
     role: "Head of Operations",
     focus: "Supply Chain, Farm Operations & Revenue Mechanics",
     tag: "Operations & Sales Lead",
     icon: Award as LucideIcon,
+    image: "/team/kuldeep.png",
     bio: "Kuldeep leads the logistical machinery behind seed-to-sale operations, overseeing farm execution, input delivery schedules, and commercial crop sales mechanics across 15,000+ acres under association.",
     keyAch: [
       "Streamlined logistics for 4M+ sapling deliveries across Haryana hubs",
@@ -119,6 +232,7 @@ export const team: TeamMember[] = [
     focus: "Infrastructure, Nursery & Kisan Mall Retail Operations",
     tag: "Infrastructure & Retail Lead",
     icon: Globe as LucideIcon,
+    image: "/team/abhay.png",
     bio: "Abhay manages critical facility operations, specifically overseeing the 17-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
     keyAch: [
       "Designed and scaled the 17-acre controlled-environment Smart Nursery facility",
@@ -126,7 +240,8 @@ export const team: TeamMember[] = [
       "Built experiential technology demonstration zones for visiting farming clusters",
     ],
     pub: "Closed-loop agricultural business frameworks and retail hubs in North India (2025)",
-    quote: "A farm to experience — exposing growers to modern farming technologies, quality seeds, and best practices in one place.",
+    quote:
+      "A farm to experience — exposing growers to modern farming technologies, quality seeds, and best practices in one place.",
   },
   {
     id: "chanchala-shukla",
@@ -135,6 +250,7 @@ export const team: TeamMember[] = [
     focus: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
     tag: "Scientific Agronomy Lead",
     icon: Compass as LucideIcon,
+    image: "/team/chanchala.png",
     bio: "Chanchala serves as the scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
     keyAch: [
       "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
@@ -151,6 +267,7 @@ export const team: TeamMember[] = [
     focus: "IoT Telemetry, Drone Analytics & Smart Crop Cycles",
     tag: "Agri-Data & Strategy Lead",
     icon: Shield as LucideIcon,
+    image: "/team/ravi.png",
     bio: "Ravi drives data-driven decision-making, leveraging IoT soil sensors, Sentinel satellite canopy imaging, and AI crop health detection algorithms to execute precision Smart Crop Cycles.",
     keyAch: [
       "Deployed IoT telemetry nodes across commercial farm blocks",
@@ -201,7 +318,6 @@ export const locations = [
   },
 ];
 
-
 export const corporateFacts = [
   { label: "Legal Entity Name", value: "Anzix Farm Technologies Private Limited" },
   { label: "Date of Incorporation", value: "May 28, 2024" },
@@ -212,4 +328,10 @@ export const corporateFacts = [
   { label: "Official Contact Email", value: "info@agaate.in / naveen.mnit@gmail.com" },
   { label: "Authorized Share Capital", value: "₹20,00,000" },
   { label: "Paid-up Share Capital", value: "₹1,35,260" },
+];
+
+export const complianceHighlights = [
+  { label: "Entity", value: "Anzix Farm Technologies Pvt Ltd" },
+  { label: "CIN", value: "U46200HR2024PTC121982" },
+  { label: "Registered Office", value: "Sector-81, Gurugram, Haryana" },
 ];

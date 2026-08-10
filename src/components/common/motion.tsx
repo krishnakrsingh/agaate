@@ -464,6 +464,9 @@ type MagneticButtonProps = {
   as?: "a" | "button";
   href?: string;
   onClick?: () => void;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
 };
 
 export function MagneticButton({
@@ -473,6 +476,9 @@ export function MagneticButton({
   as = "button",
   href,
   onClick,
+  target,
+  rel,
+  download,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -507,7 +513,9 @@ export function MagneticButton({
   return (
     <div ref={ref} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} className={className}>
       {as === "a" && href ? (
-        <a href={href}>{content}</a>
+        <a href={href} target={target} rel={rel} download={download}>
+          {content}
+        </a>
       ) : (
         <button type="button" onClick={onClick}>
           {content}
