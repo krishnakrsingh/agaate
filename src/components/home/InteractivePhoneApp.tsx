@@ -391,7 +391,7 @@ export default function InteractivePhoneApp({
   };
 
   return (
-    <div className="font-dm relative mx-auto w-full max-w-[270px] sm:max-w-[290px] lg:max-w-[300px]">
+    <div className="font-dm relative mx-auto w-full max-w-[270px] overflow-visible sm:max-w-[290px] lg:max-w-[300px]">
       {/* Toast notification */}
       {addedItemToast && (
         <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-white shadow-xl border border-white/30 animate-bounce">
@@ -400,21 +400,20 @@ export default function InteractivePhoneApp({
       )}
 
       {/* Nothing Phone (1) — 20:9 frame, thin uniform bezels, punch-hole */}
-      <div className="relative aspect-[9/20] rounded-[2.15rem] border-[3px] border-[#1a1a1a] bg-[#1a1a1a] p-[5px] shadow-2xl shadow-black/40 ring-1 ring-white/10">
-        {/* Side buttons (volume / power) */}
+      <div className="relative aspect-[9/20] overflow-hidden rounded-[2.15rem] border-[3px] border-[#1a1a1a] bg-[#1a1a1a] p-[5px] shadow-2xl shadow-black/40 ring-1 ring-white/10">
+        {/* Side buttons kept inside frame so they don't widen the page */}
         <div
-          className="pointer-events-none absolute -left-[5px] top-[18%] h-10 w-[3px] rounded-l-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute left-0 top-[18%] z-20 h-10 w-[3px] rounded-r-sm bg-[#2a2a2a]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -left-[5px] top-[28%] h-14 w-[3px] rounded-l-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute left-0 top-[28%] z-20 h-14 w-[3px] rounded-r-sm bg-[#2a2a2a]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -right-[5px] top-[24%] h-16 w-[3px] rounded-r-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute right-0 top-[24%] z-20 h-16 w-[3px] rounded-l-sm bg-[#2a2a2a]"
           aria-hidden="true"
         />
-
         <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[1.85rem] bg-[#fffdf4] text-[#143d31]">
           {/* Punch-hole camera */}
           <div

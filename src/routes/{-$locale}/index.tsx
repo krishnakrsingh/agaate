@@ -13,6 +13,7 @@ import SectionStatsMarquee from "@/components/home/SectionStatsMarquee";
 import AppChapter from "@/components/home/AppChapter";
 import MallChapter from "@/components/home/MallChapter";
 import AgriParkChapter from "@/components/home/AgriParkChapter";
+import BrandsAssociationsChapter from "@/components/home/BrandsAssociationsChapter";
 import ProofChapter from "@/components/home/ProofChapter";
 import ClosingChapter from "@/components/home/ClosingChapter";
 
@@ -63,7 +64,7 @@ function Index() {
           onWipeStart={handleWipeStart}
         />
       )}
-      <main className="bg-white text-ink antialiased">
+      <main className="overflow-x-clip bg-white text-ink antialiased">
         <Header />
         {/* Section 1: Hero Section */}
         <SectionHero
@@ -93,10 +94,13 @@ function Index() {
             {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
             <AgriParkChapter />
 
-            {/* Section 7: Trust, scale stats, and testimonials */}
+            {/* Section 7: Brands & Associations — partners, customers, veg buyers */}
+            <BrandsAssociationsChapter />
+
+            {/* Section 8: Farmer testimonials */}
             <ProofChapter />
 
-            {/* Section 8: Final conversion — three clear action paths */}
+            {/* Section 9: Final conversion — three clear action paths */}
             <ClosingChapter />
 
             {/* Footer */}

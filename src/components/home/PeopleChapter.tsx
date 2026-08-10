@@ -220,7 +220,7 @@ function ImpactBarChart({ col }: { col: typeof impactColumns[0] }) {
 
 const team = [
   { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
-  { name: "Kuldeep Singh Singhar", role: "Head of Operations", image: "/team/kuldeep.png" },
+  { name: "Kuldeep Singh", role: "Head of Operations", image: "/team/kuldeep.png" },
   { name: "Abhay Ranjan", role: "Chief of Staff", image: "/team/abhay.png" },
   { name: "Chanchala Shukla", role: "Agronomist", image: "/team/chanchala.png" },
   { name: "Ravi Kumar", role: "Data & Strategy", image: "/team/ravi.png" },
@@ -437,10 +437,10 @@ export default function PeopleChapter() {
           <Stagger
             stagger={0.08}
             delayChildren={0.1}
-            className="mt-6 flex flex-col gap-5"
+            className="mt-6 flex flex-col gap-5 md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-x-6 md:gap-y-6"
           >
             {team.map((member) => (
-              <StaggerItem key={member.name} variant="fade-up">
+              <StaggerItem key={member.name} variant="fade-up" className="md:min-w-0 md:flex-1">
                 <motion.div
                   whileHover={{ x: 4 }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}

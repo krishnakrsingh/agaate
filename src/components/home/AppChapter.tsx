@@ -48,18 +48,18 @@ const farmersAskAbout = [
 ];
 
 export default function AppChapter() {
-  const sectionRef = useHomeChapterReveal("slide-right");
+  const sectionRef = useHomeChapterReveal("fade-up");
   const [activeTab, setActiveTab] = useState<"chat" | "mall" | "farm" | "park">("chat");
 
   return (
     <section
       ref={sectionRef}
       id="agaate-app"
-      className="relative scroll-mt-28 bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
+      className="relative scroll-mt-28 overflow-x-clip bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
       <div className="relative mx-auto grid max-w-7xl gap-16 sm:gap-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-12">
         {/* Left — content */}
-        <div data-home-reveal className="relative z-10">
+        <div data-home-reveal className="relative z-10 min-w-0">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -198,17 +198,24 @@ export default function AppChapter() {
         </div>
 
         {/* Right — Interactive Agaate Phone OS App */}
-        <Reveal variant="fade-left" delay={0.2} className="relative mx-auto mt-10 w-full flex justify-center self-start h-max pb-8 sm:mt-14 lg:mt-0 lg:sticky lg:top-32 lg:pb-12">
+        <Reveal
+          variant="fade-up"
+          delay={0.2}
+          className="relative mx-auto mt-10 flex h-max w-full min-w-0 justify-center self-start overflow-hidden pb-8 sm:mt-14 lg:mt-0 lg:sticky lg:top-32 lg:pb-12"
+        >
           <motion.div
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-full flex justify-center relative"
+            className="relative flex w-full max-w-[300px] justify-center"
           >
-            {/* Ambient Glow */}
-            <div className="pointer-events-none absolute -inset-10 -z-10 flex items-center justify-center opacity-65 filter blur-3xl">
-              <div className="h-[300px] w-[300px] rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 animate-pulse" style={{ animationDuration: "5s" }} />
+            {/* Ambient Glow — contained inside phone column */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 opacity-65 blur-3xl"
+              aria-hidden="true"
+            />
+            <div className="relative z-10 w-full px-2">
+              <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
             </div>
-            <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
           </motion.div>
         </Reveal>
       </div>
