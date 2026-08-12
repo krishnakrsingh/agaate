@@ -17,25 +17,48 @@ gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, SplitText);
 /** Pain 01: Wilting plant with a question mark */
 const PlantSVG = () => (
   <svg className="svg-infographic" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Diagnostic Scan / Tech Grid Overlay */}
+    <circle cx="100" cy="130" r="65" stroke="#143d31" strokeWidth="1" strokeDasharray="3 3" opacity="0.08" />
+    <circle cx="100" cy="130" r="42" stroke="#143d31" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.06" />
+    <line x1="30" y1="130" x2="170" y2="130" stroke="#143d31" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.06" />
+    <line x1="100" y1="60" x2="100" y2="200" stroke="#143d31" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.06" />
+
     {/* Stem */}
-    <path className="draw-line" d="M100 200 C100 160 100 120 100 80" stroke="#143d31" strokeWidth="3" strokeLinecap="round"/>
-    {/* Drooping leaf left */}
-    <path className="draw-line" d="M100 120 C80 100 50 110 40 130" stroke="#5d7d37" strokeWidth="2.5" strokeLinecap="round"/>
-    {/* Drooping leaf right */}
-    <path className="draw-line" d="M100 100 C120 80 150 90 160 115" stroke="#5d7d37" strokeWidth="2.5" strokeLinecap="round"/>
-    {/* Small dead leaf tip left */}
-    <path className="draw-line" d="M40 130 C35 140 38 145 45 140" stroke="#5d7d37" strokeWidth="2" strokeLinecap="round"/>
-    {/* Small dead leaf tip right */}
-    <path className="draw-line" d="M160 115 C165 125 162 130 155 128" stroke="#5d7d37" strokeWidth="2" strokeLinecap="round"/>
-    {/* Warning spots */}
-    <circle className="spot-1" cx="75" cy="112" r="4" fill="#e8b84b" opacity="0"/>
-    <circle className="spot-2" cx="130" cy="102" r="3.5" fill="#e8b84b" opacity="0"/>
-    <circle className="spot-3" cx="50" cy="128" r="3" fill="#e8b84b" opacity="0"/>
-    {/* Question mark above */}
-    <text x="100" y="60" textAnchor="middle" fontSize="36" fontFamily="Georgia, serif" fontStyle="italic" fill="#143d31" opacity="0" className="svg-question">?</text>
-    {/* Root system */}
-    <path className="draw-line" d="M100 200 C90 210 80 215 70 212" stroke="#143d31" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
-    <path className="draw-line" d="M100 200 C110 210 120 215 130 212" stroke="#143d31" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+    <path className="draw-line" d="M100 200 C100 160 100 120 100 80" stroke="#143d31" strokeWidth="3.5" strokeLinecap="round"/>
+
+    {/* Drooping leaf left (closed shape outline) */}
+    <path className="draw-line" d="M100 120 C 70 100, 45 115, 40 135 C 45 150, 75 140, 100 120" stroke="#5d7d37" strokeWidth="2" strokeLinecap="round"/>
+    {/* Left Leaf Vein */}
+    <path className="draw-line" d="M100 120 Q 65 125, 40 135" stroke="#5d7d37" strokeWidth="1.2" strokeLinecap="round" opacity="0.75"/>
+    {/* Left Leaf Ribs */}
+    <path className="draw-line" d="M 80 123 Q 75 130, 68 132" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
+    <path className="draw-line" d="M 65 128 Q 60 135, 52 135" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
+
+    {/* Drooping leaf right (closed shape outline) */}
+    <path className="draw-line" d="M100 100 C 130 80, 155 95, 160 115 C 155 130, 125 120, 100 100" stroke="#5d7d37" strokeWidth="2" strokeLinecap="round"/>
+    {/* Right Leaf Vein */}
+    <path className="draw-line" d="M100 100 Q 135 105, 160 115" stroke="#5d7d37" strokeWidth="1.2" strokeLinecap="round" opacity="0.75"/>
+    {/* Right Leaf Ribs */}
+    <path className="draw-line" d="M 120 103 Q 125 110, 132 112" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
+    <path className="draw-line" d="M 135 108 Q 140 115, 148 115" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
+
+    {/* Warning spots (glowing amber) */}
+    <circle className="spot-1" cx="65" cy="128" r="4.5" fill="#e8b84b" opacity="0"/>
+    <circle className="spot-2" cx="135" cy="108" r="4" fill="#e8b84b" opacity="0"/>
+    <circle className="spot-3" cx="50" cy="133" r="3.5" fill="#e8b84b" opacity="0"/>
+
+    {/* Question mark above (elegant styled vector path) */}
+    <g className="svg-question" opacity="0" style={{ transformOrigin: "100px 50px" }}>
+      <path d="M90 35 C90 20, 110 20, 110 35 C110 44, 100 48, 100 58" stroke="#143d31" strokeWidth="3" strokeLinecap="round" fill="none"/>
+      <circle cx="100" cy="70" r="3" fill="#143d31"/>
+    </g>
+
+    {/* Detailed organic Root system */}
+    <path className="draw-line" d="M100 200 Q 100 212, 95 220" stroke="#143d31" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
+    <path className="draw-line" d="M100 200 C 90 206, 80 208, 70 205" stroke="#143d31" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
+    <path className="draw-line" d="M100 200 C 110 206, 122 208, 130 205" stroke="#143d31" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
+    <path className="draw-line" d="M 90 204 Q 85 212, 78 214" stroke="#143d31" strokeWidth="1.2" strokeLinecap="round" opacity="0.3"/>
+    <path className="draw-line" d="M 110 204 Q 115 212, 122 214" stroke="#143d31" strokeWidth="1.2" strokeLinecap="round" opacity="0.3"/>
   </svg>
 );
 
@@ -255,13 +278,6 @@ export default function FieldSignal() {
               <div className="absolute inset-0 bg-[#fafbf7]/85" />
             </div>
             <div className="relative z-10 max-w-5xl mx-auto">
-              <div className="flex items-center justify-center gap-3 mb-8">
-                <span className="w-16 h-[1.5px] bg-[#5d7d37]" />
-                <p className="font-mono text-xs md:text-sm font-bold uppercase tracking-[0.28em] text-[#5d7d37]">
-                  The farmer's reality
-                </p>
-                <span className="w-16 h-[1.5px] bg-[#5d7d37]" />
-              </div>
               <h2 className="type-headline font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight text-[#143d31] leading-[1.05]" style={{ perspective: 600 }}>
                 Every farmer faces moments where guesswork costs money.
               </h2>

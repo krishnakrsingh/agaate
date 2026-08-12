@@ -201,7 +201,7 @@ export default function AppChapter() {
         <Reveal
           variant="fade-up"
           delay={0.2}
-          className="relative mx-auto mt-10 flex h-max w-full min-w-0 justify-center self-start overflow-hidden pb-8 sm:mt-14 lg:mt-0 lg:sticky lg:top-32 lg:pb-12"
+          className="relative mx-auto mt-10 flex h-max w-full min-w-0 justify-center self-start overflow-visible pb-8 sm:mt-14 lg:mt-0 lg:sticky lg:top-32 lg:pb-12"
         >
           <motion.div
             animate={{ y: [0, -6, 0] }}
