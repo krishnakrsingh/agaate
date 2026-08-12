@@ -151,9 +151,9 @@ const impactColumns = [
   },
 ];
 
-function ImpactBarChart({ col }: { col: typeof impactColumns[0] }) {
+function ImpactStatsGrid({ col }: { col: typeof impactColumns[0] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.35 });
+  const inView = useInView(ref, { once: true, amount: 0.2 });
   const Icon = col.icon;
 
   return (
@@ -174,44 +174,27 @@ function ImpactBarChart({ col }: { col: typeof impactColumns[0] }) {
         </div>
       </div>
 
-      {/* Bar Chart */}
-      <div className="flex items-end gap-3 h-44 mt-auto">
+      {/* Grid of Stats Cards */}
+      <div className="grid grid-cols-2 gap-3.5 mt-auto">
         {col.bars.map((bar, i) => (
-          <div key={bar.label} className="flex flex-col items-center flex-1 gap-1.5">
-            {/* Animated count above bar */}
-            <motion.p
-              className="font-display text-sm font-extrabold"
-              style={{ color: col.accent }}
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ delay: 0.4 + i * 0.12, duration: 0.4 }}
-            >
+          <motion.div
+            key={bar.label}
+            initial={{ opacity: 0, y: 12 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{
+              delay: 0.15 + i * 0.08,
+              duration: 0.6,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="group/stat rounded-2xl border border-[#143d31]/8 bg-[#fafbf7]/60 p-3.5 flex flex-col justify-between min-h-[96px] transition-all duration-300 hover:bg-white hover:border-[#143d31]/15 hover:shadow-[0_8px_20px_-4px_rgba(20,61,49,0.06)]"
+          >
+            <div className="font-display text-2xl font-extrabold tracking-tight text-[#143d31] group-hover/stat:text-[#5d7d37] transition-colors duration-300">
               <CountUp to={bar.value} suffix={bar.suffix} />
-            </motion.p>
-
-            {/* The bar itself */}
-            <div className="relative w-full flex items-end" style={{ height: 128 }}>
-              {/* Background track */}
-              <div className="absolute inset-0 rounded-t-lg bg-[#143d31]/6" />
-              {/* Animated fill */}
-              <motion.div
-                className="relative w-full rounded-t-lg"
-                style={{ backgroundColor: col.accent }}
-                initial={{ height: 0 }}
-                animate={inView ? { height: `${bar.heightPct}%` } : { height: 0 }}
-                transition={{
-                  delay: 0.25 + i * 0.1,
-                  duration: 0.9,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              />
             </div>
-
-            {/* Bar label */}
-            <p className="font-mono text-center text-[8px] font-bold uppercase tracking-wide text-[#4f624f] leading-tight">
+            <p className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#3d6547] leading-snug mt-1.5 transition-colors duration-300 group-hover/stat:text-[#143d31]">
               {bar.label}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
@@ -396,7 +379,7 @@ export default function PeopleChapter() {
             {impactColumns.map((col) => (
               <StaggerItem key={col.id} variant="fade-up">
                 <div className="rounded-3xl border border-[#143d31]/10 bg-white p-6 md:p-8 h-full hover:border-[#143d31]/25 transition-colors duration-300 hover:shadow-lg hover:shadow-[#143d31]/5">
-                  <ImpactBarChart col={col} />
+                  <ImpactStatsGrid col={col} />
                 </div>
               </StaggerItem>
             ))}
