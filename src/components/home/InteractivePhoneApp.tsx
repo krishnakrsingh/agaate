@@ -654,16 +654,20 @@ export default function InteractivePhoneApp({
 
               {/* Chat Input Bar OR WhatsApp gate CTA */}
               {chatLocked ? (
-                <div className="p-2.5 bg-white border-t border-[#143d31]/10">
-                  <a
-                    href={WHATSAPP_AGRONOMIST_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-[12px] font-extrabold text-white shadow-md shadow-[#25D366]/25 transition-transform active:scale-[0.98] hover:bg-[#1ebe57]"
+                <div className="p-2.5 bg-[#f4f7ef]/50 border-t border-[#143d31]/10 flex items-center gap-2">
+                  <input
+                    type="text"
+                    disabled
+                    placeholder="Free chats limit reached"
+                    className="flex-1 rounded-full bg-[#e8eddf] px-3.5 py-2 text-xs text-[#143d31]/40 outline-none cursor-not-allowed"
+                  />
+                  <button
+                    type="button"
+                    disabled
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31]/20 text-white cursor-not-allowed"
                   >
-                    <WhatsAppIcon className="h-4 w-4" />
-                    WhatsApp an Agronomist
-                  </a>
+                    <Send className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               ) : (
                 <div className="p-2.5 bg-white border-t border-[#143d31]/10 flex items-center gap-2">
