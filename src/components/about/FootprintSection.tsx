@@ -1,4 +1,4 @@
-import { MapPin } from "lucide-react";
+import { MapPin } from "@phosphor-icons/react";
 import { locations } from "./data";
 
 export default function FootprintSection() {

@@ -1,24 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Battery,
-  CheckCircle2,
-  Loader2,
+  ArrowCounterClockwise,
+  BatteryFull,
+  CellSignalFull,
+  ChatCircleText,
+  CheckCircle,
   MapPin,
-  MessageSquare,
   Package,
+  PaperPlaneRight,
   PhoneCall,
-  RotateCcw,
-  Send,
+  Plant,
   ShoppingBag,
-  Signal,
-  Smartphone,
-  Sparkles,
-  Sprout,
-  FlaskConical,
-  Droplets,
-  Wifi,
-} from "lucide-react";
+  WifiHigh
+} from "@phosphor-icons/react";
 
 interface Message {
   id: string;
@@ -391,7 +386,7 @@ export default function InteractivePhoneApp({
   };
 
   return (
-    <div className="font-dm relative mx-auto w-full max-w-[270px] overflow-visible sm:max-w-[290px] lg:max-w-[300px]">
+    <div className="font-sans relative mx-auto w-full max-w-[270px] overflow-visible sm:max-w-[290px] lg:max-w-[300px]">
       {/* Toast notification */}
       {addedItemToast && (
         <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-white shadow-xl border border-white/30 animate-bounce">
@@ -426,9 +421,9 @@ export default function InteractivePhoneApp({
             <div className="flex items-center justify-between text-[9px] font-bold text-[#143d31]/80">
               <span>9:41 AM</span>
               <div className="flex items-center gap-1.5 text-[#143d31]/80">
-                <Signal className="h-2.5 w-2.5" />
-                <Wifi className="h-2.5 w-2.5" />
-                <Battery className="h-3 w-3" />
+                <CellSignalFull className="h-2.5 w-2.5" />
+                <WifiHigh className="h-2.5 w-2.5" />
+                <BatteryFull className="h-3 w-3" />
               </div>
             </div>
           </div>
@@ -466,7 +461,7 @@ export default function InteractivePhoneApp({
                   className="flex items-center gap-1 rounded-full bg-[#e7edd9] px-2.5 py-1 text-[10px] font-bold text-[#3a6b28] hover:bg-[#d8e3c5] transition-colors"
                   title="Start Fresh Chat"
                 >
-                  <RotateCcw className="h-3 w-3" />
+                  <ArrowCounterClockwise className="h-3 w-3" />
                   <span>New Chat</span>
                 </button>
               )}
@@ -666,7 +661,7 @@ export default function InteractivePhoneApp({
                     disabled
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31]/20 text-white cursor-not-allowed"
                   >
-                    <Send className="h-3.5 w-3.5" />
+                    <PaperPlaneRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
               ) : (
@@ -685,7 +680,7 @@ export default function InteractivePhoneApp({
                     disabled={isLoading || !inputQuery.trim()}
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-white disabled:opacity-40 transition-all hover:scale-105"
                   >
-                    <Send className="h-3.5 w-3.5" />
+                    <PaperPlaneRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}
@@ -766,7 +761,7 @@ export default function InteractivePhoneApp({
                         </div>
 
                         {/* Title */}
-                        <p className="text-xs font-bold text-[#143d31] font-dm leading-snug truncate mt-0.5">
+                        <p className="text-xs font-bold text-[#143d31] font-sans leading-snug truncate mt-0.5">
                           {prod.name}
                         </p>
 
@@ -930,13 +925,13 @@ export default function InteractivePhoneApp({
                   </span>
                 </div>
                 <div className="flex items-start gap-2.5 text-xs pt-1 border-t border-[#143d31]/8">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[#476f2d] mt-0.5" />
+                  <CheckCircle className="h-4 w-4 shrink-0 text-[#476f2d] mt-0.5" />
                   <p className="text-[#536253] leading-tight">
                     Apply NPK 19:19:19 fertigation (2.5 kg/acre) this Thursday through drip.
                   </p>
                 </div>
                 <div className="flex items-start gap-2.5 text-xs pt-2 border-t border-[#143d31]/6">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[#476f2d] mt-0.5" />
+                  <CheckCircle className="h-4 w-4 shrink-0 text-[#476f2d] mt-0.5" />
                   <p className="text-[#536253] leading-tight">
                     Inspect underside of leaves for yellow thrips nymph activity & set yellow sticky
                     traps.
@@ -990,7 +985,7 @@ export default function InteractivePhoneApp({
                   : "text-white/75 hover:text-white"
               }`}
             >
-              <MessageSquare className="h-3.5 w-3.5" />
+              <ChatCircleText className="h-3.5 w-3.5" />
               <span className="text-[10px]">Advisory</span>
             </button>
 
@@ -1014,7 +1009,7 @@ export default function InteractivePhoneApp({
                   : "text-white/75 hover:text-white"
               }`}
             >
-              <Sprout className="h-3.5 w-3.5" />
+              <Plant className="h-3.5 w-3.5" />
               <span className="text-[10px]">Farm</span>
             </button>
 

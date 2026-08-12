@@ -1,4 +1,4 @@
-import { Clock, MessageCircle, Phone } from "lucide-react";
+import { Clock, ChatCircleText, Phone } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { PRIMARY_PHONE, TEL_PRIMARY, WHATSAPP_URL } from "./data";
 import { track } from "@/lib/analytics";
@@ -59,7 +59,7 @@ export default function CtaBanner() {
                   onClick={() => track("cta_banner_clicked", { action: "whatsapp" })}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-forest-deep transition-all duration-300 hover:-translate-y-0.5 hover:border-forest/35 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
                 >
-                  <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+                  <ChatCircleText className="h-4 w-4" strokeWidth={1.75} />
                   WhatsApp
                 </a>
               </div>

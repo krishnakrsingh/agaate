@@ -2,14 +2,14 @@ import { useRef, useEffect, useState, lazy, Suspense } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  Sprout,
-  Droplets,
-  ShieldCheck,
-  Apple,
-  ShoppingBasket,
   ArrowRight,
-  CheckCircle2,
-} from "lucide-react";
+  CheckCircle,
+  Drop,
+  Flower,
+  Plant,
+  ShieldCheck,
+  ShoppingBagOpen
+} from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 
 const CropWorld = lazy(() => import("../CropWorld"));
@@ -19,7 +19,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface StageData {
   num: string;
   key: string;
-  icon: typeof Sprout;
+  icon: typeof Plant;
   badge: string;
   title: string;
   desc: string;
@@ -32,9 +32,9 @@ const stages: StageData[] = [
   {
     num: "01",
     key: "01",
-    icon: Sprout,
+    icon: Plant,
     badge: "Stage 01 • Bio Nursery",
-    title: "Bio-Boosted Nursery Sprout",
+    title: "Bio-Boosted Nursery Plant",
     desc: "Pathogen-free, climate-controlled plug nurseries inoculated with Trichoderma & Mycorrhiza for 100% strong crop start.",
     metrics: ["98% Survival Rate", "15 Days Saved"],
     ctaText: "Order Nursery Seedlings",
@@ -43,7 +43,7 @@ const stages: StageData[] = [
   {
     num: "02",
     key: "02",
-    icon: Droplets,
+    icon: Drop,
     badge: "Stage 02 • Precision Planting",
     title: "Soil & Root Optimization",
     desc: "Field mapping and custom fertigation schedules that maximize root-zone nutrient absorption and stop water waste.",
@@ -65,7 +65,7 @@ const stages: StageData[] = [
   {
     num: "04",
     key: "04",
-    icon: Apple,
+    icon: Flower,
     badge: "Stage 04 • Growth & Flowering",
     title: "Bloom Retention & Sizing",
     desc: "Stage-wise micronutrient boosting to maximize flower retention, uniform fruit sizing, and peak harvest quality.",
@@ -76,7 +76,7 @@ const stages: StageData[] = [
   {
     num: "05",
     key: "05",
-    icon: ShoppingBasket,
+    icon: ShoppingBagOpen,
     badge: "Stage 05 • Market Linkage",
     title: "Guaranteed Farm-Gate Sale",
     desc: "Direct buyer buyback contracts for hotels, exporters, and retail chains with digital weighment and instant payouts.",
@@ -225,7 +225,7 @@ export default function SectionCropWorld() {
                     <div className="flex flex-wrap gap-2 mb-6">
                       {stage.metrics.map((m, idx) => (
                         <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono bg-forest/10 text-forest-deep border border-forest/20">
-                          <CheckCircle2 className="w-3 h-3 text-forest" />
+                          <CheckCircle className="w-3 h-3 text-forest" />
                           {m}
                         </span>
                       ))}
@@ -325,7 +325,7 @@ export default function SectionCropWorld() {
                           key={mIdx}
                           className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-white text-forest-deep border border-forest/20 shadow-sm"
                         >
-                          <CheckCircle2 className="w-3.5 h-3.5 text-forest" />
+                          <CheckCircle className="w-3.5 h-3.5 text-forest" />
                           {m}
                         </span>
                       ))}

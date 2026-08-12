@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, X } from "lucide-react";
+import { Check, X } from "@phosphor-icons/react";
 import { EASE } from "@/components/common/motion";
 
 type ToastKind = "success" | "error" | "info";

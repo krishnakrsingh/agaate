@@ -1,4 +1,4 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { ChatCircleText, Phone } from "@phosphor-icons/react";
 import { TEL_PRIMARY, WHATSAPP_URL } from "./data";
 import { track } from "@/lib/analytics";
 
@@ -26,7 +26,7 @@ export default function MobileStickyContactBar({ hidden }: { hidden?: boolean })
           onClick={() => track("whatsapp_clicked", { source: "mobile_sticky" })}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-neutral-300 bg-white px-4 text-sm font-semibold text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
         >
-          <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+          <ChatCircleText className="h-4 w-4" strokeWidth={1.75} />
           WhatsApp
         </a>
       </div>

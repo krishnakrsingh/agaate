@@ -1,4 +1,4 @@
-import { Check, MessageCircle } from "lucide-react";
+import { Check, ChatCircleText } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { EASE } from "@/components/common/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -57,7 +57,7 @@ export function FormSuccess({
           onClick={() => track("whatsapp_clicked", { source: "form_success" })}
           className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-forest-deep px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-forest sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
         >
-          <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+          <ChatCircleText className="h-4 w-4" strokeWidth={1.75} />
           Continue on WhatsApp
         </a>
         <button

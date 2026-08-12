@@ -1,4 +1,4 @@
-import { Quote } from "lucide-react";
+import { Quotes } from "@phosphor-icons/react";
 import { Reveal, motion, EASE } from "@/components/common/motion";
 import { founderNote } from "./data";
 
@@ -20,7 +20,7 @@ export default function FounderNote() {
           <p className="font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-forest">
             Founder's Note
           </p>
-          <Quote className="mt-6 h-8 w-8 text-terracotta/70" />
+          <Quotes className="mt-6 h-8 w-8 text-terracotta/70" />
           <blockquote
             id="founder-heading"
             className="mt-4 font-serif text-2xl font-normal italic leading-relaxed text-forest-deep md:text-3xl"

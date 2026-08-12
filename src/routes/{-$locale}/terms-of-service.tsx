@@ -3,21 +3,21 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import {
-  AlertCircle,
+  ArrowClockwise,
   BookOpen,
+  CaretDown,
+  CaretRight,
   Check,
-  ChevronDown,
-  ChevronRight,
   FileText,
   Gavel,
-  HelpCircle,
-  RefreshCw,
-  Scale,
-  ShieldAlert,
+  Plant,
+  Question,
+  Scales,
   ShieldCheck,
-  Sprout,
-  Store,
-} from "lucide-react";
+  ShieldWarning,
+  Storefront,
+  WarningCircle
+} from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
 
@@ -140,7 +140,7 @@ function TermsOfServicePage() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div className="flex items-start gap-4 rounded-2xl bg-cream p-5 border border-forest/15 shadow-sm">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest/15 text-forest">
-                <Sprout className="h-5 w-5" />
+                <Plant className="h-5 w-5" />
               </div>
               <div>
                 <h4 className="font-serif text-lg font-bold text-forest-deep">Nursery Bookings</h4>
@@ -152,7 +152,7 @@ function TermsOfServicePage() {
 
             <div className="flex items-start gap-4 rounded-2xl bg-cream p-5 border border-forest/15 shadow-sm">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-terracotta/15 text-terracotta">
-                <RefreshCw className="h-5 w-5" />
+                <ArrowClockwise className="h-5 w-5" />
               </div>
               <div>
                 <h4 className="font-serif text-lg font-bold text-forest-deep">Assured Buyback</h4>
@@ -164,7 +164,7 @@ function TermsOfServicePage() {
 
             <div className="flex items-start gap-4 rounded-2xl bg-cream p-5 border border-forest/15 shadow-sm">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-moss/20 text-forest-deep">
-                <Scale className="h-5 w-5 text-moss" />
+                <Scales className="h-5 w-5 text-moss" />
               </div>
               <div>
                 <h4 className="font-serif text-lg font-bold text-forest-deep">Legal Jurisdiction</h4>
@@ -254,7 +254,7 @@ function TermsOfServicePage() {
                           className="w-full flex items-center justify-between p-4 text-left font-serif text-base font-bold text-forest-deep"
                         >
                           <span>{faq.q}</span>
-                          <ChevronDown
+                          <CaretDown
                             className={`h-4 w-4 text-terracotta transition-transform ${
                               isOpen ? "rotate-180" : ""
                             }`}

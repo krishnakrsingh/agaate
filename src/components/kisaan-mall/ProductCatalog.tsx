@@ -1,5 +1,13 @@
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { Check, Eye, Plus, Search, ShieldCheck, Sparkles, X } from "lucide-react";
+import {
+  Check,
+  Eye,
+  MagnifyingGlass,
+  Plus,
+  ShieldCheck,
+  Sparkle,
+  X
+} from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { ExtendedCatalogItem } from "@/data/services-data";
 import { EASE, Reveal, TiltCard } from "@/components/common/motion";
@@ -55,12 +63,12 @@ export function ProductCatalog({
               </span>
             </div>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-forest/40" />
+              <MagnifyingGlass className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-forest/40" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="Search products, SKUs…"
+                placeholder="MagnifyingGlass products, SKUs…"
                 className="w-48 rounded-full border border-border bg-card py-2 pl-9 pr-3 font-mono text-xs text-forest-deep placeholder:text-forest/40 focus:border-forest focus:outline-none md:w-64"
               />
             </div>
@@ -160,7 +168,7 @@ export function ProductCatalog({
                           <span className="font-bold text-forest-deep">{item.dosage}</span>
                         </div>
                         <div className="flex items-center gap-1.5 text-moss font-bold">
-                          <Sparkles className="h-3 w-3" />
+                          <Sparkle className="h-3 w-3" />
                           <span>{item.chemicalReduction}</span>
                         </div>
                       </div>

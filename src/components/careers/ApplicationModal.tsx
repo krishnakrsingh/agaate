@@ -1,6 +1,14 @@
 import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Clock, FileText, UploadCloud, X, Send, Sparkles } from "lucide-react";
+import {
+  Check,
+  Clock,
+  CloudArrowUp,
+  FileText,
+  PaperPlaneRight,
+  Sparkle,
+  X
+} from "@phosphor-icons/react";
 import { ExtendedJobPosition, jobs } from "@/data/careers-data";
 import { EASE } from "@/components/common/motion";
 
@@ -371,7 +379,7 @@ export default function ApplicationModal({ job, onClose }: Props) {
                                   </div>
                                 ) : (
                                   <>
-                                    <UploadCloud className="h-8 w-8 text-forest/50 mb-2" />
+                                    <CloudArrowUp className="h-8 w-8 text-forest/50 mb-2" />
                                     <p className="font-jet text-xs font-semibold text-forest-deep">
                                       Drag & drop your resume PDF here, or <span className="text-terracotta underline">browse</span>
                                     </p>
@@ -440,7 +448,7 @@ export default function ApplicationModal({ job, onClose }: Props) {
                       whileTap={{ scale: step === 1 && (!name || !phone) ? 1 : 0.98 }}
                     >
                       <span>{step === 3 ? "Submit Application" : "Continue"}</span>
-                      <Send className="h-4 w-4" />
+                      <PaperPlaneRight className="h-4 w-4" />
                     </motion.button>
                   </div>
                 </motion.div>
@@ -449,7 +457,7 @@ export default function ApplicationModal({ job, onClose }: Props) {
 
             <div className="border-t border-border/50 pt-4 text-[9px] font-mono text-forest/40 flex justify-between items-center text-left">
               <span className="flex items-center gap-1">
-                <Sparkles className="h-3 w-3 text-terracotta" />
+                <Sparkle className="h-3 w-3 text-terracotta" />
                 AG-HR-RECRUITMENT-ENGINE
               </span>
               <span className="flex items-center gap-1">

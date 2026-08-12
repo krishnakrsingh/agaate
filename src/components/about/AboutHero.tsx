@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { Download } from "@phosphor-icons/react";
 import { brochureHref } from "./data";
 
 export default function AboutHero() {

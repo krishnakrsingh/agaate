@@ -4,11 +4,11 @@ import {
   ShieldCheck,
   Truck,
   PhoneCall,
-  Building2,
+  Buildings,
   Microscope,
   Package,
-  Store,
-} from "lucide-react";
+  Storefront,
+} from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { MagneticButton } from "@/components/common/motion";
 import KisaanMallShowcase from "./KisaanMallShowcase";
@@ -18,7 +18,7 @@ const SUPPLY_CHAIN_STEPS = [
     step: "01",
     title: "Direct Partner Sourcing",
     desc: "Sourced directly from 25+ certified seed & input manufacturers.",
-    icon: Building2,
+    icon: Buildings,
   },
   {
     step: "02",
@@ -74,7 +74,7 @@ export default function MallChapter() {
             <div className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-3">
               <div className="rounded-2xl bg-[#f4f7ef] px-2.5 py-2.5 sm:px-4 sm:py-3 border border-[#143d31]/12 flex items-center gap-2 sm:gap-3 shadow-xs min-w-0">
                 <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-white">
-                  <Store className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                  <Storefront className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] sm:text-xs font-extrabold text-[#143d31] leading-tight">

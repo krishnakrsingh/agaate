@@ -4,13 +4,12 @@ import {
   Bell,
   Bug,
   Camera,
+  ChatCircleText,
+  Flask,
   Leaf,
   MapPin,
-  MessageCircle,
-  Sprout,
-  TestTube,
-  Wheat,
-} from "lucide-react";
+  Plant
+} from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import InteractivePhoneApp from "./InteractivePhoneApp";
@@ -31,7 +30,7 @@ const appSteps = [
     tab: "farm" as const,
   },
   {
-    icon: MessageCircle,
+    icon: ChatCircleText,
     title: "Chat with a real agronomist",
     text: "Not a bot. A qualified expert gives specific advice for your crop, stage, soil, and weather — right in the app.",
     tab: "chat" as const,
@@ -41,9 +40,9 @@ const appSteps = [
 const farmersAskAbout = [
   { icon: Bug, label: "Diseases & pests", tab: "chat" as const },
   { icon: Leaf, label: "Fertilizer advisory", tab: "chat" as const },
-  { icon: TestTube, label: "Pesticide selection", tab: "mall" as const },
-  { icon: Sprout, label: "Soil guidance", tab: "farm" as const },
-  { icon: Wheat, label: "Best practices", tab: "farm" as const },
+  { icon: Flask, label: "Pesticide selection", tab: "mall" as const },
+  { icon: Plant, label: "Soil guidance", tab: "farm" as const },
+  { icon: Plant, label: "Best practices", tab: "farm" as const },
   { icon: MapPin, label: "Agri Park Tour", tab: "park" as const },
 ];
 

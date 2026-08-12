@@ -1,4 +1,4 @@
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Envelope, ChatCircleText, Phone } from "@phosphor-icons/react";
 import {
   EMAIL,
   MAILTO_URL,
@@ -38,7 +38,7 @@ export default function QuickContactBar() {
             onClick={() => track("email_clicked", { source: "quickbar" })}
             className="inline-flex items-center gap-2 text-forest-deep hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
           >
-            <Mail className="h-3.5 w-3.5 text-neutral-400" strokeWidth={1.75} />
+            <Envelope className="h-3.5 w-3.5 text-neutral-400" strokeWidth={1.75} />
             {EMAIL}
           </a>
           <a
@@ -48,7 +48,7 @@ export default function QuickContactBar() {
             onClick={() => track("whatsapp_clicked", { source: "quickbar" })}
             className="inline-flex items-center gap-1.5 font-medium text-forest hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
           >
-            <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+            <ChatCircleText className="h-3.5 w-3.5" strokeWidth={1.75} />
             WhatsApp
           </a>
         </div>

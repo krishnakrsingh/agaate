@@ -76,8 +76,8 @@ const ShelfSVG = () => (
     <line className="draw-line" x1="38" y1="125" x2="54" y2="125" stroke="white" strokeWidth="1.5" opacity="0"/>
     <line className="draw-line" x1="71" y1="105" x2="87" y2="105" stroke="white" strokeWidth="1.5" opacity="0"/>
     {/* X marks - confusion */}
-    <text x="82" y="55" textAnchor="middle" fontSize="30" fontFamily="Georgia, serif" fill="#e74c3c" opacity="0" className="svg-question">✕</text>
-    <text x="130" y="68" textAnchor="middle" fontSize="20" fontFamily="Georgia, serif" fill="#e74c3c" opacity="0" className="svg-question-2">?</text>
+    <text x="82" y="55" textAnchor="middle" fontSize="30" fontFamily="var(--font-sans)" fill="#e74c3c" opacity="0" className="svg-question">✕</text>
+    <text x="130" y="68" textAnchor="middle" fontSize="20" fontFamily="var(--font-sans)" fill="#e74c3c" opacity="0" className="svg-question-2">?</text>
     {/* Ground shadow */}
     <ellipse cx="100" cy="168" rx="70" ry="5" fill="#143d31" opacity="0.06"/>
   </svg>
@@ -91,7 +91,7 @@ const CalendarSVG = () => (
     {/* Header bar */}
     <rect x="20" y="40" width="160" height="36" rx="10" fill="#143d31" opacity="0" className="cal-header"/>
     {/* Month label */}
-    <text x="100" y="65" textAnchor="middle" fontSize="14" fontFamily="Georgia, serif" fontStyle="italic" fill="white" opacity="0" className="cal-month">Kharif Season</text>
+    <text x="100" y="65" textAnchor="middle" fontSize="14" fontFamily="var(--font-sans)" fontStyle="italic" fill="white" opacity="0" className="cal-month">Kharif Season</text>
     {/* Ring pins */}
     <circle className="draw-line" cx="55" cy="40" r="6" stroke="#143d31" strokeWidth="2" fill="none"/>
     <circle className="draw-line" cx="145" cy="40" r="6" stroke="#143d31" strokeWidth="2" fill="none"/>

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
+  CaretRight,
   CheckCircle,
-  ClipboardList,
-  DollarSign,
-  TrendingUp,
+  ClipboardText,
   Clock,
-  Sprout,
-  Users,
-  ShieldCheck,
-  ChevronRight,
+  CurrencyDollar,
   Info,
+  Plant,
+  ShieldCheck,
   Sliders,
-} from "lucide-react";
+  TrendUp,
+  Users
+} from "@phosphor-icons/react";
 import { EASE, motion, CountUp } from "@/components/common/motion";
 
 export function TabSwitcher({
@@ -229,7 +229,7 @@ export function CalculatorPanel({
             onClick={handleFormSubmit}
             className="w-full rounded-2xl bg-forest-deep hover:bg-forest text-cream font-semibold text-sm py-4 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
           >
-            <ClipboardList className="h-4 w-4" />
+            <ClipboardText className="h-4 w-4" />
             <span>Request Custom Turnkey Advisory</span>
           </button>
         </div>
@@ -254,14 +254,14 @@ export function CalculatorPanel({
             {/* Metrics Cards Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <MetricBox
-                icon={DollarSign}
+                icon={CurrencyDollar}
                 label="Estimated CapEx"
                 value={`₹${totalCapExLakhs >= 100 ? (totalCapExLakhs / 100).toFixed(2) + " Cr" : totalCapExLakhs + " Lakhs"}`}
                 subtitle={`@ ₹${preset.capexAcre} L/Acre`}
                 highlight
               />
               <MetricBox
-                icon={Sprout}
+                icon={Plant}
                 label="Bio-Boosted Plugs"
                 value={totalPlugs.toLocaleString("en-IN")}
                 subtitle="High vigor seedlings"
@@ -273,13 +273,13 @@ export function CalculatorPanel({
                 subtitle="Standardized SOPs"
               />
               <MetricBox
-                icon={TrendingUp}
+                icon={TrendUp}
                 label="Est. Gross Yield"
                 value={`${estimatedYieldTons.toLocaleString("en-IN")} Tons`}
                 subtitle="First harvest cycle"
               />
               <MetricBox
-                icon={TrendingUp}
+                icon={TrendUp}
                 label="Projected Revenue"
                 value={`₹${grossRevenueLakhs >= 100 ? (grossRevenueLakhs / 100).toFixed(2) + " Cr" : grossRevenueLakhs + " Lakhs"}`}
                 subtitle="Market Buyback Linked"

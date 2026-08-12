@@ -2,25 +2,25 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Sprout,
-  CheckCircle2,
-  ShieldCheck,
-  Search,
-  Calendar,
-  Layers,
-  Thermometer,
-  Droplets,
-  Cpu,
-  Truck,
-  MapPin,
-  Sparkles,
   ArrowRight,
+  Calendar,
+  CaretDown,
+  CheckCircle,
+  Cpu,
+  Drop,
+  FileText,
+  MagnifyingGlass,
+  MapPin,
   PhoneCall,
-  X,
-  FileCheck,
-  Activity,
-  ChevronDown,
-} from "lucide-react";
+  Plant,
+  Pulse,
+  ShieldCheck,
+  Sparkle,
+  Stack,
+  Thermometer,
+  Truck,
+  X
+} from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -171,7 +171,7 @@ const PHASES = [
     phase: "01",
     title: "Research & Varietal Trials",
     desc: "Rigorous testing of hybrid seeds against local Haryana microclimates, soil pH, and common disease vectors before mass propagation.",
-    icon: Sparkles,
+    icon: Sparkle,
     details: ["In-house demo plots in Pachgaon", "Genetic purity verification", "Heat & drought resistance screening"],
   },
   {
@@ -299,7 +299,7 @@ function SmartNurseryPage() {
               key={stat.label}
               className="flex items-center gap-3 rounded-full border border-forest/15 bg-card/90 px-5 py-3 shadow-sm backdrop-blur"
             >
-              <Sprout className="h-4 w-4 shrink-0 text-moss" />
+              <Plant className="h-4 w-4 shrink-0 text-moss" />
               <div>
                 <span className="font-serif text-xl font-bold leading-none text-forest-deep">
                   <CountUp to={stat.to} prefix={stat.prefix} suffix={stat.suffix} duration={2} />
@@ -345,7 +345,7 @@ function SmartNurseryPage() {
               className="inline-flex items-center gap-3 font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-forest/70"
             >
               <span>{item}</span>
-              <Sparkles className="h-3.5 w-3.5 text-terracotta" />
+              <Sparkle className="h-3.5 w-3.5 text-terracotta" />
             </span>
           ))}
         </Marquee>
@@ -400,7 +400,7 @@ function SmartNurseryPage() {
                   <ul className="mt-6 space-y-2 border-t border-border/40 pt-4 font-sans text-[11px]">
                     {ph.details.map((dt) => (
                       <li key={dt} className="flex items-center gap-2">
-                        <CheckCircle2
+                        <CheckCircle
                           className={`h-3.5 w-3.5 shrink-0 ${
                             isActive ? "text-terracotta" : "text-emerald-600"
                           }`}
@@ -444,17 +444,17 @@ function SmartNurseryPage() {
                   {
                     title: "Bio-Boost Root Inoculation",
                     desc: "Inoculated with Biocure F & VAM mycorrhiza for 3x root surface area expansion and zero transplant shock.",
-                    icon: Sprout,
+                    icon: Plant,
                   },
                   {
                     title: "Certified Seed Provenance",
                     desc: "100% genuine hybrid seeds sourced directly from top-tier research seed partners.",
-                    icon: FileCheck,
+                    icon: FileText,
                   },
                   {
                     title: "Standardized SOPs",
                     desc: "Rigorous daily agronomy logs tracking tray EC levels, pH metrics, and stem diameter index.",
-                    icon: Layers,
+                    icon: Stack,
                   },
                   {
                     title: "Doorstep Field Logistics",
@@ -637,20 +637,20 @@ function SmartNurseryPage() {
           </div>
         </section>
 
-        {/* Section 4: Interactive Seedling Batch Traceability Serial Search Simulator */}
+        {/* Section 4: Interactive Seedling Batch Traceability Serial MagnifyingGlass Simulator */}
         <section id="traceability" className="scroll-mt-28">
           <SectionHeader
             align="center"
             eyebrow="DATA TRANSPARENCY & TRACEABILITY"
-            title="Batch Serial Traceability Search."
+            title="Batch Serial Traceability MagnifyingGlass."
             description="Type or select a batch serial number below to inspect real-time chamber telemetry, seed origin, and bio-boost logs."
           />
 
           <div className="mt-12 rounded-[2.5rem] border border-border bg-card p-8 md:p-12 shadow-sm space-y-8">
-            {/* Search Bar & Quick Preset Buttons */}
+            {/* MagnifyingGlass Bar & Quick Preset Buttons */}
             <div className="max-w-2xl mx-auto space-y-4 text-center">
               <div className="flex items-center gap-2 rounded-2xl border border-border bg-bone p-2">
-                <Search className="h-5 w-5 text-forest/50 ml-3" />
+                <MagnifyingGlass className="h-5 w-5 text-forest/50 ml-3" />
                 <input
                   type="text"
                   value={searchBatchId}
@@ -662,7 +662,7 @@ function SmartNurseryPage() {
                   onClick={() => handleBatchSearch(searchBatchId)}
                   className="rounded-xl bg-forest-deep px-5 py-2.5 font-mono text-xs font-bold text-cream hover:bg-forest transition-colors cursor-pointer"
                 >
-                  Search Batch
+                  MagnifyingGlass Batch
                 </button>
               </div>
 
@@ -714,7 +714,7 @@ function SmartNurseryPage() {
                     </div>
 
                     <span className="rounded-full bg-emerald-100 px-4 py-1.5 font-mono text-xs font-bold text-emerald-800 flex items-center gap-2">
-                      <Activity className="h-4 w-4 animate-pulse" /> {activeBatch.status}
+                      <Pulse className="h-4 w-4 animate-pulse" /> {activeBatch.status}
                     </span>
                   </div>
 
@@ -770,7 +770,7 @@ function SmartNurseryPage() {
                     className="w-full flex items-center justify-between p-6 text-left font-serif text-xl font-bold text-forest-deep cursor-pointer"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown
+                    <CaretDown
                       className={`h-5 w-5 shrink-0 text-forest/60 transition-transform ${
                         isOpen ? "rotate-180" : ""
                       }`}
@@ -848,7 +848,7 @@ function SmartNurseryPage() {
               {modalSubmitted ? (
                 <div className="py-8 text-center space-y-4">
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                    <CheckCircle2 className="h-8 w-8 animate-bounce" />
+                    <CheckCircle className="h-8 w-8 animate-bounce" />
                   </div>
                   <h4 className="font-serif text-2xl font-bold text-forest-deep">
                     Seedling Reservation Confirmed!

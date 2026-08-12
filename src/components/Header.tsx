@@ -2,23 +2,23 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  ChevronDown,
-  Menu,
-  X,
-  Home,
-  Layers,
-  Compass,
-  Users,
-  Info,
+  Bank,
   Briefcase,
-  Phone,
-  Sprout,
-  ShoppingBag,
+  CaretDown,
+  Compass,
   Drone,
+  House,
+  Info,
+  List,
+  Phone,
+  Plant,
   ShieldCheck,
-  Landmark,
-  TrendingUp,
-} from "lucide-react";
+  ShoppingBag,
+  Stack,
+  TrendUp,
+  Users,
+  X
+} from "@phosphor-icons/react";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
@@ -32,18 +32,18 @@ type NavItem = {
 };
 
 const navStructure: NavItem[] = [
-  { key: "home", href: "/", icon: Home },
+  { key: "home", href: "/", icon: House },
   {
     key: "services",
     href: "/services",
-    icon: Layers,
+    icon: Stack,
     subLinks: [
       {
         key: "nursery",
         href: "/services/nursery",
         label: "Bio-Boosted Nursery",
         desc: "High-yield saplings & automated plug plants",
-        icon: Sprout,
+        icon: Plant,
       },
       {
         key: "kisaanMall",
@@ -71,14 +71,14 @@ const navStructure: NavItem[] = [
         href: "/services/big-farm-setup",
         label: "Big Farm Setup",
         desc: "Turnkey orchards & commercial estate setups",
-        icon: Landmark,
+        icon: Bank,
       },
       {
         key: "marketLinkage",
         href: "/services/market-linkage",
         label: "Market Linkage",
         desc: "Direct buyer connect & guaranteed buyback",
-        icon: TrendingUp,
+        icon: TrendUp,
       },
     ],
   },
@@ -184,7 +184,7 @@ export default function Header() {
                 >
                   <span>{t(`nav.${link.key}` as any, link.key)}</span>
                   {link.subLinks && (
-                    <ChevronDown
+                    <CaretDown
                       className={`h-3.5 w-3.5 opacity-80 transition-transform duration-300 ${
                         isHovered ? "rotate-180 text-white opacity-100" : ""
                       }`}
@@ -340,9 +340,9 @@ export default function Header() {
             aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6 text-[#a3e635]" />
+              <X className="h-6 w-6" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <List className="h-6 w-6" />
             )}
           </button>
         </div>

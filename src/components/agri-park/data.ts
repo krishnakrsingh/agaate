@@ -1,35 +1,35 @@
 import { type Variants } from "framer-motion";
 import {
-  BadgeCheck,
   BookOpen,
   Bug,
   Cpu,
-  Droplets,
+  Drop,
   Eye,
-  FlaskConical,
+  Flask,
   GraduationCap,
-  LandPlot,
-  LayoutGrid,
+  type Icon,
   Leaf,
   Lightbulb,
+  MapPinArea,
   Microscope,
   Package,
+  Plant,
   Rocket,
-  Route as RouteIcon,
+  SealCheck,
   ShieldCheck,
   ShoppingCart,
-  Sprout,
+  Signpost as RouteIcon,
+  SquaresFour,
   Truck,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
+  Users
+} from "@phosphor-icons/react";
 import { EASE, type RevealVariant } from "@/components/common/motion";
 
-export type ZoneEight = { icon: LucideIcon; label: string; benefit: string };
-export type FirstOfKind = { icon: LucideIcon; title: string; desc: string };
-export type NurseryStory = { icon: LucideIcon; label: string; desc: string };
-export type Lifecycle = { phase: string; icon: LucideIcon; title: string; desc: string };
-export type HeroStat = { icon: LucideIcon; to: number; suffix: string; label: string };
+export type ZoneEight = { icon: Icon; label: string; benefit: string };
+export type FirstOfKind = { icon: Icon; title: string; desc: string };
+export type NurseryStory = { icon: Icon; label: string; desc: string };
+export type Lifecycle = { phase: string; icon: Icon; title: string; desc: string };
+export type HeroStat = { icon: Icon; to: number; suffix: string; label: string };
 export type Zone = {
   id: string;
   name: string;
@@ -46,15 +46,15 @@ export type Zone = {
 
 
 export const ZONES_EIGHT: ZoneEight[] = [
-  { icon: Sprout, label: "Seed Zone", benefit: "Choose the right variety before you sow" },
+  { icon: Plant, label: "Seed Zone", benefit: "Choose the right variety before you sow" },
   { icon: Leaf, label: "Nursery Zone", benefit: "See Bio-Boosted seedlings at every stage" },
   {
-    icon: Droplets,
+    icon: Drop,
     label: "Irrigation Zone",
     benefit: "Compare drip and fertigation systems live",
   },
   {
-    icon: FlaskConical,
+    icon: Flask,
     label: "Nutrition Zone",
     benefit: "Understand inputs from real crop trials",
   },
@@ -116,7 +116,7 @@ export const NURSERY_STORY: NurseryStory[] = [
     desc: "Saplings raised under strictly regulated micro-climate chambers.",
   },
   {
-    icon: FlaskConical,
+    icon: Flask,
     label: "In-House Production & Variety Breeding",
     desc: "Hybrids bred and pre-conditioned for stress tolerance.",
   },
@@ -131,7 +131,7 @@ export const NURSERY_STORY: NurseryStory[] = [
     desc: "Biological cures first, targeted intervention only when needed.",
   },
   {
-    icon: BadgeCheck,
+    icon: SealCheck,
     label: "Standardized Traceability",
     desc: "Every batch certified with serial QR traceability records.",
   },
@@ -146,13 +146,13 @@ export const LIFECYCLE: Lifecycle[] = [
   },
   {
     phase: "02",
-    icon: Sprout,
+    icon: Plant,
     title: "Bio-Boosted Cultivation",
     desc: "Seedlings are raised with robust lateral root systems under AI-monitored smart nursery conditions.",
   },
   {
     phase: "03",
-    icon: BadgeCheck,
+    icon: SealCheck,
     title: "Quality Gate Verification",
     desc: "Every batch passes strict quality checks for disease resistance and root density.",
   },
@@ -167,8 +167,8 @@ export const LIFECYCLE: Lifecycle[] = [
 export const lifecycleVariants: RevealVariant[] = ["fade-left", "scale-up", "fade-up", "blur-in"];
 
 export const HERO_STATS: HeroStat[] = [
-  { icon: LandPlot, to: 17, suffix: "", label: "Acres living farm" },
-  { icon: LayoutGrid, to: 8, suffix: "", label: "Innovation zones" },
+  { icon: MapPinArea, to: 17, suffix: "", label: "Acres living farm" },
+  { icon: SquaresFour, to: 8, suffix: "", label: "Innovation zones" },
   { icon: Users, to: 25, suffix: "+", label: "Global agri partners" },
   { icon: Package, to: 2000, suffix: "+", label: "Parivaar farmers" },
 ];

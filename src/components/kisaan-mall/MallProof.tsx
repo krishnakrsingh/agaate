@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Mail, Phone, Quote, Star, Store } from "lucide-react";
+import { MapPin, Envelope, Phone, Quotes, Star, Storefront } from "@phosphor-icons/react";
 import {
   CountUp,
   Marquee,
@@ -66,7 +66,7 @@ const quotes = [
   },
   {
     name: "Abhay Ranjan",
-    role: "Store visitor",
+    role: "Storefront visitor",
     text: "A farm to experience — multiple farming technologies, products, seed varieties, nursery for vegetables, multiple crops, and best practices in farming.",
   },
 ];
@@ -175,7 +175,7 @@ export function StoreLocator() {
                 href="mailto:info@agaate.in"
                 className="flex items-center gap-2 rounded-full border border-border px-4 py-2 font-mono text-[11px] font-bold text-forest-deep transition-colors hover:border-forest hover:bg-forest/5"
               >
-                <Mail className="h-3.5 w-3.5 text-moss" />
+                <Envelope className="h-3.5 w-3.5 text-moss" />
                 info@agaate.in
               </a>
               <a
@@ -221,7 +221,7 @@ export function StoreLocator() {
                 />
               ))}
               <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-forest-deep text-cream shadow-xl shadow-forest-deep/30">
-                <Store className="h-7 w-7" />
+                <Storefront className="h-7 w-7" />
               </div>
             </div>
 
@@ -250,7 +250,7 @@ export function StoreCta() {
   return (
     <section className="border-t border-border bg-forest-deep py-20 text-center text-cream">
       <Reveal variant="scale-up" className="mx-auto max-w-3xl px-6">
-        <Quote className="mx-auto mb-6 h-8 w-8 text-moss" />
+        <Quotes className="mx-auto mb-6 h-8 w-8 text-moss" />
         <p className="font-serif text-3xl italic leading-snug md:text-4xl">
           "From advice to action — Agaate stays with you at every step."
         </p>

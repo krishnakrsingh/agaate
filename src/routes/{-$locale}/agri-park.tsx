@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Calendar, MapPin, Shield, Sprout, Compass, Sparkles, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Calendar,
+  Compass,
+  MapPin,
+  Plant,
+  Shield,
+  Sparkle,
+  Users
+} from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SectionCropWorld from "@/components/sections/SectionCropWorld";

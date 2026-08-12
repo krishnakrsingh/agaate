@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, ArrowRight, Building2, MapPin, Calendar, Sprout, Phone } from "lucide-react";
+import {
+  ArrowRight,
+  Buildings,
+  Calendar,
+  CheckCircle,
+  MapPin,
+  Phone,
+  Plant,
+  X
+} from "@phosphor-icons/react";
 import { EASE, motion } from "@/components/common/motion";
 
 export function TurnkeyModal({
@@ -78,7 +87,7 @@ export function TurnkeyModal({
               className="py-10 text-center space-y-4"
             >
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 text-emerald-500">
-                <CheckCircle2 className="h-10 w-10" />
+                <CheckCircle className="h-10 w-10" />
               </div>
               <span className="font-jet text-[10px] font-bold uppercase tracking-widest text-terracotta block">
                 Reference ID: #ESTATE-{(Math.floor(Math.random() * 89999) + 10000)}

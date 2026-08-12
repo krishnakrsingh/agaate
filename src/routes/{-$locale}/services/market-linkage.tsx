@@ -2,23 +2,23 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Truck,
-  TrendingUp,
-  ShieldCheck,
-  CheckCircle2,
-  Users,
-  Handshake,
-  DollarSign,
   ArrowRight,
-  Sparkles,
-  PhoneCall,
-  X,
-  Building2,
-  Scale,
+  Buildings,
+  CaretDown,
+  CheckCircle,
   Clock,
-  ChevronDown,
-  Award,
-} from "lucide-react";
+  CurrencyDollar,
+  Handshake,
+  Medal,
+  PhoneCall,
+  Scales,
+  ShieldCheck,
+  Sparkle,
+  TrendUp,
+  Truck,
+  Users,
+  X
+} from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -98,21 +98,21 @@ const GRADING_STEPS = [
     badge: "Premium Export / Supermarket",
     priceMultiplier: "100% Top Buyback Floor Price",
     desc: "Blemish-free, uniform sizing, peak ripeness. Directly packed for quick-commerce apps (Blinkit/Zepto) and supermarket chains.",
-    icon: Award,
+    icon: Medal,
   },
   {
     grade: "Grade B",
     badge: "Regional Retail & Mandi Premium",
     priceMultiplier: "85% Floor Price",
     desc: "Slight size variation but excellent nutritional quality. Supplied to regional retail hubs and hotel chains.",
-    icon: Building2,
+    icon: Buildings,
   },
   {
     grade: "Grade C",
     badge: "Processing & Food Industry",
     priceMultiplier: "70% Industrial Price",
     desc: "Cosmetically imperfect crops purchased by puree, sauce, and food processing partners so zero harvest goes to waste.",
-    icon: Scale,
+    icon: Scales,
   },
 ];
 
@@ -233,7 +233,7 @@ function MarketLinkagePage() {
               className="inline-flex items-center gap-3 font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-forest/70"
             >
               <span>{item}</span>
-              <Sparkles className="h-3.5 w-3.5 text-terracotta" />
+              <Sparkle className="h-3.5 w-3.5 text-terracotta" />
             </span>
           ))}
         </Marquee>
@@ -520,7 +520,7 @@ function MarketLinkagePage() {
               {modalSubmitted ? (
                 <div className="py-8 text-center space-y-4">
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-                    <CheckCircle2 className="h-8 w-8 animate-bounce" />
+                    <CheckCircle className="h-8 w-8 animate-bounce" />
                   </div>
                   <h4 className="font-serif text-2xl font-bold text-forest-deep">
                     Buyback Registration Received!

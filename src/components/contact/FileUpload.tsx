@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { FileUp, X } from "lucide-react";
+import { UploadSimple, X } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -85,7 +85,7 @@ export function FileUpload({
             onClick={() => inputRef.current?.click()}
             className="mx-auto flex flex-col items-center gap-2 text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
           >
-            <FileUp className="h-5 w-5 text-neutral-400" strokeWidth={1.75} />
+            <UploadSimple className="h-5 w-5 text-neutral-400" strokeWidth={1.75} />
             <span className="text-sm font-medium text-forest-deep">Drop a file or browse</span>
             <span className="text-xs text-neutral-500">JPG · PNG · WebP · PDF · max 5MB</span>
           </button>
