@@ -1,120 +1,20 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { SplitText } from "gsap/SplitText";
 
 import fieldAdvisory from "@/assets/field-advisory-gen.png";
 import fertiliser from "@/assets/product-fertiliser.jpg";
 import seeds from "@/assets/product-seeds.jpg";
 
-gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, SplitText);
+// Photographic assets for card stacks
+import aboutFarmerAdvisor from "@/assets/about-farmer-advisor.png";
+import aboutHeroNursery from "@/assets/about-hero-nursery.png";
+import productDripKit from "@/assets/product-drip-kit.png";
+import bioNursery from "@/assets/bio-nursery-gen.png";
+import journey09Market from "@/assets/journey-09-market.png";
 
-
-
-/* ─── Animated SVG infographics for each pain point ─── */
-
-/** Pain 01: Wilting plant with a question mark */
-const PlantSVG = () => (
-  <svg className="svg-infographic" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Diagnostic Scan / Tech Grid Overlay */}
-    <circle cx="100" cy="130" r="65" stroke="#143d31" strokeWidth="1" strokeDasharray="3 3" opacity="0.08" />
-    <circle cx="100" cy="130" r="42" stroke="#143d31" strokeWidth="0.8" strokeDasharray="2 4" opacity="0.06" />
-    <line x1="30" y1="130" x2="170" y2="130" stroke="#143d31" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.06" />
-    <line x1="100" y1="60" x2="100" y2="200" stroke="#143d31" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.06" />
-
-    {/* Stem */}
-    <path className="draw-line" d="M100 200 C100 160 100 120 100 80" stroke="#143d31" strokeWidth="3.5" strokeLinecap="round"/>
-
-    {/* Drooping leaf left (closed shape outline) */}
-    <path className="draw-line" d="M100 120 C 70 100, 45 115, 40 135 C 45 150, 75 140, 100 120" stroke="#5d7d37" strokeWidth="2" strokeLinecap="round"/>
-    {/* Left Leaf Vein */}
-    <path className="draw-line" d="M100 120 Q 65 125, 40 135" stroke="#5d7d37" strokeWidth="1.2" strokeLinecap="round" opacity="0.75"/>
-    {/* Left Leaf Ribs */}
-    <path className="draw-line" d="M 80 123 Q 75 130, 68 132" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
-    <path className="draw-line" d="M 65 128 Q 60 135, 52 135" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
-
-    {/* Drooping leaf right (closed shape outline) */}
-    <path className="draw-line" d="M100 100 C 130 80, 155 95, 160 115 C 155 130, 125 120, 100 100" stroke="#5d7d37" strokeWidth="2" strokeLinecap="round"/>
-    {/* Right Leaf Vein */}
-    <path className="draw-line" d="M100 100 Q 135 105, 160 115" stroke="#5d7d37" strokeWidth="1.2" strokeLinecap="round" opacity="0.75"/>
-    {/* Right Leaf Ribs */}
-    <path className="draw-line" d="M 120 103 Q 125 110, 132 112" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
-    <path className="draw-line" d="M 135 108 Q 140 115, 148 115" stroke="#5d7d37" strokeWidth="0.8" strokeLinecap="round" opacity="0.6"/>
-
-    {/* Warning spots (glowing amber) */}
-    <circle className="spot-1" cx="65" cy="128" r="4.5" fill="#e8b84b" opacity="0"/>
-    <circle className="spot-2" cx="135" cy="108" r="4" fill="#e8b84b" opacity="0"/>
-    <circle className="spot-3" cx="50" cy="133" r="3.5" fill="#e8b84b" opacity="0"/>
-
-    {/* Question mark above (elegant styled vector path) */}
-    <g className="svg-question" opacity="0" style={{ transformOrigin: "100px 50px" }}>
-      <path d="M90 35 C90 20, 110 20, 110 35 C110 44, 100 48, 100 58" stroke="#143d31" strokeWidth="3" strokeLinecap="round" fill="none"/>
-      <circle cx="100" cy="70" r="3" fill="#143d31"/>
-    </g>
-
-    {/* Detailed organic Root system */}
-    <path className="draw-line" d="M100 200 Q 100 212, 95 220" stroke="#143d31" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
-    <path className="draw-line" d="M100 200 C 90 206, 80 208, 70 205" stroke="#143d31" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
-    <path className="draw-line" d="M100 200 C 110 206, 122 208, 130 205" stroke="#143d31" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
-    <path className="draw-line" d="M 90 204 Q 85 212, 78 214" stroke="#143d31" strokeWidth="1.2" strokeLinecap="round" opacity="0.3"/>
-    <path className="draw-line" d="M 110 204 Q 115 212, 122 214" stroke="#143d31" strokeWidth="1.2" strokeLinecap="round" opacity="0.3"/>
-  </svg>
-);
-
-/** Pain 02: Product shelf / compare bars */
-const ShelfSVG = () => (
-  <svg className="svg-infographic" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Shelf line */}
-    <path className="draw-line" d="M20 160 L180 160" stroke="#143d31" strokeWidth="2.5" strokeLinecap="round"/>
-    {/* Bottles */}
-    <rect className="bar bar-1" x="35" y="100" width="22" height="60" rx="4" fill="#5d7d37" opacity="0"/>
-    <rect className="bar bar-2" x="68" y="80" width="22" height="80" rx="4" fill="#5d7d37" opacity="0"/>
-    <rect className="bar bar-3" x="101" y="110" width="22" height="50" rx="4" fill="#5d7d37" opacity="0"/>
-    <rect className="bar bar-4" x="134" y="90" width="22" height="70" rx="4" fill="#5d7d37" opacity="0"/>
-    {/* Labels on bottles */}
-    <line className="draw-line" x1="38" y1="125" x2="54" y2="125" stroke="white" strokeWidth="1.5" opacity="0"/>
-    <line className="draw-line" x1="71" y1="105" x2="87" y2="105" stroke="white" strokeWidth="1.5" opacity="0"/>
-    {/* X marks - confusion */}
-    <text x="82" y="55" textAnchor="middle" fontSize="30" fontFamily="var(--font-sans)" fill="#e74c3c" opacity="0" className="svg-question">✕</text>
-    <text x="130" y="68" textAnchor="middle" fontSize="20" fontFamily="var(--font-sans)" fill="#e74c3c" opacity="0" className="svg-question-2">?</text>
-    {/* Ground shadow */}
-    <ellipse cx="100" cy="168" rx="70" ry="5" fill="#143d31" opacity="0.06"/>
-  </svg>
-);
-
-/** Pain 03: Calendar / planning grid */
-const CalendarSVG = () => (
-  <svg className="svg-infographic" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Calendar outline */}
-    <rect className="draw-line" x="20" y="40" width="160" height="140" rx="10" stroke="#143d31" strokeWidth="2.5" fill="none"/>
-    {/* Header bar */}
-    <rect x="20" y="40" width="160" height="36" rx="10" fill="#143d31" opacity="0" className="cal-header"/>
-    {/* Month label */}
-    <text x="100" y="65" textAnchor="middle" fontSize="14" fontFamily="var(--font-sans)" fontStyle="italic" fill="white" opacity="0" className="cal-month">Kharif Season</text>
-    {/* Ring pins */}
-    <circle className="draw-line" cx="55" cy="40" r="6" stroke="#143d31" strokeWidth="2" fill="none"/>
-    <circle className="draw-line" cx="145" cy="40" r="6" stroke="#143d31" strokeWidth="2" fill="none"/>
-    {/* Grid cells - animated one by one */}
-    <rect className="cal-cell" x="28" y="84" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="58" y="84" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="88" y="84" width="24" height="20" rx="3" fill="#e8b84b" opacity="0"/>
-    <rect className="cal-cell" x="118" y="84" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="148" y="84" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="28" y="112" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="58" y="112" width="24" height="20" rx="3" fill="#e74c3c" opacity="0"/>
-    <rect className="cal-cell" x="88" y="112" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="118" y="112" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="148" y="112" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="28" y="140" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="58" y="140" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    <rect className="cal-cell" x="88" y="140" width="24" height="20" rx="3" fill="#5d7d37" opacity="0"/>
-    {/* Solo farmer icon */}
-    <circle className="draw-line" cx="100" cy="168" r="8" stroke="#143d31" strokeWidth="2" fill="none"/>
-    <path className="draw-line" d="M100 176 L100 190" stroke="#143d31" strokeWidth="2" strokeLinecap="round"/>
-    <path className="draw-line" d="M88 183 L100 179 L112 183" stroke="#143d31" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const slides = [
   {
@@ -124,7 +24,6 @@ const slides = [
     label: "The farmer's reality",
     isIntro: true,
     headline: ["Every farmer faces moments where", "guesswork costs money."],
-    SVGComponent: null,
   },
   {
     seq: "seq-0",
@@ -134,8 +33,12 @@ const slides = [
     label: "Crop health",
     headline: "Something is wrong with the crop.",
     body: "Yellowing leaves. Wilting at the tips. Spots that appeared overnight. The problem is clear — but the cause, and the right fix, is not.",
-    SVGComponent: PlantSVG,
-    svgAnimClass: "plant-svg",
+    deckClass: "deck-health",
+    cards: [
+      { image: aboutFarmerAdvisor, caption: "Advisor Visit" },
+      { image: aboutHeroNursery, caption: "Foliar Check" },
+      { image: fieldAdvisory, caption: "Field Sieve" },
+    ],
   },
   {
     seq: "seq-1",
@@ -145,8 +48,12 @@ const slides = [
     label: "Input selection",
     headline: "Which input is actually right?",
     body: "Hundreds of packets on the shelf. Similar names, overlapping claims. No clear way to know which one fits your crop, your soil, your stage.",
-    SVGComponent: ShelfSVG,
-    svgAnimClass: "shelf-svg",
+    deckClass: "deck-shelf",
+    cards: [
+      { image: fertiliser, caption: "Bio-Nutrition" },
+      { image: productDripKit, caption: "Precision Drip" },
+      { image: seeds, caption: "Starter Seeds" },
+    ],
   },
   {
     seq: "seq-2",
@@ -156,8 +63,12 @@ const slides = [
     label: "Season planning",
     headline: "Planning alone, without a guide.",
     body: "Every season starts with big decisions — seed choice, sowing dates, fertigation plan, harvest timing. Most farmers make them without expert input and hope for the best.",
-    SVGComponent: CalendarSVG,
-    svgAnimClass: "cal-svg",
+    deckClass: "deck-calendar",
+    cards: [
+      { image: bioNursery, caption: "Nursery Setup" },
+      { image: aboutFarmerAdvisor, caption: "Crop Advisory" },
+      { image: journey09Market, caption: "Market Strategy" },
+    ],
   },
 ];
 
@@ -203,26 +114,23 @@ export default function FieldSignal() {
         );
       };
 
-      // Draw SVG (plant)
-      const animateSVG = (cls: string) => {
-        tl.fromTo(`.${cls} .draw-line`, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1, stagger: 0.06, ease: "power2.inOut" }, "<+=0.2")
-          .to(`.${cls} .spot-1, .${cls} .spot-2, .${cls} .spot-3`, { opacity: 1, duration: 0.4, stagger: 0.15 }, "<+=0.5")
-          .to(`.${cls} .svg-question`, { opacity: 1, scale: 1.2, duration: 0.5, ease: "back.out(1.7)" }, "<+=0.3");
-      };
-
-      // Draw SVG (shelf)
-      const animateShelfSVG = (cls: string) => {
-        tl.fromTo(`.${cls} .draw-line`, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1, ease: "power2.inOut" }, "<+=0.2")
-          .to(`.${cls} .bar`, { opacity: 0.85, y: 0, duration: 0.5, stagger: 0.1, ease: "back.out(1.4)" }, "<+=0.3")
-          .to(`.${cls} .svg-question, .${cls} .svg-question-2`, { opacity: 1, duration: 0.5, stagger: 0.2 }, "<+=0.5");
-      };
-
-      // Draw SVG (calendar)
-      const animateCalSVG = (cls: string) => {
-        tl.fromTo(`.${cls} .draw-line`, { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.2, stagger: 0.05, ease: "power2.inOut" }, "<+=0.2")
-          .to(`.${cls} .cal-header`, { opacity: 1, duration: 0.4 }, "<+=0.5")
-          .to(`.${cls} .cal-month`, { opacity: 1, duration: 0.4 }, "<")
-          .to(`.${cls} .cal-cell`, { opacity: 0.8, duration: 0.3, stagger: 0.04, ease: "back.out(1.2)" }, "<+=0.2");
+      // Animate premium card deck fan-out on scroll
+      const animateDeck = (cls: string) => {
+        tl.fromTo(`.${cls} .card-0`,
+          { x: 0, y: 0, rotation: -3, opacity: 0, scale: 0.95 },
+          { x: -55, y: -15, rotation: -12, opacity: 1, scale: 1, duration: 1, ease: "power2.out" },
+          "<+=0.2"
+        )
+        .fromTo(`.${cls} .card-1`,
+          { x: 0, y: 0, rotation: 1, opacity: 0, scale: 0.95 },
+          { x: 5, y: 5, rotation: -1, opacity: 1, scale: 1, duration: 1, ease: "power2.out" },
+          "<"
+        )
+        .fromTo(`.${cls} .card-2`,
+          { x: 0, y: 0, rotation: 5, opacity: 0, scale: 0.95 },
+          { x: 65, y: 20, rotation: 10, opacity: 1, scale: 1, duration: 1, ease: "power2.out" },
+          "<"
+        );
       };
 
       /* ── INTRO ── */
@@ -236,7 +144,7 @@ export default function FieldSignal() {
         .fromTo(".seq-0 .img-panel", { scale: 1.15, opacity: 0 }, { scale: 1, opacity: 0.15, duration: 1 }, "<");
       typeHeadline(".seq-0 .type-headline", "<+=0.3");
       typeBody(".seq-0 .scramble-body", "<+=0.2");
-      animateSVG("plant-svg");
+      animateDeck("deck-health");
       tl.to(".seq-0", { opacity: 0, y: -40, duration: 1.2, ease: "power2.in" }, "+=0.5");
 
       /* ── SLIDE 02 ── */
@@ -244,7 +152,7 @@ export default function FieldSignal() {
         .fromTo(".seq-1 .img-panel", { scale: 1.15, opacity: 0 }, { scale: 1, opacity: 0.15, duration: 1 }, "<");
       typeHeadline(".seq-1 .type-headline", "<+=0.3");
       typeBody(".seq-1 .scramble-body", "<+=0.2");
-      animateShelfSVG("shelf-svg");
+      animateDeck("deck-shelf");
       tl.to(".seq-1", { opacity: 0, y: -40, duration: 1.2, ease: "power2.in" }, "+=0.5");
 
       /* ── SLIDE 03 ── */
@@ -252,7 +160,7 @@ export default function FieldSignal() {
         .fromTo(".seq-2 .img-panel", { scale: 1.15, opacity: 0 }, { scale: 1, opacity: 0.15, duration: 1 }, "<");
       typeHeadline(".seq-2 .type-headline", "<+=0.3");
       typeBody(".seq-2 .scramble-body", "<+=0.2");
-      animateCalSVG("cal-svg");
+      animateDeck("deck-calendar");
       tl.to(".seq-2", { opacity: 0, scale: 1.03, duration: 1.5, ease: "power2.in" }, "+=1");
 
     }, containerRef);
@@ -278,7 +186,7 @@ export default function FieldSignal() {
               <div className="absolute inset-0 bg-[#fafbf7]/85" />
             </div>
             <div className="relative z-10 max-w-5xl mx-auto">
-              <h2 className="type-headline font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight text-[#143d31] leading-[1.05]" style={{ perspective: 600 }}>
+              <h2 className="type-headline font-sans text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight text-[#143d31] leading-[1.05]" style={{ perspective: 600 }}>
                 Every farmer faces moments where guesswork costs money.
               </h2>
             </div>
@@ -286,7 +194,6 @@ export default function FieldSignal() {
 
           {/* ── PAIN POINT SLIDES ── */}
           {slides.slice(1).map((slide) => {
-            const SVGComp = slide.SVGComponent!;
             return (
               <div
                 key={slide.number}
@@ -298,7 +205,7 @@ export default function FieldSignal() {
                   <div className="absolute inset-0 bg-[#fafbf7]/88" />
                 </div>
 
-                {/* Content layout: text left, SVG right */}
+                {/* Content layout: text left, Image deck right */}
                 <div className="relative z-10 w-full max-w-6xl mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                   {/* LEFT: Text */}
@@ -315,7 +222,7 @@ export default function FieldSignal() {
                       </span>
                     </div>
                     <h3
-                      className="type-headline font-display text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.08] tracking-tight text-[#143d31] mb-7"
+                      className="type-headline font-sans text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.08] tracking-tight text-[#143d31] mb-7"
                       style={{ perspective: 600 }}
                     >
                       {slide.headline}
@@ -325,11 +232,32 @@ export default function FieldSignal() {
                     </p>
                   </div>
 
-                  {/* RIGHT: Animated SVG infographic */}
-                  <div className={`${slide.svgAnimClass} flex items-center justify-center`}>
-                    <div className="w-full max-w-[340px] mx-auto aspect-square">
-                      <SVGComp />
-                    </div>
+                  {/* RIGHT: Polaroid/Tactile Card Stack */}
+                  <div className={`${slide.deckClass} relative w-full h-[320px] sm:h-[380px] flex items-center justify-center`}>
+                    {slide.cards && slide.cards.map((card, idx) => {
+                      return (
+                        <div
+                          key={idx}
+                          className={`card-${idx} absolute w-[160px] sm:w-[200px] aspect-[3/4] bg-white border border-stone-200/50 p-2.5 sm:p-3 rounded-2xl shadow-[0_15px_30px_rgba(20,61,49,0.12)] transition-shadow duration-300 hover:shadow-2xl select-none`}
+                          style={{
+                            zIndex: 10 + idx,
+                          }}
+                        >
+                          <div className="w-full aspect-[3/3.3] rounded-lg overflow-hidden border border-stone-100 bg-stone-50 shadow-inner">
+                            <img
+                              src={card.image}
+                              alt={card.caption}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="pt-2 text-center">
+                            <span className="font-mono text-[9px] sm:text-[10px] font-bold tracking-widest text-[#143d31] uppercase">
+                              {card.caption}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -341,4 +269,3 @@ export default function FieldSignal() {
     </section>
   );
 }
-
