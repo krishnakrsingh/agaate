@@ -41,7 +41,7 @@ const SUGGESTED_PROMPTS = [
 ];
 
 /** Free AI turns before WhatsApp handoff */
-const FREE_CHAT_LIMIT = 3;
+const FREE_CHAT_LIMIT = 1;
 
 const WHATSAPP_AGRONOMIST_URL =
   "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20chatted%20on%20the%20app%20and%20want%20to%20continue%20with%20a%20real%20agronomist%20for%20my%20crop.";
@@ -499,82 +499,81 @@ export default function InteractivePhoneApp({
               {/* Chat Messages Container */}
               <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-3.5 space-y-3">
                 <AnimatePresence>
-                {messages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, scale: 0.9, y: 10, transformOrigin: msg.sender === "farmer" ? "bottom right" : "bottom left" }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    className={`flex flex-col ${
-                      msg.sender === "farmer" ? "items-end" : "items-start"
-                    }`}
-                  >
-                    {msg.sender === "farmer" ? (
-                      <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-[#143d31] px-3.5 py-2.5 text-xs leading-relaxed text-white shadow-xs">
-                        <p className="whitespace-pre-line">{msg.text}</p>
-                        <p className="mt-1 text-[9px] text-white/50 text-right font-mono">
-                          {msg.time}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="max-w-[94%] rounded-2xl bg-white p-3.5 text-xs leading-relaxed text-[#143d31] border border-[#143d31]/12 shadow-sm rounded-bl-xs">
-                        {/* Advisory Card Header */}
-                        <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[#143d31]/8">
-                          <div className="h-5 w-5 rounded-full bg-[#e7edd9] p-0.5 border border-[#143d31]/12 flex items-center justify-center shrink-0">
-                            <img
-                              src="/logo11.png"
-                              alt="Agaate"
-                              className="h-full w-full rounded-full object-cover"
-                            />
-                          </div>
-                          <span className="font-extrabold text-[11px] text-[#143d31]">
-                            Agaate Agronomist
-                          </span>
-                          {msg.verified && (
-                            <span
-                              className="inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#25D366]"
-                              aria-label="Verified"
-                              title="Verified"
-                            >
-                              <svg
-                                viewBox="0 0 16 16"
-                                className="h-2.5 w-2.5 text-white"
-                                fill="none"
-                                aria-hidden
-                              >
-                                <path
-                                  d="M3.5 8.2 6.4 11l6.1-6.5"
-                                  stroke="currentColor"
-                                  strokeWidth="2.2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                  {messages.map((msg) => (
+                    <motion.div
+                      key={msg.id}
+                      initial={{ opacity: 0, scale: 0.9, y: 10, transformOrigin: msg.sender === "farmer" ? "bottom right" : "bottom left" }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      className={`flex flex-col ${msg.sender === "farmer" ? "items-end" : "items-start"
+                        }`}
+                    >
+                      {msg.sender === "farmer" ? (
+                        <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-[#143d31] px-3.5 py-2.5 text-xs leading-relaxed text-white shadow-xs">
+                          <p className="whitespace-pre-line">{msg.text}</p>
+                          <p className="mt-1 text-[9px] text-white/50 text-right font-mono">
+                            {msg.time}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="max-w-[94%] rounded-2xl bg-white p-3.5 text-xs leading-relaxed text-[#143d31] border border-[#143d31]/12 shadow-sm rounded-bl-xs">
+                          {/* Advisory Card Header */}
+                          <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[#143d31]/8">
+                            <div className="h-5 w-5 rounded-full bg-[#e7edd9] p-0.5 border border-[#143d31]/12 flex items-center justify-center shrink-0">
+                              <img
+                                src="/logo11.png"
+                                alt="Agaate"
+                                className="h-full w-full rounded-full object-cover"
+                              />
+                            </div>
+                            <span className="font-extrabold text-[11px] text-[#143d31]">
+                              Agaate Agronomist
                             </span>
-                          )}
-                        </div>
+                            {msg.verified && (
+                              <span
+                                className="inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#25D366]"
+                                aria-label="Verified"
+                                title="Verified"
+                              >
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  className="h-2.5 w-2.5 text-white"
+                                  fill="none"
+                                  aria-hidden
+                                >
+                                  <path
+                                    d="M3.5 8.2 6.4 11l6.1-6.5"
+                                    stroke="currentColor"
+                                    strokeWidth="2.2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </span>
+                            )}
+                          </div>
 
-                        {/* Advisory Content */}
-                        <p className="whitespace-pre-line leading-relaxed text-[#143d31]/90 font-medium">
-                          {msg.text}
-                        </p>
+                          {/* Advisory Content */}
+                          <p className="whitespace-pre-line leading-relaxed text-[#143d31]/90 font-medium">
+                            {msg.text}
+                          </p>
 
-                        {/* Advisory Card Footer */}
-                        <div className="mt-2.5 pt-2 border-t border-[#143d31]/6 flex items-center justify-between text-[9px] text-[#536253]">
-                          <span className="font-mono text-[#143d31]/40">{msg.time}</span>
-                          <a
-                            href={WHATSAPP_AGRONOMIST_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[#128C7E] font-bold hover:underline"
-                          >
-                            <WhatsAppIcon className="h-3 w-3" />
-                            <span>Chat now</span>
-                          </a>
+                          {/* Advisory Card Footer */}
+                          <div className="mt-2.5 pt-2 border-t border-[#143d31]/6 flex items-center justify-between text-[9px] text-[#536253]">
+                            <span className="font-mono text-[#143d31]/40">{msg.time}</span>
+                            <a
+                              href={WHATSAPP_AGRONOMIST_URL}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-[#128C7E] font-bold hover:underline"
+                            >
+                              <WhatsAppIcon className="h-3 w-3" />
+                              <span>Chat now</span>
+                            </a>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
+                      )}
+                    </motion.div>
+                  ))}
                 </AnimatePresence>
 
                 {isLoading && (
@@ -600,9 +599,7 @@ export default function InteractivePhoneApp({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     className="rounded-2xl border border-[#25D366]/35 bg-gradient-to-b from-[#e8fff0] to-white p-3.5 shadow-sm"
                   >
-                    <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#128C7E]">
-                      Free AI chats used
-                    </p>
+
                     <p className="mt-1 text-[12px] font-extrabold leading-snug text-[#143d31]">
                       Get a real agronomist on WhatsApp for your field.
                     </p>
@@ -695,11 +692,10 @@ export default function InteractivePhoneApp({
                 {["All Inputs", "Seeds 🌾", "Bio-Cures 🧪", "Drip 💧", "Mulch 🛡️"].map((cat, i) => (
                   <span
                     key={cat}
-                    className={`shrink-0 rounded-full px-3 py-1 text-[10px] font-bold transition-all ${
-                      i === 0
+                    className={`shrink-0 rounded-full px-3 py-1 text-[10px] font-bold transition-all ${i === 0
                         ? "bg-[#143d31] text-white shadow-xs"
                         : "bg-white border border-[#143d31]/12 text-[#143d31]"
-                    }`}
+                      }`}
                   >
                     {cat}
                   </span>
@@ -979,11 +975,10 @@ export default function InteractivePhoneApp({
           <div className="flex shrink-0 items-center justify-around border-t border-[#143d31]/10 bg-[#143d31] px-3 py-2.5 text-white">
             <button
               onClick={() => setActiveTab("chat")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "chat"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "chat"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-              }`}
+                }`}
             >
               <ChatCircleText className="h-3.5 w-3.5" />
               <span className="text-[10px]">Advisory</span>
@@ -991,11 +986,10 @@ export default function InteractivePhoneApp({
 
             <button
               onClick={() => setActiveTab("mall")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "mall"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "mall"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-              }`}
+                }`}
             >
               <ShoppingBag className="h-3.5 w-3.5" />
               <span className="text-[10px]">Mall</span>
@@ -1003,11 +997,10 @@ export default function InteractivePhoneApp({
 
             <button
               onClick={() => setActiveTab("farm")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "farm"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "farm"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-              }`}
+                }`}
             >
               <Plant className="h-3.5 w-3.5" />
               <span className="text-[10px]">Farm</span>
@@ -1015,11 +1008,10 @@ export default function InteractivePhoneApp({
 
             <button
               onClick={() => setActiveTab("park")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "park"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "park"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-              }`}
+                }`}
             >
               <MapPin className="h-3.5 w-3.5" />
               <span className="text-[10px]">Park</span>
