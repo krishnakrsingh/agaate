@@ -1,15 +1,15 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
-  Sprout,
-  Stethoscope,
-  ShoppingBag,
-  TrendingUp,
-  Microscope,
-  ShieldCheck,
   ArrowRight,
-  CheckCircle2,
-} from "lucide-react";
+  CheckCircle,
+  Microscope,
+  Plant,
+  ShieldCheck,
+  ShoppingBag,
+  Stethoscope,
+  TrendUp
+} from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, TiltCard, MagneticButton, Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import KisaanMallShowcase from "./KisaanMallShowcase";
@@ -21,7 +21,7 @@ const ecosystemPillars = [
     label: "Bio Nursery",
     title: "Bio-Boosted Seedling Infrastructure",
     desc: "Pathogen-free plug nurseries engineered for zero seedling mortality and a strong crop start.",
-    icon: Sprout,
+    icon: Plant,
     image: "/nursery.png",
     isPng: true,
     badge: "Nursery Infrastructure",
@@ -90,7 +90,7 @@ const ecosystemPillars = [
     label: "Market & Carbon",
     title: "Guaranteed Buyback & Carbon Credits",
     desc: "Direct buyer buyback contracts and soil carbon offset credits to maximize farm profit.",
-    icon: TrendingUp,
+    icon: TrendUp,
     image: "/carbon credits.png",
     isPng: true,
     badge: "Market Linkage",
@@ -139,7 +139,7 @@ const impactColumns = [
   {
     id: "impact",
     label: "Farmer Impact",
-    icon: Sprout,
+    icon: Plant,
     accent: "#143d31",
     headline: "Real income gains for real farm families.",
     bars: [
@@ -301,7 +301,7 @@ export default function PeopleChapter() {
                               key={feat}
                               className="flex items-center gap-2 text-xs font-semibold text-[#143d31]"
                             >
-                              <CheckCircle2 className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
+                              <CheckCircle className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
                               <span>{feat}</span>
                             </div>
                           ))}

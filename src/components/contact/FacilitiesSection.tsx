@@ -5,9 +5,9 @@ import {
   Clock,
   Copy,
   MapPin,
-  Navigation,
-  Phone,
-} from "lucide-react";
+  NavigationArrow,
+  Phone
+} from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE } from "@/components/common/motion";
 import { FACILITIES, type Facility } from "./data";
@@ -100,7 +100,7 @@ function FacilityCard({
             onClick={() => track("directions_clicked", { facility: facility.id })}
             className="inline-flex items-center gap-2 rounded-md bg-forest-deep px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
           >
-            <Navigation className="h-3.5 w-3.5" strokeWidth={1.75} />
+            <NavigationArrow className="h-3.5 w-3.5" strokeWidth={1.75} />
             Get directions
             <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} />
           </a>

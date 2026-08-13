@@ -1,14 +1,14 @@
 import { Marquee } from "@/components/ui/testimonials-13-utils/marquee";
 import {
-  Sprout,
-  TrendingUp,
+  Bank,
+  Drop,
+  Handshake,
+  Plant,
   ShieldCheck,
-  Users,
   ShoppingBag,
-  Droplets,
-  HeartHandshake,
-  Landmark,
-} from "lucide-react";
+  TrendUp,
+  Users
+} from "@phosphor-icons/react";
 
 interface StatItem {
   value: string;
@@ -22,19 +22,19 @@ const statsRow1: StatItem[] = [
     value: "15,000+",
     label: "Acres Associated",
     context: "Haryana & Rajasthan network",
-    icon: Landmark,
+    icon: Bank,
   },
   {
     value: "500,000+",
     label: "Bio Plants Delivered",
     context: "98% seedling survival rate",
-    icon: Sprout,
+    icon: Plant,
   },
   {
     value: "₹10 Cr+",
     label: "Annual Value Managed",
     context: "1.8x transactional growth YoY",
-    icon: TrendingUp,
+    icon: TrendUp,
   },
   {
     value: "25+",
@@ -55,7 +55,7 @@ const statsRow2: StatItem[] = [
     value: "2,000+",
     label: "Parivaar Farmers",
     context: "Active collaborative community",
-    icon: HeartHandshake,
+    icon: Handshake,
   },
   {
     value: "500+",
@@ -67,7 +67,7 @@ const statsRow2: StatItem[] = [
     value: "200+",
     label: "Smart Irrigations",
     context: "Water-saving precision drip kits",
-    icon: Droplets,
+    icon: Drop,
   },
 ];
 

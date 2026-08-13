@@ -1,19 +1,19 @@
 import {
-  Award,
   Compass,
-  Globe,
-  Leaf,
-  Shield,
-  Sprout,
-  UserCheck,
+  Drop,
   Factory,
-  Droplets,
-  Users,
-  ShoppingBag,
-  FlaskConical,
+  Flask,
+  Globe,
   Handshake,
-  type LucideIcon,
-} from "lucide-react";
+  type Icon,
+  Leaf,
+  Medal,
+  Plant,
+  Shield,
+  ShoppingBag,
+  UserCheck,
+  Users
+} from "@phosphor-icons/react";
 
 export const brochureHref = "/agaate-brochure.pdf";
 
@@ -91,12 +91,12 @@ export const guarantees = [
   {
     title: "Sustainable",
     desc: "Environmentally responsible farming practices",
-    icon: Sprout,
+    icon: Plant,
   },
   {
     title: "High Quality",
     desc: "Certified seedlings with guaranteed germination",
-    icon: Award,
+    icon: Medal,
   },
 ];
 
@@ -105,14 +105,14 @@ export const whatWeDo = [
     id: "seed-to-sale",
     title: "From Seeds to Sales",
     desc: "Complete crop support — from sowing to selling.",
-    icon: Sprout,
+    icon: Plant,
     href: "/services",
   },
   {
     id: "science",
     title: "Science-Backed Decisions",
     desc: "Helping farmers understand their crops and reduce losses.",
-    icon: FlaskConical,
+    icon: Flask,
     href: "/services/nursery",
   },
   {
@@ -133,10 +133,10 @@ export const whatWeDo = [
 
 export const stats = [
   { to: 15000, suffix: "+", label: "Acres Under Association", sub: "Land under active cultivation", icon: Globe },
-  { to: 500, suffix: "+", label: "Nursery Plants Delivered (Ac. Eq.)", sub: "Bio-boosted seedling coverage", icon: Sprout },
+  { to: 500, suffix: "+", label: "Nursery Plants Delivered (Ac. Eq.)", sub: "Bio-boosted seedling coverage", icon: Plant },
   { to: 2000, suffix: "+", label: "Parivaar Farmers", sub: "Empowered rural network", icon: Users },
   { to: 25, suffix: "+", label: "Direct Manufacturer Partners", sub: "Certified agri-input brands", icon: Factory },
-  { to: 200, suffix: "+", label: "Drip Irrigation Installations", sub: "Precision water management", icon: Droplets },
+  { to: 200, suffix: "+", label: "Drip Irrigation Installations", sub: "Precision water management", icon: Drop },
   { to: 20, suffix: "+", label: "Kisan Sathi Field Team", sub: "Dedicated on-ground advisors", icon: UserCheck },
 ];
 
@@ -181,7 +181,7 @@ export interface TeamMember {
   role: string;
   focus: string;
   tag: string;
-  icon: LucideIcon;
+  icon: Icon;
   image: string;
   bio: string;
   keyAch: string[];
@@ -196,7 +196,7 @@ export const team: TeamMember[] = [
     role: "Founder & CEO",
     focus: "Net-Zero Sustainability & Corporate Vision",
     tag: "Bharat Climate Summit Speaker",
-    icon: Leaf as LucideIcon,
+    icon: Leaf as Icon,
     image: "/team/ankit.png?v=2",
     bio: "Pioneer in tech-enabled vegetable crop ecosystems and net-zero mission advocate. Ankit leads corporate strategy, institutional partnerships, and campus leadership initiatives across North India. He was a featured speaker at the Bharat Climate Summit, presenting pathways for Net-Zero 2070 in Indian agriculture.",
     keyAch: [
@@ -214,7 +214,7 @@ export const team: TeamMember[] = [
     role: "Head of Operations",
     focus: "Supply Chain, Farm Operations & Revenue Mechanics",
     tag: "Operations & Sales Lead",
-    icon: Award as LucideIcon,
+    icon: Medal as Icon,
     image: "/team/kuldeep.png",
     bio: "Kuldeep leads the logistical machinery behind seed-to-sale operations, overseeing farm execution, input delivery schedules, and commercial crop sales mechanics across 15,000+ acres under association.",
     keyAch: [
@@ -231,7 +231,7 @@ export const team: TeamMember[] = [
     role: "Chief of Staff",
     focus: "Infrastructure, Nursery & Kisan Mall Retail Operations",
     tag: "Infrastructure & Retail Lead",
-    icon: Globe as LucideIcon,
+    icon: Globe as Icon,
     image: "/team/abhay.png",
     bio: "Abhay manages critical facility operations, specifically overseeing the 17-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
     keyAch: [
@@ -249,7 +249,7 @@ export const team: TeamMember[] = [
     role: "Agronomist",
     focus: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
     tag: "Scientific Agronomy Lead",
-    icon: Compass as LucideIcon,
+    icon: Compass as Icon,
     image: "/team/chanchala.png",
     bio: "Chanchala serves as the scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
     keyAch: [
@@ -266,7 +266,7 @@ export const team: TeamMember[] = [
     role: "Data & Strategy",
     focus: "IoT Telemetry, Drone Analytics & Smart Crop Cycles",
     tag: "Agri-Data & Strategy Lead",
-    icon: Shield as LucideIcon,
+    icon: Shield as Icon,
     image: "/team/ravi.png",
     bio: "Ravi drives data-driven decision-making, leveraging IoT soil sensors, Sentinel satellite canopy imaging, and AI crop health detection algorithms to execute precision Smart Crop Cycles.",
     keyAch: [

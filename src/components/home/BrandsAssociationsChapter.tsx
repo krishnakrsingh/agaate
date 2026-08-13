@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Building2, Leaf, ShoppingBasket } from "lucide-react";
+import { Buildings, Leaf, ShoppingBagOpen } from "@phosphor-icons/react";
 import { Marquee } from "@/components/ui/testimonials-13-utils/marquee";
 import { EASE, Reveal } from "@/components/common/motion";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
@@ -17,13 +17,13 @@ const TABS: {
   id: BrandTab;
   label: string;
   hint: string;
-  icon: typeof Building2;
+  icon: typeof Buildings;
 }[] = [
   {
     id: "partners",
     label: "Partners",
     hint: "Certified agri-input manufacturers we source from directly",
-    icon: Building2,
+    icon: Buildings,
   },
   {
     id: "customers",
@@ -35,7 +35,7 @@ const TABS: {
     id: "buyers",
     label: "Veg Buyers",
     hint: "Market channels connected through our linkage network",
-    icon: ShoppingBasket,
+    icon: ShoppingBagOpen,
   },
 ];
 

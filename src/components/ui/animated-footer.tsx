@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import React, { useMemo, useRef, useState, MouseEvent, useCallback, useEffect } from "react";
 import * as THREE from "three";
 import { useMotionValue, motion, useMotionTemplate, animate, useTransform } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Envelope, Phone, MapPin } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
 import facebookIcon from "@/assets/social/facebook.svg";
@@ -695,7 +695,7 @@ export function AnimatedFooter() {
                 <AnimatedLink href="tel:8350085005" icon={Phone}>
                   8350085005
                 </AnimatedLink>
-                <AnimatedLink href="mailto:info@agaate.in" icon={Mail}>
+                <AnimatedLink href="mailto:info@agaate.in" icon={Envelope}>
                   info@agaate.in
                 </AnimatedLink>
               </div>

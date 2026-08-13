@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin, Phone, Smartphone } from "lucide-react";
+import { ArrowRight, MapPin, Phone, DeviceMobile } from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
@@ -12,7 +12,7 @@ const trustFacts = [
 
 const actions = [
   {
-    icon: Smartphone,
+    icon: DeviceMobile,
     number: "01",
     title: "Talk to an Agronomist",
     text: "Describe your crop problem or planning question — a real agronomy expert responds directly. Crop diseases, pest issues, fertilizer, soil, or anything in the field.",
@@ -109,7 +109,6 @@ export default function ClosingChapter() {
                     >
                       <Icon
                         className="h-5 w-5"
-                        strokeWidth={1.8}
                         style={{ color: action.accent }}
                       />
                     </div>

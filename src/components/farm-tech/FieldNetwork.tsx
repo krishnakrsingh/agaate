@@ -6,7 +6,7 @@ import {
   useMotionValue,
   type MotionValue,
 } from "framer-motion";
-import { Play, RefreshCw } from "lucide-react";
+import { Play, ArrowClockwise } from "@phosphor-icons/react";
 import { AnimatedHeadline, EASE, Reveal, SectionHeader } from "@/components/common/motion";
 
 type NodeInfo = {
@@ -353,7 +353,7 @@ function FieldMap({
           >
             {isPlayingFlight ? (
               <>
-                <RefreshCw className="h-3.5 w-3.5 animate-spin" /> Scanning… {flightProgress}%
+                <ArrowClockwise className="h-3.5 w-3.5 animate-spin" /> Scanning… {flightProgress}%
               </>
             ) : (
               <>

@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, Send } from "lucide-react";
+import {
+  CaretDown,
+  PaperPlaneRight
+} from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
@@ -404,7 +407,7 @@ export default function ContactForm({
                     className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
                   >
                     Add farm details (optional)
-                    <ChevronDown
+                    <CaretDown
                       className={`h-3.5 w-3.5 transition-transform ${showFarmDetails ? "rotate-180" : ""}`}
                     />
                   </button>
@@ -459,7 +462,7 @@ export default function ContactForm({
                     className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
                   >
                     Attach a photo or report (optional)
-                    <ChevronDown
+                    <CaretDown
                       className={`h-3.5 w-3.5 transition-transform ${showUpload ? "rotate-180" : ""}`}
                     />
                   </button>
@@ -493,7 +496,7 @@ export default function ContactForm({
                       </>
                     ) : (
                       <>
-                        <Send className="h-4 w-4" strokeWidth={1.75} />
+                        <PaperPlaneRight className="h-4 w-4" strokeWidth={1.75} />
                         <span>Request a callback</span>
                       </>
                     )}

@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  CalendarDays,
+  Calendar,
   Check,
-  Droplets,
+  Drop,
   Leaf,
-  Shrub,
+  Plant,
   ShoppingBag,
-  Sprout,
-  Wrench,
-} from "lucide-react";
+  Tree,
+  Wrench
+} from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import {
   EASE,
@@ -35,14 +35,14 @@ const shelves = [
     ],
   },
   {
-    icon: Sprout,
+    icon: Plant,
     label: "Premium Seeds",
     kicker: "Vegetables & staples",
     desc: "High-yield, disease-resistant varieties tailored to local conditions from best-in-class seed partners.",
     chips: ["Hybrid Cauliflower", "Wheat", "Corn", "Rice"],
   },
   {
-    icon: Shrub,
+    icon: Tree,
     label: "Nursery Saplings",
     kicker: "Bio-boosted seedlings",
     desc: "Strong root development and healthy early-stage growth — 90–98% survival versus 50–70% direct sowing.",
@@ -391,7 +391,7 @@ export function SowingPreorder() {
                     >
                       <div className="mb-6 flex items-center gap-3">
                         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-forest/5 text-forest">
-                          <CalendarDays className="h-5 w-5" />
+                          <Calendar className="h-5 w-5" />
                         </div>
                         <div>
                           <p className="font-jet text-[9px] font-bold uppercase tracking-[0.2em] text-terracotta">

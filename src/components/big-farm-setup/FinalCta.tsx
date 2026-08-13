@@ -1,9 +1,14 @@
-import { LayoutGrid, Phone, ShieldCheck, Sprout, Target, type LucideIcon } from "lucide-react";
+import { type Icon,
+  Phone,
+  Plant,
+  ShieldCheck,
+  SquaresFour,
+  Target } from "@phosphor-icons/react";
 import { AnimatedHeadline, MagneticButton, Reveal, motion } from "@/components/common/motion";
 
-const TRUST_POINTS: { icon: LucideIcon; label: string }[] = [
+const TRUST_POINTS: { icon: Icon; label: string }[] = [
   { icon: ShieldCheck, label: "Turnkey liability" },
-  { icon: Sprout, label: "Bio-boosted inputs" },
+  { icon: Plant, label: "Bio-boosted inputs" },
   { icon: Target, label: "Assured market linkage" },
 ];
 
@@ -68,7 +73,7 @@ export function FinalCta({ onOpenConsultation }: { onOpenConsultation?: () => vo
               onClick={onOpenConsultation}
               className="inline-flex items-center gap-2 rounded-full border border-cream/25 px-8 py-4 text-sm font-semibold text-cream/90 transition-all hover:-translate-y-0.5 hover:border-cream/50 cursor-pointer"
             >
-              <LayoutGrid className="h-4 w-4" />
+              <SquaresFour className="h-4 w-4" />
               Request Field Survey
             </button>
           </div>

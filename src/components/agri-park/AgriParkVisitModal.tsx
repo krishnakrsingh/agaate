@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, ArrowRight, Calendar, Users, Sprout, MapPin, QrCode } from "lucide-react";
+import {
+  ArrowRight,
+  Calendar,
+  CheckCircle,
+  MapPin,
+  Plant,
+  QrCode,
+  Users,
+  X
+} from "@phosphor-icons/react";
 import { EASE, motion } from "@/components/common/motion";
 
 export function AgriParkVisitModal({
@@ -67,7 +76,7 @@ export function AgriParkVisitModal({
               className="py-8 text-center space-y-5"
             >
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 text-emerald-500">
-                <CheckCircle2 className="h-10 w-10" />
+                <CheckCircle className="h-10 w-10" />
               </div>
 
               <div>

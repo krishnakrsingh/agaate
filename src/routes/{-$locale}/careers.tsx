@@ -3,30 +3,30 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  Award,
   BookOpen,
   Briefcase,
-  Building2,
-  CheckCircle2,
-  ChevronRight,
+  Buildings,
+  CaretRight,
+  CheckCircle,
   Clock,
   Database,
+  DeviceMobile,
   FileText,
   GraduationCap,
   Handshake,
   Leaf,
   MapPin,
+  Medal,
   Microscope,
-  PenLine,
-  Send,
+  PaperPlaneRight,
+  PencilLine,
+  Plant,
   ShieldCheck,
-  Smartphone,
-  Sprout,
-  TrendingUp,
+  TrendUp,
   UserCheck,
   Users,
-  X,
-} from "lucide-react";
+  X
+} from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ExtendedJobPosition, jobs } from "@/data/careers-data";
@@ -57,7 +57,7 @@ const cultureCards = [
   {
     title: "On-Field Groundwork",
     desc: "We don't work in high-rise bubble offices. Our engineers spend time testing hardware setups and training growers directly in Haryana fields.",
-    icon: Sprout,
+    icon: Plant,
   },
   {
     title: "Scientific Rigour",
@@ -73,9 +73,9 @@ const cultureCards = [
 
 const campusSkills = [
   { icon: Leaf, label: "Field advisory" },
-  { icon: Smartphone, label: "Digital farm tools" },
+  { icon: DeviceMobile, label: "Digital farm tools" },
   { icon: Database, label: "Data collection" },
-  { icon: PenLine, label: "Technical content" },
+  { icon: PencilLine, label: "Technical content" },
 ];
 
 const stats = [
@@ -171,7 +171,7 @@ function RoleDetailDrawer({
                       key={resp}
                       className="flex items-start gap-3 rounded-xl border border-border/80 bg-bone/60 p-3.5 text-xs text-forest-deep"
                     >
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                      <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                       <span>{resp}</span>
                     </div>
                   ))}
@@ -189,7 +189,7 @@ function RoleDetailDrawer({
                     key={req}
                     className="flex items-start gap-3 rounded-xl border border-border/80 bg-card p-3.5 text-xs text-forest-deep"
                   >
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-moss" />
+                    <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-moss" />
                     <span>{req}</span>
                   </div>
                 ))}
@@ -260,7 +260,7 @@ function Careers() {
         <div className="mt-8 flex flex-wrap gap-3">
           {[
             { icon: Users, label: "20+ Kisan Sathi Field Advisors" },
-            { icon: Building2, label: "Gurugram HQ & 17-Acre Smart Nursery" },
+            { icon: Buildings, label: "Gurugram HQ & 17-Acre Smart Nursery" },
             { icon: GraduationCap, label: "CSAUAT Kanpur Placement Drives" },
           ].map((chip, i) => {
             const Icon = chip.icon;
@@ -513,7 +513,7 @@ function Careers() {
                           className="cursor-pointer flex items-center gap-1.5 rounded-xl bg-forest-deep px-5 py-2.5 font-jet text-xs font-bold text-cream hover:bg-forest shadow-sm"
                         >
                           <span>Apply Now</span>
-                          <ChevronRight className="h-4 w-4" />
+                          <CaretRight className="h-4 w-4" />
                         </button>
                       </div>
                     </div>

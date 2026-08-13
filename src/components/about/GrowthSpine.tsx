@@ -1,5 +1,7 @@
 import { useRef } from "react";
-import { Sprout } from "lucide-react";
+import {
+  Plant
+} from "@phosphor-icons/react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
@@ -51,9 +53,9 @@ export default function GrowthSpine() {
             />
           ))}
 
-          {/* Sprout tip */}
+          {/* Plant tip */}
           <div className="absolute -bottom-0.5 -left-[7px] flex h-4 w-4 items-center justify-center rounded-full bg-moss text-cream shadow-sm">
-            <Sprout className="h-2.5 w-2.5" />
+            <Plant className="h-2.5 w-2.5" />
           </div>
         </div>
       </div>

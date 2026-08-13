@@ -1,11 +1,11 @@
-import type { LucideIcon } from "lucide-react";
+import { Icon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 type Option = {
   id: string;
   label: string;
   desc?: string;
-  icon?: LucideIcon;
+  icon?: Icon;
 };
 
 export function TopicSelector({

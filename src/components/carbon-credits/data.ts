@@ -1,19 +1,19 @@
 import {
-  BadgeCheck,
-  Banknote,
-  ClipboardList,
+  Bank,
+  ClipboardText,
   Coins,
-  Droplets,
-  Landmark,
-  Layers,
+  DeviceMobile,
+  Drop,
   Leaf,
+  Money,
+  Plant,
   Recycle,
+  SealCheck,
   ShieldCheck,
-  Smartphone,
-  Sprout,
+  Stack,
   Target,
-  Wallet,
-} from "lucide-react";
+  Wallet
+} from "@phosphor-icons/react";
 
 export const RATE = 1200; // ₹ per tCO2e credit
 
@@ -24,7 +24,7 @@ export const creditFacts = [
     text: "Every tonne of CO₂ you reduce or store earns exactly one verified carbon credit.",
   },
   {
-    icon: Landmark,
+    icon: Bank,
     title: "Bought by corporations",
     text: "Credits are purchased by corporations and institutions offsetting their emissions.",
   },
@@ -42,13 +42,13 @@ export const creditFacts = [
 
 export const qualifyingPractices = [
   {
-    icon: Layers,
+    icon: Stack,
     name: "Reduced & Zero Tillage",
     benefit: "Keeps carbon locked directly in the soil structure.",
     tag: "TILLAGE",
   },
   {
-    icon: Droplets,
+    icon: Drop,
     name: "Efficient Drip Irrigation",
     benefit: "Conserves water and reduces pumping energy usage.",
     tag: "WATER",
@@ -66,7 +66,7 @@ export const qualifyingPractices = [
     tag: "RESIDUE",
   },
   {
-    icon: Sprout,
+    icon: Plant,
     name: "Cover Cropping",
     benefit: "Builds long-term organic soil carbon and prevents erosion.",
     tag: "SOIL",
@@ -81,25 +81,25 @@ export const qualifyingPractices = [
 
 export const mrvSteps = [
   {
-    icon: ClipboardList,
+    icon: ClipboardText,
     step: "01",
     title: "Simple farm enrolment & registration",
     text: "Register your farm with Agaate's field team in a few simple steps.",
   },
   {
-    icon: Smartphone,
+    icon: DeviceMobile,
     step: "02",
     title: "Practice tracking",
     text: "Practices are tracked via the mobile app and periodic field visits.",
   },
   {
-    icon: BadgeCheck,
+    icon: SealCheck,
     step: "03",
     title: "End-to-End MRV handled for you",
     text: "Measure, Report, Verify — the complete MRV cycle is managed entirely by Agaate.",
   },
   {
-    icon: Banknote,
+    icon: Money,
     step: "04",
     title: "Transparent direct payouts",
     text: "Direct payouts to your bank account on every verified credit.",

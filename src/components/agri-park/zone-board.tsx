@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { Activity, Compass, ShieldCheck, CheckCircle2, ChevronRight, Layers, Sparkles } from "lucide-react";
+import {
+  CaretRight,
+  CheckCircle,
+  Compass,
+  Pulse,
+  ShieldCheck,
+  Sparkle,
+  Stack
+} from "@phosphor-icons/react";
 import { EASE, motion, Reveal } from "@/components/common/motion";
 import { FIELD_LINES, ALL_8_ZONES, type Zone } from "./data";
 import { Orb, PulseRing } from "./deco";
@@ -71,7 +79,7 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
                   {currentZone.badge}
                 </span>
                 <span className="font-jet text-[10px] font-bold text-emerald-600 flex items-center gap-1">
-                  <Activity className="h-3 w-3 animate-pulse" /> Telemetry Live
+                  <Pulse className="h-3 w-3 animate-pulse" /> Telemetry Live
                 </span>
               </div>
 
@@ -110,7 +118,7 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
                 <div className="space-y-2">
                   {currentZone.trialHighlights.map((h, idx) => (
                     <div key={idx} className="flex items-center gap-2 text-xs font-medium text-forest/80">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-moss shrink-0" />
+                      <CheckCircle className="h-3.5 w-3.5 text-moss shrink-0" />
                       <span>{h}</span>
                     </div>
                   ))}
@@ -137,7 +145,7 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
                     className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-forest-deep px-5 py-3 text-xs font-bold text-cream hover:bg-forest transition-all cursor-pointer shadow-sm"
                   >
                     <span>Schedule Field Walkthrough for {currentZone.name}</span>
-                    <ChevronRight className="h-3.5 w-3.5" />
+                    <CaretRight className="h-3.5 w-3.5" />
                   </button>
                 </div>
               )}

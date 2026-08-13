@@ -7,28 +7,28 @@ import { ForecastPoint } from "@/types";
 import { carbonPractices as practices } from "@/data/services-data";
 import {
   ArrowRight,
-  BadgeCheck,
-  Banknote,
+  Bank,
   Calendar,
+  CaretRight,
   Check,
-  CheckCircle2,
-  ChevronRight,
-  ClipboardList,
+  CheckCircle,
+  ClipboardText,
   Coins,
-  Droplets,
-  Landmark,
-  Layers,
+  DeviceMobile,
+  Drop,
   Leaf,
+  Money,
+  Plant,
   Recycle,
+  SealCheck,
   ShieldCheck,
-  Smartphone,
-  Sprout,
+  Stack,
   Target,
-  TrendingUp,
+  TrendUp,
   UserCheck,
   Wallet,
-  X,
-} from "lucide-react";
+  X
+} from "@phosphor-icons/react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import {
   AnimatedHeadline,
@@ -264,7 +264,7 @@ function CarbonCredits() {
                     text: "Monetise existing acreage operations. Simply implement baseline soil conservation practices.",
                   },
                   {
-                    icon: TrendingUp,
+                    icon: TrendUp,
                     title: "End-to-End MRV Auditing",
                     text: "Agaate coordinates Soil Organic Matter (SOM) lab checks and Sentinel satellite canopy audits.",
                   },
@@ -301,7 +301,7 @@ function CarbonCredits() {
                       "Zero tillage restriction: Deep plow inversion is restricted; shallow conservation passes are required.",
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-forest-deep">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600" />
+                        <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -681,7 +681,7 @@ function CarbonCredits() {
                     transition={{ type: "spring", stiffness: 260, damping: 16 }}
                     className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600"
                   >
-                    <CheckCircle2 className="h-8 w-8" />
+                    <CheckCircle className="h-8 w-8" />
                   </motion.div>
                   <h3 className="font-serif text-3xl font-bold text-forest-deep">Registration Successful!</h3>
                   <p className="text-xs text-forest/70 max-w-xs mx-auto leading-relaxed">

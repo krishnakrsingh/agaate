@@ -1,4 +1,4 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { ChatCircleText, Phone } from "@phosphor-icons/react";
 import heroImage from "@/assets/contact-team.png";
 import { PRIMARY_PHONE, TEL_PRIMARY, WHATSAPP_URL } from "./data";
 import { track } from "@/lib/analytics";
@@ -32,7 +32,7 @@ export default function ContactHero() {
               onClick={() => track("whatsapp_clicked", { source: "hero" })}
               className="inline-flex min-h-11 items-center gap-2 rounded-md border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-forest-deep transition-colors hover:border-forest/40 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
             >
-              <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+              <ChatCircleText className="h-4 w-4" strokeWidth={1.75} />
               WhatsApp
             </a>
           </div>

@@ -3,17 +3,17 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import {
+  CaretRight,
   Check,
-  ChevronRight,
   Cookie,
+  Envelope,
   Globe,
   Info,
   Lock,
-  Mail,
   Shield,
   ShieldCheck,
-  Sliders,
-} from "lucide-react";
+  Sliders
+} from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
 

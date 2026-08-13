@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import {
+  CaretDown
+} from "@phosphor-icons/react";
 import { EASE, motion } from "@/components/common/motion";
 import { CONTACT_FAQS } from "./data";
 import { track } from "@/lib/analytics";
@@ -44,7 +46,7 @@ export default function ContactFaq() {
                     transition={{ duration: 0.25, ease: EASE }}
                     className="shrink-0 text-neutral-400"
                   >
-                    <ChevronDown className="h-4 w-4" />
+                    <CaretDown className="h-4 w-4" />
                   </motion.span>
                 </button>
                 <AnimatePresence initial={false}>

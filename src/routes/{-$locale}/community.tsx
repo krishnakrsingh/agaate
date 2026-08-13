@@ -3,35 +3,35 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import {
+  ArrowClockwise,
   ArrowRight,
-  Award,
   Bell,
-  CheckCircle2,
-  ChevronRight,
-  ClipboardList,
+  CaretRight,
+  ChatCircleText,
+  CheckCircle,
+  ClipboardText,
+  DeviceMobile,
   Flame,
   GraduationCap,
   Heart,
-  HelpCircle,
   Image as ImageIcon,
+  Lightning,
   MapPin,
-  MessageCircle,
+  Medal,
   Package,
+  PaperPlaneRight,
   Phone,
-  RefreshCw,
+  Plant,
+  Question,
   Rocket,
   ShieldCheck,
-  Smartphone,
-  Sparkles,
-  Sprout,
+  Sparkle,
   Star,
-  Send,
-  TrendingUp,
+  TrendUp,
   UserCheck,
   Users,
-  X,
-  Zap,
-} from "lucide-react";
+  X
+} from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AnimatedHeadline,
@@ -200,7 +200,7 @@ function CommunityPage() {
       >
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-forest/20 bg-cream/90 px-4 py-2">
-            <Sparkles className="h-4 w-4 text-moss animate-pulse" />
+            <Sparkle className="h-4 w-4 text-moss animate-pulse" />
             <span className="font-jet text-[11px] font-bold uppercase tracking-wider text-forest-deep">
               2,000+ Verified Parivaar Members
             </span>
@@ -220,7 +220,7 @@ function CommunityPage() {
             href={WHATSAPP_COMMUNITY_URL}
             className="inline-flex items-center gap-2 rounded-full border border-forest/30 bg-cream/80 px-6 py-3 font-sans text-xs font-bold uppercase tracking-wider text-forest hover:bg-bone"
           >
-            <MessageCircle className="h-4 w-4 text-moss" />
+            <ChatCircleText className="h-4 w-4 text-moss" />
             <span>Join WhatsApp Group</span>
           </MagneticButton>
         </div>
@@ -273,7 +273,7 @@ function CommunityPage() {
         </div>
       </section>
 
-      {/* WhatsApp Agronomy Connect Workflow & Smartphone Mockup */}
+      {/* WhatsApp Agronomy Connect Workflow & DeviceMobile Mockup */}
       <section className="relative overflow-hidden py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-12">
           <SectionHeader
@@ -308,10 +308,10 @@ function CommunityPage() {
                           isActive ? "bg-terracotta text-cream" : "bg-forest/10 text-forest"
                         }`}
                       >
-                        <MessageCircle className="h-3 w-3" />
+                        <ChatCircleText className="h-3 w-3" />
                         Live WhatsApp Module
                       </span>
-                      <ChevronRight
+                      <CaretRight
                         className={`h-5 w-5 transition-transform ${
                           isActive ? "rotate-90 text-terracotta" : "text-forest/40"
                         }`}
@@ -352,7 +352,7 @@ function CommunityPage() {
               </div>
             </div>
 
-            {/* Right Column: Simulated Smartphone UI */}
+            {/* Right Column: Simulated DeviceMobile UI */}
             <div className="lg:col-span-6 flex justify-center">
               <div className="relative w-full max-w-[380px] rounded-[40px] border-[10px] border-forest-deep bg-slate-950 p-4 shadow-2xl">
                 {/* Phone Top Notch */}
@@ -363,7 +363,7 @@ function CommunityPage() {
                 {/* WhatsApp Chat Header */}
                 <div className="flex items-center gap-3 border-b border-slate-800 bg-slate-900/90 p-3 rounded-2xl">
                   <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white font-bold text-sm">
-                    <Sprout className="h-5 w-5" />
+                    <Plant className="h-5 w-5" />
                     <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-slate-900" />
                   </div>
                   <div>
@@ -436,7 +436,7 @@ function CommunityPage() {
                     rel="noopener noreferrer"
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white"
                   >
-                    <Send className="h-3.5 w-3.5" />
+                    <PaperPlaneRight className="h-3.5 w-3.5" />
                   </a>
                 </div>
               </div>
@@ -564,7 +564,7 @@ function CommunityPage() {
               href={WHATSAPP_COMMUNITY_URL}
               className="inline-flex items-center gap-2.5 rounded-full border border-cream/30 bg-cream/10 px-8 py-4 font-sans text-xs font-bold uppercase tracking-wider text-cream hover:bg-cream/20"
             >
-              <MessageCircle className="h-4 w-4 text-moss" />
+              <ChatCircleText className="h-4 w-4 text-moss" />
               <span>Connect via WhatsApp</span>
             </MagneticButton>
           </div>
@@ -592,7 +592,7 @@ function CommunityPage() {
               {registeredMemberId ? (
                 <div className="text-center py-6">
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-moss/20 text-forest-deep">
-                    <CheckCircle2 className="h-8 w-8 text-moss" />
+                    <CheckCircle className="h-8 w-8 text-moss" />
                   </div>
                   <span className="mt-4 block font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-moss">
                     PARIVAAR REGISTRATION CONFIRMED
@@ -620,7 +620,7 @@ function CommunityPage() {
                       rel="noopener noreferrer"
                       className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-forest-deep px-6 py-3 font-sans text-xs font-bold text-cream hover:bg-forest"
                     >
-                      <MessageCircle className="h-4 w-4 text-moss" />
+                      <ChatCircleText className="h-4 w-4 text-moss" />
                       <span>Enter WhatsApp Farmer Hub Now</span>
                     </a>
                     <button

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Store, Sparkles, MapPin, PackageCheck, UserCheck } from "lucide-react";
+import {
+  MapPin,
+  Package,
+  Sparkle,
+  Storefront,
+  UserCheck
+} from "@phosphor-icons/react";
 
 export default function KisaanMallShowcase() {
   const [activePin, setActivePin] = useState<number | null>(null);
@@ -35,7 +41,7 @@ export default function KisaanMallShowcase() {
               className="relative group flex items-center justify-center h-7 w-7 rounded-full bg-[#a3e635] text-[#143d31] shadow-xl border-2 border-[#143d31] cursor-pointer hover:scale-125 transition-transform"
               aria-label="Flagship Retail Hub Information"
             >
-              <Sparkles className="h-3.5 w-3.5" />
+              <Sparkle className="h-3.5 w-3.5" />
               <span className="animate-ping absolute inset-0 rounded-full bg-[#a3e635]/60" />
             </button>
             {activePin === 1 && (
@@ -63,7 +69,7 @@ export default function KisaanMallShowcase() {
               className="relative group flex items-center justify-center h-7 w-7 rounded-full bg-[#143d31] text-white shadow-xl border-2 border-white/60 cursor-pointer hover:scale-125 transition-transform"
               aria-label="Store Inventory Information"
             >
-              <PackageCheck className="h-3.5 w-3.5" />
+              <Package className="h-3.5 w-3.5" />
               <span className="animate-ping absolute inset-0 rounded-full bg-[#143d31]/60" />
             </button>
             {activePin === 2 && (
@@ -73,7 +79,7 @@ export default function KisaanMallShowcase() {
                 className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
               >
                 <div className="flex items-center gap-1.5 text-white font-mono text-[10px] font-bold uppercase">
-                  <Store className="h-3 w-3" />
+                  <Storefront className="h-3 w-3" />
                   <span>500+ Verified SKUs</span>
                 </div>
                 <p className="font-display text-xs font-bold text-white mt-1">Fully Stocked Shelves</p>

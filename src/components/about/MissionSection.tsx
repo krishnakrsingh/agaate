@@ -1,4 +1,6 @@
-import { Sprout } from "lucide-react";
+import {
+  Plant
+} from "@phosphor-icons/react";
 import {
   AnimatedHeadline,
   Marquee,
@@ -45,7 +47,7 @@ export default function MissionSection() {
           {marqueePhrases.map((phrase) => (
             <span key={phrase} className="flex items-center gap-10">
               <span className="font-serif text-xl italic text-cream/90 md:text-2xl">{phrase}</span>
-              <Sprout className="h-4 w-4 text-moss" />
+              <Plant className="h-4 w-4 text-moss" />
             </span>
           ))}
         </span>

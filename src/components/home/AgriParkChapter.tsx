@@ -1,18 +1,18 @@
 import {
   ArrowRight,
-  BrainCircuit,
-  Droplets,
-  FlaskConical,
+  Brain,
+  CheckCircle,
+  Drop,
+  Flask,
   GraduationCap,
   MapPin,
   Microscope,
+  PhoneCall,
+  Plant,
   ShieldCheck,
   ShoppingCart,
-  Sprout,
-  CheckCircle2,
-  PhoneCall,
-  Sparkles,
-} from "lucide-react";
+  Sparkle
+} from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -44,11 +44,11 @@ const nurseryComparison = [
 ];
 
 const zones = [
-  { number: "01", icon: Sprout, label: "Seed Zone", sub: "Variety selection" },
+  { number: "01", icon: Plant, label: "Seed Zone", sub: "Variety selection" },
   { number: "02", icon: Microscope, label: "Nursery Zone", sub: "Plug stage trials" },
-  { number: "03", icon: Droplets, label: "Irrigation Zone", sub: "Live fertigation" },
-  { number: "04", icon: FlaskConical, label: "Nutrition Zone", sub: "Crop input trials" },
-  { number: "05", icon: BrainCircuit, label: "Tech & Drone", sub: "AI & drone monitoring" },
+  { number: "03", icon: Drop, label: "Irrigation Zone", sub: "Live fertigation" },
+  { number: "04", icon: Flask, label: "Nutrition Zone", sub: "Crop input trials" },
+  { number: "05", icon: Brain, label: "Tech & Drone", sub: "AI & drone monitoring" },
   { number: "06", icon: GraduationCap, label: "Training Hub", sub: "Farmer workshops" },
   { number: "07", icon: ShieldCheck, label: "Protection Zone", sub: "Bio-cure testing" },
   { number: "08", icon: ShoppingCart, label: "Market Zone", sub: "Direct buyer linkage" },
@@ -98,7 +98,7 @@ export default function AgriParkChapter() {
               to={getLocalizedPath("/agri-park", currentLang) as any}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3 text-xs font-bold text-white shadow-md hover:bg-[#1a4d3e] transition-all cursor-pointer"
             >
-              <Sparkles className="h-4 w-4 text-white" />
+              <Sparkle className="h-4 w-4 text-white" />
               <span>Plan Agri Park Visit</span>
             </Link>
             <a
@@ -142,7 +142,7 @@ export default function AgriParkChapter() {
                   <span className="text-[#888a7a] line-through font-mono">{row.traditional}</span>
                   <div className="flex items-center gap-1.5 font-extrabold text-[#143d31]">
                     <span>{row.bioBoosted}</span>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
+                    <CheckCircle className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
                   </div>
                 </div>
               ))}

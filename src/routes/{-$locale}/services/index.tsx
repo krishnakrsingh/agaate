@@ -4,29 +4,29 @@ import Footer from "@/components/Footer";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Sprout,
-  Store,
-  Cpu,
-  Coins,
-  Hammer,
-  Truck,
+  ArrowClockwise,
   ArrowRight,
-  ShieldCheck,
+  CaretRight,
   Check,
-  X,
-  Sparkles,
+  CheckCircle,
+  Coins,
+  Cpu,
   GraduationCap,
-  PackageCheck,
+  Hammer,
   Handshake,
-  RefreshCw,
-  PhoneCall,
-  Sliders,
-  ChevronRight,
-  TrendingUp,
+  type Icon,
   Leaf,
-  CheckCircle2,
-  type LucideIcon,
-} from "lucide-react";
+  PackageCheck,
+  PhoneCall,
+  Plant,
+  ShieldCheck,
+  Sliders,
+  Sparkle,
+  Storefront,
+  TrendUp,
+  Truck,
+  X
+} from "@phosphor-icons/react";
 import {
   AnimatedHeadline,
   CountUp,
@@ -51,7 +51,7 @@ type ServiceCategory = "all" | "nursery-inputs" | "advisory-tech" | "scale-infra
 
 type ServiceItem = {
   id: string;
-  icon: LucideIcon;
+  icon: Icon;
   title: string;
   category: ServiceCategory;
   desc: string;
@@ -66,7 +66,7 @@ type ServiceItem = {
 const SERVICES: ServiceItem[] = [
   {
     id: "nursery",
-    icon: Sprout,
+    icon: Plant,
     title: "17-Acre Smart Nursery",
     category: "nursery-inputs",
     desc: "Containerized, bio-boosted plug saplings raised in AI-monitored climate chambers in Pachgaon/Kukrola. Zero root shock and 90-98% survival.",
@@ -79,7 +79,7 @@ const SERVICES: ServiceItem[] = [
   },
   {
     id: "inputs",
-    icon: Store,
+    icon: Storefront,
     title: "Kisaan Mall & Prescribed Inputs",
     category: "nursery-inputs",
     desc: "500+ certified SKUs from 25+ direct manufacturer partners. Stage-matched bio-fertilizers, organic fungicides (Biocure F), and hybrid seeds.",
@@ -159,7 +159,7 @@ const CROP_JOURNEY_STAGES = [
   {
     id: 1,
     title: "Seed Selection",
-    icon: Sprout,
+    icon: Plant,
     desc: "Choosing best-in-class hybrid & disease-resistant seed varieties tailored to local soil pH and sowing windows.",
     inputs: "Certified Hybrids, High-Yield Seeds",
     partners: "Leading Seed Partners",
@@ -288,12 +288,12 @@ function ServicesOverview() {
         {/* Floating Feature Badges */}
         <div className="mt-8 flex flex-wrap gap-2.5">
           {[
-            { label: "+40% Seedling Survival", icon: Sprout },
+            { label: "+40% Seedling Survival", icon: Plant },
             { label: "17-Acre Smart Nursery", icon: Leaf },
             { label: "Zero Seed Waste", icon: ShieldCheck },
             { label: "MRV Carbon Payouts", icon: Coins },
             { label: "Guaranteed Buyback", icon: Truck },
-            { label: "2,000+ Parivaar Farmers", icon: CheckCircle2 },
+            { label: "2,000+ Parivaar Farmers", icon: CheckCircle },
           ].map((badge, idx) => {
             const BIcon = badge.icon;
             return (
@@ -348,7 +348,7 @@ function ServicesOverview() {
               className="inline-flex items-center gap-4 font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-forest/70"
             >
               <span>{item}</span>
-              <Sparkles className="h-3.5 w-3.5 text-terracotta" />
+              <Sparkle className="h-3.5 w-3.5 text-terracotta" />
             </span>
           ))}
         </Marquee>
@@ -455,7 +455,7 @@ function ServicesOverview() {
                               key={item}
                               className="flex items-center gap-2 text-xs font-medium text-forest/80"
                             >
-                              <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                              <CheckCircle className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
                               <span>{item}</span>
                             </li>
                           ))}
@@ -688,7 +688,7 @@ function ServicesOverview() {
                 <div className="flex items-center justify-between border-b border-forest/15 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-forest text-cream font-bold">
-                      <Sprout className="h-4 w-4" />
+                      <Plant className="h-4 w-4" />
                     </span>
                     <h3 className="font-serif text-2xl font-bold text-forest-deep">
                       Agaate Bio-Boosted Nursery
@@ -784,7 +784,7 @@ function ServicesOverview() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-5 space-y-4">
                 <span className="font-mono text-xs font-bold uppercase tracking-widest text-terracotta flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" /> SMART SERVICE ADVISOR
+                  <Sparkle className="h-4 w-4" /> SMART SERVICE ADVISOR
                 </span>
                 <h3 className="font-serif text-4xl font-bold text-forest-deep">
                   Find the Perfect Service Package for Your Farm.
@@ -870,7 +870,7 @@ function ServicesOverview() {
                   {wizardStep === 4 && (
                     <motion.div key="w4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
                       <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold uppercase text-emerald-600">
-                        <CheckCircle2 className="h-4 w-4" /> Recommendation Prepared
+                        <CheckCircle className="h-4 w-4" /> Recommendation Prepared
                       </span>
                       <h4 className="font-serif text-2xl font-bold text-forest-deep">
                         Recommended Package: Bio-Boosted Nursery + Market Linkage

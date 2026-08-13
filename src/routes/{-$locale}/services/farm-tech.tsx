@@ -2,34 +2,33 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  AlertTriangle,
-  Activity,
+  ArrowClockwise,
   Brain,
-  CheckCircle2,
-  ChevronRight,
+  CaretRight,
+  CellTower,
+  CheckCircle,
   Compass,
   Cpu,
-  Droplets,
+  DeviceMobile,
   Drone,
-  FileCheck,
+  Drop,
+  FileText,
   Gauge,
   Info,
-  LayoutDashboard,
+  Layout,
   Leaf,
+  Lightning,
   Phone,
+  Plant,
   Play,
-  RadioTower,
-  RefreshCw,
-  ScanSearch,
+  Pulse,
+  Scan,
   ShieldCheck,
-  Smartphone,
-  Sparkles,
-  Sprout,
+  Sparkle,
   Thermometer,
-  Wheat,
-  Wifi,
-  Zap,
-} from "lucide-react";
+  Warning,
+  WifiHigh
+} from "@phosphor-icons/react";
 import {
   Area,
   AreaChart,
@@ -76,7 +75,7 @@ const TICKER = [
 const MODULES = [
   {
     id: "sensors",
-    icon: RadioTower,
+    icon: CellTower,
     tag: "Sensors",
     name: "IoT Soil & Weather Sensors",
     subtitle: "Continuous subterranean telemetry & atmospheric micro-climate tracking",
@@ -102,20 +101,20 @@ const MODULES = [
   },
   {
     id: "ai",
-    icon: ScanSearch,
+    icon: Scan,
     tag: "AI Detection",
     name: "AI Crop Health Photo Detection",
     subtitle: "Computer-vision leaf disease diagnostic neural models",
     text: "Spot disease & pests early from a smartphone photo — get instant, crop-specific advice and precise dosages.",
     points: [
-      "Smartphone photo issue detection in seconds",
+      "DeviceMobile photo issue detection in seconds",
       "Crop-specific protection protocols",
       "Early action before disease spreads",
     ],
   },
   {
     id: "drip",
-    icon: Droplets,
+    icon: Drop,
     tag: "Fertigation",
     name: "Automated Drip & Fertigation",
     subtitle: "Stage-wise hydraulic nutrient dosing & automated valve schedules",
@@ -128,7 +127,7 @@ const MODULES = [
   },
   {
     id: "app",
-    icon: LayoutDashboard,
+    icon: Layout,
     tag: "Mobile App",
     name: "Farm Management Mobile App",
     subtitle: "Centralized operational command center in your pocket",
@@ -230,11 +229,11 @@ const AI_DIAGNOSES = [
 ];
 
 const CYCLE = [
-  { icon: Sprout, label: "Data-Driven Sowing", detail: "Calibrated seed rate & soil moisture testing" },
+  { icon: Plant, label: "Data-Driven Sowing", detail: "Calibrated seed rate & soil moisture testing" },
   { icon: Leaf, label: "Bio-Boosted Nursery", detail: "Root-fungus pre-inoculated seedling plugs" },
-  { icon: Droplets, label: "Stage-Wise Fertigation", detail: "Soil-report matched NPK & micro-dosing" },
+  { icon: Drop, label: "Stage-Wise Fertigation", detail: "Soil-report matched NPK & micro-dosing" },
   { icon: ShieldCheck, label: "Preventive Care", detail: "Weather-based bio-input spray alerts" },
-  { icon: Wheat, label: "Timely Harvest", detail: "Peak Brix sweetness & market linkage" },
+  { icon: Plant, label: "Timely Harvest", detail: "Peak Brix sweetness & market linkage" },
 ];
 
 const STATS = [
@@ -316,7 +315,7 @@ function FarmTech() {
       return {
         status: "Critical Low Tension",
         color: "text-red-600 bg-red-50 border-red-200",
-        icon: AlertTriangle,
+        icon: Warning,
         text: "Soil moisture is below safe threshold (<30%). Trigger automated drip line valves for 45 minutes immediately to avoid root cell vascular collapse.",
       };
     } else if (m >= 30 && m <= 45) {
@@ -330,7 +329,7 @@ function FarmTech() {
       return {
         status: "Saturated Soil Zone",
         color: "text-amber-700 bg-amber-50 border-amber-200",
-        icon: AlertTriangle,
+        icon: Warning,
         text: "Soil moisture exceeds root zone holding capacity (>45%). Suspend active irrigation cycles to prevent anaerobic root asphyxiation and Phytophthora spores.",
       };
     }
@@ -588,7 +587,7 @@ function FarmTech() {
               <StaggerItem>
                 <div className="flex gap-4 rounded-2xl border border-border bg-card p-4">
                   <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-forest/8 text-forest">
-                    <Wifi className="h-5 w-5" />
+                    <WifiHigh className="h-5 w-5" />
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-forest-deep">LoRa Mesh Network Array</h4>
@@ -692,7 +691,7 @@ function FarmTech() {
                   <div className="space-y-3 pt-3">
                     {activeModule.points.map((pt) => (
                       <div key={pt} className="flex items-start gap-3 text-xs text-forest/80">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600" />
+                        <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600" />
                         <span className="font-semibold">{pt}</span>
                       </div>
                     ))}
@@ -865,7 +864,7 @@ function FarmTech() {
               {/* Exact Bio-Input Dosage Recommendation */}
               <div className="rounded-2xl border border-forest/20 bg-forest/5 p-6 space-y-4">
                 <div className="flex items-center gap-2 text-forest-deep">
-                  <Sparkles className="h-5 w-5 text-terracotta" />
+                  <Sparkle className="h-5 w-5 text-terracotta" />
                   <h4 className="font-bold text-sm uppercase tracking-wider font-jet">
                     Prescribed Input & Dosage Recipe
                   </h4>
@@ -1134,7 +1133,7 @@ function ModulePreviewSimulator({ moduleId }: { moduleId: string }) {
         </div>
         <div className="space-y-2 rounded-xl border border-border bg-card p-3">
           <div className="flex items-center gap-2 text-xs font-bold text-forest-deep">
-            <Smartphone className="h-4 w-4 text-moss" />
+            <DeviceMobile className="h-4 w-4 text-moss" />
             <span>Daily Agronomist Alert</span>
           </div>
           <p className="text-[11px] text-forest/70 leading-relaxed">

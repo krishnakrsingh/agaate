@@ -1,6 +1,5 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  Bell,
+import { Icon } from "@phosphor-icons/react";
+import { Bell,
   ClipboardList,
   GraduationCap,
   MessageCircle,
@@ -8,8 +7,7 @@ import {
   RefreshCw,
   Rocket,
   Smartphone,
-  Sprout,
-} from "lucide-react";
+  Sprout, } from "@phosphor-icons/react";
 
 export type Post = {
   author: string;
@@ -87,7 +85,7 @@ export const STATS = [
 
 export type Pillar = {
   number: string;
-  icon: LucideIcon;
+  icon: Icon;
   title: string;
   text: string;
 };
@@ -117,7 +115,7 @@ type TabId = "track" | "advisory" | "app" | "venture";
 
 type ServiceTab = {
   id: TabId;
-  icon: LucideIcon;
+  icon: Icon;
   label: string;
   blurb: string;
 };
@@ -194,7 +192,7 @@ export const WHATSAPP_SCRIPTS: Record<"track" | "advisory", ChatMsg[]> = {
   ],
 };
 
-const APP_FEATURES: { icon: LucideIcon; title: string; text: string }[] = [
+const APP_FEATURES: { icon: Icon; title: string; text: string }[] = [
   {
     icon: Sprout,
     title: "Track crop stages",

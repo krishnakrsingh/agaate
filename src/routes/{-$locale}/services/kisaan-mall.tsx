@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  ArrowClockwise,
   ArrowRight,
   Calculator,
   Check,
-  CheckCircle2,
+  CheckCircle,
   Minus,
   Package,
   Phone,
   Plus,
-  RefreshCw,
   ShieldCheck,
-  Sparkles,
-  Star,
-} from "lucide-react";
+  Sparkle,
+  Star
+} from "@phosphor-icons/react";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";

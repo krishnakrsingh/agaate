@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { AnimatedHeadline, EASE, Reveal, motion } from "@/components/common/motion";
 
 export function BeforeAfter() {

@@ -1,7 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
-import { ArrowRight, LayoutGrid, CheckCircle2, Shield, TrendingUp, Layers, Compass, ClipboardList } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle,
+  ClipboardText,
+  Compass,
+  Shield,
+  SquaresFour,
+  Stack,
+  TrendUp
+} from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -65,7 +74,7 @@ function BigFarmSetup() {
             href="#calculator"
             className="inline-flex items-center gap-2 rounded-full border border-forest/25 bg-card/80 px-8 py-4 text-sm font-semibold text-forest-deep transition-all hover:-translate-y-0.5 hover:border-forest/50 hover:bg-card"
           >
-            <LayoutGrid className="h-4 w-4" />
+            <SquaresFour className="h-4 w-4" />
             Open CapEx & Revenue Estimator
           </a>
         </div>

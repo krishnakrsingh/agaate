@@ -1,12 +1,12 @@
 import {
   ArrowRight,
-  Building2,
-  Droplets,
+  Buildings,
+  Drop,
+  Plant,
   ShieldCheck,
   ShoppingBag,
-  Sprout,
-  Users,
-} from "lucide-react";
+  Users
+} from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import farmerAdvisorImg from "@/assets/about-farmer-advisor.png";
@@ -16,7 +16,7 @@ const impactMetrics = [
   {
     value: "15,000+",
     label: "Under Association",
-    icon: Sprout,
+    icon: Plant,
     bgColor: "bg-[#eab308]",
     textColor: "text-[#0d2a20]",
   },
@@ -37,14 +37,14 @@ const impactMetrics = [
   {
     value: "25+",
     label: "Direct Manufacturers",
-    icon: Building2,
+    icon: Buildings,
     bgColor: "bg-[#c084fc]",
     textColor: "text-white",
   },
   {
     value: "200+",
     label: "Precision Drip Kits",
-    icon: Droplets,
+    icon: Drop,
     bgColor: "bg-[#34d399]",
     textColor: "text-[#0d2a20]",
   },

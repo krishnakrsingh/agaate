@@ -1,13 +1,13 @@
 import {
-  Building2,
+  Buildings,
+  ChatCircleText,
   Compass,
-  Layers,
-  MessageCircle,
-  Sprout,
-  Store,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
+  type Icon,
+  Lightning,
+  Plant,
+  Stack,
+  Storefront
+} from "@phosphor-icons/react";
 import farmImage from "@/assets/agro-park.jpg";
 import mallImage from "@/assets/kisaan-mall-gen.png";
 import officeImage from "@/assets/about-farmer-advisor.png";
@@ -42,7 +42,7 @@ export type Facility = {
   mapsUrl: string;
   mapEmbedQuery: string;
   coordinates: { lat: number; lng: number; latLabel: string; lngLabel: string };
-  icon: LucideIcon;
+  icon: Icon;
   image: string;
 };
 
@@ -74,13 +74,13 @@ export const FACILITIES: Facility[] = [
       latLabel: "28.3241° N",
       lngLabel: "76.9124° E",
     },
-    icon: Sprout,
+    icon: Plant,
     image: farmImage,
   },
   {
     id: "mall",
     name: "Agaate Kisan Mall",
-    tagline: "Comprehensive Agri-Input Store & Experience Hub",
+    tagline: "Comprehensive Agri-Input Storefront & Experience Hub",
     role: "Retail & Experience Center",
     address: "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
     district: "Gurugram, Haryana",
@@ -105,7 +105,7 @@ export const FACILITIES: Facility[] = [
       latLabel: "28.3015° N",
       lngLabel: "76.8842° E",
     },
-    icon: Store,
+    icon: Storefront,
     image: mallImage,
   },
   {
@@ -137,7 +137,7 @@ export const FACILITIES: Facility[] = [
       latLabel: "28.3980° N",
       lngLabel: "76.9610° E",
     },
-    icon: Building2,
+    icon: Buildings,
     image: officeImage,
   },
 ];
@@ -146,7 +146,7 @@ export type ConsultationTopic = {
   id: string;
   label: string;
   desc: string;
-  icon: LucideIcon;
+  icon: Icon;
 };
 
 export const CONSULTATION_TOPICS: ConsultationTopic[] = [
@@ -154,25 +154,25 @@ export const CONSULTATION_TOPICS: ConsultationTopic[] = [
     id: "nursery",
     label: "Bio-Boosted Nursery Pre-Orders",
     desc: "Reserve disease-resistant saplings with 95%+ guaranteed survival.",
-    icon: Sprout,
+    icon: Plant,
   },
   {
     id: "bigfarm",
     label: "Big Farm Setup (Turnkey)",
     desc: "End-to-end commercial farm planning, drip setup & operations.",
-    icon: Layers,
+    icon: Stack,
   },
   {
     id: "carbon",
     label: "Carbon Credit Program",
     desc: "Monetise zero-tillage & drip irrigation practices for extra payout.",
-    icon: Zap,
+    icon: Lightning,
   },
   {
     id: "wholesale",
     label: "Kisan Mall Wholesale",
     desc: "Bulk agri-inputs, biocures, mulch rolls & bamboo staking orders.",
-    icon: Store,
+    icon: Storefront,
   },
   {
     id: "agripark",
@@ -184,7 +184,7 @@ export const CONSULTATION_TOPICS: ConsultationTopic[] = [
     id: "general",
     label: "General Agronomy Advisory",
     desc: "Direct guidance on soil reports, fertigation schedules & pests.",
-    icon: MessageCircle,
+    icon: ChatCircleText,
   },
 ];
 

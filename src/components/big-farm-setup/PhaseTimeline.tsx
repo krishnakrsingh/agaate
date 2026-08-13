@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
-  Hammer,
-  Package,
-  Ruler,
-  Target,
-  Users,
-  Wallet,
-  CheckCircle2,
-  Calendar,
-  Layers,
   ArrowRight,
-  Sparkles,
-  ChevronRight,
-  Activity,
-  Droplets,
+  Calendar,
+  CaretRight,
+  CheckCircle,
+  Drop,
+  FileText,
+  Hammer,
+  type Icon,
+  Package,
+  Pulse,
+  Ruler,
   ShieldCheck,
-  TrendingUp,
-  FileCheck,
-  type LucideIcon,
-} from "lucide-react";
+  Sparkle,
+  Stack,
+  Target,
+  TrendUp,
+  Users,
+  Wallet
+} from "@phosphor-icons/react";
 import {
   EASE,
   SectionHeader,
@@ -34,7 +34,7 @@ type PhaseData = {
   title: string;
   subtitle: string;
   duration: string;
-  icon: LucideIcon;
+  icon: Icon;
   color: string;
   sopChecklist: string[];
   keyDeliverable: string;
@@ -107,7 +107,7 @@ const PHASES_DATA: PhaseData[] = [
       "WhatsApp & Mobile app daily input logging integration",
       "Staking system setup (bamboo poles, netting & support ties)",
     ],
-    keyDeliverable: "Trained Farm Crew & Digitized Daily Activity Log",
+    keyDeliverable: "Trained Farm Crew & Digitized Daily Pulse Log",
     blueprintType: "ops",
   },
   {
@@ -278,7 +278,7 @@ export function PhaseTimeline({
                         {activePhase.sopChecklist.map((item, i) => (
                           <StaggerItem key={i} variant="fade-right">
                             <div className="flex items-start gap-3 rounded-xl bg-bone/50 p-3 border border-border/40 transition-all hover:bg-bone hover:border-forest/20">
-                              <CheckCircle2 className="h-4 w-4 text-moss shrink-0 mt-0.5" />
+                              <CheckCircle className="h-4 w-4 text-moss shrink-0 mt-0.5" />
                               <span className="text-xs font-semibold leading-relaxed text-forest-deep">
                                 {item}
                               </span>
@@ -291,7 +291,7 @@ export function PhaseTimeline({
                     {/* Key Deliverable Card */}
                     <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl border border-forest/20 bg-forest/5 p-4">
                       <div className="flex items-center gap-3">
-                        <FileCheck className="h-5 w-5 text-forest shrink-0" />
+                        <FileText className="h-5 w-5 text-forest shrink-0" />
                         <div>
                           <span className="font-jet text-[9px] uppercase tracking-wider text-forest/60 font-bold block">
                             Key Operational Deliverable
@@ -307,7 +307,7 @@ export function PhaseTimeline({
                           onClick={() => onSelectPhaseForModal(activePhase.num)}
                           className="shrink-0 text-xs font-mono font-bold text-terracotta hover:underline flex items-center gap-1"
                         >
-                          Request Phase SOP <ChevronRight className="h-3 w-3" />
+                          Request Phase SOP <CaretRight className="h-3 w-3" />
                         </button>
                       )}
                     </div>
@@ -329,7 +329,7 @@ export function PhaseTimeline({
                         </h4>
                       </div>
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-forest/15 bg-bone px-3 py-1 font-jet text-[10px] font-bold text-forest">
-                        <Activity className="h-3 w-3 text-emerald-500 animate-pulse" />
+                        <Pulse className="h-3 w-3 text-emerald-500 animate-pulse" />
                         Live Engineering Spec
                       </span>
                     </div>

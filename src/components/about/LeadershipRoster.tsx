@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, CheckCircle2, Quote, X } from "lucide-react";
+import { BookOpen, CheckCircle, Quotes, X } from "@phosphor-icons/react";
 import { founderNote, team, type TeamMember } from "./data";
 
 function LeaderBioModal({
@@ -77,7 +77,7 @@ function LeaderBioModal({
           <ul className="mt-6 space-y-2">
             {leader.keyAch.map((ach) => (
               <li key={ach} className="flex items-start gap-2.5 text-sm text-forest-deep">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" strokeWidth={1.75} />
+                <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-forest" strokeWidth={1.75} />
                 <span>{ach}</span>
               </li>
             ))}
@@ -120,7 +120,7 @@ export default function LeadershipRoster() {
             Meet the team behind Agaate.
           </h2>
           <div className="mt-8 rounded-lg border border-neutral-200 bg-neutral-50 p-6 md:p-8">
-            <Quote className="h-5 w-5 text-terracotta" strokeWidth={1.75} />
+            <Quotes className="h-5 w-5 text-terracotta" strokeWidth={1.75} />
             <blockquote className="mt-3 font-serif text-xl italic leading-relaxed text-forest-deep md:text-2xl">
               "{founderNote.quote}"
             </blockquote>

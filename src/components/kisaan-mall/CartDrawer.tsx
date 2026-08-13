@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Minus, Plus, ShieldCheck, ShoppingBag, X } from "lucide-react";
+import { Minus, Plus, ShieldCheck, ShoppingBag, X } from "@phosphor-icons/react";
 import { useState } from "react";
 import type { CartItem } from "@/types";
 import { EASE } from "@/components/common/motion";

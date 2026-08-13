@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react";
 import {
   AnimatedHeadline,
   MagneticButton,

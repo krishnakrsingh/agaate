@@ -1,11 +1,11 @@
 import {
-  Building2,
+  Buildings,
+  ChatCircleText,
   Download,
-  FileBadge2,
+  IdentificationCard,
   MapPin,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+  Phone
+} from "@phosphor-icons/react";
 import {
   brochureHref,
   complianceHighlights,
@@ -15,8 +15,8 @@ import {
 } from "./data";
 
 const fieldIcons = {
-  Entity: Building2,
-  CIN: FileBadge2,
+  Entity: Buildings,
+  CIN: IdentificationCard,
   "Registered Office": MapPin,
 } as const;
 
@@ -62,7 +62,7 @@ export default function AboutCta() {
                   rel="noopener noreferrer"
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-forest-deep px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(20,61,49,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
                 >
-                  <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+                  <ChatCircleText className="h-4 w-4" strokeWidth={1.75} />
                   WhatsApp
                 </a>
                 <a
@@ -117,7 +117,7 @@ export default function AboutCta() {
               <dl className="grid flex-1 grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
                 {complianceHighlights.map((item) => {
                   const Icon =
-                    fieldIcons[item.label as keyof typeof fieldIcons] ?? Building2;
+                    fieldIcons[item.label as keyof typeof fieldIcons] ?? Buildings;
                   return (
                     <div key={item.label} className="min-w-0">
                       <dt className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-400">
