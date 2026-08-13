@@ -116,7 +116,7 @@ export function SmartNursery() {
         </Parallax>
       </div>
       <div className="relative z-10">
-        <Reveal variant="clip-up">
+        <Reveal variant="fade-up">
           <p className="font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-cream/60">
             The 17-acre smart nursery · Kukrola, Gurugram
           </p>

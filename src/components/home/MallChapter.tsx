@@ -8,6 +8,7 @@ import {
   Microscope,
   Package,
   Storefront,
+  CaretRight,
 } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { MagneticButton } from "@/components/common/motion";
@@ -107,43 +108,60 @@ export default function MallChapter() {
           </div>
         </div>
 
-        {/* ── Agaate Direct Supply Guarantee (UNTOUCHED) ── */}
-        <div data-home-reveal className="mt-16 rounded-3xl bg-[#fafbf7] p-6 sm:p-10 border border-[#143d31]/15 shadow-sm">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-4 py-1 text-[11px] font-mono font-bold text-white uppercase tracking-widest mb-3">
-              <ShieldCheck className="h-3.5 w-3.5 text-white" />
+        {/* ── Agaate Direct Supply Guarantee (UPGRADED) ── */}
+        <div data-home-reveal className="relative mt-16 rounded-3xl bg-gradient-to-br from-[#fafbf7] via-[#f8f9f3] to-[#fafbf7] p-6 sm:p-10 border border-[#143d31]/15 shadow-md overflow-hidden">
+          {/* Subtle background glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-gradient-to-tr from-emerald-500/3 to-[#a3e635]/3 blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 text-center max-w-2xl mx-auto mb-12">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-4 py-1.5 text-[10px] font-mono font-bold text-white uppercase tracking-widest mb-3 shadow-xs">
+              <ShieldCheck className="h-3.5 w-3.5 text-[#a3e635]" />
               AGAATE DIRECT SUPPLY GUARANTEE
             </span>
-            <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#143d31]">
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
               How Agaate Direct Supply Works
             </h3>
-            <p className="font-sans text-xs sm:text-sm text-[#4f624f] mt-2 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm text-[#4f624f]/90 mt-2 leading-relaxed max-w-xl mx-auto">
               From certified brand factories to your field gate — every single batch is verified for germination, purity, and authenticity.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {SUPPLY_CHAIN_STEPS.map((s) => {
+          <div className="relative z-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {SUPPLY_CHAIN_STEPS.map((s, idx) => {
               const Icon = s.icon;
               return (
-                <div
-                  key={s.step}
-                  className="group relative rounded-2xl bg-white p-5 border border-[#143d31]/10 hover:border-[#5d7d37] transition-all hover:shadow-md"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono text-xs font-extrabold text-[#5d7d37]">
-                      STEP {s.step}
-                    </span>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#143d31] text-white group-hover:scale-110 transition-transform">
-                      <Icon className="h-4.5 w-4.5" />
+                <div key={s.step} className="relative flex items-center w-full">
+                  {/* Step Card */}
+                  <div
+                    className="group relative w-full rounded-2xl bg-white/90 backdrop-blur-md p-6 border border-[#143d31]/8 hover:border-emerald-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between h-full"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-mono text-[10px] font-extrabold tracking-widest text-[#5d7d37] bg-[#5d7d37]/8 px-2 py-0.5 rounded-md">
+                        STEP {s.step}
+                      </span>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#143d31] to-[#245242] text-white shadow-md shadow-[#143d31]/15 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="h-5 w-5" />
+                      </div>
                     </div>
+                    <div>
+                      <h4 className="font-display text-sm font-bold text-[#143d31] tracking-tight">
+                        {s.title}
+                      </h4>
+                      <p className="font-sans text-xs text-[#4f624f] leading-relaxed mt-2 font-normal">
+                        {s.desc}
+                      </p>
+                    </div>
+
+                    {/* Bottom active hover accent bar */}
+                    <div className="absolute bottom-0 inset-x-0 h-[3px] bg-gradient-to-r from-emerald-500 to-[#a3e635] rounded-b-2xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left pointer-events-none" />
                   </div>
-                  <h4 className="font-display text-sm font-bold text-[#143d31]">
-                    {s.title}
-                  </h4>
-                  <p className="font-sans text-xs text-[#4f624f] leading-relaxed mt-1.5 font-normal">
-                    {s.desc}
-                  </p>
+
+                  {/* Flow Connector Arrow (Only between cards on desktop) */}
+                  {idx < SUPPLY_CHAIN_STEPS.length - 1 && (
+                    <div className="hidden lg:flex absolute top-1/2 -right-4 -translate-y-1/2 z-20 h-6 w-6 items-center justify-center rounded-full bg-[#fafbf7] border border-[#143d31]/10 text-[#143d31]/40 shadow-xs pointer-events-none">
+                      <CaretRight className="h-3 w-3 animate-[pulse_2s_infinite]" />
+                    </div>
+                  )}
                 </div>
               );
             })}

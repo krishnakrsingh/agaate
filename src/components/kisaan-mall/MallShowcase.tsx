@@ -108,7 +108,7 @@ export function CategoryShelves() {
           ))}
         </Stagger>
 
-        <Reveal variant="clip-up" className="mt-12">
+        <Reveal variant="fade-up" className="mt-12">
           <figure className="rounded-3xl border border-forest-deep bg-forest-deep px-8 py-12 text-center text-cream md:px-16">
             <p className="font-serif text-2xl italic leading-relaxed md:text-3xl">
               "Staking एक सस्ती लागत तकनीक है, जो नुकसान कमकर, फलों की गुणवत्ता बढ़ाती है। छोटे
