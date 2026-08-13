@@ -222,7 +222,7 @@ export default memo(function SectionHero({
               ref={h1Ref}
               className="opacity-0 text-cream max-w-full min-w-0 break-words md:max-w-[62%]"
               style={{
-                fontSize: "clamp(2.5rem, 9vw, 6.5rem)",
+                fontSize: "clamp(2.2rem, 7.5vw, 5.5rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.035em",
                 lineHeight: 1.02,
