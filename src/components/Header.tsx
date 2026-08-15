@@ -136,10 +136,10 @@ export default function Header() {
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-4">
       <header
         className={`pointer-events-auto relative flex items-center gap-2 transition-all duration-300 ease-out sm:gap-3 ${solid
-            ? "w-[94%] max-w-6xl translate-y-1 rounded-full bg-[#14332b]/95 border border-white/10 backdrop-blur-xl px-3 shadow-2xl sm:px-5 md:translate-y-0 md:px-7"
-            : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-3 pt-3 sm:px-5 md:px-10"
+            ? "w-[90%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 border border-[#14332b] backdrop-blur-xl p-2 pl-4 sm:pl-6 md:translate-y-0 shadow-2xl"
+            : "w-[94%] max-w-6xl translate-y-0 rounded-2xl bg-transparent px-3 pt-3 sm:px-5 md:px-10"
           }`}
-        style={{ height: solid ? "60px" : "74px" }}
+        style={{ height: solid ? "56px" : "74px" }}
       >
         {/* Brand Logo */}
         <div className="relative z-10 flex min-w-0 shrink-0 items-center justify-start">
@@ -311,7 +311,7 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${solid
-                ? "px-4 py-2 text-sm sm:px-5 sm:py-2.5 md:px-5"
+                ? "h-10 px-4 text-sm sm:px-5"
                 : "px-4 py-2.5 text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3 md:text-[15px]"
               }`}
           >
