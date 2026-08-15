@@ -219,19 +219,6 @@ export default function Header() {
                         }}
                         className="overflow-hidden rounded-[24px] border border-slate-200/80 bg-white/98 backdrop-blur-2xl p-4 shadow-[0_25px_60px_-15px_rgba(13,40,32,0.16),0_0_0_1px_rgba(0,0,0,0.03)] text-slate-900"
                       >
-                        {/* Header bar inside dropdown */}
-                        <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3 px-2">
-                          <div className="flex items-center gap-2.5">
-                            <span className="font-sans text-[11px] uppercase tracking-[0.15em] text-slate-400 font-bold">
-                              Solutions & Offerings
-                            </span>
-                          </div>
-                          {/* <span className="font-sans text-[10px] text-emerald-700 bg-emerald-50/80 border border-emerald-100 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">
-                            6 Core Pillars
-                          </span> */}
-                        </div>
-
-
                         {/* 2-Column Grid */}
                         <div className="grid grid-cols-2 gap-1">
                           {link.subLinks.map((subLink) => {
