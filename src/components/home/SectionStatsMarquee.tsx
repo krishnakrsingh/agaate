@@ -75,9 +75,6 @@ export default function SectionStatsMarquee() {
             animation: marquee-stats-glide 38s linear infinite;
             will-change: transform;
           }
-          .animate-marquee-stats:hover {
-            animation-play-state: paused;
-          }
         `}
       </style>
 
