@@ -76,14 +76,14 @@ function Index() {
         {/* Defer rendering heavy components until hero animation completes to prevent initial loading screen lag */}
         {contentReady && (
           <>
-            {/* Stats Marquee Section */}
+            {/* Stats Marquee Section (Moved back above) */}
             <SectionStatsMarquee />
 
-            {/* Section 2: Who Agaate is — founder vision & core commitments */}
-            <PeopleChapter />
-
-            {/* Section 3: Farmer pain points — establish empathy & problem */}
+            {/* Section 2: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
+
+            {/* Section 3: Who Agaate is — founder vision & core commitments */}
+            <PeopleChapter />
 
             {/* Section 4: Talk to Agronomist App — first digital solution */}
             <AppChapter />

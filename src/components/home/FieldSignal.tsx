@@ -3,16 +3,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
+// Intro backdrop only
 import fieldAdvisory from "@/assets/field-advisory-gen.png";
-import fertiliser from "@/assets/product-fertiliser.jpg";
-import seeds from "@/assets/product-seeds.jpg";
-
-// Photographic assets for card stacks
-import aboutFarmerAdvisor from "@/assets/about-farmer-advisor.png";
-import aboutHeroNursery from "@/assets/about-hero-nursery.png";
-import productDripKit from "@/assets/product-drip-kit.png";
-import bioNursery from "@/assets/bio-nursery-gen.png";
-import journey09Market from "@/assets/journey-09-market.png";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -28,46 +20,40 @@ const slides = [
   {
     seq: "seq-0",
     number: "01",
-    image: fieldAdvisory,
-    imageAlt: "Farmer inspecting crop",
     label: "Crop health",
     headline: "Something is wrong with the crop.",
     body: "Yellowing leaves. Wilting at the tips. Spots that appeared overnight. The problem is clear — but the cause, and the right fix, is not.",
     deckClass: "deck-health",
     cards: [
-      { image: aboutFarmerAdvisor, caption: "Advisor Visit" },
-      { image: aboutHeroNursery, caption: "Foliar Check" },
-      { image: fieldAdvisory, caption: "Field Sieve" },
+      { icon: "🌿", caption: "Advisor Visit",  detail: "On-field agronomist" },
+      { icon: "🔬", caption: "Diagnosis",      detail: "Soil & leaf analysis" },
+      { icon: "💧", caption: "Foliar Check",   detail: "Nutrient deficiency" },
     ],
   },
   {
     seq: "seq-1",
     number: "02",
-    image: fertiliser,
-    imageAlt: "Fertiliser products",
     label: "Input selection",
     headline: "Which input is actually right?",
     body: "Hundreds of packets on the shelf. Similar names, overlapping claims. No clear way to know which one fits your crop, your soil, your stage.",
     deckClass: "deck-shelf",
     cards: [
-      { image: fertiliser, caption: "Bio-Nutrition" },
-      { image: productDripKit, caption: "Precision Drip" },
-      { image: seeds, caption: "Starter Seeds" },
+      { icon: "🧪", caption: "Bio-Nutrition",  detail: "Stage-matched inputs" },
+      { icon: "💧", caption: "Precision Drip", detail: "Water-use optimised" },
+      { icon: "🌱", caption: "Starter Seeds",  detail: "Verified batch stock" },
     ],
   },
   {
     seq: "seq-2",
     number: "03",
-    image: seeds,
-    imageAlt: "Farmer planning season",
     label: "Season planning",
     headline: "Planning alone, without a guide.",
     body: "Every season starts with big decisions — seed choice, sowing dates, fertigation plan, harvest timing. Most farmers make them without expert input and hope for the best.",
     deckClass: "deck-calendar",
     cards: [
-      { image: bioNursery, caption: "Nursery Setup" },
-      { image: aboutFarmerAdvisor, caption: "Crop Advisory" },
-      { image: journey09Market, caption: "Market Strategy" },
+      { icon: "📅", caption: "Season Plan",    detail: "Sowing to harvest" },
+      { icon: "🌾", caption: "Crop Advisory",  detail: "Expert-led guidance" },
+      { icon: "📦", caption: "Market Ready",   detail: "Sell at peak price" },
     ],
   },
 ];
@@ -199,13 +185,9 @@ export default function FieldSignal() {
                 key={slide.number}
                 className={`${slide.seq} absolute inset-0 flex items-center justify-center opacity-0 will-change-transform`}
               >
-                {/* Full-bleed image backdrop */}
-                <div className="img-panel absolute inset-0 opacity-0 will-change-transform">
-                  <img src={slide.image} alt={slide.imageAlt} className="w-full h-full object-cover object-center" />
-                  <div className="absolute inset-0 bg-[#fafbf7]/88" />
-                </div>
+                {/* No image backdrop for pain-point slides */}
 
-                {/* Content layout: text left, Image deck right */}
+                {/* Content layout: text left, card deck right */}
                 <div className="relative z-10 w-full max-w-6xl mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                   {/* LEFT: Text */}
@@ -232,32 +214,25 @@ export default function FieldSignal() {
                     </p>
                   </div>
 
-                  {/* RIGHT: Polaroid/Tactile Card Stack */}
+                  {/* RIGHT: Typographic Icon Card Stack — no images */}
                   <div className={`${slide.deckClass} relative w-full h-[320px] sm:h-[380px] flex items-center justify-center`}>
-                    {slide.cards && slide.cards.map((card, idx) => {
-                      return (
-                        <div
-                          key={idx}
-                          className={`card-${idx} absolute w-[160px] sm:w-[200px] aspect-[3/4] bg-white border border-stone-200/50 p-2.5 sm:p-3 rounded-2xl shadow-[0_15px_30px_rgba(20,61,49,0.12)] transition-shadow duration-300 hover:shadow-2xl select-none`}
-                          style={{
-                            zIndex: 10 + idx,
-                          }}
-                        >
-                          <div className="w-full aspect-[3/3.3] rounded-lg overflow-hidden border border-stone-100 bg-stone-50 shadow-inner">
-                            <img
-                              src={card.image}
-                              alt={card.caption}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="pt-2 text-center">
-                            <span className="font-mono text-[9px] sm:text-[10px] font-bold tracking-widest text-[#143d31] uppercase">
-                              {card.caption}
-                            </span>
-                          </div>
+                    {slide.cards && slide.cards.map((card, idx) => (
+                      <div
+                        key={idx}
+                        className={`card-${idx} absolute w-[155px] sm:w-[185px] bg-white border border-stone-200 rounded-2xl shadow-[0_15px_40px_rgba(20,61,49,0.10)] select-none overflow-hidden`}
+                        style={{ zIndex: 10 + idx }}
+                      >
+                        {/* Icon area */}
+                        <div className="flex items-center justify-center h-[110px] sm:h-[130px] bg-[#f3f6ee] border-b border-stone-100">
+                          <span className="text-5xl sm:text-6xl" role="img" aria-label={card.caption}>{card.icon}</span>
                         </div>
-                      );
-                    })}
+                        {/* Label area */}
+                        <div className="px-3 py-3 text-center">
+                          <p className="font-mono text-[9px] sm:text-[10px] font-bold tracking-widest text-[#143d31] uppercase mb-1">{card.caption}</p>
+                          <p className="font-sans text-[10px] sm:text-[11px] text-[#5d7d37] leading-snug">{card.detail}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
