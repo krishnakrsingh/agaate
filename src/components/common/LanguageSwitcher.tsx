@@ -36,7 +36,7 @@ export function LanguageSwitcher({
   const containerTrackClass =
     variant === "light"
       ? `relative flex items-center rounded-full bg-slate-100/90 border border-slate-200/80 p-0.5 ${className}`
-      : `relative flex items-center rounded-full p-0.5 ${className}`;
+      : `relative flex items-center rounded-full border border-white/20 bg-white/5 p-0.5 backdrop-blur-md ${className}`;
 
   return (
     <div className={containerTrackClass}>
