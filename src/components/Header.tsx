@@ -98,6 +98,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   // Solid dark bar on every light page; homepage stays transparent until scroll
   const solid = !isHome || scrolled;
@@ -105,6 +106,7 @@ export default function Header() {
   // Auto close mobile drawer on route change
   useEffect(() => {
     setMobileMenuOpen(false);
+    setMobileServicesOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -114,7 +116,7 @@ export default function Header() {
     }
 
     let ticking = false;
-    const threshold = 50;
+    const threshold = 30;
 
     const handleScroll = () => {
       if (!ticking) {
@@ -133,13 +135,12 @@ export default function Header() {
   }, [isHome]);
 
   return (
-    <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-4">
+    <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-3">
       <header
-        className={`pointer-events-auto relative flex items-center gap-2 transition-all duration-300 ease-out sm:gap-3 ${solid
-            ? "w-[90%] max-w-5xl translate-y-1 rounded-full bg-[#14332b]/95 border border-[#14332b] backdrop-blur-xl p-2 pl-4 sm:pl-6 md:translate-y-0 shadow-2xl"
-            : "w-[94%] max-w-6xl translate-y-0 rounded-2xl bg-transparent px-3 pt-3 sm:px-5 md:px-10"
+        className={`pointer-events-auto relative flex items-center justify-between gap-3 rounded-full border transition-all duration-500 ease-out ${solid
+            ? "w-[92%] max-w-5xl h-14 bg-[#0d2a21] border-[#0d2a21] shadow-2xl shadow-black/25 py-2 pl-3 pr-2"
+            : "w-[96%] max-w-6xl h-16 bg-transparent border-transparent px-4 sm:px-6"
           }`}
-        style={{ height: solid ? "56px" : "74px" }}
       >
         {/* Brand Logo */}
         <div className="relative z-10 flex min-w-0 shrink-0 items-center justify-start">
@@ -150,16 +151,14 @@ export default function Header() {
             <img
               src="/logo.svg"
               alt="Agaate"
-              className={`h-auto max-h-full w-auto max-w-full object-contain object-left transition-[height] duration-300 ease-out ${solid ? "h-6 md:h-7" : "h-7 drop-shadow-md sm:h-8 md:h-9"
-                }`}
+              className="h-8 w-auto object-contain transition-all duration-300 ease-out drop-shadow-md"
             />
           </Link>
         </div>
 
-        {/* Desktop Navigation Links — absolute so it never steals mobile flex space */}
+        {/* Desktop Navigation Links — absolute center so it stays perfectly aligned */}
         <nav
-          className={`pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center transition-[gap] duration-300 ease-out lg:flex ${solid ? "gap-1 xl:gap-2" : "gap-1.5 xl:gap-2.5"
-            }`}
+          className="pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1 xl:gap-2 lg:flex"
         >
           {navStructure.map((link) => {
             const isHovered = hoveredMenu === link.key;
@@ -175,7 +174,7 @@ export default function Header() {
                   className={`relative z-10 whitespace-nowrap flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-body text-[14px] font-medium transition-colors duration-200 ${isHovered
                       ? "text-white font-semibold"
                       : solid
-                        ? "text-cream/85 hover:text-white"
+                        ? "text-cream/90 hover:text-white"
                         : "text-cream drop-shadow-md hover:text-white"
                     }`}
                 >
@@ -310,10 +309,7 @@ export default function Header() {
             href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${solid
-                ? "h-10 px-4 text-sm sm:px-5"
-                : "px-4 py-2.5 text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3 md:text-[15px]"
-              }`}
+            className="inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-sm h-10 px-5 text-sm"
           >
             <span>{t("nav.contactUs", "Let's talk")}</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -337,45 +333,58 @@ export default function Header() {
 
       {/* Mobile Navigation Overlay Drawer */}
       {mobileMenuOpen && (
-        <div className="pointer-events-auto fixed inset-x-4 top-20 z-50 max-h-[85vh] overflow-y-auto rounded-3xl border border-white/15 bg-[#0e2721]/95 p-6 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 lg:hidden">
+        <div className="pointer-events-auto fixed inset-x-3 top-20 z-50 max-h-[85vh] overflow-y-auto rounded-[28px] border border-slate-200/80 bg-white/98 p-5 shadow-[0_25px_60px_-15px_rgba(13,40,32,0.22),0_0_0_1px_rgba(0,0,0,0.03)] backdrop-blur-2xl text-slate-900 animate-in fade-in slide-in-from-top-4 lg:hidden">
           <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#a3e635]">
-                Navigation Menu
-              </span>
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#a3e635] shadow-[0_0_8px_rgba(163,230,53,0.8)]" />
+                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#0d2a21]">
+                  Navigation Menu
+                </span>
+              </div>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="rounded-full p-1 text-cream/70 hover:text-cream"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
                 aria-label="Close menu"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+            {/* Language Switcher Card */}
+            <div className="flex items-center justify-between gap-3 rounded-[16px] border border-slate-200/80 bg-slate-50/90 p-3 shadow-xs">
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-cream">Language</span>
-                <span className="text-[11px] text-cream/55">Choose English or Hindi</span>
+                <span className="text-xs font-bold text-slate-800">Language / भाषा</span>
+                <span className="text-[11px] text-slate-500 font-normal">Select English or Hindi</span>
               </div>
               <LanguageSwitcher layoutId="active-lang-pill-mobile" />
             </div>
 
-            <nav className="flex flex-col gap-2">
+            {/* Navigation Item Tree */}
+            <nav className="flex flex-col gap-1.5">
               {navStructure.map((link) => {
                 const IconComp = link.icon;
                 return (
                   <div key={"mobile-" + link.key + link.href} className="flex flex-col">
                     <Link
                       to={getLocalizedPath(link.href, currentLang) as any}
-                      className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-base font-medium text-cream transition-colors hover:bg-white/10 hover:text-[#a3e635]"
+                      className="group flex items-center justify-between rounded-[14px] p-2.5 transition-colors hover:bg-slate-100/90 active:bg-slate-100"
                     >
-                      {IconComp && <IconComp className="h-5 w-5 text-[#a3e635]" />}
-                      <span>{t(`nav.${link.key}` as any, link.key)}</span>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-slate-100/90 text-[#0d2a21] border border-slate-200/80 shadow-2xs group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
+                          {IconComp && <IconComp className="h-4.5 w-4.5" strokeWidth={1.85} />}
+                        </div>
+                        <span className="text-sm font-bold text-slate-800 group-hover:text-[#0d2a21]">
+                          {t(`nav.${link.key}` as any, link.key)}
+                        </span>
+                      </div>
+                      <ArrowRight className="h-3.5 w-3.5 text-slate-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                     </Link>
 
                     {link.subLinks && (
-                      <div className="ml-8 flex flex-col gap-1 border-l border-white/10 pl-4 my-1">
+                      <div className="ml-4 mt-1 flex flex-col gap-1 border-l-2 border-slate-100 pl-3">
                         {link.subLinks.map((sub) => {
                           const SubIcon = sub.icon;
                           const subTitle = t(`servicesSub.${sub.key}` as any, sub.label || sub.key);
@@ -384,15 +393,17 @@ export default function Header() {
                             <Link
                               key={"mobile-sub-" + sub.key + sub.href}
                               to={getLocalizedPath(sub.href, currentLang) as any}
-                              className="flex items-start gap-2.5 rounded-lg px-3 py-2 text-sm text-cream/80 transition-colors hover:bg-white/10 hover:text-[#a3e635]"
+                              className="group/sub flex items-start gap-2.5 rounded-[12px] p-2 transition-colors hover:bg-slate-100/80"
                             >
-                              {SubIcon && (
-                                <SubIcon className="h-4 w-4 text-[#a3e635] shrink-0 mt-0.5" />
-                              )}
-                              <div className="flex flex-col">
-                                <span className="font-medium text-cream">{subTitle}</span>
+                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-slate-100/90 text-[#0d2a21] border border-slate-200/70 group-hover/sub:bg-[#0d2a21] group-hover/sub:text-[#a3e635] transition-all">
+                                {SubIcon && <SubIcon className="h-4 w-4" strokeWidth={1.85} />}
+                              </div>
+                              <div className="flex flex-col min-w-0 pt-0.5">
+                                <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
+                                  {subTitle}
+                                </span>
                                 {subDesc && (
-                                  <span className="text-[11px] text-cream/60 font-light">
+                                  <span className="text-[10.5px] text-slate-500 line-clamp-1 font-normal">
                                     {subDesc}
                                   </span>
                                 )}
@@ -407,15 +418,31 @@ export default function Header() {
               })}
             </nav>
 
-            <div className="mt-2 pt-4 border-t border-white/10 flex flex-col gap-3">
+            {/* Footer Advisory & CTA Block */}
+            <div className="mt-2 flex flex-col gap-2.5 rounded-[18px] bg-slate-50/90 border border-slate-200/70 p-3.5 shadow-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[11.5px] font-bold text-slate-800">
+                  Need farm setup advisory?
+                </span>
+                <a
+                  href="https://wa.me/918350085005?text=Hello%20Agaate%20Agronomist%2C%20I%20need%20custom%20farm%20setup%20and%20crop%20advisory."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 transition-colors"
+                >
+                  <WhatsappLogo className="h-3.5 w-3.5 text-emerald-600" weight="fill" />
+                  <span>Talk to Agronomist</span>
+                </a>
+              </div>
+
               <a
                 href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#a3e635] px-5 py-3 font-semibold text-[#0d2820] shadow-md transition-transform active:scale-95"
+                className="flex w-full items-center justify-center gap-2 rounded-[12px] bg-[#0d2a21] px-5 py-2.5 font-bold text-sm text-white shadow-sm transition-all hover:bg-[#14332b] active:scale-[0.98]"
               >
                 <span>{t("nav.contactUs", "Let's talk")}</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 text-[#a3e635]" />
               </a>
             </div>
           </div>

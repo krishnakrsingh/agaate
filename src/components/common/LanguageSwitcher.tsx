@@ -30,7 +30,7 @@ export function LanguageSwitcher({
 
   return (
     <div
-      className={`relative flex items-center rounded-full border border-white/15 bg-white/5 p-1 backdrop-blur-md ${className}`}
+      className={`relative flex items-center rounded-full p-0.5 ${className}`}
     >
       <button
         type="button"
