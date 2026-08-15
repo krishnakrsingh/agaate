@@ -127,13 +127,13 @@ const BRANDS: Record<BrandTab, BrandLogo[]> = {
 
 function BrandTile({ brand }: { brand: BrandLogo }) {
   return (
-    <div className="group flex h-[72px] w-[140px] shrink-0 items-center justify-center rounded-2xl border border-[#143d31]/10 bg-white px-4 py-3 shadow-[0_8px_24px_-18px_rgba(20,61,49,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-[#143d31]/25 hover:shadow-[0_16px_32px_-18px_rgba(20,61,49,0.4)] sm:h-[84px] sm:w-[168px] sm:px-5">
+    <div className="group flex h-[80px] w-[160px] shrink-0 items-center justify-center rounded-[20px] bg-white/40 px-6 transition-all duration-500 hover:bg-white hover:shadow-[0_8px_30px_-12px_rgba(20,61,49,0.12)] sm:h-[100px] sm:w-[200px] cursor-pointer">
       <img
         src={brand.src}
         alt={brand.name}
         loading="lazy"
         decoding="async"
-        className="max-h-10 w-full object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 sm:max-h-12"
+        className="max-h-12 w-full object-contain transition-transform duration-500 group-hover:scale-110 sm:max-h-14"
       />
     </div>
   );
@@ -150,31 +150,31 @@ export default function BrandsAssociationsChapter() {
     <section
       ref={sectionRef}
       id="brands"
-      className="relative scroll-mt-28 overflow-x-clip bg-white py-16 md:py-24"
+      className="relative scroll-mt-28 overflow-x-clip bg-white py-20 md:py-32"
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[#143d31]/10"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#143d31]/10 to-transparent"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(93,125,55,0.07),transparent_60%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(163,230,53,0.15),transparent)]"
         aria-hidden="true"
       />
 
       <div className="relative mx-auto max-w-7xl px-5 md:px-10">
         <Reveal variant="fade-up">
           <div className="mx-auto max-w-2xl text-center">
-            <div className="mb-4 inline-flex items-center justify-center gap-2.5">
-              <span className="h-px w-5 bg-[#5d7d37]/60" aria-hidden="true" />
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+            <div className="mb-6 inline-flex items-center justify-center gap-3">
+              <span className="h-[2px] w-8 rounded-full bg-[#a3e635]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#143d31]">
                 Network
               </p>
-              <span className="h-px w-5 bg-[#5d7d37]/60" aria-hidden="true" />
+              <span className="h-[2px] w-8 rounded-full bg-[#a3e635]" aria-hidden="true" />
             </div>
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[#143d31] md:text-4xl lg:text-5xl">
+            <h2 className="font-display text-4xl font-bold tracking-tight text-[#143d31] md:text-5xl lg:text-6xl">
               Brands &amp; Associations
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-[#4f624f] md:text-base">
+            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#536253] md:text-lg">
               The companies, farmer networks, and market channels that power Agaate from seed to sale.
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function BrandsAssociationsChapter() {
           <div
             role="tablist"
             aria-label="Brand categories"
-            className="mx-auto mt-10 flex w-fit max-w-full flex-wrap items-center justify-center gap-1 rounded-full border border-[#143d31]/12 bg-[#f4f8f5] p-1.5"
+            className="mx-auto mt-12 flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-[24px] bg-[#f4f7ef]/60 p-2 ring-1 ring-[#143d31]/5 backdrop-blur-sm"
           >
             {TABS.map((item) => {
               const Icon = item.icon;
@@ -197,45 +197,55 @@ export default function BrandsAssociationsChapter() {
                   aria-selected={selected}
                   onClick={() => setTab(item.id)}
                   className={cn(
-                    "inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/35 sm:px-5",
-                    selected
-                      ? "bg-[#143d31] text-white shadow-md"
-                      : "text-[#143d31]/75 hover:bg-white hover:text-[#143d31]",
+                    "relative z-10 inline-flex items-center gap-2 rounded-[20px] px-5 py-3 text-sm font-bold transition-colors duration-300 focus-visible:outline-none sm:px-7",
+                    selected ? "text-white" : "text-[#143d31]/60 hover:text-[#143d31]"
                   )}
                 >
-                  <Icon className="h-3.5 w-3.5" strokeWidth={1.8} />
+                  {selected && (
+                    <motion.div
+                      layoutId="brand-tab-bubble"
+                      className="absolute inset-0 z-[-1] rounded-[20px] bg-[#143d31] shadow-lg shadow-[#143d31]/20"
+                      transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
+                    />
+                  )}
+                  <Icon className="h-4 w-4" strokeWidth={selected ? 2 : 1.5} />
                   {item.label}
                 </button>
               );
             })}
           </div>
-          <p className="mx-auto mt-4 max-w-lg text-center text-xs text-[#4f624f] sm:text-sm">
+          <motion.p
+            key={tab}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mx-auto mt-6 max-w-lg text-center text-sm font-medium text-[#536253]"
+          >
             {active.hint}
-          </p>
+          </motion.p>
         </Reveal>
 
-        <div className="relative mt-10 md:mt-12">
+        <div className="relative mt-12 md:mt-16">
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white via-white/80 to-transparent sm:w-20 md:w-28"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white via-white/90 to-transparent sm:w-24 md:w-40"
             aria-hidden="true"
           />
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/80 to-transparent sm:w-20 md:w-28"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white via-white/90 to-transparent sm:w-24 md:w-40"
             aria-hidden="true"
           />
 
           <AnimatePresence mode="wait">
             <motion.div
               key={tab}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="space-y-4"
+              initial={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="space-y-4 sm:space-y-6"
             >
               {useDualRow ? (
                 <>
-                  <Marquee pauseOnHover className="[--duration:42s] [--gap:1rem] py-1">
+                  <Marquee pauseOnHover className="[--duration:50s] [--gap:1.5rem] py-2">
                     {logos.slice(0, Math.ceil(logos.length / 2)).map((brand) => (
                       <BrandTile key={`${tab}-a-${brand.name}`} brand={brand} />
                     ))}
@@ -243,7 +253,7 @@ export default function BrandsAssociationsChapter() {
                   <Marquee
                     reverse
                     pauseOnHover
-                    className="[--duration:48s] [--gap:1rem] py-1"
+                    className="[--duration:60s] [--gap:1.5rem] py-2"
                   >
                     {logos.slice(Math.ceil(logos.length / 2)).map((brand) => (
                       <BrandTile key={`${tab}-b-${brand.name}`} brand={brand} />
@@ -251,7 +261,7 @@ export default function BrandsAssociationsChapter() {
                   </Marquee>
                 </>
               ) : (
-                <Marquee pauseOnHover className="[--duration:36s] [--gap:1rem] py-1">
+                <Marquee pauseOnHover className="[--duration:45s] [--gap:1.5rem] py-2">
                   {logos.map((brand) => (
                     <BrandTile key={`${tab}-${brand.name}`} brand={brand} />
                   ))}
@@ -261,7 +271,7 @@ export default function BrandsAssociationsChapter() {
           </AnimatePresence>
         </div>
 
-        <p className="mt-10 text-center font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#143d31]/40">
+        <p className="mt-16 text-center font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#143d31]/30">
           25+ verified manufacturer &amp; market relationships
         </p>
       </div>

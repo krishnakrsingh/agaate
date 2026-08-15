@@ -13,6 +13,7 @@ import {
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, TiltCard, MagneticButton, Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import KisaanMallShowcase from "./KisaanMallShowcase";
+import { cn } from "@/lib/utils";
 
 const ecosystemPillars = [
   {
@@ -109,97 +110,35 @@ const ecosystemPillars = [
   },
 ];
 
-const impactColumns = [
+const impactStats = [
   {
-    id: "research",
-    label: "Field Science",
-    icon: Microscope,
+    id: "network",
+    icon: Stethoscope,
+    label: "Advisory & Network",
     accent: "#5d7d37",
-    headline: "Research-led agronomy, proven on real farms.",
-    bars: [
-      { label: "Farm Trials Conducted", value: 120, suffix: "+", heightPct: 72 },
-      { label: "Crop Varieties Tested", value: 25, suffix: "+", heightPct: 48 },
-      { label: "Disease Protocols", value: 60, suffix: "+", heightPct: 58 },
-      { label: "Agronomist Field Visits / Month", value: 200, suffix: "+", heightPct: 85 },
-    ],
+    headline: "Real-time agronomy across North India.",
+    primary: { value: 15000, suffix: "+", label: "Acres Monitored" },
+    secondary: { value: 2000, suffix: "+", label: "Farmers Enrolled" }
   },
   {
-    id: "inputs",
-    label: "Verified Inputs",
-    icon: ShieldCheck,
-    accent: "#3a6b28",
-    headline: "Every product QR-traced from brand to farm.",
-    bars: [
-      { label: "Verified SKUs", value: 500, suffix: "+", heightPct: 80 },
-      { label: "Brand Partners", value: 25, suffix: "+", heightPct: 42 },
-      { label: "QR Authentications", value: 10000, suffix: "+", heightPct: 100 },
-      { label: "Avg Delivery (Hrs)", value: 36, suffix: "", heightPct: 55 },
-    ],
-  },
-  {
-    id: "impact",
-    label: "Farmer Impact",
+    id: "infra",
     icon: Plant,
-    accent: "#143d31",
-    headline: "Real income gains for real farm families.",
-    bars: [
-      { label: "Farmers Served", value: 2000, suffix: "+", heightPct: 68 },
-      { label: "Acres Under Advisory", value: 15000, suffix: "+", heightPct: 95 },
-      { label: "Avg Yield Increase", value: 22, suffix: "%", heightPct: 50 },
-      { label: "Farmer Value Generated (₹ Cr)", value: 10, suffix: "+", heightPct: 38 },
-    ],
+    label: "Bio-Infrastructure",
+    accent: "#3a6b28",
+    headline: "Zero-mortality plug nurseries.",
+    primary: { value: 500, suffix: "K+", label: "Bio-Seedlings Delivered" },
+    secondary: { value: 98, suffix: "%", label: "Field Survival Rate" }
   },
+  {
+    id: "market",
+    icon: TrendUp,
+    label: "Market Linkage",
+    accent: "#143d31",
+    headline: "Fair buybacks & additional income.",
+    primary: { value: 10, prefix: "₹", suffix: "Cr+", label: "Farmer Value Generated" },
+    secondary: { value: 100, suffix: "%", label: "Guaranteed Buyback" }
+  }
 ];
-
-function ImpactStatsGrid({ col }: { col: typeof impactColumns[0] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.2 });
-  const Icon = col.icon;
-
-  return (
-    <div ref={ref} className="flex flex-col h-full">
-      {/* Column Header */}
-      <div className="flex items-center gap-2.5 mb-6">
-        <div
-          className="flex h-9 w-9 items-center justify-center rounded-xl shrink-0"
-          style={{ backgroundColor: col.accent }}
-        >
-          <Icon className="h-4.5 w-4.5 text-[#a3e635]" style={{ height: 18, width: 18 }} />
-        </div>
-        <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: col.accent }}>
-            {col.label}
-          </p>
-          <p className="font-sans text-xs text-[#4f624f] leading-snug mt-0.5">{col.headline}</p>
-        </div>
-      </div>
-
-      {/* Grid of Stats Cards */}
-      <div className="grid grid-cols-2 gap-3.5 mt-auto">
-        {col.bars.map((bar, i) => (
-          <motion.div
-            key={bar.label}
-            initial={{ opacity: 0, y: 12 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={{
-              delay: 0.15 + i * 0.08,
-              duration: 0.6,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="group/stat rounded-2xl border border-[#143d31]/8 bg-[#fafbf7]/60 p-3.5 flex flex-col justify-between min-h-[96px] transition-all duration-300 hover:bg-white hover:border-[#143d31]/15 hover:shadow-[0_8px_20px_-4px_rgba(20,61,49,0.06)]"
-          >
-            <div className="font-display text-2xl font-extrabold tracking-tight text-[#143d31] group-hover/stat:text-[#5d7d37] transition-colors duration-300">
-              <CountUp to={bar.value} suffix={bar.suffix} />
-            </div>
-            <p className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#3d6547] leading-snug mt-1.5 transition-colors duration-300 group-hover/stat:text-[#143d31]">
-              {bar.label}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 const team = [
   { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
@@ -366,24 +305,66 @@ export default function PeopleChapter() {
       </div>
 
       {/* Static Section: Impact Stats, Founder Quote & Leadership */}
-      <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24 border-t border-[#143d31]/10">
-        {/* Animated Stat Bar Chart: Agaate by the Numbers */}
+      <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20 border-t border-[#143d31]/10">
+        {/* Animated Stat Ledger: Agaate by the Numbers - Sleek Premium Redesign */}
         <div>
-          <div className="flex items-center gap-2.5 mb-10">
-            <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
-            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+          <div className="flex items-center gap-2.5 mb-8">
+            <span className="w-5 h-[1.5px] bg-[#5d7d37]" />
+            <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#5d7d37]">
               Agaate by the numbers
             </p>
           </div>
-          <Stagger stagger={0.15} className="grid gap-8 md:grid-cols-3">
-            {impactColumns.map((col) => (
-              <StaggerItem key={col.id} variant="fade-up">
-                <div className="rounded-3xl border border-[#143d31]/10 bg-white p-6 md:p-8 h-full hover:border-[#143d31]/25 transition-colors duration-300 hover:shadow-lg hover:shadow-[#143d31]/5">
-                  <ImpactStatsGrid col={col} />
-                </div>
-              </StaggerItem>
-            ))}
-          </Stagger>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="rounded-[2rem] border border-[#143d31]/10 bg-white shadow-sm overflow-hidden"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#143d31]/10">
+              {impactStats.map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <div key={stat.id} className="p-8 lg:p-10 flex flex-col justify-between group hover:bg-[#f4f7ef]/30 transition-colors duration-300">
+                    <div>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div 
+                          className="flex h-10 w-10 items-center justify-center rounded-[14px]" 
+                          style={{ backgroundColor: `${stat.accent}15`, color: stat.accent }}
+                        >
+                          <Icon className="h-5 w-5" weight="duotone" />
+                        </div>
+                        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#143d31]/60">
+                          {stat.label}
+                        </p>
+                      </div>
+                      <p className="font-sans text-sm font-medium text-[#143d31] mb-10">{stat.headline}</p>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div>
+                        <div className="flex items-baseline gap-1 mb-1">
+                          {stat.primary.prefix && <span className="text-xl font-bold text-[#143d31]">{stat.primary.prefix}</span>}
+                          <span className="font-display text-4xl lg:text-5xl font-black tracking-tight text-[#143d31]">
+                            <CountUp to={stat.primary.value} suffix={stat.primary.suffix} />
+                          </span>
+                        </div>
+                        <p className="text-xs font-bold text-[#5d7d37]">{stat.primary.label}</p>
+                      </div>
+
+                      <div className="pt-6 border-t border-[#143d31]/8">
+                        <span className="font-display text-2xl font-extrabold text-[#143d31]">
+                          <CountUp to={stat.secondary.value} suffix={stat.secondary.suffix} />
+                        </span>
+                        <p className="text-[11px] font-semibold text-[#143d31]/50 mt-1 uppercase tracking-wider">{stat.secondary.label}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
 
         {/* Founder Quote Banner */}

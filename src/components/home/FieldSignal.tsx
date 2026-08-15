@@ -72,10 +72,10 @@ export default function FieldSignal() {
       allCharSpans[idx] = slideChars;
     });
 
-    // 2. Set all slides initially hidden
-    slideRefs.current.forEach((slide) => {
+    // 2. Set all slides initially hidden except the first slide container
+    slideRefs.current.forEach((slide, i) => {
       if (slide) {
-        gsap.set(slide, { opacity: 0, y: 0 });
+        gsap.set(slide, { opacity: i === 0 ? 1 : 0, y: 0 });
       }
     });
 
@@ -83,7 +83,7 @@ export default function FieldSignal() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top top",
+        start: "top 80%",
         end: "bottom bottom",
         scrub: 0.6,
       },

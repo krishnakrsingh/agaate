@@ -1,14 +1,8 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Bell,
-  Bug,
   Camera,
   ChatCircleText,
-  Flask,
-  Leaf,
-  MapPin,
-  Plant
 } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
@@ -16,39 +10,26 @@ import InteractivePhoneApp from "./InteractivePhoneApp";
 import googlePlayBadge from "@/assets/google-play-badge.svg";
 import appStoreBadge from "@/assets/app-store-badge.svg";
 
-const appSteps = [
+const appFeatures = [
   {
     icon: Camera,
-    title: "Send a crop photo or describe the problem",
-    text: "Leaf spots, fruit damage, yellowing, pest attack — share it directly from the field.",
-    tab: "chat" as const,
-  },
-  {
-    icon: Bell,
-    title: "Stay ahead with stage-wise alerts",
-    text: "Fertigation timing, preventive care, irrigation, harvest readiness — get guidance before losses begin.",
-    tab: "farm" as const,
+    title: "Instant Crop Diagnosis",
+    description: "Snap a picture of a diseased leaf. Our AI identifies the issue and prescribes the exact treatment instantly.",
   },
   {
     icon: ChatCircleText,
-    title: "Chat with a real agronomist",
-    text: "Not a bot. A qualified expert gives specific advice for your crop, stage, soil, and weather — right in the app.",
-    tab: "chat" as const,
+    title: "Real Agronomist Chat",
+    description: "Skip the generic bots. Chat directly with verified agricultural experts who understand your local soil and climate.",
   },
-];
-
-const farmersAskAbout = [
-  { icon: Bug, label: "Diseases & pests", tab: "chat" as const },
-  { icon: Leaf, label: "Fertilizer advisory", tab: "chat" as const },
-  { icon: Flask, label: "Pesticide selection", tab: "mall" as const },
-  { icon: Plant, label: "Soil guidance", tab: "farm" as const },
-  { icon: Plant, label: "Best practices", tab: "farm" as const },
-  { icon: MapPin, label: "Agri Park Tour", tab: "park" as const },
+  {
+    icon: Bell,
+    title: "Precision Stage Alerts",
+    description: "Get notified exactly when it's time to irrigate, apply fertilizers, or harvest based on your crop's current growth stage.",
+  },
 ];
 
 export default function AppChapter() {
   const sectionRef = useHomeChapterReveal("fade-up");
-  const [activeTab, setActiveTab] = useState<"chat" | "mall" | "farm" | "park">("chat");
 
   return (
     <section
@@ -56,7 +37,7 @@ export default function AppChapter() {
       id="agaate-app"
       className="relative scroll-mt-28 overflow-x-clip bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
-      <div className="relative mx-auto grid max-w-7xl gap-12 sm:gap-16 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-12">
+      <div className="relative mx-auto grid max-w-7xl gap-12 sm:gap-16 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12">
         {/* Left — content */}
         <div data-home-reveal className="relative z-10 min-w-0">
           <motion.div
@@ -80,76 +61,30 @@ export default function AppChapter() {
           </motion.div>
 
           <Reveal variant="fade-up" delay={0.15}>
-            <p className="font-sans mt-4 max-w-2xl text-sm leading-relaxed text-[#4f624f] font-normal md:text-base">
-              Track crop stages, log inputs, get stage-wise alerts, and chat with an agronomist when
-              you need a second opinion — all from the Agaate app.
+            <p className="font-sans mt-5 max-w-lg text-[15px] leading-relaxed text-[#4f624f]">
+              Replace guesswork with precision. Manage your entire farm from a single, intuitive dashboard designed exclusively for modern growers.
             </p>
           </Reveal>
 
-          {/* Farmers use the app for */}
-          <div className="mt-8">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#143d31]/50">
-              Farmers use the app for
-            </p>
-            <Stagger stagger={0.06} delayChildren={0.1} className="mt-3 flex flex-wrap gap-2.5">
-              {farmersAskAbout.map((item) => {
-                const Icon = item.icon;
-                const isTabActive = activeTab === item.tab;
-                return (
-                  <StaggerItem key={item.label} variant="scale-up">
-                    <motion.button
-                      onClick={() => setActiveTab(item.tab)}
-                      whileHover={{ scale: 1.08, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold shadow-xs transition-colors duration-300 cursor-pointer ${
-                        isTabActive
-                          ? "bg-[#143d31] border-[#143d31] text-white"
-                          : "bg-white border-[#143d31]/15 text-[#143d31] hover:bg-white hover:border-[#143d31]/30"
-                      }`}
-                    >
-                      <Icon className={`h-3.5 w-3.5 transition-colors ${
-                        isTabActive ? "text-white" : "text-[#5d7d37]"
-                      }`} strokeWidth={1.8} />
-                      {item.label}
-                    </motion.button>
-                  </StaggerItem>
-                );
-              })}
-            </Stagger>
-          </div>
-
-          {/* Steps */}
-          <Stagger stagger={0.12} delayChildren={0.2} className="mt-10 grid gap-8 sm:gap-6">
-            {appSteps.map((step) => {
-              const Icon = step.icon;
-              const isTabActive = activeTab === step.tab;
+          {/* Elegant Feature List - No Cards */}
+          <Stagger stagger={0.15} delayChildren={0.2} className="mt-10 max-w-xl space-y-7">
+            {appFeatures.map((feature) => {
+              const Icon = feature.icon;
               return (
-                <StaggerItem key={step.title} variant="fade-up">
-                  <motion.div
-                    onClick={() => setActiveTab(step.tab)}
-                    whileHover={{ x: 6 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="grid grid-cols-[40px_1fr] gap-3.5 border-t border-[#143d31]/12 pt-5 first:border-t-0 first:pt-0 transition-colors duration-300 cursor-pointer group"
-                  >
-                    <motion.div
-                      whileHover={{ rotate: 12, scale: 1.1 }}
-                      transition={{ type: "spring", stiffness: 400 }}
-                      className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-300 ${
-                        isTabActive ? "bg-[#143d31] text-white shadow-md scale-105" : "bg-[#143d31] text-white/90"
-                      }`}
-                    >
-                      <Icon className="h-4.5 w-4.5" strokeWidth={1.8} />
-                    </motion.div>
+                <StaggerItem key={feature.title} variant="fade-up">
+                  <div className="flex gap-4">
+                    <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#143d31]/5 text-[#5d7d37]">
+                      <Icon className="h-5 w-5" weight="duotone" />
+                    </div>
                     <div>
-                      <h3 className="font-display text-base md:text-lg font-bold tracking-tight text-[#143d31] group-hover:text-[#5d7d37] transition-colors">
-                        {step.title}
+                      <h3 className="font-display text-[17px] font-bold text-[#143d31]">
+                        {feature.title}
                       </h3>
-                      <p className="font-sans mt-1 max-w-xl text-xs leading-relaxed text-[#4f624f] md:text-sm">
-                        {step.text}
+                      <p className="mt-1.5 font-sans text-[14px] leading-relaxed text-[#4f624f]">
+                        {feature.description}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 </StaggerItem>
               );
             })}
@@ -157,24 +92,24 @@ export default function AppChapter() {
 
           {/* Store badges */}
           <Reveal
-            variant="scale-up"
+            variant="fade-up"
             delay={0.3}
-            className="mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-4 pb-2 sm:mt-14 sm:gap-x-6 lg:mt-10 lg:justify-start lg:gap-4 lg:pb-0"
+            className="mt-12 flex flex-wrap items-center gap-4 lg:mt-14"
           >
             <motion.a
               href="https://play.google.com/store/apps"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Get it on Google Play"
-              whileHover={{ scale: 1.06, y: -3 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 350, damping: 20 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
             >
               <img
                 src={googlePlayBadge}
                 alt="Get it on Google Play"
-                className="h-11 w-[148px] sm:h-12 sm:w-[162px]"
+                className="h-10 w-auto sm:h-12"
               />
             </motion.a>
             <motion.a
@@ -182,15 +117,15 @@ export default function AppChapter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download on the App Store"
-              whileHover={{ scale: 1.06, y: -3 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 350, damping: 20 }}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
             >
               <img
                 src={appStoreBadge}
                 alt="Download on the App Store"
-                className="h-11 w-[148px] sm:h-12 sm:w-[162px]"
+                className="h-10 w-auto sm:h-12"
               />
             </motion.a>
           </Reveal>
@@ -200,20 +135,20 @@ export default function AppChapter() {
         <Reveal
           variant="fade-up"
           delay={0.2}
-          className="relative mx-auto mt-8 flex h-max w-full min-w-0 justify-center self-start overflow-visible pb-6 lg:mt-0 lg:sticky lg:top-28 lg:pb-8"
+          className="relative mx-auto mt-8 flex w-full min-w-0 justify-center lg:mt-0 lg:justify-end"
         >
           <motion.div
-            animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative flex w-full max-w-[325px] sm:max-w-[340px] justify-center"
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative flex w-full max-w-[320px] sm:max-w-[340px] justify-center"
           >
-            {/* Ambient Glow — contained inside phone column */}
+            {/* Ambient Glow */}
             <div
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 opacity-60 blur-2xl"
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 opacity-60 blur-3xl"
               aria-hidden="true"
             />
-            <div className="relative z-10 w-full px-1">
-              <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
+            <div className="relative z-10 w-full">
+              <InteractivePhoneApp />
             </div>
           </motion.div>
         </Reveal>

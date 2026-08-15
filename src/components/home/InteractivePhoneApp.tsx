@@ -508,42 +508,42 @@ export default function InteractivePhoneApp({
                         }`}
                     >
                       {msg.sender === "farmer" ? (
-                        <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-[#143d31] px-3.5 py-2.5 text-xs leading-relaxed text-white shadow-xs">
-                          <p className="whitespace-pre-line">{msg.text}</p>
-                          <p className="mt-1 text-[9px] text-white/50 text-right font-mono">
+                        <div className="max-w-[82%] rounded-[14px] rounded-tr-[4px] bg-[#143d31] px-3 py-2 text-white shadow-xs">
+                          <p className="whitespace-pre-line text-xs leading-normal">{msg.text}</p>
+                          <p className="mt-0.5 text-[9px] text-white/50 text-right font-mono">
                             {msg.time}
                           </p>
                         </div>
                       ) : (
-                        <div className="max-w-[94%] rounded-2xl bg-white p-3.5 text-xs leading-relaxed text-[#143d31] border border-[#143d31]/12 shadow-sm rounded-bl-xs">
+                        <div className="max-w-[90%] rounded-[14px] bg-white p-3 border border-[#143d31]/12 shadow-sm rounded-bl-[4px]">
                           {/* Advisory Card Header */}
-                          <div className="flex items-center gap-2 pb-2 mb-2 border-b border-[#143d31]/8">
-                            <div className="h-5 w-5 rounded-full bg-[#e7edd9] p-0.5 border border-[#143d31]/12 flex items-center justify-center shrink-0">
+                          <div className="flex items-center gap-1.5 pb-1.5 mb-1.5 border-b border-[#143d31]/8">
+                            <div className="h-4.5 w-4.5 rounded-full bg-[#e7edd9] p-[1.5px] border border-[#143d31]/12 flex items-center justify-center shrink-0">
                               <img
                                 src="/logo11.png"
                                 alt="Agaate"
                                 className="h-full w-full rounded-full object-cover"
                               />
                             </div>
-                            <span className="font-extrabold text-[11px] text-[#143d31]">
+                            <span className="font-extrabold text-[10px] text-[#143d31]">
                               Agaate Agronomist
                             </span>
                             {msg.verified && (
                               <span
-                                className="inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#25D366]"
+                                className="inline-flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#25D366]"
                                 aria-label="Verified"
                                 title="Verified"
                               >
                                 <svg
                                   viewBox="0 0 16 16"
-                                  className="h-2.5 w-2.5 text-white"
+                                  className="h-2 w-2 text-white"
                                   fill="none"
                                   aria-hidden
                                 >
                                   <path
                                     d="M3.5 8.2 6.4 11l6.1-6.5"
                                     stroke="currentColor"
-                                    strokeWidth="2.2"
+                                    strokeWidth="2.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                   />
@@ -553,12 +553,12 @@ export default function InteractivePhoneApp({
                           </div>
 
                           {/* Advisory Content */}
-                          <p className="whitespace-pre-line leading-relaxed text-[#143d31]/90 font-medium">
+                          <p className="whitespace-pre-line text-xs leading-snug text-[#143d31]/90 font-medium">
                             {msg.text}
                           </p>
 
                           {/* Advisory Card Footer */}
-                          <div className="mt-2.5 pt-2 border-t border-[#143d31]/6 flex items-center justify-between text-[9px] text-[#536253]">
+                          <div className="mt-2 pt-1.5 border-t border-[#143d31]/6 flex items-center justify-between text-[9px] text-[#536253]">
                             <span className="font-mono text-[#143d31]/40">{msg.time}</span>
                             <a
                               href={WHATSAPP_AGRONOMIST_URL}
@@ -566,7 +566,7 @@ export default function InteractivePhoneApp({
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-[#128C7E] font-bold hover:underline"
                             >
-                              <WhatsAppIcon className="h-3 w-3" />
+                              <WhatsAppIcon className="h-2.5 w-2.5" />
                               <span>Chat now</span>
                             </a>
                           </div>
@@ -686,15 +686,15 @@ export default function InteractivePhoneApp({
 
           {/* TAB 2: KISAAN MALL E-COMMERCE STORE */}
           {activeTab === "mall" && (
-            <div className="flex-1 flex flex-col overflow-y-auto p-3.5 bg-[#fffdf4] space-y-3">
+            <div className="flex-1 flex flex-col overflow-y-auto p-3.5 bg-[#f4f7ef]/50 space-y-4">
               {/* Category Filter Chips — Fixed & Clean */}
-              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5 shrink-0">
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5 shrink-0">
                 {["All Inputs", "Seeds 🌾", "Bio-Cures 🧪", "Drip 💧", "Mulch 🛡️"].map((cat, i) => (
                   <span
                     key={cat}
-                    className={`shrink-0 rounded-full px-3 py-1 text-[10px] font-bold transition-all ${i === 0
-                        ? "bg-[#143d31] text-white shadow-xs"
-                        : "bg-white border border-[#143d31]/12 text-[#143d31]"
+                    className={`shrink-0 rounded-xl px-3.5 py-1.5 text-[10px] font-bold transition-all ${i === 0
+                        ? "bg-[#143d31] text-white shadow-md"
+                        : "bg-white border border-[#143d31]/5 text-[#143d31] shadow-sm"
                       }`}
                   >
                     {cat}
@@ -702,87 +702,85 @@ export default function InteractivePhoneApp({
                 ))}
               </div>
 
-              {/* Promo Banner Card — Clean & Rounded */}
-              <div className="rounded-2xl bg-[#143d31] p-3 text-white flex items-center justify-between shadow-xs shrink-0 relative overflow-hidden">
+              {/* Promo Banner Card — Sleek Gradient */}
+              <div className="rounded-[20px] bg-gradient-to-br from-[#143d31] via-[#1a4f40] to-[#286b58] p-3.5 text-white flex items-center justify-between shadow-lg shrink-0 relative overflow-hidden border border-[#143d31]/10">
+                <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-white/10 blur-xl" />
+                <div className="absolute -left-4 -bottom-4 h-16 w-16 rounded-full bg-[#a3e635]/20 blur-xl" />
+                
                 <div className="relative z-10">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#a3e635] px-2 py-0.5 text-[8px] font-mono font-extrabold text-[#143d31] uppercase">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[#a3e635] px-1.5 py-0.5 text-[8px] font-black text-[#143d31] uppercase tracking-wide">
                     Direct Partner Supply
                   </span>
-                  <p className="mt-1 text-xs font-extrabold leading-tight text-white">
-                    500+ Genuine Agri Inputs
+                  <p className="mt-1.5 text-[13px] font-black leading-tight text-white tracking-wide">
+                    500+ Genuine <br/>Agri Inputs
                   </p>
-                  <p className="mt-0.5 text-[9px] text-white/70">
-                    Up to 35% off · 24h NCR Farm Delivery
+                  <p className="mt-1 text-[9px] font-medium text-white/80">
+                    Up to 35% off · 24h Delivery
                   </p>
                 </div>
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
-                  <Package className="h-4.5 w-4.5" />
+                <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm border border-white/10">
+                  <Package className="h-5 w-5" weight="duotone" />
                 </div>
               </div>
 
-              {/* Product List — 1 Horizontal Rectangular Card Per Row */}
-              <div className="space-y-2.5">
+              {/* Product Grid — Modern 2-Column E-commerce Look */}
+              <div className="grid grid-cols-2 gap-3 pb-2">
                 {MALL_PRODUCTS.map((prod, i) => (
                   <motion.div
                     key={prod.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-3 rounded-2xl bg-white p-2.5 border border-[#143d31]/12 shadow-xs hover:border-[#5d7d37] transition-all group"
+                    transition={{ delay: i * 0.05 }}
+                    className="flex flex-col rounded-[16px] bg-white p-2 border border-[#143d31]/5 shadow-sm hover:shadow-md transition-shadow relative group"
                   >
-                    {/* Left: Rectangular Image Box */}
-                    <div className="relative h-20 w-20 rounded-xl overflow-hidden bg-gray-50 shrink-0 border border-[#143d31]/8">
+                    {/* Top: Square Image Box */}
+                    <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#f4f7ef] mb-2 shrink-0">
                       <img
                         src={prod.image}
                         alt={prod.name}
-                        className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                       />
                       {/* Discount Badge */}
-                      <span className="absolute top-1 left-1 rounded-md bg-[#143d31] px-1.5 py-0.5 text-[8px] font-extrabold text-white">
+                      <span className="absolute top-1.5 left-1.5 rounded bg-[#143d31] px-1.5 py-0.5 text-[8px] font-black tracking-wide text-[#a3e635] shadow-sm">
                         {prod.discount}
                       </span>
                     </div>
 
-                    {/* Right: Product Details */}
-                    <div className="flex-1 min-w-0 flex flex-col justify-between h-20">
+                    {/* Bottom: Product Details */}
+                    <div className="flex-1 flex flex-col justify-between">
                       <div>
-                        {/* Weight & Rating */}
-                        <div className="flex items-center justify-between text-[9px]">
-                          <span className="font-mono text-[#536253] font-semibold truncate max-w-[130px]">
-                            {prod.quantity}
-                          </span>
-                          <span className="font-bold text-amber-600 shrink-0">{prod.rating}</span>
+                        {/* Rating & Delivery */}
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[9px] font-black text-amber-500">{prod.rating.split(' ')[0]} ★</span>
+                          <span className="text-[8px] font-bold text-[#3a6b28] bg-[#e7edd9] px-1 rounded">{prod.deliveryTime.split(' ')[1]}</span>
                         </div>
 
-                        {/* Title */}
-                        <p className="text-xs font-bold text-[#143d31] font-sans leading-snug truncate mt-0.5">
+                        {/* Title & Quantity */}
+                        <h4 className="text-[11px] font-extrabold text-[#143d31] leading-snug line-clamp-2">
                           {prod.name}
-                        </p>
-
-                        {/* Delivery Tag */}
-                        <p className="text-[9px] font-semibold text-[#3a6b28] mt-0.5">
-                          {prod.deliveryTime}
+                        </h4>
+                        <p className="text-[9px] font-medium text-[#536253] mt-0.5 line-clamp-1">
+                          {prod.quantity}
                         </p>
                       </div>
 
-                      {/* Bottom Row: Price & Swiggy ADD Button */}
-                      <div className="flex items-center justify-between border-t border-[#143d31]/8 pt-1">
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-xs font-extrabold text-[#143d31]">
+                      {/* Price & Add Button */}
+                      <div className="mt-2.5 flex items-end justify-between border-t border-gray-100 pt-2">
+                        <div className="flex flex-col">
+                          <span className="text-[12px] font-black text-[#143d31] leading-none">
                             {prod.price}
                           </span>
-                          <span className="text-[9px] text-[#143d31]/40 line-through">
+                          <span className="text-[9px] font-semibold text-gray-400 line-through mt-0.5 leading-none">
                             {prod.originalPrice}
                           </span>
                         </div>
-
                         <button
                           onClick={() => handleAddToCart(prod.name)}
-                          className="rounded-lg border-2 border-[#143d31] bg-white px-2.5 py-0.5 text-[10px] font-extrabold text-[#143d31] shadow-2xs hover:bg-[#143d31] hover:text-white transition-all active:scale-95"
+                          className="flex h-7 w-7 items-center justify-center rounded-full bg-[#143d31] text-white shadow-md active:scale-90 transition-transform"
                         >
-                          ADD +
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
                         </button>
                       </div>
                     </div>
@@ -791,12 +789,9 @@ export default function InteractivePhoneApp({
               </div>
 
               {/* Trust Footer Bar */}
-              <div className="mt-1 p-2 rounded-xl bg-[#f4f7ef] border border-[#143d31]/8 text-[9px] font-medium text-[#476f2d] flex items-center justify-around text-center shrink-0">
-                <span>✓ Direct Supply</span>
-                <span>•</span>
-                <span>✓ QC Verified</span>
-                <span>•</span>
-                <span>✓ Free Delivery</span>
+              <div className="mt-2 p-2.5 rounded-xl bg-white border border-[#143d31]/5 shadow-sm text-[8px] font-extrabold text-[#476f2d] flex items-center justify-around uppercase tracking-wider shrink-0">
+                <span className="flex items-center gap-1">✓ Direct Supply</span>
+                <span className="flex items-center gap-1">✓ QC Verified</span>
               </div>
             </div>
           )}
@@ -972,54 +967,42 @@ export default function InteractivePhoneApp({
           )}
 
           {/* FLUSH INTEGRATED BOTTOM OS NAVIGATION BAR */}
-          <div className="flex shrink-0 items-center justify-around border-t border-[#143d31]/10 bg-[#143d31] px-3 py-2.5 text-white">
-            <button
-              onClick={() => setActiveTab("chat")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "chat"
-                  ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
-                  : "text-white/75 hover:text-white"
-              }`}
-            >
-              <ChatCircleText className="h-4 w-4" />
-              <span className="text-[11px]">Advisory</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("mall")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "mall"
-                  ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
-                  : "text-white/75 hover:text-white"
-              }`}
-            >
-              <ShoppingBag className="h-4 w-4" />
-              <span className="text-[11px]">Mall</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("farm")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "farm"
-                  ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
-                  : "text-white/75 hover:text-white"
-              }`}
-            >
-              <Plant className="h-4 w-4" />
-              <span className="text-[11px]">Farm</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("park")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
-                activeTab === "park"
-                  ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
-                  : "text-white/75 hover:text-white"
-              }`}
-            >
-              <MapPin className="h-4 w-4" />
-              <span className="text-[11px]">Park</span>
-            </button>
+          <div className="relative z-20 flex shrink-0 items-center justify-between border-t border-[#143d31]/8 bg-white px-3 py-2 shadow-[0_-4px_15px_-10px_rgba(0,0,0,0.05)]">
+            {[
+              { id: "chat", icon: ChatCircleText, label: "Advisory" },
+              { id: "mall", icon: ShoppingBag, label: "Mall" },
+              { id: "farm", icon: Plant, label: "Farm" },
+              { id: "park", icon: MapPin, label: "Park" },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id as any)}
+                  className={`group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
+                    isActive ? "bg-[#143d31] px-3.5 py-1.5" : "bg-transparent p-2 hover:bg-gray-100/50"
+                  }`}
+                >
+                  <Icon 
+                    className={`h-[18px] w-[18px] shrink-0 transition-colors duration-300 ${
+                      isActive ? "text-[#a3e635]" : "text-[#143d31]/40 group-hover:text-[#143d31]/70"
+                    }`} 
+                    weight={isActive ? "fill" : "regular"}
+                  />
+                  <div
+                    className={`flex items-center overflow-hidden transition-all duration-300 ease-out ${
+                      isActive ? "ml-1.5 max-w-[80px] opacity-100" : "max-w-0 opacity-0"
+                    }`}
+                  >
+                    <span className="whitespace-nowrap text-[11px] font-bold text-white">
+                      {item.label}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
