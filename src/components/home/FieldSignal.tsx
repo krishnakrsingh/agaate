@@ -33,97 +33,117 @@ export default function FieldSignal() {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Split every headline into word <span>s
-    const wordSpans: HTMLSpanElement[][] = [];
+    // 1. Split every headline into individual letter/character <span>s
+    // Wrap each word in a whitespace-nowrap span so words never wrap mid-word
+    const allCharSpans: HTMLSpanElement[][] = [];
 
     headlineRefs.current.forEach((h2, idx) => {
       if (!h2) return;
-      const text = h2.textContent || "";
-      h2.textContent = ""; // clear
+      const text = headlines[idx] || "";
+      h2.innerHTML = ""; // Clear text
 
-      const spans: HTMLSpanElement[] = [];
-      text.split(" ").forEach((word, wi) => {
-        if (wi > 0) {
-          // Add a space text node between words
-          h2.appendChild(document.createTextNode(" "));
+      const slideChars: HTMLSpanElement[] = [];
+      const words = text.split(" ");
+
+      words.forEach((word, wi) => {
+        const wordWrapper = document.createElement("span");
+        wordWrapper.className = "inline-block whitespace-nowrap";
+
+        word.split("").forEach((char) => {
+          const charSpan = document.createElement("span");
+          charSpan.textContent = char;
+          charSpan.style.display = "inline-block";
+          charSpan.style.opacity = "0";
+          charSpan.style.transform = "translateY(6px)";
+          wordWrapper.appendChild(charSpan);
+          slideChars.push(charSpan);
+        });
+
+        h2.appendChild(wordWrapper);
+
+        if (wi < words.length - 1) {
+          const space = document.createElement("span");
+          space.innerHTML = "&nbsp;";
+          space.className = "inline-block";
+          h2.appendChild(space);
         }
-        const span = document.createElement("span");
-        span.textContent = word;
-        span.style.display = "inline-block";
-        span.style.opacity = "0";
-        span.style.transform = "translateY(8px)";
-        span.style.filter = "blur(3px)";
-        h2.appendChild(span);
-        spans.push(span);
       });
-      wordSpans[idx] = spans;
+
+      allCharSpans[idx] = slideChars;
     });
 
-    // Set initial visibility: only first slide visible
-    slideRefs.current.forEach((slide, i) => {
+    // 2. Set all slides initially hidden
+    slideRefs.current.forEach((slide) => {
       if (slide) {
-        gsap.set(slide, { opacity: i === 0 ? 1 : 0 });
+        gsap.set(slide, { opacity: 0, y: 0 });
       }
     });
 
+    // 3. Construct clean, perfectly scalable ScrollTrigger timeline
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.5,
+        scrub: 0.6,
       },
     });
 
     headlines.forEach((_, i) => {
       const slide = slideRefs.current[i];
-      const words = wordSpans[i];
-      if (!slide || !words) return;
+      const chars = allCharSpans[i];
+      if (!slide || !chars) return;
 
-      if (i === 0) {
-        // First slide: just type words in
-        tl.to(words, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.12,
-          stagger: 0.06,
-          ease: "power2.out",
-        });
-        // Hold, then fade out
-        tl.to(slide, {
-          opacity: 0,
-          duration: 0.4,
-          ease: "sine.inOut",
-        }, "+=0.2");
+      const isFirst = i === 0;
+      const isLast = i === headlines.length - 1;
+
+      // STEP A: Make this slide visible
+      if (isFirst) {
+        tl.set(slide, { opacity: 1, y: 0 });
       } else {
-        // Subsequent slides: fade in container, type words, then fade out
-        tl.to(slide, {
-          opacity: 1,
-          duration: 0.25,
-          ease: "sine.inOut",
-        }, "-=0.15");
+        tl.to(
+          slide,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.15,
+            ease: "power2.out",
+          },
+          ">",
+        );
+      }
 
-        tl.to(words, {
+      // STEP B: Type each character in letter-by-letter
+      tl.to(
+        chars,
+        {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
-          duration: 0.12,
-          stagger: 0.06,
-          ease: "power2.out",
-        }, "-=0.05");
+          duration: 0.04,
+          stagger: 0.02,
+          ease: "none",
+        },
+        ">",
+      );
 
-        // If not last slide, fade out
-        if (i < headlines.length - 1) {
-          tl.to(slide, {
+      // STEP C: Hold the completed sentence so the user can read it clearly
+      tl.to({}, { duration: 0.35 });
+
+      // STEP D: Exit animation (for all except the last headline)
+      if (!isLast) {
+        tl.to(
+          slide,
+          {
             opacity: 0,
-            duration: 0.4,
-            ease: "sine.inOut",
-          }, "+=0.2");
-        } else {
-          // Last slide: hold it visible
-          tl.to(slide, { opacity: 1, duration: 0.3 });
-        }
+            y: -25,
+            duration: 0.2,
+            ease: "power2.in",
+          },
+          ">",
+        );
+      } else {
+        // Last headline stays fully visible and settled
+        tl.to(slide, { opacity: 1, duration: 0.2 });
       }
     });
 
@@ -137,13 +157,13 @@ export default function FieldSignal() {
 
   return (
     <section ref={sectionRef} id="start-here" className="relative bg-[#fafbf7]">
-      <div className="h-[400vh] w-full relative">
+      <div className="h-[450vh] w-full relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           {headlines.map((text, i) => (
             <div
               key={i}
               ref={(el) => setSlideRef(el, i)}
-              className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 md:px-16 will-change-transform"
+              className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 md:px-16 pointer-events-none will-change-transform"
               style={{ opacity: 0 }}
             >
               <div className="max-w-5xl mx-auto">

@@ -16,31 +16,8 @@ import KisaanMallShowcase from "./KisaanMallShowcase";
 
 const ecosystemPillars = [
   {
-    id: "nursery",
-    number: "01",
-    label: "Bio Nursery",
-    title: "Bio-Boosted Seedling Infrastructure",
-    desc: "Pathogen-free plug nurseries engineered for zero seedling mortality and a strong crop start.",
-    icon: Plant,
-    image: "/nursery.png",
-    isPng: true,
-    badge: "Nursery Infrastructure",
-    metrics: [
-      { label: "Plants Delivered", num: 500000, suffix: "+" },
-      { label: "Survival Rate", num: 98, suffix: "%" },
-      { label: "Varieties Sourced", num: 25, suffix: "+" },
-    ],
-    features: [
-      "Automated misting & humidity control",
-      "Trichoderma & mycorrhiza inoculation",
-      "Sterile anti-fungal tray casing",
-    ],
-    cta: "Explore Bio Nurseries",
-    ctaLink: "/services/nursery",
-  },
-  {
     id: "advisory",
-    number: "02",
+    number: "01",
     label: "Field Advisory",
     title: "On-Ground Expert Agronomist Support",
     desc: "Field agronomists providing direct disease diagnosis, exact fertigation doses, and farm visits.",
@@ -60,6 +37,29 @@ const ecosystemPillars = [
     ],
     cta: "Talk to Agronomist",
     ctaLink: "/services/farm-tech",
+  },
+  {
+    id: "nursery",
+    number: "02",
+    label: "Bio Nursery",
+    title: "Bio-Boosted Seedling Infrastructure",
+    desc: "Pathogen-free plug nurseries engineered for zero seedling mortality and a strong crop start.",
+    icon: Plant,
+    image: "/nursery.png",
+    isPng: true,
+    badge: "Nursery Infrastructure",
+    metrics: [
+      { label: "Plants Delivered", num: 500000, suffix: "+" },
+      { label: "Survival Rate", num: 98, suffix: "%" },
+      { label: "Varieties Sourced", num: 25, suffix: "+" },
+    ],
+    features: [
+      "Automated misting & humidity control",
+      "Trichoderma & mycorrhiza inoculation",
+      "Sterile anti-fungal tray casing",
+    ],
+    cta: "Explore Bio Nurseries",
+    ctaLink: "/services/nursery",
   },
   {
     id: "mall",
