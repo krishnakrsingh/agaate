@@ -386,30 +386,30 @@ export default function InteractivePhoneApp({
   };
 
   return (
-    <div className="font-sans relative mx-auto w-full max-w-[270px] overflow-visible sm:max-w-[290px] lg:max-w-[300px]">
+    <div className="font-sans relative mx-auto w-full max-w-[310px] sm:max-w-[330px] overflow-visible">
       {/* Toast notification */}
       {addedItemToast && (
-        <div className="absolute -top-11 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-2 text-xs font-bold text-white shadow-xl border border-white/30 animate-bounce">
+        <div className="absolute -top-10 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full bg-[#143d31] px-4 py-1.5 text-xs font-bold text-white shadow-xl border border-white/30 animate-bounce">
           ✓ {addedItemToast}
         </div>
       )}
 
-      {/* Nothing Phone (1) — 20:9 frame, thin uniform bezels, punch-hole */}
-      <div className="relative aspect-[9/20] overflow-hidden rounded-[2.15rem] border-[3px] border-[#1a1a1a] bg-[#1a1a1a] p-[5px] shadow-2xl shadow-black/40 ring-1 ring-white/10">
+      {/* Flagship Phone Frame — 16.5:9 aspect ratio, max-h-[585px], perfectly proportioned bezels */}
+      <div className="relative aspect-[9/16.5] max-h-[585px] overflow-hidden rounded-[2.25rem] border-[3.5px] border-[#1a1a1a] bg-[#1a1a1a] p-[5px] shadow-xl shadow-black/35 ring-1 ring-white/10">
         {/* Side buttons kept inside frame so they don't widen the page */}
         <div
-          className="pointer-events-none absolute left-0 top-[18%] z-20 h-10 w-[3px] rounded-r-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute left-0 top-[18%] z-20 h-9 w-[2.5px] rounded-r-sm bg-[#2a2a2a]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute left-0 top-[28%] z-20 h-14 w-[3px] rounded-r-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute left-0 top-[28%] z-20 h-13 w-[2.5px] rounded-r-sm bg-[#2a2a2a]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute right-0 top-[24%] z-20 h-16 w-[3px] rounded-l-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute right-0 top-[24%] z-20 h-15 w-[2.5px] rounded-l-sm bg-[#2a2a2a]"
           aria-hidden="true"
         />
-        <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[1.85rem] bg-[#fffdf4] text-[#143d31]">
+        <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[1.95rem] bg-[#fffdf4] text-[#143d31]">
           {/* Punch-hole camera */}
           <div
             className="pointer-events-none absolute left-1/2 top-2.5 z-30 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#0a0a0a] ring-1 ring-black/40"
@@ -417,10 +417,10 @@ export default function InteractivePhoneApp({
           />
 
           {/* Top System Status Bar — Clean Light Theme */}
-          <div className="relative shrink-0 border-b border-[#143d31]/6 bg-[#fffdf4] px-4 pb-1.5 pt-3.5 text-[#143d31]">
-            <div className="flex items-center justify-between text-[9px] font-bold text-[#143d31]/80">
+          <div className="relative shrink-0 border-b border-[#143d31]/6 bg-[#fffdf4] px-3.5 pb-1 pt-2.5 text-[#143d31]">
+            <div className="flex items-center justify-between text-[9.5px] font-bold text-[#143d31]/80">
               <span>9:41 AM</span>
-              <div className="flex items-center gap-1.5 text-[#143d31]/80">
+              <div className="flex items-center gap-1 text-[#143d31]/80">
                 <CellSignalFull className="h-2.5 w-2.5" />
                 <WifiHigh className="h-2.5 w-2.5" />
                 <BatteryFull className="h-3 w-3" />
@@ -975,46 +975,50 @@ export default function InteractivePhoneApp({
           <div className="flex shrink-0 items-center justify-around border-t border-[#143d31]/10 bg-[#143d31] px-3 py-2.5 text-white">
             <button
               onClick={() => setActiveTab("chat")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "chat"
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
+                activeTab === "chat"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-                }`}
+              }`}
             >
-              <ChatCircleText className="h-3.5 w-3.5" />
-              <span className="text-[10px]">Advisory</span>
+              <ChatCircleText className="h-4 w-4" />
+              <span className="text-[11px]">Advisory</span>
             </button>
 
             <button
               onClick={() => setActiveTab("mall")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "mall"
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
+                activeTab === "mall"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-                }`}
+              }`}
             >
-              <ShoppingBag className="h-3.5 w-3.5" />
-              <span className="text-[10px]">Mall</span>
+              <ShoppingBag className="h-4 w-4" />
+              <span className="text-[11px]">Mall</span>
             </button>
 
             <button
               onClick={() => setActiveTab("farm")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "farm"
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
+                activeTab === "farm"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-                }`}
+              }`}
             >
-              <Plant className="h-3.5 w-3.5" />
-              <span className="text-[10px]">Farm</span>
+              <Plant className="h-4 w-4" />
+              <span className="text-[11px]">Farm</span>
             </button>
 
             <button
               onClick={() => setActiveTab("park")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all ${activeTab === "park"
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs transition-all ${
+                activeTab === "park"
                   ? "bg-[#a3e635] text-[#143d31] font-extrabold shadow-md"
                   : "text-white/75 hover:text-white"
-                }`}
+              }`}
             >
-              <MapPin className="h-3.5 w-3.5" />
-              <span className="text-[10px]">Park</span>
+              <MapPin className="h-4 w-4" />
+              <span className="text-[11px]">Park</span>
             </button>
           </div>
         </div>

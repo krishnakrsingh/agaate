@@ -56,7 +56,7 @@ export default function AppChapter() {
       id="agaate-app"
       className="relative scroll-mt-28 overflow-x-clip bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
-      <div className="relative mx-auto grid max-w-7xl gap-16 sm:gap-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-12">
+      <div className="relative mx-auto grid max-w-7xl gap-12 sm:gap-16 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-12">
         {/* Left — content */}
         <div data-home-reveal className="relative z-10 min-w-0">
           <motion.div
@@ -200,19 +200,19 @@ export default function AppChapter() {
         <Reveal
           variant="fade-up"
           delay={0.2}
-          className="relative mx-auto mt-10 flex h-max w-full min-w-0 justify-center self-start overflow-visible pb-8 sm:mt-14 lg:mt-0 lg:sticky lg:top-32 lg:pb-12"
+          className="relative mx-auto mt-8 flex h-max w-full min-w-0 justify-center self-start overflow-visible pb-6 lg:mt-0 lg:sticky lg:top-28 lg:pb-8"
         >
           <motion.div
-            animate={{ y: [0, -6, 0] }}
+            animate={{ y: [0, -5, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative flex w-full max-w-[300px] justify-center"
+            className="relative flex w-full max-w-[325px] sm:max-w-[340px] justify-center"
           >
             {/* Ambient Glow — contained inside phone column */}
             <div
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 opacity-65 blur-3xl"
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 opacity-60 blur-2xl"
               aria-hidden="true"
             />
-            <div className="relative z-10 w-full px-2">
+            <div className="relative z-10 w-full px-1">
               <InteractivePhoneApp activeTab={activeTab} onChangeTab={setActiveTab} />
             </div>
           </motion.div>
