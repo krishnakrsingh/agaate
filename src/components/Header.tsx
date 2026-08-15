@@ -135,11 +135,10 @@ export default function Header() {
   return (
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-center pt-2 md:pt-4">
       <header
-        className={`pointer-events-auto relative flex items-center gap-2 transition-all duration-300 ease-out sm:gap-3 ${
-          solid
+        className={`pointer-events-auto relative flex items-center gap-2 transition-all duration-300 ease-out sm:gap-3 ${solid
             ? "w-[94%] max-w-6xl translate-y-1 rounded-full bg-[#14332b]/95 border border-white/10 backdrop-blur-xl px-3 shadow-2xl sm:px-5 md:translate-y-0 md:px-7"
             : "w-[96%] max-w-7xl translate-y-0 rounded-2xl bg-transparent px-3 pt-3 sm:px-5 md:px-10"
-        }`}
+          }`}
         style={{ height: solid ? "60px" : "74px" }}
       >
         {/* Brand Logo */}
@@ -151,18 +150,16 @@ export default function Header() {
             <img
               src="/logo.svg"
               alt="Agaate"
-              className={`h-auto max-h-full w-auto max-w-full object-contain object-left transition-[height] duration-300 ease-out ${
-                solid ? "h-6 md:h-7" : "h-7 drop-shadow-md sm:h-8 md:h-9"
-              }`}
+              className={`h-auto max-h-full w-auto max-w-full object-contain object-left transition-[height] duration-300 ease-out ${solid ? "h-6 md:h-7" : "h-7 drop-shadow-md sm:h-8 md:h-9"
+                }`}
             />
           </Link>
         </div>
 
         {/* Desktop Navigation Links — absolute so it never steals mobile flex space */}
         <nav
-          className={`pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center transition-[gap] duration-300 ease-out lg:flex ${
-            solid ? "gap-1 xl:gap-2" : "gap-1.5 xl:gap-2.5"
-          }`}
+          className={`pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center transition-[gap] duration-300 ease-out lg:flex ${solid ? "gap-1 xl:gap-2" : "gap-1.5 xl:gap-2.5"
+            }`}
         >
           {navStructure.map((link) => {
             const isHovered = hoveredMenu === link.key;
@@ -175,20 +172,18 @@ export default function Header() {
               >
                 <Link
                   to={getLocalizedPath(link.href, currentLang) as any}
-                  className={`relative z-10 whitespace-nowrap flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-body text-[14px] font-medium transition-colors duration-200 ${
-                    isHovered
+                  className={`relative z-10 whitespace-nowrap flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-body text-[14px] font-medium transition-colors duration-200 ${isHovered
                       ? "text-white font-semibold"
                       : solid
-                      ? "text-cream/85 hover:text-white"
-                      : "text-cream drop-shadow-md hover:text-white"
-                  }`}
+                        ? "text-cream/85 hover:text-white"
+                        : "text-cream drop-shadow-md hover:text-white"
+                    }`}
                 >
                   <span>{t(`nav.${link.key}` as any, link.key)}</span>
                   {link.subLinks && (
                     <CaretDown
-                      className={`h-3.5 w-3.5 opacity-80 transition-transform duration-300 ${
-                        isHovered ? "rotate-180 text-white opacity-100" : ""
-                      }`}
+                      className={`h-3.5 w-3.5 opacity-80 transition-transform duration-300 ${isHovered ? "rotate-180 text-white opacity-100" : ""
+                        }`}
                     />
                   )}
                   {isHovered && (
@@ -224,6 +219,19 @@ export default function Header() {
                         }}
                         className="overflow-hidden rounded-[24px] border border-slate-200/80 bg-white/98 backdrop-blur-2xl p-4 shadow-[0_25px_60px_-15px_rgba(13,40,32,0.16),0_0_0_1px_rgba(0,0,0,0.03)] text-slate-900"
                       >
+                        {/* Header bar inside dropdown */}
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3 px-2">
+                          <div className="flex items-center gap-2.5">
+                            <span className="font-sans text-[11px] uppercase tracking-[0.15em] text-slate-400 font-bold">
+                              Solutions & Offerings
+                            </span>
+                          </div>
+                          {/* <span className="font-sans text-[10px] text-emerald-700 bg-emerald-50/80 border border-emerald-100 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">
+                            6 Core Pillars
+                          </span> */}
+                        </div>
+
+
                         {/* 2-Column Grid */}
                         <div className="grid grid-cols-2 gap-1">
                           {link.subLinks.map((subLink) => {
@@ -315,11 +323,10 @@ export default function Header() {
             href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${
-              solid
+            className={`inline-flex whitespace-nowrap shrink-0 group items-center justify-center gap-1.5 rounded-full font-body font-semibold text-[#0d2820] bg-[#a3e635] hover:bg-[#91d820] transition-colors shadow-none ${solid
                 ? "px-4 py-2 text-sm sm:px-5 sm:py-2.5 md:px-5"
                 : "px-4 py-2.5 text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3 md:text-[15px]"
-            }`}
+              }`}
           >
             <span>{t("nav.contactUs", "Let's talk")}</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

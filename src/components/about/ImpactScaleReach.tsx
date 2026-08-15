@@ -100,7 +100,7 @@ export default function ImpactScaleReach() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="group relative lg:col-span-5"
           >
-            <div className="relative aspect-[4/4.5] max-h-[380px] w-full overflow-hidden rounded-[2.5rem] rounded-tl-[4rem] rounded-bl-[4rem] border-4 border-[#5d7d37]/40 bg-[#0d2a20] sm:aspect-[4/4] sm:max-h-[420px] lg:aspect-[4/4.8]">
+            <div className="relative aspect-[4/4.5] max-h-[380px] w-full overflow-hidden rounded-xl border-4 border-[#5d7d37]/40 bg-[#0d2a20] sm:aspect-[4/4] sm:max-h-[420px] lg:aspect-[4/4.8]">
               <img
                 src={farmerAdvisorImg}
                 alt="Agaate farmer and agronomist in the field"
@@ -142,10 +142,10 @@ export default function ImpactScaleReach() {
                     whileInView={{ opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.12 + idx * 0.05, duration: 0.35 }}
-                    className="group flex items-center gap-3 rounded-full border border-[#143d31]/12 bg-white px-3.5 py-2.5 transition-all hover:border-[#5d7d37] hover:shadow-xs"
+                    className="group flex items-center gap-3 rounded-xl border border-[#143d31]/12 bg-white px-3.5 py-2.5 transition-all hover:border-[#5d7d37] hover:shadow-xs"
                   >
                     <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-transform group-hover:scale-110 ${m.bgColor} ${m.textColor}`}
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-transform group-hover:scale-110 ${m.bgColor} ${m.textColor}`}
                     >
                       <Icon className="h-4 w-4" />
                     </div>
@@ -165,7 +165,7 @@ export default function ImpactScaleReach() {
             <div className="pt-2">
               <Link
                 to={getLocalizedPath("/services/farm-tech", currentLang) as any}
-                className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#143d31] px-6 py-3 text-xs font-extrabold text-white shadow-xs transition-all duration-300 hover:bg-[#5d7d37] active:scale-95"
+                className="group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#143d31] px-6 py-3 text-xs font-extrabold text-white shadow-xs transition-all duration-300 hover:bg-[#5d7d37] active:scale-95"
               >
                 <span>Explore Agaate Impact</span>
                 <ArrowRight className="h-4 w-4 text-white transition-transform duration-300 group-hover:translate-x-1" />
