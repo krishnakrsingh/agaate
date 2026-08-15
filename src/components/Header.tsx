@@ -2,23 +2,24 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  Bank,
-  Briefcase,
   CaretDown,
   Compass,
-  Drone,
   House,
   Info,
   List,
   Phone,
-  Plant,
-  ShieldCheck,
-  ShoppingBag,
   Stack,
-  TrendUp,
-  Users,
-  X
+  WhatsappLogo,
+  X,
 } from "@phosphor-icons/react";
+import {
+  Sprout,
+  Store,
+  Cpu,
+  ShieldCheck,
+  Trees,
+  TrendingUp,
+} from "lucide-react";
 import { Link, useLocation, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
@@ -43,21 +44,21 @@ const navStructure: NavItem[] = [
         href: "/services/nursery",
         label: "Bio-Boosted Nursery",
         desc: "High-yield saplings & automated plug plants",
-        icon: Plant,
+        icon: Sprout,
       },
       {
         key: "kisaanMall",
         href: "/services/kisaan-mall",
         label: "Kisaan Mall",
         desc: "Verified seeds, fertilizers & machinery store",
-        icon: ShoppingBag,
+        icon: Store,
       },
       {
         key: "farmTech",
         href: "/services/farm-tech",
         label: "Farm Tech",
         desc: "Drones, IoT sensors & AI crop health monitoring",
-        icon: Drone,
+        icon: Cpu,
       },
       {
         key: "carbonCredits",
@@ -71,14 +72,14 @@ const navStructure: NavItem[] = [
         href: "/services/big-farm-setup",
         label: "Big Farm Setup",
         desc: "Turnkey orchards & commercial estate setups",
-        icon: Bank,
+        icon: Trees,
       },
       {
         key: "marketLinkage",
         href: "/services/market-linkage",
         label: "Market Linkage",
         desc: "Direct buyer connect & guaranteed buyback",
-        icon: TrendUp,
+        icon: TrendingUp,
       },
     ],
   },
@@ -194,29 +195,29 @@ export default function Header() {
                   )}
                 </Link>
 
-                {/* Mega-Dropdown Menu for Services */}
+                {/* Redesigned Clean & Compact Services Dropdown */}
                 <AnimatePresence>
                   {link.subLinks && isHovered && (
-                    <div className="absolute left-1/2 top-full w-[620px] xl:w-[680px] -translate-x-1/2 pt-3 pointer-events-auto z-50">
+                    <div className="absolute left-1/2 top-full w-[580px] -translate-x-1/2 pt-3 pointer-events-auto z-50">
                       <motion.div
                         initial="hidden"
                         animate="visible"
                         exit="exit"
                         variants={{
-                          hidden: { opacity: 0, y: 10, scale: 0.96 },
+                          hidden: { opacity: 0, y: 8, scale: 0.97 },
                           visible: {
                             opacity: 1,
                             y: 0,
                             scale: 1,
                             transition: {
-                              duration: 0.2,
-                              ease: "easeOut",
-                              staggerChildren: 0.04,
+                              duration: 0.18,
+                              ease: [0.16, 1, 0.3, 1],
+                              staggerChildren: 0.03,
                             },
                           },
-                          exit: { opacity: 0, y: 6, scale: 0.96, transition: { duration: 0.15 } },
+                          exit: { opacity: 0, y: 5, scale: 0.97, transition: { duration: 0.13 } },
                         }}
-                        className="overflow-hidden rounded-[28px] border border-slate-200/60 bg-white/95 backdrop-blur-2xl p-5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 text-slate-900"
+                        className="overflow-hidden rounded-[24px] border border-slate-200/80 bg-white/98 backdrop-blur-2xl p-4 shadow-[0_25px_60px_-15px_rgba(13,40,32,0.16),0_0_0_1px_rgba(0,0,0,0.03)] text-slate-900"
                       >
                         {/* Header bar inside dropdown */}
                         <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3 px-2">
@@ -230,8 +231,9 @@ export default function Header() {
                           </span> */}
                         </div>
 
+
                         {/* 2-Column Grid */}
-                        <div className="grid grid-cols-2 gap-x-2 gap-y-1">
+                        <div className="grid grid-cols-2 gap-1">
                           {link.subLinks.map((subLink) => {
                             const SubIcon = subLink.icon;
                             const subTitle = t(
@@ -246,26 +248,26 @@ export default function Header() {
                               <motion.div
                                 key={subLink.key + subLink.href}
                                 variants={{
-                                  hidden: { opacity: 0, y: 8 },
-                                  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
+                                  hidden: { opacity: 0, y: 4 },
+                                  visible: { opacity: 1, y: 0, transition: { duration: 0.18, ease: "easeOut" } },
                                 }}
                               >
                                 <Link
                                   to={getLocalizedPath(subLink.href, currentLang) as any}
-                                  className="group flex items-start gap-3.5 rounded-2xl p-3 transition-all duration-300 hover:bg-slate-50 hover:shadow-[inset_0_0_0_1px_rgba(0,0,0,0.04)] relative overflow-hidden"
+                                  className="group flex items-start gap-3 rounded-[14px] p-2.5 transition-all duration-200 hover:bg-slate-50 relative overflow-hidden"
                                 >
-                                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-white text-[#0d2a21] border border-slate-200/60 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] group-hover:border-[#0d2a21] group-hover:shadow-md group-hover:-rotate-3">
-                                    {SubIcon && <SubIcon className="h-5 w-5" />}
+                                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-slate-100/80 text-[#0d2a21] border border-slate-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all duration-300 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] group-hover:border-[#0d2a21] group-hover:shadow-md group-hover:scale-105 group-hover:-rotate-2">
+                                    {SubIcon && <SubIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" strokeWidth={1.85} />}
                                   </div>
                                   <div className="flex flex-col min-w-0 flex-1 pt-0.5">
                                     <div className="flex items-center justify-between">
-                                      <span className="text-[14px] font-bold text-slate-800 transition-colors group-hover:text-[#0d2a21]">
+                                      <span className="text-[13px] font-bold text-slate-800 transition-colors group-hover:text-[#0d2a21]">
                                         {subTitle}
                                       </span>
-                                      <ArrowRight className="h-4 w-4 text-[#a3e635] opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+                                      <ArrowRight className="h-3 w-3 text-[#0d2a21] opacity-0 -translate-x-1.5 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0" />
                                     </div>
                                     {subDesc && (
-                                      <p className="text-[12.5px] text-slate-500 leading-snug line-clamp-1 mt-0.5 font-medium transition-colors group-hover:text-slate-600">
+                                      <p className="text-[11px] text-slate-500 leading-tight line-clamp-1 mt-0.5 font-normal transition-colors group-hover:text-slate-600">
                                         {subDesc}
                                       </p>
                                     )}
@@ -276,22 +278,30 @@ export default function Header() {
                           })}
                         </div>
 
-                        {/* Bottom Action Footer inside dropdown */}
-                        <div className="mt-4 flex items-center justify-between rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100/50 p-4 border border-slate-100 shadow-[inset_0_1px_4px_rgba(255,255,255,1)]">
-                          <div className="flex flex-col">
-                            <span className="text-[13px] text-slate-800 font-bold">
+                        {/* Refined Footer with Proper Visual Hierarchy */}
+                        <div className="mt-2.5 flex items-center justify-between rounded-[16px] bg-slate-50/90 border border-slate-200/70 p-3 shadow-xs">
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-[12px] font-bold text-slate-800">
                               Need custom farm setup or advisory?
                             </span>
-                            <span className="text-[11px] text-slate-500 font-medium mt-0.5">
-                              Our experts are here to help you scale.
-                            </span>
+                            <a
+                              href="https://wa.me/918350085005?text=Hello%20Agaate%20Agronomist%2C%20I%20need%20custom%20farm%20setup%20and%20crop%20advisory."
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 transition-colors group/agrolink"
+                            >
+                              <WhatsappLogo className="h-3.5 w-3.5 text-emerald-600" weight="fill" />
+                              <span>Talk to Agronomist</span>
+                              <span className="text-[10px] text-emerald-600/70 group-hover/agrolink:translate-x-0.5 transition-transform">→</span>
+                            </a>
                           </div>
+
                           <Link
                             to={getLocalizedPath("/services", currentLang) as any}
-                            className="group/btn flex items-center gap-1.5 text-[12px] font-bold text-white bg-[#0d2a21] px-4 py-2.5 rounded-[12px] shadow-sm hover:bg-[#14332b] hover:shadow-md transition-all duration-300"
+                            className="group/btn shrink-0 flex items-center gap-1.5 text-[11.5px] font-bold text-white bg-[#0d2a21] hover:bg-[#14332b] px-4 py-2 rounded-[11px] shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98]"
                           >
                             <span>Explore All Services</span>
-                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
                           </Link>
                         </div>
                       </motion.div>
