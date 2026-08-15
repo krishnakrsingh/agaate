@@ -6,9 +6,11 @@ import { motion } from "framer-motion";
 export function LanguageSwitcher({
   layoutId = "active-lang-pill",
   className = "",
+  variant = "dark",
 }: {
   layoutId?: string;
   className?: string;
+  variant?: "dark" | "light";
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,15 +30,21 @@ export function LanguageSwitcher({
     });
   };
 
+  const inactiveTextClass =
+    variant === "light" ? "text-slate-600 hover:text-slate-900" : "text-cream/70 hover:text-cream";
+
+  const containerTrackClass =
+    variant === "light"
+      ? `relative flex items-center rounded-full bg-slate-100/90 border border-slate-200/80 p-0.5 ${className}`
+      : `relative flex items-center rounded-full p-0.5 ${className}`;
+
   return (
-    <div
-      className={`relative flex items-center rounded-full p-0.5 ${className}`}
-    >
+    <div className={containerTrackClass}>
       <button
         type="button"
         onClick={() => switchTo("en")}
         className={`relative z-10 rounded-full px-3 py-1 text-xs font-sans font-semibold transition-colors duration-300 ${
-          currentLangCode === "en" ? "text-[#0d2820]" : "text-cream/70 hover:text-cream"
+          currentLangCode === "en" ? "text-[#0d2820]" : inactiveTextClass
         }`}
       >
         En
@@ -53,7 +61,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => switchTo("hi")}
         className={`relative z-10 rounded-full px-3 py-1 text-xs font-sans font-semibold transition-colors duration-300 ${
-          currentLangCode === "hi" ? "text-[#0d2820]" : "text-cream/70 hover:text-cream"
+          currentLangCode === "hi" ? "text-[#0d2820]" : inactiveTextClass
         }`}
       >
         हि

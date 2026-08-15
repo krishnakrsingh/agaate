@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -94,7 +94,8 @@ export default function Header() {
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
 
-  const isHome = stripLocalePrefix(location.pathname) === "/";
+  const strippedPath = stripLocalePrefix(location.pathname);
+  const isHome = strippedPath === "/";
   const [scrolled, setScrolled] = useState(false);
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -103,11 +104,16 @@ export default function Header() {
   // Solid dark bar on every light page; homepage stays transparent until scroll
   const solid = !isHome || scrolled;
 
-  // Auto close mobile drawer on route change
+  // Track page path (without locale prefix) to only close drawer when navigating to a new page
+  const prevPathRef = useRef(strippedPath);
+
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setMobileServicesOpen(false);
-  }, [location.pathname]);
+    if (prevPathRef.current !== strippedPath) {
+      prevPathRef.current = strippedPath;
+      setMobileMenuOpen(false);
+      setMobileServicesOpen(false);
+    }
+  }, [strippedPath]);
 
   useEffect(() => {
     if (!isHome) {
@@ -331,160 +337,194 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Full-Screen Mobile Navigation Overlay */}
+      {/* Mobile Navigation Backdrop & Floating Modal Card */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-auto fixed inset-0 z-50 flex flex-col justify-between overflow-y-auto bg-white/98 backdrop-blur-3xl text-slate-900 p-5 sm:p-7 lg:hidden"
-          >
-            {/* Top Bar inside Overlay */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <Link
-                to={getLocalizedPath("/", currentLang) as any}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-cream"
-              >
-                <img src="/logo.svg" alt="Agaate" className="h-7 w-auto object-contain" />
-              </Link>
+          <>
+            {/* Soft Light Page Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="pointer-events-auto fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] lg:hidden"
+            />
 
-              <div className="flex items-center gap-3">
-                <LanguageSwitcher layoutId="active-lang-pill-mobile" />
-                <button
-                  type="button"
+            {/* Compact Floating Card Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="pointer-events-auto fixed inset-x-4 top-20 z-50 flex flex-col gap-3 max-h-[82vh] overflow-y-auto rounded-[24px] border border-slate-200/90 bg-white/98 p-4.5 shadow-[0_20px_50px_-10px_rgba(13,40,32,0.25),0_0_0_1px_rgba(0,0,0,0.04)] backdrop-blur-md text-slate-900 lg:hidden"
+            >
+              {/* Top Bar inside Floating Card */}
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <Link
+                  to={getLocalizedPath("/", currentLang) as any}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors"
-                  aria-label="Close menu"
+                  className="flex items-center gap-2 rounded-full bg-[#0d2a21] px-3.5 py-1.5 shadow-sm"
                 >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
+                  <img src="/logo.svg" alt="Agaate" className="h-5 w-auto object-contain" />
+                </Link>
 
-            {/* Middle Navigation Tree */}
-            <div className="my-auto py-6 flex flex-col gap-2">
-              {navStructure.map((link) => {
-                const IconComp = link.icon;
-                const isServices = link.key === "services";
-                return (
-                  <div key={"mobile-" + link.key + link.href} className="flex flex-col">
-                    {isServices ? (
-                      <button
-                        type="button"
-                        onClick={() => setMobileServicesOpen((prev) => !prev)}
-                        className="group flex w-full items-center justify-between rounded-[18px] p-3 text-left transition-colors hover:bg-slate-100/90 active:bg-slate-100"
-                      >
-                        <div className="flex items-center gap-3.5">
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
-                            {IconComp && <IconComp className="h-5 w-5" strokeWidth={1.85} />}
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-base font-bold text-slate-900">
-                              {t(`nav.${link.key}` as any, link.key)}
-                            </span>
-                            <span className="text-xs text-slate-500 font-normal">
-                              6 Agricultural Solutions
-                            </span>
-                          </div>
-                        </div>
-                        <CaretDown
-                          className={`h-5 w-5 text-slate-500 transition-transform duration-300 ${
-                            mobileServicesOpen ? "rotate-180 text-[#0d2a21]" : ""
-                          }`}
-                        />
-                      </button>
-                    ) : (
-                      <Link
-                        to={getLocalizedPath(link.href, currentLang) as any}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="group flex items-center justify-between rounded-[18px] p-3 transition-colors hover:bg-slate-100/90 active:bg-slate-100"
-                      >
-                        <div className="flex items-center gap-3.5">
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
-                            {IconComp && <IconComp className="h-5 w-5" strokeWidth={1.85} />}
-                          </div>
-                          <span className="text-base font-bold text-slate-900">
-                            {t(`nav.${link.key}` as any, link.key)}
-                          </span>
-                        </div>
-                        <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                      </Link>
-                    )}
-
-                    {/* Accordion Content for Services */}
-                    {isServices && mobileServicesOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="ml-4 mt-1 flex flex-col gap-1.5 border-l-2 border-slate-100 pl-4 py-1"
-                      >
-                        {link.subLinks?.map((sub) => {
-                          const SubIcon = sub.icon;
-                          const subTitle = t(`servicesSub.${sub.key}` as any, sub.label || sub.key);
-                          const subDesc = t(`servicesSubDesc.${sub.key}` as any, sub.desc || "");
-                          return (
-                            <Link
-                              key={"mobile-sub-" + sub.key + sub.href}
-                              to={getLocalizedPath(sub.href, currentLang) as any}
-                              onClick={() => setMobileMenuOpen(false)}
-                              className="group/sub flex items-center gap-3 rounded-[14px] p-2.5 transition-colors hover:bg-slate-100/90"
-                            >
-                              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover/sub:bg-[#0d2a21] group-hover/sub:text-[#a3e635] transition-all">
-                                {SubIcon && <SubIcon className="h-4.5 w-4.5" strokeWidth={1.85} />}
-                              </div>
-                              <div className="flex flex-col min-w-0">
-                                <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
-                                  {subTitle}
-                                </span>
-                                {subDesc && (
-                                  <span className="text-[11px] text-slate-500 line-clamp-1 font-normal">
-                                    {subDesc}
-                                  </span>
-                                )}
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Bottom Footer Action Area */}
-            <div className="flex flex-col gap-3 rounded-[22px] bg-slate-50 border border-slate-200/80 p-4 shadow-xs">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-slate-900">Custom farm advisory?</span>
-                  <span className="text-[11px] text-slate-500 font-normal">Talk to our agronomists today</span>
+                <div className="flex items-center gap-2.5">
+                  <LanguageSwitcher layoutId="active-lang-pill-mobile" variant="light" />
+                  <button
+                    type="button"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <X className="h-4.5 w-4.5" />
+                  </button>
                 </div>
+              </div>
+
+              {/* Middle Navigation Tree */}
+              <div className="flex flex-col gap-1.5">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">
+                  Main Navigation
+                </span>
+
+                {navStructure.map((link) => {
+                  const IconComp = link.icon;
+                  const isServices = link.key === "services";
+
+                  // Subtitles for items
+                  const navSubtitles: Record<string, string> = {
+                    home: "Return to main portal",
+                    services: "6 Agricultural solutions",
+                    agriPark: "Smart nursery & estate park",
+                    about: "Our vision & leadership",
+                    contact: "Get in touch & locations",
+                  };
+                  const subLabel = navSubtitles[link.key] || "";
+
+                  return (
+                    <div key={"mobile-" + link.key + link.href} className="flex flex-col">
+                      {isServices ? (
+                        <button
+                          type="button"
+                          onClick={() => setMobileServicesOpen((prev) => !prev)}
+                          className="group flex w-full items-center justify-between rounded-[18px] p-2.5 text-left transition-colors hover:bg-slate-100/90 active:bg-slate-100"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[13px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
+                              {IconComp && <IconComp className="h-5 w-5" strokeWidth={1.85} />}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-sm font-bold text-slate-900">
+                                {t(`nav.${link.key}` as any, link.key)}
+                              </span>
+                              <span className="text-[11px] text-slate-500 font-normal">
+                                {subLabel}
+                              </span>
+                            </div>
+                          </div>
+                          <CaretDown
+                            className={`h-4.5 w-4.5 text-slate-500 transition-transform duration-300 ${
+                              mobileServicesOpen ? "rotate-180 text-[#0d2a21]" : ""
+                            }`}
+                          />
+                        </button>
+                      ) : (
+                        <Link
+                          to={getLocalizedPath(link.href, currentLang) as any}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="group flex items-center justify-between rounded-[18px] p-2.5 transition-colors hover:bg-slate-100/90 active:bg-slate-100"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[13px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
+                              {IconComp && <IconComp className="h-5 w-5" strokeWidth={1.85} />}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-sm font-bold text-slate-900">
+                                {t(`nav.${link.key}` as any, link.key)}
+                              </span>
+                              {subLabel && (
+                                <span className="text-[11px] text-slate-500 font-normal">
+                                  {subLabel}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                        </Link>
+                      )}
+
+                      {/* Accordion Content for Services */}
+                      {isServices && mobileServicesOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="ml-4 mt-1 flex flex-col gap-1 border-l-2 border-slate-100 pl-3 py-1"
+                        >
+                          {link.subLinks?.map((sub) => {
+                            const SubIcon = sub.icon;
+                            const subTitle = t(`servicesSub.${sub.key}` as any, sub.label || sub.key);
+                            const subDesc = t(`servicesSubDesc.${sub.key}` as any, sub.desc || "");
+                            return (
+                              <Link
+                                key={"mobile-sub-" + sub.key + sub.href}
+                                to={getLocalizedPath(sub.href, currentLang) as any}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="group/sub flex items-center gap-2.5 rounded-[12px] p-2 transition-colors hover:bg-slate-100/90"
+                              >
+                                <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-[10px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover/sub:bg-[#0d2a21] group-hover/sub:text-[#a3e635] transition-all">
+                                  {SubIcon && <SubIcon className="h-4 w-4" strokeWidth={1.85} />}
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
+                                    {subTitle}
+                                  </span>
+                                  {subDesc && (
+                                    <span className="text-[10.5px] text-slate-500 line-clamp-1 font-normal">
+                                      {subDesc}
+                                    </span>
+                                  )}
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </motion.div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Bottom Footer Action Area */}
+              <div className="flex flex-col gap-2.5 rounded-[20px] bg-slate-50 border border-slate-200/80 p-3.5 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-slate-900">Custom farm advisory?</span>
+                    <span className="text-[10.5px] text-slate-500 font-normal">Talk to our agronomists</span>
+                  </div>
+                  <a
+                    href="https://wa.me/918350085005?text=Hello%20Agaate%20Agronomist%2C%20I%20need%20custom%20farm%20setup%20and%20crop%20advisory."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 transition-colors"
+                  >
+                    <WhatsappLogo className="h-4 w-4 text-emerald-600" weight="fill" />
+                    <span>Agronomist</span>
+                  </a>
+                </div>
+
                 <a
-                  href="https://wa.me/918350085005?text=Hello%20Agaate%20Agronomist%2C%20I%20need%20custom%20farm%20setup%20and%20crop%20advisory."
+                  href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 transition-colors"
+                  className="flex w-full items-center justify-center gap-2 rounded-[13px] bg-[#0d2a21] py-3 px-5 font-bold text-sm text-white shadow-md transition-all hover:bg-[#14332b] active:scale-[0.98]"
                 >
-                  <WhatsappLogo className="h-4 w-4 text-emerald-600" weight="fill" />
-                  <span>Agronomist</span>
+                  <span>{t("nav.contactUs", "Let's talk")}</span>
+                  <ArrowRight className="h-4 w-4 text-[#a3e635]" />
                 </a>
               </div>
-
-              <a
-                href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#0d2a21] py-3.5 px-5 font-bold text-sm text-white shadow-md transition-all hover:bg-[#14332b] active:scale-[0.98]"
-              >
-                <span>{t("nav.contactUs", "Let's talk")}</span>
-                <ArrowRight className="h-4 w-4 text-[#a3e635]" />
-              </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
