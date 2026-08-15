@@ -331,61 +331,98 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Overlay Drawer */}
-      {mobileMenuOpen && (
-        <div className="pointer-events-auto fixed inset-x-3 top-20 z-50 max-h-[85vh] overflow-y-auto rounded-[28px] border border-slate-200/80 bg-white/98 p-5 shadow-[0_25px_60px_-15px_rgba(13,40,32,0.22),0_0_0_1px_rgba(0,0,0,0.03)] backdrop-blur-2xl text-slate-900 animate-in fade-in slide-in-from-top-4 lg:hidden">
-          <div className="flex flex-col gap-4">
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#a3e635] shadow-[0_0_8px_rgba(163,230,53,0.8)]" />
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#0d2a21]">
-                  Navigation Menu
-                </span>
-              </div>
-              <button
-                type="button"
+      {/* Full-Screen Mobile Navigation Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="pointer-events-auto fixed inset-0 z-50 flex flex-col justify-between overflow-y-auto bg-white/98 backdrop-blur-3xl text-slate-900 p-5 sm:p-7 lg:hidden"
+          >
+            {/* Top Bar inside Overlay */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <Link
+                to={getLocalizedPath("/", currentLang) as any}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                aria-label="Close menu"
+                className="flex items-center text-cream"
               >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
+                <img src="/logo.svg" alt="Agaate" className="h-7 w-auto object-contain" />
+              </Link>
 
-            {/* Language Switcher Card */}
-            <div className="flex items-center justify-between gap-3 rounded-[16px] border border-slate-200/80 bg-slate-50/90 p-3 shadow-xs">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-slate-800">Language / भाषा</span>
-                <span className="text-[11px] text-slate-500 font-normal">Select English or Hindi</span>
+              <div className="flex items-center gap-3">
+                <LanguageSwitcher layoutId="active-lang-pill-mobile" />
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <LanguageSwitcher layoutId="active-lang-pill-mobile" />
             </div>
 
-            {/* Navigation Item Tree */}
-            <nav className="flex flex-col gap-1.5">
+            {/* Middle Navigation Tree */}
+            <div className="my-auto py-6 flex flex-col gap-2">
               {navStructure.map((link) => {
                 const IconComp = link.icon;
+                const isServices = link.key === "services";
                 return (
                   <div key={"mobile-" + link.key + link.href} className="flex flex-col">
-                    <Link
-                      to={getLocalizedPath(link.href, currentLang) as any}
-                      className="group flex items-center justify-between rounded-[14px] p-2.5 transition-colors hover:bg-slate-100/90 active:bg-slate-100"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-slate-100/90 text-[#0d2a21] border border-slate-200/80 shadow-2xs group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
-                          {IconComp && <IconComp className="h-4.5 w-4.5" strokeWidth={1.85} />}
+                    {isServices ? (
+                      <button
+                        type="button"
+                        onClick={() => setMobileServicesOpen((prev) => !prev)}
+                        className="group flex w-full items-center justify-between rounded-[18px] p-3 text-left transition-colors hover:bg-slate-100/90 active:bg-slate-100"
+                      >
+                        <div className="flex items-center gap-3.5">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
+                            {IconComp && <IconComp className="h-5 w-5" strokeWidth={1.85} />}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-base font-bold text-slate-900">
+                              {t(`nav.${link.key}` as any, link.key)}
+                            </span>
+                            <span className="text-xs text-slate-500 font-normal">
+                              6 Agricultural Solutions
+                            </span>
+                          </div>
                         </div>
-                        <span className="text-sm font-bold text-slate-800 group-hover:text-[#0d2a21]">
-                          {t(`nav.${link.key}` as any, link.key)}
-                        </span>
-                      </div>
-                      <ArrowRight className="h-3.5 w-3.5 text-slate-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                    </Link>
+                        <CaretDown
+                          className={`h-5 w-5 text-slate-500 transition-transform duration-300 ${
+                            mobileServicesOpen ? "rotate-180 text-[#0d2a21]" : ""
+                          }`}
+                        />
+                      </button>
+                    ) : (
+                      <Link
+                        to={getLocalizedPath(link.href, currentLang) as any}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="group flex items-center justify-between rounded-[18px] p-3 transition-colors hover:bg-slate-100/90 active:bg-slate-100"
+                      >
+                        <div className="flex items-center gap-3.5">
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover:bg-[#0d2a21] group-hover:text-[#a3e635] transition-all">
+                            {IconComp && <IconComp className="h-5 w-5" strokeWidth={1.85} />}
+                          </div>
+                          <span className="text-base font-bold text-slate-900">
+                            {t(`nav.${link.key}` as any, link.key)}
+                          </span>
+                        </div>
+                        <ArrowRight className="h-4 w-4 text-slate-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      </Link>
+                    )}
 
-                    {link.subLinks && (
-                      <div className="ml-4 mt-1 flex flex-col gap-1 border-l-2 border-slate-100 pl-3">
-                        {link.subLinks.map((sub) => {
+                    {/* Accordion Content for Services */}
+                    {isServices && mobileServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="ml-4 mt-1 flex flex-col gap-1.5 border-l-2 border-slate-100 pl-4 py-1"
+                      >
+                        {link.subLinks?.map((sub) => {
                           const SubIcon = sub.icon;
                           const subTitle = t(`servicesSub.${sub.key}` as any, sub.label || sub.key);
                           const subDesc = t(`servicesSubDesc.${sub.key}` as any, sub.desc || "");
@@ -393,17 +430,18 @@ export default function Header() {
                             <Link
                               key={"mobile-sub-" + sub.key + sub.href}
                               to={getLocalizedPath(sub.href, currentLang) as any}
-                              className="group/sub flex items-start gap-2.5 rounded-[12px] p-2 transition-colors hover:bg-slate-100/80"
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="group/sub flex items-center gap-3 rounded-[14px] p-2.5 transition-colors hover:bg-slate-100/90"
                             >
-                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-slate-100/90 text-[#0d2a21] border border-slate-200/70 group-hover/sub:bg-[#0d2a21] group-hover/sub:text-[#a3e635] transition-all">
-                                {SubIcon && <SubIcon className="h-4 w-4" strokeWidth={1.85} />}
+                              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-slate-100 text-[#0d2a21] border border-slate-200/80 group-hover/sub:bg-[#0d2a21] group-hover/sub:text-[#a3e635] transition-all">
+                                {SubIcon && <SubIcon className="h-4.5 w-4.5" strokeWidth={1.85} />}
                               </div>
-                              <div className="flex flex-col min-w-0 pt-0.5">
+                              <div className="flex flex-col min-w-0">
                                 <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
                                   {subTitle}
                                 </span>
                                 {subDesc && (
-                                  <span className="text-[10.5px] text-slate-500 line-clamp-1 font-normal">
+                                  <span className="text-[11px] text-slate-500 line-clamp-1 font-normal">
                                     {subDesc}
                                   </span>
                                 )}
@@ -411,27 +449,28 @@ export default function Header() {
                             </Link>
                           );
                         })}
-                      </div>
+                      </motion.div>
                     )}
                   </div>
                 );
               })}
-            </nav>
+            </div>
 
-            {/* Footer Advisory & CTA Block */}
-            <div className="mt-2 flex flex-col gap-2.5 rounded-[18px] bg-slate-50/90 border border-slate-200/70 p-3.5 shadow-xs">
+            {/* Bottom Footer Action Area */}
+            <div className="flex flex-col gap-3 rounded-[22px] bg-slate-50 border border-slate-200/80 p-4 shadow-xs">
               <div className="flex items-center justify-between">
-                <span className="text-[11.5px] font-bold text-slate-800">
-                  Need farm setup advisory?
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-slate-900">Custom farm advisory?</span>
+                  <span className="text-[11px] text-slate-500 font-normal">Talk to our agronomists today</span>
+                </div>
                 <a
                   href="https://wa.me/918350085005?text=Hello%20Agaate%20Agronomist%2C%20I%20need%20custom%20farm%20setup%20and%20crop%20advisory."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 transition-colors"
                 >
-                  <WhatsappLogo className="h-3.5 w-3.5 text-emerald-600" weight="fill" />
-                  <span>Talk to Agronomist</span>
+                  <WhatsappLogo className="h-4 w-4 text-emerald-600" weight="fill" />
+                  <span>Agronomist</span>
                 </a>
               </div>
 
@@ -439,15 +478,15 @@ export default function Header() {
                 href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20know%20more%20about%20your%20farm%20services%20and%20consultation."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2 rounded-[12px] bg-[#0d2a21] px-5 py-2.5 font-bold text-sm text-white shadow-sm transition-all hover:bg-[#14332b] active:scale-[0.98]"
+                className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#0d2a21] py-3.5 px-5 font-bold text-sm text-white shadow-md transition-all hover:bg-[#14332b] active:scale-[0.98]"
               >
                 <span>{t("nav.contactUs", "Let's talk")}</span>
                 <ArrowRight className="h-4 w-4 text-[#a3e635]" />
               </a>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
