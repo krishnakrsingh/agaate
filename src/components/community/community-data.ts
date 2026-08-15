@@ -1,13 +1,15 @@
-import { Icon } from "@phosphor-icons/react";
-import { Bell,
-  ClipboardList,
+import {
+  Bell,
+  ClipboardText as ClipboardList,
   GraduationCap,
-  MessageCircle,
+  ChatCircleText as MessageCircle,
   Package,
-  RefreshCw,
+  ArrowsCounterClockwise as RefreshCw,
   Rocket,
-  Smartphone,
-  Sprout, } from "@phosphor-icons/react";
+  DeviceMobile as Smartphone,
+  Plant as Sprout,
+  type Icon,
+} from "@phosphor-icons/react";
 
 export type Post = {
   author: string;

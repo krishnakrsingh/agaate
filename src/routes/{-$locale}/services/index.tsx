@@ -16,7 +16,6 @@ import {
   Handshake,
   type Icon,
   Leaf,
-  PackageCheck,
   PhoneCall,
   Plant,
   ShieldCheck,
