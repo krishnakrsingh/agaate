@@ -72,20 +72,25 @@ export default function FieldSignal() {
       allCharSpans[idx] = slideChars;
     });
 
-    // 2. Set all slides initially hidden with soft displacement
-    slideRefs.current.forEach((slide) => {
+    // 2. Set all slide containers
+    slideRefs.current.forEach((slide, i) => {
       if (slide) {
-        gsap.set(slide, { opacity: 0, y: 35, filter: "blur(6px)" });
+        gsap.set(slide, {
+          opacity: i === 0 ? 1 : 0,
+          y: i === 0 ? 0 : 40,
+          filter: i === 0 ? "blur(0px)" : "blur(8px)",
+        });
       }
     });
 
-    // 3. Construct smooth, fluid ScrollTrigger timeline with natural crossfading
+    // 3. Construct smooth, perfectly paced ScrollTrigger timeline
+    // Starts exactly when section hits top top (locks into view)
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top 75%",
+        start: "top top",
         end: "bottom bottom",
-        scrub: 0.8,
+        scrub: 0.5,
       },
     });
 
@@ -98,53 +103,54 @@ export default function FieldSignal() {
       const isLast = i === headlines.length - 1;
       const prevSlide = i > 0 ? slideRefs.current[i - 1] : null;
 
-      // If not first slide, smoothly fade out previous slide with overlap
+      // Transition from previous slide (if not first slide)
       if (prevSlide) {
+        // Fade out previous slide
         tl.to(
           prevSlide,
           {
             opacity: 0,
-            y: -35,
+            y: -40,
             filter: "blur(8px)",
-            duration: 0.4,
+            duration: 0.5,
             ease: "power2.inOut",
           },
           ">",
         );
+
+        // Fade in current slide container with smooth overlap
+        tl.to(
+          slide,
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.5,
+            ease: "power3.out",
+          },
+          "<+=0.2",
+        );
       }
 
-      // STEP A: Incoming slide container becomes visible and gently settles
-      tl.to(
-        slide,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.25,
-          ease: "power2.out",
-        },
-        isFirst ? ">" : "<+=0.1",
-      );
-
-      // STEP B: Deliberate, clear typewriter typing letter-by-letter
+      // STEP B: Deliberate, scroll-controlled typewriter typing letter-by-letter
       tl.to(
         chars,
         {
           opacity: 1,
           y: 0,
-          duration: 0.08,
-          stagger: 0.045,
+          duration: 0.15,
+          stagger: 0.08,
           ease: "none",
         },
         ">",
       );
 
-      // STEP C: Comfortable hold duration to read the full sentence
-      tl.to({}, { duration: 0.65 });
+      // STEP C: Generous hold duration to let the farmer read the completed sentence
+      tl.to({}, { duration: 1.4 });
 
-      // If this is the last headline, let it settle gracefully
+      // If this is the last headline, keep it steady
       if (isLast) {
-        tl.to(slide, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3 });
+        tl.to(slide, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5 });
       }
     });
 
@@ -158,14 +164,14 @@ export default function FieldSignal() {
 
   return (
     <section ref={sectionRef} id="start-here" className="relative bg-[#fafbf7]">
-      <div className="h-[450vh] w-full relative">
+      <div className="h-[600vh] w-full relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           {headlines.map((text, i) => (
             <div
               key={i}
               ref={(el) => setSlideRef(el, i)}
               className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 md:px-16 pointer-events-none will-change-transform"
-              style={{ opacity: 0 }}
+              style={{ opacity: i === 0 ? 1 : 0 }}
             >
               <div className="max-w-5xl mx-auto">
                 <h2
