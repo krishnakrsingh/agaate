@@ -214,10 +214,10 @@ export default function SectionStatsMarquee() {
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-52 bg-gradient-to-l from-[#fafbf7] to-transparent" />
 
       {/* Row 1: slides left (baseSpeed < 0) */}
-      <InteractiveMarqueeTrack items={row1} baseSpeed={-0.9} className="mb-3.5 px-3" />
+      <InteractiveMarqueeTrack items={row1} baseSpeed={-0.45} className="mb-3.5 px-3" />
 
       {/* Row 2: slides right (baseSpeed > 0) */}
-      <InteractiveMarqueeTrack items={row2} baseSpeed={0.8} className="px-3" />
+      <InteractiveMarqueeTrack items={row2} baseSpeed={0.4} className="px-3" />
     </section>
   );
 }
