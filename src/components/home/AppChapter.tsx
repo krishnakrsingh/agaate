@@ -94,7 +94,7 @@ export default function AppChapter() {
           <Reveal
             variant="fade-up"
             delay={0.3}
-            className="mt-12 flex flex-wrap items-center gap-4 lg:mt-14"
+            className="mt-12 flex flex-wrap items-center justify-center sm:justify-start gap-4 lg:mt-14"
           >
             <motion.a
               href="https://play.google.com/store/apps"
