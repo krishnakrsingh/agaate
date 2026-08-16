@@ -36,7 +36,7 @@ const row1: StatItem[] = [
   },
   {
     icon: Handshake,
-    value: "25+",
+    value: "50+",
     label: "SUPPLY PARTNERS",
   },
 ];
@@ -44,7 +44,7 @@ const row1: StatItem[] = [
 const row2: StatItem[] = [
   {
     icon: Package,
-    value: "500+",
+    value: "1000+",
     label: "AGRI-INPUT SKUS",
   },
   {
