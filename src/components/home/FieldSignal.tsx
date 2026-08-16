@@ -6,9 +6,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const headlines = [
   "Every farmer faces moments where guesswork costs money.",
-  "Something is wrong with the crop.",
-  "Which input is actually right?",
-  "Planning alone, without a guide.",
+  "Wrong spray. Weak seeds. Zero guidance.",
+  "One bad call costs an entire season.",
+  "We replace guesswork with proof.",
 ];
 
 export default function FieldSignal() {
@@ -72,20 +72,20 @@ export default function FieldSignal() {
       allCharSpans[idx] = slideChars;
     });
 
-    // 2. Set all slides initially hidden except the first slide container
-    slideRefs.current.forEach((slide, i) => {
+    // 2. Set all slides initially hidden with soft displacement
+    slideRefs.current.forEach((slide) => {
       if (slide) {
-        gsap.set(slide, { opacity: i === 0 ? 1 : 0, y: 0 });
+        gsap.set(slide, { opacity: 0, y: 35, filter: "blur(6px)" });
       }
     });
 
-    // 3. Construct clean, perfectly scalable ScrollTrigger timeline
+    // 3. Construct smooth, fluid ScrollTrigger timeline with natural crossfading
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top 80%",
+        start: "top 75%",
         end: "bottom bottom",
-        scrub: 0.6,
+        scrub: 0.8,
       },
     });
 
@@ -96,54 +96,55 @@ export default function FieldSignal() {
 
       const isFirst = i === 0;
       const isLast = i === headlines.length - 1;
+      const prevSlide = i > 0 ? slideRefs.current[i - 1] : null;
 
-      // STEP A: Make this slide visible
-      if (isFirst) {
-        tl.set(slide, { opacity: 1, y: 0 });
-      } else {
+      // If not first slide, smoothly fade out previous slide with overlap
+      if (prevSlide) {
         tl.to(
-          slide,
+          prevSlide,
           {
-            opacity: 1,
-            y: 0,
-            duration: 0.15,
-            ease: "power2.out",
+            opacity: 0,
+            y: -35,
+            filter: "blur(8px)",
+            duration: 0.4,
+            ease: "power2.inOut",
           },
           ">",
         );
       }
 
-      // STEP B: Type each character in letter-by-letter
+      // STEP A: Incoming slide container becomes visible and gently settles
+      tl.to(
+        slide,
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.25,
+          ease: "power2.out",
+        },
+        isFirst ? ">" : "<+=0.1",
+      );
+
+      // STEP B: Deliberate, clear typewriter typing letter-by-letter
       tl.to(
         chars,
         {
           opacity: 1,
           y: 0,
-          duration: 0.04,
-          stagger: 0.02,
+          duration: 0.08,
+          stagger: 0.045,
           ease: "none",
         },
         ">",
       );
 
-      // STEP C: Hold the completed sentence so the user can read it clearly
-      tl.to({}, { duration: 0.35 });
+      // STEP C: Comfortable hold duration to read the full sentence
+      tl.to({}, { duration: 0.65 });
 
-      // STEP D: Exit animation (for all except the last headline)
-      if (!isLast) {
-        tl.to(
-          slide,
-          {
-            opacity: 0,
-            y: -25,
-            duration: 0.2,
-            ease: "power2.in",
-          },
-          ">",
-        );
-      } else {
-        // Last headline stays fully visible and settled
-        tl.to(slide, { opacity: 1, duration: 0.2 });
+      // If this is the last headline, let it settle gracefully
+      if (isLast) {
+        tl.to(slide, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3 });
       }
     });
 
@@ -169,7 +170,7 @@ export default function FieldSignal() {
               <div className="max-w-5xl mx-auto">
                 <h2
                   ref={(el) => setHeadlineRef(el, i)}
-                  className="font-sans text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight text-[#143d31] leading-[1.05]"
+                  className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tight text-[#143d31] leading-[1.08] [text-wrap:balance]"
                 >
                   {text}
                 </h2>
