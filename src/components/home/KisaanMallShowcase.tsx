@@ -23,7 +23,7 @@ export default function KisaanMallShowcase() {
           <img
             src="/kisaan mall.png"
             alt="Agaate Kisaan Mall Physical Storefront"
-            className="w-full max-h-[480px] sm:max-h-[540px] lg:max-h-[600px] object-contain drop-shadow-[0_25px_35px_rgba(20,61,49,0.3)] transition-all duration-500"
+            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-[0_25px_35px_rgba(20,61,49,0.3)] transition-all duration-500"
           />
 
           {/* Hotspot Pin 1: Store Branding / Signage */}
@@ -40,9 +40,9 @@ export default function KisaanMallShowcase() {
             </button>
             {activePin === 1 && (
               <motion.div
-                initial={{ opacity: 0, y: 6, scale: 0.92 }}
+                initial={{ opacity: 0, y: -6, scale: 0.92 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
+                className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-52 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
               >
                 <div className="flex items-center gap-1.5 text-white font-mono text-[10px] font-bold uppercase">
                   <MapPin className="h-3 w-3" />

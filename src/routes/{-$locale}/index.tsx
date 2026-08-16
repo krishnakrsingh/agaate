@@ -8,10 +8,7 @@ import SectionHero from "@/components/sections/SectionHero";
 import {
   SectionStatsMarquee,
   FieldSignal,
-  PillarAdvisory,
-  PillarNursery,
-  PillarMall,
-  PillarMarket,
+  PillarsHorizontalParallax,
   AppChapter,
   AgriParkChapter,
   BrandsAssociationsChapter,
@@ -85,13 +82,8 @@ function Index() {
             {/* Section 3: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
 
-            {/* Section 4: The 4 Core Integrated Pillars (Parallax Section-Over-Section Stack) */}
-            <div className="relative">
-              <PillarAdvisory />
-              <PillarNursery />
-              <PillarMall />
-              <PillarMarket />
-            </div>
+            {/* Section 4: The 4 Core Integrated Pillars (Horizontal Parallax Transition) */}
+            <PillarsHorizontalParallax />
 
             {/* Section 5: Agaate Mobile App — Interactive Digital Experience */}
             <AppChapter />

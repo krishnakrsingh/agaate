@@ -19,25 +19,25 @@ const TABS: {
   hint: string;
   icon: typeof Buildings;
 }[] = [
-  {
-    id: "partners",
-    label: "Partners",
-    hint: "Certified agri-input manufacturers we source from directly",
-    icon: Buildings,
-  },
-  {
-    id: "customers",
-    label: "Customers",
-    hint: "Farmer groups and field networks growing with Agaate",
-    icon: Leaf,
-  },
-  {
-    id: "buyers",
-    label: "Veg Buyers",
-    hint: "Market channels connected through our linkage network",
-    icon: ShoppingBagOpen,
-  },
-];
+    {
+      id: "partners",
+      label: "Partners",
+      hint: "Certified agri-input manufacturers we source from directly",
+      icon: Buildings,
+    },
+    {
+      id: "customers",
+      label: "Customers",
+      hint: "Farmer groups and field networks growing with Agaate",
+      icon: Leaf,
+    },
+    {
+      id: "buyers",
+      label: "Market access",
+      hint: "Market channels connected through our linkage network",
+      icon: ShoppingBagOpen,
+    },
+  ];
 
 /** Logos sourced from agaate.in /data/brands.js */
 const BRANDS: Record<BrandTab, BrandLogo[]> = {
