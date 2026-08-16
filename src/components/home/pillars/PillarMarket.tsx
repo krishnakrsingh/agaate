@@ -49,7 +49,7 @@ export default function PillarMarket() {
             {/* Division Tag */}
             <div className="flex items-center gap-3 mb-3">
               <span className="font-mono text-base sm:text-lg font-extrabold text-[#5d7d37]">
-                04
+                03
               </span>
               <span className="h-3 w-[1.5px] bg-[#143d31]/20" />
               <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#143d31]">

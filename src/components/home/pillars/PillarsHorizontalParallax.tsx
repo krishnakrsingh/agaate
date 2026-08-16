@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { CountUp, TiltCard, MagneticButton } from "@/components/common/motion";
-import KisaanMallShowcase from "../KisaanMallShowcase";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -24,9 +23,8 @@ interface PillarData {
   features: string[];
   ctaText: string;
   ctaHref: string;
-  visualType: "image" | "mall";
-  imageSrc?: string;
-  imageAlt?: string;
+  imageSrc: string;
+  imageAlt: string;
 }
 
 const PILLARS_DATA: PillarData[] = [
@@ -49,7 +47,6 @@ const PILLARS_DATA: PillarData[] = [
     ],
     ctaText: "Talk to Agronomist",
     ctaHref: "/services#farm-tech",
-    visualType: "image",
     imageSrc: "/farm.png",
     imageAlt: "On-Ground Expert Agronomist Support",
   },
@@ -72,34 +69,12 @@ const PILLARS_DATA: PillarData[] = [
     ],
     ctaText: "Explore Bio Nurseries",
     ctaHref: "/services#nursery",
-    visualType: "image",
     imageSrc: "/nursery.png",
     imageAlt: "Bio-Boosted Seedling Infrastructure",
   },
   {
-    id: "pillar-mall",
-    number: "03",
-    tag: "Agaate Mall",
-    title: "Direct-From-Brand Agri Input Supply",
-    description:
-      "Verified seeds, biologicals, and drip kits delivered direct to your farm at honest prices.",
-    metrics: [
-      { value: 500, suffix: "+", label: "Verified Products" },
-      { value: 25, suffix: "+", label: "Supply Partners" },
-      { value: 48, prefix: "24-", suffix: " Hrs", label: "Doorstep Delivery" },
-    ],
-    features: [
-      "Direct-from-brand honest pricing",
-      "QR-verified product authenticity",
-      "Custom drip & irrigation packages",
-    ],
-    ctaText: "Browse Agaate Mall",
-    ctaHref: "/services#kisaan-mall",
-    visualType: "mall",
-  },
-  {
     id: "pillar-market",
-    number: "04",
+    number: "03",
     tag: "Market & Carbon",
     title: "Guaranteed Buyback & Carbon Credits",
     description:
@@ -116,7 +91,6 @@ const PILLARS_DATA: PillarData[] = [
     ],
     ctaText: "View Market Linkage",
     ctaHref: "/services#market-linkage",
-    visualType: "image",
     imageSrc: "/carbon credits.png",
     imageAlt: "Guaranteed Buyback & Carbon Credits",
   },
@@ -179,8 +153,11 @@ export default function PillarsHorizontalParallax() {
         {/* Horizontal Track */}
         <div
           ref={trackRef}
-          className="flex w-[400vw] h-full items-center will-change-transform"
-          style={{ transform: "translate3d(0, 0, 0)" }}
+          className="flex h-full items-center will-change-transform"
+          style={{
+            width: `${PILLARS_DATA.length * 100}vw`,
+            transform: "translate3d(0, 0, 0)",
+          }}
         >
           {PILLARS_DATA.map((pillar) => (
             <div
@@ -258,23 +235,19 @@ export default function PillarsHorizontalParallax() {
                 {/* Visual Column (Right) — Consistent Across All Slides */}
                 <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center">
                   <div className="w-full flex items-center justify-center">
-                    {pillar.visualType === "mall" ? (
-                      <KisaanMallShowcase />
-                    ) : (
-                      <TiltCard maxTilt={5} glare={false} className="w-full">
-                        <motion.div
-                          whileHover={{ scale: 1.025 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                          className="relative w-full flex items-center justify-center p-0"
-                        >
-                          <img
-                            src={pillar.imageSrc}
-                            alt={pillar.imageAlt}
-                            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain transition-transform duration-500 drop-shadow-2xl"
-                          />
-                        </motion.div>
-                      </TiltCard>
-                    )}
+                    <TiltCard maxTilt={5} glare={false} className="w-full">
+                      <motion.div
+                        whileHover={{ scale: 1.025 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="relative w-full flex items-center justify-center p-0"
+                      >
+                        <img
+                          src={pillar.imageSrc}
+                          alt={pillar.imageAlt}
+                          className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain transition-transform duration-500 drop-shadow-2xl"
+                        />
+                      </motion.div>
+                    </TiltCard>
                   </div>
                 </div>
               </div>
@@ -311,15 +284,11 @@ export default function PillarsHorizontalParallax() {
 
             {/* Visual */}
             <div className="relative w-full flex items-center justify-center my-4">
-              {pillar.visualType === "mall" ? (
-                <KisaanMallShowcase />
-              ) : (
-                <img
-                  src={pillar.imageSrc}
-                  alt={pillar.imageAlt}
-                  className="w-full max-h-[260px] object-contain drop-shadow-xl"
-                />
-              )}
+              <img
+                src={pillar.imageSrc}
+                alt={pillar.imageAlt}
+                className="w-full max-h-[260px] object-contain drop-shadow-xl"
+              />
             </div>
 
             {/* Metrics */}

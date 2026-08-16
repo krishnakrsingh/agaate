@@ -10,6 +10,7 @@ import {
   FieldSignal,
   PillarsHorizontalParallax,
   AppChapter,
+  MallChapter,
   AgriParkChapter,
   BrandsAssociationsChapter,
   PeopleChapter,
@@ -82,25 +83,28 @@ function Index() {
             {/* Section 3: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
 
-            {/* Section 4: The 4 Core Integrated Pillars (Horizontal Parallax Transition) */}
+            {/* Section 4: The 3 Core Integrated Pillars (Horizontal Parallax Transition) */}
             <PillarsHorizontalParallax />
 
             {/* Section 5: Agaate Mobile App — Interactive Digital Experience */}
             <AppChapter />
 
-            {/* Section 6: Physical Proof — 17-Acre Smart Nursery & Agri Park Demonstration */}
+            {/* Section 6: Agaate Kisaan Mall — Direct-From-Brand Agri Input Supply */}
+            <MallChapter />
+
+            {/* Section 7: Physical Proof — 17-Acre Smart Nursery & Agri Park Demonstration */}
             <AgriParkChapter />
 
-            {/* Section 7: Brands & Associations — Partners, Customers & Veg Buyers */}
+            {/* Section 8: Brands & Associations — Partners, Customers & Veg Buyers */}
             <BrandsAssociationsChapter />
 
-            {/* Section 8: Who We Are — Founder Vision & Leadership Team */}
+            {/* Section 9: Who We Are — Founder Vision & Leadership Team */}
             <PeopleChapter />
 
-            {/* Section 9: Farmer Testimonials & Reviews */}
+            {/* Section 10: Farmer Testimonials & Reviews */}
             <ProofChapter />
 
-            {/* Section 10: Final Conversion — Three Clear Action Paths */}
+            {/* Section 11: Final Conversion — Three Clear Action Paths */}
             <ClosingChapter />
 
             {/* Footer */}
