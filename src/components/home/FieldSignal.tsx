@@ -84,11 +84,11 @@ export default function FieldSignal() {
     });
 
     // 3. Construct smooth, perfectly paced ScrollTrigger timeline
-    // Starts exactly when section hits top top (locks into view)
+    // Starts at top 40% so typing begins right as the marquee scrolls off and section centers into view
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top top",
+        start: "top 40%",
         end: "bottom bottom",
         scrub: 0.5,
       },
@@ -110,9 +110,9 @@ export default function FieldSignal() {
           prevSlide,
           {
             opacity: 0,
-            y: -40,
-            filter: "blur(8px)",
-            duration: 0.5,
+            y: -30,
+            filter: "blur(6px)",
+            duration: 0.4,
             ease: "power2.inOut",
           },
           ">",
@@ -125,10 +125,10 @@ export default function FieldSignal() {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 0.5,
+            duration: 0.4,
             ease: "power3.out",
           },
-          "<+=0.2",
+          "<+=0.15",
         );
       }
 
@@ -138,19 +138,19 @@ export default function FieldSignal() {
         {
           opacity: 1,
           y: 0,
-          duration: 0.15,
-          stagger: 0.08,
+          duration: 0.12,
+          stagger: 0.04,
           ease: "none",
         },
-        ">",
+        isFirst ? "0" : ">",
       );
 
-      // STEP C: Generous hold duration to let the farmer read the completed sentence
-      tl.to({}, { duration: 1.4 });
+      // STEP C: Hold duration to let the farmer read the completed sentence
+      tl.to({}, { duration: 1.0 });
 
       // If this is the last headline, keep it steady
       if (isLast) {
-        tl.to(slide, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5 });
+        tl.to(slide, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4 });
       }
     });
 
@@ -164,7 +164,7 @@ export default function FieldSignal() {
 
   return (
     <section ref={sectionRef} id="start-here" className="relative bg-[#fafbf7]">
-      <div className="h-[600vh] w-full relative">
+      <div className="h-[450vh] w-full relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           {headlines.map((text, i) => (
             <div

@@ -1,191 +1,238 @@
-import React from 'react';
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 import {
   Plant,
   TrendUp,
-  ShieldCheck,
   HouseLine,
-  ShoppingBag,
   Drop,
   UsersThree,
-  Heart,
+  Handshake,
+  Package,
+  Users,
+  type Icon,
 } from "@phosphor-icons/react";
-import { CountUp } from "@/components/common/motion";
 
-const row1 = [
+type StatItem = {
+  icon: Icon;
+  value: string;
+  label: string;
+};
+
+const row1: StatItem[] = [
+  {
+    icon: HouseLine,
+    value: "15,00,000+",
+    label: "ACRES ASSOCIATED",
+  },
   {
     icon: Plant,
-    value: 500000,
-    suffix: "+",
+    value: "5,00,000+",
     label: "BIO PLANTS DELIVERED",
-    desc: "98% seedling survival rate",
   },
   {
     icon: TrendUp,
-    value: 10,
-    prefix: "₹",
-    suffix: " Cr+",
+    value: "₹10 Cr+",
     label: "ANNUAL VALUE MANAGED",
-    desc: "1.8x transactional growth YoY",
   },
   {
-    icon: ShieldCheck,
-    value: 25,
-    suffix: "+",
-    label: "DIRECT SUPPLY PARTNERS",
-    desc: "Verified brand integrations",
-  },
-  {
-    icon: HouseLine,
-    value: 15000,
-    suffix: "+",
-    label: "ACRES ASSOCIATED",
-    desc: "Haryana & Rajasthan network",
+    icon: Handshake,
+    value: "25+",
+    label: "SUPPLY PARTNERS",
   },
 ];
 
-const row2 = [
+const row2: StatItem[] = [
   {
-    icon: ShoppingBag,
-    value: 500,
-    suffix: "+",
-    label: "AGRI-INPUT PRODUCTS",
-    desc: "Direct-to-farm secure commerce",
+    icon: Package,
+    value: "500+",
+    label: "AGRI-INPUT SKUS",
   },
   {
     icon: Drop,
-    value: 200,
-    suffix: "+",
+    value: "200+",
     label: "SMART IRRIGATIONS",
-    desc: "Water-saving precision drip kits",
   },
   {
     icon: UsersThree,
-    value: 20,
-    suffix: "+",
+    value: "20+",
     label: "KISAAN SATHI EXPERTS",
-    desc: "15-minute response on-ground",
   },
   {
-    icon: Heart,
-    value: 2000,
-    suffix: "+",
-    label: "PARIVAAR FARMERS",
-    desc: "Active collaborative community",
+    icon: Users,
+    value: "2,000+",
+    label: "PARIVAAR",
   },
 ];
 
-export default function SectionStatsMarquee() {
-  const row1Items = [...row1, ...row1, ...row1, ...row1];
-  const row2Items = [...row2, ...row2, ...row2, ...row2];
+function StatPill({ item }: { item: StatItem }) {
+  const Icon = item.icon;
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#f4f8f5] to-[#fafbf7] py-10 overflow-hidden flex flex-col gap-5">
-      {/* Smooth edge fade masks matching the background gradient */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 md:w-32 bg-gradient-to-r from-[#f4f8f5] via-[#f4f8f5]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 md:w-32 bg-gradient-to-l from-[#fafbf7] via-[#fafbf7]/80 to-transparent" />
+    <div className="group inline-flex shrink-0 cursor-grab active:cursor-grabbing select-none items-center rounded-[20px] border border-[#143d31]/10 bg-white p-1.5 shadow-[0_2px_8px_rgba(20,61,49,0.05)] transition-all duration-300 hover:border-[#143d31]/25 hover:shadow-[0_4px_14px_rgba(20,61,49,0.1)] hover:-translate-y-0.5">
+      {/* Icon badge — subtle squircle */}
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[16px] bg-[#143d31] text-white transition-all duration-300 group-hover:bg-[#0d2a21] group-hover:scale-105 shadow-xs">
+        <Icon weight="fill" className="h-[21px] w-[21px]" />
+      </span>
 
-      <style>
-        {`
-          @keyframes marquee-stats-left {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
-          }
-          @keyframes marquee-stats-right {
-            0% { transform: translate3d(-50%, 0, 0); }
-            100% { transform: translate3d(0, 0, 0); }
-          }
-          .animate-marquee-left {
-            display: flex;
-            width: fit-content;
-            animation: marquee-stats-left 46s linear infinite;
-            will-change: transform;
-          }
-          .animate-marquee-right {
-            display: flex;
-            width: fit-content;
-            animation: marquee-stats-right 46s linear infinite;
-            will-change: transform;
-          }
-          .animate-marquee-left:hover,
-          .animate-marquee-right:hover {
-            animation-play-state: paused;
-          }
-        `}
-      </style>
+      {/* Metric value — high contrast dark text */}
+      <span className="ml-3 font-sans text-[17px] font-extrabold tracking-tight text-[#0d2a21] tabular-nums leading-none whitespace-nowrap">
+        {item.value}
+      </span>
 
-      {/* Row 1: Leftwards Gliding Marquee */}
-      <div className="animate-marquee-left items-center gap-4 px-1.5">
-        {row1Items.map((stat, idx) => {
-          const Icon = stat.icon;
-          return (
-            <div
-              key={`row1-${idx}`}
-              className="group flex items-start gap-3.5 rounded-2xl border border-[#143d31]/12 bg-white p-4 shadow-[0_4px_18px_rgba(20,61,49,0.03)] transition-all duration-300 hover:border-[#143d31]/25 hover:shadow-[0_12px_32px_rgba(20,61,49,0.09)] hover:-translate-y-1.5 hover:scale-[1.02] shrink-0 cursor-default select-none min-w-[310px]"
-            >
-              {/* Soft Icon Container */}
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31]/5 text-[#143d31] transition-all duration-300 group-hover:bg-gradient-to-tr group-hover:from-[#143d31] group-hover:to-[#2d6a4f] group-hover:text-white group-hover:scale-110 group-hover:rotate-[6deg] group-hover:shadow-sm">
-                <Icon weight="bold" className="h-4.5 w-4.5" />
-              </div>
+      {/* Divider line */}
+      <span className="mx-3.5 h-4.5 w-[1.5px] bg-[#143d31]/20 shrink-0" />
 
-              {/* Text Area */}
-              <div className="flex flex-col text-left">
-                {/* Top Row: Value + Label */}
-                <div className="flex items-center gap-2">
-                  <span className="font-serif text-[17px] font-bold italic tracking-tight text-[#143d31] leading-none transition-colors duration-300 group-hover:text-emerald-900">
-                    <CountUp to={stat.value} prefix={stat.prefix} suffix={stat.suffix} duration={2.5} />
-                  </span>
-                  <span className="h-3 w-px bg-[#143d31]/15 transition-all duration-300 group-hover:bg-[#143d31]/30 group-hover:scale-y-110" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.12em] text-[#5d7d37] uppercase leading-none transition-colors duration-300 group-hover:text-[#143d31]">
-                    {stat.label}
-                  </span>
-                </div>
+      {/* Label — crisp, dark, highly readable */}
+      <span className="mr-4 font-sans text-[12px] font-bold tracking-wider text-[#143d31]/90 whitespace-nowrap leading-none uppercase">
+        {item.label}
+      </span>
+    </div>
+  );
+}
 
-                {/* Bottom Row: Description */}
-                <span className="font-sans text-[11px] text-[#4f624f]/85 leading-normal mt-1.5 font-normal transition-colors duration-300 group-hover:text-slate-700">
-                  {stat.desc}
-                </span>
-              </div>
-            </div>
-          );
-        })}
+interface InteractiveMarqueeTrackProps {
+  items: StatItem[];
+  baseSpeed: number; // Pixels per frame (e.g., -0.9 for left, 0.9 for right)
+  className?: string;
+}
+
+function InteractiveMarqueeTrack({
+  items,
+  baseSpeed,
+  className = "",
+}: InteractiveMarqueeTrackProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const xRef = useRef(0);
+  const isDraggingRef = useRef(false);
+  const isHoveredRef = useRef(false);
+  const lastXRef = useRef(0);
+  const dragMomentumRef = useRef(0);
+
+  // 6 repetitions ensure seamless infinite looping on any display width
+  const repeatedItems = [
+    ...items,
+    ...items,
+    ...items,
+    ...items,
+    ...items,
+    ...items,
+  ];
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const onTick = (_time: number, deltaTime: number) => {
+      if (!track) return;
+
+      const singleLoopWidth = track.scrollWidth / 2;
+      if (singleLoopWidth <= 0) return;
+
+      const dtFactor = Math.min(deltaTime / 16.667, 2.5);
+
+      if (!isDraggingRef.current) {
+        // Slow down slightly on hover for easy reading
+        const currentBase = isHoveredRef.current ? baseSpeed * 0.3 : baseSpeed;
+
+        // Advance position by base speed + drag momentum
+        xRef.current += (currentBase + dragMomentumRef.current) * dtFactor;
+
+        // Smooth physics damping on drag release
+        dragMomentumRef.current *= Math.pow(0.88, dtFactor);
+
+        if (Math.abs(dragMomentumRef.current) < 0.01) dragMomentumRef.current = 0;
+      }
+
+      // Infinite seamless loop wrapping
+      while (xRef.current <= -singleLoopWidth) {
+        xRef.current += singleLoopWidth;
+      }
+      while (xRef.current > 0) {
+        xRef.current -= singleLoopWidth;
+      }
+
+      track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
+    };
+
+    gsap.ticker.add(onTick);
+
+    return () => {
+      gsap.ticker.remove(onTick);
+    };
+  }, [baseSpeed]);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    isDraggingRef.current = true;
+    lastXRef.current = e.clientX;
+    dragMomentumRef.current = 0;
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    const delta = e.clientX - lastXRef.current;
+    xRef.current += delta;
+    dragMomentumRef.current = delta * 1.1;
+    lastXRef.current = e.clientX;
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  return (
+    <div
+      className={`relative w-full cursor-grab select-none active:cursor-grabbing ${className}`}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onMouseEnter={() => {
+        isHoveredRef.current = true;
+      }}
+      onMouseLeave={() => {
+        isHoveredRef.current = false;
+      }}
+    >
+      <div
+        ref={trackRef}
+        className="flex w-max items-center gap-4 will-change-transform"
+        style={{ transform: "translate3d(0, 0, 0)" }}
+      >
+        {repeatedItems.map((stat, idx) => (
+          <StatPill key={`${stat.label}-${idx}`} item={stat} />
+        ))}
       </div>
+    </div>
+  );
+}
 
-      {/* Row 2: Rightwards Gliding Marquee */}
-      <div className="animate-marquee-right items-center gap-4 px-1.5">
-        {row2Items.map((stat, idx) => {
-          const Icon = stat.icon;
-          return (
-            <div
-              key={`row2-${idx}`}
-              className="group flex items-start gap-3.5 rounded-2xl border border-[#143d31]/12 bg-white p-4 shadow-[0_4px_18px_rgba(20,61,49,0.03)] transition-all duration-300 hover:border-[#143d31]/25 hover:shadow-[0_12px_32px_rgba(20,61,49,0.09)] hover:-translate-y-1.5 hover:scale-[1.02] shrink-0 cursor-default select-none min-w-[310px]"
-            >
-              {/* Soft Icon Container */}
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#143d31]/5 text-[#143d31] transition-all duration-300 group-hover:bg-gradient-to-tr group-hover:from-[#143d31] group-hover:to-[#2d6a4f] group-hover:text-white group-hover:scale-110 group-hover:rotate-[6deg] group-hover:shadow-sm">
-                <Icon weight="bold" className="h-4.5 w-4.5" />
-              </div>
+export default function SectionStatsMarquee() {
+  return (
+    <section className="relative w-full overflow-hidden bg-[#fafbf7] py-6 md:py-8">
+      {/* Edge fade masks */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-52 bg-gradient-to-r from-[#fafbf7] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-52 bg-gradient-to-l from-[#fafbf7] to-transparent" />
 
-              {/* Text Area */}
-              <div className="flex flex-col text-left">
-                {/* Top Row: Value + Label */}
-                <div className="flex items-center gap-2">
-                  <span className="font-serif text-[17px] font-bold italic tracking-tight text-[#143d31] leading-none transition-colors duration-300 group-hover:text-emerald-900">
-                    <CountUp to={stat.value} prefix={stat.prefix} suffix={stat.suffix} duration={2.5} />
-                  </span>
-                  <span className="h-3 w-px bg-[#143d31]/15 transition-all duration-300 group-hover:bg-[#143d31]/30 group-hover:scale-y-110" />
-                  <span className="font-mono text-[9px] font-bold tracking-[0.12em] text-[#5d7d37] uppercase leading-none transition-colors duration-300 group-hover:text-[#143d31]">
-                    {stat.label}
-                  </span>
-                </div>
+      {/* Row 1: slides left (baseSpeed < 0) */}
+      <InteractiveMarqueeTrack
+        items={row1}
+        baseSpeed={-0.9}
+        className="mb-3.5 px-3"
+      />
 
-                {/* Bottom Row: Description */}
-                <span className="font-sans text-[11px] text-[#4f624f]/85 leading-normal mt-1.5 font-normal transition-colors duration-300 group-hover:text-slate-700">
-                  {stat.desc}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {/* Row 2: slides right (baseSpeed > 0) */}
+      <InteractiveMarqueeTrack
+        items={row2}
+        baseSpeed={0.8}
+        className="px-3"
+      />
     </section>
   );
 }
