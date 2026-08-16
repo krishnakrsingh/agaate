@@ -41,9 +41,9 @@ export const COMPANY_LINKS = [
 
 export const EXPLORE_LINKS = [
   { href: "/community", labelKey: "nav.community", fallback: "Farmer Community" },
-  { href: "/services/nursery", labelKey: "servicesSub.nursery", fallback: "Bio-Boosted Nursery" },
-  { href: "/services/kisaan-mall", labelKey: "servicesSub.kisaanMall", fallback: "Kisaan Mall" },
-  { href: "/services/farm-tech", labelKey: "servicesSub.farmTech", fallback: "Farm Tech & IoT" },
+  { href: "/services#nursery", labelKey: "servicesSub.nursery", fallback: "Bio-Boosted Nursery" },
+  { href: "/services#kisaan-mall", labelKey: "servicesSub.kisaanMall", fallback: "Kisaan Mall" },
+  { href: "/services#farm-tech", labelKey: "servicesSub.farmTech", fallback: "Farm Tech & IoT" },
 ];
 
 export const CONTACT_DETAILS = {

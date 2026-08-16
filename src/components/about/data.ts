@@ -113,7 +113,7 @@ export const whatWeDo = [
     title: "Science-Backed Decisions",
     desc: "Helping farmers understand their crops and reduce losses.",
     icon: Flask,
-    href: "/services/nursery",
+    href: "/services#nursery",
   },
   {
     id: "partners",
@@ -127,7 +127,7 @@ export const whatWeDo = [
     title: "Agaate Kisaan Mall",
     desc: "One place for all essential agri inputs.",
     icon: ShoppingBag,
-    href: "/services/kisaan-mall",
+    href: "/services#kisaan-mall",
   },
 ];
 

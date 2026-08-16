@@ -1,45 +1,30 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  ServicesHero,
-  ServicesGrid,
-  CropJourneyStepper,
-  SowingComparisonCalculator,
-  ServicesImpactMetrics,
-} from "@/components/services-overview";
+import { ServicesUnifiedMaster } from "@/components/services-unified";
 
 export const Route = createFileRoute("/{-$locale}/services/")({
   head: () => ({
     meta: [
-      { title: "Agricultural Services & Smart Agri Solutions | Agaate" },
+      { title: "All 6 Agricultural Services & Smart Solutions | Agaate" },
       {
         name: "description",
         content:
-          "End-to-end scientific farming services from Bio-Boosted plug nursery, Kisaan Mall inputs, AI field advisory, carbon credits, turnkey farm setups, to guaranteed market linkages.",
+          "India's premier end-to-end scientific farming platform: Bio-Boosted plug nursery, Kisaan Mall inputs, IoT farm tech & drone scans, verified carbon credits, turnkey farm setups, and guaranteed buyback floor pricing.",
       },
     ],
   }),
-  component: ServicesOverview,
+  component: ServicesPage,
 });
 
-function ServicesOverview() {
-  const { locale } = useParams({ strict: false }) as { locale?: string };
-  const currentLang = locale ?? "en";
-
+function ServicesPage() {
   return (
     <main className="flex min-h-screen flex-col bg-cream font-sans text-ink antialiased">
       <Header />
-      <ServicesHero currentLang={currentLang} />
-      <div className="mx-auto w-full max-w-7xl flex-grow space-y-32 px-6 py-24 lg:px-12">
-        <ServicesGrid currentLang={currentLang} />
-        <CropJourneyStepper />
-        <SowingComparisonCalculator />
-        <ServicesImpactMetrics currentLang={currentLang} />
-      </div>
+      <ServicesUnifiedMaster />
       <Footer />
     </main>
   );
 }
 
-export default ServicesOverview;
+export default ServicesPage;

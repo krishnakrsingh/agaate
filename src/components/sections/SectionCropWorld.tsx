@@ -38,7 +38,7 @@ const stages: StageData[] = [
     desc: "Pathogen-free, climate-controlled plug nurseries inoculated with Trichoderma & Mycorrhiza for 100% strong crop start.",
     metrics: ["98% Survival Rate", "15 Days Saved"],
     ctaText: "Order Nursery Seedlings",
-    ctaLink: "/services/nursery",
+    ctaLink: "/services#nursery",
   },
   {
     num: "02",
@@ -49,7 +49,7 @@ const stages: StageData[] = [
     desc: "Field mapping and custom fertigation schedules that maximize root-zone nutrient absorption and stop water waste.",
     metrics: ["35% Water Saved", "Optimal Root Setup"],
     ctaText: "Book Soil & Drip Audit",
-    ctaLink: "/services/farm-tech",
+    ctaLink: "/services#farm-tech",
   },
   {
     num: "03",
@@ -60,7 +60,7 @@ const stages: StageData[] = [
     desc: "Real-time photo pest diagnosis via Agaate App + 100% authentic bio-inputs delivered from your local Kisaan Mall.",
     metrics: ["40% Chemical Savings", "< 15-Min Advisory"],
     ctaText: "Talk to Agronomist",
-    ctaLink: "/services/farm-tech",
+    ctaLink: "/services#farm-tech",
   },
   {
     num: "04",
@@ -71,7 +71,7 @@ const stages: StageData[] = [
     desc: "Stage-wise micronutrient boosting to maximize flower retention, uniform fruit sizing, and peak harvest quality.",
     metrics: ["+25% Yield Increase", "Grade-A Crop Quality"],
     ctaText: "Get Fertigation Plan",
-    ctaLink: "/services/kisaan-mall",
+    ctaLink: "/services#kisaan-mall",
   },
   {
     num: "05",
@@ -82,7 +82,7 @@ const stages: StageData[] = [
     desc: "Direct buyer buyback contracts for hotels, exporters, and retail chains with digital weighment and instant payouts.",
     metrics: ["+20% Net Income", "Zero Mandi Cut"],
     ctaText: "Connect with Buyers",
-    ctaLink: "/services/market-linkage",
+    ctaLink: "/services#market-linkage",
   },
 ];
 

@@ -170,7 +170,7 @@ export default function ImpactScaleReach() {
 
             <div className="pt-2">
               <Link
-                to={getLocalizedPath("/services/farm-tech", currentLang) as any}
+                to={getLocalizedPath("/services#farm-tech", currentLang) as any}
                 className="group inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#143d31] px-6 py-3 text-xs font-extrabold text-white shadow-xs transition-all duration-300 hover:bg-[#5d7d37] active:scale-95"
               >
                 <span>Explore Agaate Impact</span>

@@ -39,7 +39,7 @@ export const SERVICES: ServiceItem[] = [
     tag: "Nursery",
     badgeStat: "+40%",
     badgeLabel: "Survival vs Direct Sowing",
-    href: "/services/nursery",
+    href: "/services#nursery",
     highlights: [
       "Sterile Plug Chamber Germination",
       "Biological Root Inoculation (VAM)",
@@ -56,7 +56,7 @@ export const SERVICES: ServiceItem[] = [
     tag: "Inputs",
     badgeStat: "500+",
     badgeLabel: "Direct Agri SKUs",
-    href: "/services/kisaan-mall",
+    href: "/services#kisaan-mall",
     highlights: [
       "Direct Manufacturer Pricing",
       "Soil EC/pH Prescribed Dosage",
@@ -73,7 +73,7 @@ export const SERVICES: ServiceItem[] = [
     tag: "Tech & AI",
     badgeStat: "Real-Time",
     badgeLabel: "Field Telemetry & Alerts",
-    href: "/services/farm-tech",
+    href: "/services#farm-tech",
     highlights: [
       "WhatsApp Crop Advisory",
       "AI Leaf Disease Diagnostics",
@@ -90,7 +90,7 @@ export const SERVICES: ServiceItem[] = [
     tag: "Sustainability",
     badgeStat: "1 Credit",
     badgeLabel: "Per Tonne CO2 Saved",
-    href: "/services/carbon-credits",
+    href: "/services#carbon-credits",
     highlights: [
       "Full MRV (Measure/Report/Verify)",
       "No Extra Land Required",
@@ -107,7 +107,7 @@ export const SERVICES: ServiceItem[] = [
     tag: "Projects",
     badgeStat: "Turnkey",
     badgeLabel: "Land to Harvest Execution",
-    href: "/services/big-farm-setup",
+    href: "/services#big-farm-setup",
     highlights: [
       "15,000+ Acres Managed",
       "Drip & Fertigation Infrastructure",
@@ -124,7 +124,7 @@ export const SERVICES: ServiceItem[] = [
     tag: "Market Linkage",
     badgeStat: "0%",
     badgeLabel: "Middleman Commission",
-    href: "/services/market-linkage",
+    href: "/services#market-linkage",
     highlights: [
       "Guaranteed Floor Pricing",
       "Handpick Buyer Integration",
