@@ -5,10 +5,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const headlines = [
-  "Every farmer faces moments where guesswork costs money.",
-  "Wrong spray. Weak seeds. Zero guidance.",
-  "One bad call costs an entire season.",
-  "We replace guesswork with proof.",
+  "What if your crops could talk?",
+  "No guessing. No lost yields.",
+  "Just real science on the ground.",
 ];
 
 export default function FieldSignal() {
@@ -158,7 +157,7 @@ export default function FieldSignal() {
 
   return (
     <section ref={sectionRef} id="start-here" className="relative bg-[#fafbf7]">
-      <div className="h-[450vh] w-full relative">
+      <div className="h-[320vh] w-full relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           {headlines.map((text, i) => (
             <div
@@ -170,7 +169,7 @@ export default function FieldSignal() {
               <div className="max-w-5xl mx-auto">
                 <h2
                   ref={(el) => setHeadlineRef(el, i)}
-                  className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tight text-[#143d31] leading-[1.08] [text-wrap:balance]"
+                  className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-medium tracking-[-0.035em] text-[#174436] leading-[1.06] [text-wrap:balance]"
                 >
                   {text}
                 </h2>
