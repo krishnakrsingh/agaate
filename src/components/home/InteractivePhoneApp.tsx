@@ -977,31 +977,42 @@ export default function InteractivePhoneApp({
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id as any)}
-                  className={`group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
-                    isActive ? "bg-[#143d31] px-3.5 py-1.5" : "bg-transparent p-2 hover:bg-gray-100/50"
-                  }`}
-                >
-                  <Icon 
-                    className={`h-[18px] w-[18px] shrink-0 transition-colors duration-300 ${
-                      isActive ? "text-[#a3e635]" : "text-[#143d31]/40 group-hover:text-[#143d31]/70"
-                    }`} 
-                    weight={isActive ? "fill" : "regular"}
-                  />
-                  <div
-                    className={`flex items-center overflow-hidden transition-all duration-300 ease-out ${
-                      isActive ? "ml-1.5 max-w-[80px] opacity-100" : "max-w-0 opacity-0"
+              if (item.id === "chat") {
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab("chat")}
+                    className={`group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
+                      isActive ? "bg-[#143d31] px-3.5 py-1.5" : "bg-transparent p-2 hover:bg-gray-100/50"
                     }`}
                   >
-                    <span className="whitespace-nowrap text-[11px] font-bold text-white">
-                      {item.label}
-                    </span>
+                    <Icon 
+                      className={`h-[18px] w-[18px] shrink-0 transition-colors duration-300 ${
+                        isActive ? "text-[#a3e635]" : "text-[#143d31]/40 group-hover:text-[#143d31]/70"
+                      }`} 
+                      weight={isActive ? "fill" : "regular"}
+                    />
+                    <div
+                      className={`flex items-center overflow-hidden transition-all duration-300 ease-out ${
+                        isActive ? "ml-1.5 max-w-[80px] opacity-100" : "max-w-0 opacity-0"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap text-[11px] font-bold text-white">
+                        {item.label}
+                      </span>
+                    </div>
+                  </button>
+                );
+              } else {
+                return (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-center p-2 text-[#143d31]/30 select-none cursor-default"
+                  >
+                    <Icon className="h-[18px] w-[18px] shrink-0" weight="regular" />
                   </div>
-                </button>
-              );
+                );
+              }
             })}
           </div>
         </div>
