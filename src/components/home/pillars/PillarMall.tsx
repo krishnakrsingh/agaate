@@ -12,9 +12,9 @@ export default function PillarMall() {
     <section
       ref={sectionRef}
       id="pillar-mall"
-      className="relative bg-[#f4f8f5] py-16 sm:py-20 lg:py-28 border-t border-[#143d31]/10 overflow-hidden"
+      className="sticky top-0 z-30 min-h-screen flex items-center justify-center bg-[#f4f8f5] py-20 sm:py-24 lg:py-28 border-t border-[#143d31]/10 rounded-t-[32px] sm:rounded-t-[44px] shadow-[0_-20px_50px_rgba(20,61,49,0.12)] overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 w-full">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
           {/* Text Column (Left on Desktop) */}
           <motion.div

@@ -12,11 +12,10 @@ import {
   PillarNursery,
   PillarMall,
   PillarMarket,
-  PeopleChapter,
   AppChapter,
-  MallChapter,
   AgriParkChapter,
   BrandsAssociationsChapter,
+  PeopleChapter,
   ProofChapter,
   ClosingChapter,
 } from "@/components/home";
@@ -80,37 +79,36 @@ function Index() {
         {/* Defer rendering heavy components until hero animation completes to prevent initial loading screen lag */}
         {contentReady && (
           <>
-            {/* Stats Marquee Section (Moved back above) */}
+            {/* Section 2: Stats Marquee */}
             <SectionStatsMarquee />
 
-            {/* Section 2: Farmer pain points — establish empathy & problem */}
+            {/* Section 3: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
 
-            {/* Section 3: The 4 Core Integrated Pillars */}
-            <PillarAdvisory />
-            <PillarNursery />
-            <PillarMall />
-            <PillarMarket />
+            {/* Section 4: The 4 Core Integrated Pillars (Parallax Section-Over-Section Stack) */}
+            <div className="relative">
+              <PillarAdvisory />
+              <PillarNursery />
+              <PillarMall />
+              <PillarMarket />
+            </div>
 
-            {/* Section 4: Who Agaate is — impact numbers, founder vision & leadership */}
-            <PeopleChapter />
-
-            {/* Section 4: Talk to Agronomist App — first digital solution */}
+            {/* Section 5: Agaate Mobile App — Interactive Digital Experience */}
             <AppChapter />
 
-            {/* Section 5: Section 03 AGAATE MALL — Direct Input Commerce */}
-            <MallChapter />
-
-            {/* Section 6: Agri Park & Bio-Boosted Nursery — smart nursery & physical proof */}
+            {/* Section 6: Physical Proof — 17-Acre Smart Nursery & Agri Park Demonstration */}
             <AgriParkChapter />
 
-            {/* Section 7: Brands & Associations — partners, customers, veg buyers */}
+            {/* Section 7: Brands & Associations — Partners, Customers & Veg Buyers */}
             <BrandsAssociationsChapter />
 
-            {/* Section 8: Farmer testimonials */}
+            {/* Section 8: Who We Are — Founder Vision & Leadership Team */}
+            <PeopleChapter />
+
+            {/* Section 9: Farmer Testimonials & Reviews */}
             <ProofChapter />
 
-            {/* Section 9: Final conversion — three clear action paths */}
+            {/* Section 10: Final Conversion — Three Clear Action Paths */}
             <ClosingChapter />
 
             {/* Footer */}
