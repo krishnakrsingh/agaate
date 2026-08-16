@@ -95,7 +95,7 @@ export function Header() {
             rel="noopener noreferrer"
             className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#a3e635] px-5 font-body text-sm font-semibold text-[#0d2820] shadow-sm transition-colors hover:bg-[#91d820]"
           >
-            <span>{t("nav.contactUs", "Let's talk")}</span>
+            <span>{t("nav.contact", "Contact")}</span>
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
 

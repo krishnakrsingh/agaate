@@ -91,7 +91,7 @@ function Index() {
             {/* Section 6: Physical Proof — 17-Acre Smart Nursery & Agri Park Demonstration */}
             <AgriParkChapter />
 
-            {/* Section 7: Brands & Associations — Partners, Customers & Veg Buyers */}
+            {/* Section 7: Brands & Associations — Partners, Customers & Market Access */}
             <BrandsAssociationsChapter />
 
             {/* Section 8: Who We Are — Founder Vision & Leadership Team */}
