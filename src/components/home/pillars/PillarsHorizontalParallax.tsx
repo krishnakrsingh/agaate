@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -6,7 +6,6 @@ import { useGSAP } from "@gsap/react";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { CountUp, TiltCard, MagneticButton } from "@/components/common/motion";
 import KisaanMallShowcase from "../KisaanMallShowcase";
-import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -126,7 +125,6 @@ const PILLARS_DATA: PillarData[] = [
 export default function PillarsHorizontalParallax() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   useGSAP(
     () => {
@@ -157,13 +155,6 @@ export default function PillarsHorizontalParallax() {
               ease: "power2.out",
             },
             invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              const idx = Math.min(
-                panelsCount - 1,
-                Math.max(0, Math.round(self.progress * (panelsCount - 1))),
-              );
-              setActiveIndex(idx);
-            },
           },
         });
 
@@ -176,19 +167,6 @@ export default function PillarsHorizontalParallax() {
     },
     { scope: containerRef },
   );
-
-  const goToSlide = (index: number) => {
-    const st = ScrollTrigger.getById("pillars-horizontal-st");
-    if (st) {
-      const start = st.start;
-      const end = st.end;
-      const targetScroll = start + (index / (PILLARS_DATA.length - 1)) * (end - start);
-      window.scrollTo({
-        top: targetScroll,
-        behavior: "smooth",
-      });
-    }
-  };
 
   return (
     <section
@@ -301,33 +279,6 @@ export default function PillarsHorizontalParallax() {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Desktop Slide Indicator & Quick Navigation */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 hidden md:flex items-center gap-1.5 rounded-full bg-[#143d31]/85 p-1.5 backdrop-blur-md border border-white/10 shadow-xl">
-          {PILLARS_DATA.map((p, i) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => goToSlide(i)}
-              className={cn(
-                "flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all duration-300 cursor-pointer",
-                activeIndex === i
-                  ? "bg-[#a3e635] text-[#143d31] shadow-sm"
-                  : "text-white/70 hover:text-white hover:bg-white/10",
-              )}
-              aria-label={`Jump to Pillar ${p.number}: ${p.tag}`}
-            >
-              <span className="font-mono text-[11px]">{p.number}</span>
-              <span
-                className={
-                  activeIndex === i ? "inline font-sans text-xs" : "hidden lg:inline font-sans text-xs"
-                }
-              >
-                {p.tag}
-              </span>
-            </button>
           ))}
         </div>
       </div>
