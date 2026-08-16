@@ -184,7 +184,7 @@ export default function BrandsAssociationsChapter() {
           <div
             role="tablist"
             aria-label="Brand categories"
-            className="mx-auto mt-12 flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-[24px] bg-[#f4f7ef]/60 p-2 ring-1 ring-[#143d31]/5 backdrop-blur-sm"
+            className="mx-auto mt-12 flex w-fit max-w-full items-center justify-center gap-1.5 sm:gap-2 rounded-[24px] bg-[#f4f7ef]/60 p-1.5 sm:p-2 ring-1 ring-[#143d31]/5 backdrop-blur-sm overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-nowrap"
           >
             {TABS.map((item) => {
               const Icon = item.icon;
@@ -197,7 +197,7 @@ export default function BrandsAssociationsChapter() {
                   aria-selected={selected}
                   onClick={() => setTab(item.id)}
                   className={cn(
-                    "relative z-10 inline-flex items-center gap-2 rounded-[20px] px-5 py-3 text-sm font-bold transition-colors duration-300 focus-visible:outline-none sm:px-7",
+                    "relative z-10 inline-flex items-center gap-1.5 sm:gap-2 rounded-[20px] px-3.5 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-bold transition-colors duration-300 focus-visible:outline-none whitespace-nowrap",
                     selected ? "text-white" : "text-[#143d31]/60 hover:text-[#143d31]"
                   )}
                 >
