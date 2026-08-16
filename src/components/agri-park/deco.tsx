@@ -1,4 +1,4 @@
-import { motion } from "@/components/common/motion";
+import { motion } from "framer-motion";
 
 export function Orb({
   from,

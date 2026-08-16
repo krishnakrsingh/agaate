@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Stack,
   Target,
-  Wallet
+  Wallet,
 } from "@phosphor-icons/react";
 
 export const RATE = 1200; // ₹ per tCO2e credit

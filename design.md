@@ -40,13 +40,17 @@ Base `--radius: 0.25rem`; scale `sm / md / lg / xl / 2xl / 3xl / 4xl` derived fr
 The home page leverages a combination of **GSAP** and **Framer Motion** to deliver a dynamic, premium feel without compromising on performance.
 
 ### 1. GSAP (Scroll, Sequence, and Layout)
+
 GSAP is used for heavy-lifting, scroll-linked animations, and complex timelines.
+
 - **Dynamic Reveals**: The `useHomeChapterReveal` hook now accepts variants (`fade-up`, `slide-right`, `slide-left`, `scale-up`, `3d-flip`) to break up the monotony of simple scroll reveals. For instance, the `PeopleChapter` slides in from the left, while `AppChapter` enters from the right.
 - **Scroll Pinning**: The `InteractivePhoneApp` in `AppChapter` utilizes native CSS layout sticky pinning combined with GSAP entrance effects. This keeps the phone fixed in the viewport while the chapter text scrolls, providing a highly engaging scrub storytelling format.
 - **Parallax Imagery**: The `AgriParkChapter` integrates `ScrollTrigger` with `scrub: true` to create a subtle parallax effect on the background image, adding depth to the large 17-acre farm imagery.
 
 ### 2. Framer Motion (Micro-Interactions & UI States)
+
 Framer Motion handles React-state-driven micro-interactions, layout transitions, and drag effects, primarily isolated inside complex components like the `InteractivePhoneApp`.
+
 - **Fluid State Transitions**: The `InteractivePhoneApp` relies on `<AnimatePresence>` and `<motion.div>` for switching between the Chat, Store, and Action views.
 - **Spring Animations**: Chat messages pop in with realistic spring tension as the agronomist replies in real-time.
 - **Stagger Effects**: The `MALL_PRODUCTS` in the Kisaan Mall tab use a staggered reveal (`delay: i * 0.1`) when they appear on screen.

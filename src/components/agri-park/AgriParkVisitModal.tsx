@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   Calendar,
@@ -8,17 +8,11 @@ import {
   Plant,
   QrCode,
   Users,
-  X
+  X,
 } from "@phosphor-icons/react";
-import { EASE, motion } from "@/components/common/motion";
+import { EASE } from "@/components/common/motion";
 
-export function AgriParkVisitModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [visitDate, setVisitDate] = useState("2026-08-18");
   const [visitorType, setVisitorType] = useState("Farmer");
   const [cropFocus, setCropFocus] = useState("Commercial Vegetables");
@@ -81,7 +75,7 @@ export function AgriParkVisitModal({
 
               <div>
                 <span className="font-jet text-[10px] font-bold uppercase tracking-widest text-terracotta block">
-                  VIP Field Pass Reference: #PARK-{(Math.floor(Math.random() * 89999) + 10000)}
+                  VIP Field Pass Reference: #PARK-{Math.floor(Math.random() * 89999) + 10000}
                 </span>
                 <h3 className="font-serif text-3xl font-bold text-forest-deep mt-1">
                   Agri Park Field Visit Registered!
@@ -108,7 +102,9 @@ export function AgriParkVisitModal({
               </div>
 
               <p className="text-xs text-forest/70 max-w-md mx-auto leading-relaxed">
-                Our Kisan Sathi field coordinator will call <span className="font-bold text-forest-deep">{phone || "your number"}</span> to confirm directions and assemble your trial walkthrough itinerary.
+                Our Kisan Sathi field coordinator will call{" "}
+                <span className="font-bold text-forest-deep">{phone || "your number"}</span> to
+                confirm directions and assemble your trial walkthrough itinerary.
               </p>
 
               <div className="pt-4">
@@ -130,7 +126,8 @@ export function AgriParkVisitModal({
                 Book VIP Farm Visit & Field Day
               </h3>
               <p className="text-xs text-forest/70 mt-1 mb-6">
-                Walk through all 8 living innovation zones, observe real crop trial beds, and consult directly with our agronomists.
+                Walk through all 8 living innovation zones, observe real crop trial beds, and
+                consult directly with our agronomists.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">

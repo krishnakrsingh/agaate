@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   Buildings,
@@ -8,9 +8,9 @@ import {
   MapPin,
   Phone,
   Plant,
-  X
+  X,
 } from "@phosphor-icons/react";
-import { EASE, motion } from "@/components/common/motion";
+import { EASE } from "@/components/common/motion";
 
 export function TurnkeyModal({
   isOpen,
@@ -90,13 +90,21 @@ export function TurnkeyModal({
                 <CheckCircle className="h-10 w-10" />
               </div>
               <span className="font-jet text-[10px] font-bold uppercase tracking-widest text-terracotta block">
-                Reference ID: #ESTATE-{(Math.floor(Math.random() * 89999) + 10000)}
+                Reference ID: #ESTATE-{Math.floor(Math.random() * 89999) + 10000}
               </span>
               <h3 className="font-serif text-3xl font-bold text-forest-deep">
                 Turnkey Consultation Reserved
               </h3>
               <p className="text-sm text-forest/70 max-w-md mx-auto leading-relaxed">
-                Thank you, <span className="font-bold text-forest-deep">{formData.name || "Valued Investor"}</span>. Our Head of Operations & Senior Commercial Agronomist will contact you at <span className="font-bold text-forest-deep">{formData.phone || "your contact number"}</span> within 24 hours to schedule a site elevation survey.
+                Thank you,{" "}
+                <span className="font-bold text-forest-deep">
+                  {formData.name || "Valued Investor"}
+                </span>
+                . Our Head of Operations & Senior Commercial Agronomist will contact you at{" "}
+                <span className="font-bold text-forest-deep">
+                  {formData.phone || "your contact number"}
+                </span>{" "}
+                within 24 hours to schedule a site elevation survey.
               </p>
               <div className="pt-6">
                 <button
@@ -117,7 +125,8 @@ export function TurnkeyModal({
                 Request Turnkey Farm Feasibility
               </h3>
               <p className="text-xs text-forest/70 mt-1 mb-6">
-                Step {step} of 3 — Complete this brief profile to receive a customized CapEx roadmap.
+                Step {step} of 3 — Complete this brief profile to receive a customized CapEx
+                roadmap.
               </p>
 
               {/* Progress Bar */}
@@ -130,7 +139,11 @@ export function TurnkeyModal({
 
               <form onSubmit={handleNext} className="space-y-5">
                 {step === 1 && (
-                  <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
+                  <motion.div
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="space-y-4"
+                  >
                     <div>
                       <label className="block text-xs font-mono font-bold uppercase text-forest/70 mb-1.5">
                         Full Name / Organization *
@@ -176,7 +189,11 @@ export function TurnkeyModal({
                 )}
 
                 {step === 2 && (
-                  <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
+                  <motion.div
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="space-y-4"
+                  >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-mono font-bold uppercase text-forest/70 mb-1.5">
@@ -226,7 +243,11 @@ export function TurnkeyModal({
                 )}
 
                 {step === 3 && (
-                  <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
+                  <motion.div
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="space-y-4"
+                  >
                     <div>
                       <label className="block text-xs font-mono font-bold uppercase text-forest/70 mb-1.5">
                         Target Crop Focus
@@ -267,7 +288,9 @@ export function TurnkeyModal({
                     >
                       Back
                     </button>
-                  ) : <div />}
+                  ) : (
+                    <div />
+                  )}
 
                   <button
                     type="submit"

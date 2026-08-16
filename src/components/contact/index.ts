@@ -6,5 +6,6 @@ export { default as FacilitiesSection } from "./FacilitiesSection";
 export { default as TrustBand } from "./TrustBand";
 export { default as ContactFaq } from "./ContactFaq";
 export { default as CtaBanner } from "./CtaBanner";
-export { ToastProvider, useToast } from "./Toast";
+export { ToastProvider } from "./Toast";
+export { useToast, type ToastKind, type ToastItem, type ToastContextValue } from "./toast-context";
 export * from "./data";

@@ -79,9 +79,7 @@ export default function CtaBanner() {
                 className="relative z-10 w-full max-w-[420px]"
                 animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
                 transition={
-                  reduceMotion
-                    ? undefined
-                    : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
+                  reduceMotion ? undefined : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
                 }
               >
                 <img

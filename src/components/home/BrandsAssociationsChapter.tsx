@@ -175,7 +175,8 @@ export default function BrandsAssociationsChapter() {
               Brands &amp; Associations
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#536253]">
-              The companies, farmer networks, and market channels that power Agaate from seed to sale.
+              The companies, farmer networks, and market channels that power Agaate from seed to
+              sale.
             </p>
           </div>
         </Reveal>
@@ -198,7 +199,7 @@ export default function BrandsAssociationsChapter() {
                   onClick={() => setTab(item.id)}
                   className={cn(
                     "relative z-10 inline-flex items-center gap-2 rounded-[18px] px-4 py-2.5 text-xs sm:text-sm font-bold transition-colors duration-300 focus-visible:outline-none sm:px-6 sm:py-2.5",
-                    selected ? "text-white" : "text-[#143d31]/60 hover:text-[#143d31]"
+                    selected ? "text-white" : "text-[#143d31]/60 hover:text-[#143d31]",
                   )}
                 >
                   {selected && (
@@ -245,7 +246,10 @@ export default function BrandsAssociationsChapter() {
             >
               {useDualRow ? (
                 <>
-                  <Marquee pauseOnHover className="[--duration:50s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5">
+                  <Marquee
+                    pauseOnHover
+                    className="[--duration:50s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
+                  >
                     {logos.slice(0, Math.ceil(logos.length / 2)).map((brand) => (
                       <BrandTile key={`${tab}-a-${brand.name}`} brand={brand} />
                     ))}
@@ -261,7 +265,10 @@ export default function BrandsAssociationsChapter() {
                   </Marquee>
                 </>
               ) : (
-                <Marquee pauseOnHover className="[--duration:45s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5">
+                <Marquee
+                  pauseOnHover
+                  className="[--duration:45s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
+                >
                   {logos.map((brand) => (
                     <BrandTile key={`${tab}-${brand.name}`} brand={brand} />
                   ))}

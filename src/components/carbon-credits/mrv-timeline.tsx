@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { EASE, motion, useScroll, useSpring } from "@/components/common/motion";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { EASE } from "@/components/common/motion";
 import { mrvSteps } from "./data";
 
 export function MrvTimeline() {

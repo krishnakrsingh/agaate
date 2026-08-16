@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   CaretRight,
   CheckCircle,
@@ -11,9 +11,9 @@ import {
   ShieldCheck,
   Sliders,
   TrendUp,
-  Users
+  Users,
 } from "@phosphor-icons/react";
-import { EASE, motion, CountUp } from "@/components/common/motion";
+import { EASE, CountUp } from "@/components/common/motion";
 
 export function TabSwitcher({
   activeTab,
@@ -114,7 +114,8 @@ export function CalculatorPanel({
   const totalPlugs = Math.round(acres * preset.plugsPerAcre);
   const estimatedManpower = Math.max(2, Math.round((acres / 10) * preset.laborPer10Acres));
   const estimatedYieldTons = Math.round(acres * preset.yieldPerAcreTons);
-  const grossRevenueLakhs = Math.round(((estimatedYieldTons * preset.revenuePerTon) / 100000) * 10) / 10;
+  const grossRevenueLakhs =
+    Math.round(((estimatedYieldTons * preset.revenuePerTon) / 100000) * 10) / 10;
   const netProfitLakhs = Math.round(grossRevenueLakhs * 0.45 * 10) / 10; // ~45% net margin
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -146,8 +147,8 @@ export function CalculatorPanel({
           Commercial Farm Cost & ROI Estimator
         </h3>
         <p className="text-sm text-forest/70 mt-1 max-w-2xl">
-          Adjust acreage and crop selection to dynamically project infrastructure capital investment,
-          plug seedling requirements, SOP labor schedule, and expected harvest returns.
+          Adjust acreage and crop selection to dynamically project infrastructure capital
+          investment, plug seedling requirements, SOP labor schedule, and expected harvest returns.
         </p>
       </div>
 
@@ -158,9 +159,12 @@ export function CalculatorPanel({
           <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
             <div className="flex items-center justify-between mb-2">
               <label className="text-xs font-mono font-bold uppercase text-forest/70">
-                Total Land Size: <span className="text-forest-deep font-serif text-xl font-bold">{acres} Acres</span>
+                Total Land Size:{" "}
+                <span className="text-forest-deep font-serif text-xl font-bold">{acres} Acres</span>
               </label>
-              <span className="font-jet text-[10px] text-terracotta font-bold uppercase">5 – 500+ Acres</span>
+              <span className="font-jet text-[10px] text-terracotta font-bold uppercase">
+                5 – 500+ Acres
+              </span>
             </div>
 
             <input
@@ -301,22 +305,48 @@ export function CalculatorPanel({
               </div>
 
               <div className="h-3 w-full rounded-full bg-border overflow-hidden flex">
-                <div className="h-full bg-forest" style={{ width: "35%" }} title="Drip & Fertigation 35%" />
-                <div className="h-full bg-terracotta" style={{ width: "25%" }} title="Mulching & Soil Prep 25%" />
-                <div className="h-full bg-moss" style={{ width: "25%" }} title="Bio Plugs & Inputs 25%" />
-                <div className="h-full bg-forest-deep" style={{ width: "15%" }} title="Telemetry & Storage 15%" />
+                <div
+                  className="h-full bg-forest"
+                  style={{ width: "35%" }}
+                  title="Drip & Fertigation 35%"
+                />
+                <div
+                  className="h-full bg-terracotta"
+                  style={{ width: "25%" }}
+                  title="Mulching & Soil Prep 25%"
+                />
+                <div
+                  className="h-full bg-moss"
+                  style={{ width: "25%" }}
+                  title="Bio Plugs & Inputs 25%"
+                />
+                <div
+                  className="h-full bg-forest-deep"
+                  style={{ width: "15%" }}
+                  title="Telemetry & Storage 15%"
+                />
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-jet text-[9px] uppercase tracking-wider text-forest/70 pt-1">
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-forest" /> Drip (35%)</span>
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-terracotta" /> Beds (25%)</span>
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-moss" /> Seeds (25%)</span>
-                <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-forest-deep" /> AgTech (15%)</span>
+                <span className="flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-full bg-forest" /> Drip (35%)
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-full bg-terracotta" /> Beds (25%)
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-full bg-moss" /> Seeds (25%)
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-full bg-forest-deep" /> AgTech (15%)
+                </span>
               </div>
             </div>
 
             <p className="text-[11px] text-forest/60 italic leading-relaxed">
-              * Note: Estimates are based on empirical historical crop performance from Agaate's 15,000+ acre managed network. Actual returns are customized following a physical soil core and slope survey.
+              * Note: Estimates are based on empirical historical crop performance from Agaate's
+              15,000+ acre managed network. Actual returns are customized following a physical soil
+              core and slope survey.
             </p>
           </div>
         </div>
@@ -341,9 +371,7 @@ function MetricBox({
   return (
     <div
       className={`rounded-2xl border p-4 text-left transition-all ${
-        highlight
-          ? "border-terracotta/30 bg-terracotta/5"
-          : "border-border/60 bg-bone/40"
+        highlight ? "border-terracotta/30 bg-terracotta/5" : "border-border/60 bg-bone/40"
       }`}
     >
       <div className="flex items-center gap-2 mb-1.5">

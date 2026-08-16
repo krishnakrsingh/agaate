@@ -1,17 +1,15 @@
 import { useRef } from "react";
 import { ArrowRight } from "@phosphor-icons/react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   AnimatedHeadline,
   MagneticButton,
-  motion,
   Parallax,
   Reveal,
   SectionHeader,
   Stagger,
   StaggerItem,
   TiltCard,
-  useScroll,
-  useSpring,
 } from "@/components/common/motion";
 import { FIRST_OF_KIND, LIFECYCLE, NURSERY_STORY, ZONES_EIGHT, lifecycleVariants } from "./data";
 import { Orb, PulseRing } from "./deco";

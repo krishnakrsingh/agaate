@@ -12,7 +12,7 @@ import {
   Lock,
   Shield,
   ShieldCheck,
-  Sliders
+  Sliders,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
@@ -34,8 +34,16 @@ const POLICY_SECTIONS = [
     content:
       "Essential cookies are strictly necessary for the technical operation and security of the agaate.in platform. They enable essential functions such as session authentication, secure submission of consultation forms, nursery pre-order processing, and load balancing across our servers. These cookies cannot be disabled without compromising fundamental website functionality.",
     items: [
-      { name: "__agaate_session", purpose: "Maintains secure session state across navigation", duration: "Session" },
-      { name: "__agaate_csrf", purpose: "Protects against Cross-Site Request Forgery attacks", duration: "Session" },
+      {
+        name: "__agaate_session",
+        purpose: "Maintains secure session state across navigation",
+        duration: "Session",
+      },
+      {
+        name: "__agaate_csrf",
+        purpose: "Protects against Cross-Site Request Forgery attacks",
+        duration: "Session",
+      },
     ],
   },
   {
@@ -44,8 +52,16 @@ const POLICY_SECTIONS = [
     content:
       "Agaate serves a diverse demographic of farmers across Haryana, NCR, and neighboring states. To provide an accessible experience, our platform stores your preferred language selection (such as English or Hindi) and regional preferences. This ensures the site automatically opens in your preferred language upon subsequent visits without requiring manual re-selection.",
     items: [
-      { name: "__agaate_locale", purpose: "Stores user selected language preference (en / hi)", duration: "365 Days" },
-      { name: "__agaate_region", purpose: "Stores regional agricultural hub preference (e.g. Gurugram)", duration: "180 Days" },
+      {
+        name: "__agaate_locale",
+        purpose: "Stores user selected language preference (en / hi)",
+        duration: "365 Days",
+      },
+      {
+        name: "__agaate_region",
+        purpose: "Stores regional agricultural hub preference (e.g. Gurugram)",
+        duration: "180 Days",
+      },
     ],
   },
   {
@@ -54,7 +70,11 @@ const POLICY_SECTIONS = [
     content:
       "We utilize aggregated analytics tools to understand how growers interact with our digital tools, such as the Smart Nursery calculator, Kisaan Mall inventory, and Crop Advisory guides. This data is strictly anonymized and used exclusively to optimize page load speeds on rural mobile networks, streamline navigation, and refine agronomic content.",
     items: [
-      { name: "__agaate_analytics", purpose: "Tracks anonymized page navigation patterns & load times", duration: "90 Days" },
+      {
+        name: "__agaate_analytics",
+        purpose: "Tracks anonymized page navigation patterns & load times",
+        duration: "90 Days",
+      },
     ],
   },
   {
@@ -135,7 +155,8 @@ function CookiePolicyPage() {
                   Manage Your Cookie Preferences
                 </h3>
                 <p className="mt-1 text-xs text-forest/70 max-w-xl">
-                  Customise non-essential cookies. Essential cookies remain active to preserve site security and form functionality.
+                  Customise non-essential cookies. Essential cookies remain active to preserve site
+                  security and form functionality.
                 </p>
               </div>
 
@@ -155,7 +176,9 @@ function CookiePolicyPage() {
 
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => setCookiePrefs({ ...cookiePrefs, preferences: !cookiePrefs.preferences })}
+                    onClick={() =>
+                      setCookiePrefs({ ...cookiePrefs, preferences: !cookiePrefs.preferences })
+                    }
                     className={`h-5 w-9 rounded-full p-0.5 transition-colors ${
                       cookiePrefs.preferences ? "bg-moss" : "bg-forest/20"
                     }`}
@@ -178,7 +201,9 @@ function CookiePolicyPage() {
 
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => setCookiePrefs({ ...cookiePrefs, analytics: !cookiePrefs.analytics })}
+                    onClick={() =>
+                      setCookiePrefs({ ...cookiePrefs, analytics: !cookiePrefs.analytics })
+                    }
                     className={`h-5 w-9 rounded-full p-0.5 transition-colors ${
                       cookiePrefs.analytics ? "bg-moss" : "bg-forest/20"
                     }`}
@@ -266,7 +291,9 @@ function CookiePolicyPage() {
                         <tbody className="divide-y divide-forest/10">
                           {sec.items.map((item, idx) => (
                             <tr key={idx} className="hover:bg-bone/40">
-                              <td className="p-3 font-mono font-bold text-terracotta">{item.name}</td>
+                              <td className="p-3 font-mono font-bold text-terracotta">
+                                {item.name}
+                              </td>
                               <td className="p-3 text-forest/80">{item.purpose}</td>
                               <td className="p-3 font-mono text-moss">{item.duration}</td>
                             </tr>

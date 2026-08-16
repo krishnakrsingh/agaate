@@ -3,13 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { BookOpen, CheckCircle, Quotes, X } from "@phosphor-icons/react";
 import { founderNote, team, type TeamMember } from "./data";
 
-function LeaderBioModal({
-  leader,
-  onClose,
-}: {
-  leader: TeamMember | null;
-  onClose: () => void;
-}) {
+function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClose: () => void }) {
   useEffect(() => {
     if (!leader) return;
     const onKey = (e: KeyboardEvent) => {
@@ -65,7 +59,10 @@ function LeaderBioModal({
             />
             <div>
               <p className="text-xs font-medium text-forest">{leader.tag}</p>
-              <h3 id="leader-bio-title" className="mt-0.5 font-display text-2xl font-semibold text-forest-deep">
+              <h3
+                id="leader-bio-title"
+                className="mt-0.5 font-display text-2xl font-semibold text-forest-deep"
+              >
                 {leader.name}
               </h3>
               <p className="text-sm text-neutral-600">{leader.role}</p>

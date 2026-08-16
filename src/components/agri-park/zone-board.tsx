@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   CaretRight,
   CheckCircle,
@@ -7,9 +7,9 @@ import {
   Pulse,
   ShieldCheck,
   Sparkle,
-  Stack
+  Stack,
 } from "@phosphor-icons/react";
-import { EASE, motion, Reveal } from "@/components/common/motion";
+import { EASE, Reveal } from "@/components/common/motion";
 import { FIELD_LINES, ALL_8_ZONES, type Zone } from "./data";
 import { Orb, PulseRing } from "./deco";
 
@@ -29,7 +29,8 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
           Eight Living Innovation Zones
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-forest/70 md:text-base">
-          Click any zone pin on the 17-acre field map or select a zone button below to inspect real crop trial parameters, partner brand showcases, and live sensor telemetry.
+          Click any zone pin on the 17-acre field map or select a zone button below to inspect real
+          crop trial parameters, partner brand showcases, and live sensor telemetry.
         </p>
       </Reveal>
 
@@ -94,7 +95,9 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
               <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/60 pt-4 font-mono text-xs">
                 <div>
                   <span className="block text-[9px] text-forest/40 uppercase">Tested Crops</span>
-                  <span className="font-bold text-forest-deep block mt-0.5">{currentZone.crop}</span>
+                  <span className="font-bold text-forest-deep block mt-0.5">
+                    {currentZone.crop}
+                  </span>
                 </div>
                 <div>
                   <span className="block text-[9px] text-forest/40 uppercase">Verified Metric</span>
@@ -106,7 +109,9 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
                 </div>
                 <div>
                   <span className="block text-[9px] text-forest/40 uppercase">Telemetry Node</span>
-                  <span className="font-bold text-forest-deep block mt-0.5 truncate">{currentZone.sensor}</span>
+                  <span className="font-bold text-forest-deep block mt-0.5 truncate">
+                    {currentZone.sensor}
+                  </span>
                 </div>
               </div>
 
@@ -117,7 +122,10 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
                 </span>
                 <div className="space-y-2">
                   {currentZone.trialHighlights.map((h, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs font-medium text-forest/80">
+                    <div
+                      key={idx}
+                      className="flex items-center gap-2 text-xs font-medium text-forest/80"
+                    >
                       <CheckCircle className="h-3.5 w-3.5 text-moss shrink-0" />
                       <span>{h}</span>
                     </div>
@@ -168,11 +176,7 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
 
             {/* Interactive SVG Masterplan Field Map */}
             <div className="relative flex min-h-[340px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-forest/10 bg-bone/30 p-4 sm:p-6">
-              <svg
-                className="h-72 w-full max-w-lg text-forest"
-                viewBox="0 0 190 110"
-                fill="none"
-              >
+              <svg className="h-72 w-full max-w-lg text-forest" viewBox="0 0 190 110" fill="none">
                 {/* 17 Acre Outer Fence Boundary */}
                 <rect
                   x="10"
@@ -186,14 +190,62 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
                 />
 
                 {/* Internal Plot Sector Divider Lines */}
-                <line x1="95" y1="10" x2="95" y2="100" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="2 2" />
-                <line x1="10" y1="55" x2="180" y2="55" stroke="var(--color-border)" strokeWidth="1" strokeDasharray="2 2" />
+                <line
+                  x1="95"
+                  y1="10"
+                  x2="95"
+                  y2="100"
+                  stroke="var(--color-border)"
+                  strokeWidth="1"
+                  strokeDasharray="2 2"
+                />
+                <line
+                  x1="10"
+                  y1="55"
+                  x2="180"
+                  y2="55"
+                  stroke="var(--color-border)"
+                  strokeWidth="1"
+                  strokeDasharray="2 2"
+                />
 
                 {/* Sector Grid Text Labels */}
-                <text x="18" y="20" fill="var(--color-forest/40)" fontSize="4.5" fontFamily="var(--font-mono)">NURSERY PLOTS</text>
-                <text x="100" y="20" fill="var(--color-forest/40)" fontSize="4.5" fontFamily="var(--font-mono)">IRRIGATION LAB</text>
-                <text x="18" y="65" fill="var(--color-forest/40)" fontSize="4.5" fontFamily="var(--font-mono)">PROTECTION DEMO</text>
-                <text x="100" y="65" fill="var(--color-forest/40)" fontSize="4.5" fontFamily="var(--font-mono)">DRONE FLIGHT ZONE</text>
+                <text
+                  x="18"
+                  y="20"
+                  fill="var(--color-forest/40)"
+                  fontSize="4.5"
+                  fontFamily="var(--font-mono)"
+                >
+                  NURSERY PLOTS
+                </text>
+                <text
+                  x="100"
+                  y="20"
+                  fill="var(--color-forest/40)"
+                  fontSize="4.5"
+                  fontFamily="var(--font-mono)"
+                >
+                  IRRIGATION LAB
+                </text>
+                <text
+                  x="18"
+                  y="65"
+                  fill="var(--color-forest/40)"
+                  fontSize="4.5"
+                  fontFamily="var(--font-mono)"
+                >
+                  PROTECTION DEMO
+                </text>
+                <text
+                  x="100"
+                  y="65"
+                  fill="var(--color-forest/40)"
+                  fontSize="4.5"
+                  fontFamily="var(--font-mono)"
+                >
+                  DRONE FLIGHT ZONE
+                </text>
 
                 {/* Active Highlight Target Aura */}
                 <motion.circle

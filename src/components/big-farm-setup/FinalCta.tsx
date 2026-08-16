@@ -1,10 +1,6 @@
-import { type Icon,
-  Phone,
-  Plant,
-  ShieldCheck,
-  SquaresFour,
-  Target } from "@phosphor-icons/react";
-import { AnimatedHeadline, MagneticButton, Reveal, motion } from "@/components/common/motion";
+import { motion } from "framer-motion";
+import { type Icon, Phone, Plant, ShieldCheck, SquaresFour, Target } from "@phosphor-icons/react";
+import { AnimatedHeadline, MagneticButton, Reveal } from "@/components/common/motion";
 
 const TRUST_POINTS: { icon: Icon; label: string }[] = [
   { icon: ShieldCheck, label: "Turnkey liability" },

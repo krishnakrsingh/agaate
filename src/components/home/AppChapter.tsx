@@ -1,9 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  Bell,
-  Camera,
-  ChatCircleText,
-} from "@phosphor-icons/react";
+import { Bell, Camera, ChatCircleText } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import InteractivePhoneApp from "./InteractivePhoneApp";
@@ -14,17 +10,20 @@ const appFeatures = [
   {
     icon: Camera,
     title: "Instant Crop Diagnosis",
-    description: "Snap a picture of a diseased leaf. Our AI identifies the issue and prescribes the exact treatment instantly.",
+    description:
+      "Snap a picture of a diseased leaf. Our AI identifies the issue and prescribes the exact treatment instantly.",
   },
   {
     icon: ChatCircleText,
     title: "Real Agronomist Chat",
-    description: "Skip the generic bots. Chat directly with verified agricultural experts who understand your local soil and climate.",
+    description:
+      "Skip the generic bots. Chat directly with verified agricultural experts who understand your local soil and climate.",
   },
   {
     icon: Bell,
     title: "Precision Stage Alerts",
-    description: "Get notified exactly when it's time to irrigate, apply fertilizers, or harvest based on your crop's current growth stage.",
+    description:
+      "Get notified exactly when it's time to irrigate, apply fertilizers, or harvest based on your crop's current growth stage.",
   },
 ];
 
@@ -54,15 +53,14 @@ export default function AppChapter() {
             </div>
             <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
               Your whole farm —{" "}
-              <span className="font-serif italic font-normal text-[#5d7d37]">
-                in one app.
-              </span>
+              <span className="font-serif italic font-normal text-[#5d7d37]">in one app.</span>
             </h2>
           </motion.div>
 
           <Reveal variant="fade-up" delay={0.15}>
             <p className="font-sans mt-5 max-w-lg text-[15px] leading-relaxed text-[#4f624f]">
-              Replace guesswork with precision. Manage your entire farm from a single, intuitive dashboard designed exclusively for modern growers.
+              Replace guesswork with precision. Manage your entire farm from a single, intuitive
+              dashboard designed exclusively for modern growers.
             </p>
           </Reveal>
 

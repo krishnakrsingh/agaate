@@ -1,5 +1,6 @@
+import { motion } from "framer-motion";
 import { ArrowRight } from "@phosphor-icons/react";
-import { AnimatedHeadline, EASE, Reveal, motion } from "@/components/common/motion";
+import { AnimatedHeadline, EASE, Reveal } from "@/components/common/motion";
 
 export function BeforeAfter() {
   return (

@@ -55,7 +55,6 @@ export default function ClosingChapter() {
       id="get-started"
       className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
     >
-
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
@@ -107,10 +106,7 @@ export default function ClosingChapter() {
                       className="flex h-11 w-11 items-center justify-center rounded-xl"
                       style={{ backgroundColor: `${action.accent}15` }}
                     >
-                      <Icon
-                        className="h-5 w-5"
-                        style={{ color: action.accent }}
-                      />
+                      <Icon className="h-5 w-5" style={{ color: action.accent }} />
                     </div>
                     <span className="font-mono text-xs font-bold text-[#143d31]/30 tracking-wider">
                       {action.number}
@@ -166,9 +162,7 @@ export default function ClosingChapter() {
                 href={action.href}
                 className={cardClass}
                 data-home-reveal
-                {...(isExternal
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 {content}
               </a>

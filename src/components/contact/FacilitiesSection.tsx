@@ -6,13 +6,13 @@ import {
   Copy,
   MapPin,
   NavigationArrow,
-  Phone
+  Phone,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE } from "@/components/common/motion";
 import { FACILITIES, type Facility } from "./data";
 import GoogleMapEmbed from "./GoogleMapEmbed";
-import { useToast } from "./Toast";
+import { useToast } from "./toast-context";
 import { track } from "@/lib/analytics";
 
 function FacilityCard({
@@ -134,7 +134,10 @@ export default function FacilitiesSection() {
   const active = FACILITIES.find((f) => f.id === activeId) || FACILITIES[0];
 
   return (
-    <section aria-labelledby="facilities-heading" className="border-t border-neutral-200 bg-white py-20 md:py-24">
+    <section
+      aria-labelledby="facilities-heading"
+      className="border-t border-neutral-200 bg-white py-20 md:py-24"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="max-w-2xl">
           <p className="text-sm font-medium text-forest">Locations</p>
@@ -175,7 +178,9 @@ export default function FacilitiesSection() {
                     : "border-transparent text-neutral-500 hover:text-forest-deep"
                 }`}
               >
-                {fac.name.replace("Agaate ", "").replace("Anzix Farm Technologies Pvt Ltd", "Corporate office")}
+                {fac.name
+                  .replace("Agaate ", "")
+                  .replace("Anzix Farm Technologies Pvt Ltd", "Corporate office")}
               </button>
             );
           })}

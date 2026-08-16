@@ -64,20 +64,12 @@ export function TextField({ id, label, error, hint, className, ...props }: TextF
 }
 
 export function PhoneField(props: TextFieldProps) {
-  return (
-    <TextField type="tel" inputMode="tel" autoComplete="tel" enterKeyHint="next" {...props} />
-  );
+  return <TextField type="tel" inputMode="tel" autoComplete="tel" enterKeyHint="next" {...props} />;
 }
 
 export function EmailField(props: TextFieldProps) {
   return (
-    <TextField
-      type="email"
-      inputMode="email"
-      autoComplete="email"
-      enterKeyHint="next"
-      {...props}
-    />
+    <TextField type="email" inputMode="email" autoComplete="email" enterKeyHint="next" {...props} />
   );
 }
 
@@ -87,14 +79,7 @@ type SelectFieldProps = SelectHTMLAttributes<HTMLSelectElement> & {
   options: readonly string[];
 };
 
-export function SelectField({
-  id,
-  label,
-  error,
-  options,
-  className,
-  ...props
-}: SelectFieldProps) {
+export function SelectField({ id, label, error, options, className, ...props }: SelectFieldProps) {
   return (
     <FieldWrap id={id!} label={label} error={error}>
       <select

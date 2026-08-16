@@ -23,14 +23,14 @@ export const jobs: ExtendedJobPosition[] = [
       "Strong field advisory skills across vegetable crop cycles (Solanaceae, Cucurbitaceae).",
       "Working knowledge of digital farm tools, IoT moisture sensors, and field data collection.",
       "Ability to collaborate on bilingual technical content, farmer manuals, and advisory videos.",
-      "Fluency in Hindi and local regional dialects."
+      "Fluency in Hindi and local regional dialects.",
     ],
     responsibilities: [
       "Provide stage-wise crop guidance, basal dose planning, and fertigation schedules to Parivaar farmers.",
       "Diagnose early disease symptoms in the field using image-based AI tools and lab core assays.",
       "Conduct grower training workshops at the 17-acre Smart Nursery and Kisan Mall demonstration zones.",
-      "Co-create technical content, agronomy scripts, and localized advisory bulletins."
-    ]
+      "Co-create technical content, agronomy scripts, and localized advisory bulletins.",
+    ],
   },
   {
     id: "job-infra-02",
@@ -46,14 +46,14 @@ export const jobs: ExtendedJobPosition[] = [
       "Diploma or Degree in Agricultural Engineering, Agronomy, or Farm Infrastructure Management.",
       "2+ years experience managing controlled-environment agriculture or commercial nursery setups.",
       "Hands-on expertise in drip irrigation layout, automated fertigation pumps, and shade-net installation.",
-      "Strong team management capabilities overseeing farm labor SOPs and safety protocols."
+      "Strong team management capabilities overseeing farm labor SOPs and safety protocols.",
     ],
     responsibilities: [
       "Monitor AI climate control chambers, maintaining optimal humidity and temperature for seedless germination.",
       "Supervise daily fertigation dosing schedules and bio-inoculation treatments.",
       "Manage turnkey drip irrigation and mulching installations for commercial B2B farm clients.",
-      "Enforce 95%+ seedling survival benchmarks prior to distribution."
-    ]
+      "Enforce 95%+ seedling survival benchmarks prior to distribution.",
+    ],
   },
   {
     id: "job-retail-03",
@@ -69,14 +69,14 @@ export const jobs: ExtendedJobPosition[] = [
       "Bachelor's degree in Business, Agribusiness, or Supply Chain Management.",
       "3+ years experience in retail store management, agri-input distribution, or rural e-commerce.",
       "Familiarity with seed, biocure, fertilizer, and hardware SKUs from leading agri manufacturers.",
-      "Excellent interpersonal skills for building trust with local farming communities and regional dealers."
+      "Excellent interpersonal skills for building trust with local farming communities and regional dealers.",
     ],
     responsibilities: [
       "Manage daily retail counter sales, inventory stocking, and digital POS checkout operations.",
       "Coordinate with 25+ direct manufacturer partners for timely inventory replenishment.",
       "Guide visiting farmers through interactive technology demonstration zones and input selections.",
-      "Fulfill digital orders received through the Agaate e-commerce mobile platform."
-    ]
+      "Fulfill digital orders received through the Agaate e-commerce mobile platform.",
+    ],
   },
   {
     id: "job-tech-04",
@@ -92,14 +92,14 @@ export const jobs: ExtendedJobPosition[] = [
       "B.Tech / M.Tech / M.Sc in Geoinformatics, Remote Sensing, Agri-Tech, or Data Science.",
       "Proven experience processing Sentinel-2 / Landsat satellite imagery and multispectral drone data.",
       "Proficiency in Python, QGIS/ArcGIS, spatial database queries, and machine learning models.",
-      "Knowledge of crop phenology and environmental sensor telemetry parameters."
+      "Knowledge of crop phenology and environmental sensor telemetry parameters.",
     ],
     responsibilities: [
       "Build automated satellite canopy health monitoring pipelines for 15,000+ associated acres.",
       "Analyze IoT soil sensor data to generate targeted precision fertigation and pest alerts.",
       "Develop predictive yield algorithms to optimize the Agaate buyback market linkage engine.",
-      "Collaborate with field agronomists to ground-truth drone scouting imagery."
-    ]
+      "Collaborate with field agronomists to ground-truth drone scouting imagery.",
+    ],
   },
   {
     id: "job-agronomy-05",
@@ -114,13 +114,13 @@ export const jobs: ExtendedJobPosition[] = [
     reqs: [
       "B.Sc. or M.Sc. in Agriculture / Plant Pathology.",
       "Deep understanding of Solanaceae disease cycles (Early Blight, Phytophthora, Bacterial Wilt).",
-      "Fluency in Hindi and local Haryanvi dialects."
+      "Fluency in Hindi and local Haryanvi dialects.",
     ],
     responsibilities: [
       "Conduct weekly field inspections across assigned grower clusters.",
       "Issue preventive spray regimens based on micro-climate weather forecasts.",
-      "Collect lab soil core samples and monitor plant vigor parameters."
-    ]
+      "Collect lab soil core samples and monitor plant vigor parameters.",
+    ],
   },
   {
     id: "job-tech-06",
@@ -135,12 +135,12 @@ export const jobs: ExtendedJobPosition[] = [
     reqs: [
       "2+ years experience in PCB layout design and firmware development (C/C++).",
       "Experience with LoRaWAN, mesh networking, and sleep-cycle power optimization.",
-      "Familiarity with environmental IP67 packaging standard specifications."
+      "Familiarity with environmental IP67 packaging standard specifications.",
     ],
     responsibilities: [
       "Design ruggedized PCB sensor nodes deployed in open-field crop plots.",
       "Program micro-controllers for ultra-low power telemetry broadcasts.",
-      "Test optical soil nutrient sensors in real farm environments."
-    ]
-  }
+      "Test optical soil nutrient sensors in real farm environments.",
+    ],
+  },
 ];

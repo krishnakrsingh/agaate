@@ -6,7 +6,7 @@ import {
   Lightning,
   Plant,
   Stack,
-  Storefront
+  Storefront,
 } from "@phosphor-icons/react";
 import farmImage from "@/assets/agro-park.jpg";
 import mallImage from "@/assets/kisaan-mall-gen.png";
@@ -113,8 +113,7 @@ export const FACILITIES: Facility[] = [
     name: "Anzix Farm Technologies Pvt Ltd",
     tagline: "Corporate Headquarters & Governance Center",
     role: "Corporate Registered Office",
-    address:
-      "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+    address: "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
     district: "Gurugram, Haryana",
     plusCode: "CIN: U46200HR2024PTC121982",
     phone: PRIMARY_PHONE,

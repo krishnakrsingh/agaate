@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  CaretDown,
-  PaperPlaneRight
-} from "@phosphor-icons/react";
+import { CaretDown, PaperPlaneRight } from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
@@ -113,11 +110,7 @@ export default function ContactForm({
       if (!raw) return;
       const parsed = JSON.parse(raw) as Partial<FormState> & { topic?: string };
       setForm((prev) => ({ ...prev, ...parsed, honeypot: "", consent: false }));
-      if (
-        !urlTopic &&
-        parsed.topic &&
-        CONSULTATION_TOPICS.some((t) => t.id === parsed.topic)
-      ) {
+      if (!urlTopic && parsed.topic && CONSULTATION_TOPICS.some((t) => t.id === parsed.topic)) {
         setTopic(parsed.topic);
       }
       if (parsed.acreage || parsed.crop || parsed.district) setShowFarmDetails(true);
@@ -238,8 +231,7 @@ export default function ContactForm({
             honeypot: form.honeypot,
             startedAt: startedAt.current,
             clientToken: clientToken.current,
-            sourcePage:
-              typeof window !== "undefined" ? window.location.pathname : "/contact",
+            sourcePage: typeof window !== "undefined" ? window.location.pathname : "/contact",
           },
         }),
         new Promise<never>((_, reject) => {
@@ -288,8 +280,8 @@ export default function ContactForm({
                 Tell us what you need
               </h2>
               <p className="mt-4 text-base leading-relaxed text-neutral-600">
-                Choose a topic so we route you to the right advisor. Typical reply within 2
-                business hours.
+                Choose a topic so we route you to the right advisor. Typical reply within 2 business
+                hours.
               </p>
               <div className="mt-8">
                 <TopicSelector

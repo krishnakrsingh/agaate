@@ -100,7 +100,10 @@ const Testimonials = () => (
 const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
   testimonials.map((testimonial) => (
     <div className="-mx-1 flex w-full max-w-sm flex-col odd:flex-col-reverse" key={testimonial.id}>
-      <div className={cn("rounded-2xl border border-[#143d31]/12 bg-white shadow-xs p-6", className)} {...props}>
+      <div
+        className={cn("rounded-2xl border border-[#143d31]/12 bg-white shadow-xs p-6", className)}
+        {...props}
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Avatar className="size-11 border-2 border-[#5d7d37]/30">
@@ -116,7 +119,9 @@ const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
             </div>
           </div>
         </div>
-        <p className="mt-4 text-xs sm:text-sm text-[#143d31] leading-relaxed font-normal">"{testimonial.testimonial}"</p>
+        <p className="mt-4 text-xs sm:text-sm text-[#143d31] leading-relaxed font-normal">
+          "{testimonial.testimonial}"
+        </p>
       </div>
       <div className="mask-y-from-75% mask-x-from-75% relative flex h-36 w-96 items-center justify-center p-6">
         <testimonial.logo className="h-16 w-44 text-[#143d31]/30" />

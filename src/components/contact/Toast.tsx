@@ -1,20 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, X } from "@phosphor-icons/react";
 import { EASE } from "@/components/common/motion";
-
-type ToastKind = "success" | "error" | "info";
-type ToastItem = { id: string; message: string; kind: ToastKind };
-type ToastContextValue = { toast: (message: string, kind?: ToastKind) => void };
-
-const ToastContext = createContext<ToastContextValue | null>(null);
+import { ToastContext, type ToastItem, type ToastKind } from "./toast-context";
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([]);
@@ -65,16 +53,4 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       </div>
     </ToastContext.Provider>
   );
-}
-
-export function useToast() {
-  const ctx = useContext(ToastContext);
-  if (!ctx) {
-    return {
-      toast: (message: string) => {
-        if (typeof window !== "undefined") console.info(message);
-      },
-    };
-  }
-  return ctx;
 }

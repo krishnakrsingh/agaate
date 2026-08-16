@@ -4,7 +4,7 @@ import {
   Download,
   IdentificationCard,
   MapPin,
-  Phone
+  Phone,
 } from "@phosphor-icons/react";
 import {
   brochureHref,
@@ -116,8 +116,7 @@ export default function AboutCta() {
 
               <dl className="grid flex-1 grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
                 {complianceHighlights.map((item) => {
-                  const Icon =
-                    fieldIcons[item.label as keyof typeof fieldIcons] ?? Buildings;
+                  const Icon = fieldIcons[item.label as keyof typeof fieldIcons] ?? Buildings;
                   return (
                     <div key={item.label} className="min-w-0">
                       <dt className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-400">
@@ -134,9 +133,9 @@ export default function AboutCta() {
             </div>
 
             <p className="border-t border-neutral-200/80 px-6 py-3.5 text-center text-[11px] leading-relaxed text-neutral-500 md:px-10 md:text-xs">
-              Agaate is the operating brand of Anzix Farm Technologies Pvt Ltd. Company details above
-              are listed for transparency and can be verified on the Ministry of Corporate Affairs
-              portal.
+              Agaate is the operating brand of Anzix Farm Technologies Pvt Ltd. Company details
+              above are listed for transparency and can be verified on the Ministry of Corporate
+              Affairs portal.
             </p>
           </div>
         </div>

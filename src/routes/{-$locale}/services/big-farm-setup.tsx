@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -9,7 +9,7 @@ import {
   Shield,
   SquaresFour,
   Stack,
-  TrendUp
+  TrendUp,
 } from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -25,7 +25,6 @@ import {
   Marquee,
   AnimatedHeadline,
   Reveal,
-  motion,
 } from "@/components/common/motion";
 import { MarqueeStrip, StatsBand } from "@/components/big-farm-setup/Stats";
 import { PhaseTimeline } from "@/components/big-farm-setup/PhaseTimeline";
@@ -146,12 +145,15 @@ function BigFarmSetup() {
                     Smart Commercial Polyhouse Hydraulic Matrix
                   </h3>
                   <p className="text-forest/75 text-sm leading-relaxed">
-                    Our agricultural engineering team pre-calibrates hydraulic mainlines based on micro-elevation contour sweeps. This prevents pressure drop pining, puddle accumulation, and uneven fertilizer delivery across rows.
+                    Our agricultural engineering team pre-calibrates hydraulic mainlines based on
+                    micro-elevation contour sweeps. This prevents pressure drop pining, puddle
+                    accumulation, and uneven fertilizer delivery across rows.
                   </p>
                   <div className="p-4 bg-card border border-border rounded-2xl flex gap-3 text-xs text-forest/70 font-mono">
                     <Compass className="w-5 h-5 text-forest shrink-0 mt-0.5" />
                     <span>
-                      Blueprints are customized for your specific topography using drone elevation mapping to guarantee uniform drip emission rates.
+                      Blueprints are customized for your specific topography using drone elevation
+                      mapping to guarantee uniform drip emission rates.
                     </span>
                   </div>
                 </div>
@@ -194,18 +196,50 @@ function BigFarmSetup() {
                             strokeWidth="1.5"
                           />
                         ))}
-                        <line x1="25" y1="20" x2="25" y2="80" stroke="var(--color-terracotta)" strokeWidth="2.5" />
+                        <line
+                          x1="25"
+                          y1="20"
+                          x2="25"
+                          y2="80"
+                          stroke="var(--color-terracotta)"
+                          strokeWidth="2.5"
+                        />
                         <circle cx="25" cy="50" r="6" fill="var(--color-terracotta)" />
-                        <text x="35" y="53" fill="var(--color-forest-deep)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="bold">
+                        <text
+                          x="35"
+                          y="53"
+                          fill="var(--color-forest-deep)"
+                          fontSize="6"
+                          fontFamily="var(--font-mono)"
+                          fontWeight="bold"
+                        >
                           AUTOMATED VENTURI DOSING NODE
                         </text>
-                        <text x="75" y="18" fill="var(--color-forest)" fontSize="5" fontFamily="var(--font-mono)">
+                        <text
+                          x="75"
+                          y="18"
+                          fill="var(--color-forest)"
+                          fontSize="5"
+                          fontFamily="var(--font-mono)"
+                        >
                           ROW 01 (DRIP LINE · 30cm EMITTERS)
                         </text>
-                        <text x="75" y="38" fill="var(--color-forest)" fontSize="5" fontFamily="var(--font-mono)">
+                        <text
+                          x="75"
+                          y="38"
+                          fill="var(--color-forest)"
+                          fontSize="5"
+                          fontFamily="var(--font-mono)"
+                        >
                           ROW 02 (DRIP LINE · 30cm EMITTERS)
                         </text>
-                        <text x="75" y="58" fill="var(--color-forest)" fontSize="5" fontFamily="var(--font-mono)">
+                        <text
+                          x="75"
+                          y="58"
+                          fill="var(--color-forest)"
+                          fontSize="5"
+                          fontFamily="var(--font-mono)"
+                        >
                           ROW 03 (DRIP LINE · 30cm EMITTERS)
                         </text>
                       </svg>
@@ -213,12 +247,18 @@ function BigFarmSetup() {
 
                     <div className="grid grid-cols-2 gap-4 text-xs font-mono pt-6 mt-4 border-t border-border/50">
                       <div>
-                        <span className="text-forest/40 block text-[9px]">RAISED BED CENTER SPACING</span>
+                        <span className="text-forest/40 block text-[9px]">
+                          RAISED BED CENTER SPACING
+                        </span>
                         <span className="font-bold text-forest-deep">4.2 Feet Standard</span>
                       </div>
                       <div>
-                        <span className="text-forest/40 block text-[9px]">EMITTER SPECIFICATION</span>
-                        <span className="font-bold text-forest-deep">30 cm Pressure Compensating</span>
+                        <span className="text-forest/40 block text-[9px]">
+                          EMITTER SPECIFICATION
+                        </span>
+                        <span className="font-bold text-forest-deep">
+                          30 cm Pressure Compensating
+                        </span>
                       </div>
                     </div>
                   </TiltCard>

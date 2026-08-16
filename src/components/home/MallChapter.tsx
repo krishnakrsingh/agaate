@@ -68,7 +68,9 @@ export default function MallChapter() {
               </span>
             </h2>
             <p className="font-sans border-l-2 border-[#5d7d37] pl-5 text-sm sm:text-base leading-relaxed text-[#4f624f] mt-5">
-              Farmers shouldn't have to risk counterfeit inputs or guesswork. Agaate Mall operates a standalone, direct-to-farm supply engine—delivering batch-verified seeds, biologicals, drip systems, and UV mulch straight from certified partner hubs.
+              Farmers shouldn't have to risk counterfeit inputs or guesswork. Agaate Mall operates a
+              standalone, direct-to-farm supply engine—delivering batch-verified seeds, biologicals,
+              drip systems, and UV mulch straight from certified partner hubs.
             </p>
 
             {/* Feature Cards on Left Side */}
@@ -109,7 +111,10 @@ export default function MallChapter() {
         </div>
 
         {/* ── Agaate Direct Supply Guarantee (UPGRADED) ── */}
-        <div data-home-reveal className="relative mt-16 rounded-3xl bg-gradient-to-br from-[#fafbf7] via-[#f8f9f3] to-[#fafbf7] p-6 sm:p-10 border border-[#143d31]/15 shadow-md overflow-hidden">
+        <div
+          data-home-reveal
+          className="relative mt-16 rounded-3xl bg-gradient-to-br from-[#fafbf7] via-[#f8f9f3] to-[#fafbf7] p-6 sm:p-10 border border-[#143d31]/15 shadow-md overflow-hidden"
+        >
           {/* Subtle background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-gradient-to-tr from-emerald-500/3 to-[#a3e635]/3 blur-3xl pointer-events-none" />
 
@@ -122,7 +127,8 @@ export default function MallChapter() {
               How Agaate Direct Supply Works
             </h3>
             <p className="font-sans text-xs sm:text-sm text-[#4f624f]/90 mt-2 leading-relaxed max-w-xl mx-auto">
-              From certified brand factories to your field gate — every single batch is verified for germination, purity, and authenticity.
+              From certified brand factories to your field gate — every single batch is verified for
+              germination, purity, and authenticity.
             </p>
           </div>
 
@@ -132,9 +138,7 @@ export default function MallChapter() {
               return (
                 <div key={s.step} className="relative flex items-center w-full">
                   {/* Step Card */}
-                  <div
-                    className="group relative w-full rounded-2xl bg-white/90 backdrop-blur-md p-6 border border-[#143d31]/8 hover:border-emerald-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between h-full"
-                  >
+                  <div className="group relative w-full rounded-2xl bg-white/90 backdrop-blur-md p-6 border border-[#143d31]/8 hover:border-emerald-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between h-full">
                     <div className="flex items-center justify-between mb-4">
                       <span className="font-mono text-[10px] font-extrabold tracking-widest text-[#5d7d37] bg-[#5d7d37]/8 px-2 py-0.5 rounded-md">
                         STEP {s.step}
@@ -169,7 +173,10 @@ export default function MallChapter() {
         </div>
 
         {/* ── CTA Banner ── */}
-        <div data-home-reveal className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 rounded-3xl bg-[#143d31] p-8 text-white shadow-xl">
+        <div
+          data-home-reveal
+          className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 rounded-3xl bg-[#143d31] p-8 text-white shadow-xl"
+        >
           <div>
             <span className="font-mono text-xs font-bold text-white/90 uppercase tracking-widest">
               DIRECT AGRONOMIST RECOMMENDATION
@@ -178,7 +185,8 @@ export default function MallChapter() {
               Unsure which seed or bio-input matches your soil?
             </h3>
             <p className="font-sans text-xs text-white/75 mt-1">
-              Talk directly with senior field experts to get exact dose calculations before placing your Agaate Mall order.
+              Talk directly with senior field experts to get exact dose calculations before placing
+              your Agaate Mall order.
             </p>
           </div>
 

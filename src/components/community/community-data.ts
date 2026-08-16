@@ -21,6 +21,75 @@ export type Post = {
   time: string;
 };
 
+export interface CaseStudyMetric {
+  label: string;
+  value: string;
+  note: string;
+}
+
+export interface CaseStudy {
+  id: string;
+  crop: string;
+  farmer: string;
+  location: string;
+  acres: string;
+  technique: string;
+  metrics: CaseStudyMetric[];
+  summary: string;
+  tag: string;
+}
+
+export const CASE_STUDIES: CaseStudy[] = [
+  {
+    id: "watermelon",
+    crop: "Watermelon",
+    farmer: "Surender Yadav",
+    location: "Pachgaon, Gurugram",
+    acres: "12 Acres",
+    technique: "Staking & Central Line 1ft Mulching",
+    metrics: [
+      { label: "Yield & Fruit Form", value: "+40%", note: "No soil contact rot" },
+      { label: "Additional Revenue", value: "₹1.8L", note: "Per acre gain" },
+      { label: "Seedling Survival", value: "96%", note: "Bio-boosted nursery" },
+    ],
+    summary:
+      "By adopting bamboo staking and 1ft central line mulching specified by Agaate agronomists, Surender eliminated fruit soil rot entirely and produced uniform, premium-grade watermelons.",
+    tag: "High Value Technique",
+  },
+  {
+    id: "chilli",
+    crop: "Chilli",
+    farmer: "Balwan Singh",
+    location: "Bhora Kalan, Gurugram",
+    acres: "8 Acres",
+    technique: "18 x 12 Precision Spacing & Bio-Boosted Nursery",
+    metrics: [
+      { label: "Survival Rate Boost", value: "60% → 95%", note: "Zero early die-off" },
+      { label: "Chemical Reduction", value: "-50%", note: "Preventive spray loops" },
+      { label: "Harvest Duration", value: "+4 Wks", note: "Extended picking" },
+    ],
+    summary:
+      "Transitioning from direct seed sowing to 18x12 spacing with Bio-Boosted saplings boosted seedling survival from a fragile 60% to an exceptional 95%, cutting chemical spray costs in half.",
+    tag: "Survival Benchmark",
+  },
+  {
+    id: "tomato",
+    crop: "Tomato",
+    farmer: "Vikram Singh",
+    location: "Kukrola, Gurugram",
+    acres: "15 Acres",
+    technique: "Vertical Trellising with Bamboo & Netting",
+    metrics: [
+      { label: "Harvest Cycles", value: "3x", note: "Vertical sprawl control" },
+      { label: "First Grade Yield", value: "+35%", note: "Export quality skin" },
+      { label: "Market Linkage", value: "Direct", note: "Handpick buyback tie-up" },
+    ],
+    summary:
+      "Replacing ground sprawling with heavy-duty bamboo trellising extended Vikram's tomato picking window by 3 additional cycles and secured direct buyback through Agaate market linkages.",
+    tag: "Turnkey Trellis",
+  },
+];
+
 export const posts: Post[] = [
   {
     author: "Hawa Singh Yadav",

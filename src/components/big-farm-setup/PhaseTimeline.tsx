@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   Calendar,
@@ -18,16 +18,9 @@ import {
   Target,
   TrendUp,
   Users,
-  Wallet
+  Wallet,
 } from "@phosphor-icons/react";
-import {
-  EASE,
-  SectionHeader,
-  Stagger,
-  StaggerItem,
-  TiltCard,
-  motion,
-} from "@/components/common/motion";
+import { EASE, SectionHeader, Stagger, StaggerItem, TiltCard } from "@/components/common/motion";
 
 type PhaseData = {
   num: string;
@@ -178,7 +171,8 @@ export function PhaseTimeline({
           eyebrow="Phased Turnkey Execution Roadmap"
           title={
             <>
-              Six phases. One <span className="italic text-terracotta">turnkey</span> commercial partner.
+              Six phases. One <span className="italic text-terracotta">turnkey</span> commercial
+              partner.
             </>
           }
           description="Complete end-to-end execution of commercial agricultural estates — from raw uncultivated land to your first institutional buyer dispatch. Agaate manages every phase to eliminate risk."
@@ -352,24 +346,100 @@ export function PhaseTimeline({
                             transition={{ duration: 1.2, ease: EASE }}
                           />
                           {/* Sector Grids */}
-                          <line x1="120" y1="10" x2="120" y2="130" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="2 2" />
-                          <line x1="10" y1="70" x2="230" y2="70" stroke="var(--color-border)" strokeWidth="1.5" strokeDasharray="2 2" />
+                          <line
+                            x1="120"
+                            y1="10"
+                            x2="120"
+                            y2="130"
+                            stroke="var(--color-border)"
+                            strokeWidth="1.5"
+                            strokeDasharray="2 2"
+                          />
+                          <line
+                            x1="10"
+                            y1="70"
+                            x2="230"
+                            y2="70"
+                            stroke="var(--color-border)"
+                            strokeWidth="1.5"
+                            strokeDasharray="2 2"
+                          />
                           {/* Sector Labels */}
-                          <text x="30" y="35" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">SECTOR A (10 ACRES)</text>
-                          <text x="140" y="35" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">SECTOR B (10 ACRES)</text>
-                          <text x="30" y="95" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">SECTOR C (10 ACRES)</text>
-                          <text x="140" y="95" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">SECTOR D (10 ACRES)</text>
+                          <text
+                            x="30"
+                            y="35"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            SECTOR A (10 ACRES)
+                          </text>
+                          <text
+                            x="140"
+                            y="35"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            SECTOR B (10 ACRES)
+                          </text>
+                          <text
+                            x="30"
+                            y="95"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            SECTOR C (10 ACRES)
+                          </text>
+                          <text
+                            x="140"
+                            y="95"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            SECTOR D (10 ACRES)
+                          </text>
                           {/* Intake Water Point */}
-                          <motion.circle cx="120" cy="70" r="10" fill="var(--color-terracotta)" opacity={0.2} animate={{ scale: [1, 1.4, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+                          <motion.circle
+                            cx="120"
+                            cy="70"
+                            r="10"
+                            fill="var(--color-terracotta)"
+                            opacity={0.2}
+                            animate={{ scale: [1, 1.4, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
                           <circle cx="120" cy="70" r="5" fill="var(--color-terracotta)" />
-                          <text x="100" y="85" fill="var(--color-terracotta)" fontSize="6" fontFamily="var(--font-mono)" fontWeight="bold">BOREWELL INTAKE NODE</text>
+                          <text
+                            x="100"
+                            y="85"
+                            fill="var(--color-terracotta)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            BOREWELL INTAKE NODE
+                          </text>
                         </svg>
                       )}
 
                       {activePhase.blueprintType === "infra" && (
                         <svg className="w-full h-56 text-forest" viewBox="0 0 240 140" fill="none">
                           {/* Irrigation Mainline */}
-                          <line x1="20" y1="70" x2="220" y2="70" stroke="var(--color-terracotta)" strokeWidth="3" />
+                          <line
+                            x1="20"
+                            y1="70"
+                            x2="220"
+                            y2="70"
+                            stroke="var(--color-terracotta)"
+                            strokeWidth="3"
+                          />
                           {/* Drip Laterals */}
                           {[20, 40, 60, 80, 100, 120].map((y) => (
                             <motion.line
@@ -386,9 +456,34 @@ export function PhaseTimeline({
                             />
                           ))}
                           {/* Pump Dosing station */}
-                          <rect x="15" y="55" width="30" height="30" rx="4" fill="var(--color-forest-deep)" />
-                          <text x="20" y="73" fill="white" fontSize="6" fontFamily="var(--font-mono)" fontWeight="bold font-mono">VENTURI</text>
-                          <text x="60" y="15" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">PRECISION DRIP LATERALS (30cm INLINE)</text>
+                          <rect
+                            x="15"
+                            y="55"
+                            width="30"
+                            height="30"
+                            rx="4"
+                            fill="var(--color-forest-deep)"
+                          />
+                          <text
+                            x="20"
+                            y="73"
+                            fill="white"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold font-mono"
+                          >
+                            VENTURI
+                          </text>
+                          <text
+                            x="60"
+                            y="15"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            PRECISION DRIP LATERALS (30cm INLINE)
+                          </text>
                         </svg>
                       )}
 
@@ -415,33 +510,151 @@ export function PhaseTimeline({
                               ))}
                             </g>
                           ))}
-                          <text x="140" y="40" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">BHORA KALAN NURSERY</text>
-                          <text x="140" y="55" fill="var(--color-moss)" fontSize="6" fontFamily="var(--font-mono)">• 98%+ Seedling Survival</text>
-                          <text x="140" y="70" fill="var(--color-terracotta)" fontSize="6" fontFamily="var(--font-mono)">• Bio-Boosted Inoculation</text>
-                          <text x="140" y="85" fill="var(--color-forest)" fontSize="6" fontFamily="var(--font-mono)">• Certified Root Plugs</text>
+                          <text
+                            x="140"
+                            y="40"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            BHORA KALAN NURSERY
+                          </text>
+                          <text
+                            x="140"
+                            y="55"
+                            fill="var(--color-moss)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            • 98%+ Seedling Survival
+                          </text>
+                          <text
+                            x="140"
+                            y="70"
+                            fill="var(--color-terracotta)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            • Bio-Boosted Inoculation
+                          </text>
+                          <text
+                            x="140"
+                            y="85"
+                            fill="var(--color-forest)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            • Certified Root Plugs
+                          </text>
                         </svg>
                       )}
 
                       {activePhase.blueprintType === "ops" && (
                         <svg className="w-full h-56 text-forest" viewBox="0 0 240 140" fill="none">
-                          <rect x="20" y="20" width="200" height="100" rx="8" stroke="var(--color-border)" strokeWidth="1.5" />
+                          <rect
+                            x="20"
+                            y="20"
+                            width="200"
+                            height="100"
+                            rx="8"
+                            stroke="var(--color-border)"
+                            strokeWidth="1.5"
+                          />
                           <circle cx="60" cy="70" r="24" fill="var(--color-moss)" opacity={0.15} />
-                          <circle cx="120" cy="70" r="24" fill="var(--color-terracotta)" opacity={0.15} />
-                          <circle cx="180" cy="70" r="24" fill="var(--color-forest)" opacity={0.15} />
-                          <text x="42" y="73" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">CREW A</text>
-                          <text x="102" y="73" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">CREW B</text>
-                          <text x="162" y="73" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">AGRONOMIST</text>
-                          <text x="40" y="110" fill="var(--color-forest/60)" fontSize="6" fontFamily="var(--font-mono)">TRANSPLANT</text>
-                          <text x="105" y="110" fill="var(--color-forest/60)" fontSize="6" fontFamily="var(--font-mono)">STAKING</text>
-                          <text x="165" y="110" fill="var(--color-forest/60)" fontSize="6" fontFamily="var(--font-mono)">SOP AUDIT</text>
+                          <circle
+                            cx="120"
+                            cy="70"
+                            r="24"
+                            fill="var(--color-terracotta)"
+                            opacity={0.15}
+                          />
+                          <circle
+                            cx="180"
+                            cy="70"
+                            r="24"
+                            fill="var(--color-forest)"
+                            opacity={0.15}
+                          />
+                          <text
+                            x="42"
+                            y="73"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            CREW A
+                          </text>
+                          <text
+                            x="102"
+                            y="73"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            CREW B
+                          </text>
+                          <text
+                            x="162"
+                            y="73"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            AGRONOMIST
+                          </text>
+                          <text
+                            x="40"
+                            y="110"
+                            fill="var(--color-forest/60)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            TRANSPLANT
+                          </text>
+                          <text
+                            x="105"
+                            y="110"
+                            fill="var(--color-forest/60)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            STAKING
+                          </text>
+                          <text
+                            x="165"
+                            y="110"
+                            fill="var(--color-forest/60)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            SOP AUDIT
+                          </text>
                         </svg>
                       )}
 
                       {activePhase.blueprintType === "roi" && (
                         <svg className="w-full h-56 text-forest" viewBox="0 0 240 140" fill="none">
                           {/* Financial Graph Axes */}
-                          <line x1="30" y1="120" x2="220" y2="120" stroke="var(--color-forest-deep)" strokeWidth="1.5" />
-                          <line x1="30" y1="20" x2="30" y2="120" stroke="var(--color-forest-deep)" strokeWidth="1.5" />
+                          <line
+                            x1="30"
+                            y1="120"
+                            x2="220"
+                            y2="120"
+                            stroke="var(--color-forest-deep)"
+                            strokeWidth="1.5"
+                          />
+                          <line
+                            x1="30"
+                            y1="20"
+                            x2="30"
+                            y2="120"
+                            stroke="var(--color-forest-deep)"
+                            strokeWidth="1.5"
+                          />
                           {/* CapEx vs Revenue curve */}
                           <motion.path
                             d="M 30 110 Q 90 90, 130 60 T 220 25"
@@ -459,15 +672,45 @@ export function PhaseTimeline({
                             strokeWidth="2"
                             strokeDasharray="4 4"
                           />
-                          <text x="160" y="30" fill="var(--color-moss)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">GROSS REVENUE</text>
-                          <text x="150" y="115" fill="var(--color-terracotta)" fontSize="6" fontFamily="var(--font-mono)">CapEx Amortization</text>
+                          <text
+                            x="160"
+                            y="30"
+                            fill="var(--color-moss)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            GROSS REVENUE
+                          </text>
+                          <text
+                            x="150"
+                            y="115"
+                            fill="var(--color-terracotta)"
+                            fontSize="6"
+                            fontFamily="var(--font-mono)"
+                          >
+                            CapEx Amortization
+                          </text>
                         </svg>
                       )}
 
                       {activePhase.blueprintType === "management" && (
                         <svg className="w-full h-56 text-forest" viewBox="0 0 240 140" fill="none">
-                          <circle cx="120" cy="70" r="45" stroke="var(--color-forest)" strokeWidth="1" strokeDasharray="3 3" />
-                          <circle cx="120" cy="70" r="25" stroke="var(--color-moss)" strokeWidth="1" />
+                          <circle
+                            cx="120"
+                            cy="70"
+                            r="45"
+                            stroke="var(--color-forest)"
+                            strokeWidth="1"
+                            strokeDasharray="3 3"
+                          />
+                          <circle
+                            cx="120"
+                            cy="70"
+                            r="25"
+                            stroke="var(--color-moss)"
+                            strokeWidth="1"
+                          />
                           <motion.line
                             x1="120"
                             y1="70"
@@ -480,7 +723,16 @@ export function PhaseTimeline({
                             style={{ transformOrigin: "120px 70px" }}
                           />
                           <circle cx="120" cy="70" r="4" fill="var(--color-terracotta)" />
-                          <text x="80" y="128" fill="var(--color-forest-deep)" fontSize="7" fontFamily="var(--font-mono)" fontWeight="bold">4G LoRa TELEMETRY RADAR</text>
+                          <text
+                            x="80"
+                            y="128"
+                            fill="var(--color-forest-deep)"
+                            fontSize="7"
+                            fontFamily="var(--font-mono)"
+                            fontWeight="bold"
+                          >
+                            4G LoRa TELEMETRY RADAR
+                          </text>
                         </svg>
                       )}
                     </div>

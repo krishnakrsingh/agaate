@@ -12,7 +12,7 @@ import {
   Plus,
   ShieldCheck,
   Sparkle,
-  Star
+  Star,
 } from "@phosphor-icons/react";
 import { useState } from "react";
 import Header from "@/components/Header";
@@ -39,7 +39,11 @@ import {
   SectionHeader,
   TiltCard,
 } from "@/components/common/motion";
-import { catalogItems, kisaanMallCategories as categories, ExtendedCatalogItem } from "@/data/services-data";
+import {
+  catalogItems,
+  kisaanMallCategories as categories,
+  ExtendedCatalogItem,
+} from "@/data/services-data";
 import { CartItem, VerifiedProductInfo } from "@/types";
 
 export const Route = createFileRoute("/{-$locale}/services/kisaan-mall")({
@@ -51,7 +55,9 @@ const popSpring = { type: "spring", stiffness: 520, damping: 16 } as const;
 function KisaanMall() {
   const [selectedCrop, setSelectedCrop] = useState("Watermelon");
   const [acres, setAcres] = useState(5);
-  const [selectedProductForCalc, setSelectedProductForCalc] = useState<ExtendedCatalogItem>(catalogItems[0]);
+  const [selectedProductForCalc, setSelectedProductForCalc] = useState<ExtendedCatalogItem>(
+    catalogItems[0],
+  );
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -153,7 +159,9 @@ function KisaanMall() {
         title={
           <>
             Agaate Kisan Mall —{" "}
-            <span className="italic text-terracotta">One-Stop Store for 500+ Certified Agri Inputs.</span>
+            <span className="italic text-terracotta">
+              One-Stop Store for 500+ Certified Agri Inputs.
+            </span>
           </>
         }
         description="A comprehensive physical & digital agricultural experience hub containing verified biological inputs, premium hybrid seeds, crop protection, mulching films, and drip irrigation hardware."
@@ -319,13 +327,22 @@ function KisaanMall() {
                 {/* Quantitative Calculation Display */}
                 <div className="grid grid-cols-2 gap-4 rounded-2xl border border-forest/15 bg-forest/5 p-5 text-xs font-mono">
                   <div>
-                    <span className="block text-[9px] text-forest/50 uppercase font-bold">REQUIRED DOSAGE / ACRE</span>
-                    <span className="font-extrabold text-forest-deep text-sm">{selectedProductForCalc.dosage}</span>
+                    <span className="block text-[9px] text-forest/50 uppercase font-bold">
+                      REQUIRED DOSAGE / ACRE
+                    </span>
+                    <span className="font-extrabold text-forest-deep text-sm">
+                      {selectedProductForCalc.dosage}
+                    </span>
                   </div>
                   <div>
-                    <span className="block text-[9px] text-forest/50 uppercase font-bold">TOTAL QUANTITY FOR {acres} ACRES</span>
+                    <span className="block text-[9px] text-forest/50 uppercase font-bold">
+                      TOTAL QUANTITY FOR {acres} ACRES
+                    </span>
                     <span className="font-extrabold text-terracotta text-sm">
-                      {selectedProductForCalc.dosage.replace(/(\d+(\.\d+)?)/, (m) => (parseFloat(m) * acres).toString())} Total
+                      {selectedProductForCalc.dosage.replace(/(\d+(\.\d+)?)/, (m) =>
+                        (parseFloat(m) * acres).toString(),
+                      )}{" "}
+                      Total
                     </span>
                   </div>
                 </div>
@@ -346,10 +363,14 @@ function KisaanMall() {
                       Field Spacing & Layout Instruction ({selectedCrop})
                     </span>
                     <p className="text-forest-deep font-semibold leading-relaxed">
-                      {selectedCrop === "Watermelon" && "Bed planting with central line 1 ft mulching film hole spacing. Watermelon lateral run 5 ft."}
-                      {selectedCrop === "Chili" && "18 x 12 inch staggered plant hole spacing under silver-black mulching film."}
-                      {selectedCrop === "Tomato" && "Bamboo staking poles (6 ft) spaced 10 ft apart along rows; stem clips applied at 2 ft intervals."}
-                      {selectedCrop === "Cauliflower" && "Transplant 45 cm x 45 cm grid spacing with mycorrhizal root drench before planting."}
+                      {selectedCrop === "Watermelon" &&
+                        "Bed planting with central line 1 ft mulching film hole spacing. Watermelon lateral run 5 ft."}
+                      {selectedCrop === "Chili" &&
+                        "18 x 12 inch staggered plant hole spacing under silver-black mulching film."}
+                      {selectedCrop === "Tomato" &&
+                        "Bamboo staking poles (6 ft) spaced 10 ft apart along rows; stem clips applied at 2 ft intervals."}
+                      {selectedCrop === "Cauliflower" &&
+                        "Transplant 45 cm x 45 cm grid spacing with mycorrhizal root drench before planting."}
                     </p>
                   </div>
                 </div>

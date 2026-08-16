@@ -8,11 +8,11 @@ import {
   Flower,
   Plant,
   ShieldCheck,
-  ShoppingBagOpen
+  ShoppingBagOpen,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 
-const CropWorld = lazy(() => import("../CropWorld"));
+const CropWorld = lazy(() => import("../crop-world"));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -174,7 +174,11 @@ export default function SectionCropWorld() {
   if (!mounted) return null;
 
   // Safe translation helper
-  const getStageField = (key: string, field: "badge" | "title" | "desc" | "ctaText" | "ctaLink", fallback: string): string => {
+  const getStageField = (
+    key: string,
+    field: "badge" | "title" | "desc" | "ctaText" | "ctaLink",
+    fallback: string,
+  ): string => {
     const res = t(`cropWorld.stages.${key}.${field}` as any);
     return typeof res === "string" && res ? res : fallback;
   };
@@ -203,7 +207,10 @@ export default function SectionCropWorld() {
             {stages.map((stage) => {
               const Icon = stage.icon;
               return (
-                <div key={stage.num} className="border border-border rounded-2xl p-6 bg-cream/30 flex flex-col justify-between">
+                <div
+                  key={stage.num}
+                  className="border border-border rounded-2xl p-6 bg-cream/30 flex flex-col justify-between"
+                >
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <div className="w-10 h-10 rounded-full border border-forest/30 bg-forest/5 flex items-center justify-center">
@@ -224,7 +231,10 @@ export default function SectionCropWorld() {
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {stage.metrics.map((m, idx) => (
-                        <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono bg-forest/10 text-forest-deep border border-forest/20">
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono bg-forest/10 text-forest-deep border border-forest/20"
+                        >
                           <CheckCircle className="w-3 h-3 text-forest" />
                           {m}
                         </span>
@@ -367,22 +377,30 @@ export default function SectionCropWorld() {
                         isActive
                           ? "bg-forest-deep text-cream shadow-md scale-110"
                           : isPast
-                          ? "bg-forest/10 text-forest"
-                          : "bg-gray-100 text-ink/40 group-hover:bg-forest/10 group-hover:text-forest"
+                            ? "bg-forest/10 text-forest"
+                            : "bg-gray-100 text-ink/40 group-hover:bg-forest/10 group-hover:text-forest"
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <span
                       className={`font-jet text-[10px] uppercase tracking-wider transition-all duration-300 ${
-                        isActive ? "text-forest font-bold" : isPast ? "text-forest/70" : "text-ink/40"
+                        isActive
+                          ? "text-forest font-bold"
+                          : isPast
+                            ? "text-forest/70"
+                            : "text-ink/40"
                       }`}
                     >
                       {stage.num}
                     </span>
                     <span
                       className={`font-sans text-[11px] font-semibold mt-0.5 tracking-tight text-center leading-tight transition-all duration-300 ${
-                        isActive ? "text-forest-deep font-bold" : isPast ? "text-forest/75" : "text-ink/40"
+                        isActive
+                          ? "text-forest-deep font-bold"
+                          : isPast
+                            ? "text-forest/75"
+                            : "text-ink/40"
                       }`}
                     >
                       {getStageField(stage.key, "title", stage.title).split(" ")[0]}

@@ -8,7 +8,7 @@ import {
   Plant,
   Shield,
   Sparkle,
-  Users
+  Users,
 } from "@phosphor-icons/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -127,7 +127,9 @@ function AgriPark() {
 
             <Reveal variant="fade-up" delay={0.25}>
               <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-600/95 md:text-lg font-normal">
-                We are building a single, living farm where India's leading seed, irrigation, nutrition, protection, machinery, drone technology, and market partners come together — demonstrated on real living crops across the full seed-to-sale journey.
+                We are building a single, living farm where India's leading seed, irrigation,
+                nutrition, protection, machinery, drone technology, and market partners come
+                together — demonstrated on real living crops across the full seed-to-sale journey.
               </p>
             </Reveal>
 
@@ -239,10 +241,7 @@ function AgriPark() {
       </div>
 
       {/* Interactive VIP Farm Visit Booking Modal */}
-      <AgriParkVisitModal
-        isOpen={isVisitModalOpen}
-        onClose={() => setIsVisitModalOpen(false)}
-      />
+      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
 
       <Footer />
     </main>

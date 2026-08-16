@@ -79,17 +79,14 @@ async function main() {
     // Ensure app user can access DB when we connected as root
     if (used.user === "root" && user !== "root") {
       try {
-        await conn.query(
-          `CREATE USER IF NOT EXISTS ?@'localhost' IDENTIFIED BY ?`,
-          [user, password],
-        );
+        await conn.query(`CREATE USER IF NOT EXISTS ?@'localhost' IDENTIFIED BY ?`, [
+          user,
+          password,
+        ]);
       } catch {
         // Older MySQL may not support IF NOT EXISTS for USER
         try {
-          await conn.query(
-            `CREATE USER ?@'localhost' IDENTIFIED BY ?`,
-            [user, password],
-          );
+          await conn.query(`CREATE USER ?@'localhost' IDENTIFIED BY ?`, [user, password]);
         } catch (e) {
           if (!String(e.message).includes("exists")) {
             console.warn(`User create skipped: ${e.message}`);
@@ -97,22 +94,13 @@ async function main() {
         }
       }
       try {
-        await conn.query(
-          `CREATE USER IF NOT EXISTS ?@'%' IDENTIFIED BY ?`,
-          [user, password],
-        );
+        await conn.query(`CREATE USER IF NOT EXISTS ?@'%' IDENTIFIED BY ?`, [user, password]);
       } catch {
         // ignore
       }
-      await conn.query(
-        `GRANT ALL PRIVILEGES ON \`${database}\`.* TO ?@'localhost'`,
-        [user],
-      );
+      await conn.query(`GRANT ALL PRIVILEGES ON \`${database}\`.* TO ?@'localhost'`, [user]);
       try {
-        await conn.query(
-          `GRANT ALL PRIVILEGES ON \`${database}\`.* TO ?@'%'`,
-          [user],
-        );
+        await conn.query(`GRANT ALL PRIVILEGES ON \`${database}\`.* TO ?@'%'`, [user]);
       } catch {
         // ignore
       }

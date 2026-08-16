@@ -11,7 +11,7 @@ import {
   Plant,
   ShieldCheck,
   ShoppingCart,
-  Sparkle
+  Sparkle,
 } from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -69,9 +69,11 @@ export default function AgriParkChapter() {
       className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] px-5 py-12 md:px-10 md:py-16"
     >
       <div className="mx-auto max-w-7xl space-y-8">
-        
         {/* ── 1. Top Section Header (Full Width) ── */}
-        <div data-home-reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div
+          data-home-reveal
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+        >
           <div className="max-w-2xl space-y-2">
             <div className="flex items-center gap-2">
               <span className="w-4 h-[1.5px] bg-[#5d7d37]" />
@@ -88,7 +90,8 @@ export default function AgriParkChapter() {
             </h2>
 
             <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
-              From Bio-Boosted seedlings with 98% survival to AI drone monitoring and 8 crop journey zones — see it work on real land before applying it to yours.
+              From Bio-Boosted seedlings with 98% survival to AI drone monitoring and 8 crop journey
+              zones — see it work on real land before applying it to yours.
             </p>
           </div>
 
@@ -113,7 +116,6 @@ export default function AgriParkChapter() {
 
         {/* ── 2. Side-by-Side Content Grid ── */}
         <div data-home-reveal className="grid gap-8 lg:grid-cols-12 lg:items-center">
-          
           {/* Left Column: Spec Table (6 cols) */}
           <div className="lg:col-span-6 space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-[#143d31]/12">
@@ -137,7 +139,10 @@ export default function AgriParkChapter() {
                 <span className="text-[#143d31]">Bio-Boosted Nursery</span>
               </div>
               {nurseryComparison.map((row) => (
-                <div key={row.label} className="grid grid-cols-3 py-3 text-xs sm:text-sm items-center">
+                <div
+                  key={row.label}
+                  className="grid grid-cols-3 py-3 text-xs sm:text-sm items-center"
+                >
                   <span className="font-semibold text-[#143d31]">{row.label}</span>
                   <span className="text-[#888a7a] line-through font-mono">{row.traditional}</span>
                   <div className="flex items-center gap-1.5 font-extrabold text-[#143d31]">
@@ -150,7 +155,9 @@ export default function AgriParkChapter() {
 
             <div className="pt-2 flex items-center justify-between text-xs text-[#4f624f]">
               <span className="font-medium">17-Acre AI Climate-Controlled Facility</span>
-              <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase">Zero Mortality Protocol</span>
+              <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase">
+                Zero Mortality Protocol
+              </span>
             </div>
           </div>
 
@@ -213,13 +220,14 @@ export default function AgriParkChapter() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#143d31]/85 via-[#143d31]/20 to-transparent" />
                   <div className="absolute bottom-3 left-3 right-3 text-white">
                     <p className="font-display text-base font-bold">17-Acre Demonstration Farm</p>
-                    <p className="text-xs text-white/80">AI monitoring, drone spraying & live trials</p>
+                    <p className="text-xs text-white/80">
+                      AI monitoring, drone spraying & live trials
+                    </p>
                   </div>
                 </div>
               )}
             </div>
           </div>
-
         </div>
 
         {/* ── 3. 8-Zone Minimal Strip ── */}
@@ -228,7 +236,9 @@ export default function AgriParkChapter() {
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
               WALK THE CROP JOURNEY · 8 FIELD ZONES
             </span>
-            <span className="font-mono text-[10px] text-[#4f624f]">01 – 08 Interactive Stations</span>
+            <span className="font-mono text-[10px] text-[#4f624f]">
+              01 – 08 Interactive Stations
+            </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
@@ -248,15 +258,12 @@ export default function AgriParkChapter() {
                   <p className="font-display text-xs font-bold text-[#143d31] leading-tight group-hover:text-[#5d7d37] transition-colors">
                     {z.label}
                   </p>
-                  <p className="text-[9px] text-[#4f624f] truncate mt-0.5 font-mono">
-                    {z.sub}
-                  </p>
+                  <p className="text-[9px] text-[#4f624f] truncate mt-0.5 font-mono">{z.sub}</p>
                 </div>
               );
             })}
           </div>
         </div>
-
       </div>
     </section>
   );

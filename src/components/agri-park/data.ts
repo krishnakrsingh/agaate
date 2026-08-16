@@ -21,7 +21,7 @@ import {
   Signpost as RouteIcon,
   SquaresFour,
   Truck,
-  Users
+  Users,
 } from "@phosphor-icons/react";
 import { EASE, type RevealVariant } from "@/components/common/motion";
 
@@ -43,7 +43,6 @@ export type Zone = {
   trialHighlights: string[];
   svgCoords: { cx: number; cy: number };
 };
-
 
 export const ZONES_EIGHT: ZoneEight[] = [
   { icon: Plant, label: "Seed Zone", benefit: "Choose the right variety before you sow" },
@@ -177,7 +176,6 @@ export const FIELD_LINES = [
   { x1: 15, y1: 55, x2: 155, y2: 55 },
   { x1: 85, y1: 15, x2: 85, y2: 95 },
 ];
-
 
 export const ALL_8_ZONES: Zone[] = [
   {
@@ -317,5 +315,3 @@ export const ALL_8_ZONES: Zone[] = [
     svgCoords: { cx: 155, cy: 75 },
   },
 ];
-
-

@@ -79,40 +79,46 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
+      { title: "Agaate — Integrated Seed-to-Market Agri Business" },
       {
         name: "description",
-        content: "Builds beautiful landing pages from wireframes and sitemaps.",
+        content:
+          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, market linkage, and carbon monetization.",
       },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
+      { name: "author", content: "Agaate (Anzix Farm Technologies Pvt Ltd)" },
+      { property: "og:title", content: "Agaate — Integrated Seed-to-Market Agri Business" },
       {
         property: "og:description",
-        content: "Builds beautiful landing pages from wireframes and sitemaps.",
+        content:
+          "High-yield bio-boosted nursery saplings, verified agri inputs, AI precision crop advisory, and guaranteed buyback market linkage.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
+      { property: "og:site_name", content: "Agaate" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@AgaateAgri" },
+      { name: "twitter:title", content: "Agaate — Integrated Seed-to-Market Agri Business" },
       {
         name: "twitter:description",
-        content: "Builds beautiful landing pages from wireframes and sitemaps.",
+        content:
+          "High-yield bio-boosted nursery saplings, verified agri inputs, AI precision crop advisory, and guaranteed buyback market linkage.",
       },
       {
         property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8b5fe1f9-75ef-420e-9642-83b88e3c162c/id-preview-bde321d4--5f71de86-508b-4bf1-9e09-572641742bf5.lovable.app-1782700326136.png",
+        content: "/logo.png",
       },
       {
         name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8b5fe1f9-75ef-420e-9642-83b88e3c162c/id-preview-bde321d4--5f71de86-508b-4bf1-9e09-572641742bf5.lovable.app-1782700326136.png",
+        content: "/logo.png",
       },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      {
+        rel: "icon",
+        href: "/logo.png",
       },
     ],
   }),
@@ -126,10 +132,6 @@ function RootShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const localeMatch = router.state.matches.find((m) => m.routeId === "/{-$locale}");
   const lang = (localeMatch?.params as any)?.locale ?? "en";
-  const path =
-    typeof window !== "undefined"
-      ? window.location.pathname.replace(/^\/(hi|bn|te|mr|ta|ur|gu|kn|or|ml|pa|as|es)/, "")
-      : "";
   return (
     <html lang={lang}>
       <head>

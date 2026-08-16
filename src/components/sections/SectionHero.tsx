@@ -177,8 +177,15 @@ export default memo(function SectionHero({
   }, [startAnimation]);
 
   return (
-    <section ref={sectionRef} id="hero" className="relative w-full h-[100dvh] p-2 md:p-2.5 bg-[#fafbf7]">
-      <div ref={containerRef} className="relative w-full h-full overflow-hidden rounded-[16px] bg-[#fafbf7]">
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="relative w-full h-[100dvh] p-2 md:p-2.5 bg-[#fafbf7]"
+    >
+      <div
+        ref={containerRef}
+        className="relative w-full h-full overflow-hidden rounded-[16px] bg-[#fafbf7]"
+      >
         {/* Background Video */}
         <video
           ref={videoRef}
@@ -288,7 +295,8 @@ export default memo(function SectionHero({
                           color: "rgba(255,255,255,0.78)",
                           letterSpacing: "0.01em",
                           opacity: activeIndex === i ? 1 : 0,
-                          transform: activeIndex === i ? "translate3d(0, 0, 0)" : "translate3d(0, 6px, 0)",
+                          transform:
+                            activeIndex === i ? "translate3d(0, 0, 0)" : "translate3d(0, 6px, 0)",
                           filter: activeIndex === i ? "blur(0px)" : "blur(4px)",
                           transition:
                             "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1), filter 600ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -370,7 +378,6 @@ export default memo(function SectionHero({
             </div>
           </div>
         </div>
-
 
         {/* Scroll cue */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none">

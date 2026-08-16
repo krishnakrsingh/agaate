@@ -12,7 +12,7 @@ import {
   Shield,
   ShoppingBag,
   UserCheck,
-  Users
+  Users,
 } from "@phosphor-icons/react";
 
 export const brochureHref = "/agaate-brochure.pdf";
@@ -132,12 +132,42 @@ export const whatWeDo = [
 ];
 
 export const stats = [
-  { to: 15000, suffix: "+", label: "Acres Under Association", sub: "Land under active cultivation", icon: Globe },
-  { to: 500, suffix: "+", label: "Nursery Plants Delivered (Ac. Eq.)", sub: "Bio-boosted seedling coverage", icon: Plant },
+  {
+    to: 15000,
+    suffix: "+",
+    label: "Acres Under Association",
+    sub: "Land under active cultivation",
+    icon: Globe,
+  },
+  {
+    to: 500,
+    suffix: "+",
+    label: "Nursery Plants Delivered (Ac. Eq.)",
+    sub: "Bio-boosted seedling coverage",
+    icon: Plant,
+  },
   { to: 2000, suffix: "+", label: "Parivaar Farmers", sub: "Empowered rural network", icon: Users },
-  { to: 25, suffix: "+", label: "Direct Manufacturer Partners", sub: "Certified agri-input brands", icon: Factory },
-  { to: 200, suffix: "+", label: "Drip Irrigation Installations", sub: "Precision water management", icon: Drop },
-  { to: 20, suffix: "+", label: "Kisan Sathi Field Team", sub: "Dedicated on-ground advisors", icon: UserCheck },
+  {
+    to: 25,
+    suffix: "+",
+    label: "Direct Manufacturer Partners",
+    sub: "Certified agri-input brands",
+    icon: Factory,
+  },
+  {
+    to: 200,
+    suffix: "+",
+    label: "Drip Irrigation Installations",
+    sub: "Precision water management",
+    icon: Drop,
+  },
+  {
+    to: 20,
+    suffix: "+",
+    label: "Kisan Sathi Field Team",
+    sub: "Dedicated on-ground advisors",
+    icon: UserCheck,
+  },
 ];
 
 export const paradigmMetrics = [
@@ -223,7 +253,8 @@ export const team: TeamMember[] = [
       "Oversees 20+ Kisan Sathi field operations teams",
     ],
     pub: "Cold-chain logistics models and revenue mechanics for high-density seedling distribution hubs (2025)",
-    quote: "Eliminating supply chain delays transforms fragile seedling survival into guaranteed farm revenue.",
+    quote:
+      "Eliminating supply chain delays transforms fragile seedling survival into guaranteed farm revenue.",
   },
   {
     id: "abhay-ranjan",
@@ -275,7 +306,8 @@ export const team: TeamMember[] = [
       "Engineered automated fertigation & irrigation alert algorithms",
     ],
     pub: "NDVI canopy analysis and Sentinel-2 radar scans in vegetable crop rotations (2026)",
-    quote: "Sensors, drones, and AI on your farm mean seeing issues earlier, acting faster, and wasting less.",
+    quote:
+      "Sensors, drones, and AI on your farm mean seeing issues earlier, acting faster, and wasting less.",
   },
 ];
 
@@ -323,7 +355,10 @@ export const corporateFacts = [
   { label: "Date of Incorporation", value: "May 28, 2024" },
   { label: "Corporate Identification Number (CIN)", value: "U46200HR2024PTC121982" },
   { label: "Jurisdiction & RoC", value: "Registrar of Companies, Delhi (Operations in Haryana)" },
-  { label: "Registered Office Address", value: "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004" },
+  {
+    label: "Registered Office Address",
+    value: "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+  },
   { label: "Board of Directors", value: "Ankit Rawat · Nisha Kumari · Naveen Panwar" },
   { label: "Official Contact Email", value: "info@agaate.in / naveen.mnit@gmail.com" },
   { label: "Authorized Share Capital", value: "₹20,00,000" },

@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  MapPin,
-  Package,
-  Sparkle,
-  Storefront,
-  UserCheck
-} from "@phosphor-icons/react";
+import { MapPin, Package, Sparkle, Storefront, UserCheck } from "@phosphor-icons/react";
 
 export default function KisaanMallShowcase() {
   const [activePin, setActivePin] = useState<number | null>(null);
@@ -54,8 +48,12 @@ export default function KisaanMallShowcase() {
                   <MapPin className="h-3 w-3" />
                   <span>Flagship Storefront</span>
                 </div>
-                <p className="font-display text-xs font-bold text-white mt-1">Authentic Agri Mall</p>
-                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">Every item QR-traced direct from partner factories.</p>
+                <p className="font-display text-xs font-bold text-white mt-1">
+                  Authentic Agri Mall
+                </p>
+                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
+                  Every item QR-traced direct from partner factories.
+                </p>
               </motion.div>
             )}
           </div>
@@ -82,8 +80,12 @@ export default function KisaanMallShowcase() {
                   <Storefront className="h-3 w-3" />
                   <span>500+ Verified SKUs</span>
                 </div>
-                <p className="font-display text-xs font-bold text-white mt-1">Fully Stocked Shelves</p>
-                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">Bio-inputs, hybrid seeds, UV mulch & drip kits ready for field dispatch.</p>
+                <p className="font-display text-xs font-bold text-white mt-1">
+                  Fully Stocked Shelves
+                </p>
+                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
+                  Bio-inputs, hybrid seeds, UV mulch & drip kits ready for field dispatch.
+                </p>
               </motion.div>
             )}
           </div>
@@ -110,8 +112,12 @@ export default function KisaanMallShowcase() {
                   <UserCheck className="h-3 w-3" />
                   <span>In-Store Agronomist</span>
                 </div>
-                <p className="font-display text-xs font-bold text-white mt-1">Soil Testing & Advice</p>
-                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">Walk in with crop samples for instant spray & dose guidance.</p>
+                <p className="font-display text-xs font-bold text-white mt-1">
+                  Soil Testing & Advice
+                </p>
+                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
+                  Walk in with crop samples for instant spray & dose guidance.
+                </p>
               </motion.div>
             )}
           </div>

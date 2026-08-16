@@ -1,13 +1,5 @@
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import {
-  Check,
-  Eye,
-  MagnifyingGlass,
-  Plus,
-  ShieldCheck,
-  Sparkle,
-  X
-} from "@phosphor-icons/react";
+import { Check, Eye, MagnifyingGlass, Plus, ShieldCheck, Sparkle, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { ExtendedCatalogItem } from "@/data/services-data";
 import { EASE, Reveal, TiltCard } from "@/components/common/motion";
@@ -116,14 +108,18 @@ export function ProductCatalog({
             Browse 500+ Certified Agri Inputs
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-forest/75 md:text-base">
-            Traceable from direct partner manufacturing plants (Bayer, Yara, Sakata, Netafim, Stanes) straight to your billing receipt.
+            Traceable from direct partner manufacturing plants (Bayer, Yara, Sakata, Netafim,
+            Stanes) straight to your billing receipt.
           </p>
         </div>
       </Reveal>
 
       {/* Product Cards Grid */}
       <div className="mx-auto max-w-7xl px-6 pt-10 pb-24 lg:px-12">
-        <motion.div layout className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <motion.div
+          layout
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        >
           <AnimatePresence mode="popLayout">
             {items.map((item, i) => (
               <motion.article
@@ -281,22 +277,37 @@ export function ProductCatalog({
 
               <div className="space-y-3 rounded-2xl border border-border bg-card p-5 text-xs font-mono">
                 <div>
-                  <span className="block text-[9px] text-forest/40 uppercase font-bold">Active Formulation</span>
-                  <span className="font-bold text-forest-deep">{quickViewItem.activeIngredient}</span>
+                  <span className="block text-[9px] text-forest/40 uppercase font-bold">
+                    Active Formulation
+                  </span>
+                  <span className="font-bold text-forest-deep">
+                    {quickViewItem.activeIngredient}
+                  </span>
                 </div>
                 <div>
-                  <span className="block text-[9px] text-forest/40 uppercase font-bold">Prescribed Dosage</span>
+                  <span className="block text-[9px] text-forest/40 uppercase font-bold">
+                    Prescribed Dosage
+                  </span>
                   <span className="font-bold text-terracotta">{quickViewItem.dosage}</span>
                 </div>
                 <div>
-                  <span className="block text-[9px] text-forest/40 uppercase font-bold">Application Protocol</span>
-                  <span className="text-forest/80 leading-relaxed block mt-0.5">{quickViewItem.application}</span>
+                  <span className="block text-[9px] text-forest/40 uppercase font-bold">
+                    Application Protocol
+                  </span>
+                  <span className="text-forest/80 leading-relaxed block mt-0.5">
+                    {quickViewItem.application}
+                  </span>
                 </div>
                 <div>
-                  <span className="block text-[9px] text-forest/40 uppercase font-bold">Suitable Crops</span>
+                  <span className="block text-[9px] text-forest/40 uppercase font-bold">
+                    Suitable Crops
+                  </span>
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     {quickViewItem.suitableCrops.map((c) => (
-                      <span key={c} className="rounded bg-bone px-2 py-0.5 text-[10px] font-bold text-forest-deep">
+                      <span
+                        key={c}
+                        className="rounded bg-bone px-2 py-0.5 text-[10px] font-bold text-forest-deep"
+                      >
                         {c}
                       </span>
                     ))}
@@ -306,7 +317,9 @@ export function ProductCatalog({
 
               <div className="flex items-center justify-between border-t border-border pt-4">
                 <div>
-                  <span className="block font-mono text-[9px] text-forest/40 uppercase font-bold">PRICE PER ACRE</span>
+                  <span className="block font-mono text-[9px] text-forest/40 uppercase font-bold">
+                    PRICE PER ACRE
+                  </span>
                   <span className="font-mono text-xl font-extrabold text-terracotta">
                     ₹{quickViewItem.pricePerAc.toLocaleString("en-IN")}
                   </span>

@@ -16,18 +16,12 @@ export default function FieldSignal() {
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headlineRefs = useRef<(HTMLHeadingElement | null)[]>([]);
 
-  const setSlideRef = useCallback(
-    (el: HTMLDivElement | null, i: number) => {
-      slideRefs.current[i] = el;
-    },
-    [],
-  );
-  const setHeadlineRef = useCallback(
-    (el: HTMLHeadingElement | null, i: number) => {
-      headlineRefs.current[i] = el;
-    },
-    [],
-  );
+  const setSlideRef = useCallback((el: HTMLDivElement | null, i: number) => {
+    slideRefs.current[i] = el;
+  }, []);
+  const setHeadlineRef = useCallback((el: HTMLHeadingElement | null, i: number) => {
+    headlineRefs.current[i] = el;
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;

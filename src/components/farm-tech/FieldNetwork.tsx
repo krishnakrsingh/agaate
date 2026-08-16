@@ -84,21 +84,49 @@ const PATROL_PATH =
 
 const PATROL_START = { x: 400, y: 60 };
 
+import { useState } from "react";
+
 type FieldNetworkSectionProps = {
-  nodeActive: string;
-  setNodeActive: (label: string) => void;
-  isPlayingFlight: boolean;
-  flightProgress: number;
-  runDroneFlight: () => void;
+  nodeActive?: string;
+  setNodeActive?: (label: string) => void;
+  isPlayingFlight?: boolean;
+  flightProgress?: number;
+  runDroneFlight?: () => void;
 };
 
 export function FieldNetworkSection({
-  nodeActive,
-  setNodeActive,
-  isPlayingFlight,
-  flightProgress,
-  runDroneFlight,
-}: FieldNetworkSectionProps) {
+  nodeActive: propNodeActive,
+  setNodeActive: propSetNodeActive,
+  isPlayingFlight: propIsPlayingFlight,
+  flightProgress: propFlightProgress,
+  runDroneFlight: propRunDroneFlight,
+}: FieldNetworkSectionProps = {}) {
+  const [internalNodeActive, setInternalNodeActive] = useState("Node-04 (West Block)");
+  const [internalIsPlayingFlight, setInternalIsPlayingFlight] = useState(false);
+  const [internalFlightProgress, setInternalFlightProgress] = useState(0);
+
+  const nodeActive = propNodeActive ?? internalNodeActive;
+  const setNodeActive = propSetNodeActive ?? setInternalNodeActive;
+  const isPlayingFlight = propIsPlayingFlight ?? internalIsPlayingFlight;
+  const flightProgress = propFlightProgress ?? internalFlightProgress;
+
+  const runDroneFlight =
+    propRunDroneFlight ??
+    (() => {
+      setInternalIsPlayingFlight(true);
+      setInternalFlightProgress(0);
+      const interval = setInterval(() => {
+        setInternalFlightProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setTimeout(() => setInternalIsPlayingFlight(false), 1000);
+            return 100;
+          }
+          return prev + 10;
+        });
+      }, 400);
+    });
+
   const activeNode = NETWORK_NODES.find((n) => n.label === nodeActive) ?? NETWORK_NODES[0];
   return (
     <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-12">

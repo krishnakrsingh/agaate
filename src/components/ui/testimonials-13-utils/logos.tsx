@@ -1,10 +1,4 @@
-import {
-  Buildings,
-  CloudRain,
-  Plant,
-  Sun,
-  Tractor
-} from "@phosphor-icons/react";
+import { Buildings, CloudRain, Plant, Sun, Tractor } from "@phosphor-icons/react";
 import { ComponentProps } from "react";
 
 export const Logo01 = (props: ComponentProps<"svg">) => <Buildings {...props} />;

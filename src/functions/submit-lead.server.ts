@@ -33,7 +33,9 @@ function ticketId() {
 }
 
 function hashIp(ip: string) {
-  return createHash("sha256").update(ip || "unknown").digest("hex");
+  return createHash("sha256")
+    .update(ip || "unknown")
+    .digest("hex");
 }
 
 function checkRateLimit(key: string, limit = 5, windowMs = 15 * 60 * 1000) {

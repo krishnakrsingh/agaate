@@ -5,7 +5,7 @@ import {
   Plant,
   ShieldCheck,
   ShoppingBag,
-  Users
+  Users,
 } from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
@@ -69,7 +69,13 @@ export default function ImpactScaleReach() {
     >
       <div className="relative mx-auto max-w-7xl pt-2">
         <div className="pointer-events-none absolute -left-10 -top-6 z-0 hidden opacity-25 md:block">
-          <svg width="240" height="300" viewBox="0 0 240 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="240"
+            height="300"
+            viewBox="0 0 240 300"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M120 10C120 10 30 75 30 160C30 245 120 290 120 290C120 290 210 245 210 160C210 75 120 10 120 10Z"
               fill="#5d7d37"
@@ -123,8 +129,8 @@ export default function ImpactScaleReach() {
               >
                 <span className="font-extrabold text-[#5d7d37]">2,000+ Farmers</span> trust Agaate
                 across{" "}
-                <span className="font-serif text-[#5d7d37] italic font-normal">15,000+ acres</span> of
-                real farmland
+                <span className="font-serif text-[#5d7d37] italic font-normal">15,000+ acres</span>{" "}
+                of real farmland
               </h2>
               <p className="mt-2 font-sans text-xs font-normal leading-relaxed text-[#4f624f] sm:text-sm">
                 Concentrated operational scale delivering direct-from-brand inputs, doorstep

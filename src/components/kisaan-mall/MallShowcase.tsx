@@ -7,7 +7,7 @@ import {
   Plant,
   ShoppingBag,
   Tree,
-  Wrench
+  Wrench,
 } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import {

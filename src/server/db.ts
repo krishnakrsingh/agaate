@@ -3,9 +3,7 @@ import type { Pool } from "mysql2/promise";
 let pool: Pool | null = null;
 
 export function isDbConfigured() {
-  return Boolean(
-    process.env.MYSQL_HOST && process.env.MYSQL_USER && process.env.MYSQL_DATABASE,
-  );
+  return Boolean(process.env.MYSQL_HOST && process.env.MYSQL_USER && process.env.MYSQL_DATABASE);
 }
 
 export async function getDbPool(): Promise<Pool> {

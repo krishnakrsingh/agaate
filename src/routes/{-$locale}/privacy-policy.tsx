@@ -13,7 +13,7 @@ import {
   MapPin,
   Plant,
   ShieldCheck,
-  UserCheck
+  UserCheck,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
@@ -134,7 +134,8 @@ function PrivacyPolicyPage() {
               <div>
                 <h4 className="font-serif text-lg font-bold text-forest-deep">Zero Data Selling</h4>
                 <p className="mt-1 text-xs text-forest/70 leading-relaxed">
-                  We never sell farmer phone numbers, GPS coordinates, or crop records to third parties.
+                  We never sell farmer phone numbers, GPS coordinates, or crop records to third
+                  parties.
                 </p>
               </div>
             </div>
@@ -146,7 +147,8 @@ function PrivacyPolicyPage() {
               <div>
                 <h4 className="font-serif text-lg font-bold text-forest-deep">Agronomy Use Only</h4>
                 <p className="mt-1 text-xs text-forest/70 leading-relaxed">
-                  Telemetry and diagnostic photos are strictly used to improve your crop yield and protection.
+                  Telemetry and diagnostic photos are strictly used to improve your crop yield and
+                  protection.
                 </p>
               </div>
             </div>
@@ -158,7 +160,8 @@ function PrivacyPolicyPage() {
               <div>
                 <h4 className="font-serif text-lg font-bold text-forest-deep">Encrypted Storage</h4>
                 <p className="mt-1 text-xs text-forest/70 leading-relaxed">
-                  Stored on secure cloud infrastructure with strict role-based access for agronomists.
+                  Stored on secure cloud infrastructure with strict role-based access for
+                  agronomists.
                 </p>
               </div>
             </div>
@@ -211,7 +214,10 @@ function PrivacyPolicyPage() {
                   {sec.subsections && (
                     <div className="mt-6 space-y-4">
                       {sec.subsections.map((sub, idx) => (
-                        <div key={idx} className="rounded-2xl bg-bone/60 p-4 border border-forest/10">
+                        <div
+                          key={idx}
+                          className="rounded-2xl bg-bone/60 p-4 border border-forest/10"
+                        >
                           <h4 className="font-serif text-base font-bold text-forest-deep">
                             {sub.subtitle}
                           </h4>

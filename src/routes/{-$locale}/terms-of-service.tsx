@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   ShieldWarning,
   Storefront,
-  WarningCircle
+  WarningCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
@@ -167,7 +167,9 @@ function TermsOfServicePage() {
                 <Scales className="h-5 w-5 text-moss" />
               </div>
               <div>
-                <h4 className="font-serif text-lg font-bold text-forest-deep">Legal Jurisdiction</h4>
+                <h4 className="font-serif text-lg font-bold text-forest-deep">
+                  Legal Jurisdiction
+                </h4>
                 <p className="mt-1 text-xs text-forest/70 leading-relaxed">
                   Enforceable under Indian law under the jurisdiction of Gurugram courts.
                 </p>

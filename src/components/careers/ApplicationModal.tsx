@@ -7,7 +7,7 @@ import {
   FileText,
   PaperPlaneRight,
   Sparkle,
-  X
+  X,
 } from "@phosphor-icons/react";
 import { ExtendedJobPosition, jobs } from "@/data/careers-data";
 import { EASE } from "@/components/common/motion";
@@ -27,13 +27,14 @@ const CONFETTI = [
 
 type Props = {
   job: ExtendedJobPosition | null;
+  isOpen?: boolean;
   onClose: () => void;
 };
 
-export default function ApplicationModal({ job, onClose }: Props) {
+export default function ApplicationModal({ job, isOpen = true, onClose }: Props) {
   const [step, setStep] = useState(1);
   const [applied, setApplied] = useState(false);
-  
+
   // Form fields
   const [selectedRoleId, setSelectedRoleId] = useState<string>(job?.id ?? jobs[0]?.id ?? "");
   const [name, setName] = useState("");
@@ -45,6 +46,8 @@ export default function ApplicationModal({ job, onClose }: Props) {
   const [isDragging, setIsDragging] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  if (!isOpen || !job) return null;
 
   const activeJob = jobs.find((j) => j.id === selectedRoleId) || job || jobs[0];
 
@@ -110,9 +113,7 @@ export default function ApplicationModal({ job, onClose }: Props) {
               <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
                 Agaate AgTech Recruitment Portal
               </span>
-              <h3 className="font-serif text-3xl text-forest-deep font-bold">
-                {activeJob?.title}
-              </h3>
+              <h3 className="font-serif text-3xl text-forest-deep font-bold">{activeJob?.title}</h3>
               <span className="font-mono text-[10px] text-forest/60 block mt-1">
                 {activeJob?.dept} · {activeJob?.loc} · {activeJob?.type}
               </span>
@@ -182,7 +183,9 @@ export default function ApplicationModal({ job, onClose }: Props) {
                     Application Successfully Logged!
                   </h4>
                   <p className="relative mt-3 max-w-xs text-xs leading-relaxed text-forest/75">
-                    Thank you, <strong>{name}</strong>! Your application for <strong>{activeJob.title}</strong> has been logged in our HR system. Our operations team will evaluate your profile and contact you within 48 hours.
+                    Thank you, <strong>{name}</strong>! Your application for{" "}
+                    <strong>{activeJob.title}</strong> has been logged in our HR system. Our
+                    operations team will evaluate your profile and contact you within 48 hours.
                   </p>
                 </motion.div>
               ) : (
@@ -344,8 +347,8 @@ export default function ApplicationModal({ job, onClose }: Props) {
                                   isDragging
                                     ? "border-forest bg-forest/10"
                                     : resumeFile
-                                    ? "border-moss bg-moss/5"
-                                    : "border-border bg-card hover:border-forest/40"
+                                      ? "border-moss bg-moss/5"
+                                      : "border-border bg-card hover:border-forest/40"
                                 }`}
                               >
                                 <input
@@ -381,7 +384,8 @@ export default function ApplicationModal({ job, onClose }: Props) {
                                   <>
                                     <CloudArrowUp className="h-8 w-8 text-forest/50 mb-2" />
                                     <p className="font-jet text-xs font-semibold text-forest-deep">
-                                      Drag & drop your resume PDF here, or <span className="text-terracotta underline">browse</span>
+                                      Drag & drop your resume PDF here, or{" "}
+                                      <span className="text-terracotta underline">browse</span>
                                     </p>
                                     <p className="font-mono text-[9px] text-forest/45 mt-1">
                                       Supports PDF, DOC, DOCX up to 10MB
@@ -418,11 +422,13 @@ export default function ApplicationModal({ job, onClose }: Props) {
                                 <strong>Expertise Focus:</strong> {cropExp || "General Agronomy"}
                               </p>
                               <p className="text-forest-deep">
-                                <strong>Resume Attached:</strong> {resumeFile ? resumeFile.name : "Simulated Profile Upload"}
+                                <strong>Resume Attached:</strong>{" "}
+                                {resumeFile ? resumeFile.name : "Simulated Profile Upload"}
                               </p>
                             </div>
                             <p className="text-xs text-forest/70">
-                              By submitting, your candidate profile is dispatched directly to Agaate operations HR. Response guaranteed within 48 hours.
+                              By submitting, your candidate profile is dispatched directly to Agaate
+                              operations HR. Response guaranteed within 48 hours.
                             </p>
                           </div>
                         )}

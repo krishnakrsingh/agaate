@@ -1,5 +1,4 @@
-import { AnimatedFooter } from "@/components/ui/animated-footer";
+import { Footer } from "./footer/Footer";
 
-export default function Footer() {
-  return <AnimatedFooter />;
-}
+export { Footer };
+export default Footer;

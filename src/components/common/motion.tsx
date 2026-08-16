@@ -524,5 +524,3 @@ export function MagneticButton({
     </div>
   );
 }
-
-export { motion, useInView, useScroll, useSpring };

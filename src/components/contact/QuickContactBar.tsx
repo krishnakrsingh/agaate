@@ -1,27 +1,14 @@
 import { Envelope, ChatCircleText, Phone } from "@phosphor-icons/react";
-import {
-  EMAIL,
-  MAILTO_URL,
-  PRIMARY_PHONE,
-  TEL_PRIMARY,
-  WHATSAPP_URL,
-} from "./data";
+import { EMAIL, MAILTO_URL, PRIMARY_PHONE, TEL_PRIMARY, WHATSAPP_URL } from "./data";
 import { track } from "@/lib/analytics";
 
 export default function QuickContactBar() {
   return (
-    <section
-      aria-label="Quick contact options"
-      className="border-b border-neutral-200 bg-white"
-    >
+    <section aria-label="Quick contact options" className="border-b border-neutral-200 bg-white">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-12">
         <div>
-          <p className="text-sm font-medium text-forest-deep">
-            Typical reply within 2 hours
-          </p>
-          <p className="mt-0.5 text-sm text-neutral-500">
-            Farm hours · 7:30 AM – 8:00 PM IST
-          </p>
+          <p className="text-sm font-medium text-forest-deep">Typical reply within 2 hours</p>
+          <p className="mt-0.5 text-sm text-neutral-500">Farm hours · 7:30 AM – 8:00 PM IST</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">

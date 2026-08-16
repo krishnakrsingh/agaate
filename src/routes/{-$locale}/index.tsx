@@ -1,21 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useCallback } from "react";
-import { useScrollTriggerRefresh } from "@/hooks/useScrollTriggerRefresh";
+import { useScrollTriggerRefresh } from "@/hooks";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/components/LoadingScreen";
-
-// Homepage Sections
 import SectionHero from "@/components/sections/SectionHero";
-import FieldSignal from "@/components/home/FieldSignal";
-import PeopleChapter from "@/components/home/PeopleChapter";
-import SectionStatsMarquee from "@/components/home/SectionStatsMarquee";
-import AppChapter from "@/components/home/AppChapter";
-import MallChapter from "@/components/home/MallChapter";
-import AgriParkChapter from "@/components/home/AgriParkChapter";
-import BrandsAssociationsChapter from "@/components/home/BrandsAssociationsChapter";
-import ProofChapter from "@/components/home/ProofChapter";
-import ClosingChapter from "@/components/home/ClosingChapter";
+import {
+  SectionStatsMarquee,
+  FieldSignal,
+  PillarAdvisory,
+  PillarNursery,
+  PillarMall,
+  PillarMarket,
+  PeopleChapter,
+  AppChapter,
+  MallChapter,
+  AgriParkChapter,
+  BrandsAssociationsChapter,
+  ProofChapter,
+  ClosingChapter,
+} from "@/components/home";
 
 export const Route = createFileRoute("/{-$locale}/")({
   head: () => ({
@@ -82,7 +86,13 @@ function Index() {
             {/* Section 2: Farmer pain points — establish empathy & problem */}
             <FieldSignal />
 
-            {/* Section 3: Who Agaate is — founder vision & core commitments */}
+            {/* Section 3: The 4 Core Integrated Pillars */}
+            <PillarAdvisory />
+            <PillarNursery />
+            <PillarMall />
+            <PillarMarket />
+
+            {/* Section 4: Who Agaate is — impact numbers, founder vision & leadership */}
             <PeopleChapter />
 
             {/* Section 4: Talk to Agronomist App — first digital solution */}

@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { CountUp, EASE, motion, useInView } from "@/components/common/motion";
+import { motion, useInView } from "framer-motion";
+import { CountUp, EASE } from "@/components/common/motion";
 
 const MOLECULES = [
   { left: "6%", top: "10%", delay: 0, duration: 10, size: "text-[11px]" },

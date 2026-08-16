@@ -15,10 +15,10 @@ export function useHomeChapterReveal(variant: RevealVariant = "fade-up") {
 
     const targets = section.querySelectorAll<HTMLElement>("[data-home-reveal]");
     const mm = gsap.matchMedia();
-    
+
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       let fromVars: gsap.TweenVars = { autoAlpha: 0 };
-      
+
       switch (variant) {
         case "fade-up":
           fromVars = { autoAlpha: 0, y: 40, scale: 0.96 };
@@ -37,22 +37,18 @@ export function useHomeChapterReveal(variant: RevealVariant = "fade-up") {
           break;
       }
 
-      gsap.fromTo(
-        targets,
-        fromVars,
-        {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotationX: 0,
-          duration: 1.2,
-          stagger: 0.15,
-          ease: "expo.out",
-          scrollTrigger: { trigger: section, start: "top 80%", once: true },
-          clearProps: "transform",
-        },
-      );
+      gsap.fromTo(targets, fromVars, {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotationX: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "expo.out",
+        scrollTrigger: { trigger: section, start: "top 80%", once: true },
+        clearProps: "transform",
+      });
     });
 
     return () => mm.revert();
