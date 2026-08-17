@@ -5,11 +5,80 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import type { Plugin } from "vite";
+
+/**
+ * Optimizes @phosphor-icons/react imports by rewriting root barrel imports
+ * to direct subpath imports (e.g. @phosphor-icons/react/dist/csr/Plant.es.js).
+ * Prevents Vite from traversing 7,200+ icon modules on every build.
+ */
+function phosphorIconsOptimizePlugin(): Plugin {
+  return {
+    name: "vite-plugin-phosphor-optimize",
+    enforce: "pre",
+    transform(code, id) {
+      if (!id.match(/\.[jt]sx?$/) || !code.includes("@phosphor-icons/react")) {
+        return null;
+      }
+
+      const importRegex =
+        /import\s+(type\s+)?\{([^}]+)\}\s+from\s+["']@phosphor-icons\/react["'];?/g;
+      if (!importRegex.test(code)) {
+        return null;
+      }
+
+      const transformed = code.replace(importRegex, (_fullMatch, isTypeKeyword, specifiersStr) => {
+        const isWholeImportType = Boolean(isTypeKeyword);
+        const specifiers = specifiersStr
+          .split(",")
+          .map((s: string) => s.trim())
+          .filter(Boolean);
+        const statements: string[] = [];
+
+        for (const spec of specifiers) {
+          const isInlineType = spec.startsWith("type ");
+          const cleanSpec = isInlineType ? spec.slice(5).trim() : spec;
+          const [origName] = cleanSpec.split(/\s+as\s+/).map((s: string) => s.trim());
+
+          if (
+            isWholeImportType ||
+            isInlineType ||
+            origName === "Icon" ||
+            origName === "IconProps" ||
+            origName === "IconWeight"
+          ) {
+            statements.push(
+              `import type { ${cleanSpec} } from "@phosphor-icons/react/dist/lib/types";`,
+            );
+          } else if (origName === "IconContext") {
+            statements.push(
+              `import { ${cleanSpec} } from "@phosphor-icons/react/dist/lib/context";`,
+            );
+          } else if (origName === "IconBase") {
+            statements.push(
+              `import { ${cleanSpec} } from "@phosphor-icons/react/dist/lib/IconBase";`,
+            );
+          } else {
+            statements.push(`import { ${cleanSpec} } from "@phosphor-icons/react/${origName}";`);
+          }
+        }
+
+        return statements.join("\n");
+      });
+
+      return {
+        code: transformed,
+        map: null,
+      };
+    },
+  };
+}
 
 export default defineConfig({
   vite: {
+    plugins: [phosphorIconsOptimizePlugin()],
     resolve: {
-      dedupe: ["react", "react-dom", "@react-three/fiber", "@react-three/drei", "three"],
+      dedupe: ["react", "react-dom", "@react-three/fiber", "three"],
     },
   },
   tanstackStart: {

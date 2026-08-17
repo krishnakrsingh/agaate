@@ -1,6 +1,17 @@
 import type { ComponentType } from "react";
-import { Compass, House, Info, Phone, Stack } from "@phosphor-icons/react";
-import { Cpu, ShieldCheck, Sprout, Store, Trees, TrendingUp } from "lucide-react";
+import {
+  Compass,
+  Cpu,
+  House,
+  Info,
+  Phone,
+  Plant,
+  ShieldCheck,
+  Stack,
+  Storefront,
+  Tree,
+  TrendUp,
+} from "@phosphor-icons/react";
 
 export type NavSubLink = {
   key: string;
@@ -29,14 +40,14 @@ export const NAV_STRUCTURE: NavItem[] = [
         href: "/services#nursery",
         label: "Bio-Boosted Nursery",
         desc: "High-yield saplings & automated plug plants",
-        icon: Sprout,
+        icon: Plant,
       },
       {
         key: "kisaanMall",
         href: "/services#kisaan-mall",
         label: "Kisaan Mall",
         desc: "Verified seeds, fertilizers & machinery store",
-        icon: Store,
+        icon: Storefront,
       },
       {
         key: "farmTech",
@@ -50,7 +61,7 @@ export const NAV_STRUCTURE: NavItem[] = [
         href: "/services#carbon-credits",
         label: "Carbon Credits",
         desc: "Monetize sustainable farming practices",
-        icon: Trees,
+        icon: Tree,
       },
       {
         key: "bigFarmSetup",
@@ -64,7 +75,7 @@ export const NAV_STRUCTURE: NavItem[] = [
         href: "/services#market-linkage",
         label: "Market Linkage",
         desc: "Direct buyback & transparent price floor",
-        icon: TrendingUp,
+        icon: TrendUp,
       },
     ],
   },

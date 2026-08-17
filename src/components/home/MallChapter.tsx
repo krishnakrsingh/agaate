@@ -12,11 +12,12 @@ import {
   ShoppingBag,
   PhoneCall,
 } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, MagneticButton, EASE } from "@/components/common/motion";
 import KisaanMallShowcase from "./KisaanMallShowcase";
 
-const SUPPLY_CHAIN_STEPS = [
+const SUPPLY_CHAIN_STEPS_EN = [
   {
     step: "01",
     title: "Direct Partner Sourcing",
@@ -43,7 +44,37 @@ const SUPPLY_CHAIN_STEPS = [
   },
 ];
 
+const SUPPLY_CHAIN_STEPS_HI = [
+  {
+    step: "01",
+    title: "सीधे कंपनियों से सोर्सिंग",
+    desc: "50+ प्रमाणित बीज व इनपुट निर्माताओं से सीधी आपूर्ति।",
+    icon: Buildings,
+  },
+  {
+    step: "02",
+    title: "सख्त गुणवत्ता जांच",
+    desc: "अंकुरण, शुद्धता और 0% नकली की गारंटी जांच।",
+    icon: Microscope,
+  },
+  {
+    step: "03",
+    title: "अगाते वेयरहाउस हब",
+    desc: "तापमान-नियंत्रित सुरक्षित वेयरहाउस में सुरक्षित भंडारण।",
+    icon: Package,
+  },
+  {
+    step: "04",
+    title: "खेत तक त्वरित डिलीवरी",
+    desc: "15+ जिलों में सीधे आपके खेत के गेट तक 24 घंटे में डिलीवरी।",
+    icon: Truck,
+  },
+];
+
 export default function MallChapter() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const SUPPLY_CHAIN_STEPS = isHindi ? SUPPLY_CHAIN_STEPS_HI : SUPPLY_CHAIN_STEPS_EN;
   const sectionRef = useHomeChapterReveal("fade-up");
 
   return (
@@ -73,19 +104,22 @@ export default function MallChapter() {
               </span>
               <span className="h-3 w-[1.5px] bg-[#143d31]/20" />
               <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#143d31]">
-                Agaate Mall
+                {isHindi ? "अगाते किसान मॉल" : "Agaate Mall"}
               </span>
             </div>
 
             {/* Display Headline */}
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
-              India&apos;s First Modern Retail for Farmers
+              {isHindi
+                ? "किसानों के लिए भारत का पहला आधुनिक कृषि मॉल"
+                : "India's First Modern Retail for Farmers"}
             </h2>
 
             {/* Subtext Description */}
             <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-              One-stop shop for farmers. Verified seeds, biologicals, and drip kits delivered direct
-              to your farm at honest prices.
+              {isHindi
+                ? "किसानों के लिए वन-स्टॉप कृषि केंद्र। 100% प्रमाणित बीज, जैविक पोषण और ड्रिप किट सीधे खेत तक किफायती दरों पर।"
+                : "One-stop shop for farmers. Verified seeds, biologicals, and drip kits delivered direct to your farm at honest prices."}
             </p>
 
             {/* Metrics Strip */}
@@ -95,7 +129,7 @@ export default function MallChapter() {
                   <CountUp to={1000} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Products
+                  {isHindi ? "प्रमाणित उत्पाद" : "Products"}
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
@@ -103,26 +137,33 @@ export default function MallChapter() {
                   <CountUp to={50} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Partners
+                  {isHindi ? "साझेदार ब्रांड्स" : "Partners"}
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  Single Day
+                  {isHindi ? "24 घंटे में" : "Single Day"}
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Doorstep Delivery
+                  {isHindi ? "खेत तक डिलीवरी" : "Doorstep Delivery"}
                 </p>
               </div>
             </div>
 
             {/* Feature Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
-              {[
-                "Direct-from-brand honest pricing",
-                "QR-verified product authenticity",
-                "Custom drip & irrigation packages",
-              ].map((feat) => (
+              {(isHindi
+                ? [
+                    "सीधे निर्माता कंपनियों से किफायती दाम",
+                    "क्यूआर कोड से 100% असली उत्पाद की गारंटी",
+                    "कस्टमाइज्ड ड्रिप व सिंचाई पैकेज",
+                  ]
+                : [
+                    "Direct-from-brand honest pricing",
+                    "QR-verified product authenticity",
+                    "Custom drip & irrigation packages",
+                  ]
+              ).map((feat) => (
                 <div
                   key={feat}
                   className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#143d31]"
@@ -139,7 +180,7 @@ export default function MallChapter() {
                 <span className="group relative inline-flex items-center gap-3 rounded-full bg-[#143d31] px-7 py-3.5 text-xs sm:text-sm font-bold text-white overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg cursor-pointer">
                   <span className="absolute inset-0 bg-[#5d7d37] transition-transform duration-500 ease-out -translate-x-full group-hover:translate-x-0 origin-left" />
                   <span className="relative z-10 flex items-center gap-3">
-                    <span>Browse Agaate Mall</span>
+                    <span>{isHindi ? "किसान मॉल देखें" : "Browse Agaate Mall"}</span>
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
                 </span>
@@ -167,14 +208,15 @@ export default function MallChapter() {
           <div className="relative z-10 text-center max-w-2xl mx-auto mb-10">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] px-4 py-1.5 text-[10px] font-mono font-bold text-white uppercase tracking-widest mb-3 shadow-xs">
               <ShieldCheck className="h-3.5 w-3.5 text-[#a3e635]" />
-              AGAATE DIRECT SUPPLY GUARANTEE
+              {isHindi ? "अगाते डायरेक्ट सप्लाई गारंटी" : "AGAATE DIRECT SUPPLY GUARANTEE"}
             </span>
             <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
-              How Agaate Direct Supply Works
+              {isHindi ? "अगाते डायरेक्ट सप्लाई कैसे काम करती है" : "How Agaate Direct Supply Works"}
             </h3>
             <p className="font-sans text-xs sm:text-sm text-[#4f624f]/90 mt-2 leading-relaxed max-w-xl mx-auto">
-              From certified brand factories to your field gate — every single batch is verified for
-              germination, purity, and authenticity.
+              {isHindi
+                ? "प्रमाणित ब्रांड फैक्ट्रियों से लेकर सीधे आपके खेत के गेट तक — हर एक लॉट की अंकुरण, शुद्धता और असलियत जांची जाती है।"
+                : "From certified brand factories to your field gate — every single batch is verified for germination, purity, and authenticity."}
             </p>
           </div>
 
@@ -187,7 +229,7 @@ export default function MallChapter() {
                   <div className="group relative w-full rounded-2xl bg-white/90 backdrop-blur-md p-6 border border-[#143d31]/8 hover:border-[#5d7d37]/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between h-full">
                     <div className="flex items-center justify-between mb-4">
                       <span className="font-mono text-[10px] font-extrabold tracking-widest text-[#5d7d37] bg-[#5d7d37]/8 px-2 py-0.5 rounded-md">
-                        STEP {s.step}
+                        {isHindi ? `चरण ${s.step}` : `STEP ${s.step}`}
                       </span>
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#143d31] to-[#245242] text-white shadow-md shadow-[#143d31]/15 group-hover:scale-110 transition-transform duration-300">
                         <Icon className="h-5 w-5" />
@@ -225,14 +267,17 @@ export default function MallChapter() {
         >
           <div>
             <span className="font-mono text-xs font-bold text-white/90 uppercase tracking-widest">
-              DIRECT AGRONOMIST RECOMMENDATION
+              {isHindi ? "कृषि वैज्ञानिक से सीधी सलाह" : "DIRECT AGRONOMIST RECOMMENDATION"}
             </span>
             <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
-              Unsure which seed or bio-input matches your soil?
+              {isHindi
+                ? "तय नहीं कर पा रहे कि आपकी मिट्टी के लिए कौन सा बीज या खाद सही है?"
+                : "Unsure which seed or bio-input matches your soil?"}
             </h3>
             <p className="font-sans text-xs text-white/75 mt-1 max-w-xl">
-              Talk directly with senior field experts to get exact dose calculations before placing
-              your Agaate Mall order.
+              {isHindi
+                ? "ऑर्डर करने से पहले सीधे वरिष्ठ कृषि विशेषज्ञों से बात करें और सही मात्रा का चार्ट प्राप्त करें।"
+                : "Talk directly with senior field experts to get exact dose calculations before placing your Agaate Mall order."}
             </p>
           </div>
 
@@ -240,7 +285,7 @@ export default function MallChapter() {
             <MagneticButton strength={0.2} as="a" href="/services#kisaan-mall">
               <span className="inline-flex items-center gap-2 rounded-full bg-[#a3e635] px-6 py-3.5 text-xs font-extrabold text-[#143d31] hover:bg-[#b5f247] transition-colors cursor-pointer shadow-md">
                 <ShoppingBag className="h-4 w-4" />
-                <span>Browse Store</span>
+                <span>{isHindi ? "स्टोर देखें" : "Browse Store"}</span>
               </span>
             </MagneticButton>
             <a
@@ -248,7 +293,7 @@ export default function MallChapter() {
               className="inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-xs font-bold text-white hover:bg-white/10 transition-colors"
             >
               <PhoneCall className="h-3.5 w-3.5 text-white" />
-              <span>Call Agronomist</span>
+              <span>{isHindi ? "कृषि डॉक्टर को कॉल करें" : "Call Agronomist"}</span>
             </a>
           </div>
         </div>

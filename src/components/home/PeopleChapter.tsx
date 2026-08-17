@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Plant, Stethoscope, TrendUp } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
+import { useTranslation } from "react-i18next";
 import { CountUp, Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 
-const impactStats = [
+const impactStatsEn = [
   {
     id: "network",
     icon: Stethoscope,
@@ -33,7 +34,37 @@ const impactStats = [
   },
 ];
 
-const team = [
+const impactStatsHi = [
+  {
+    id: "network",
+    icon: Stethoscope,
+    label: "सलाह व नेटवर्क",
+    accent: "#5d7d37",
+    headline: "उत्तर भारत के खेतों में रियल-टाइम वैज्ञानिक सलाह।",
+    primary: { value: 15000, suffix: "+", label: "एकड़ निगरानी रकबा" },
+    secondary: { value: 2000, suffix: "+", label: "जुड़े किसान" },
+  },
+  {
+    id: "infra",
+    icon: Plant,
+    label: "बायो-नर्सरी इंफ्रास्ट्रक्चर",
+    accent: "#3a6b28",
+    headline: "शून्य-मृत्यु दर वाली प्लग पौध।",
+    primary: { value: 85, suffix: " लाख+", label: "सप्लाई बायो-पौधे" },
+    secondary: { value: 98, suffix: "%", label: "खेत में जमाव दर" },
+  },
+  {
+    id: "market",
+    icon: TrendUp,
+    label: "मार्केट लिंकेज",
+    accent: "#143d31",
+    headline: "उचित फसल खरीद व अतिरिक्त कमाई।",
+    primary: { value: 10, prefix: "₹", suffix: " करोड़+", label: "किसानों को भुगतान" },
+    secondary: { value: 100, suffix: "%", label: "पक्का बायबैक" },
+  },
+];
+
+const teamEn = [
   { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
   { name: "Kuldeep Sengar", role: "Procurement Head", image: "/team/kuldeep.png" },
   { name: "Abhay Ranjan", role: "Chief of Staff", image: "/team/abhay.png" },
@@ -41,7 +72,19 @@ const team = [
   { name: "Ravi Kumar", role: "Data & Strategy", image: "/team/ravi.png" },
 ];
 
+const teamHi = [
+  { name: "अंकित रावत", role: "संस्थापक एवं सीईओ", image: "/team/ankit.png?v=2" },
+  { name: "कुलदीप सेंगर", role: "प्रोक्योरमेंट हेड", image: "/team/kuldeep.png" },
+  { name: "अभय रंजन", role: "चीफ ऑफ स्टाफ", image: "/team/abhay.png" },
+  { name: "चंचला शुक्ला", role: "कृषि वैज्ञानिक", image: "/team/chanchala.png" },
+  { name: "रवि कुमार", role: "डेटा एवं रणनीति", image: "/team/ravi.png" },
+];
+
 export default function PeopleChapter() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const impactStats = isHindi ? impactStatsHi : impactStatsEn;
+  const team = isHindi ? teamHi : teamEn;
   const sectionRef = useHomeChapterReveal("fade-up");
 
   return (
@@ -56,7 +99,7 @@ export default function PeopleChapter() {
           <div className="flex items-center gap-2.5 mb-8">
             <span className="w-5 h-[1.5px] bg-[#5d7d37]" />
             <p className="font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#5d7d37]">
-              Agaate by the numbers
+              {isHindi ? "अगाते: आंकड़ों के आईने में" : "Agaate by the numbers"}
             </p>
           </div>
 
@@ -131,8 +174,9 @@ export default function PeopleChapter() {
             className="rounded-3xl bg-[#eaf0df] p-8 md:p-12 border border-[#143d31]/10 flex flex-col md:flex-row items-center justify-between gap-8"
           >
             <blockquote className="font-serif text-xl md:text-2xl font-normal italic text-[#143d31] flex-1 max-w-4xl leading-relaxed">
-              "We built Agaate with a simple belief — that every farmer deserves the right guidance,
-              the right tools, and the right support, so that their hard work never goes to loss."
+              {isHindi
+                ? "“हमने अगाते की शुरुआत एक सरल विश्वास के साथ की — कि हर किसान को सही मार्गदर्शन, सही साधन और सही सहयोग मिलना चाहिए, ताकि उनकी मेहनत कभी घाटे में न बदले।”"
+                : '"We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss."'}
             </blockquote>
             <div className="flex items-center gap-4 shrink-0 border-t md:border-t-0 md:border-l border-[#143d31]/15 pt-6 md:pt-0 md:pl-8">
               <motion.img
@@ -143,9 +187,11 @@ export default function PeopleChapter() {
                 className="h-14 w-14 rounded-full object-cover border-2 border-white shrink-0 cursor-pointer"
               />
               <div>
-                <p className="font-display text-base font-extrabold text-[#143d31]">Ankit Rawat</p>
+                <p className="font-display text-base font-extrabold text-[#143d31]">
+                  {isHindi ? "अंकित रावत" : "Ankit Rawat"}
+                </p>
                 <p className="font-sans text-xs font-semibold text-[#5d7d37] mt-0.5">
-                  Founder & CEO
+                  {isHindi ? "संस्थापक एवं सीईओ" : "Founder & CEO"}
                 </p>
               </div>
             </div>
@@ -155,7 +201,7 @@ export default function PeopleChapter() {
         {/* Leadership Team List */}
         <Reveal variant="fade-up" delay={0.2} className="mt-16 border-t border-[#143d31]/10 pt-10">
           <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-            Leadership Team
+            {isHindi ? "नेतृत्व टीम" : "Leadership Team"}
           </p>
           <Stagger
             stagger={0.08}

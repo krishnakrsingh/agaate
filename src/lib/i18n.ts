@@ -1,50 +1,26 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-// Bundle all locales directly into module graph for instant 100% reliable 0ms rendering & SSR
-const localeModules = import.meta.glob("/src/locales/**/*.json", { eager: true });
+// Bundle English as default fallback for instant 0ms rendering
+const enModules = import.meta.glob("/src/locales/en/*.json", { eager: true });
+// Lazy-load other languages on demand
+const lazyLocaleModules = import.meta.glob("/src/locales/*/*.json");
 
-const resources: Record<string, Record<string, any>> = {};
+const resources: Record<string, Record<string, any>> = { en: {} };
 const namespaces = new Set<string>();
 
-for (const path in localeModules) {
-  const match = path.match(/\/src\/locales\/([^/]+)\/([^/]+)\.json$/);
+for (const path in enModules) {
+  const match = path.match(/\/src\/locales\/en\/([^/]+)\.json$/);
   if (match) {
-    const [, lng, ns] = match;
-    resources[lng] = resources[lng] || {};
-    const mod = localeModules[path] as any;
-    resources[lng][ns] = mod.default || mod;
+    const [, ns] = match;
+    const mod = enModules[path] as any;
+    resources.en[ns] = mod.default || mod;
     namespaces.add(ns);
   }
 }
 
-// All 22 Official Scheduled Languages of India + English + Spanish
-const SUPPORTED_LNGS = [
-  "en",
-  "hi",
-  "bn",
-  "te",
-  "mr",
-  "ta",
-  "ur",
-  "gu",
-  "kn",
-  "or",
-  "ml",
-  "pa",
-  "as",
-  "ne",
-  "mai",
-  "sat",
-  "ks",
-  "kok",
-  "sd",
-  "doi",
-  "mni",
-  "sa",
-  "brx",
-  "es",
-];
+// Supported languages: English (en) and Hindi (hi)
+const SUPPORTED_LNGS = ["en", "hi"];
 
 i18n.use(initReactI18next).init({
   lng: "en",
@@ -57,8 +33,31 @@ i18n.use(initReactI18next).init({
   react: { useSuspense: false },
 });
 
+const loadedLanguages = new Set<string>(["en"]);
+
 export async function setLocale(locale: string) {
   const resolved = SUPPORTED_LNGS.includes(locale) ? locale : "en";
+
+  if (resolved !== "en" && !loadedLanguages.has(resolved)) {
+    const loaders: Promise<any>[] = [];
+    for (const path in lazyLocaleModules) {
+      if (path.startsWith(`/src/locales/${resolved}/`)) {
+        const match = path.match(/\/src\/locales\/[^/]+\/([^/]+)\.json$/);
+        if (match) {
+          const ns = match[1];
+          loaders.push(
+            lazyLocaleModules[path]().then((mod: any) => {
+              const data = mod.default || mod;
+              i18n.addResourceBundle(resolved, ns, data, true, true);
+            }),
+          );
+        }
+      }
+    }
+    await Promise.all(loaders);
+    loadedLanguages.add(resolved);
+  }
+
   if (i18n.language !== resolved) {
     await i18n.changeLanguage(resolved);
   }

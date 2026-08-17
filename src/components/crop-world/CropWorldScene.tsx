@@ -1,5 +1,4 @@
 import { useRef, MutableRefObject, useMemo } from "react";
-import { PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { materials, C, SOIL_CLODS } from "./CropWorldMaterials";
 import { OrganicLeaf, CompoundLeafBranch, FlowerBlossom, VineTendril } from "./CropWorldParts";
@@ -117,7 +116,7 @@ function CropWorldScene({ progressRef }: { progressRef: MutableRefObject<number>
 
   return (
     <>
-      <PerspectiveCamera ref={cameraRef} makeDefault position={[0, 1.5, 4]} fov={40} />
+      <perspectiveCamera ref={cameraRef} position={[0, 1.5, 4]} fov={40} />
 
       <ambientLight intensity={0.65} />
       <directionalLight

@@ -6,6 +6,8 @@ import { useGSAP } from "@gsap/react";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { CountUp, TiltCard, MagneticButton } from "@/components/common/motion";
 
+import { useTranslation } from "react-i18next";
+
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface PillarData {
@@ -27,7 +29,7 @@ interface PillarData {
   imageAlt: string;
 }
 
-const PILLARS_DATA: PillarData[] = [
+const PILLARS_DATA_EN: PillarData[] = [
   {
     id: "pillar-advisory",
     number: "01",
@@ -96,7 +98,80 @@ const PILLARS_DATA: PillarData[] = [
   },
 ];
 
+const PILLARS_DATA_HI: PillarData[] = [
+  {
+    id: "pillar-advisory",
+    number: "01",
+    tag: "फील्ड एडवाइजरी",
+    title: "खेत पर अनुभवी कृषि वैज्ञानिकों का सीधा मार्गदर्शन",
+    description:
+      "हमारे फील्ड विशेषज्ञ सीधे खेत पर आकर सटीक रोग पहचान, फर्टीगेशन शेड्यूल और संपूर्ण फसल सलाह देते हैं।",
+    metrics: [
+      { value: 20, suffix: "+", label: "कृषि वैज्ञानिक" },
+      { value: 2000, suffix: "+", label: "किसान जुड़े" },
+      { value: 15, prefix: "< ", suffix: " मिनट", label: "त्वरित रिस्पांस" },
+    ],
+    features: [
+      "व्हाट्सएप फोटो से 15 मिनट में रोग पहचान",
+      "फसल चरण अनुसार स्प्रे व पोषण शेड्यूल",
+      "वरिष्ठ कृषि डॉक्टरों से सीधी बातचीत",
+    ],
+    ctaText: "कृषि डॉक्टर से बात करें",
+    ctaHref: "/services#farm-tech",
+    imageSrc: "/farm.png",
+    imageAlt: "खेत पर कृषि वैज्ञानिक सहायता",
+  },
+  {
+    id: "pillar-nursery",
+    number: "02",
+    tag: "बायो-बूस्टेड नर्सरी",
+    title: "उच्च रोग प्रतिरोधक क्षमता वाली प्लग पौध",
+    description:
+      "वातानुकूलित जर्मिनेशन में तैयार 100% निरोगी पौधे, जो देते हैं बिना किसी रोपाई झटके के तेज बढ़वार और बंपर पैदावार।",
+    metrics: [
+      { value: 85, suffix: " लाख+", label: "सप्लाई पौध" },
+      { value: 98, suffix: "%", label: "जमाव व बचाव दर" },
+      { value: 100, suffix: "+", label: "उन्नत किस्में" },
+    ],
+    features: [
+      "रोगों से लड़ने की प्राकृतिक जैविक क्षमता",
+      "रोपाई का झटका शून्य, खेत में तुरंत बढ़वार",
+      "मजबूत जड़ें जो दें 15-30% अधिक उपज",
+    ],
+    ctaText: "नर्सरी पौध देखें",
+    ctaHref: "/services#nursery",
+    imageSrc: "/nursery.png",
+    imageAlt: "बायो-बूस्टेड नर्सरी पौध",
+  },
+  {
+    id: "pillar-market",
+    number: "03",
+    tag: "मार्केट व कार्बन",
+    title: "पक्की फसल खरीद व कार्बन क्रेडिट्स से अतिरिक्त आय",
+    description:
+      "सीधे संस्थागत खरीदारों को बिक्री, खेत पर डिजिटल तौल और बिना किसी बिचौलिये के पक्का भुगतान।",
+    metrics: [
+      { value: 15000, suffix: "+", label: "एकड़ रकबा" },
+      { value: 10, prefix: "₹", suffix: " करोड़+", label: "किसान भुगतान" },
+      { value: 100, suffix: "%", label: "पारदर्शी व्यवस्था" },
+    ],
+    features: [
+      "फसल कटाई से पहले पक्का बायबैक अनुबंध",
+      "खेत पर डिजिटल वजन व तुरंत बैंक भुगतान",
+      "टिकाऊ खेती से प्रति एकड़ कार्बन क्रेडिट कमाई",
+    ],
+    ctaText: "मार्केट लिंकेज समझें",
+    ctaHref: "/services#market-linkage",
+    imageSrc: "/carbon credits.png",
+    imageAlt: "बायबैक और कार्बन क्रेडिट्स",
+  },
+];
+
 export default function PillarsHorizontalParallax() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const PILLARS_DATA = isHindi ? PILLARS_DATA_HI : PILLARS_DATA_EN;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
