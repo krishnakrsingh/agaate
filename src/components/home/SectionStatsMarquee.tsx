@@ -36,7 +36,7 @@ const row1: StatItem[] = [
   },
   {
     icon: Handshake,
-    value: "25+",
+    value: "50+",
     label: "SUPPLY PARTNERS",
   },
 ];
@@ -44,7 +44,7 @@ const row1: StatItem[] = [
 const row2: StatItem[] = [
   {
     icon: Package,
-    value: "500+",
+    value: "1000+",
     label: "AGRI-INPUT SKUS",
   },
   {
@@ -68,22 +68,22 @@ function StatPill({ item }: { item: StatItem }) {
   const Icon = item.icon;
 
   return (
-    <div className="group inline-flex shrink-0 cursor-grab active:cursor-grabbing select-none items-center rounded-[20px] border border-[#143d31]/10 bg-white p-1.5 shadow-[0_2px_8px_rgba(20,61,49,0.05)] transition-all duration-300 hover:border-[#143d31]/25 hover:shadow-[0_4px_14px_rgba(20,61,49,0.1)] hover:-translate-y-0.5">
+    <div className="group inline-flex shrink-0 cursor-grab active:cursor-grabbing select-none items-center rounded-[20px] border border-[#143d31]/12 bg-white p-1.5 shadow-[0_2px_8px_rgba(20,61,49,0.05)] transition-all duration-300 hover:border-[#143d31]/25 hover:shadow-[0_4px_14px_rgba(20,61,49,0.1)] hover:-translate-y-0.5">
       {/* Icon badge — subtle squircle */}
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[16px] bg-[#143d31] text-white transition-all duration-300 group-hover:bg-[#0d2a21] group-hover:scale-105 shadow-xs">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[16px] bg-[#1d5242] text-white transition-all duration-300 group-hover:bg-[#143d31] group-hover:scale-105 shadow-xs">
         <Icon weight="fill" className="h-[21px] w-[21px]" />
       </span>
 
-      {/* Metric value — high contrast dark text */}
-      <span className="ml-3 font-sans text-[17px] font-extrabold tracking-tight text-[#0d2a21] tabular-nums leading-none whitespace-nowrap">
+      {/* Metric value — clean font-semibold typography */}
+      <span className="ml-3.5 font-display text-[17px] font-semibold tracking-tight text-[#0a221a] tabular-nums leading-none whitespace-nowrap">
         {item.value}
       </span>
 
       {/* Divider line */}
-      <span className="mx-3.5 h-4.5 w-[1.5px] bg-[#143d31]/20 shrink-0" />
+      <span className="mx-3.5 h-4.5 w-[1.5px] bg-[#143d31]/25 shrink-0" />
 
-      {/* Label — crisp, dark, highly readable */}
-      <span className="mr-4 font-sans text-[12px] font-bold tracking-wider text-[#143d31]/90 whitespace-nowrap leading-none uppercase">
+      {/* Label — bold solid text label */}
+      <span className="mr-4 font-display text-[12px] font-bold tracking-[0.11em] text-[#0a221a] whitespace-nowrap leading-none uppercase">
         {item.label}
       </span>
     </div>
@@ -124,8 +124,8 @@ function InteractiveMarqueeTrack({
       const dtFactor = Math.min(deltaTime / 16.667, 2.5);
 
       if (!isDraggingRef.current) {
-        // Slow down slightly on hover for easy reading
-        const currentBase = isHoveredRef.current ? baseSpeed * 0.3 : baseSpeed;
+        // Pause or gently glide on hover for easy reading
+        const currentBase = isHoveredRef.current ? baseSpeed * 0.15 : baseSpeed;
 
         // Advance position by base speed + drag momentum
         xRef.current += (currentBase + dragMomentumRef.current) * dtFactor;
@@ -214,10 +214,10 @@ export default function SectionStatsMarquee() {
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-52 bg-gradient-to-l from-[#fafbf7] to-transparent" />
 
       {/* Row 1: slides left (baseSpeed < 0) */}
-      <InteractiveMarqueeTrack items={row1} baseSpeed={-0.45} className="mb-3.5 px-3" />
+      <InteractiveMarqueeTrack items={row1} baseSpeed={-0.35} className="mb-3.5 px-3" />
 
       {/* Row 2: slides right (baseSpeed > 0) */}
-      <InteractiveMarqueeTrack items={row2} baseSpeed={0.4} className="px-3" />
+      <InteractiveMarqueeTrack items={row2} baseSpeed={0.3} className="px-3" />
     </section>
   );
 }

@@ -20,7 +20,7 @@ const SUPPLY_CHAIN_STEPS = [
   {
     step: "01",
     title: "Direct Partner Sourcing",
-    desc: "Sourced directly from 25+ certified seed & input manufacturers.",
+    desc: "Sourced directly from 50+ certified seed & input manufacturers.",
     icon: Buildings,
   },
   {
@@ -37,7 +37,7 @@ const SUPPLY_CHAIN_STEPS = [
   },
   {
     step: "04",
-    title: "24-48h Farm Delivery",
+    title: "Single-Day Farm Delivery",
     desc: "Delivered straight to your field gate across 15+ districts.",
     icon: Truck,
   },
@@ -79,36 +79,36 @@ export default function MallChapter() {
 
             {/* Display Headline */}
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
-              Direct-From-Brand Agri Input Supply
+              India&apos;s First Modern Retail for Farmers
             </h2>
 
             {/* Subtext Description */}
             <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-              Verified seeds, biologicals, and drip kits delivered direct to your farm at honest
-              prices.
+              One-stop shop for farmers. Verified seeds, biologicals, and drip kits delivered direct
+              to your farm at honest prices.
             </p>
 
             {/* Metrics Strip */}
             <div className="my-6 border-y border-[#143d31]/12 py-4 grid grid-cols-3 gap-2">
               <div className="text-left first:border-l-0 first:pl-0">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={500} suffix="+" />
+                  <CountUp to={1000} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Verified Products
+                  Products
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={25} suffix="+" />
+                  <CountUp to={50} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Supply Partners
+                  Partners
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={48} prefix="24-" suffix=" Hrs" />
+                  Single Day
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
                   Doorstep Delivery

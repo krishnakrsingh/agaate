@@ -56,16 +56,16 @@
   --color-terracotta: var(--terracotta);
   --color-bone: var(--bone);
   --font-display:
-    "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Plus Jakarta Sans", "Outfit", "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
   --font-sans:
-    "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Plus Jakarta Sans", "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
   --font-mono:
     "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
   --font-body:
-    "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Plus Jakarta Sans", "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
   --font-serif:
     "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -250,12 +250,11 @@
     font-weight: 400;
   }
 
-  .font-display,
-  .font-serif,
-  .font-sans,
-  .font-mono,
-  .font-jet {
-    font-family: var(--font-body);
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-sans {
+    font-family: var(--font-sans);
   }
 }
 
