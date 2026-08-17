@@ -58,7 +58,7 @@ export default function AppChapter() {
     <section
       ref={sectionRef}
       id="agaate-app"
-      className="relative scroll-mt-28 overflow-x-clip bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
+      className="relative scroll-mt-28 overflow-x-clip bg-[#f4f8f5] px-5 py-16 sm:py-20 md:py-24 border-t border-[#143d31]/10 text-[#143d31]"
     >
       <div className="relative mx-auto grid max-w-7xl gap-12 sm:gap-16 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12">
         {/* Left — content */}
@@ -70,51 +70,39 @@ export default function AppChapter() {
             transition={{ duration: 0.8, ease: EASE }}
           >
             <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                {isHindi ? "अगाते मोबाइल ऐप" : "The Agaate app"}
+                {isHindi ? "अगाते मोबाइल ऐप" : "Agaate Mobile App"}
               </p>
             </div>
-            <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
-              {isHindi ? (
-                <>
-                  आपका पूरा खेत —{" "}
-                  <span className="font-serif italic font-normal text-[#5d7d37]">
-                    एक आसान ऐप में।
-                  </span>
-                </>
-              ) : (
-                <>
-                  Your whole farm —{" "}
-                  <span className="font-serif italic font-normal text-[#5d7d37]">in one app.</span>
-                </>
-              )}
+            <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.1] sm:text-4xl md:text-5xl">
+              {isHindi ? "आपका पूरा खेत — एक आसान ऐप में" : "Your entire farm in one intuitive app"}
             </h2>
           </motion.div>
 
           <Reveal variant="fade-up" delay={0.15}>
-            <p className="font-sans mt-5 max-w-lg text-[15px] leading-relaxed text-[#4f624f]">
+            <p className="font-sans mt-4 max-w-lg text-sm sm:text-base leading-relaxed text-[#4f624f]">
               {isHindi
                 ? "अनुमान छोड़ें, वैज्ञानिक कृषि अपनाएं। आधुनिक किसानों के लिए विशेष रूप से तैयार डिजिटल डैशबोर्ड से अपने खेत की पूरी निगरानी रखें।"
                 : "Replace guesswork with precision. Manage your entire farm from a single, intuitive dashboard designed exclusively for modern growers."}
             </p>
           </Reveal>
 
-          {/* Elegant Feature List - No Cards */}
-          <Stagger stagger={0.15} delayChildren={0.2} className="mt-10 max-w-xl space-y-7">
+          {/* Feature List - Zero Card Bloat */}
+          <Stagger stagger={0.15} delayChildren={0.2} className="mt-8 max-w-xl space-y-6">
             {appFeatures.map((feature) => {
               const Icon = feature.icon;
               return (
                 <StaggerItem key={feature.title} variant="fade-up">
                   <div className="flex gap-4">
-                    <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#143d31]/5 text-[#5d7d37]">
-                      <Icon className="h-5 w-5" weight="duotone" />
+                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#143d31]/10 text-[#143d31]">
+                      <Icon className="h-5 w-5 text-[#143d31]" weight="duotone" />
                     </div>
                     <div>
-                      <h3 className="font-display text-[17px] font-bold text-[#143d31]">
+                      <h3 className="font-display text-base sm:text-lg font-bold text-[#143d31] tracking-tight">
                         {feature.title}
                       </h3>
-                      <p className="mt-1.5 font-sans text-[14px] leading-relaxed text-[#4f624f]">
+                      <p className="mt-1 font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
                         {feature.description}
                       </p>
                     </div>
@@ -128,22 +116,22 @@ export default function AppChapter() {
           <Reveal
             variant="fade-up"
             delay={0.3}
-            className="mt-12 flex flex-wrap items-center justify-center sm:justify-start gap-4 lg:mt-14"
+            className="mt-10 flex flex-wrap items-center justify-center sm:justify-start gap-4 lg:mt-12"
           >
             <motion.a
               href="https://play.google.com/store/apps"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Get it on Google Play"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+              className="inline-block"
             >
               <img
                 src={googlePlayBadge}
                 alt="Get it on Google Play"
-                className="h-10 w-auto sm:h-12"
+                className="h-10 w-auto sm:h-11"
               />
             </motion.a>
             <motion.a
@@ -151,15 +139,15 @@ export default function AppChapter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download on the App Store"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="inline-block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#143d31]"
+              className="inline-block"
             >
               <img
                 src={appStoreBadge}
                 alt="Download on the App Store"
-                className="h-10 w-auto sm:h-12"
+                className="h-10 w-auto sm:h-11"
               />
             </motion.a>
           </Reveal>
@@ -178,7 +166,7 @@ export default function AppChapter() {
           >
             {/* Ambient Glow */}
             <div
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/25 to-[#143d31]/30 opacity-60 blur-3xl"
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-[#a3e635]/20 to-[#143d31]/20 opacity-50 blur-3xl"
               aria-hidden="true"
             />
             <div className="relative z-10 w-full">

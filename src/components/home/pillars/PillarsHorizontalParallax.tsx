@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { CountUp, TiltCard, MagneticButton } from "@/components/common/motion";
-
 import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -36,7 +35,7 @@ const PILLARS_DATA_EN: PillarData[] = [
     tag: "Field Advisory",
     title: "On-Ground Expert Agronomist Support",
     description:
-      "Field agronomists providing direct disease diagnosis, exact fertigation doses, and farm visits.",
+      "Field agronomists providing direct disease diagnosis, exact fertigation doses, and regular farm visits.",
     metrics: [
       { value: 20, suffix: "+", label: "Field Experts" },
       { value: 2000, suffix: "+", label: "Farmers Advised" },
@@ -240,21 +239,18 @@ export default function PillarsHorizontalParallax() {
               className="w-[100vw] h-screen shrink-0 flex items-center justify-center px-6 sm:px-12 lg:px-16 pt-20 pb-16"
             >
               <div className="mx-auto max-w-7xl w-full grid grid-cols-12 gap-8 lg:gap-14 items-center">
-                {/* Text Column (Left) — Consistent Across All Slides */}
+                {/* Text Column (Left) */}
                 <div className="col-span-12 lg:col-span-6 flex flex-col justify-center max-w-xl lg:pr-6">
                   {/* Eyebrow / Tag */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="font-mono text-base sm:text-lg font-extrabold text-[#5d7d37]">
-                      {pillar.number}
-                    </span>
-                    <span className="h-3 w-[1.5px] bg-[#143d31]/20" />
-                    <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#143d31]">
-                      {pillar.tag}
-                    </span>
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                      {pillar.number} · {pillar.tag}
+                    </p>
                   </div>
 
                   {/* Headline */}
-                  <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
+                  <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]">
                     {pillar.title}
                   </h2>
 
@@ -264,13 +260,15 @@ export default function PillarsHorizontalParallax() {
                   </p>
 
                   {/* Metrics Strip */}
-                  <div className="my-6 border-y border-[#143d31]/12 py-4 grid grid-cols-3 gap-2">
+                  <div className="my-6 border-y border-[#143d31]/10 py-4 grid grid-cols-3 gap-2">
                     {pillar.metrics.map((m, mIdx) => (
                       <div
                         key={m.label}
-                        className={`text-left ${mIdx > 0 ? "border-l border-[#5d7d37]/40 pl-3" : "first:border-l-0 first:pl-0"}`}
+                        className={`text-left ${
+                          mIdx > 0 ? "border-l border-[#143d31]/10 pl-3" : "first:border-l-0 first:pl-0"
+                        }`}
                       >
-                        <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
+                        <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
                           <CountUp to={m.value} prefix={m.prefix || ""} suffix={m.suffix || ""} />
                         </p>
                         <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
@@ -285,9 +283,9 @@ export default function PillarsHorizontalParallax() {
                     {pillar.features.map((feat) => (
                       <div
                         key={feat}
-                        className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#143d31]"
+                        className="flex items-center gap-2 text-xs sm:text-sm font-medium text-[#143d31]"
                       >
-                        <CheckCircle className="h-4 w-4 text-[#5d7d37] shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-[#143d31] shrink-0" />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -296,30 +294,27 @@ export default function PillarsHorizontalParallax() {
                   {/* CTA Button */}
                   <div>
                     <MagneticButton strength={0.25} as="a" href={pillar.ctaHref}>
-                      <span className="group relative inline-flex items-center gap-3 rounded-full bg-[#143d31] px-7 py-3.5 text-xs sm:text-sm font-bold text-white overflow-hidden shadow-md transition-all duration-300 cursor-pointer">
-                        <span className="absolute inset-0 bg-[#5d7d37] transition-transform duration-500 ease-out -translate-x-full group-hover:translate-x-0 origin-left" />
-                        <span className="relative z-10 flex items-center gap-3">
-                          <span>{pillar.ctaText}</span>
-                          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                        </span>
+                      <span className="inline-flex items-center gap-2 rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-all cursor-pointer">
+                        <span>{pillar.ctaText}</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-white" />
                       </span>
                     </MagneticButton>
                   </div>
                 </div>
 
-                {/* Visual Column (Right) — Consistent Across All Slides */}
+                {/* Visual Column (Right) */}
                 <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center">
                   <div className="w-full flex items-center justify-center">
-                    <TiltCard maxTilt={5} glare={false} className="w-full">
+                    <TiltCard maxTilt={4} glare={false} className="w-full">
                       <motion.div
-                        whileHover={{ scale: 1.025 }}
+                        whileHover={{ scale: 1.02 }}
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         className="relative w-full flex items-center justify-center p-0"
                       >
                         <img
                           src={pillar.imageSrc}
                           alt={pillar.imageAlt}
-                          className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain transition-transform duration-500 drop-shadow-2xl"
+                          className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-xl"
                         />
                       </motion.div>
                     </TiltCard>
@@ -331,29 +326,23 @@ export default function PillarsHorizontalParallax() {
         </div>
       </div>
 
-      {/* ── MOBILE VIEW: Pure Vertical Stack (< 768px) ── */}
-      <div className="block md:hidden py-12 px-5 space-y-12">
+      {/* ── MOBILE VIEW: Seamless Vertical Stack (< 768px) ── */}
+      <div className="block md:hidden py-12 px-5 space-y-12 divide-y divide-[#143d31]/10">
         {PILLARS_DATA.map((pillar) => (
-          <div
-            key={pillar.id}
-            className="rounded-3xl bg-white p-6 border border-[#143d31]/10 shadow-sm space-y-6"
-          >
+          <div key={pillar.id} className="pt-8 first:pt-0 space-y-5">
             {/* Tag */}
             <div className="flex items-center gap-2.5">
-              <span className="font-mono text-base font-extrabold text-[#5d7d37]">
-                {pillar.number}
-              </span>
-              <span className="h-3 w-[1.5px] bg-[#143d31]/20" />
-              <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#143d31]">
-                {pillar.tag}
-              </span>
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                {pillar.number} · {pillar.tag}
+              </p>
             </div>
 
-            <h3 className="font-display text-xl font-bold text-[#143d31] leading-snug">
+            <h3 className="font-display text-2xl font-bold text-[#143d31] leading-tight">
               {pillar.title}
             </h3>
 
-            <p className="font-sans text-xs text-[#4f624f] leading-relaxed font-normal">
+            <p className="font-sans text-sm text-[#4f624f] leading-relaxed font-normal">
               {pillar.description}
             </p>
 
@@ -362,18 +351,18 @@ export default function PillarsHorizontalParallax() {
               <img
                 src={pillar.imageSrc}
                 alt={pillar.imageAlt}
-                className="w-full max-h-[260px] object-contain drop-shadow-xl"
+                className="w-full max-h-[260px] object-contain drop-shadow-lg"
               />
             </div>
 
             {/* Metrics */}
-            <div className="border-y border-[#143d31]/12 py-3 grid grid-cols-3 gap-1">
+            <div className="border-y border-[#143d31]/10 py-3 grid grid-cols-3 gap-1">
               {pillar.metrics.map((m, mIdx) => (
                 <div
                   key={m.label}
-                  className={`text-left ${mIdx > 0 ? "border-l border-[#5d7d37]/40 pl-2" : ""}`}
+                  className={`text-left ${mIdx > 0 ? "border-l border-[#143d31]/10 pl-2" : ""}`}
                 >
-                  <p className="font-display text-base font-extrabold text-[#143d31]">
+                  <p className="font-display text-xl font-bold text-[#143d31]">
                     <CountUp to={m.value} prefix={m.prefix || ""} suffix={m.suffix || ""} />
                   </p>
                   <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
@@ -388,9 +377,9 @@ export default function PillarsHorizontalParallax() {
               {pillar.features.map((feat) => (
                 <div
                   key={feat}
-                  className="flex items-center gap-2 text-xs font-semibold text-[#143d31]"
+                  className="flex items-center gap-2 text-xs font-medium text-[#143d31]"
                 >
-                  <CheckCircle className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
+                  <CheckCircle className="h-3.5 w-3.5 text-[#143d31] shrink-0" />
                   <span>{feat}</span>
                 </div>
               ))}
@@ -400,7 +389,7 @@ export default function PillarsHorizontalParallax() {
             <div className="pt-2">
               <a
                 href={pillar.ctaHref}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] py-3 text-xs font-bold text-white shadow-md hover:bg-[#1a4d3e] transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] py-3 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-colors"
               >
                 <span>{pillar.ctaText}</span>
                 <ArrowRight className="h-3.5 w-3.5" />
