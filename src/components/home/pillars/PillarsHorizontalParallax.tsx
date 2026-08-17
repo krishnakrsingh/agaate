@@ -36,15 +36,16 @@ const PILLARS_DATA_EN: PillarData[] = [
     tag: "Field Advisory",
     title: "On-Ground Expert Agronomist Support",
     description:
-      "Field agronomists providing direct disease diagnosis, exact fertigation doses, and farm visits.",
+      "Field agronomists helping you farm disease-free — moving to preventive care, exact fertigation doses, and reduced cultivation costs.",
     metrics: [
-      { value: 20, suffix: "+", label: "Field Experts" },
-      { value: 2000, suffix: "+", label: "Farmers Advised" },
-      { value: 15, prefix: "< ", suffix: " Mins", label: "Response Time" },
+      { value: 40, suffix: "+", label: "Field Experts" },
+      { value: 15000, suffix: "+", label: "Acres Advised" },
+      { value: 100, suffix: "%", label: "Preventive Care" },
     ],
     features: [
       "Photo pest & disease identification",
       "Stage-wise spray & fertigation schedules",
+      "Preventive disease-free crop protection",
       "Direct access to senior agronomists",
     ],
     ctaText: "Talk to Agronomist",
@@ -105,15 +106,16 @@ const PILLARS_DATA_HI: PillarData[] = [
     tag: "फील्ड एडवाइजरी",
     title: "खेत पर अनुभवी कृषि वैज्ञानिकों का सीधा मार्गदर्शन",
     description:
-      "हमारे फील्ड विशेषज्ञ सीधे खेत पर आकर सटीक रोग पहचान, फर्टीगेशन शेड्यूल और संपूर्ण फसल सलाह देते हैं।",
+      "हमारे फील्ड विशेषज्ञ सिखाते हैं रोग-मुक्त खेती का तरीका — शुरुआती बचाव और प्रिवेंटिव देखभाल से लागत घटाएं और बंपर पैदावार पाएं।",
     metrics: [
-      { value: 20, suffix: "+", label: "कृषि वैज्ञानिक" },
-      { value: 2000, suffix: "+", label: "किसान जुड़े" },
-      { value: 15, prefix: "< ", suffix: " मिनट", label: "त्वरित रिस्पांस" },
+      { value: 40, suffix: "+", label: "कृषि विशेषज्ञ" },
+      { value: 15000, suffix: "+", label: "एकड़ रकबा सलाह" },
+      { value: 100, suffix: "%", label: "रोग-मुक्त सुरक्षा" },
     ],
     features: [
       "व्हाट्सएप फोटो से 15 मिनट में रोग पहचान",
       "फसल चरण अनुसार स्प्रे व पोषण शेड्यूल",
+      "प्रिवेंटिव देखभाल व लागत में भारी बचत",
       "वरिष्ठ कृषि डॉक्टरों से सीधी बातचीत",
     ],
     ctaText: "कृषि डॉक्टर से बात करें",

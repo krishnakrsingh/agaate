@@ -110,7 +110,7 @@ export const posts: Post[] = [
     time: "5 hours ago",
   },
   {
-    author: "Abhay Ranjan",
+    author: "Dharmendra Singh",
     location: "Rohtak Hub",
     crop: "Irrigation",
     text: "Our drip loop filters require flushing every 48 hours when pumping from groundwater borewells to avoid emitter salt crusting.",
@@ -323,7 +323,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote: "Agaate Kisan Mall is a one-stop shop for agricultural inputs.",
   },
   {
-    name: "Abhay Ranjan",
+    name: "Rajesh Kumar",
     role: "Farm Visitor · Rohtak",
     stars: 5,
     quote:

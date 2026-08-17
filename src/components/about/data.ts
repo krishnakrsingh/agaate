@@ -257,24 +257,6 @@ export const team: TeamMember[] = [
       "Precision procurement and direct-from-source inputs guarantee the highest quality foundation for every crop cycle.",
   },
   {
-    id: "abhay-ranjan",
-    name: "Abhay Ranjan",
-    role: "Chief of Staff",
-    focus: "Infrastructure, Nursery & Kisan Mall Retail Operations",
-    tag: "Infrastructure & Retail Lead",
-    icon: Globe as Icon,
-    image: "/team/abhay.png",
-    bio: "Abhay manages critical facility operations, specifically overseeing the 17-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
-    keyAch: [
-      "Designed and scaled the 17-acre controlled-environment Smart Nursery facility",
-      "Expanded Kisan Mall retail offerings to over 500+ verified SKUs",
-      "Built experiential technology demonstration zones for visiting farming clusters",
-    ],
-    pub: "Closed-loop agricultural business frameworks and retail hubs in North India (2025)",
-    quote:
-      "A farm to experience — exposing growers to modern farming technologies, quality seeds, and best practices in one place.",
-  },
-  {
     id: "chanchala-shukla",
     name: "Chanchala Shukla",
     role: "Agronomist",

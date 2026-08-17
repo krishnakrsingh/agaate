@@ -65,7 +65,7 @@ const quotes = [
     text: "Agaate Kisan Mall is a one-stop shop for agricultural inputs.",
   },
   {
-    name: "Abhay Ranjan",
+    name: "Rajesh Kumar",
     role: "Storefront visitor",
     text: "A farm to experience — multiple farming technologies, products, seed varieties, nursery for vegetables, multiple crops, and best practices in farming.",
   },
