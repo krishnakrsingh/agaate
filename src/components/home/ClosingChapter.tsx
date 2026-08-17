@@ -4,13 +4,19 @@ import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 
-const trustFacts = [
+const trustFactsEn = [
   "2,000+ Parivaar farmers",
   "15,000+ acres under association",
   "17-acre smart nursery",
 ];
 
-const actions = [
+const trustFactsHi = [
+  "2,000+ संतुष्ट किसान परिवार",
+  "15,000+ एकड़ जुड़ा रकबा",
+  "17-एकड़ हाई-टेक स्मार्ट नर्सरी",
+];
+
+const actionsEn = [
   {
     icon: DeviceMobile,
     number: "01",
@@ -43,11 +49,48 @@ const actions = [
   },
 ];
 
+const actionsHi = [
+  {
+    icon: DeviceMobile,
+    number: "01",
+    title: "कृषि डॉक्टर से सलाह लें",
+    text: "फसल की बीमारी, कीट-पतंगे, खाद की मात्रा या मिट्टी की समस्या — सीधे अनुभवी कृषि वैज्ञानिक से व्हाट्सएप पर बात करें और तुरंत सही इलाज पाएं।",
+    cta: "व्हाट्सएप चैट शुरू करें",
+    subCta: null,
+    href: "https://wa.me/918350085005?text=Namaste%20Agaate%20Team%2C%20mujhe%20apni%20fasal%20ke%20liye%20krishi%20salah%20chahiye.",
+    accent: "#143d31",
+  },
+  {
+    icon: MapPin,
+    number: "02",
+    title: "किसान मॉल से मंगवाएं",
+    text: "500+ प्रामाणिक बीज, खाद व जैविक कीटनाशक। सीधे 25+ टॉप निर्माता कंपनियों से। 100% असली उत्पाद, बिना किसी मिलावट व नकली के डर के।",
+    cta: "लोकेशन देखें",
+    subCta: "भोड़ा कलां, गुरुग्राम",
+    href: "/contact",
+    accent: "#9a5a2c",
+  },
+  {
+    icon: Phone,
+    number: "03",
+    title: "अगाते एग्री पार्क देखें",
+    text: "भारत का पहला एकीकृत एग्री पार्क — लाइव फसल प्लॉट, बायो-बूस्टेड नर्सरी, ड्रोन तकनीक और किसान ट्रेनिंग। अपने खेत में अपनाने से पहले लाइव देखें।",
+    cta: "विजिट शेड्यूल करें",
+    subCta: "कुकरोला, गुरुग्राम",
+    href: "/agri-park",
+    accent: "#476f2d",
+  },
+];
+
 export default function ClosingChapter() {
   const sectionRef = useHomeChapterReveal();
   const { i18n } = useTranslation();
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
+  const isHindi = currentLang.startsWith("hi");
+
+  const trustFacts = isHindi ? trustFactsHi : trustFactsEn;
+  const actions = isHindi ? actionsHi : actionsEn;
 
   return (
     <section
@@ -62,19 +105,30 @@ export default function ClosingChapter() {
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-5 h-[1px] bg-[#9a5a2c]/40" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#9a5a2c]">
-                Start your journey
+                {isHindi ? "अपनी यात्रा शुरू करें" : "Start your journey"}
               </p>
             </div>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              Your farm's next step{" "}
-              <span className="font-serif italic font-normal text-[#9a5a2c]">starts here.</span>
+              {isHindi ? (
+                <>
+                  आपके खेत की अगली सफलता का कदम{" "}
+                  <span className="font-serif italic font-normal text-[#9a5a2c]">
+                    यहीं से शुरू होता है।
+                  </span>
+                </>
+              ) : (
+                <>
+                  Your farm's next step{" "}
+                  <span className="font-serif italic font-normal text-[#9a5a2c]">starts here.</span>
+                </>
+              )}
             </h2>
           </div>
           <div data-home-reveal>
             <p className="font-sans max-w-3xl text-sm md:text-base leading-relaxed text-[#536253] font-normal">
-              Whether you need crop advice, the right inputs, nursery plants, or want to visit the
-              farm and see Agaate's ecosystem in person — choose the path that fits where you are
-              right now.
+              {isHindi
+                ? "चाहे आपको फसल सलाह चाहिए, 100% असली इनपुट्स, निरोगी नर्सरी पौध, या फिर आप फार्म पर आकर अगाते का पूरा लाइव मॉडल देखना चाहते हैं — अपनी जरूरत के अनुसार शुरुआत करें।"
+                : "Whether you need crop advice, the right inputs, nursery plants, or want to visit the farm and see Agaate's ecosystem in person — choose the path that fits where you are right now."}
             </p>
           </div>
         </div>
@@ -175,7 +229,9 @@ export default function ClosingChapter() {
           data-home-reveal
           className="mt-14 font-serif text-center text-xl italic leading-relaxed text-[#143d31]/60 md:text-2xl"
         >
-          "Agaate stands with the farmer at every step — from seed to sale."
+          {isHindi
+            ? "“अगाते हर कदम पर किसान के साथ खड़ा है — बीज से लेकर बिक्री तक।”"
+            : '"Agaate stands with the farmer at every step — from seed to sale."'}
         </p>
       </div>
     </section>

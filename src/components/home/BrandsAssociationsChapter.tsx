@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Buildings, Leaf, ShoppingBagOpen } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
 import { Marquee } from "@/components/ui/testimonials-13-utils/marquee";
 import { EASE, Reveal } from "@/components/common/motion";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
@@ -13,7 +14,7 @@ type BrandLogo = {
   src: string;
 };
 
-const TABS: {
+const TABS_EN: {
   id: BrandTab;
   label: string;
   hint: string;
@@ -35,6 +36,32 @@ const TABS: {
     id: "buyers",
     label: "Market access",
     hint: "Market channels connected through our linkage network",
+    icon: ShoppingBagOpen,
+  },
+];
+
+const TABS_HI: {
+  id: BrandTab;
+  label: string;
+  hint: string;
+  icon: typeof Buildings;
+}[] = [
+  {
+    id: "partners",
+    label: "साझेदार ब्रांड्स",
+    hint: "प्रमाणित बीज व इनपुट निर्माता जिनसे हम सीधे उत्पाद लेते हैं",
+    icon: Buildings,
+  },
+  {
+    id: "customers",
+    label: "किसान समूह (FPOs)",
+    hint: "अगाते के साथ जुड़े प्रगतिशील किसान व फार्म नेटवर्क",
+    icon: Leaf,
+  },
+  {
+    id: "buyers",
+    label: "मार्केट खरीदार",
+    hint: "हमारे लिंकेज नेटवर्क से जुड़े बड़े संस्थागत खरीदार",
     icon: ShoppingBagOpen,
   },
 ];
@@ -140,9 +167,13 @@ function BrandTile({ brand }: { brand: BrandLogo }) {
 }
 
 export default function BrandsAssociationsChapter() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const TABS = isHindi ? TABS_HI : TABS_EN;
+
   const sectionRef = useHomeChapterReveal("fade-up");
   const [tab, setTab] = useState<BrandTab>("partners");
-  const active = useMemo(() => TABS.find((t) => t.id === tab)!, [tab]);
+  const active = useMemo(() => TABS.find((t) => t.id === tab)!, [TABS, tab]);
   const logos = BRANDS[tab];
   const useDualRow = logos.length >= 8;
 
@@ -167,16 +198,17 @@ export default function BrandsAssociationsChapter() {
             <div className="mb-4 inline-flex items-center justify-center gap-2.5">
               <span className="h-[2px] w-7 sm:w-8 rounded-full bg-[#a3e635]" aria-hidden="true" />
               <p className="font-mono text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#143d31]">
-                Network
+                {isHindi ? "नेटवर्क" : "Network"}
               </p>
               <span className="h-[2px] w-7 sm:w-8 rounded-full bg-[#a3e635]" aria-hidden="true" />
             </div>
             <h2 className="font-display text-3xl font-bold tracking-tight text-[#143d31] sm:text-4xl md:text-5xl lg:text-[3.25rem]">
-              Brands &amp; Associations
+              {isHindi ? "प्रमुख ब्रांड्स एवं साझेदार" : "Brands & Associations"}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#536253]">
-              The companies, farmer networks, and market channels that power Agaate from seed to
-              sale.
+              {isHindi
+                ? "वे प्रतिष्ठित कंपनियां, किसान नेटवर्क और मार्केट खरीदार जो बीज से बिक्री तक अगाते को सशक्त बनाते हैं।"
+                : "The companies, farmer networks, and market channels that power Agaate from seed to sale."}
             </p>
           </div>
         </Reveal>

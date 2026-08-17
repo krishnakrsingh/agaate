@@ -12,13 +12,15 @@ import {
   type Icon,
 } from "@phosphor-icons/react";
 
+import { useTranslation } from "react-i18next";
+
 type StatItem = {
   icon: Icon;
   value: string;
   label: string;
 };
 
-const row1: StatItem[] = [
+const row1En: StatItem[] = [
   {
     icon: HouseLine,
     value: "15,00,000+",
@@ -26,7 +28,7 @@ const row1: StatItem[] = [
   },
   {
     icon: Plant,
-    value: "5,00,000+",
+    value: "85,00,000+",
     label: "BIO PLANTS DELIVERED",
   },
   {
@@ -41,7 +43,30 @@ const row1: StatItem[] = [
   },
 ];
 
-const row2: StatItem[] = [
+const row1Hi: StatItem[] = [
+  {
+    icon: HouseLine,
+    value: "15,00,000+",
+    label: "एकड़ जुड़ा रकबा",
+  },
+  {
+    icon: Plant,
+    value: "85,00,000+",
+    label: "बायो पौधे सप्लाई",
+  },
+  {
+    icon: TrendUp,
+    value: "₹10 करोड़+",
+    label: "वार्षिक मूल्य प्रबंधन",
+  },
+  {
+    icon: Handshake,
+    value: "50+",
+    label: "साझेदार ब्रांड्स",
+  },
+];
+
+const row2En: StatItem[] = [
   {
     icon: Package,
     value: "1000+",
@@ -60,7 +85,30 @@ const row2: StatItem[] = [
   {
     icon: Users,
     value: "2,000+",
-    label: "PARIVAAR",
+    label: "PARIVAAR FARMERS",
+  },
+];
+
+const row2Hi: StatItem[] = [
+  {
+    icon: Package,
+    value: "1000+",
+    label: "इनपुट उत्पाद",
+  },
+  {
+    icon: Drop,
+    value: "200+",
+    label: "स्मार्ट ड्रिप सिंचाई",
+  },
+  {
+    icon: UsersThree,
+    value: "20+",
+    label: "किसान साथी विशेषज्ञ",
+  },
+  {
+    icon: Users,
+    value: "2,000+",
+    label: "संतुष्ट किसान परिवार",
   },
 ];
 
@@ -207,6 +255,11 @@ function InteractiveMarqueeTrack({
 }
 
 export default function SectionStatsMarquee() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const row1 = isHindi ? row1Hi : row1En;
+  const row2 = isHindi ? row2Hi : row2En;
+
   return (
     <section className="relative w-full overflow-hidden bg-[#fafbf7] py-6 md:py-8">
       {/* Edge fade masks */}

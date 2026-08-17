@@ -4,18 +4,30 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { EASE, SectionHeader, TiltCard } from "@/components/common/motion";
 import { getLocalizedPath } from "@/lib/i18n";
-import { SERVICES, type ServiceCategory } from "./services-overview-data";
+import { SERVICES_EN, SERVICES_HI, type ServiceCategory } from "./services-overview-data";
 
 export function ServicesGrid({ currentLang }: { currentLang: string }) {
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>("all");
+  const isHindi = currentLang.startsWith("hi");
+  const SERVICES = isHindi ? SERVICES_HI : SERVICES_EN;
 
-  const categories = [
+  const categoriesEn = [
     { id: "all" as const, label: "All Services (6)" },
     { id: "nursery-inputs" as const, label: "Nursery & Inputs" },
     { id: "advisory-tech" as const, label: "Advisory & AI Tech" },
     { id: "scale-infra" as const, label: "Scale & Infrastructure" },
     { id: "buyback" as const, label: "Buyback & Market Linkage" },
   ];
+
+  const categoriesHi = [
+    { id: "all" as const, label: "सभी 6 सेवाएं" },
+    { id: "nursery-inputs" as const, label: "नर्सरी एवं इनपुट्स" },
+    { id: "advisory-tech" as const, label: "सलाह एवं एआई तकनीक" },
+    { id: "scale-infra" as const, label: "फार्म इंफ्रास्ट्रक्चर" },
+    { id: "buyback" as const, label: "बायबैक एवं मार्केट लिंकेज" },
+  ];
+
+  const categories = isHindi ? categoriesHi : categoriesEn;
 
   const filteredServices =
     activeCategory === "all" ? SERVICES : SERVICES.filter((s) => s.category === activeCategory);
@@ -24,9 +36,17 @@ export function ServicesGrid({ currentLang }: { currentLang: string }) {
     <section id="services-grid" className="scroll-mt-28">
       <SectionHeader
         align="center"
-        eyebrow="OUR FULL SERVICE ECOSYSTEM"
-        title="Six Pillars of Agricultural Mastery."
-        description="One connected AgTech platform replacing dealer guesswork with science-backed solutions at every step of your crop cycle."
+        eyebrow={isHindi ? "हमारा संपूर्ण सेवा इकोसिस्टम" : "OUR FULL SERVICE ECOSYSTEM"}
+        title={
+          isHindi
+            ? "आधुनिक वैज्ञानिक खेती के 6 मजबूत स्तंभ।"
+            : "Six Pillars of Agricultural Mastery."
+        }
+        description={
+          isHindi
+            ? "दुकानदार के अनुमान की जगह फसल के हर चरण में वैज्ञानिक और प्रमाणित समाधान।"
+            : "One connected AgTech platform replacing dealer guesswork with science-backed solutions at every step of your crop cycle."
+        }
       />
 
       {/* Category Filter Tabs */}
@@ -121,7 +141,7 @@ export function ServicesGrid({ currentLang }: { currentLang: string }) {
 
                   {/* Card Footer Button */}
                   <div className="relative z-10 mt-8 flex items-center justify-between border-t border-border/60 pt-4 font-mono text-xs font-bold text-forest">
-                    <span>EXPLORE VERTICAL</span>
+                    <span>{isHindi ? "विस्तार से समझें" : "EXPLORE VERTICAL"}</span>
                     <motion.span
                       className="flex h-8 w-8 items-center justify-center rounded-full bg-bone transition-colors group-hover:bg-terracotta group-hover:text-cream"
                       whileHover={{ x: 4 }}

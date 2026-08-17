@@ -32,7 +32,9 @@ function FooterLink({
 
   const content = (
     <div className="flex items-center justify-start py-1 text-xs text-[#fafbf7]/75 transition-colors hover:text-white md:text-sm group">
-      {Icon && <Icon className="mr-2 h-4 w-4 shrink-0 transition-colors duration-200 group-hover:text-white" />}
+      {Icon && (
+        <Icon className="mr-2 h-4 w-4 shrink-0 transition-colors duration-200 group-hover:text-white" />
+      )}
       <span>{children}</span>
     </div>
   );
@@ -65,7 +67,11 @@ export function Footer() {
           <div className="flex flex-col justify-between lg:col-span-5">
             <div className="text-left">
               <Link to={getLocalizedPath("/", currentLang) as any}>
-                <img src="/logo.svg" alt="Agaate Logo" className="mb-5 h-8 w-auto lg:h-9 brightness-0 invert" />
+                <img
+                  src="/logo.svg"
+                  alt="Agaate Logo"
+                  className="mb-5 h-8 w-auto lg:h-9 brightness-0 invert"
+                />
               </Link>
               <p className="max-w-sm text-sm leading-relaxed text-[#fafbf7]/80">
                 {t(

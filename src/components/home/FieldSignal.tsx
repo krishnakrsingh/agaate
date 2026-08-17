@@ -2,15 +2,27 @@ import { useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { useTranslation } from "react-i18next";
+
 gsap.registerPlugin(ScrollTrigger);
 
-const headlines = [
+const HEADLINES_EN = [
   "What if your crops could talk?",
   "No guessing. No lost yields.",
   "Just real science on the ground.",
 ];
 
+const HEADLINES_HI = [
+  "अगर आपकी फसलें आपसे बात कर पातीं?",
+  "न कोई अनुमान। न फसल का नुकसान।",
+  "जमीन पर सिर्फ सच्चा कृषि विज्ञान।",
+];
+
 export default function FieldSignal() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const headlines = isHindi ? HEADLINES_HI : HEADLINES_EN;
+
   const sectionRef = useRef<HTMLElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headlineRefs = useRef<(HTMLHeadingElement | null)[]>([]);
@@ -153,7 +165,7 @@ export default function FieldSignal() {
         if (st.trigger === section) st.kill();
       });
     };
-  }, []);
+  }, [headlines]);
 
   return (
     <section ref={sectionRef} id="start-here" className="relative bg-[#fafbf7]">

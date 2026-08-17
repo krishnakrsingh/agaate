@@ -7,12 +7,13 @@ import {
   Logo05,
   Logo06,
 } from "@/components/ui/testimonials-13-utils/logos";
+import { useTranslation } from "react-i18next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/testimonials-13-utils/marquee";
 import { cn } from "@/lib/utils";
 
-const testimonials = [
+const testimonialsEn = [
   {
     id: 1,
     name: "Pankaj Gupta",
@@ -81,23 +82,104 @@ const testimonials = [
   },
 ];
 
-const Testimonials = () => (
-  <div className="px-6 py-12">
-    <h2 className="text-center font-display font-bold text-3xl md:text-4xl text-[#143d31] tracking-tight">
-      Farmer Success Stories
-    </h2>
-    <p className="mt-3 text-center text-[#4f624f] text-base md:text-lg max-w-2xl mx-auto">
-      Real voices from Agaate Parivaar members across Haryana & NCR
-    </p>
-    <div className="mask-x-from-80% mt-10 space-y-px border-y border-[#143d31]/10 bg-[#f4f8f5]">
-      <Marquee className="py-0 [--duration:50s] [--gap:0px]" pauseOnHover>
-        <TestimonialList />
-      </Marquee>
-    </div>
-  </div>
-);
+const testimonialsHi = [
+  {
+    id: 1,
+    name: "पंकज गुप्ता",
+    designation: "अगाते परिवार सदस्य",
+    company: "करनाल, हरियाणा · 12 एकड़",
+    testimonial:
+      "अगाते किसान मॉल से सीधे कंपनियों के असली बीज और बायो-दवाएं मिलने से मेरी मिर्च की फसल उकठा (Wilt) रोग से बच गई और पैदावार 25% बढ़ गई।",
+    avatar:
+      "https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?auto=format&fit=crop&w=600&q=80",
+    logo: Logo01,
+  },
+  {
+    id: 2,
+    name: "रामेश्वर सिंह",
+    designation: "प्रगतिशील सब्जी उत्पादक",
+    company: "कुकरोला, गुरुग्राम · 8 एकड़",
+    testimonial:
+      "17 एकड़ के एग्री पार्क में ड्रिप और खाद का असर लाइव देखने के बाद मैंने इसे अपने खेत में लगाया। बिना किसी दुविधा के शानदार परिणाम मिला।",
+    avatar:
+      "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=80",
+    logo: Logo02,
+  },
+  {
+    id: 3,
+    name: "राजेश यादव",
+    designation: "किसान साथी व प्रमुख कृषक",
+    company: "रेवाड़ी, हरियाणा · 18 एकड़",
+    testimonial:
+      "अगाते की बायो-बूस्टेड नर्सरी पौध का 98% जमाव रहा जबकि सीधी बुवाई में 60% ही रहता था। मेरी इनपुट लागत में 40% की भारी बचत हुई।",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+    logo: Logo03,
+  },
+  {
+    id: 4,
+    name: "सुनीता देवी",
+    designation: "महिला कृषि उद्यमी",
+    company: "सोनीपत, हरियाणा · 15 एकड़",
+    testimonial:
+      "24 घंटे में खेत तक असली इनपुट्स की डिलीवरी और क्यूआर कोड से असली-नकली की जांच। इस बार टमाटर का अब तक का सबसे बेहतरीन उत्पादन मिला।",
+    avatar:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+    logo: Logo04,
+  },
+  {
+    id: 5,
+    name: "विक्रमादित्य राव",
+    designation: "उद्यानिकी विशेषज्ञ",
+    company: "रोहतक, हरियाणा · 25 एकड़",
+    testimonial:
+      "कृषि वैज्ञानिकों के सीधे खेत दौरे और मिट्टी जांच के अनुसार स्प्रे करने से इस सीजन हमारे ₹85,000 के अनावश्यक कीटनाशक बच गए।",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
+    logo: Logo05,
+  },
+  {
+    id: 6,
+    name: "अभय रंजन",
+    designation: "अगाते परिवार सदस्य",
+    company: "फारुखनगर, हरियाणा · 10 एकड़",
+    testimonial:
+      "उन्नत पौध से लेकर सीधे खरीदारों को पक्की बिक्री तक, अगाते का पूरा सिस्टम किसानों को सही मायने में मुनाफा दिलाता है।",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80",
+    logo: Logo06,
+  },
+];
 
-const TestimonialList = ({ className, ...props }: ComponentProps<"div">) =>
+const Testimonials = () => {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const testimonials = isHindi ? testimonialsHi : testimonialsEn;
+
+  return (
+    <div className="px-6 py-12">
+      <h2 className="text-center font-display font-bold text-3xl md:text-4xl text-[#143d31] tracking-tight">
+        {isHindi ? "किसानों की सफलता की कहानियां" : "Farmer Success Stories"}
+      </h2>
+      <p className="mt-3 text-center text-[#4f624f] text-base md:text-lg max-w-2xl mx-auto">
+        {isHindi
+          ? "हरियाणा और एनसीआर के अगाते परिवार किसानों के वास्तविक अनुभव"
+          : "Real voices from Agaate Parivaar members across Haryana & NCR"}
+      </p>
+      <div className="mask-x-from-80% mt-10 space-y-px border-y border-[#143d31]/10 bg-[#f4f8f5]">
+        <Marquee className="py-0 [--duration:50s] [--gap:0px]" pauseOnHover>
+          <TestimonialList testimonials={testimonials} />
+        </Marquee>
+      </div>
+    </div>
+  );
+};
+
+const TestimonialList = ({
+  testimonials,
+  className,
+  ...props
+}: ComponentProps<"div"> & { testimonials: typeof testimonialsEn }) =>
   testimonials.map((testimonial) => (
     <div className="-mx-1 flex w-full max-w-sm flex-col odd:flex-col-reverse" key={testimonial.id}>
       <div

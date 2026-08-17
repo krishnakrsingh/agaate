@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { ChatCircleText, CheckCircle, ImageIcon, PaperPlaneRight } from "@phosphor-icons/react";
+import {
+  ChatCircleText,
+  CheckCircle,
+  Image as ImageIcon,
+  PaperPlaneRight,
+} from "@phosphor-icons/react";
 import { SectionHeader } from "@/components/common/motion";
 
 const SIMULATED_WORKFLOWS = [

@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { Bell, Camera, ChatCircleText } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
+import { useTranslation } from "react-i18next";
 import { Reveal, Stagger, StaggerItem, EASE } from "@/components/common/motion";
 import InteractivePhoneApp from "./InteractivePhoneApp";
 import googlePlayBadge from "@/assets/google-play-badge.svg";
 import appStoreBadge from "@/assets/app-store-badge.svg";
 
-const appFeatures = [
+const appFeaturesEn = [
   {
     icon: Camera,
     title: "Instant Crop Diagnosis",
@@ -27,7 +28,30 @@ const appFeatures = [
   },
 ];
 
+const appFeaturesHi = [
+  {
+    icon: Camera,
+    title: "फोटो से तुरंत रोग पहचान",
+    description:
+      "पत्ते की फोटो खींचें — हमारा एआई सिस्टम तुरंत बीमारी पहचान कर सही और असरदार दवा सुझाता है।",
+  },
+  {
+    icon: ChatCircleText,
+    title: "कृषि डॉक्टर से सीधी बातचीत",
+    description:
+      "बिना किसी बॉट के सीधे अनुभवी कृषि वैज्ञानिकों से अपनी भाषा में सटीक और तुरंत समाधान पाएं।",
+  },
+  {
+    icon: Bell,
+    title: "फसल के चरण अनुसार अलर्ट",
+    description: "मौसम, सिंचाई, स्प्रे और खाद डालने के सही समय का ऑटोमैटिक नोटिफिकेशन पाएं।",
+  },
+];
+
 export default function AppChapter() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
+  const appFeatures = isHindi ? appFeaturesHi : appFeaturesEn;
   const sectionRef = useHomeChapterReveal("fade-up");
 
   return (
@@ -48,19 +72,31 @@ export default function AppChapter() {
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-5 h-[1px] bg-[#5d7d37]/50" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                The Agaate app
+                {isHindi ? "अगाते मोबाइल ऐप" : "The Agaate app"}
               </p>
             </div>
             <h2 className="font-display max-w-3xl text-3xl font-bold tracking-tight text-[#143d31] leading-[1.08] md:text-4xl lg:text-5xl">
-              Your whole farm —{" "}
-              <span className="font-serif italic font-normal text-[#5d7d37]">in one app.</span>
+              {isHindi ? (
+                <>
+                  आपका पूरा खेत —{" "}
+                  <span className="font-serif italic font-normal text-[#5d7d37]">
+                    एक आसान ऐप में।
+                  </span>
+                </>
+              ) : (
+                <>
+                  Your whole farm —{" "}
+                  <span className="font-serif italic font-normal text-[#5d7d37]">in one app.</span>
+                </>
+              )}
             </h2>
           </motion.div>
 
           <Reveal variant="fade-up" delay={0.15}>
             <p className="font-sans mt-5 max-w-lg text-[15px] leading-relaxed text-[#4f624f]">
-              Replace guesswork with precision. Manage your entire farm from a single, intuitive
-              dashboard designed exclusively for modern growers.
+              {isHindi
+                ? "अनुमान छोड़ें, वैज्ञानिक कृषि अपनाएं। आधुनिक किसानों के लिए विशेष रूप से तैयार डिजिटल डैशबोर्ड से अपने खेत की पूरी निगरानी रखें।"
+                : "Replace guesswork with precision. Manage your entire farm from a single, intuitive dashboard designed exclusively for modern growers."}
             </p>
           </Reveal>
 

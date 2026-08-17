@@ -1,7 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { ServicesUnifiedMaster } from "@/components/services-unified";
+import {
+  ServicesHero,
+  ServicesGrid,
+  CropJourneyStepper,
+  SowingComparisonCalculator,
+  ServicesImpactMetrics,
+} from "@/components/services-overview";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/{-$locale}/services/")({
   head: () => ({
@@ -18,10 +25,18 @@ export const Route = createFileRoute("/{-$locale}/services/")({
 });
 
 function ServicesPage() {
+  const { locale } = useParams({ strict: false }) as any;
+  const { i18n } = useTranslation();
+  const currentLang = locale ?? i18n.language ?? "en";
+
   return (
     <main className="flex min-h-screen flex-col bg-cream font-sans text-ink antialiased">
       <Header />
-      <ServicesUnifiedMaster />
+      <ServicesHero currentLang={currentLang} />
+      <ServicesGrid currentLang={currentLang} />
+      <CropJourneyStepper />
+      <SowingComparisonCalculator />
+      <ServicesImpactMetrics currentLang={currentLang} />
       <Footer />
     </main>
   );
