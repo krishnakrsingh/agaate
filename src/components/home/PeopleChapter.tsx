@@ -35,7 +35,7 @@ const impactStats = [
 
 const team = [
   { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
-  { name: "Kuldeep Singh", role: "Head of Operations", image: "/team/kuldeep.png" },
+  { name: "Kuldeep Sengar", role: "Procurement Head", image: "/team/kuldeep.png" },
   { name: "Abhay Ranjan", role: "Chief of Staff", image: "/team/abhay.png" },
   { name: "Chanchala Shukla", role: "Agronomist", image: "/team/chanchala.png" },
   { name: "Ravi Kumar", role: "Data & Strategy", image: "/team/ravi.png" },
