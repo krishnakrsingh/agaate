@@ -212,28 +212,64 @@ export default function FarmerShortsShowcase() {
   }, [activeModalShort]);
 
   return (
-    <div className="space-y-5">
-      {/* ── 1. Full-Width Top Header (Wide & Prominent) ── */}
-      <div className="space-y-1.5 max-w-4xl">
-        <div className="flex items-center gap-2.5">
-          <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
-          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-            {isHindi ? "किसान अनुभव व वीडियो शॉर्ट्स" : "Farmer Stories & Video Shorts"}
-          </p>
+    <div className="space-y-6">
+      {/* ── 1. Header with Title on Left & Carousel Controls on Right ── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="space-y-1.5 max-w-2xl">
+          <div className="flex items-center gap-2.5">
+            <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+              {isHindi ? "किसान अनुभव व वीडियो शॉर्ट्स" : "Farmer Stories & Video Shorts"}
+            </p>
+          </div>
+
+          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1]">
+            {isHindi ? "खेत से सीधे किसानों की वास्तविक आवाज" : "Real Farmers. Real Ground Results."}
+          </h2>
         </div>
 
-        <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1]">
-          {isHindi ? "खेत से सीधे किसानों की वास्तविक आवाज" : "Real Farmers. Real Ground Results."}
-        </h2>
+        {/* Top Right Actions: Carousel Controls & WhatsApp Share */}
+        <div className="flex items-center gap-3 shrink-0 pt-2 md:pt-0">
+          <div className="flex items-center gap-1 bg-white border border-[#143d31]/15 rounded-full p-1 shadow-xs">
+            <button
+              type="button"
+              onClick={() => scroll("left")}
+              aria-label="Scroll left"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[#143d31] hover:bg-[#143d31] hover:text-white transition-colors cursor-pointer"
+            >
+              <CaretLeft className="h-4 w-4" />
+            </button>
+            <span className="h-3.5 w-px bg-[#143d31]/15" />
+            <button
+              type="button"
+              onClick={() => scroll("right")}
+              aria-label="Scroll right"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-[#143d31] hover:bg-[#143d31] hover:text-white transition-colors cursor-pointer"
+            >
+              <CaretRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          <a
+            href="https://wa.me/918350085005?text=Namaste%20Agaate%20Team%2C%20I%20want%20to%20share%20my%20farm%20story."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-[#143d31] px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-[#1a4d3e] transition-all cursor-pointer"
+          >
+            <WhatsappLogo className="h-4 w-4 text-[#a3e635]" weight="fill" />
+            <span>{isHindi ? "अपनी कहानी साझा करें" : "Share Your Story"}</span>
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+        </div>
       </div>
 
       {/* ── 2. Split Content: Subtexts/Metrics on Left & Video Track on Right ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start pt-1">
-        {/* Left Subtext, Rich Ground Proof & Narrative Anchor (5 Cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        {/* Left Subtext, Ground Proof & Social Trust (5 Cols) */}
         <div className="lg:col-span-5 flex flex-col space-y-4">
           <p className="font-sans text-[#4f624f] text-base md:text-[17px] leading-relaxed font-normal">
             {isHindi
-              ? "हरियाणा और एनसीआर के प्रगतिशील किसानों के वास्तविक जमीनी अनुभव — बायो-बूस्टेड नर्सरी पौध जमाव, वैज्ञानिक सलाह और कम लागत में बंपर उत्पादन।"
+              ? "हरियाणा और एनसीआर के प्रगतिशील किसानों के वास्तविक वीडियो अनुभव — बायो-बूस्टेड नर्सरी पौध जमाव, सटीक खाद और सीधी बिक्री के वास्तविक नतीजे।"
               : "Watch authentic video shorts from progressive growers across Haryana & NCR sharing their lived results on survival rates, crop yield, and input savings."}
           </p>
 
@@ -288,33 +324,8 @@ export default function FarmerShortsShowcase() {
             </div>
           </div>
 
-          {/* Ground Authenticity Highlights */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2.5 text-xs text-[#244b3e]">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#5d7d37]/15 text-[#5d7d37]">
-                <CheckCircle className="h-3.5 w-3.5" weight="fill" />
-              </div>
-              <span className="font-medium">
-                {isHindi
-                  ? "100% वास्तविक किसान — बिना किसी स्क्रिप्ट के खेत से सीधे लाइव"
-                  : "100% unscripted feedback recorded live at farm gates & polyhouses"}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2.5 text-xs text-[#244b3e]">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#5d7d37]/15 text-[#5d7d37]">
-                <ShieldCheck className="h-3.5 w-3.5" weight="fill" />
-              </div>
-              <span className="font-medium">
-                {isHindi
-                  ? "रेवाड़ी, सोनीपत, गुरुग्राम, करनाल और रोहतक के प्रमाणित क्लस्टर"
-                  : "Geo-verified growers across Rewari, Sonipat, Gurugram & Karnal"}
-              </span>
-            </div>
-          </div>
-
           {/* Farmer Community Social Proof / Rating Strip */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-[#143d31]/5 border border-[#143d31]/10">
+          <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 border border-[#143d31]/10 shadow-xs">
             <div className="flex items-center gap-2.5">
               <div className="flex -space-x-2 shrink-0">
                 <img
@@ -344,50 +355,15 @@ export default function FarmerShortsShowcase() {
                   <span className="font-mono text-[11px] font-bold text-[#143d31] ml-0.5">4.9 / 5</span>
                 </div>
                 <p className="font-sans text-[11px] text-[#4f624f]">
-                  {isHindi ? "प्रगतिशील किसानों का भरोसा" : "Verified Farmer Satisfaction"}
+                  {isHindi ? "प्रगतिशील किसानों का भरोसा" : "Verified Farmer Trust"}
                 </p>
               </div>
             </div>
 
-            <span className="hidden sm:inline-flex items-center rounded-full bg-[#5d7d37]/15 px-2.5 py-1 font-mono text-[10px] font-bold text-[#3e5920]">
-              {isHindi ? "सत्यापित परिणाम" : "Field Verified"}
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#5d7d37]/15 px-2.5 py-1 font-mono text-[10px] font-bold text-[#3e5920]">
+              <ShieldCheck className="h-3 w-3 text-[#5d7d37]" weight="fill" />
+              <span>{isHindi ? "सत्यापित" : "Field Verified"}</span>
             </span>
-          </div>
-
-          {/* Bottom Actions: Navigation Arrows + WhatsApp Link */}
-          <div className="flex items-center justify-between pt-1 border-t border-[#143d31]/10">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => scroll("left")}
-                aria-label="Scroll left"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-[#143d31]/15 bg-white text-[#143d31] hover:bg-[#143d31] hover:text-white transition-colors cursor-pointer shadow-xs"
-              >
-                <CaretLeft className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scroll("right")}
-                aria-label="Scroll right"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-[#143d31]/15 bg-white text-[#143d31] hover:bg-[#143d31] hover:text-white transition-colors cursor-pointer shadow-xs"
-              >
-                <CaretRight className="h-4 w-4" />
-              </button>
-              <span className="font-mono text-[11px] text-[#5d7d37] font-semibold ml-1">
-                {isHindi ? "शॉर्ट्स देखें" : "Swipe Reels"}
-              </span>
-            </div>
-
-            <a
-              href="https://wa.me/918350085005?text=Namaste%20Agaate%20Team%2C%20I%20want%20to%20share%20my%20farm%20story."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#143d31]/15 bg-white px-3 py-1.5 text-xs font-bold text-[#143d31] hover:bg-[#143d31] hover:text-white transition-all shadow-xs cursor-pointer"
-            >
-              <WhatsappLogo className="h-4 w-4 text-[#25D366]" weight="fill" />
-              <span>{isHindi ? "अपनी कहानी साझा करें" : "Share Your Story"}</span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </a>
           </div>
         </div>
 
@@ -395,14 +371,14 @@ export default function FarmerShortsShowcase() {
         <div className="lg:col-span-7 min-w-0 relative">
           <div
             ref={scrollContainerRef}
-            className="flex gap-4 sm:gap-5 overflow-x-auto pb-3 pt-1 snap-x snap-mandatory scrollbar-none"
+            className="flex gap-4 sm:gap-5 overflow-x-auto pb-2 pt-0.5 snap-x snap-mandatory scrollbar-none"
             style={{ scrollbarWidth: "none" }}
           >
             {shortsData.map((short) => (
               <div
                 key={short.id}
                 onClick={() => handleOpenShort(short)}
-                className="group relative w-[210px] sm:w-[230px] md:w-[240px] shrink-0 h-[330px] sm:h-[350px] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 snap-start border border-[#143d31]/15 bg-[#143d31]"
+                className="group relative w-[210px] sm:w-[230px] md:w-[240px] shrink-0 h-[350px] sm:h-[370px] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 snap-start border border-[#143d31]/15 bg-[#143d31]"
               >
                 {/* Poster Image */}
                 <img
