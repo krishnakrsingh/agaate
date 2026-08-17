@@ -61,7 +61,9 @@ export function ServicesHero({ currentLang }: { currentLang: string }) {
   return (
     <>
       <PageHero
-        eyebrow={isHindi ? "अगाते एकीकृत कृषि एवं तकनीकी सेवाएं" : "AGAATE INTEGRATED AGTECH SERVICES"}
+        eyebrow={
+          isHindi ? "अगाते एकीकृत कृषि एवं तकनीकी सेवाएं" : "AGAATE INTEGRATED AGTECH SERVICES"
+        }
         title={
           isHindi ? (
             <>
@@ -104,7 +106,8 @@ export function ServicesHero({ currentLang }: { currentLang: string }) {
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <MagneticButton as="a" href="#services-grid" strength={0.3}>
             <span className="inline-flex items-center gap-2 rounded-full bg-forest-deep px-7 py-3.5 text-sm font-bold text-cream shadow-xl transition-colors hover:bg-forest">
-              {isHindi ? "सभी 6 सेवाएं देखें" : "Explore 6 Services"} <ArrowRight className="h-4 w-4" />
+              {isHindi ? "सभी 6 सेवाएं देखें" : "Explore 6 Services"}{" "}
+              <ArrowRight className="h-4 w-4" />
             </span>
           </MagneticButton>
           <MagneticButton as="a" href={getLocalizedPath("/contact", currentLang)} strength={0.3}>

@@ -114,7 +114,9 @@ export default function AgriParkChapter() {
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-5 h-[1.5px] bg-[#5d7d37]" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                {isHindi ? "17-एकड़ स्मार्ट नर्सरी व एग्री पार्क" : "17-Acre Smart Nursery & Agri Park"}
+                {isHindi
+                  ? "17-एकड़ स्मार्ट नर्सरी व एग्री पार्क"
+                  : "17-Acre Smart Nursery & Agri Park"}
               </p>
             </div>
 
@@ -176,8 +178,12 @@ export default function AgriParkChapter() {
             <div className="divide-y divide-[#143d31]/10">
               <div className="grid grid-cols-3 py-2 text-[11px] font-sans font-semibold uppercase tracking-wider text-[#143d31]/60">
                 <span>{isHindi ? "मापदंड" : "Metric"}</span>
-                <span className="text-[#143d31]/50">{isHindi ? "पारंपरिक बुवाई" : "Traditional"}</span>
-                <span className="text-[#143d31]">{isHindi ? "बायो-बूस्टेड नर्सरी" : "Bio-Boosted"}</span>
+                <span className="text-[#143d31]/50">
+                  {isHindi ? "पारंपरिक बुवाई" : "Traditional"}
+                </span>
+                <span className="text-[#143d31]">
+                  {isHindi ? "बायो-बूस्टेड नर्सरी" : "Bio-Boosted"}
+                </span>
               </div>
               {nurseryComparison.map((row) => (
                 <div

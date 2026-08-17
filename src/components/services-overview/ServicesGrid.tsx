@@ -4,11 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { EASE, SectionHeader, TiltCard } from "@/components/common/motion";
 import { getLocalizedPath } from "@/lib/i18n";
-import {
-  SERVICES_EN,
-  SERVICES_HI,
-  type ServiceCategory,
-} from "./services-overview-data";
+import { SERVICES_EN, SERVICES_HI, type ServiceCategory } from "./services-overview-data";
 
 export function ServicesGrid({ currentLang }: { currentLang: string }) {
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>("all");
@@ -41,7 +37,11 @@ export function ServicesGrid({ currentLang }: { currentLang: string }) {
       <SectionHeader
         align="center"
         eyebrow={isHindi ? "हमारा संपूर्ण सेवा इकोसिस्टम" : "OUR FULL SERVICE ECOSYSTEM"}
-        title={isHindi ? "आधुनिक वैज्ञानिक खेती के 6 मजबूत स्तंभ।" : "Six Pillars of Agricultural Mastery."}
+        title={
+          isHindi
+            ? "आधुनिक वैज्ञानिक खेती के 6 मजबूत स्तंभ।"
+            : "Six Pillars of Agricultural Mastery."
+        }
         description={
           isHindi
             ? "दुकानदार के अनुमान की जगह फसल के हर चरण में वैज्ञानिक और प्रमाणित समाधान।"

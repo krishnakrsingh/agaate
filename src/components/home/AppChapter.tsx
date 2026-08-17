@@ -44,8 +44,7 @@ const appFeaturesHi = [
   {
     icon: Bell,
     title: "फसल के चरण अनुसार अलर्ट",
-    description:
-      "मौसम, सिंचाई, स्प्रे और खाद डालने के सही समय का ऑटोमैटिक नोटिफिकेशन पाएं।",
+    description: "मौसम, सिंचाई, स्प्रे और खाद डालने के सही समय का ऑटोमैटिक नोटिफिकेशन पाएं।",
   },
 ];
 
@@ -87,9 +86,7 @@ export default function AppChapter() {
               ) : (
                 <>
                   Your whole farm —{" "}
-                  <span className="font-serif italic font-normal text-[#5d7d37]">
-                    in one app.
-                  </span>
+                  <span className="font-serif italic font-normal text-[#5d7d37]">in one app.</span>
                 </>
               )}
             </h2>

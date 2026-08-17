@@ -211,7 +211,9 @@ export default function MallChapter() {
               {isHindi ? "अगाते डायरेक्ट सप्लाई गारंटी" : "AGAATE DIRECT SUPPLY GUARANTEE"}
             </span>
             <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
-              {isHindi ? "अगाते डायरेक्ट सप्लाई कैसे काम करती है" : "How Agaate Direct Supply Works"}
+              {isHindi
+                ? "अगाते डायरेक्ट सप्लाई कैसे काम करती है"
+                : "How Agaate Direct Supply Works"}
             </h3>
             <p className="font-sans text-xs sm:text-sm text-[#4f624f]/90 mt-2 leading-relaxed max-w-xl mx-auto">
               {isHindi

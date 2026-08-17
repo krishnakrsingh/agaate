@@ -1,10 +1,7 @@
 import { ArrowRight, PhoneCall } from "@phosphor-icons/react";
 import { CountUp, MagneticButton } from "@/components/common/motion";
 import { getLocalizedPath } from "@/lib/i18n";
-import {
-  IMPACT_STATS_EN,
-  IMPACT_STATS_HI,
-} from "./services-overview-data";
+import { IMPACT_STATS_EN, IMPACT_STATS_HI } from "./services-overview-data";
 
 export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) {
   const isHindi = currentLang.startsWith("hi");
@@ -19,7 +16,9 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
             {isHindi ? "विश्वसनीयता और विकास के आंकड़े" : "QUANTIFIABLE SCALE & TRUST"}
           </span>
           <h2 className="font-serif text-4xl font-bold text-cream md:text-6xl">
-            {isHindi ? "अगाते के प्रभाव के प्रमाणिक आंकड़े।" : "The Numbers Behind Agaate's Growth."}
+            {isHindi
+              ? "अगाते के प्रभाव के प्रमाणिक आंकड़े।"
+              : "The Numbers Behind Agaate's Growth."}
           </h2>
           <p className="mx-auto max-w-xl text-base text-cream/80">
             {isHindi
@@ -50,10 +49,14 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
       <section className="rounded-[2.5rem] border border-border bg-card p-10 text-center shadow-sm md:p-16">
         <div className="mx-auto max-w-2xl space-y-6">
           <span className="font-jet text-xs font-bold uppercase tracking-[0.2em] text-moss">
-            {isHindi ? "क्या आप अपनी फसल की पैदावार बढ़ाने के लिए तैयार हैं?" : "READY TO LEVEL UP YOUR FARM YIELD?"}
+            {isHindi
+              ? "क्या आप अपनी फसल की पैदावार बढ़ाने के लिए तैयार हैं?"
+              : "READY TO LEVEL UP YOUR FARM YIELD?"}
           </span>
           <h2 className="font-serif text-3xl font-bold text-forest-deep md:text-5xl">
-            {isHindi ? "हमारे वरिष्ठ कृषि वैज्ञानिकों से परामर्श लें।" : "Consult Our Senior Agronomists."}
+            {isHindi
+              ? "हमारे वरिष्ठ कृषि वैज्ञानिकों से परामर्श लें।"
+              : "Consult Our Senior Agronomists."}
           </h2>
           <p className="text-base text-forest/80">
             {isHindi
@@ -64,7 +67,8 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <MagneticButton as="a" href={getLocalizedPath("/contact", currentLang)} strength={0.3}>
               <span className="inline-flex items-center gap-2 rounded-full bg-forest-deep px-8 py-4 text-sm font-bold text-cream shadow-xl transition-colors hover:bg-forest">
-                {isHindi ? "निःशुल्क परामर्श बुक करें" : "Book Free Consultation"} <ArrowRight className="h-4 w-4" />
+                {isHindi ? "निःशुल्क परामर्श बुक करें" : "Book Free Consultation"}{" "}
+                <ArrowRight className="h-4 w-4" />
               </span>
             </MagneticButton>
             <MagneticButton as="a" href="tel:8350085005" strength={0.3}>

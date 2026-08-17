@@ -165,7 +165,7 @@ export default function FieldSignal() {
         if (st.trigger === section) st.kill();
       });
     };
-  }, [isHindi]);
+  }, [headlines]);
 
   return (
     <section ref={sectionRef} id="start-here" className="relative bg-[#fafbf7]">

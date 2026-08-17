@@ -2,10 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { EASE, SectionHeader } from "@/components/common/motion";
-import {
-  CROP_JOURNEY_STAGES_EN,
-  CROP_JOURNEY_STAGES_HI,
-} from "./services-overview-data";
+import { CROP_JOURNEY_STAGES_EN, CROP_JOURNEY_STAGES_HI } from "./services-overview-data";
 
 export function CropJourneyStepper() {
   const { i18n } = useTranslation();
@@ -20,7 +17,9 @@ export function CropJourneyStepper() {
     <section id="crop-journey" className="scroll-mt-28">
       <SectionHeader
         align="center"
-        eyebrow={isHindi ? "बीज से बिक्री तक का संपूर्ण फसल चक्र" : "CLOSED-LOOP CROPPING LIFECYCLE"}
+        eyebrow={
+          isHindi ? "बीज से बिक्री तक का संपूर्ण फसल चक्र" : "CLOSED-LOOP CROPPING LIFECYCLE"
+        }
         title={isHindi ? "फसल यात्रा के 8 महत्वपूर्ण चरण।" : "Interactive 8-Stage Crop Journey."}
         description={
           isHindi
