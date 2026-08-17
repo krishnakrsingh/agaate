@@ -301,10 +301,7 @@ export default function ClosingChapter() {
       </section>
 
       {/* Integrated VIP Visit Booking Modal */}
-      <AgriParkVisitModal
-        isOpen={isVisitModalOpen}
-        onClose={() => setIsVisitModalOpen(false)}
-      />
+      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
     </>
   );
 }

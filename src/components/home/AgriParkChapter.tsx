@@ -468,9 +468,7 @@ export default function AgriParkChapter() {
                     {/* Co-developed Partner Brands Strip */}
                     <div className="pt-2 border-t border-[#143d31]/10">
                       <span className="block font-mono text-[9px] uppercase tracking-widest text-[#4f624f] font-bold mb-2">
-                        {isHindi
-                          ? "लाइव ट्रायल साझेदार ब्रांड्स"
-                          : "Collaborative Brand Partners"}
+                        {isHindi ? "लाइव ट्रायल साझेदार ब्रांड्स" : "Collaborative Brand Partners"}
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {activeZone.partners.map((p) => (
@@ -500,7 +498,9 @@ export default function AgriParkChapter() {
                           {isHindi ? "प्रमाणित आंकड़े" : "Benchmarked Data"}
                         </p>
                         <h3 className="font-display text-lg sm:text-xl font-bold text-[#143d31]">
-                          {isHindi ? "उन्नत नर्सरी बनाम सीधी बुवाई" : "Bio Nursery vs. Direct Sowing"}
+                          {isHindi
+                            ? "उन्नत नर्सरी बनाम सीधी बुवाई"
+                            : "Bio Nursery vs. Direct Sowing"}
                         </h3>
                       </div>
                       <span className="rounded-full bg-[#5d7d37]/10 px-3 py-1 text-xs font-semibold text-[#5d7d37]">
@@ -619,7 +619,9 @@ export default function AgriParkChapter() {
                   </p>
                 </div>
                 <div className="p-2 border border-[#143d31]/10 rounded-xl bg-white/40">
-                  <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">2,000+</p>
+                  <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">
+                    2,000+
+                  </p>
                   <p className="text-[9px] uppercase tracking-wider text-[#5d7d37]">
                     {isHindi ? "किसान विजिट" : "Farmers"}
                   </p>
@@ -669,9 +671,7 @@ export default function AgriParkChapter() {
                         {z.number}
                       </span>
                       <Icon
-                        className={`h-4 w-4 ${
-                          isSelected ? "text-[#a3e635]" : "text-[#143d31]/70"
-                        }`}
+                        className={`h-4 w-4 ${isSelected ? "text-[#a3e635]" : "text-[#143d31]/70"}`}
                         weight={isSelected ? "fill" : "duotone"}
                       />
                     </div>
@@ -700,10 +700,7 @@ export default function AgriParkChapter() {
       </section>
 
       {/* Interactive VIP Farm Visit Booking Modal */}
-      <AgriParkVisitModal
-        isOpen={isVisitModalOpen}
-        onClose={() => setIsVisitModalOpen(false)}
-      />
+      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
     </>
   );
 }

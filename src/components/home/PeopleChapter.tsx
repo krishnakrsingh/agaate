@@ -212,9 +212,7 @@ export default function PeopleChapter() {
                     className="h-10 w-10 shrink-0 rounded-full object-cover border border-[#143d31]/10"
                   />
                   <div>
-                    <p className="font-display text-sm font-bold text-[#143d31]">
-                      {member.name}
-                    </p>
+                    <p className="font-display text-sm font-bold text-[#143d31]">{member.name}</p>
                     <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
                       {member.role}
                     </p>

@@ -265,7 +265,9 @@ export default function PillarsHorizontalParallax() {
                       <div
                         key={m.label}
                         className={`text-left ${
-                          mIdx > 0 ? "border-l border-[#143d31]/10 pl-3" : "first:border-l-0 first:pl-0"
+                          mIdx > 0
+                            ? "border-l border-[#143d31]/10 pl-3"
+                            : "first:border-l-0 first:pl-0"
                         }`}
                       >
                         <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">

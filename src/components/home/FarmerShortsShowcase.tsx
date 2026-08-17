@@ -34,7 +34,8 @@ const SHORTS_DATA_EN: FarmerShort[] = [
     role: "Lead Chilli Grower",
     location: "Rewari, Haryana",
     acres: "18 Acres",
-    quote: "Agaate's Bio-Boosted nursery plug seedlings gave us 98% survival. My input cost dropped by 40%.",
+    quote:
+      "Agaate's Bio-Boosted nursery plug seedlings gave us 98% survival. My input cost dropped by 40%.",
     thumbnail:
       "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -45,7 +46,8 @@ const SHORTS_DATA_EN: FarmerShort[] = [
     role: "Agri-Entrepreneur",
     location: "Sonipat, Haryana",
     acres: "15 Acres",
-    quote: "Doorstep delivery in 24 hours with QR batch tracking. Highest tomato harvest our farm has ever recorded.",
+    quote:
+      "Doorstep delivery in 24 hours with QR batch tracking. Highest tomato harvest our farm has ever recorded.",
     thumbnail:
       "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -56,7 +58,8 @@ const SHORTS_DATA_EN: FarmerShort[] = [
     role: "Vegetable Grower",
     location: "Kukrola, Gurugram",
     acres: "8 Acres",
-    quote: "Visiting the 17-acre Agri Park before installing my drip fertigation kit eliminated all guesswork.",
+    quote:
+      "Visiting the 17-acre Agri Park before installing my drip fertigation kit eliminated all guesswork.",
     thumbnail:
       "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -67,7 +70,8 @@ const SHORTS_DATA_EN: FarmerShort[] = [
     role: "Horticulture Specialist",
     location: "Rohtak, Haryana",
     acres: "25 Acres",
-    quote: "Agronomist field visits and stage-wise spray charts saved us ₹85,000 on unnecessary pesticides.",
+    quote:
+      "Agronomist field visits and stage-wise spray charts saved us ₹85,000 on unnecessary pesticides.",
     thumbnail: "/farm.png",
     videoUrl: "/hero1.mp4",
   },
@@ -77,7 +81,8 @@ const SHORTS_DATA_EN: FarmerShort[] = [
     role: "Capsicum Farmer",
     location: "Karnal, Haryana",
     acres: "12 Acres",
-    quote: "Batch-verified Bio-Cure biologicals from Agaate Mall stopped bacterial wilt across my 12-acre polyhouse.",
+    quote:
+      "Batch-verified Bio-Cure biologicals from Agaate Mall stopped bacterial wilt across my 12-acre polyhouse.",
     thumbnail:
       "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -88,7 +93,8 @@ const SHORTS_DATA_EN: FarmerShort[] = [
     role: "Agaate Parivaar",
     location: "Farrukhnagar, Haryana",
     acres: "10 Acres",
-    quote: "Direct institutional market linkage gave us guaranteed price contracts with zero middleman deductions.",
+    quote:
+      "Direct institutional market linkage gave us guaranteed price contracts with zero middleman deductions.",
     thumbnail: "/about-hero-nursery.png",
     videoUrl: "/hero1.mp4",
   },
@@ -101,7 +107,8 @@ const SHORTS_DATA_HI: FarmerShort[] = [
     role: "प्रमुख मिर्च उत्पादक",
     location: "रेवाड़ी, हरियाणा",
     acres: "18 एकड़",
-    quote: "अगाते की बायो-बूस्टेड नर्सरी पौध का 98% जमाव रहा। सीधी बुवाई के मुकाबले लागत 40% कम हो गई।",
+    quote:
+      "अगाते की बायो-बूस्टेड नर्सरी पौध का 98% जमाव रहा। सीधी बुवाई के मुकाबले लागत 40% कम हो गई।",
     thumbnail:
       "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -112,7 +119,8 @@ const SHORTS_DATA_HI: FarmerShort[] = [
     role: "महिला कृषि उद्यमी",
     location: "सोनीपत, हरियाणा",
     acres: "15 एकड़",
-    quote: "24 घंटे में खेत तक असली इनपुट्स की डिलीवरी और क्यूआर कोड से जांच। इस बार टमाटर का रिकॉर्ड उत्पादन मिला।",
+    quote:
+      "24 घंटे में खेत तक असली इनपुट्स की डिलीवरी और क्यूआर कोड से जांच। इस बार टमाटर का रिकॉर्ड उत्पादन मिला।",
     thumbnail:
       "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -123,7 +131,8 @@ const SHORTS_DATA_HI: FarmerShort[] = [
     role: "सब्जी उत्पादक",
     location: "कुकरोला, गुरुग्राम",
     acres: "8 एकड़",
-    quote: "17 एकड़ के एग्री पार्क में ड्रिप और खाद का असर लाइव देखने के बाद खेत में लगाया। बिना किसी दुविधा के शानदार परिणाम मिला।",
+    quote:
+      "17 एकड़ के एग्री पार्क में ड्रिप और खाद का असर लाइव देखने के बाद खेत में लगाया। बिना किसी दुविधा के शानदार परिणाम मिला।",
     thumbnail:
       "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -134,7 +143,8 @@ const SHORTS_DATA_HI: FarmerShort[] = [
     role: "उद्यानिकी विशेषज्ञ",
     location: "रोहतक, हरियाणा",
     acres: "25 एकड़",
-    quote: "कृषि वैज्ञानिकों के सीधे खेत दौरे और सही स्प्रे चार्ट से इस सीजन हमारे ₹85,000 के अनावश्यक कीटनाशक बच गए।",
+    quote:
+      "कृषि वैज्ञानिकों के सीधे खेत दौरे और सही स्प्रे चार्ट से इस सीजन हमारे ₹85,000 के अनावश्यक कीटनाशक बच गए।",
     thumbnail: "/farm.png",
     videoUrl: "/hero1.mp4",
   },
@@ -144,7 +154,8 @@ const SHORTS_DATA_HI: FarmerShort[] = [
     role: "शिमला मिर्च उत्पादक",
     location: "करनाल, हरियाणा",
     acres: "12 एकड़",
-    quote: "अगाते किसान मॉल की बायो-दवाओं से 12 एकड़ पॉलीहाउस में उकठा (Wilt) रोग तुरंत रुक गया और फसल बच गई।",
+    quote:
+      "अगाते किसान मॉल की बायो-दवाओं से 12 एकड़ पॉलीहाउस में उकठा (Wilt) रोग तुरंत रुक गया और फसल बच गई।",
     thumbnail:
       "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80",
     videoUrl: "/hero1.mp4",
@@ -155,7 +166,8 @@ const SHORTS_DATA_HI: FarmerShort[] = [
     role: "अगाते परिवार सदस्य",
     location: "फारुखनगर, हरियाणा",
     acres: "10 एकड़",
-    quote: "सीधे खरीदारों से पक्का बायबैक अनुबंध मिलने से बिना किसी आढ़तिया कमीशन के पूरी फसल का सही दाम मिला।",
+    quote:
+      "सीधे खरीदारों से पक्का बायबैक अनुबंध मिलने से बिना किसी आढ़तिया कमीशन के पूरी फसल का सही दाम मिला।",
     thumbnail: "/about-hero-nursery.png",
     videoUrl: "/hero1.mp4",
   },
@@ -182,23 +194,23 @@ export default function FarmerShortsShowcase() {
     }
   };
 
-  const handleOpenShort = (short: FarmerShort) => {
+  const handleOpenShort = useCallback((short: FarmerShort) => {
     setActiveModalShort(short);
-  };
+  }, []);
 
-  const handleNextModalShort = () => {
+  const handleNextModalShort = useCallback(() => {
     if (!activeModalShort) return;
     const currentIndex = shortsData.findIndex((s) => s.id === activeModalShort.id);
     const nextIndex = (currentIndex + 1) % shortsData.length;
-    setActiveModalShort(shortsData[nextIndex]);
-  };
+    setActiveModalShort(shortsData[nextIndex] ?? null);
+  }, [activeModalShort, shortsData]);
 
-  const handlePrevModalShort = () => {
+  const handlePrevModalShort = useCallback(() => {
     if (!activeModalShort) return;
     const currentIndex = shortsData.findIndex((s) => s.id === activeModalShort.id);
     const prevIndex = (currentIndex - 1 + shortsData.length) % shortsData.length;
-    setActiveModalShort(shortsData[prevIndex]);
-  };
+    setActiveModalShort(shortsData[prevIndex] ?? null);
+  }, [activeModalShort, shortsData]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -209,7 +221,7 @@ export default function FarmerShortsShowcase() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeModalShort]);
+  }, [activeModalShort, handleNextModalShort, handlePrevModalShort]);
 
   return (
     <div className="space-y-6">
@@ -224,7 +236,9 @@ export default function FarmerShortsShowcase() {
           </div>
 
           <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1]">
-            {isHindi ? "खेत से सीधे किसानों की वास्तविक आवाज" : "Real Farmers. Real Ground Results."}
+            {isHindi
+              ? "खेत से सीधे किसानों की वास्तविक आवाज"
+              : "Real Farmers. Real Ground Results."}
           </h2>
         </div>
 
@@ -352,7 +366,9 @@ export default function FarmerShortsShowcase() {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-3 w-3 text-amber-500" weight="fill" />
                   ))}
-                  <span className="font-mono text-[11px] font-bold text-[#143d31] ml-0.5">4.9 / 5</span>
+                  <span className="font-mono text-[11px] font-bold text-[#143d31] ml-0.5">
+                    4.9 / 5
+                  </span>
                 </div>
                 <p className="font-sans text-[11px] text-[#4f624f]">
                   {isHindi ? "प्रगतिशील किसानों का भरोसा" : "Verified Farmer Trust"}
@@ -472,7 +488,11 @@ export default function FarmerShortsShowcase() {
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md hover:bg-white/20 transition-colors"
                     aria-label="Toggle Sound"
                   >
-                    {isMuted ? <SpeakerSlash className="h-3.5 w-3.5" /> : <SpeakerHigh className="h-3.5 w-3.5" />}
+                    {isMuted ? (
+                      <SpeakerSlash className="h-3.5 w-3.5" />
+                    ) : (
+                      <SpeakerHigh className="h-3.5 w-3.5" />
+                    )}
                   </button>
                   <button
                     type="button"
@@ -512,7 +532,8 @@ export default function FarmerShortsShowcase() {
                       <CheckCircle className="h-3.5 w-3.5 text-[#a3e635]" weight="fill" />
                     </div>
                     <p className="font-sans text-xs text-white/80">
-                      {activeModalShort.role} · {activeModalShort.location} ({activeModalShort.acres})
+                      {activeModalShort.role} · {activeModalShort.location} (
+                      {activeModalShort.acres})
                     </p>
                   </div>
 
@@ -524,7 +545,7 @@ export default function FarmerShortsShowcase() {
                   <div className="pt-0.5">
                     <a
                       href={`https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20saw%20${encodeURIComponent(
-                        activeModalShort.name
+                        activeModalShort.name,
                       )}%27s%20story%20and%20want%20to%20learn%20more.`}
                       target="_blank"
                       rel="noopener noreferrer"
