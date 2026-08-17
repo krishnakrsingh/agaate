@@ -70,7 +70,7 @@ export const NAV_STRUCTURE: NavItem[] = [
   },
   { key: "agriPark", href: "/agri-park", icon: Compass },
   { key: "about", href: "/about", icon: Info },
-  { key: "contactUs", href: "/contact", icon: Phone },
+  { key: "contact", href: "/contact", icon: Phone },
 ];
 
 export const NAV_SUBTITLES: Record<string, string> = {
@@ -78,7 +78,7 @@ export const NAV_SUBTITLES: Record<string, string> = {
   services: "All 6 Integrated Solutions",
   agriPark: "17-Acre Demo Center",
   about: "Our Mission & Team",
-  contactUs: "Direct Agronomist Line",
+  contact: "Direct Agronomist Line",
 };
 
 export const WHATSAPP_CONSULTATION_URL =
