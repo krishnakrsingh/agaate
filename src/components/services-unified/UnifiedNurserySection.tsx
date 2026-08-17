@@ -76,16 +76,15 @@ export function UnifiedNurserySection() {
 
             {/* Subtext Description */}
             <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
-              Pathogen-free, automated microclimate nurseries inoculated with Trichoderma &
-              Mycorrhiza root boosters to eliminate transplant shock and save 15 critical growing
-              days.
+              High-immunity plug seedlings pre-treated to resist soil-borne diseases, eliminate
+              transplant shock, and save 15 critical growing days.
             </p>
 
             {/* Metrics Strip */}
             <div className="my-6 border-y border-[#143d31]/12 py-4 grid grid-cols-3 gap-2">
               <div className="text-left first:border-l-0 first:pl-0">
                 <p className="font-display text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={500000} suffix="+" />
+                  <CountUp to={85} suffix=" Lakh+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37] mt-0.5">
                   Plants Delivered
@@ -112,10 +111,10 @@ export function UnifiedNurserySection() {
             {/* Feature Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {[
-                "Sterile pro-tray germination chambers",
-                "Trichoderma & mycorrhiza root inoculation",
-                "Zero damping-off & root-rot guarantee",
-                "Custom spacing & pre-order batches",
+                "Built-in natural disease immunity",
+                "Zero transplant shock & fast growth",
+                "Guaranteed root protection against rot",
+                "100+ proven high-yield varieties",
               ].map((feat) => (
                 <div
                   key={feat}

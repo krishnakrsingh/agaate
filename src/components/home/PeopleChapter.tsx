@@ -19,7 +19,7 @@ const impactStats = [
     label: "Bio-Infrastructure",
     accent: "#3a6b28",
     headline: "Zero-mortality plug nurseries.",
-    primary: { value: 500, suffix: "K+", label: "Bio-Seedlings Delivered" },
+    primary: { value: 85, suffix: " Lakh+", label: "Bio-Seedlings Delivered" },
     secondary: { value: 98, suffix: "%", label: "Field Survival Rate" },
   },
   {

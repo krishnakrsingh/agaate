@@ -59,20 +59,20 @@ export default function PillarNursery() {
 
             {/* Display Headline */}
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
-              Bio-Boosted Seedling Infrastructure
+              High-Immunity Seedling Infrastructure
             </h2>
 
             {/* Subtext Description */}
             <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-              Pathogen-free plug nurseries engineered for zero seedling mortality and a strong crop
-              start.
+              Immunity-boosted plug seedlings engineered for zero mortality, strong root vigour, and
+              maximum crop protection.
             </p>
 
             {/* Metrics Strip */}
             <div className="my-6 border-y border-[#143d31]/12 py-4 grid grid-cols-3 gap-2">
               <div className="text-left first:border-l-0 first:pl-0">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={500000} suffix="+" />
+                  <CountUp to={85} suffix=" Lakh+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
                   Plants Delivered
@@ -88,7 +88,7 @@ export default function PillarNursery() {
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={25} suffix="+" />
+                  <CountUp to={100} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
                   Varieties Sourced
@@ -99,9 +99,9 @@ export default function PillarNursery() {
             {/* Feature Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
               {[
-                "Automated misting & humidity control",
-                "Trichoderma & mycorrhiza inoculation",
-                "Sterile anti-fungal tray casing",
+                "Built-in natural disease immunity",
+                "Zero transplant shock & fast growth",
+                "High-vigour root system for higher yield",
               ].map((feat) => (
                 <div
                   key={feat}
