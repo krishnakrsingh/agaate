@@ -197,7 +197,7 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-[13px] bg-[#0d2a21] px-5 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-[#14332b] active:scale-[0.98]"
               >
-                <span>{t("nav.contact", "Contact")}</span>
+                <span>{t("nav.letsTalk", "Let's Talk")}</span>
                 <ArrowRight className="h-4 w-4 text-[#a3e635]" />
               </a>
             </div>
