@@ -20,25 +20,25 @@ const TABS_EN: {
   hint: string;
   icon: typeof Buildings;
 }[] = [
-  {
-    id: "partners",
-    label: "Partners",
-    hint: "Certified agri-input manufacturers we source from directly",
-    icon: Buildings,
-  },
-  {
-    id: "customers",
-    label: "Customers",
-    hint: "Farmer groups and field networks growing with Agaate",
-    icon: Leaf,
-  },
-  {
-    id: "buyers",
-    label: "Market access",
-    hint: "Market channels connected through our linkage network",
-    icon: ShoppingBagOpen,
-  },
-];
+    {
+      id: "partners",
+      label: "Partners",
+      hint: "Certified agri-input manufacturers we source from directly",
+      icon: Buildings,
+    },
+    {
+      id: "customers",
+      label: "Customers",
+      hint: "Farmer groups and field networks growing with Agaate",
+      icon: Leaf,
+    },
+    {
+      id: "buyers",
+      label: "Market access",
+      hint: "Market channels connected through our linkage network",
+      icon: ShoppingBagOpen,
+    },
+  ];
 
 const TABS_HI: {
   id: BrandTab;
@@ -46,25 +46,25 @@ const TABS_HI: {
   hint: string;
   icon: typeof Buildings;
 }[] = [
-  {
-    id: "partners",
-    label: "साझेदार ब्रांड्स",
-    hint: "प्रमाणित बीज व इनपुट निर्माता जिनसे हम सीधे उत्पाद लेते हैं",
-    icon: Buildings,
-  },
-  {
-    id: "customers",
-    label: "किसान समूह (FPOs)",
-    hint: "अगाते के साथ जुड़े प्रगतिशील किसान व फार्म नेटवर्क",
-    icon: Leaf,
-  },
-  {
-    id: "buyers",
-    label: "मार्केट खरीदार",
-    hint: "हमारे लिंकेज नेटवर्क से जुड़े बड़े संस्थागत खरीदार",
-    icon: ShoppingBagOpen,
-  },
-];
+    {
+      id: "partners",
+      label: "साझेदार ब्रांड्स",
+      hint: "प्रमाणित बीज व इनपुट निर्माता जिनसे हम सीधे उत्पाद लेते हैं",
+      icon: Buildings,
+    },
+    {
+      id: "customers",
+      label: "किसान समूह (FPOs)",
+      hint: "अगाते के साथ जुड़े प्रगतिशील किसान व फार्म नेटवर्क",
+      icon: Leaf,
+    },
+    {
+      id: "buyers",
+      label: "मार्केट खरीदार",
+      hint: "हमारे लिंकेज नेटवर्क से जुड़े बड़े संस्थागत खरीदार",
+      icon: ShoppingBagOpen,
+    },
+  ];
 
 /** Logos sourced from agaate.in /data/brands.js */
 const BRANDS: Record<BrandTab, BrandLogo[]> = {
@@ -154,13 +154,13 @@ const BRANDS: Record<BrandTab, BrandLogo[]> = {
 
 function BrandTile({ brand }: { brand: BrandLogo }) {
   return (
-    <div className="flex h-[72px] w-[150px] shrink-0 items-center justify-center rounded-xl bg-white/70 px-5 border border-[#143d31]/10 hover:border-[#5d7d37]/40 transition-all sm:h-[84px] sm:w-[180px]">
+    <div className="group flex h-[72px] w-[150px] shrink-0 items-center justify-center rounded-[18px] bg-white/50 px-5 transition-all duration-300 hover:bg-white hover:shadow-[0_8px_26px_-10px_rgba(20,61,49,0.12)] sm:h-[88px] sm:w-[185px] cursor-pointer">
       <img
         src={brand.src}
         alt={brand.name}
         loading="lazy"
         decoding="async"
-        className="max-h-10 w-full object-contain sm:max-h-12"
+        className="max-h-10 w-full object-contain transition-transform duration-300 group-hover:scale-105 sm:max-h-12"
       />
     </div>
   );
@@ -181,29 +181,35 @@ export default function BrandsAssociationsChapter() {
     <section
       ref={sectionRef}
       id="brands"
-      className="relative scroll-mt-24 overflow-x-clip bg-[#f4f8f5] py-16 sm:py-20 md:py-24 border-t border-[#143d31]/10 text-[#143d31]"
+      className="relative scroll-mt-24 overflow-x-clip bg-white py-16 md:py-24"
     >
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-10">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#143d31]/10 to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(163,230,53,0.15),transparent)]"
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-5 md:px-10">
         <Reveal variant="fade-up">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                {isHindi ? "नेटवर्क व साझेदार" : "Network & Associations"}
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mb-4 inline-flex items-center justify-center gap-2.5">
+              <span className="h-[2px] w-7 sm:w-8 rounded-full bg-[#a3e635]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#143d31]">
+                {isHindi ? "नेटवर्क" : "Network"}
               </p>
+              <span className="h-[2px] w-7 sm:w-8 rounded-full bg-[#a3e635]" aria-hidden="true" />
             </div>
-
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl">
-                {isHindi ? "प्रमुख ब्रांड्स एवं साझेदार" : "Brands & Associations"}
-              </h2>
-
-              <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
-                {isHindi
-                  ? "वे प्रतिष्ठित कंपनियां, किसान नेटवर्क और मार्केट खरीदार जो बीज से बिक्री तक अगाते को सशक्त बनाते हैं।"
-                  : "The companies, farmer networks, and market channels that power Agaate from seed to sale."}
-              </p>
-            </div>
+            <h2 className="font-display text-3xl font-bold tracking-tight text-[#143d31] sm:text-4xl md:text-5xl lg:text-[3.25rem]">
+              {isHindi ? "प्रमुख ब्रांड्स एवं साझेदार" : "Brands & Associations"}
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#536253]">
+              {isHindi
+                ? "वे प्रतिष्ठित कंपनियां, किसान नेटवर्क और मार्केट खरीदार जो बीज से बिक्री तक अगाते को सशक्त बनाते हैं।"
+                : "The companies, farmer networks, and market channels that power Agaate from seed to sale."}
+            </p>
           </div>
         </Reveal>
 
@@ -211,7 +217,7 @@ export default function BrandsAssociationsChapter() {
           <div
             role="tablist"
             aria-label="Brand categories"
-            className="flex w-fit max-w-full flex-wrap items-center gap-2 rounded-full bg-[#143d31]/5 p-1 border border-[#143d31]/10"
+            className="mx-auto mt-8 flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-[22px] bg-[#f4f7ef]/60 p-2 ring-1 ring-[#143d31]/5 backdrop-blur-sm sm:mt-10"
           >
             {TABS.map((item) => {
               const Icon = item.icon;
@@ -224,36 +230,57 @@ export default function BrandsAssociationsChapter() {
                   aria-selected={selected}
                   onClick={() => setTab(item.id)}
                   className={cn(
-                    "relative z-10 inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold transition-colors cursor-pointer",
-                    selected ? "bg-[#143d31] text-white shadow-xs" : "text-[#4f624f] hover:text-[#143d31]",
+                    "relative z-10 inline-flex items-center gap-2 rounded-[18px] px-4 py-2.5 text-xs sm:text-sm font-bold transition-colors duration-300 focus-visible:outline-none sm:px-6 sm:py-2.5",
+                    selected ? "text-white" : "text-[#143d31]/60 hover:text-[#143d31]",
                   )}
                 >
-                  <Icon className="h-4 w-4" />
+                  {selected && (
+                    <motion.div
+                      layoutId="brand-tab-bubble"
+                      className="absolute inset-0 z-[-1] rounded-[18px] bg-[#143d31] shadow-md shadow-[#143d31]/20"
+                      transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
+                    />
+                  )}
+                  <Icon className="h-4 w-4" strokeWidth={selected ? 2 : 1.5} />
                   {item.label}
                 </button>
               );
             })}
           </div>
-          <p className="mt-3 text-xs font-medium text-[#4f624f]">
+          <motion.p
+            key={tab}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mx-auto mt-4 max-w-md text-center text-xs font-medium text-[#536253] sm:text-sm"
+          >
             {active.hint}
-          </p>
+          </motion.p>
         </Reveal>
 
-        <div className="relative pt-2">
+        <div className="relative mt-8 sm:mt-10">
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white via-white/90 to-transparent sm:w-24 md:w-36"
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white via-white/90 to-transparent sm:w-24 md:w-36"
+            aria-hidden="true"
+          />
+
           <AnimatePresence mode="wait">
             <motion.div
               key={tab}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
               transition={{ duration: 0.35, ease: EASE }}
-              className="space-y-3"
+              className="space-y-3.5 sm:space-y-4"
             >
               {useDualRow ? (
                 <>
                   <Marquee
                     pauseOnHover
-                    className="[--duration:50s] [--gap:1rem] py-1"
+                    className="[--duration:50s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
                   >
                     {logos.slice(0, Math.ceil(logos.length / 2)).map((brand) => (
                       <BrandTile key={`${tab}-a-${brand.name}`} brand={brand} />
@@ -262,7 +289,7 @@ export default function BrandsAssociationsChapter() {
                   <Marquee
                     reverse
                     pauseOnHover
-                    className="[--duration:60s] [--gap:1rem] py-1"
+                    className="[--duration:60s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
                   >
                     {logos.slice(Math.ceil(logos.length / 2)).map((brand) => (
                       <BrandTile key={`${tab}-b-${brand.name}`} brand={brand} />
@@ -272,7 +299,7 @@ export default function BrandsAssociationsChapter() {
               ) : (
                 <Marquee
                   pauseOnHover
-                  className="[--duration:45s] [--gap:1rem] py-1"
+                  className="[--duration:45s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
                 >
                   {logos.map((brand) => (
                     <BrandTile key={`${tab}-${brand.name}`} brand={brand} />
@@ -283,7 +310,7 @@ export default function BrandsAssociationsChapter() {
           </AnimatePresence>
         </div>
 
-        <p className="pt-2 text-center font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#5d7d37]">
+        <p className="mt-10 sm:mt-12 text-center font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-[#143d31]/35">
           25+ verified manufacturer &amp; market relationships
         </p>
       </div>
