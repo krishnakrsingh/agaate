@@ -41,15 +41,15 @@ export default function PillarAdvisory() {
 
             {/* Subtext Description */}
             <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-              Field agronomists helping you farm disease-free — moving to preventive care, exact
-              fertigation doses, and reduced cultivation costs.
+              Field agronomists providing direct disease diagnosis, exact fertigation doses, and
+              farm visits.
             </p>
 
             {/* Metrics Strip */}
             <div className="my-6 border-y border-[#143d31]/12 py-4 grid grid-cols-3 gap-2">
               <div className="text-left first:border-l-0 first:pl-0">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={40} suffix="+" />
+                  <CountUp to={20} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
                   Field Experts
@@ -57,18 +57,18 @@ export default function PillarAdvisory() {
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={15000} suffix="+" />
+                  <CountUp to={2000} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Acres Advised
+                  Farmers Advised
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={100} suffix="%" />
+                  <CountUp to={15} prefix="< " suffix=" Mins" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Preventive Care
+                  Response Time
                 </p>
               </div>
             </div>
@@ -78,7 +78,6 @@ export default function PillarAdvisory() {
               {[
                 "Photo pest & disease identification",
                 "Stage-wise spray & fertigation schedules",
-                "Preventive disease-free crop protection",
                 "Direct access to senior agronomists",
               ].map((feat) => (
                 <div

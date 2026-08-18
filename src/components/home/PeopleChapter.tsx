@@ -61,15 +61,17 @@ const impactStatsHi = [
 const teamEn = [
   { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
   { name: "Kuldeep Sengar", role: "Procurement Head", image: "/team/kuldeep.png" },
+  { name: "Abhay Ranjan", role: "Chief of Staff", image: "/team/abhay.png" },
   { name: "Chanchala Shukla", role: "Agronomist", image: "/team/chanchala.png" },
-  { name: "Sunil Sharma", role: "Lead - Agri Input Sales & Farmer Engagement", image: "/team/sunil.png" },
+  { name: "Ravi Kumar", role: "Data & Strategy", image: "/team/ravi.png" },
 ];
 
 const teamHi = [
   { name: "अंकित रावत", role: "संस्थापक एवं सीईओ", image: "/team/ankit.png?v=2" },
   { name: "कुलदीप सेंगर", role: "प्रोक्योरमेंट हेड", image: "/team/kuldeep.png" },
+  { name: "अभय रंजन", role: "चीफ ऑफ स्टाफ", image: "/team/abhay.png" },
   { name: "चंचला शुक्ला", role: "कृषि वैज्ञानिक", image: "/team/chanchala.png" },
-  { name: "सुनील शर्मा", role: "लीड - एग्री इनपुट सेल्स एवं किसान जुड़ाव", image: "/team/sunil.png" },
+  { name: "रवि कुमार", role: "डेटा एवं रणनीति", image: "/team/ravi.png" },
 ];
 
 export default function PeopleChapter() {

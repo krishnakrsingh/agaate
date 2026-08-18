@@ -133,14 +133,19 @@
         "focus": "Strategic sourcing, agri-input procurement, supply chain reliability, and vendor partnerships."
       },
       {
+        "name": "Abhay Ranjan",
+        "role": "Chief of Staff",
+        "focus": "Nursery operations, Kisan Mall execution, and cross-functional infrastructure."
+      },
+      {
         "name": "Chanchala Shukla",
         "role": "Agronomist",
         "focus": "Crop viability, product development, nutrition, and integrated pest management."
       },
       {
-        "name": "Sunil Sharma",
-        "role": "Lead - Agri Input Sales & Farmer Engagement",
-        "focus": "Agri-input retail distribution, farmer relationship management, and regional community engagement."
+        "name": "Ravi Kumar",
+        "role": "Data & Strategy",
+        "focus": "Analytics, smart crop cycles, reporting, and strategic operating intelligence."
       }
     ]
   }

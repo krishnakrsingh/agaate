@@ -1,13 +1,5 @@
-export { default as SectionStatsMarquee } from "./SectionStatsMarquee";
-export { default as FieldSignal } from "./FieldSignal";
-export { default as PeopleChapter } from "./PeopleChapter";
-export { default as AppChapter } from "./AppChapter";
-export { default as MallChapter } from "./MallChapter";
-export { default as AgriParkChapter } from "./AgriParkChapter";
-export { default as BrandsAssociationsChapter } from "./BrandsAssociationsChapter";
-export { default as ProofChapter } from "./ProofChapter";
-export { default as ClosingChapter } from "./ClosingChapter";
-export { default as InteractivePhoneApp } from "./InteractivePhoneApp";
-export { default as KisaanMallShowcase } from "./KisaanMallShowcase";
-export { useHomeChapterReveal } from "./useHomeChapterReveal";
-export * from "./pillars";
+export { default as PillarAdvisory } from "./PillarAdvisory";
+export { default as PillarNursery } from "./PillarNursery";
+export { default as PillarMall } from "./PillarMall";
+export { default as PillarMarket } from "./PillarMarket";
+export { default as PillarsHorizontalParallax } from "./PillarsHorizontalParallax";

@@ -71,7 +71,7 @@ const testimonialsEn = [
   },
   {
     id: 6,
-    name: "Suresh Verma",
+    name: "Abhay Ranjan",
     designation: "Agaate Parivaar Member",
     company: "Farrukhnagar, Haryana · 10 Acres",
     testimonial:
@@ -140,7 +140,7 @@ const testimonialsHi = [
   },
   {
     id: 6,
-    name: "सुरेश वर्मा",
+    name: "अभय रंजन",
     designation: "अगाते परिवार सदस्य",
     company: "फारुखनगर, हरियाणा · 10 एकड़",
     testimonial:

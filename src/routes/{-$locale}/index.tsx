@@ -1,117 +1,45 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useCallback } from "react";
-import { useScrollTriggerRefresh } from "@/hooks";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import LoadingScreen from "@/components/LoadingScreen";
-import SectionHero from "@/components/sections/SectionHero";
 import {
-  SectionStatsMarquee,
-  FieldSignal,
-  PillarsHorizontalParallax,
-  AppChapter,
-  MallChapter,
-  AgriParkChapter,
-  BrandsAssociationsChapter,
-  PeopleChapter,
-  ProofChapter,
-  ClosingChapter,
-} from "@/components/home";
+  ServicesHero,
+  ServicesGrid,
+  CropJourneyStepper,
+  SowingComparisonCalculator,
+  ServicesImpactMetrics,
+} from "@/components/services-overview";
+import { useTranslation } from "react-i18next";
 
-export const Route = createFileRoute("/{-$locale}/")({
+export const Route = createFileRoute("/{-$locale}/services/")({
   head: () => ({
     meta: [
-      { title: "Agaate — Integrated Seed-to-Market Agri Business" },
+      { title: "All 6 Agricultural Services & Smart Solutions | Agaate" },
       {
         name: "description",
         content:
-          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, market linkage, and carbon monetization.",
+          "India's premier end-to-end scientific farming platform: Bio-Boosted plug nursery, Kisaan Mall inputs, IoT farm tech & drone scans, verified carbon credits, turnkey farm setups, and guaranteed buyback floor pricing.",
       },
     ],
   }),
-  component: Index,
+  component: ServicesPage,
 });
 
-function Index() {
-  const [loading, setLoading] = useState(true);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [startHeroAnimation, setStartHeroAnimation] = useState(false);
-  const [contentReady, setContentReady] = useState(false);
-
-  const handleComplete = useCallback(() => {
-    setLoading(false);
-  }, []);
-
-  const handleWipeStart = useCallback(() => {
-    setStartHeroAnimation(true);
-  }, []);
-
-  const handleVideoLoaded = useCallback(() => {
-    setVideoLoaded(true);
-  }, []);
-
-  const handleHeroAnimationComplete = useCallback(() => {
-    setContentReady(true);
-  }, []);
-
-  useScrollTriggerRefresh(contentReady);
+function ServicesPage() {
+  const { locale } = useParams({ strict: false }) as any;
+  const { i18n } = useTranslation();
+  const currentLang = locale ?? i18n.language ?? "en";
 
   return (
-    <>
-      {loading && (
-        <LoadingScreen
-          onComplete={handleComplete}
-          videoLoaded={videoLoaded}
-          onWipeStart={handleWipeStart}
-        />
-      )}
-      <main className="overflow-x-clip bg-white text-ink antialiased">
-        <Header />
-        {/* Section 1: Hero Section */}
-        <SectionHero
-          onVideoLoaded={handleVideoLoaded}
-          startAnimation={startHeroAnimation}
-          onAnimationComplete={handleHeroAnimationComplete}
-        />
-
-        {/* Defer rendering heavy components until hero animation completes to prevent initial loading screen lag */}
-        {contentReady && (
-          <>
-            {/* Section 2: Stats Marquee */}
-            <SectionStatsMarquee />
-
-            {/* Section 3: Farmer pain points — establish empathy & problem */}
-            <FieldSignal />
-
-            {/* Section 4: The 3 Core Integrated Pillars (Horizontal Parallax Transition) */}
-            <PillarsHorizontalParallax />
-
-            {/* Section 5: Agaate Mobile App — Interactive Digital Experience */}
-            <AppChapter />
-
-            {/* Section 6: Agaate Kisaan Mall — Direct-From-Brand Agri Input Supply */}
-            <MallChapter />
-
-            {/* Section 7: Physical Proof — 17-Acre Smart Nursery & Agri Park Demonstration */}
-            <AgriParkChapter />
-
-            {/* Section 8: Brands & Associations — Partners, Customers & Veg Buyers */}
-            <BrandsAssociationsChapter />
-
-            {/* Section 9: Who We Are — Founder Vision & Leadership Team */}
-            <PeopleChapter />
-
-            {/* Section 10: Farmer Testimonials & Reviews */}
-            <ProofChapter />
-
-            {/* Section 11: Final Conversion — Three Clear Action Paths */}
-            <ClosingChapter />
-
-            {/* Footer */}
-            <Footer />
-          </>
-        )}
-      </main>
-    </>
+    <main className="flex min-h-screen flex-col bg-cream font-sans text-ink antialiased">
+      <Header />
+      <ServicesHero currentLang={currentLang} />
+      <ServicesGrid currentLang={currentLang} />
+      <CropJourneyStepper />
+      <SowingComparisonCalculator />
+      <ServicesImpactMetrics currentLang={currentLang} />
+      <Footer />
+    </main>
   );
 }
+
+export default ServicesPage;
