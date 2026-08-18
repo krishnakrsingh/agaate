@@ -1,45 +1,65 @@
-import type { LeadInput, LeadResult } from "@/functions/lead-types";
+import {
+  leadInputSchema,
+  normalizePhoneNumber,
+  type LeadInput,
+  type LeadResult,
+} from "@/functions/lead-types";
 import { createHash } from "node:crypto";
 import { getDbPool, isDbConfigured } from "@/server/db";
+import type { LeadDbRecord } from "@/server/schema";
 
+// Sliding window rate limiter with auto-pruning to avoid memory leaks
 const rateMap = new Map<string, number[]>();
 const recentTokens = new Map<string, number>();
 
-function clean(s: unknown, max = 200) {
+// Periodically prune stale cache entries every 10 minutes
+const PRUNE_INTERVAL_MS = 10 * 60 * 1000;
+let lastPruneTime = Date.now();
+
+function pruneStaleCache(now: number) {
+  if (now - lastPruneTime < PRUNE_INTERVAL_MS) return;
+  lastPruneTime = now;
+
+  const rateWindow = 15 * 60 * 1000;
+  for (const [key, timestamps] of rateMap.entries()) {
+    const fresh = timestamps.filter((t) => now - t < rateWindow);
+    if (fresh.length === 0) {
+      rateMap.delete(key);
+    } else {
+      rateMap.set(key, fresh);
+    }
+  }
+
+  const tokenWindow = 60 * 1000;
+  for (const [token, timestamp] of recentTokens.entries()) {
+    if (now - timestamp > tokenWindow) {
+      recentTokens.delete(token);
+    }
+  }
+}
+
+function sanitizeString(s: unknown, max = 200): string {
   return String(s ?? "")
     .replace(/[\u0000-\u001F\u007F]/g, "")
     .trim()
     .slice(0, max);
 }
 
-function normalizePhone(raw: string) {
-  const digits = raw.replace(/\D/g, "");
-  if (digits.length === 12 && digits.startsWith("91")) return digits.slice(2);
-  if (digits.length === 11 && digits.startsWith("0")) return digits.slice(1);
-  return digits;
+export function generateTicketId(): string {
+  const randomDigits = Math.floor(1000 + Math.random() * 9000);
+  return `AGA-2026-${randomDigits}`;
 }
 
-function isValidPhone(raw: string) {
-  return /^[6-9]\d{9}$/.test(normalizePhone(raw));
-}
-
-function isValidEmail(raw: string) {
-  if (!raw) return true;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw) && raw.length <= 160;
-}
-
-function ticketId() {
-  return `AGA-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-}
-
-function hashIp(ip: string) {
+export function hashIp(ip: string): string {
   return createHash("sha256")
     .update(ip || "unknown")
     .digest("hex");
 }
 
-function checkRateLimit(key: string, limit = 5, windowMs = 15 * 60 * 1000) {
+export function checkRateLimit(key: string, limit = 5, windowMs = 15 * 60 * 1000): boolean {
   const now = Date.now();
+  pruneStaleCache(now);
+
   const arr = (rateMap.get(key) || []).filter((t) => now - t < windowMs);
   if (arr.length >= limit) {
     rateMap.set(key, arr);
@@ -50,35 +70,34 @@ function checkRateLimit(key: string, limit = 5, windowMs = 15 * 60 * 1000) {
   return true;
 }
 
-function validateLead(data: LeadInput): string | null {
-  if (data.honeypot) return "spam";
-  if (!data.startedAt || Date.now() - data.startedAt < 1800) return "spam";
-  if (!data.consent) return "Please accept the privacy notice to continue.";
-  if (clean(data.name, 120).length < 2) return "Enter your full name.";
-  if (!isValidPhone(data.phone)) return "Enter a 10-digit mobile number.";
-  if (!isValidEmail(clean(data.email || "", 160))) return "Enter a valid email address.";
-  if (!clean(data.topic, 64)) return "Select a topic.";
-  if ((data.message || "").length > 600) return "Message is too long.";
-  if (!data.clientToken || data.clientToken.length < 8) return "Invalid request.";
-  return null;
-}
-
-/** Server-only implementation — never import from client components. */
-export async function handleSubmitLead(data: LeadInput): Promise<LeadResult> {
-  const validationError = validateLead(data);
-  if (validationError === "spam") {
-    return { ok: true, ticketId: ticketId(), stored: false };
-  }
-  if (validationError) {
-    return { ok: false, error: validationError, code: "validation" };
+/**
+ * Server-only implementation — never import from client components.
+ */
+export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> {
+  const parsed = leadInputSchema.safeParse(rawData);
+  if (!parsed.success) {
+    const firstIssue = parsed.error.issues[0]?.message ?? "Invalid form submission.";
+    return { ok: false, error: firstIssue, code: "validation" };
   }
 
-  const ip = process.env.CF_CONNECTING_IP || "local";
-  const ipKey = hashIp(ip + clean(data.phone, 20));
+  const data = parsed.data;
+
+  // Bot & Spam checks
+  if (data.honeypot) {
+    return { ok: true, ticketId: generateTicketId(), stored: false };
+  }
+  if (data.startedAt && Date.now() - data.startedAt < 1500) {
+    // Filled in under 1.5 seconds - likely bot
+    return { ok: true, ticketId: generateTicketId(), stored: false };
+  }
+
+  const ip = process.env.CF_CONNECTING_IP || process.env.REMOTE_ADDR || "local";
+  const ipKey = hashIp(ip + sanitizeString(data.phone, 20));
+
   if (!checkRateLimit(ipKey)) {
     return {
       ok: false,
-      error: "Too many requests. Please try again in a few minutes, or call us.",
+      error: "Too many requests. Please try again in a few minutes, or call our advisory team.",
       code: "rate_limit",
     };
   }
@@ -93,26 +112,26 @@ export async function handleSubmitLead(data: LeadInput): Promise<LeadResult> {
   }
   recentTokens.set(data.clientToken, Date.now());
 
-  const payload = {
-    ticket_id: ticketId(),
-    name: clean(data.name, 120),
-    phone: normalizePhone(data.phone),
-    email: clean(data.email || "", 160) || null,
-    topic: clean(data.topic, 64),
-    acreage: clean(data.acreage || "", 64) || null,
-    crop: clean(data.crop || "", 64) || null,
-    district: clean(data.district || "", 120) || null,
-    channel: clean(data.channel || "WhatsApp", 32),
-    message: clean(data.message || "", 600) || null,
+  const payload: LeadDbRecord = {
+    ticket_id: generateTicketId(),
+    name: sanitizeString(data.name, 120),
+    phone: normalizePhoneNumber(data.phone),
+    email: data.email ? sanitizeString(data.email, 160) : null,
+    topic: sanitizeString(data.topic, 64),
+    acreage: data.acreage ? sanitizeString(data.acreage, 64) : null,
+    crop: data.crop ? sanitizeString(data.crop, 64) : null,
+    district: data.district ? sanitizeString(data.district, 120) : null,
+    channel: sanitizeString(data.channel || "WhatsApp", 32),
+    message: data.message ? sanitizeString(data.message, 600) : null,
     consent: data.consent ? 1 : 0,
     consent_at: data.consent ? new Date() : null,
-    source_page: clean(data.sourcePage || "/contact", 255),
+    source_page: sanitizeString(data.sourcePage || "/contact", 255),
     ip_hash: hashIp(ip),
-    user_agent: null as string | null,
+    user_agent: null,
   };
 
   if (!isDbConfigured()) {
-    console.warn("[submitLead] MySQL not configured — returning ticket without persist");
+    console.warn("[submitLead] MySQL not configured — returning generated ticket without persist");
     return { ok: true, ticketId: payload.ticket_id, stored: false };
   }
 
@@ -125,6 +144,7 @@ export async function handleSubmitLead(data: LeadInput): Promise<LeadResult> {
        ORDER BY id DESC LIMIT 1`,
       { phone: payload.phone, topic: payload.topic },
     );
+
     const rows = dupes as Array<{ ticket_id: string }>;
     if (rows[0]?.ticket_id) {
       return { ok: true, ticketId: rows[0].ticket_id, stored: true };
@@ -137,14 +157,15 @@ export async function handleSubmitLead(data: LeadInput): Promise<LeadResult> {
        VALUES
         (:ticket_id, :name, :phone, :email, :topic, :acreage, :crop, :district, :channel, :message,
          :consent, :consent_at, :source_page, :ip_hash, :user_agent)`,
-      payload,
+      payload as unknown as Record<string, unknown>,
     );
+
     return { ok: true, ticketId: payload.ticket_id, stored: true };
   } catch (err) {
-    console.error("[submitLead]", err);
+    console.error("[submitLead] Database error:", err);
     return {
       ok: false,
-      error: "We could not save your request right now. Please try again or WhatsApp us.",
+      error: "We could not save your request right now. Please try again or reach us via WhatsApp.",
       code: "server",
     };
   }

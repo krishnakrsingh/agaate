@@ -13,11 +13,9 @@ import {
   Microscope,
   Plant,
   Pulse,
-  Rocket,
   ShieldCheck,
   ShoppingCart,
   Sparkle,
-  Users,
 } from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -324,93 +322,65 @@ export default function AgriParkChapter() {
       <section
         ref={sectionRef}
         id="agri-park"
-        className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] py-16 sm:py-20 md:py-24 border-t border-[#143d31]/10"
+        className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] py-16 sm:py-20 md:py-24 border-t border-[#143d31]/10 text-[#143d31]"
       >
-        {/* Ambient Subtle Glow */}
-        <div className="pointer-events-none absolute right-0 top-1/4 h-96 w-96 rounded-full bg-[#5d7d37]/5 blur-3xl" />
-        <div className="pointer-events-none absolute left-0 bottom-1/4 h-80 w-80 rounded-full bg-[#a3e635]/5 blur-3xl" />
-
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12 relative z-10">
-          {/* ── 1. Top Section Header ── */}
-          <div
-            data-home-reveal
-            className="flex flex-col md:flex-row md:items-end justify-between gap-6"
-          >
-            <div className="max-w-3xl">
-              <div className="flex items-center gap-2.5 mb-3">
-                <span className="w-5 h-[1.5px] bg-[#5d7d37]" />
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                  {isHindi
-                    ? "04 · 17-एकड़ कोलैबोरेटिव एग्री पार्क व स्मार्ट नर्सरी"
-                    : "04 · 17-Acre Collaborative Living Farm & Smart Nursery"}
-                </p>
-              </div>
-
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-                {isHindi ? (
-                  <>
-                    भारत का पहला एकीकृत एग्री पार्क।{" "}
-                    <span className="font-serif italic font-normal text-[#5d7d37] block sm:inline mt-1 sm:mt-0">
-                      हर समाधान वास्तविक जमीन पर लाइव देखें।
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    India's First Collaborative Living Farm.{" "}
-                    <span className="font-serif italic font-normal text-[#5d7d37] block sm:inline mt-1 sm:mt-0">
-                      Every solution demonstrated live on real crops.
-                    </span>
-                  </>
-                )}
-              </h2>
-
-              <p className="font-sans mt-4 text-sm sm:text-base leading-relaxed text-[#4f624f]">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
+          {/* ── 1. Header (Exact Font & Color Style from Success Stories) ── */}
+          <div data-home-reveal className="space-y-4">
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
                 {isHindi
-                  ? "17 एकड़ का एक खुला जीवंत फार्म जहां देश की प्रमुख बीज, ड्रिप सिंचाई, ड्रोन तकनीक और बायो-पोषण कंपनियां 8 फसल चरणों में लाइव ट्रायल करती हैं — अपने खेत में लगाने से पहले वास्तविक जमीन पर काम करते देखें।"
-                  : "A 17-acre living proving ground where India's leading seed, drip irrigation, drone tech, and bio-nutrition partners conduct open trials on real crops across the full 8-stage seed-to-sale journey."}
+                  ? "17-एकड़ स्मार्ट नर्सरी व एग्री पार्क"
+                  : "17-Acre Smart Nursery & Agri Park"}
               </p>
             </div>
 
-            {/* Action CTAs: Direct Modal Booking + Masterplan Route */}
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <button
-                type="button"
-                onClick={() => setIsVisitModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-all cursor-pointer group"
-              >
-                <Calendar className="h-4 w-4 text-[#a3e635]" />
-                <span>{isHindi ? "विजिट शेड्यूल करें" : "Book VIP Farm Visit"}</span>
-                <ArrowRight className="h-3.5 w-3.5 text-white/70 group-hover:translate-x-0.5 transition-transform" />
-              </button>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl">
+                {isHindi
+                  ? "17 एकड़ का एक फार्म, हर समाधान वास्तविक जमीन पर लाइव देखें"
+                  : "One 17-acre living farm, every solution demonstrated live"}
+              </h2>
 
-              <Link
-                to={getLocalizedPath("/agri-park", currentLang) as any}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 bg-white/70 backdrop-blur-xs px-5 py-3.5 text-xs font-bold text-[#143d31] hover:bg-white hover:border-[#143d31]/40 transition-all cursor-pointer"
-              >
-                <Compass className="h-4 w-4 text-[#5d7d37]" />
-                <span>{isHindi ? "पूरा 8-ज़ोन मॉडल" : "Explore Masterplan"}</span>
-              </Link>
+              {/* Action CTAs */}
+              <div className="flex flex-wrap items-center gap-3 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setIsVisitModalOpen(true)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-all cursor-pointer"
+                >
+                  <Calendar className="h-4 w-4 text-[#a3e635]" />
+                  <span>{isHindi ? "विजिट शेड्यूल करें" : "Book VIP Farm Visit"}</span>
+                  <ArrowRight className="h-3.5 w-3.5 text-white" />
+                </button>
+
+                <Link
+                  to={getLocalizedPath("/agri-park", currentLang) as any}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#143d31]/20 bg-white/70 px-5 py-3.5 text-xs font-bold text-[#143d31] hover:bg-white transition-all cursor-pointer"
+                >
+                  <Compass className="h-4 w-4 text-[#5d7d37]" />
+                  <span>{isHindi ? "पूरा 8-ज़ोन मॉडल" : "Explore Masterplan"}</span>
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* ── 2. Core Interactive Feature Grid ── */}
+          {/* ── 2. Core Interactive Feature Grid (Clean Layout) ── */}
           <div data-home-reveal className="grid gap-8 lg:grid-cols-12 lg:items-center">
             {/* Left Column: Interactive Tabbed Detail Card (6 cols) */}
             <div className="lg:col-span-6 space-y-4">
               {/* Segmented View Switcher Header */}
               <div className="flex items-center justify-between pb-3 border-b border-[#143d31]/10">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#5d7d37] animate-pulse" />
-                  <span className="font-mono text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                    {activeTab === "zones"
-                      ? isHindi
-                        ? "8-ज़ोन लाइव फील्ड स्टेशन"
-                        : "8 Living Innovation Zones"
-                      : isHindi
-                        ? "पौध विकास क्षमता व तकनीक"
-                        : "High-Immunity Nursery Tech"}
-                  </span>
-                </div>
+                <span className="font-mono text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
+                  {activeTab === "zones"
+                    ? isHindi
+                      ? "8-ज़ोन लाइव फील्ड स्टेशन"
+                      : "8 Living Innovation Zones"
+                    : isHindi
+                      ? "पौध विकास क्षमता व तकनीक"
+                      : "High-Immunity Nursery Tech"}
+                </span>
 
                 <div className="inline-flex rounded-full bg-[#143d31]/5 p-0.5 border border-[#143d31]/10">
                   <button
@@ -438,7 +408,7 @@ export default function AgriParkChapter() {
                 </div>
               </div>
 
-              {/* View Content: Switch between 8-Zone Explorer & Nursery Comparison Table */}
+              {/* View Content */}
               <AnimatePresence mode="wait">
                 {activeTab === "zones" ? (
                   <motion.div
@@ -447,30 +417,27 @@ export default function AgriParkChapter() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.35, ease: EASE }}
-                    className="rounded-2xl border border-[#143d31]/10 bg-white p-6 shadow-sm space-y-5"
+                    className="p-1 space-y-5"
                   >
-                    {/* Zone Badge + Telemetry status */}
+                    {/* Zone Badge + Telemetry */}
                     <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#5d7d37]/10 px-3 py-1 font-mono text-[10px] font-bold text-[#5d7d37] border border-[#5d7d37]/20">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#5d7d37]/10 px-3 py-1 font-mono text-[10px] font-bold text-[#5d7d37]">
                         {activeZone.badge}
                       </span>
-                      <span className="font-mono text-[10px] font-bold text-emerald-700 flex items-center gap-1">
-                        <Pulse className="h-3 w-3 animate-pulse text-emerald-500" />
+                      <span className="font-mono text-[10px] font-bold text-[#5d7d37] flex items-center gap-1">
+                        <Pulse className="h-3 w-3 animate-pulse text-[#5d7d37]" />
                         {isHindi ? "लाइव फील्ड ट्रायल" : "Live Field Trial"}
                       </span>
                     </div>
 
                     {/* Zone Header */}
                     <div className="flex items-start gap-3.5">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-[#a3e635] shadow-sm">
-                        <ActiveZoneIcon className="h-5 w-5" weight="duotone" />
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#143d31]/10 text-[#143d31]">
+                        <ActiveZoneIcon className="h-5 w-5 text-[#143d31]" weight="duotone" />
                       </div>
                       <div>
                         <h3 className="font-display text-xl sm:text-2xl font-bold text-[#143d31] leading-tight">
-                          {activeZone.label} —{" "}
-                          <span className="font-serif italic font-normal text-[#5d7d37]">
-                            {activeZone.sub}
-                          </span>
+                          {activeZone.label} — {activeZone.sub}
                         </h3>
                         <p className="font-sans text-xs sm:text-sm text-[#4f624f] leading-relaxed mt-1 font-normal">
                           {activeZone.desc}
@@ -479,8 +446,8 @@ export default function AgriParkChapter() {
                     </div>
 
                     {/* Metrics & Crop Parameters Strip */}
-                    <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#143d31]/8 font-sans">
-                      <div className="rounded-xl bg-[#f4f8f5] p-3 border border-[#143d31]/5">
+                    <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#143d31]/10 font-sans">
+                      <div className="p-3">
                         <span className="block font-mono text-[9px] uppercase tracking-wider text-[#4f624f]">
                           {isHindi ? "परीक्षण फसलें" : "Tested Crops"}
                         </span>
@@ -488,28 +455,26 @@ export default function AgriParkChapter() {
                           {activeZone.crops}
                         </span>
                       </div>
-                      <div className="rounded-xl bg-[#f4f8f5] p-3 border border-[#143d31]/5">
+                      <div className="p-3 border-l border-[#143d31]/10">
                         <span className="block font-mono text-[9px] uppercase tracking-wider text-[#4f624f]">
                           {activeZone.statLabel}
                         </span>
-                        <span className="font-display text-xs sm:text-sm font-extrabold text-[#5d7d37] mt-0.5 block">
+                        <span className="font-display text-xs sm:text-sm font-bold text-[#143d31] mt-0.5 block">
                           {activeZone.stat}
                         </span>
                       </div>
                     </div>
 
                     {/* Co-developed Partner Brands Strip */}
-                    <div className="pt-2">
-                      <span className="block font-mono text-[9px] uppercase tracking-widest text-[#4f624f]/80 font-bold mb-2">
-                        {isHindi
-                          ? "लाइव ट्रायल साझेदार ब्रांड्स"
-                          : "Collaborative Brand Partners"}
+                    <div className="pt-2 border-t border-[#143d31]/10">
+                      <span className="block font-mono text-[9px] uppercase tracking-widest text-[#4f624f] font-bold mb-2">
+                        {isHindi ? "लाइव ट्रायल साझेदार ब्रांड्स" : "Collaborative Brand Partners"}
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {activeZone.partners.map((p) => (
                           <span
                             key={p}
-                            className="inline-flex items-center gap-1 rounded-lg border border-[#143d31]/10 bg-[#fafbf7] px-2.5 py-1 font-mono text-[10px] font-bold text-[#143d31] shadow-xs"
+                            className="inline-flex items-center gap-1 rounded-lg border border-[#143d31]/10 bg-white/70 px-2.5 py-1 font-mono text-[10px] font-bold text-[#143d31]"
                           >
                             <Sparkle className="h-2.5 w-2.5 text-[#5d7d37]" />
                             {p}
@@ -525,7 +490,7 @@ export default function AgriParkChapter() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.35, ease: EASE }}
-                    className="rounded-2xl border border-[#143d31]/10 bg-white p-6 shadow-sm space-y-4"
+                    className="p-1 space-y-4"
                   >
                     <div className="flex items-center justify-between pb-2 border-b border-[#143d31]/10">
                       <div>
@@ -533,10 +498,12 @@ export default function AgriParkChapter() {
                           {isHindi ? "प्रमाणित आंकड़े" : "Benchmarked Data"}
                         </p>
                         <h3 className="font-display text-lg sm:text-xl font-bold text-[#143d31]">
-                          {isHindi ? "उन्नत नर्सरी बनाम सीधी बुवाई" : "Bio Nursery vs. Direct Sowing"}
+                          {isHindi
+                            ? "उन्नत नर्सरी बनाम सीधी बुवाई"
+                            : "Bio Nursery vs. Direct Sowing"}
                         </h3>
                       </div>
-                      <span className="rounded-full bg-[#5d7d37]/10 px-3 py-1 text-xs font-semibold text-[#5d7d37] border border-[#5d7d37]/20">
+                      <span className="rounded-full bg-[#5d7d37]/10 px-3 py-1 text-xs font-semibold text-[#5d7d37]">
                         {isHindi ? "98% जमाव दर" : "98% Survival"}
                       </span>
                     </div>
@@ -560,7 +527,7 @@ export default function AgriParkChapter() {
                           <span className="text-[#4f624f]/70">{row.traditional}</span>
                           <div className="flex items-center gap-1.5 font-bold text-[#143d31]">
                             <span>{row.bioBoosted}</span>
-                            <CheckCircle className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" />
+                            <CheckCircle className="h-3.5 w-3.5 text-[#143d31] shrink-0" />
                           </div>
                         </div>
                       ))}
@@ -599,7 +566,7 @@ export default function AgriParkChapter() {
                     <img
                       src="/nursery.png"
                       alt={isHindi ? "बायो-बूस्टेड नर्सरी केंद्र" : "Bio-Boosted Nursery Facility"}
-                      className="max-h-full w-full object-contain drop-shadow-[0_12px_24px_rgba(20,61,49,0.12)] transition-transform duration-500 hover:scale-[1.01]"
+                      className="max-h-full w-full object-contain drop-shadow-md"
                     />
                     <div className="absolute bottom-3 left-3 rounded-lg border border-[#143d31]/10 bg-white/90 px-2.5 py-1 backdrop-blur-md text-[10px] font-mono font-bold uppercase text-[#143d31]">
                       {isHindi ? "100% निरोगी प्लग पौध" : "Immunity-Boosted Seedling Plugs"}
@@ -610,15 +577,9 @@ export default function AgriParkChapter() {
                     <img
                       src={agroParkImage}
                       alt="Agri Park Kukrola Living Demonstration Farm"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="h-full w-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#143d31]/85 via-[#143d31]/20 to-transparent" />
-                    
-                    {/* Top live badge */}
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#143d31]/80 px-2.5 py-1 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-white">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#a3e635] animate-pulse" />
-                      {isHindi ? "लाइव आर एंड डी केंद्र" : "Open Living Lab & Trials"}
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#143d31]/80 via-transparent to-transparent" />
 
                     {/* Bottom caption */}
                     <div className="absolute bottom-3 left-4 right-4 text-white">
@@ -639,26 +600,28 @@ export default function AgriParkChapter() {
 
               {/* Fast Stats Ticker Strip */}
               <div className="grid grid-cols-4 gap-2 pt-1 font-mono text-center">
-                <div className="rounded-xl border border-[#143d31]/8 bg-white/60 p-2">
+                <div className="p-2 border border-[#143d31]/10 rounded-xl bg-white/40">
                   <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">17</p>
                   <p className="text-[9px] uppercase tracking-wider text-[#5d7d37]">
                     {isHindi ? "एकड़ फार्म" : "Acres Farm"}
                   </p>
                 </div>
-                <div className="rounded-xl border border-[#143d31]/8 bg-white/60 p-2">
+                <div className="p-2 border border-[#143d31]/10 rounded-xl bg-white/40">
                   <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">08</p>
                   <p className="text-[9px] uppercase tracking-wider text-[#5d7d37]">
                     {isHindi ? "फसल ज़ोन" : "Crop Zones"}
                   </p>
                 </div>
-                <div className="rounded-xl border border-[#143d31]/8 bg-white/60 p-2">
+                <div className="p-2 border border-[#143d31]/10 rounded-xl bg-white/40">
                   <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">25+</p>
                   <p className="text-[9px] uppercase tracking-wider text-[#5d7d37]">
                     {isHindi ? "पार्टनर ब्रांड्स" : "Agri Brands"}
                   </p>
                 </div>
-                <div className="rounded-xl border border-[#143d31]/8 bg-white/60 p-2">
-                  <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">2,000+</p>
+                <div className="p-2 border border-[#143d31]/10 rounded-xl bg-white/40">
+                  <p className="font-display text-sm sm:text-base font-bold text-[#143d31]">
+                    2,000+
+                  </p>
                   <p className="text-[9px] uppercase tracking-wider text-[#5d7d37]">
                     {isHindi ? "किसान विजिट" : "Farmers"}
                   </p>
@@ -667,20 +630,16 @@ export default function AgriParkChapter() {
             </div>
           </div>
 
-          {/* ── 3. Interactive 8-Zone Crop Journey Navigator ── */}
+          {/* ── 3. Interactive 8-Zone Navigator Strip ── */}
           <div data-home-reveal className="pt-6 border-t border-[#143d31]/10 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                  {isHindi
-                    ? "फसल यात्रा · 8 फील्ड ज़ोन (क्लिक करके विवरण देखें)"
-                    : "WALK THE CROP JOURNEY · 8 FIELD DEMONSTRATION ZONES"}
-                </span>
-              </div>
-              <span className="font-mono text-[10px] text-[#4f624f]">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
                 {isHindi
-                  ? "01 – 08 लाइव स्टेशन · सेलेक्ट करें"
-                  : "Click any zone pin below to inspect parameters"}
+                  ? "फसल यात्रा · 8 फील्ड ज़ोन"
+                  : "WALK THE CROP JOURNEY · 8 FIELD DEMONSTRATION ZONES"}
+              </span>
+              <span className="font-mono text-[10px] text-[#4f624f]">
+                {isHindi ? "01 – 08 लाइव स्टेशन" : "Click to inspect parameters"}
               </span>
             </div>
 
@@ -697,10 +656,10 @@ export default function AgriParkChapter() {
                       setSelectedZoneIndex(idx);
                       setActiveTab("zones");
                     }}
-                    className={`group flex flex-col justify-between p-3 rounded-2xl border text-left transition-all duration-300 cursor-pointer ${
+                    className={`flex flex-col justify-between p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer ${
                       isSelected
-                        ? "bg-[#143d31] text-white border-[#143d31] shadow-md -translate-y-1"
-                        : "bg-white/70 border-[#143d31]/8 hover:border-[#5d7d37]/35 hover:bg-white hover:-translate-y-0.5 text-[#143d31]"
+                        ? "bg-[#143d31] text-white border-[#143d31] shadow-xs"
+                        : "bg-white/50 border-[#143d31]/10 hover:border-[#5d7d37]/40 hover:bg-white text-[#143d31]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2 w-full">
@@ -712,11 +671,7 @@ export default function AgriParkChapter() {
                         {z.number}
                       </span>
                       <Icon
-                        className={`h-4 w-4 transition-colors ${
-                          isSelected
-                            ? "text-[#a3e635]"
-                            : "text-[#143d31]/70 group-hover:text-[#143d31]"
-                        }`}
+                        className={`h-4 w-4 ${isSelected ? "text-[#a3e635]" : "text-[#143d31]/70"}`}
                         weight={isSelected ? "fill" : "duotone"}
                       />
                     </div>
@@ -745,10 +700,7 @@ export default function AgriParkChapter() {
       </section>
 
       {/* Interactive VIP Farm Visit Booking Modal */}
-      <AgriParkVisitModal
-        isOpen={isVisitModalOpen}
-        onClose={() => setIsVisitModalOpen(false)}
-      />
+      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
     </>
   );
 }

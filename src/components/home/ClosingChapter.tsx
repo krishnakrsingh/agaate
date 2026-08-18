@@ -1,239 +1,307 @@
-import { ArrowRight, MapPin, Phone, DeviceMobile } from "@phosphor-icons/react";
+import { useState } from "react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle,
+  MapPin,
+  Plant,
+  WhatsappLogo,
+  CalendarCheck,
+} from "@phosphor-icons/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
+import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 
 const trustFactsEn = [
-  "2,000+ Parivaar farmers",
-  "15,000+ acres under association",
-  "17-acre smart nursery",
+  { value: "2,000+", label: "Agaate Parivaar Farmers" },
+  { value: "15,000+", label: "Acres Monitored" },
+  { value: "17-Acre", label: "Smart Nursery & Park" },
+  { value: "100%", label: "QC Verified Inputs" },
 ];
 
 const trustFactsHi = [
-  "2,000+ संतुष्ट किसान परिवार",
-  "15,000+ एकड़ जुड़ा रकबा",
-  "17-एकड़ हाई-टेक स्मार्ट नर्सरी",
+  { value: "2,000+", label: "संतुष्ट किसान परिवार" },
+  { value: "15,000+", label: "एकड़ जुड़ा रकबा" },
+  { value: "17-एकड़", label: "स्मार्ट नर्सरी व पार्क" },
+  { value: "100%", label: "प्रमाणित असली उत्पाद" },
 ];
 
-const actionsEn = [
+const pathwaysEn = [
   {
-    icon: DeviceMobile,
     number: "01",
+    icon: WhatsappLogo,
+    tag: "Field Advisory",
     title: "Talk to an Agronomist",
-    text: "Describe your crop problem or planning question — a real agronomy expert responds directly. Crop diseases, pest issues, fertilizer, soil, or anything in the field.",
-    cta: "Chat Now",
-    subCta: null,
+    subtitle: "Photo diagnosis & dosage charts",
+    description:
+      "Send a photo of diseased leaves or ask soil planning questions. Real agronomy scientists diagnose the issue and share exact stage-wise spray and fertigation doses.",
+    actionLabel: "Chat on WhatsApp",
+    actionSub: "< 15 min direct response",
+    type: "whatsapp",
     href: "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20am%20reaching%20out%20for%20assistance%20and%20would%20appreciate%20a%20response%20at%20your%20earliest%20convenience.",
-    accent: "#143d31",
+    perks: ["Photo pest & disease identification", "No automated bots · Real senior scientists"],
   },
   {
-    icon: MapPin,
     number: "02",
+    icon: MapPin,
+    tag: "Input Commerce",
     title: "Visit Kisaan Mall",
-    text: "500+ genuine agri inputs in one place. Expert-matched for your crop and stage, sourced from 25+ verified manufacturer partners. No guesswork, no duplicates.",
-    cta: "Get Directions",
-    subCta: "Bhora Kalan, Gurugram",
+    subtitle: "500+ QR-verified genuine inputs",
+    description:
+      "Source 100% genuine hybrid seeds, biologicals, and custom drip kits straight from 50+ manufacturer partners at honest, transparent rates with zero duplicate risk.",
+    actionLabel: "Get Store Directions",
+    actionSub: "Bhora Kalan, Gurugram",
+    type: "link",
     href: "/contact",
-    accent: "#9a5a2c",
+    perks: ["Direct manufacturer pricing", "Batch QC verified authenticity guarantee"],
   },
   {
-    icon: Phone,
     number: "03",
-    title: "See the Agri Park",
-    text: "India's first agri park — live demo plots, Bio-Boosted nursery, drone technology, and farmer training. One visit changes how you understand farming. See it before you use it.",
-    cta: "Plan Your Visit",
-    subCta: "Kukrola, Gurugram",
+    icon: Plant,
+    tag: "Living Farm",
+    title: "Tour the Agri Park",
+    subtitle: "8 demonstration zones on living soil",
+    description:
+      "Walk through live crop trial plots, high-immunity plug nurseries, automated drip systems, and AI drone scouting before implementing any technology on your own land.",
+    actionLabel: "Book VIP Field Visit",
+    actionSub: "Kukrola, Gurugram (NH8)",
+    type: "modal",
     href: "/agri-park",
-    accent: "#476f2d",
+    perks: ["Walk all 8 crop journey zones live", "One-on-one agronomist field briefing"],
   },
 ];
 
-const actionsHi = [
+const pathwaysHi = [
   {
-    icon: DeviceMobile,
     number: "01",
+    icon: WhatsappLogo,
+    tag: "फील्ड एडवाइजरी",
     title: "कृषि डॉक्टर से सलाह लें",
-    text: "फसल की बीमारी, कीट-पतंगे, खाद की मात्रा या मिट्टी की समस्या — सीधे अनुभवी कृषि वैज्ञानिक से व्हाट्सएप पर बात करें और तुरंत सही इलाज पाएं।",
-    cta: "व्हाट्सएप चैट शुरू करें",
-    subCta: null,
+    subtitle: "फोटो से तुरंत रोग पहचान व सही मात्रा",
+    description:
+      "फसल में बीमारी या कीट का फोटो भेजें। हमारे वरिष्ठ कृषि वैज्ञानिक तुरंत सटीक रोग पहचान कर सही दवा और खाद का चरण अनुसार स्प्रे शेड्यूल भेजते हैं।",
+    actionLabel: "व्हाट्सएप चैट शुरू करें",
+    actionSub: "15 मिनट में त्वरित जवाब",
+    type: "whatsapp",
     href: "https://wa.me/918350085005?text=Namaste%20Agaate%20Team%2C%20mujhe%20apni%20fasal%20ke%20liye%20krishi%20salah%20chahiye.",
-    accent: "#143d31",
+    perks: ["व्हाट्सएप फोटो से सटीक रोग पहचान", "सीधे अनुभवी कृषि वैज्ञानिकों से सलाह"],
   },
   {
-    icon: MapPin,
     number: "02",
+    icon: MapPin,
+    tag: "कृषि इनपुट मॉल",
     title: "किसान मॉल से मंगवाएं",
-    text: "500+ प्रामाणिक बीज, खाद व जैविक कीटनाशक। सीधे 25+ टॉप निर्माता कंपनियों से। 100% असली उत्पाद, बिना किसी मिलावट व नकली के डर के।",
-    cta: "लोकेशन देखें",
-    subCta: "भोड़ा कलां, गुरुग्राम",
+    subtitle: "500+ प्रामाणिक बीज, खाद व जैविक इनपुट्स",
+    description:
+      "सीधे 50+ शीर्ष निर्माता कंपनियों से 100% शुद्ध और जांचे-परखे बीज, जैविक पोषण और ड्रिप पैकेज किफायती दरों पर प्राप्त करें — बिना किसी मिलावट व नकली के डर के।",
+    actionLabel: "मॉल लोकेशन व संपर्क",
+    actionSub: "भोड़ा कलां, गुरुग्राम",
+    type: "link",
     href: "/contact",
-    accent: "#9a5a2c",
+    perks: ["सीधे फैक्ट्रियों से किफायती दाम", "क्यूआर कोड से 100% शुद्धता गारंटी"],
   },
   {
-    icon: Phone,
     number: "03",
+    icon: Plant,
+    tag: "जीवंत फार्म",
     title: "अगाते एग्री पार्क देखें",
-    text: "भारत का पहला एकीकृत एग्री पार्क — लाइव फसल प्लॉट, बायो-बूस्टेड नर्सरी, ड्रोन तकनीक और किसान ट्रेनिंग। अपने खेत में अपनाने से पहले लाइव देखें।",
-    cta: "विजिट शेड्यूल करें",
-    subCta: "कुकरोला, गुरुग्राम",
+    subtitle: "8 फसल यात्रा ज़ोन व लाइव ट्रायल",
+    description:
+      "अपने खेत में अपनाने से पहले लाइव फसल प्लॉट, बायो-बूस्टेड नर्सरी, आधुनिक ड्रिप फर्टीगेशन और एआई ड्रोन तकनीक को वास्तविक जमीन पर काम करते देखें।",
+    actionLabel: "विजिट शेड्यूल करें",
+    actionSub: "कुकरोला, गुरुग्राम (NH8)",
+    type: "modal",
     href: "/agri-park",
-    accent: "#476f2d",
+    perks: ["8 फसल ज़ोन का लाइव टूर", "कृषि वैज्ञानिकों से आमने-सामने चर्चा"],
   },
 ];
 
 export default function ClosingChapter() {
-  const sectionRef = useHomeChapterReveal();
+  const sectionRef = useHomeChapterReveal("fade-up");
+  const [hoveredLane, setHoveredLane] = useState<number | null>(null);
+  const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
+
   const { i18n } = useTranslation();
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
   const isHindi = currentLang.startsWith("hi");
 
   const trustFacts = isHindi ? trustFactsHi : trustFactsEn;
-  const actions = isHindi ? actionsHi : actionsEn;
+  const pathways = isHindi ? pathwaysHi : pathwaysEn;
 
   return (
-    <section
-      ref={sectionRef}
-      id="get-started"
-      className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] px-5 py-16 md:px-10 md:py-24"
-    >
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
-          <div data-home-reveal>
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="w-5 h-[1px] bg-[#9a5a2c]/40" />
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#9a5a2c]">
-                {isHindi ? "अपनी यात्रा शुरू करें" : "Start your journey"}
+    <>
+      <section
+        ref={sectionRef}
+        id="get-started"
+        className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] py-16 sm:py-20 md:py-24 border-t border-[#143d31]/10 text-[#143d31]"
+      >
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
+          {/* ── 1. Header (Exact Font & Color Style from Success Stories) ── */}
+          <div data-home-reveal className="space-y-4">
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                {isHindi ? "अपनी यात्रा शुरू करें" : "Start Your Journey"}
               </p>
             </div>
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.08]">
-              {isHindi ? (
-                <>
-                  आपके खेत की अगली सफलता का कदम{" "}
-                  <span className="font-serif italic font-normal text-[#9a5a2c]">
-                    यहीं से शुरू होता है।
-                  </span>
-                </>
-              ) : (
-                <>
-                  Your farm's next step{" "}
-                  <span className="font-serif italic font-normal text-[#9a5a2c]">starts here.</span>
-                </>
-              )}
-            </h2>
+
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl">
+                {isHindi
+                  ? "आपके खेत की अगली सफलता का कदम यहीं से शुरू होता है"
+                  : "Your farm's next step starts here"}
+              </h2>
+
+              <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
+                {isHindi
+                  ? "चाहे आपको फसल सलाह चाहिए, 100% असली इनपुट्स, या 17-एकड़ फार्म देखना हो — अपनी जरूरत के अनुसार रास्ता चुनें।"
+                  : "Whether you need immediate crop diagnosis, certified inputs, or want to walk our 17-acre living farm — choose your path."}
+              </p>
+            </div>
           </div>
-          <div data-home-reveal>
-            <p className="font-sans max-w-3xl text-sm md:text-base leading-relaxed text-[#536253] font-normal">
+
+          {/* ── 2. Card-Less Seamless Pathways (Clean Hairline Corridor) ── */}
+          <div
+            data-home-reveal
+            className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10"
+          >
+            {pathways.map((pathway, idx) => {
+              const Icon = pathway.icon;
+              const isHovered = hoveredLane === idx;
+
+              return (
+                <div
+                  key={pathway.number}
+                  onMouseEnter={() => setHoveredLane(idx)}
+                  onMouseLeave={() => setHoveredLane(null)}
+                  className="group relative flex flex-col justify-between p-6 sm:p-8 lg:p-10 transition-colors duration-200 hover:bg-white/50"
+                >
+                  <div className="space-y-6">
+                    {/* Number & Tag */}
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-bold text-[#5d7d37] uppercase tracking-wider">
+                        {pathway.number}
+                      </span>
+                      <span className="rounded-full bg-[#143d31]/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                        {pathway.tag}
+                      </span>
+                    </div>
+
+                    {/* Icon & Title */}
+                    <div>
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#143d31]/10 text-[#143d31] mb-4">
+                        <Icon className="h-5 w-5 text-[#143d31]" weight="duotone" />
+                      </div>
+
+                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#143d31] tracking-tight">
+                        {pathway.title}
+                      </h3>
+
+                      <p className="font-sans text-xs font-semibold text-[#5d7d37] mt-1">
+                        {pathway.subtitle}
+                      </p>
+
+                      <p className="font-sans text-xs sm:text-sm text-[#4f624f] leading-relaxed mt-3">
+                        {pathway.description}
+                      </p>
+                    </div>
+
+                    {/* Perks List */}
+                    <div className="space-y-2 pt-3 border-t border-[#143d31]/10 font-sans">
+                      {pathway.perks.map((perk) => (
+                        <div
+                          key={perk}
+                          className="flex items-center gap-2 text-xs font-medium text-[#143d31]"
+                        >
+                          <CheckCircle className="h-3.5 w-3.5 text-[#143d31] shrink-0" />
+                          <span>{perk}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action CTA */}
+                  <div className="pt-8 space-y-2">
+                    {pathway.type === "modal" ? (
+                      <button
+                        type="button"
+                        onClick={() => setIsVisitModalOpen(true)}
+                        className="w-full inline-flex items-center justify-between rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white hover:bg-[#1a4d3e] transition-all cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2">
+                          <CalendarCheck className="h-4 w-4 text-[#a3e635]" />
+                          <span>{pathway.actionLabel}</span>
+                        </span>
+                        <ArrowRight className="h-3.5 w-3.5 text-white" />
+                      </button>
+                    ) : pathway.type === "link" ? (
+                      <Link
+                        to={getLocalizedPath(pathway.href, currentLang) as any}
+                        className="w-full inline-flex items-center justify-between rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white hover:bg-[#1a4d3e] transition-all cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-[#a3e635]" />
+                          <span>{pathway.actionLabel}</span>
+                        </span>
+                        <ArrowRight className="h-3.5 w-3.5 text-white" />
+                      </Link>
+                    ) : (
+                      <a
+                        href={pathway.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-between rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white hover:bg-[#1a4d3e] transition-all cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2">
+                          <WhatsappLogo className="h-4 w-4 text-[#a3e635]" />
+                          <span>{pathway.actionLabel}</span>
+                        </span>
+                        <ArrowUpRight className="h-3.5 w-3.5 text-white" />
+                      </a>
+                    )}
+
+                    <p className="font-mono text-[10px] font-semibold text-center text-[#4f624f]/70 uppercase tracking-wider pt-0.5">
+                      {pathway.actionSub}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ── 3. Trust Metadata Bar ── */}
+          <div
+            data-home-reveal
+            className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-4 border-b border-[#143d31]/10 pb-8"
+          >
+            {trustFacts.map((fact) => (
+              <div key={fact.label} className="space-y-0.5 text-left">
+                <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
+                  {fact.value}
+                </p>
+                <p className="font-mono text-[10px] sm:text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
+                  {fact.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* ── 4. Subtle Quote ── */}
+          <div data-home-reveal className="text-center pt-2">
+            <p className="font-serif text-lg sm:text-xl italic font-normal text-[#143d31]/70 max-w-2xl mx-auto">
               {isHindi
-                ? "चाहे आपको फसल सलाह चाहिए, 100% असली इनपुट्स, निरोगी नर्सरी पौध, या फिर आप फार्म पर आकर अगाते का पूरा लाइव मॉडल देखना चाहते हैं — अपनी जरूरत के अनुसार शुरुआत करें।"
-                : "Whether you need crop advice, the right inputs, nursery plants, or want to visit the farm and see Agaate's ecosystem in person — choose the path that fits where you are right now."}
+                ? "“अगाते हर कदम पर किसान के साथ खड़ा है — सही बीज से लेकर अंतिम बिक्री तक।”"
+                : '"Agaate stands with the farmer at every single step — from high-immunity seed to direct market sale."'}
             </p>
           </div>
         </div>
+      </section>
 
-        {/* Trust strip */}
-        <div
-          data-home-reveal
-          className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:divide-x sm:divide-[#143d31]/15"
-        >
-          {trustFacts.map((fact) => (
-            <span
-              key={fact}
-              className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#143d31]/55 sm:px-6 first:sm:pl-0 last:sm:pr-0"
-            >
-              {fact}
-            </span>
-          ))}
-        </div>
-
-        {/* Three action cards */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {actions.map((action) => {
-            const Icon = action.icon;
-            const content = (
-              <>
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="flex h-11 w-11 items-center justify-center rounded-xl"
-                      style={{ backgroundColor: `${action.accent}15` }}
-                    >
-                      <Icon className="h-5 w-5" style={{ color: action.accent }} />
-                    </div>
-                    <span className="font-mono text-xs font-bold text-[#143d31]/30 tracking-wider">
-                      {action.number}
-                    </span>
-                  </div>
-                  <h3
-                    className="font-display mt-6 text-xl md:text-2xl font-bold tracking-tight"
-                    style={{ color: "#143d31" }}
-                  >
-                    {action.title}
-                  </h3>
-                  <p className="font-sans mt-3 max-w-sm text-sm leading-relaxed text-[#536253]">
-                    {action.text}
-                  </p>
-                </div>
-                <div className="mt-10 flex flex-col gap-2">
-                  <span
-                    className="inline-flex items-center gap-2 text-sm font-bold transition-transform group-hover:translate-x-1"
-                    style={{ color: action.accent }}
-                  >
-                    {action.cta}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                  {action.subCta && (
-                    <span className="font-jet text-[10px] font-bold uppercase tracking-[0.14em] text-[#143d31]/35">
-                      {action.subCta}
-                    </span>
-                  )}
-                </div>
-              </>
-            );
-
-            const cardClass =
-              "group flex min-h-80 flex-col justify-between rounded-3xl bg-white p-8 md:p-10 shadow-sm border border-[#143d31]/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#143d31]/5";
-
-            if (action.href.startsWith("/")) {
-              return (
-                <Link
-                  key={action.title}
-                  to={getLocalizedPath(action.href, currentLang) as any}
-                  className={cardClass}
-                  data-home-reveal
-                >
-                  {content}
-                </Link>
-              );
-            }
-
-            const isExternal = action.href.startsWith("http");
-            return (
-              <a
-                key={action.title}
-                href={action.href}
-                className={cardClass}
-                data-home-reveal
-                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              >
-                {content}
-              </a>
-            );
-          })}
-        </div>
-
-        {/* Final tagline */}
-        <p
-          data-home-reveal
-          className="mt-14 font-serif text-center text-xl italic leading-relaxed text-[#143d31]/60 md:text-2xl"
-        >
-          {isHindi
-            ? "“अगाते हर कदम पर किसान के साथ खड़ा है — बीज से लेकर बिक्री तक।”"
-            : '"Agaate stands with the farmer at every step — from seed to sale."'}
-        </p>
-      </div>
-    </section>
+      {/* Integrated VIP Visit Booking Modal */}
+      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
+    </>
   );
 }
