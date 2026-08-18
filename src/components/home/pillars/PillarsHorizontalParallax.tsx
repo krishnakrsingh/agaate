@@ -220,7 +220,7 @@ export default function PillarsHorizontalParallax() {
     <section
       ref={containerRef}
       id="pillars-section"
-      className="relative bg-[#f4f8f5] border-t border-[#143d31]/10 overflow-hidden"
+      className="relative z-10 bg-[#f4f8f5] border-t border-[#143d31]/10 overflow-hidden shadow-[0_-24px_50px_rgba(13,42,33,0.06)]"
     >
       {/* ── DESKTOP & TABLET: Pinned Horizontal Scroll (>= 768px) ── */}
       <div className="hidden md:block w-full h-screen relative overflow-hidden">
