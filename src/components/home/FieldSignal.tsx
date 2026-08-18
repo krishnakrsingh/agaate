@@ -59,7 +59,7 @@ export default function FieldSignal() {
       opacity: 1,
       y: 0,
       scale: 1,
-      filter: "blur(0px)",
+      clearProps: "filter",
     });
 
     const ctx = gsap.context(() => {
@@ -87,25 +87,8 @@ export default function FieldSignal() {
         pin: true,
         pinSpacing: false,
         start: "top top",
-        end: () => `+=${window.innerHeight * 1.2}`,
+        end: () => `+=${window.innerHeight * 1.1}`,
         invalidateOnRefresh: true,
-      });
-
-      // 5. Parallax depth: as the next section slides over, scale & dim slightly
-      const exitTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${window.innerHeight * 1.0}`,
-          scrub: true,
-        },
-      });
-
-      exitTl.to(slide, {
-        scale: 0.92,
-        opacity: 0.3,
-        filter: "blur(3px)",
-        ease: "none",
       });
     }, section);
 
@@ -118,11 +101,11 @@ export default function FieldSignal() {
     <section
       ref={sectionRef}
       id="start-here"
-      className="relative z-0 h-screen w-full bg-[#fafbf7] flex items-center justify-center overflow-hidden will-change-transform"
+      className="relative z-0 h-screen w-full bg-[#fafbf7] flex items-center justify-center overflow-hidden"
     >
       <div
         ref={slideRef}
-        className="w-full flex flex-col items-center justify-center text-center px-6 md:px-16 will-change-transform"
+        className="w-full flex flex-col items-center justify-center text-center px-6 md:px-16"
       >
         <div className="max-w-5xl mx-auto">
           <h2
