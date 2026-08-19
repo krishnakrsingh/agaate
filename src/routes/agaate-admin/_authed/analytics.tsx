@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { AdminCharts } from "@/components/admin/AdminCharts";
+import { AdminMonthlyChart, AdminOverviewChart } from "@/components/admin/AdminCharts";
 import { getAdminAnalytics } from "@/functions/admin-contacts";
 import { adminError, isAdminOk } from "@/lib/admin-api";
-import { TrendingUp, BarChart3, Calendar, Users, CheckCircle2 } from "lucide-react";
+import { TrendingUp, BarChart3, Calendar } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/agaate-admin/_authed/analytics")({
   loader: async () => getAdminAnalytics(),
@@ -11,83 +14,104 @@ export const Route = createFileRoute("/agaate-admin/_authed/analytics")({
 
 function AnalyticsPage() {
   const data = Route.useLoaderData();
+  const [windowRange, setWindowRange] = useState<"7d" | "30d" | "90d" | "12m">("30d");
+
   if (!isAdminOk<{ windows?: { daily?: number; weekly?: number; monthly?: number }; charts?: object }>(data)) {
-    return <p className="text-sm text-rose-600">{adminError(data, "Unable to load analytics.")}</p>;
+    return <p className="text-xs text-destructive">{adminError(data, "Unable to load analytics.")}</p>;
   }
   const windows = data.windows ?? {};
 
   return (
-    <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs">
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
-              Intelligence & Performance
-            </span>
-          </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-stone-900">Analytics & Conversion Velocity</h1>
-          <p className="text-xs text-stone-500 mt-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">Analytics & Conversion Velocity</h2>
+          <p className="text-xs text-muted-foreground">
             Intake metrics, category growth rates, and agronomist performance benchmarks.
           </p>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
+            {[
+              { id: "7d", label: "7D" },
+              { id: "30d", label: "30D" },
+              { id: "90d", label: "90D" },
+              { id: "12m", label: "12M" },
+            ].map((tab) => (
+              <Button
+                key={tab.id}
+                variant={windowRange === tab.id ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setWindowRange(tab.id as any)}
+                className="h-8 text-xs font-normal"
+              >
+                {tab.label}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Intake Window Stats */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <Stat
-          label="Today's Intake"
-          value={windows.daily ?? 6}
-          subtext="New farmer inquiries"
-          icon={Calendar}
-          color="text-sky-700 bg-sky-50"
-        />
-        <Stat
-          label="Last 7 Days"
-          value={windows.weekly ?? 38}
-          subtext="+18% vs prior week"
-          icon={TrendingUp}
-          color="text-emerald-700 bg-emerald-50"
-        />
-        <Stat
-          label="Last 30 Days"
-          value={windows.monthly ?? 142}
-          subtext="Strong nursery pre-orders"
-          icon={BarChart3}
-          color="text-teal-700 bg-teal-50"
-        />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Today's Intake</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold tabular-nums">{windows.daily ?? 6}</div>
+            <p className="text-xs text-muted-foreground">New inbound farmer inquiries</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Last 7 Days</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold tabular-nums">{windows.weekly ?? 38}</div>
+            <p className="text-xs text-muted-foreground">+18% vs prior week</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Last 30 Days</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold tabular-nums">{windows.monthly ?? 142}</div>
+            <p className="text-xs text-muted-foreground">Strong nursery pre-orders</p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Charts Grid */}
-      <AdminCharts charts={data.charts ?? {}} />
-    </div>
-  );
-}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Daily Velocity</CardTitle>
+            <CardDescription>Inbound inquiries distribution across past 14 days</CardDescription>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <AdminOverviewChart charts={data.charts ?? {}} />
+          </CardContent>
+        </Card>
 
-function Stat({
-  label,
-  value,
-  subtext,
-  icon: Icon,
-  color,
-}: {
-  label: string;
-  value?: number;
-  subtext?: string;
-  icon: typeof Calendar;
-  color: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-stone-200/80 bg-white p-5 shadow-xs hover:shadow-sm transition-all">
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold text-stone-500 uppercase tracking-wide">{label}</p>
-        <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${color}`}>
-          <Icon className="h-4 w-4" />
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Intake vs Conversion</CardTitle>
+            <CardDescription>6-Month comparison between total intake and converted closed leads</CardDescription>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <AdminMonthlyChart charts={data.charts ?? {}} />
+          </CardContent>
+        </Card>
       </div>
-      <p className="mt-2 text-3xl font-bold tracking-tight text-stone-900 tabular-nums">{Number(value || 0)}</p>
-      {subtext && <p className="mt-1 text-xs text-stone-500 font-medium">{subtext}</p>}
     </div>
   );
 }

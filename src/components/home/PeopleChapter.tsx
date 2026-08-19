@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import { Plant, Stethoscope, TrendUp } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { useTranslation } from "react-i18next";
-import { CountUp, Reveal, Stagger, StaggerItem } from "@/components/common/motion";
+import { CountUp, Reveal } from "@/components/common/motion";
 
 const impactStatsEn = [
   {
@@ -58,27 +57,10 @@ const impactStatsHi = [
   },
 ];
 
-const teamEn = [
-  { name: "Ankit Rawat", role: "Founder & CEO", image: "/team/ankit.png?v=2" },
-  { name: "Kuldeep Sengar", role: "Procurement Head", image: "/team/kuldeep.png" },
-  { name: "Abhay Ranjan", role: "Chief of Staff", image: "/team/abhay.png" },
-  { name: "Chanchala Shukla", role: "Agronomist", image: "/team/chanchala.png" },
-  { name: "Ravi Kumar", role: "Data & Strategy", image: "/team/ravi.png" },
-];
-
-const teamHi = [
-  { name: "अंकित रावत", role: "संस्थापक एवं सीईओ", image: "/team/ankit.png?v=2" },
-  { name: "कुलदीप सेंगर", role: "प्रोक्योरमेंट हेड", image: "/team/kuldeep.png" },
-  { name: "अभय रंजन", role: "चीफ ऑफ स्टाफ", image: "/team/abhay.png" },
-  { name: "चंचला शुक्ला", role: "कृषि वैज्ञानिक", image: "/team/chanchala.png" },
-  { name: "रवि कुमार", role: "डेटा एवं रणनीति", image: "/team/ravi.png" },
-];
-
 export default function PeopleChapter() {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
   const impactStats = isHindi ? impactStatsHi : impactStatsEn;
-  const team = isHindi ? teamHi : teamEn;
   const sectionRef = useHomeChapterReveal("fade-up");
 
   return (
@@ -191,36 +173,6 @@ export default function PeopleChapter() {
               </div>
             </div>
           </div>
-        </Reveal>
-
-        {/* Leadership Team List */}
-        <Reveal variant="fade-up" delay={0.2} className="pt-4 border-t border-[#143d31]/10">
-          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37] mb-4">
-            {isHindi ? "नेतृत्व टीम" : "Leadership Team"}
-          </p>
-          <Stagger
-            stagger={0.08}
-            delayChildren={0.1}
-            className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between"
-          >
-            {team.map((member) => (
-              <StaggerItem key={member.name} variant="fade-up">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="h-10 w-10 shrink-0 rounded-full object-cover border border-[#143d31]/10"
-                  />
-                  <div>
-                    <p className="font-display text-sm font-bold text-[#143d31]">{member.name}</p>
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </Stagger>
         </Reveal>
       </div>
     </section>

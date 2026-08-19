@@ -6,10 +6,10 @@ import type {
   TextareaHTMLAttributes,
 } from "react";
 
-const labelCls = "mb-1.5 block text-sm font-medium text-forest-deep";
+const labelCls = "mb-1.5 block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]";
 const inputCls =
-  "w-full rounded-md border border-neutral-300 bg-white px-3.5 py-2.5 text-sm text-forest-deep transition-colors placeholder:text-neutral-400 focus:border-forest focus:outline-none focus-visible:ring-2 focus-visible:ring-forest/25 disabled:opacity-60";
-const errorCls = "border-destructive focus:border-destructive focus-visible:ring-destructive/30";
+  "w-full rounded-2xl border border-[#143d31]/15 bg-white px-4 py-3 text-sm font-sans text-[#143d31] transition-all duration-200 placeholder:text-[#4f624f]/60 focus:border-[#143d31] focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/20 disabled:opacity-60";
+const errorCls = "border-red-500 focus:border-red-500 focus-visible:ring-red-500/20";
 
 function FieldWrap({
   id,
@@ -31,11 +31,11 @@ function FieldWrap({
       </label>
       {children}
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-destructive" role="alert">
+        <p id={`${id}-error`} className="mt-1.5 font-mono text-xs font-semibold text-red-600" role="alert">
           {error}
         </p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-xs text-forest/55">
+        <p id={`${id}-hint`} className="mt-1.5 font-sans text-xs text-[#4f624f]">
           {hint}
         </p>
       ) : null}
@@ -86,7 +86,7 @@ export function SelectField({ id, label, error, options, className, ...props }: 
         id={id}
         aria-invalid={!!error}
         aria-describedby={error ? `${id}-error` : undefined}
-        className={cn(inputCls, error && errorCls, className)}
+        className={cn(inputCls, "cursor-pointer appearance-none", error && errorCls, className)}
         {...props}
       >
         {options.map((opt) => (
@@ -102,33 +102,33 @@ export function SelectField({ id, label, error, options, className, ...props }: 
 type TextareaFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label: string;
   error?: string;
-  maxLength?: number;
-  value: string;
+  hint?: string;
+  charCount?: { current: number; max: number };
 };
 
 export function TextareaField({
   id,
   label,
   error,
-  maxLength = 600,
-  value,
+  hint,
+  charCount,
   className,
   ...props
 }: TextareaFieldProps) {
   return (
-    <FieldWrap id={id!} label={label} error={error}>
+    <FieldWrap id={id!} label={label} error={error} hint={hint}>
       <textarea
         id={id}
-        value={value}
-        maxLength={maxLength}
         aria-invalid={!!error}
-        aria-describedby={error ? `${id}-error` : `${id}-count`}
-        className={cn(inputCls, "min-h-[96px] resize-y", error && errorCls, className)}
+        aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
+        className={cn(inputCls, "min-h-[110px] resize-y", error && errorCls, className)}
         {...props}
       />
-      <p id={`${id}-count`} className="mt-1.5 text-right font-mono text-[10px] text-forest/45">
-        {value.length}/{maxLength}
-      </p>
+      {charCount ? (
+        <div className="mt-1 text-right font-mono text-[11px] text-[#4f624f]">
+          {charCount.current}/{charCount.max}
+        </div>
+      ) : null}
     </FieldWrap>
   );
 }
@@ -138,42 +138,30 @@ export function ConsentCheckbox({
   checked,
   onChange,
   error,
-  disabled,
-  privacyHref,
+  children,
 }: {
   id: string;
   checked: boolean;
-  onChange: (v: boolean) => void;
+  onChange: (c: boolean) => void;
   error?: string;
-  disabled?: boolean;
-  privacyHref: string;
+  children: ReactNode;
 }) {
   return (
     <div>
-      <label htmlFor={id} className="flex items-start gap-3 text-xs leading-relaxed text-forest/75">
+      <label htmlFor={id} className="flex items-start gap-3 cursor-pointer select-none">
         <input
           id={id}
           type="checkbox"
           checked={checked}
-          disabled={disabled}
           onChange={(e) => onChange(e.target.checked)}
-          className="mt-0.5 h-4 w-4 rounded border-forest/30 text-forest focus-visible:ring-2 focus-visible:ring-forest/40"
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
+          className="mt-1 h-4 w-4 rounded-md border-[#143d31]/20 text-[#143d31] accent-[#143d31] focus:ring-[#143d31]/30 cursor-pointer"
         />
-        <span>
-          By submitting, you agree to our{" "}
-          <a
-            href={privacyHref}
-            className="font-semibold text-forest-deep underline underline-offset-2 hover:text-forest"
-          >
-            Privacy Policy
-          </a>
-          . We never sell your data.
-        </span>
+        <span className="font-sans text-xs text-[#4f624f] leading-relaxed">{children}</span>
       </label>
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-destructive" role="alert">
+        <p id={`${id}-error`} className="mt-1.5 font-mono text-xs font-semibold text-red-600" role="alert">
           {error}
         </p>
       ) : null}

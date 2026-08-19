@@ -3,18 +3,17 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle,
-  ShieldCheck,
   Truck,
   Buildings,
   Microscope,
   Package,
-  CaretRight,
   ShoppingBag,
   PhoneCall,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
-import { CountUp, MagneticButton, EASE } from "@/components/common/motion";
+import { CountUp, EASE } from "@/components/common/motion";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import KisaanMallShowcase from "./KisaanMallShowcase";
 
 const SUPPLY_CHAIN_STEPS_EN = [
@@ -170,12 +169,14 @@ export default function MallChapter() {
 
             {/* CTA Button */}
             <div>
-              <MagneticButton strength={0.25} as="a" href="/services#kisaan-mall">
-                <span className="inline-flex items-center gap-2 rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-all cursor-pointer">
-                  <span>{isHindi ? "किसान मॉल देखें" : "Browse Agaate Mall"}</span>
-                  <ArrowRight className="h-3.5 w-3.5 text-white" />
-                </span>
-              </MagneticButton>
+              <SlideUpPillButton
+                href="/services#kisaan-mall"
+                variant="dark"
+                size="md"
+                label={isHindi ? "किसान मॉल देखें" : "Browse Agaate Mall"}
+                icon={<ArrowRight className="h-4 w-4" />}
+                iconPosition="right"
+              />
             </div>
           </motion.div>
 
@@ -266,19 +267,22 @@ export default function MallChapter() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-            <MagneticButton strength={0.2} as="a" href="/services#kisaan-mall">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#a3e635] px-6 py-3.5 text-xs font-bold text-[#143d31] hover:bg-[#b5f247] transition-colors cursor-pointer shadow-sm">
-                <ShoppingBag className="h-4 w-4" />
-                <span>{isHindi ? "स्टोर देखें" : "Browse Store"}</span>
-              </span>
-            </MagneticButton>
-            <a
+            <SlideUpPillButton
+              href="/services#kisaan-mall"
+              variant="lime"
+              size="md"
+              label={isHindi ? "स्टोर देखें" : "Browse Store"}
+              icon={<ShoppingBag className="h-4 w-4" />}
+              iconPosition="left"
+            />
+            <SlideUpPillButton
               href="tel:9487263498"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-xs font-bold text-white hover:bg-white/10 transition-colors"
-            >
-              <PhoneCall className="h-3.5 w-3.5 text-white" />
-              <span>{isHindi ? "कृषि डॉक्टर को कॉल करें" : "Call Agronomist"}</span>
-            </a>
+              variant="hero-secondary"
+              size="md"
+              label={isHindi ? "कृषि डॉक्टर को कॉल करें" : "Call Agronomist"}
+              icon={<PhoneCall className="h-4 w-4" />}
+              iconPosition="left"
+            />
           </div>
         </div>
       </div>

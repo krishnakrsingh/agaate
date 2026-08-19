@@ -1,66 +1,174 @@
-import { PRIORITY_LABELS, STATUS_LABELS, type RequestPriority, type RequestStatus } from "@/lib/admin-constants";
+import {
+  PRIORITY_LABELS,
+  STATUS_LABELS,
+  ROLE_LABELS,
+  type RequestPriority,
+  type RequestStatus,
+  type AdminRole,
+} from "@/lib/admin-constants";
 import { cn } from "@/lib/utils";
 
-const STATUS_CLASS: Record<RequestStatus, string> = {
-  new: "bg-sky-50 text-sky-700 ring-1 ring-sky-600/20 border border-sky-100",
-  assigned: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20 border border-emerald-100",
-  contacted: "bg-cyan-50 text-cyan-700 ring-1 ring-cyan-600/20 border border-cyan-100",
-  in_progress: "bg-amber-50 text-amber-700 ring-1 ring-amber-600/20 border border-amber-100",
-  waiting: "bg-orange-50 text-orange-700 ring-1 ring-orange-600/20 border border-orange-100",
-  farm_visit: "bg-teal-50 text-teal-700 ring-1 ring-teal-600/20 border border-teal-100",
-  converted: "bg-emerald-100/80 text-emerald-800 ring-1 ring-emerald-600/30 border border-emerald-200 font-semibold",
-  closed: "bg-stone-100 text-stone-600 ring-1 ring-stone-400/20 border border-stone-200",
-  spam: "bg-rose-50 text-rose-700 ring-1 ring-rose-600/20 border border-rose-100",
+const STATUS_CONFIG: Record<
+  RequestStatus,
+  { label: string; dot: string; badgeClass: string }
+> = {
+  new: {
+    label: "New",
+    dot: "bg-sidebar-primary dark:bg-primary",
+    badgeClass: "border-border bg-muted/50 text-foreground font-medium",
+  },
+  assigned: {
+    label: "Assigned",
+    dot: "bg-muted-foreground",
+    badgeClass: "border-border bg-muted/40 text-foreground",
+  },
+  contacted: {
+    label: "Contacted",
+    dot: "bg-muted-foreground",
+    badgeClass: "border-border bg-muted/40 text-foreground",
+  },
+  in_progress: {
+    label: "In Progress",
+    dot: "bg-amber-500",
+    badgeClass: "border-amber-500/20 bg-amber-500/5 text-amber-800 dark:text-amber-300",
+  },
+  waiting: {
+    label: "Waiting",
+    dot: "bg-muted-foreground",
+    badgeClass: "border-border bg-muted/30 text-muted-foreground",
+  },
+  farm_visit: {
+    label: "Farm Visit",
+    dot: "bg-sidebar-primary dark:bg-primary",
+    badgeClass: "border-sidebar-border bg-sidebar-accent/60 text-sidebar-accent-foreground font-medium",
+  },
+  converted: {
+    label: "Converted",
+    dot: "bg-sidebar-primary dark:bg-primary",
+    badgeClass: "border-sidebar-primary/20 bg-sidebar-primary/10 text-sidebar-primary dark:text-primary font-semibold",
+  },
+  closed: {
+    label: "Closed",
+    dot: "bg-slate-400",
+    badgeClass: "border-border/60 bg-muted/20 text-muted-foreground",
+  },
+  spam: {
+    label: "Spam",
+    dot: "bg-rose-500",
+    badgeClass: "border-rose-500/20 bg-rose-500/5 text-rose-700 dark:text-rose-400",
+  },
 };
 
-const PRIORITY_CLASS: Record<RequestPriority, string> = {
-  low: "bg-stone-100 text-stone-600 ring-1 ring-stone-400/20 border border-stone-200",
-  medium: "bg-sky-50 text-sky-700 ring-1 ring-sky-600/20 border border-sky-100",
-  high: "bg-orange-50 text-orange-700 ring-1 ring-orange-600/20 border border-orange-100 font-medium",
-  urgent: "bg-rose-50 text-rose-700 ring-1 ring-rose-600/30 border border-rose-200 font-semibold",
+const PRIORITY_CONFIG: Record<
+  RequestPriority,
+  { label: string; badgeClass: string }
+> = {
+  low: {
+    label: "Low",
+    badgeClass: "border-border/60 bg-muted/20 text-muted-foreground",
+  },
+  medium: {
+    label: "Medium",
+    badgeClass: "border-border bg-muted/40 text-foreground",
+  },
+  high: {
+    label: "High",
+    badgeClass: "border-amber-500/20 bg-amber-500/5 text-amber-800 dark:text-amber-300 font-medium",
+  },
+  urgent: {
+    label: "Urgent",
+    badgeClass: "border-rose-500/20 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-medium",
+  },
 };
 
-export function StatusBadge({ status, className }: { status: string; className?: string }) {
-  const key = status as RequestStatus;
+const ROLE_CONFIG: Record<
+  AdminRole,
+  { label: string; badgeClass: string }
+> = {
+  super_admin: {
+    label: "Super Admin",
+    badgeClass: "border-border bg-muted/60 text-foreground font-semibold",
+  },
+  admin: {
+    label: "Admin",
+    badgeClass: "border-sidebar-border bg-sidebar-accent/70 text-sidebar-accent-foreground font-medium",
+  },
+  agronomist: {
+    label: "Agronomist",
+    badgeClass: "border-sidebar-border bg-sidebar-accent/70 text-sidebar-accent-foreground font-medium",
+  },
+  support: {
+    label: "Support",
+    badgeClass: "border-border bg-muted/40 text-muted-foreground",
+  },
+};
+
+export function StatusBadge({
+  status,
+  className,
+}: {
+  status: string;
+  className?: string;
+}) {
+  const key = (status as RequestStatus) in STATUS_CONFIG ? (status as RequestStatus) : "new";
+  const conf = STATUS_CONFIG[key];
+
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium tracking-tight whitespace-nowrap shadow-2xs",
-        STATUS_CLASS[key] ?? "bg-stone-100 text-stone-600",
-        className,
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium select-none shadow-2xs",
+        conf.badgeClass,
+        className
       )}
     >
-      <span
-        className={cn(
-          "h-1.5 w-1.5 rounded-full",
-          key === "new" && "bg-sky-500",
-          key === "assigned" && "bg-emerald-500",
-          key === "contacted" && "bg-cyan-500",
-          key === "in_progress" && "bg-amber-500",
-          key === "waiting" && "bg-orange-500",
-          key === "farm_visit" && "bg-teal-500",
-          key === "converted" && "bg-emerald-600 animate-pulse",
-          key === "closed" && "bg-stone-400",
-          key === "spam" && "bg-rose-500",
-        )}
-      />
+      <span className={cn("h-1.5 w-1.5 rounded-full shrink-0", conf.dot)} />
       {STATUS_LABELS[key] ?? status}
     </span>
   );
 }
 
-export function PriorityBadge({ priority, className }: { priority: string; className?: string }) {
-  const key = priority as RequestPriority;
+export function PriorityBadge({
+  priority,
+  className,
+}: {
+  priority: string;
+  className?: string;
+}) {
+  const key = (priority as RequestPriority) in PRIORITY_CONFIG ? (priority as RequestPriority) : "medium";
+  const conf = PRIORITY_CONFIG[key];
+
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium tracking-tight whitespace-nowrap shadow-2xs",
-        PRIORITY_CLASS[key] ?? "bg-stone-100 text-stone-600",
-        className,
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium select-none shadow-2xs",
+        conf.badgeClass,
+        className
       )}
     >
-      {key === "urgent" && <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-ping" />}
       {PRIORITY_LABELS[key] ?? priority}
+    </span>
+  );
+}
+
+export function RoleBadge({
+  role,
+  className,
+}: {
+  role: string;
+  className?: string;
+}) {
+  const key = (role as AdminRole) in ROLE_CONFIG ? (role as AdminRole) : "support";
+  const conf = ROLE_CONFIG[key];
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-medium select-none shadow-2xs",
+        conf.badgeClass,
+        className
+      )}
+    >
+      {ROLE_LABELS[key] ?? role}
     </span>
   );
 }

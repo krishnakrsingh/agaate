@@ -30,7 +30,7 @@ function ServicesPage() {
   const currentLang = locale ?? i18n.language ?? "en";
 
   return (
-    <main className="flex min-h-screen flex-col bg-cream font-sans text-ink antialiased">
+    <main className="flex min-h-screen flex-col bg-[#f4f8f5] font-sans text-[#143d31] antialiased">
       <Header />
       <ServicesHero currentLang={currentLang} />
       <ServicesGrid currentLang={currentLang} />

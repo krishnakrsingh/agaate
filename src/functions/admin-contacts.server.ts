@@ -26,7 +26,13 @@ import {
   type ContactFilters,
 } from "@/server/admin-queries";
 import { assertSameOrigin, requireSessionUser } from "@/server/auth";
-import { canManageSettings, DEFAULT_ADMIN_SETTINGS, type AdminRole } from "@/lib/admin-constants";
+import {
+  canManageSettings,
+  DEFAULT_ADMIN_SETTINGS,
+  type AdminRole,
+  type RequestPriority,
+  type RequestStatus,
+} from "@/lib/admin-constants";
 import { isDbConfigured } from "@/server/db";
 
 function failAuth(err: unknown) {
@@ -36,6 +42,35 @@ function failAuth(err: unknown) {
   if (message === "CSRF") return { ok: false as const, error: "Request blocked." };
   throw err;
 }
+
+type MockContact = {
+  id: number;
+  ticket_id: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  topic: string;
+  acreage: string | null;
+  crop: string | null;
+  district: string | null;
+  channel: string | null;
+  message: string | null;
+  consent: number;
+  source_page: string | null;
+  status: RequestStatus;
+  priority: RequestPriority;
+  assigned_to: number | null;
+  assignee_name: string | null;
+  follow_up_date: string | null;
+  tags: string[];
+  attachment_url: string | null;
+  preferred_language: string | null;
+  company_name: string | null;
+  website: string | null;
+  farm_details: Record<string, string>;
+  created_at: string;
+  updated_at: string;
+};
 
 // In-memory fallback mock storage when DB is unconfigured
 const mockUsers = [
@@ -54,7 +89,7 @@ const mockCategories = [
   { id: 6, slug: "general", label: "General Agronomy Advisory", active: 1, sort_order: 6 },
 ];
 
-const mockContacts = [
+const mockContacts: MockContact[] = [
   {
     id: 1,
     ticket_id: "AGA-2026-8001",
@@ -324,7 +359,8 @@ export async function handleGetContact(id: number) {
       }
     }
 
-    const contact = mockContacts.find((c) => c.id === Number(id)) || mockContacts[0];
+    const fallbackContact = mockContacts[0]!;
+    const contact = mockContacts.find((c) => c.id === Number(id)) ?? fallbackContact;
     const activity = mockActivity.filter((a) => a.request_id === contact.id);
     const notes = mockNotes.filter((n) => n.request_id === contact.id);
 
@@ -371,7 +407,7 @@ export async function handleUpdateContact(data: {
       if (data.follow_up_date !== undefined) contact.follow_up_date = data.follow_up_date;
       return { ok: true as const, contact };
     }
-    return { ok: true as const, contact: mockContacts[0] };
+    return { ok: true as const, contact: mockContacts[0]! };
   } catch (err) {
     return failAuth(err);
   }
@@ -769,7 +805,7 @@ export async function handleUploadAttachment(data: {
 
     const contact = mockContacts.find((c) => c.id === Number(data.id));
     if (contact) contact.attachment_url = url;
-    return { ok: true as const, url, contact: contact || mockContacts[0] };
+    return { ok: true as const, url, contact: contact || mockContacts[0]! };
   } catch (err) {
     return failAuth(err);
   }

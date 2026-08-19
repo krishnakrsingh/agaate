@@ -38,9 +38,9 @@ export function FileUpload({
   };
 
   return (
-    <div>
-      <p className="mb-1.5 text-sm font-medium text-forest-deep">
-        Soil report or crop photo (optional)
+    <div className="space-y-1.5">
+      <p className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
+        Soil report or crop disease photo (optional)
       </p>
       <div
         onDragOver={(e) => {
@@ -54,16 +54,18 @@ export function FileUpload({
           pick(e.dataTransfer.files?.[0] || null);
         }}
         className={cn(
-          "rounded-md border border-dashed px-4 py-5 text-center transition-colors",
-          dragOver ? "border-forest bg-neutral-50" : "border-neutral-300 bg-white",
+          "rounded-2xl border border-dashed px-4 py-5 text-center transition-all duration-200",
+          dragOver
+            ? "border-[#143d31] bg-[#143d31]/5"
+            : "border-[#143d31]/20 bg-white/60 hover:bg-white hover:border-[#143d31]/40",
           disabled && "opacity-60",
         )}
       >
         {file ? (
           <div className="flex items-center justify-between gap-3 text-left">
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-forest-deep">{file.name}</p>
-              <p className="text-xs text-neutral-500">{(file.size / 1024).toFixed(0)} KB</p>
+              <p className="truncate text-sm font-bold font-sans text-[#143d31]">{file.name}</p>
+              <p className="font-mono text-xs text-[#5d7d37]">{(file.size / 1024).toFixed(0)} KB</p>
             </div>
             <button
               type="button"
@@ -72,7 +74,7 @@ export function FileUpload({
                 pick(null);
                 if (inputRef.current) inputRef.current.value = "";
               }}
-              className="rounded-md p-2 text-neutral-500 hover:bg-neutral-100 hover:text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
+              className="cursor-pointer rounded-lg p-2 text-[#4f624f] hover:bg-[#143d31]/10 hover:text-[#143d31] focus-visible:outline-none"
               aria-label="Remove file"
             >
               <X className="h-4 w-4" />
@@ -83,11 +85,11 @@ export function FileUpload({
             type="button"
             disabled={disabled}
             onClick={() => inputRef.current?.click()}
-            className="mx-auto flex flex-col items-center gap-2 text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
+            className="mx-auto flex flex-col items-center gap-1.5 text-[#4f624f] cursor-pointer focus-visible:outline-none"
           >
-            <UploadSimple className="h-5 w-5 text-neutral-400" strokeWidth={1.75} />
-            <span className="text-sm font-medium text-forest-deep">Drop a file or browse</span>
-            <span className="text-xs text-neutral-500">JPG · PNG · WebP · PDF · max 5MB</span>
+            <UploadSimple className="h-5 w-5 text-[#5d7d37]" weight="bold" />
+            <span className="text-sm font-semibold text-[#143d31]">Drop a file or browse</span>
+            <span className="font-mono text-[10px] text-[#4f624f]">JPG · PNG · WebP · PDF (max 5MB)</span>
           </button>
         )}
         <input
@@ -99,11 +101,9 @@ export function FileUpload({
           onChange={(e) => pick(e.target.files?.[0] || null)}
         />
       </div>
-      {(error || localError) && (
-        <p className="mt-1.5 text-xs font-medium text-destructive" role="alert">
-          {error || localError}
-        </p>
-      )}
+      {localError || error ? (
+        <p className="font-mono text-xs text-red-600 font-semibold">{localError || error}</p>
+      ) : null}
     </div>
   );
 }

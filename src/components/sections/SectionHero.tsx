@@ -1,6 +1,7 @@
 import { useEffect, useRef, memo, useState } from "react";
 import gsap from "gsap";
 import { useTranslation } from "react-i18next";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 interface HeroProps {
   onVideoLoaded?: () => void;
@@ -251,7 +252,7 @@ export default memo(function SectionHero({
 
             {/* RIGHT — Subordinate clean subtext + CTAs (balanced scale) */}
             <div
-              className="flex flex-col gap-4 md:max-w-[380px]"
+              className="flex flex-col gap-4 md:max-w-[460px] shrink-0"
               style={{
                 borderLeft: "2px solid rgba(255,255,255,0.18)",
                 paddingLeft: "1.25rem",
@@ -310,41 +311,41 @@ export default memo(function SectionHero({
                 </div>
               </div>
 
-              {/* CTA Buttons (Balanced scale - Side by side) */}
+              {/* CTA Buttons (Slide-Up Capsule Pills — Side by Side on Same Horizontal Line) */}
               <div
                 ref={btnRef}
-                className="opacity-0 flex flex-row flex-wrap items-center gap-3"
+                className="opacity-0 flex flex-row flex-nowrap items-center gap-2.5 sm:gap-3"
                 style={{
                   willChange: "transform, opacity",
                   transform: "translate3d(0, 15px, 0)",
                 }}
               >
-                <a
+                <SlideUpPillButton
                   href="#agaate-app"
-                  className="group inline-flex items-center gap-2 rounded-full text-[#0f2d25] px-4 py-2 font-semibold transition-all duration-300 hover:opacity-90 hover:-translate-y-px active:scale-[0.98] whitespace-nowrap shrink-0"
-                  style={{
-                    fontSize: "13.5px",
-                    letterSpacing: "-0.01em",
-                    background: "#a3e635",
-                  }}
-                >
-                  {t("cta_primary")}
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="transition-transform duration-300 group-hover:translate-x-0.5"
-                  >
-                    <path
-                      d="M3 8h10M9 4l4 4-4 4"
-                      stroke="currentColor"
-                      strokeWidth="1.75"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
+                  variant="hero-primary"
+                  size="hero"
+                  label={t("cta_primary")}
+                  icon={
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      className="transition-transform duration-300 group-hover:translate-x-0.5"
+                    >
+                      <path
+                        d="M3 8h10M9 4l4 4-4 4"
+                        stroke="currentColor"
+                        strokeWidth="1.75"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  }
+                  iconPosition="right"
+                  className="whitespace-nowrap shrink-0 px-4 sm:px-5 py-2.5 text-xs sm:text-[13px] font-semibold shadow-none hover:shadow-none"
+                />
+
                 <a
                   href="#kisaan-mall"
                   className="inline-flex items-center gap-1.5 text-cream/80 transition-all duration-200 hover:text-cream px-2 py-2 font-normal whitespace-nowrap shrink-0 group"

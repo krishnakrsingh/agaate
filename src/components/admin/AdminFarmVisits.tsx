@@ -3,17 +3,27 @@ import { Link } from "@tanstack/react-router";
 import {
   Calendar,
   MapPin,
-  UserCheck,
   CheckCircle2,
-  Clock,
   Plus,
   Search,
-  Filter,
   Phone,
   ArrowRight,
-  Sparkles,
+  User,
 } from "lucide-react";
 import { useToast } from "@/components/admin/AdminToast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 type Visit = {
   id: number;
@@ -27,7 +37,6 @@ type Visit = {
   agronomist: string;
   status: "Scheduled" | "In Progress" | "Completed" | "Follow-up Needed";
   objective: string;
-  notes: string;
 };
 
 const INITIAL_VISITS: Visit[] = [
@@ -43,13 +52,12 @@ const INITIAL_VISITS: Visit[] = [
     agronomist: "Aman Verma",
     status: "Scheduled",
     objective: "Polyhouse topography inspection and automated drip fertigation baseline audit.",
-    notes: "Farmer is ready with soil test reports. Requires drone topography elevation scan.",
   },
   {
     id: 2,
     farmer: "Ramesh Patel",
     phone: "+91 98765 00001",
-    district: "Varanasi, Uttar Pradesh",
+    district: "Varanasi, UP",
     acreage: "20 Acres",
     crop: "Chilli G4",
     date: "2026-08-20",
@@ -57,7 +65,6 @@ const INITIAL_VISITS: Visit[] = [
     agronomist: "Rahul Sharma",
     status: "Scheduled",
     objective: "Verify nursery pre-order hardening site and nursery tray planting schedule.",
-    notes: "Requested 45,000 bio-boosted saplings delivery in 15 days.",
   },
   {
     id: 3,
@@ -71,7 +78,6 @@ const INITIAL_VISITS: Visit[] = [
     agronomist: "Aman Verma",
     status: "Scheduled",
     objective: "Bio-fertigation injector testing and organic soil carbon amendment check.",
-    notes: "Enrolled in Carbon Credit baseline monitoring.",
   },
   {
     id: 4,
@@ -79,13 +85,12 @@ const INITIAL_VISITS: Visit[] = [
     phone: "+91 98765 00003",
     district: "Ludhiana, Punjab",
     acreage: "35 Acres",
-    crop: "Direct Seeded Rice (DSR)",
+    crop: "Direct Seeded Rice",
     date: "2026-08-17",
     time: "04:00 PM",
     agronomist: "Aman Verma",
     status: "Completed",
     objective: "MRV carbon verification and weed management triage for DSR block.",
-    notes: "Verified soil moisture sensors. Farmer satisfied with germination rate.",
   },
 ];
 
@@ -94,6 +99,22 @@ export function AdminFarmVisits() {
   const [visits, setVisits] = useState<Visit[]>(INITIAL_VISITS);
   const [query, setQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [completeOpen, setCompleteOpen] = useState(false);
+  const [selectedVisit, setSelectedVisit] = useState<Visit | null>(null);
+  const [completionNotes, setCompletionNotes] = useState("");
+
+  const [newVisit, setNewVisit] = useState({
+    farmer: "",
+    phone: "",
+    district: "",
+    acreage: "",
+    crop: "",
+    date: new Date().toISOString().slice(0, 10),
+    time: "10:00 AM",
+    agronomist: "Aman Verma",
+    objective: "",
+  });
 
   const filtered = visits.filter((v) => {
     const matchesQuery =
@@ -105,129 +126,331 @@ export function AdminFarmVisits() {
     return matchesQuery && matchesStatus;
   });
 
-  const markComplete = (id: number) => {
+  const handleCompleteSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedVisit) return;
     setVisits((prev) =>
-      prev.map((v) => (v.id === id ? { ...v, status: "Completed" as const } : v)),
+      prev.map((v) => (v.id === selectedVisit.id ? { ...v, status: "Completed" as const } : v))
     );
-    toast.success("Visit Completed", "Marked field inspection as completed.");
+    toast.success("Visit Completed", `Field inspection for ${selectedVisit.farmer} marked done.`);
+    setCompleteOpen(false);
+    setSelectedVisit(null);
+    setCompletionNotes("");
+  };
+
+  const handleScheduleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newVisit.farmer || !newVisit.district) return;
+    const created: Visit = {
+      id: Date.now(),
+      farmer: newVisit.farmer,
+      phone: newVisit.phone || "+91 98765 00000",
+      district: newVisit.district,
+      acreage: newVisit.acreage || "10 Acres",
+      crop: newVisit.crop || "Mixed Crops",
+      date: newVisit.date,
+      time: newVisit.time,
+      agronomist: newVisit.agronomist,
+      status: "Scheduled",
+      objective: newVisit.objective || "General field inspection and soil baseline audit.",
+    };
+    setVisits([created, ...visits]);
+    toast.success("Visit Scheduled", `Booked field visit for ${newVisit.farmer} on ${newVisit.date}`);
+    setScheduleOpen(false);
+    setNewVisit({
+      farmer: "",
+      phone: "",
+      district: "",
+      acreage: "",
+      crop: "",
+      date: new Date().toISOString().slice(0, 10),
+      time: "10:00 AM",
+      agronomist: "Aman Verma",
+      objective: "",
+    });
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs">
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
-              Field Operations
-            </span>
-          </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-stone-900">Farm Visits & Field Audits</h1>
-          <p className="text-xs text-stone-500 mt-0.5">
+          <h2 className="text-2xl font-bold tracking-tight">Farm Visits & Audits</h2>
+          <p className="text-xs text-muted-foreground">
             Coordinate onsite agronomist inspections, soil profiling, and precision equipment installations.
           </p>
         </div>
-
-        <button
-          type="button"
-          onClick={() => toast.info("Schedule Visit", "Select a contact request to book a visit date.")}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-all shrink-0"
+        <Button
+          size="sm"
+          onClick={() => setScheduleOpen(true)}
+          className="h-8.5 rounded-lg px-4 bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold text-xs"
         >
-          <Plus className="h-3.5 w-3.5" />
-          <span>Schedule Farm Visit</span>
-        </button>
+          <Plus className="mr-1.5 h-3.5 w-3.5" />
+          <span>Schedule Visit</span>
+        </Button>
       </div>
 
-      {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-stone-400" />
-          <input
-            placeholder="Search farmer, district, crop, agronomist..."
+      {/* Toolbar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Input
+            placeholder="Filter visits..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-stone-200/90 bg-white pl-9 pr-3 py-2 text-xs text-stone-900 placeholder-stone-400 outline-none focus:border-emerald-600 shadow-2xs"
+            className="h-8.5 rounded-lg px-3 w-[160px] lg:w-[260px] text-xs bg-card border-border shadow-xs"
           />
-        </div>
-
-        <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
-          {["All", "Scheduled", "Completed"].map((status) => (
-            <button
-              key={status}
-              type="button"
-              onClick={() => setSelectedStatus(status)}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
-                selectedStatus === status
-                  ? "bg-emerald-700 text-white shadow-2xs"
-                  : "bg-white border border-stone-200/80 text-stone-600 hover:bg-stone-50"
-              }`}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Visits Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((visit) => (
-          <div
-            key={visit.id}
-            className="rounded-2xl border border-stone-200/80 bg-white p-5 shadow-xs hover:shadow-sm transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <h3 className="text-sm font-bold text-stone-900">{visit.farmer}</h3>
-                  <p className="text-xs text-stone-500 flex items-center gap-1 mt-0.5">
-                    <MapPin className="h-3 w-3 text-stone-400 shrink-0" />
-                    <span>{visit.district}</span>
-                  </p>
-                </div>
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
-                    visit.status === "Completed"
-                      ? "bg-emerald-100 text-emerald-800"
-                      : "bg-teal-50 text-teal-800 ring-1 ring-teal-600/20"
-                  }`}
-                >
-                  {visit.status}
-                </span>
-              </div>
-
-              <div className="mt-3.5 space-y-2 text-xs">
-                <div className="flex items-center justify-between bg-stone-50/80 p-2.5 rounded-xl border border-stone-100">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-3.5 w-3.5 text-emerald-600" />
-                    <span className="font-semibold text-stone-800">{visit.date} · {visit.time}</span>
-                  </div>
-                  <span className="text-[11px] font-medium text-stone-500">{visit.acreage}</span>
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-stone-50/40 text-stone-700">
-                  <p className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">Audit Focus</p>
-                  <p className="mt-0.5 text-xs text-stone-800 font-medium">{visit.objective}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
-              <span className="text-[11px] text-stone-500">Lead: <span className="font-semibold text-stone-700">{visit.agronomist}</span></span>
-              {visit.status === "Scheduled" && (
-                <button
-                  type="button"
-                  onClick={() => markComplete(visit.id)}
-                  className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-800 hover:bg-emerald-100 transition-colors"
-                >
-                  <CheckCircle2 className="h-3 w-3" />
-                  <span>Mark Done</span>
-                </button>
-              )}
-            </div>
+          <div className="inline-flex items-center rounded-lg bg-muted/60 p-0.5 border border-border/80 shadow-2xs">
+            {["All", "Scheduled", "Completed"].map((status) => (
+              <button
+                key={status}
+                type="button"
+                onClick={() => setSelectedStatus(status)}
+                className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
+                  selectedStatus === status
+                    ? "bg-card text-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
+
+      {/* Table View */}
+      <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
+        <Table>
+          <TableHeader className="bg-muted/40">
+            <TableRow>
+              <TableHead className="text-xs">Farmer</TableHead>
+              <TableHead className="text-xs">Location</TableHead>
+              <TableHead className="text-xs">Acreage & Crop</TableHead>
+              <TableHead className="text-xs">Scheduled Date</TableHead>
+              <TableHead className="text-xs">Lead Specialist</TableHead>
+              <TableHead className="text-xs">Objective</TableHead>
+              <TableHead className="text-xs">Status</TableHead>
+              <TableHead className="text-right text-xs">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filtered.map((visit) => (
+              <TableRow key={visit.id} className="hover:bg-muted/40 transition-colors">
+                <TableCell className="font-semibold text-xs text-foreground">
+                  {visit.farmer}
+                </TableCell>
+                <TableCell className="text-xs text-muted-foreground">
+                  {visit.district}
+                </TableCell>
+                <TableCell className="text-xs">
+                  <span className="font-medium text-foreground">{visit.crop}</span>{" "}
+                  <span className="text-muted-foreground">({visit.acreage})</span>
+                </TableCell>
+                <TableCell className="text-xs font-mono text-muted-foreground">
+                  {visit.date} · {visit.time}
+                </TableCell>
+                <TableCell className="text-xs font-medium text-foreground">
+                  {visit.agronomist}
+                </TableCell>
+                <TableCell className="text-xs text-muted-foreground max-w-xs truncate">
+                  {visit.objective}
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-xs font-medium select-none ${
+                      visit.status === "Completed"
+                        ? "border-sidebar-primary/20 bg-sidebar-primary/10 text-sidebar-primary dark:text-primary font-medium"
+                        : "border-border bg-muted/40 text-foreground"
+                    }`}
+                  >
+                    <span className={`h-1.5 w-1.5 rounded-full ${visit.status === "Completed" ? "bg-sidebar-primary dark:bg-primary" : "bg-muted-foreground"}`} />
+                    {visit.status}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  {visit.status === "Scheduled" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setSelectedVisit(visit);
+                        setCompleteOpen(true);
+                      }}
+                      className="h-7 text-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    >
+                      <CheckCircle2 className="mr-1.5 h-3.5 w-3.5 text-sidebar-primary dark:text-primary" />
+                      <span>Mark Done</span>
+                    </Button>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+
+            {filtered.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={8} className="h-24 text-center text-xs text-muted-foreground">
+                  No farm visits matching the filter criteria.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Schedule Visit Modal */}
+      <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
+        <DialogContent className="sm:max-w-[480px]">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold">Schedule Field Visit</DialogTitle>
+            <DialogDescription className="text-xs">
+              Book an onsite agronomist farm inspection and soil sampling audit.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleScheduleSubmit} className="space-y-3 pt-2">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="v-farmer" className="text-xs font-medium">Farmer Name *</Label>
+                <Input
+                  id="v-farmer"
+                  required
+                  placeholder="e.g. Ramesh Patel"
+                  value={newVisit.farmer}
+                  onChange={(e) => setNewVisit({ ...newVisit, farmer: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="v-district" className="text-xs font-medium">District / State *</Label>
+                <Input
+                  id="v-district"
+                  required
+                  placeholder="e.g. Nashik, MH"
+                  value={newVisit.district}
+                  onChange={(e) => setNewVisit({ ...newVisit, district: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="v-crop" className="text-xs font-medium">Crop Variety</Label>
+                <Input
+                  id="v-crop"
+                  placeholder="e.g. Tomato Polyhouse"
+                  value={newVisit.crop}
+                  onChange={(e) => setNewVisit({ ...newVisit, crop: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="v-acreage" className="text-xs font-medium">Acreage</Label>
+                <Input
+                  id="v-acreage"
+                  placeholder="e.g. 50 Acres"
+                  value={newVisit.acreage}
+                  onChange={(e) => setNewVisit({ ...newVisit, acreage: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="v-date" className="text-xs font-medium">Visit Date</Label>
+                <Input
+                  id="v-date"
+                  type="date"
+                  required
+                  value={newVisit.date}
+                  onChange={(e) => setNewVisit({ ...newVisit, date: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="v-agronomist" className="text-xs font-medium">Lead Agronomist</Label>
+                <select
+                  id="v-agronomist"
+                  value={newVisit.agronomist}
+                  onChange={(e) => setNewVisit({ ...newVisit, agronomist: e.target.value })}
+                  className="w-full h-8 rounded-md border border-input bg-transparent px-2.5 py-1 text-xs text-foreground outline-none"
+                >
+                  <option value="Aman Verma">Aman Verma (West / South)</option>
+                  <option value="Rahul Sharma">Rahul Sharma (North)</option>
+                  <option value="Priya Nair">Priya Nair (Technical Lead)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="v-obj" className="text-xs font-medium">Audit Objective</Label>
+              <Textarea
+                id="v-obj"
+                rows={2}
+                placeholder="Key audit checkpoints (e.g. drip pressure testing, soil pH)"
+                value={newVisit.objective}
+                onChange={(e) => setNewVisit({ ...newVisit, objective: e.target.value })}
+                className="text-xs"
+              />
+            </div>
+
+            <DialogFooter className="pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setScheduleOpen(false)}
+                className="h-8 text-xs"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" size="sm" className="h-8 text-xs">
+                Confirm Schedule
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Mark Complete Modal */}
+      <Dialog open={completeOpen} onOpenChange={setCompleteOpen}>
+        <DialogContent className="sm:max-w-[420px]">
+          <DialogHeader>
+            <DialogTitle className="text-base font-semibold">Complete Field Inspection</DialogTitle>
+            <DialogDescription className="text-xs">
+              Record observation notes and mark visit for {selectedVisit?.farmer} as done.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleCompleteSubmit} className="space-y-3 pt-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="comp-notes" className="text-xs font-medium">Field Observations / Prescription</Label>
+              <Textarea
+                id="comp-notes"
+                rows={3}
+                required
+                placeholder="Observed soil condition, drip uniformity, farmer satisfaction..."
+                value={completionNotes}
+                onChange={(e) => setCompletionNotes(e.target.value)}
+                className="text-xs"
+              />
+            </div>
+            <DialogFooter className="pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setCompleteOpen(false)}
+                className="h-8 text-xs"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" size="sm" className="h-8 text-xs">
+                Save & Mark Complete
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

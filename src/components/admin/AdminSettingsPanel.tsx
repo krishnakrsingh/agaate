@@ -1,16 +1,7 @@
 import { useState } from "react";
 import {
-  Settings,
-  MessageSquare,
-  Clock,
-  Tag,
-  Users,
-  Shield,
   Save,
   Plus,
-  CheckCircle2,
-  Lock,
-  Mail,
 } from "lucide-react";
 import {
   listAdminUsers,
@@ -26,6 +17,15 @@ import {
   type AdminSettingsPayload,
 } from "@/lib/admin-constants";
 import { useToast } from "@/components/admin/AdminToast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 
 type Category = { id: number; slug: string; label: string; active: number; sort_order: number };
 type User = { id: number; name: string; email: string; role: AdminRole };
@@ -40,7 +40,6 @@ export function AdminSettingsPanel({
   users: User[];
 }) {
   const toast = useToast();
-  const [activeTab, setActiveTab] = useState<"templates" | "categories" | "users" | "hours">("templates");
   const [settings, setSettings] = useState({ ...DEFAULT_ADMIN_SETTINGS, ...initialSettings });
   const [categories, setCategories] = useState(initialCategories);
   const [users, setUsers] = useState(initialUsers);
@@ -56,7 +55,7 @@ export function AdminSettingsPanel({
     const res = await saveAdminSettings({ data: settings });
     setSaving(false);
     if (res && "ok" in res && res.ok) {
-      toast.success("Settings Saved", "Templates and parameters updated successfully.");
+      toast.success("Settings Saved", "Configuration updated successfully.");
     } else {
       toast.error("Save Failed", "Could not save configuration.");
     }
@@ -64,236 +63,223 @@ export function AdminSettingsPanel({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
-              System Control
-            </span>
-          </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-stone-900">Admin Settings & Configuration</h1>
-          <p className="text-xs text-stone-500 mt-0.5">
-            Manage response templates, inquiry categories, business hours, and team role permissions.
-          </p>
-        </div>
+      {/* Header (shadcn settings style) */}
+      <div className="space-y-0.5">
+        <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
+        <p className="text-muted-foreground text-xs">
+          Manage automated communication templates, response SLA benchmarks, and team access.
+        </p>
       </div>
+      <Separator className="my-4" />
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 border-b border-stone-200/80 overflow-x-auto pb-px">
-        {[
-          { id: "templates", label: "Reply Templates", icon: MessageSquare },
-          { id: "hours", label: "Business Hours", icon: Clock },
-          { id: "categories", label: "Inquiry Categories", icon: Tag },
-          { id: "users", label: "Team & Permissions", icon: Users },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold transition-all border-b-2 whitespace-nowrap ${
-                isActive
-                  ? "border-emerald-700 text-emerald-900 font-bold"
-                  : "border-transparent text-stone-500 hover:text-stone-800 hover:border-stone-300"
-              }`}
-            >
-              <Icon className={`h-4 w-4 ${isActive ? "text-emerald-700" : "text-stone-400"}`} />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
-      </div>
+      <Tabs defaultValue="templates" className="space-y-4">
+        <TabsList className="inline-flex h-9 items-center rounded-lg bg-muted/60 p-0.5 border border-border/80 shadow-2xs">
+          <TabsTrigger value="templates" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Reply Templates
+          </TabsTrigger>
+          <TabsTrigger value="hours" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Business SLA
+          </TabsTrigger>
+          <TabsTrigger value="categories" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Inquiry Categories
+          </TabsTrigger>
+          <TabsTrigger value="users" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Staff Users
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Tab 1: Reply Templates */}
-      {activeTab === "templates" && (
-        <form onSubmit={handleSaveSettingsSubmit} className="space-y-6">
-          <div className="rounded-2xl border border-stone-200/80 bg-white p-5 md:p-6 shadow-xs space-y-5">
+        {/* Tab 1: Reply Templates */}
+        <TabsContent value="templates" className="space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
             <div>
-              <h2 className="text-sm font-semibold text-stone-900">WhatsApp & Email Auto-Reply Templates</h2>
-              <p className="text-xs text-stone-500 mt-0.5">
-                Dynamic tokens available: <code className="bg-stone-100 text-emerald-800 px-1.5 py-0.5 rounded text-[11px] font-mono">{"{{name}}"}</code>,{" "}
-                <code className="bg-stone-100 text-emerald-800 px-1.5 py-0.5 rounded text-[11px] font-mono">{"{{ticket}}"}</code>,{" "}
-                <code className="bg-stone-100 text-emerald-800 px-1.5 py-0.5 rounded text-[11px] font-mono">{"{{notes}}"}</code>
+              <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
+                Automation
+              </span>
+              <h3 className="text-base font-bold text-foreground mt-1">Auto-Reply Templates</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Tokens available for replacement: <code className="bg-muted px-2 py-0.5 rounded-md text-[11px] font-mono">{"{{name}}"}</code>, <code className="bg-muted px-2 py-0.5 rounded-md text-[11px] font-mono">{"{{ticket}}"}</code>, <code className="bg-muted px-2 py-0.5 rounded-md text-[11px] font-mono">{"{{notes}}"}</code>
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
-                  WhatsApp Follow-up Template
-                </label>
-                <textarea
+            <form onSubmit={handleSaveSettingsSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="waTemplate" className="text-xs font-medium text-foreground">WhatsApp Follow-up Template</Label>
+                <Textarea
+                  id="waTemplate"
                   rows={3}
                   value={settings.whatsappTemplate}
                   onChange={(e) => setSettings({ ...settings, whatsappTemplate: e.target.value })}
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 p-3 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
+                  className="text-xs rounded-lg bg-muted/20 border-border"
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">Email Subject Line</label>
-                <input
-                  value={settings.emailSubject}
-                  onChange={(e) => setSettings({ ...settings, emailSubject: e.target.value })}
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="emailSubject" className="text-xs font-medium text-foreground">Email Subject Line</Label>
+                  <Input
+                    id="emailSubject"
+                    value={settings.emailSubject}
+                    onChange={(e) => setSettings({ ...settings, emailSubject: e.target.value })}
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="priorityRules" className="text-xs font-medium text-foreground">Priority Rule Guidance</Label>
+                  <Input
+                    id="priorityRules"
+                    value={settings.priorityRules}
+                    onChange={(e) => setSettings({ ...settings, priorityRules: e.target.value })}
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">Priority Assignment Rule</label>
-                <input
-                  value={settings.priorityRules}
-                  onChange={(e) => setSettings({ ...settings, priorityRules: e.target.value })}
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-stone-700 mb-1">Email Body Draft</label>
-                <textarea
+              <div className="space-y-2">
+                <Label htmlFor="emailTemplate" className="text-xs font-medium text-foreground">Email Body Template</Label>
+                <Textarea
+                  id="emailTemplate"
                   rows={5}
                   value={settings.emailTemplate}
                   onChange={(e) => setSettings({ ...settings, emailTemplate: e.target.value })}
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 p-3 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
+                  className="text-xs rounded-lg bg-muted/20 border-border"
                 />
               </div>
-            </div>
 
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={saving}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-all disabled:opacity-50"
-              >
-                <Save className="h-3.5 w-3.5" />
-                <span>{saving ? "Saving..." : "Save Templates"}</span>
-              </button>
-            </div>
+              <div className="flex justify-end">
+                <Button type="submit" disabled={saving} size="sm" className="h-8.5 rounded-lg px-4 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold">
+                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                  <span>{saving ? "Saving..." : "Save Templates"}</span>
+                </Button>
+              </div>
+            </form>
           </div>
-        </form>
-      )}
+        </TabsContent>
 
-      {/* Tab 2: Business Hours */}
-      {activeTab === "hours" && (
-        <form onSubmit={handleSaveSettingsSubmit} className="space-y-6">
-          <div className="rounded-2xl border border-stone-200/80 bg-white p-5 md:p-6 shadow-xs space-y-5">
+        {/* Tab 2: Business Hours */}
+        <TabsContent value="hours" className="space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
             <div>
-              <h2 className="text-sm font-semibold text-stone-900">Operating Hours & SLA Expectations</h2>
-              <p className="text-xs text-stone-500 mt-0.5">Define response benchmarks for farmer support lines</p>
+              <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
+                SLA Benchmarks
+              </span>
+              <h3 className="text-base font-bold text-foreground mt-1">Business Hours & Response SLA</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Configure active operational hours and farmer callback benchmarks</p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">Start Time (IST)</label>
-                <input
-                  value={settings.businessHours.start}
-                  onChange={(e) =>
-                    setSettings({ ...settings, businessHours: { ...settings.businessHours, start: e.target.value } })
-                  }
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">End Time (IST)</label>
-                <input
-                  value={settings.businessHours.end}
-                  onChange={(e) =>
-                    setSettings({ ...settings, businessHours: { ...settings.businessHours, end: e.target.value } })
-                  }
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">Active Days</label>
-                <input
-                  value={settings.businessHours.days}
-                  onChange={(e) =>
-                    setSettings({ ...settings, businessHours: { ...settings.businessHours, days: e.target.value } })
-                  }
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">Target Response Time</label>
-                <input
-                  value={settings.defaultResponseTime}
-                  onChange={(e) => setSettings({ ...settings, defaultResponseTime: e.target.value })}
-                  className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                />
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={saving}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-all disabled:opacity-50"
-              >
-                <Save className="h-3.5 w-3.5" />
-                <span>{saving ? "Saving..." : "Save Operating Hours"}</span>
-              </button>
-            </div>
-          </div>
-        </form>
-      )}
-
-      {/* Tab 3: Inquiry Categories */}
-      {activeTab === "categories" && (
-        <div className="space-y-6">
-          <div className="rounded-2xl border border-stone-200/80 bg-white p-5 md:p-6 shadow-xs space-y-5">
-            <div>
-              <h2 className="text-sm font-semibold text-stone-900">Agaate Inquiry Categories</h2>
-              <p className="text-xs text-stone-500 mt-0.5">Agricultural program taxonomies and routing tags</p>
-            </div>
-
-            <div className="divide-y divide-stone-100">
-              {categories.map((c) => (
-                <div key={c.id} className="py-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-                  <div className="flex items-center gap-3">
-                    <input
-                      defaultValue={c.label}
-                      onBlur={(e) => {
-                        const label = e.target.value.trim();
-                        if (label && label !== c.label) {
-                          void saveAdminCategory({
-                            data: { id: c.id, slug: c.slug, label, active: Boolean(c.active), sort_order: c.sort_order },
-                          });
-                          toast.success("Category Updated", label);
-                        }
-                      }}
-                      className="w-64 rounded-xl border border-stone-200 bg-stone-50 px-3 py-1.5 font-medium text-stone-900 outline-none focus:border-emerald-600 focus:bg-white"
-                    />
-                    <span className="font-mono text-stone-400 bg-stone-100 px-2 py-0.5 rounded text-[11px]">
-                      {c.slug}
-                    </span>
-                  </div>
-
-                  <label className="flex items-center gap-1.5 cursor-pointer text-stone-600 font-medium">
-                    <input
-                      type="checkbox"
-                      defaultChecked={Boolean(c.active)}
-                      onChange={(e) => {
-                        void saveAdminCategory({
-                          data: { id: c.id, slug: c.slug, label: c.label, active: e.target.checked, sort_order: c.sort_order },
-                        });
-                        toast.success("Status Toggled", `${c.label} is now ${e.target.checked ? "Active" : "Inactive"}`);
-                      }}
-                      className="rounded text-emerald-600"
-                    />
-                    <span>Active</span>
-                  </label>
+            <form onSubmit={handleSaveSettingsSubmit} className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="space-y-2">
+                  <Label htmlFor="startTime" className="text-xs font-medium text-foreground">Start Time (IST)</Label>
+                  <Input
+                    id="startTime"
+                    value={settings.businessHours.start}
+                    onChange={(e) =>
+                      setSettings({ ...settings, businessHours: { ...settings.businessHours, start: e.target.value } })
+                    }
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
                 </div>
-              ))}
+                <div className="space-y-2">
+                  <Label htmlFor="endTime" className="text-xs font-medium text-foreground">End Time (IST)</Label>
+                  <Input
+                    id="endTime"
+                    value={settings.businessHours.end}
+                    onChange={(e) =>
+                      setSettings({ ...settings, businessHours: { ...settings.businessHours, end: e.target.value } })
+                    }
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="activeDays" className="text-xs font-medium text-foreground">Active Days</Label>
+                  <Input
+                    id="activeDays"
+                    value={settings.businessHours.days}
+                    onChange={(e) =>
+                      setSettings({ ...settings, businessHours: { ...settings.businessHours, days: e.target.value } })
+                    }
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="responseTime" className="text-xs font-medium text-foreground">Response SLA</Label>
+                  <Input
+                    id="responseTime"
+                    value={settings.defaultResponseTime}
+                    onChange={(e) => setSettings({ ...settings, defaultResponseTime: e.target.value })}
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <Button type="submit" disabled={saving} size="sm" className="h-8.5 rounded-lg px-4 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold">
+                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                  <span>{saving ? "Saving..." : "Save SLA Settings"}</span>
+                </Button>
+              </div>
+            </form>
+          </div>
+        </TabsContent>
+
+        {/* Tab 3: Inquiry Categories */}
+        <TabsContent value="categories" className="space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
+            <div>
+              <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
+                Channel Routing
+              </span>
+              <h3 className="text-base font-bold text-foreground mt-1">Inquiry Categories</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Manage agricultural program channels and intake routing</p>
             </div>
 
-            {/* Add Category Form */}
+            <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
+              <Table>
+                <TableHeader className="bg-muted/40">
+                  <TableRow>
+                    <TableHead className="text-xs">Program Label</TableHead>
+                    <TableHead className="text-xs">Slug Identifier</TableHead>
+                    <TableHead className="w-24 text-right text-xs">Active</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {categories.map((c) => (
+                    <TableRow key={c.id} className="hover:bg-muted/40 transition-colors">
+                      <TableCell className="py-2">
+                        <Input
+                          defaultValue={c.label}
+                          onBlur={(e) => {
+                            const label = e.target.value.trim();
+                            if (label && label !== c.label) {
+                              void saveAdminCategory({
+                                data: { id: c.id, slug: c.slug, label, active: Boolean(c.active), sort_order: c.sort_order },
+                              });
+                              toast.success("Category Updated", label);
+                            }
+                          }}
+                          className="h-8 rounded-lg px-3 text-xs max-w-sm bg-card border-border"
+                        />
+                      </TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground">{c.slug}</TableCell>
+                      <TableCell className="text-right">
+                        <Checkbox
+                          defaultChecked={Boolean(c.active)}
+                          onCheckedChange={(checked) => {
+                            void saveAdminCategory({
+                              data: { id: c.id, slug: c.slug, label: c.label, active: Boolean(checked), sort_order: c.sort_order },
+                            });
+                            toast.success("Status Toggled", `${c.label} is now ${checked ? "Active" : "Inactive"}`);
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+
+            {/* Add category */}
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -321,77 +307,73 @@ export function AdminSettingsPanel({
                   toast.success("Category Added", newCat.label);
                 }
               }}
-              className="mt-4 pt-4 border-t border-stone-100 flex flex-wrap gap-2"
+              className="flex flex-wrap gap-2 pt-2 border-t border-border/60"
             >
-              <input
+              <Input
                 placeholder="slug (e.g. soil-test)"
                 value={newCat.slug}
                 onChange={(e) => setNewCat({ ...newCat, slug: e.target.value })}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-1.5 text-xs text-stone-900 outline-none focus:border-emerald-600"
+                className="h-8.5 rounded-lg px-3 text-xs w-44 bg-card border-border"
               />
-              <input
-                placeholder="Category Title"
+              <Input
+                placeholder="Program Title"
                 value={newCat.label}
                 onChange={(e) => setNewCat({ ...newCat, label: e.target.value })}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-1.5 text-xs text-stone-900 outline-none focus:border-emerald-600"
+                className="h-8.5 rounded-lg px-3 text-xs w-64 bg-card border-border"
               />
-              <button
-                type="submit"
-                className="inline-flex items-center gap-1 rounded-xl bg-stone-900 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-stone-800"
-              >
-                <Plus className="h-3 w-3" />
+              <Button type="submit" size="sm" className="h-8.5 rounded-lg px-3.5 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold">
+                <Plus className="mr-1.5 h-3.5 w-3.5" />
                 <span>Add Category</span>
-              </button>
+              </Button>
             </form>
           </div>
-        </div>
-      )}
+        </TabsContent>
 
-      {/* Tab 4: Users & Permissions */}
-      {activeTab === "users" && (
-        <div className="space-y-6">
-          <div className="rounded-2xl border border-stone-200/80 bg-white p-5 md:p-6 shadow-xs space-y-5">
+        {/* Tab 4: Staff Users */}
+        <TabsContent value="users" className="space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
             <div>
-              <h2 className="text-sm font-semibold text-stone-900">Admin Staff & Role Access</h2>
-              <p className="text-xs text-stone-500 mt-0.5">Control CRM access permissions and agronomist assignments</p>
+              <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
+                Access Control
+              </span>
+              <h3 className="text-base font-bold text-foreground mt-1">Staff Accounts & Roles</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">Manage team access levels and role-based permissions</p>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="border-b border-stone-100 text-[11px] uppercase tracking-wider text-stone-400 pb-2">
-                    <th className="py-2">Name</th>
-                    <th className="py-2">Email Address</th>
-                    <th className="py-2">Role Level</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-100">
+            <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
+              <Table>
+                <TableHeader className="bg-muted/40">
+                  <TableRow>
+                    <TableHead className="text-xs">Staff Name</TableHead>
+                    <TableHead className="text-xs">Email Address</TableHead>
+                    <TableHead className="text-xs">Role</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {users.map((u) => (
-                    <tr key={u.id}>
-                      <td className="py-3 font-semibold text-stone-900">{u.name}</td>
-                      <td className="py-3 text-stone-500 font-mono text-[11px]">{u.email}</td>
-                      <td className="py-3">
+                    <TableRow key={u.id} className="hover:bg-muted/40 transition-colors">
+                      <TableCell className="font-semibold text-xs text-foreground">{u.name}</TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground">{u.email}</TableCell>
+                      <TableCell>
                         <select
                           defaultValue={u.role}
-                          onChange={(e) => {
-                            void saveAdminUser({
-                              data: { id: u.id, name: u.name, email: u.email, role: e.target.value },
-                            });
-                            toast.success("Role Updated", `${u.name} is now ${e.target.value}`);
-                          }}
-                          className="rounded-xl border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs text-stone-800 outline-none"
+                          onChange={(e) =>
+                            void saveAdminUserRole({
+                              data: { id: u.id, role: e.target.value as AdminRole },
+                            }).then(() => toast.success("Role Updated", `${u.name} is now ${e.target.value}`))
+                          }
+                          className="h-8 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
                         >
-                          {ADMIN_ROLES.map((r) => (
-                            <option key={r} value={r}>
-                              {ROLE_LABELS[r]}
-                            </option>
-                          ))}
+                          <option value="super_admin">Super Admin</option>
+                          <option value="admin">Admin</option>
+                          <option value="agronomist">Agronomist</option>
+                          <option value="support">Support</option>
                         </select>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
 
             {/* Add User Form */}
@@ -401,61 +383,70 @@ export function AdminSettingsPanel({
                 const res = await saveAdminUser({ data: newUser });
                 if (res && "ok" in res && res.ok) {
                   const listed = await listAdminUsers();
-                  if (listed && "ok" in listed && listed.ok) setUsers(listed.users as User[]);
-                  setNewUser({ name: "", email: "", role: "support", password: "" });
-                  toast.success("User Created", newUser.name);
+                  if (listed && "users" in listed) setUsers(listed.users);
+                  setNewUser({ email: "", name: "", password: "", role: "agronomist" });
+                  toast.success("User Added", newUser.email);
                 } else {
-                  toast.error("User Creation Failed", res && "error" in res ? String(res.error) : "Failed.");
+                  toast.error("Failed to add user", (res as any)?.error || "Error");
                 }
               }}
-              className="mt-4 pt-4 border-t border-stone-100 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4"
+              className="grid gap-3 pt-3 border-t border-border/60 sm:grid-cols-2 lg:grid-cols-5 items-end"
             >
-              <input
-                required
-                placeholder="Full Name"
-                value={newUser.name}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600"
-              />
-              <input
-                required
-                type="email"
-                placeholder="Email address"
-                value={newUser.email}
-                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600"
-              />
-              <select
-                value={newUser.role}
-                onChange={(e) => setNewUser({ ...newUser, role: e.target.value as AdminRole })}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-900 outline-none"
-              >
-                {ADMIN_ROLES.map((r) => (
-                  <option key={r} value={r}>
-                    {ROLE_LABELS[r]}
-                  </option>
-                ))}
-              </select>
-              <input
-                required
-                type="password"
-                minLength={8}
-                placeholder="Password (8+ chars)"
-                value={newUser.password}
-                onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                className="rounded-xl border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-900 outline-none focus:border-emerald-600"
-              />
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-all sm:col-span-2 lg:col-span-4"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                <span>Create Staff Account</span>
-              </button>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-foreground">Name</Label>
+                <Input
+                  value={newUser.name}
+                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                  placeholder="e.g. Aman Verma"
+                  required
+                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-foreground">Email</Label>
+                <Input
+                  type="email"
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  placeholder="e.g. aman@agaate.in"
+                  required
+                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-foreground">Password</Label>
+                <Input
+                  type="password"
+                  value={newUser.password}
+                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                  placeholder="Min 6 chars"
+                  required
+                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-foreground">Role</Label>
+                <select
+                  value={newUser.role}
+                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value as AdminRole })}
+                  className="w-full h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
+                >
+                  <option value="super_admin">Super Admin</option>
+                  <option value="admin">Admin</option>
+                  <option value="agronomist">Agronomist</option>
+                  <option value="support">Support</option>
+                </select>
+              </div>
+              <div>
+                <Button type="submit" size="sm" className="w-full h-8.5 rounded-lg px-3.5 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold">
+                  <UserPlus className="mr-1.5 h-3.5 w-3.5" />
+                  <span>Create Account</span>
+                </Button>
+              </div>
             </form>
           </div>
-        </div>
-      )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

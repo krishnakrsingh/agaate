@@ -4,8 +4,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
-import { CountUp, TiltCard, MagneticButton } from "@/components/common/motion";
+import { CountUp, TiltCard } from "@/components/common/motion";
 import { useTranslation } from "react-i18next";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -295,12 +296,14 @@ export default function PillarsHorizontalParallax() {
 
                   {/* CTA Button */}
                   <div>
-                    <MagneticButton strength={0.25} as="a" href={pillar.ctaHref}>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-all cursor-pointer">
-                        <span>{pillar.ctaText}</span>
-                        <ArrowRight className="h-3.5 w-3.5 text-white" />
-                      </span>
-                    </MagneticButton>
+                    <SlideUpPillButton
+                      href={pillar.ctaHref}
+                      variant="dark"
+                      size="md"
+                      label={pillar.ctaText}
+                      icon={<ArrowRight className="h-4 w-4" />}
+                      iconPosition="right"
+                    />
                   </div>
                 </div>
 
@@ -389,13 +392,15 @@ export default function PillarsHorizontalParallax() {
 
             {/* CTA */}
             <div className="pt-2">
-              <a
+              <SlideUpPillButton
                 href={pillar.ctaHref}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#143d31] py-3 text-xs font-bold text-white shadow-sm hover:bg-[#1a4d3e] transition-colors"
-              >
-                <span>{pillar.ctaText}</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </a>
+                variant="dark"
+                size="md"
+                label={pillar.ctaText}
+                icon={<ArrowRight className="h-4 w-4" />}
+                iconPosition="right"
+                fullWidth
+              />
             </div>
           </div>
         ))}

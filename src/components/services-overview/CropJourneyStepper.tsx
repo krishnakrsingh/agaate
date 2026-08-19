@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, CheckCircle, ShieldCheck } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
-import { EASE, SectionHeader } from "@/components/common/motion";
 import { CROP_JOURNEY_STAGES_EN, CROP_JOURNEY_STAGES_HI } from "./services-overview-data";
 
 export function CropJourneyStepper() {
@@ -9,125 +11,178 @@ export function CropJourneyStepper() {
   const isHindi = i18n.language?.startsWith("hi");
   const CROP_JOURNEY_STAGES = isHindi ? CROP_JOURNEY_STAGES_HI : CROP_JOURNEY_STAGES_EN;
 
-  const [activeStageId, setActiveStageId] = useState<number>(1);
-  const activeStage =
-    CROP_JOURNEY_STAGES.find((s) => s.id === activeStageId) || CROP_JOURNEY_STAGES[0];
+  // Enhance stages with images for the parallax view
+  const stagesWithImages = CROP_JOURNEY_STAGES.map((st, i) => {
+    let imageUrl = "";
+    if (st.id === 1) imageUrl = "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=1400&auto=format&fit=crop"; // Soil
+    else if (st.id === 2) imageUrl = "/nursery.png"; // Nursery
+    else if (st.id === 3) imageUrl = "/services/turnkey-farm.jpg"; // Turnkey / Bed prep
+    else if (st.id === 4) imageUrl = "/services/agronomy-advisory.jpg"; // Scouting
+    else if (st.id === 5) imageUrl = "/services/farm-tech-iot.jpg"; // IoT / Fertigation
+    else if (st.id === 6) imageUrl = "https://images.unsplash.com/photo-1592982537447-6f2c6a0c5c4f?q=80&w=1400&auto=format&fit=crop"; // Leaf / Nutrition
+    else if (st.id === 7) imageUrl = "/services/market-linkage-harvest.jpg"; // Harvest
+    else if (st.id === 8) imageUrl = "https://images.unsplash.com/photo-1587595431973-160d0d94add1?q=80&w=1400&auto=format&fit=crop"; // Buyback / Delivery
+
+    return { ...st, imageUrl, reverse: i % 2 !== 0 };
+  });
+
+  // Create refs and animations for each section
+  const sectionRefs = stagesWithImages.map(() => useRef(null));
+
+  const scrollYProgress = stagesWithImages.map((_, index) => {
+    return useScroll({
+      target: sectionRefs[index],
+      offset: ["start end", "center center"],
+    }).scrollYProgress;
+  });
+
+  // Create animations for each section
+  const opacityContents = scrollYProgress.map((progress) =>
+    useTransform(progress, [0, 0.6], [0, 1])
+  );
+
+  const clipProgresses = scrollYProgress.map((progress, index) =>
+    useTransform(
+      progress,
+      [0, 0.7],
+      stagesWithImages[index].reverse
+        ? ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]
+        : ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]
+    )
+  );
+
+  const translateContents = scrollYProgress.map((progress) =>
+    useTransform(progress, [0, 1], [60, 0])
+  );
 
   return (
-    <section id="crop-journey" className="scroll-mt-28">
-      <SectionHeader
-        align="center"
-        eyebrow={
-          isHindi ? "बीज से बिक्री तक का संपूर्ण फसल चक्र" : "CLOSED-LOOP CROPPING LIFECYCLE"
-        }
-        title={isHindi ? "फसल यात्रा के 8 महत्वपूर्ण चरण।" : "Interactive 8-Stage Crop Journey."}
-        description={
-          isHindi
-            ? "अगाते के वैज्ञानिक प्रोटोकॉल, इनपुट फॉर्मूलेशन और साझेदार नेटवर्क को समझने के लिए किसी भी चरण पर क्लिक करें।"
-            : "Click on any stage below to inspect Agaate's exact scientific protocol, input formulations, and partner integrations."
-        }
-      />
-
-      <div className="mt-14 rounded-[2.5rem] border border-border bg-bone p-6 shadow-sm md:p-10">
-        {/* Stage Selector Pills */}
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
-          {CROP_JOURNEY_STAGES.map((st) => {
-            const isActive = activeStageId === st.id;
-            const StageIcon = st.icon;
-            return (
-              <button
-                key={st.id}
-                type="button"
-                onClick={() => setActiveStageId(st.id)}
-                className={`relative flex cursor-pointer flex-col items-center justify-center rounded-2xl p-3 text-center transition-all ${
-                  isActive
-                    ? "bg-forest-deep text-cream shadow-md"
-                    : "border border-border bg-card text-forest/80 hover:border-forest/40"
-                }`}
-              >
-                <span
-                  className={`mb-1 font-mono text-[9px] font-bold ${
-                    isActive ? "text-terracotta" : "text-forest/40"
-                  }`}
-                >
-                  {isHindi ? `चरण 0${st.id}` : `STAGE 0${st.id}`}
-                </span>
-                <StageIcon className="mb-1 h-5 w-5" />
-                <span className="font-serif text-xs font-bold leading-tight">{st.title}</span>
-              </button>
-            );
-          })}
+    <section id="crop-journey" className="bg-[#f4f8f5] text-[#143d31] w-full overflow-hidden border-t border-[#143d31]/10">
+      {/* Intro Section */}
+      <div className="w-full flex flex-col items-center justify-center px-5 sm:px-8 py-20 sm:py-24 text-center max-w-5xl mx-auto">
+        <div className="flex items-center gap-2.5 mb-4">
+          <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+            {isHindi ? "संपूर्ण 8-चरणीय वैज्ञानिक फसल चक्र" : "Closed-Loop 8-Stage Cropping Lifecycle"}
+          </p>
+          <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
         </div>
 
-        {/* Active Stage Detail Panel */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeStage.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="mt-8 rounded-3xl border border-forest/15 bg-card p-6 shadow-sm md:p-8"
+        <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#143d31] tracking-tight leading-[1.1] max-w-3xl mx-auto">
+          {isHindi
+            ? "बीज से बिक्री तक का संपूर्ण फसल रोडमैप"
+            : "The Seed-to-Sale Engineering Roadmap"}
+        </h2>
+
+        <p className="mt-5 font-sans text-[#4f624f] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          {isHindi
+            ? "नीचे स्क्रॉल करें और जानें कि कैसे हर चरण पर वैज्ञानिक सटीकता और पक्के मानक आपकी फसल को सफल बनाते हैं।"
+            : "Scroll through our chronological field protocols, verified input formulations, and guaranteed outcomes across all 8 crop development stages."}
+        </p>
+
+        <motion.div 
+          animate={{ y: [0, 8, 0] }} 
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className="mt-12 flex flex-col items-center gap-2.5 text-[#5d7d37] font-mono text-[11px] font-bold tracking-wider uppercase"
+        >
+          <span>{isHindi ? "नीचे स्क्रॉल करें" : "Scroll Down"}</span>
+          <div className="h-9 w-9 rounded-full border border-[#143d31]/15 flex items-center justify-center bg-white shadow-xs text-[#143d31]">
+            <ArrowDown className="h-4 w-4" />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Parallax Scroll Stages */}
+      <div className="flex flex-col px-5 sm:px-8 lg:px-12 max-w-7xl mx-auto pb-28">
+        {stagesWithImages.map((section, index) => (
+          <div
+            key={section.id}
+            ref={sectionRefs[index]}
+            className={`min-h-[75vh] py-16 lg:py-24 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 border-t border-[#143d31]/10 first:border-t-0 ${
+              section.reverse ? "lg:flex-row-reverse" : ""
+            }`}
           >
-            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
-              <div className="space-y-4 lg:col-span-7">
-                <div className="flex items-center gap-3">
-                  <span className="rounded-full bg-forest-deep px-3 py-1 font-mono text-xs font-bold text-cream">
-                    {isHindi ? `चरण 0${activeStage.id} (कुल 08)` : `Stage 0${activeStage.id} of 08`}
+            {/* Text & Line-based Features Block */}
+            <motion.div
+              style={{ y: translateContents[index], opacity: opacityContents[index] }}
+              className="flex-1 max-w-xl w-full"
+            >
+              {/* Stage Identifier Tag */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="font-mono text-base font-extrabold text-[#5d7d37]">
+                  0{section.id}
+                </span>
+                <span className="h-3.5 w-[1.5px] bg-[#143d31]/20" />
+                <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#143d31]">
+                  {isHindi ? `चरण ${section.id}` : `Stage ${section.id}`}
+                </span>
+              </div>
+              
+              {/* Headline */}
+              <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#143d31] tracking-tight leading-[1.15] mb-4">
+                {section.title}
+              </h3>
+              
+              {/* Description */}
+              <p className="font-sans text-sm sm:text-base text-[#4f624f] leading-relaxed mb-6 font-normal">
+                {section.desc}
+              </p>
+
+              {/* Sub-features: Clean Line-Type Layout (Consistent with Home Page Style) */}
+              <div className="my-6 border-y border-[#143d31]/12 divide-y divide-[#143d31]/10">
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4">
+                  <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#5d7d37] shrink-0">
+                    {isHindi ? "इनपुट्स एवं उपकरण" : "Inputs & Hardware"}
                   </span>
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-terracotta">
-                    {activeStage.benefit}
+                  <span className="font-sans text-xs sm:text-sm font-semibold text-[#143d31] sm:text-right">
+                    {section.inputs}
                   </span>
                 </div>
 
-                <h3 className="font-serif text-3xl font-bold text-forest-deep">
-                  {activeStage.title}
-                </h3>
-                <p className="text-base leading-relaxed text-forest/80">{activeStage.desc}</p>
-
-                <div className="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
-                  <div className="rounded-xl border border-border bg-bone p-4">
-                    <span className="block font-mono text-[10px] font-bold uppercase text-forest/50">
-                      {isHindi ? "जरूरी इनपुट्स व उपकरण" : "INPUTS & HARDWARE"}
-                    </span>
-                    <p className="mt-1 font-sans text-sm font-semibold text-forest-deep">
-                      {activeStage.inputs}
-                    </p>
-                  </div>
-
-                  <div className="rounded-xl border border-border bg-bone p-4">
-                    <span className="block font-mono text-[10px] font-bold uppercase text-forest/50">
-                      {isHindi ? "साझेदार नेटवर्क" : "PARTNER ECOSYSTEM"}
-                    </span>
-                    <p className="mt-1 font-sans text-sm font-semibold text-forest-deep">
-                      {activeStage.partners}
-                    </p>
-                  </div>
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4">
+                  <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#5d7d37] shrink-0">
+                    {isHindi ? "साझेदार नेटवर्क" : "Partner Ecosystem"}
+                  </span>
+                  <span className="font-sans text-xs sm:text-sm font-semibold text-[#143d31] sm:text-right">
+                    {section.partners}
+                  </span>
                 </div>
               </div>
 
-              <div className="space-y-4 rounded-2xl border border-forest/10 bg-gradient-to-br from-emerald-500/10 to-teal-500/5 p-6 text-center lg:col-span-5">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-forest-deep text-cream">
-                  {(() => {
-                    const IconComponent = activeStage.icon;
-                    return <IconComponent className="h-8 w-8" />;
-                  })()}
+              {/* Verified Outcome Guarantee (Line Style with Brand Accent) */}
+              <div className="flex items-center gap-3 pt-1">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-[#a3e635] shrink-0 shadow-xs">
+                  <CheckCircle weight="fill" className="h-4.5 w-4.5 text-[#a3e635]" />
                 </div>
                 <div>
-                  <span className="block font-mono text-[10px] font-bold uppercase text-moss">
-                    STAGE OUTCOME GUARANTEE
+                  <span className="block font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                    {isHindi ? "प्रमाणित परिणाम" : "Verified Guarantee"}
                   </span>
-                  <h4 className="font-serif text-2xl font-bold text-forest-deep">
-                    {activeStage.benefit}
-                  </h4>
+                  <span className="font-sans text-sm sm:text-base font-bold text-[#143d31]">
+                    {section.benefit}
+                  </span>
                 </div>
-                <p className="text-xs leading-relaxed text-forest/70">
-                  "Managing farming outcome from seed selection to buyer collection."
-                </p>
               </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+            </motion.div>
+
+            {/* Media Block with Smooth Parallax Reveal */}
+            <motion.div
+              style={{
+                opacity: opacityContents[index],
+                clipPath: clipProgresses[index],
+              }}
+              className="flex-1 w-full relative max-w-lg"
+            >
+              <div className="aspect-[4/3] w-full relative overflow-hidden rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-white shadow-xl">
+                <img
+                  src={section.imageUrl}
+                  className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                  alt={section.title}
+                  loading="lazy"
+                />
+              </div>
+            </motion.div>
+          </div>
+        ))}
       </div>
     </section>
   );

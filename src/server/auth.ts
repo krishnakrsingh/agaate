@@ -29,8 +29,13 @@ export async function getSessionManager() {
 }
 
 export async function getSessionUser(): Promise<SessionUser | null> {
-  const session = await getSessionManager();
-  return session.data.user ?? null;
+  try {
+    const session = await getSessionManager();
+    return session.data?.user ?? null;
+  } catch (err) {
+    console.warn("getSessionUser failed, returning null:", err);
+    return null;
+  }
 }
 
 export async function requireSessionUser(): Promise<SessionUser> {

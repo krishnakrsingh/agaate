@@ -87,7 +87,7 @@ export const NAV_STRUCTURE: NavItem[] = [
 export const NAV_SUBTITLES: Record<string, string> = {
   home: "Home Overview",
   services: "All 6 Integrated Solutions",
-  agriPark: "17-Acre Demo Center",
+  agriPark: "6-Acre Demo Center",
   about: "Our Mission & Team",
   contact: "Direct Agronomist Line",
 };

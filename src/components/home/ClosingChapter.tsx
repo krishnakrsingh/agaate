@@ -3,35 +3,35 @@ import {
   ArrowRight,
   ArrowUpRight,
   CheckCircle,
-  MapPin,
-  Plant,
-  WhatsappLogo,
-  CalendarCheck,
+  ChatCircleDots,
+  Storefront,
+  Compass,
 } from "@phosphor-icons/react";
-import { Link, useParams } from "@tanstack/react-router";
+import { useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 const trustFactsEn = [
   { value: "2,000+", label: "Agaate Parivaar Farmers" },
   { value: "15,000+", label: "Acres Monitored" },
-  { value: "17-Acre", label: "Smart Nursery & Park" },
+  { value: "6-Acre", label: "Smart Nursery & Park" },
   { value: "100%", label: "QC Verified Inputs" },
 ];
 
 const trustFactsHi = [
   { value: "2,000+", label: "संतुष्ट किसान परिवार" },
   { value: "15,000+", label: "एकड़ जुड़ा रकबा" },
-  { value: "17-एकड़", label: "स्मार्ट नर्सरी व पार्क" },
+  { value: "6-एकड़", label: "स्मार्ट नर्सरी व पार्क" },
   { value: "100%", label: "प्रमाणित असली उत्पाद" },
 ];
 
 const pathwaysEn = [
   {
     number: "01",
-    icon: WhatsappLogo,
+    icon: ChatCircleDots,
     tag: "Field Advisory",
     title: "Talk to an Agronomist",
     subtitle: "Photo diagnosis & dosage charts",
@@ -45,7 +45,7 @@ const pathwaysEn = [
   },
   {
     number: "02",
-    icon: MapPin,
+    icon: Storefront,
     tag: "Input Commerce",
     title: "Visit Kisaan Mall",
     subtitle: "500+ QR-verified genuine inputs",
@@ -59,7 +59,7 @@ const pathwaysEn = [
   },
   {
     number: "03",
-    icon: Plant,
+    icon: Compass,
     tag: "Living Farm",
     title: "Tour the Agri Park",
     subtitle: "8 demonstration zones on living soil",
@@ -76,7 +76,7 @@ const pathwaysEn = [
 const pathwaysHi = [
   {
     number: "01",
-    icon: WhatsappLogo,
+    icon: ChatCircleDots,
     tag: "फील्ड एडवाइजरी",
     title: "कृषि डॉक्टर से सलाह लें",
     subtitle: "फोटो से तुरंत रोग पहचान व सही मात्रा",
@@ -90,7 +90,7 @@ const pathwaysHi = [
   },
   {
     number: "02",
-    icon: MapPin,
+    icon: Storefront,
     tag: "कृषि इनपुट मॉल",
     title: "किसान मॉल से मंगवाएं",
     subtitle: "500+ प्रामाणिक बीज, खाद व जैविक इनपुट्स",
@@ -104,7 +104,7 @@ const pathwaysHi = [
   },
   {
     number: "03",
-    icon: Plant,
+    icon: Compass,
     tag: "जीवंत फार्म",
     title: "अगाते एग्री पार्क देखें",
     subtitle: "8 फसल यात्रा ज़ोन व लाइव ट्रायल",
@@ -157,8 +157,8 @@ export default function ClosingChapter() {
 
               <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
                 {isHindi
-                  ? "चाहे आपको फसल सलाह चाहिए, 100% असली इनपुट्स, या 17-एकड़ फार्म देखना हो — अपनी जरूरत के अनुसार रास्ता चुनें।"
-                  : "Whether you need immediate crop diagnosis, certified inputs, or want to walk our 17-acre living farm — choose your path."}
+                  ? "चाहे आपको फसल सलाह चाहिए, 100% असली इनपुट्स, या 6-एकड़ फार्म देखना हो — अपनी जरूरत के अनुसार रास्ता चुनें।"
+                  : "Whether you need immediate crop diagnosis, certified inputs, or want to walk our 6-acre living farm — choose your path."}
               </p>
             </div>
           </div>
@@ -185,15 +185,15 @@ export default function ClosingChapter() {
                       <span className="font-mono text-xs font-bold text-[#5d7d37] uppercase tracking-wider">
                         {pathway.number}
                       </span>
-                      <span className="rounded-full bg-[#143d31]/5 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                      <span className="rounded-full bg-[#143d31]/5 border border-[#143d31]/10 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#143d31]">
                         {pathway.tag}
                       </span>
                     </div>
 
                     {/* Icon & Title */}
                     <div>
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#143d31]/10 text-[#143d31] mb-4">
-                        <Icon className="h-5 w-5 text-[#143d31]" weight="duotone" />
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#143d31] text-[#a3e635] shadow-xs group-hover:scale-105 group-hover:bg-[#1a4d3e] group-hover:shadow-md transition-all duration-300 mb-4">
+                        <Icon className="h-6 w-6 text-[#a3e635]" weight="duotone" />
                       </div>
 
                       <h3 className="font-display text-xl sm:text-2xl font-bold text-[#143d31] tracking-tight">
@@ -216,7 +216,7 @@ export default function ClosingChapter() {
                           key={perk}
                           className="flex items-center gap-2 text-xs font-medium text-[#143d31]"
                         >
-                          <CheckCircle className="h-3.5 w-3.5 text-[#143d31] shrink-0" />
+                          <CheckCircle weight="fill" className="h-4 w-4 text-[#5d7d37] shrink-0" />
                           <span>{perk}</span>
                         </div>
                       ))}
@@ -226,41 +226,37 @@ export default function ClosingChapter() {
                   {/* Action CTA */}
                   <div className="pt-8 space-y-2">
                     {pathway.type === "modal" ? (
-                      <button
-                        type="button"
+                      <SlideUpPillButton
                         onClick={() => setIsVisitModalOpen(true)}
-                        className="w-full inline-flex items-center justify-between rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white hover:bg-[#1a4d3e] transition-all cursor-pointer"
-                      >
-                        <span className="flex items-center gap-2">
-                          <CalendarCheck className="h-4 w-4 text-[#a3e635]" />
-                          <span>{pathway.actionLabel}</span>
-                        </span>
-                        <ArrowRight className="h-3.5 w-3.5 text-white" />
-                      </button>
+                        variant="dark"
+                        size="md"
+                        fullWidth
+                        label={pathway.actionLabel}
+                        icon={<ArrowRight className="h-4 w-4" />}
+                        iconPosition="right"
+                      />
                     ) : pathway.type === "link" ? (
-                      <Link
-                        to={getLocalizedPath(pathway.href, currentLang) as any}
-                        className="w-full inline-flex items-center justify-between rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white hover:bg-[#1a4d3e] transition-all cursor-pointer"
-                      >
-                        <span className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-[#a3e635]" />
-                          <span>{pathway.actionLabel}</span>
-                        </span>
-                        <ArrowRight className="h-3.5 w-3.5 text-white" />
-                      </Link>
+                      <SlideUpPillButton
+                        to={getLocalizedPath(pathway.href, currentLang)}
+                        variant="dark"
+                        size="md"
+                        fullWidth
+                        label={pathway.actionLabel}
+                        icon={<ArrowRight className="h-4 w-4" />}
+                        iconPosition="right"
+                      />
                     ) : (
-                      <a
+                      <SlideUpPillButton
                         href={pathway.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-between rounded-full bg-[#143d31] px-6 py-3.5 text-xs font-bold text-white hover:bg-[#1a4d3e] transition-all cursor-pointer"
-                      >
-                        <span className="flex items-center gap-2">
-                          <WhatsappLogo className="h-4 w-4 text-[#a3e635]" />
-                          <span>{pathway.actionLabel}</span>
-                        </span>
-                        <ArrowUpRight className="h-3.5 w-3.5 text-white" />
-                      </a>
+                        variant="dark"
+                        size="md"
+                        fullWidth
+                        label={pathway.actionLabel}
+                        icon={<ArrowUpRight className="h-4 w-4" />}
+                        iconPosition="right"
+                      />
                     )}
 
                     <p className="font-mono text-[10px] font-semibold text-center text-[#4f624f]/70 uppercase tracking-wider pt-0.5">
@@ -275,33 +271,29 @@ export default function ClosingChapter() {
           {/* ── 3. Trust Metadata Bar ── */}
           <div
             data-home-reveal
-            className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-4 border-b border-[#143d31]/10 pb-8"
+            className="rounded-2xl bg-white p-6 sm:p-8 border border-[#143d31]/10"
           >
-            {trustFacts.map((fact) => (
-              <div key={fact.label} className="space-y-0.5 text-left">
-                <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                  {fact.value}
-                </p>
-                <p className="font-mono text-[10px] sm:text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                  {fact.label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* ── 4. Subtle Quote ── */}
-          <div data-home-reveal className="text-center pt-2">
-            <p className="font-serif text-lg sm:text-xl italic font-normal text-[#143d31]/70 max-w-2xl mx-auto">
-              {isHindi
-                ? "“अगाते हर कदम पर किसान के साथ खड़ा है — सही बीज से लेकर अंतिम बिक्री तक।”"
-                : '"Agaate stands with the farmer at every single step — from high-immunity seed to direct market sale."'}
-            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+              {trustFacts.map((fact) => (
+                <div key={fact.label} className="text-center sm:text-left space-y-1">
+                  <span className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
+                    {fact.value}
+                  </span>
+                  <p className="font-mono text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
+                    {fact.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Integrated VIP Visit Booking Modal */}
-      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
+      {/* VIP Visit Schedule Modal */}
+      <AgriParkVisitModal
+        isOpen={isVisitModalOpen}
+        onClose={() => setIsVisitModalOpen(false)}
+      />
     </>
   );
 }

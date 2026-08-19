@@ -1,16 +1,24 @@
+"use client";
+
 import { useState } from "react";
-import { Plant, X } from "@phosphor-icons/react";
-import { SectionHeader } from "@/components/common/motion";
+import { useTranslation } from "react-i18next";
+import { CheckCircle, TrendUp, Sparkle, Plant, ShieldCheck } from "@phosphor-icons/react";
 
 export function SowingComparisonCalculator() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
   const [calculatorAcres, setCalculatorAcres] = useState<number>(5);
 
+  const presets = [1, 5, 10, 25, 50];
+
+  // Economic Modeling Constants
   const chemicalCostPerAcreDirect = 18000;
-  const chemicalCostPerAcreBio = 7500; // 58% savings
+  const chemicalCostPerAcreBio = 7500; // ₹10,500/ac savings (58% drop)
   const yieldPerAcreDirectQuintals = 120;
-  const yieldPerAcreBioQuintals = 150; // +25%
+  const yieldPerAcreBioQuintals = 150; // +25% harvest gain
   const pricePerQuintal = 1800;
 
+  // Live Calculations
   const totalRevenueDirect = calculatorAcres * yieldPerAcreDirectQuintals * pricePerQuintal;
   const totalRevenueBio = calculatorAcres * yieldPerAcreBioQuintals * pricePerQuintal;
   const extraRevenue = totalRevenueBio - totalRevenueDirect;
@@ -18,158 +26,145 @@ export function SowingComparisonCalculator() {
   const totalNetGain = extraRevenue + chemicalSavings;
 
   return (
-    <section id="comparison-slider" className="scroll-mt-28">
-      <SectionHeader
-        align="center"
-        eyebrow="THE PARADIGM SHIFT"
-        title="Risky Direct Sowing vs Bio-Boosted Nursery Model."
-        description="Use the acreage slider below to calculate your estimated net financial savings and yield gain per season."
-      />
-
-      {/* Interactive Acreage Slider Widget */}
-      <div className="mt-10 rounded-[2.5rem] border border-border bg-card p-8 shadow-sm md:p-12">
-        <div className="mx-auto max-w-xl space-y-4 text-center">
-          <label
-            htmlFor="acreage-range"
-            className="font-mono text-xs font-bold uppercase tracking-wider text-forest/60"
-          >
-            Select Your Cultivated Acreage:
-          </label>
-          <div className="flex items-center justify-center gap-4 font-serif text-4xl font-bold text-forest-deep">
-            <span>{calculatorAcres}</span>
-            <span className="font-sans text-lg font-normal text-forest/60">Acres</span>
-          </div>
-          <input
-            id="acreage-range"
-            type="range"
-            min={1}
-            max={50}
-            value={calculatorAcres}
-            onChange={(e) => setCalculatorAcres(Number(e.target.value))}
-            className="w-full cursor-pointer accent-forest"
-          />
-          <div className="flex justify-between font-mono text-[10px] text-forest/50">
-            <span>1 Acre</span>
-            <span>25 Acres</span>
-            <span>50 Acres</span>
-          </div>
-        </div>
-
-        {/* Comparison Cards Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {/* Card 1: Traditional Direct Sowing */}
-          <div className="space-y-6 rounded-3xl border border-destructive/20 bg-red-50/30 p-8 text-left">
-            <div className="flex items-center justify-between border-b border-destructive/10 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-destructive/15 font-bold text-destructive">
-                  <X className="h-4 w-4" />
-                </span>
-                <h3 className="font-serif text-2xl font-bold text-forest-deep">
-                  Traditional Direct Sowing
-                </h3>
-              </div>
-              <span className="font-mono text-xs font-bold uppercase text-destructive">
-                High Risk
-              </span>
-            </div>
-
-            <div className="space-y-4 font-mono text-xs">
-              <div>
-                <div className="mb-1 flex justify-between">
-                  <span className="text-forest/60">GERMINATION & SURVIVAL</span>
-                  <span className="font-bold text-destructive">50% - 70%</span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-border">
-                  <div className="h-full w-[60%] bg-destructive/70" />
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-1 flex justify-between">
-                  <span className="text-forest/60">SEED WASTE RATE</span>
-                  <span className="font-bold text-destructive">30% - 50% Waste</span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-border">
-                  <div className="h-full w-[45%] bg-destructive/70" />
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-1 flex justify-between">
-                  <span className="text-forest/60">
-                    ESTIMATED REVENUE ({calculatorAcres} ACRES)
-                  </span>
-                  <span className="font-bold text-forest-deep">
-                    ₹{totalRevenueDirect.toLocaleString("en-IN")}
-                  </span>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-destructive/20 bg-card p-4 font-sans text-xs text-forest/70">
-                High root mortality due to soil heat, uncontrolled damping-off fungal attacks, and
-                heavy chemical runoff.
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2: Agaate Bio-Boosted Nursery */}
-          <div className="relative space-y-6 overflow-hidden rounded-3xl border border-forest/30 bg-emerald-50/40 p-8 text-left">
-            <div className="flex items-center justify-between border-b border-forest/15 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-forest font-bold text-cream">
-                  <Plant className="h-4 w-4" />
-                </span>
-                <h3 className="font-serif text-2xl font-bold text-forest-deep">
-                  Agaate Bio-Boosted Nursery
-                </h3>
-              </div>
-              <span className="font-mono text-xs font-bold uppercase text-emerald-700">
-                High Yield
-              </span>
-            </div>
-
-            <div className="space-y-4 font-mono text-xs">
-              <div>
-                <div className="mb-1 flex justify-between">
-                  <span className="text-forest/60">GERMINATION & SURVIVAL</span>
-                  <span className="font-bold text-emerald-700">90% - 98% (+40% Boost)</span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-border">
-                  <div className="h-full w-[95%] bg-emerald-600" />
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-1 flex justify-between">
-                  <span className="text-forest/60">SEED WASTE RATE</span>
-                  <span className="font-bold text-emerald-700">Near Zero Waste</span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-border">
-                  <div className="h-full w-[5%] bg-emerald-600" />
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-1 flex justify-between">
-                  <span className="text-forest/60">
-                    ESTIMATED REVENUE ({calculatorAcres} ACRES)
-                  </span>
-                  <span className="font-bold text-emerald-800">
-                    ₹{totalRevenueBio.toLocaleString("en-IN")}
-                  </span>
-                </div>
-              </div>
-
-              <div className="space-y-1 rounded-xl border border-forest/20 bg-forest-deep p-4 font-sans text-xs text-cream">
-                <span className="font-mono text-[10px] font-bold uppercase text-terracotta">
-                  NET FARMER GAIN DELTA
-                </span>
-                <p className="font-serif text-xl font-bold text-cream">
-                  +₹{totalNetGain.toLocaleString("en-IN")} Extra Net Profit
+    <section
+      id="comparison-slider"
+      className="scroll-mt-28 py-16 sm:py-20 md:py-24 bg-[#f4f8f5] border-t border-[#143d31]/10 text-[#143d31]"
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Column: Interactive Calculator & Live Key Metrics */}
+          <div className="lg:col-span-6 space-y-8">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2.5">
+                <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+                  {isHindi ? "04 · आर्थिक लाभ सिम्युलेटर" : "04 · Farm ROI Simulator"}
                 </p>
-                <p className="text-[11px] text-cream/70">
-                  Includes +25% crop yield optimization and ₹
-                  {chemicalSavings.toLocaleString("en-IN")} input chemical savings.
+              </div>
+
+              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1]">
+                {isHindi
+                  ? "अपनी फसल का अतिरिक्त शुद्ध मुनाफा जानें"
+                  : "Calculate Your Real Seasonal Profit Surge"}
+              </h2>
+
+              <p className="font-sans text-[#4f624f] text-sm sm:text-base leading-relaxed">
+                {isHindi
+                  ? "रकबा चुनें और देखें कि बायो-प्लग नर्सरी और वैज्ञानिक पोषण से कितनी सीधी नकद बचत होती है।"
+                  : "Adjust your cultivated acreage to see verified sapling survival, chemical savings, and harvest gains."}
+              </p>
+            </div>
+
+            {/* Acreage Controller */}
+            <div className="border-y border-[#143d31]/10 py-5 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                    {isHindi ? "खेती का रकबा:" : "Cultivated Area:"}
+                  </span>
+                  <p className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31]">
+                    {calculatorAcres}{" "}
+                    <span className="font-sans text-sm font-semibold text-[#4f624f]">
+                      {isHindi ? "एकड़" : "Acres"}
+                    </span>
+                  </p>
+                </div>
+
+                {/* Quick Presets */}
+                <div className="flex gap-1.5">
+                  {presets.map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setCalculatorAcres(preset)}
+                      className={`cursor-pointer rounded-full px-3 py-1 font-mono text-xs font-bold transition-all ${
+                        calculatorAcres === preset
+                          ? "bg-[#143d31] text-[#a3e635]"
+                          : "border border-[#143d31]/15 bg-white text-[#143d31] hover:bg-white/90"
+                      }`}
+                    >
+                      {preset}A
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <input
+                id="acreage-range"
+                type="range"
+                min={1}
+                max={50}
+                value={calculatorAcres}
+                onChange={(e) => setCalculatorAcres(Number(e.target.value))}
+                className="w-full h-2 bg-[#143d31]/15 rounded-lg appearance-none cursor-pointer accent-[#143d31]"
+              />
+            </div>
+
+            {/* 3 High-Impact Live Metrics (Clean Line Rows) */}
+            <div className="grid grid-cols-3 gap-4 border-b border-[#143d31]/10 pb-6">
+              <div className="border-l-2 border-[#5d7d37] pl-3">
+                <p className="font-display text-xl sm:text-2xl font-bold text-[#143d31]">98%</p>
+                <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                  {isHindi ? "पौध जमाव" : "Survival"}
+                </p>
+                <span className="font-sans text-[11px] text-[#4f624f] block mt-0.5">
+                  {isHindi ? "+38% अधिक" : "+38% vs Sowing"}
+                </span>
+              </div>
+
+              <div className="border-l-2 border-[#5d7d37] pl-3">
+                <p className="font-display text-xl sm:text-2xl font-bold text-[#143d31]">-58%</p>
+                <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                  {isHindi ? "खाद खर्च बचत" : "Input Savings"}
+                </p>
+                <span className="font-sans text-[11px] text-[#4f624f] block mt-0.5">
+                  ₹10.5k/ac {isHindi ? "बचत" : "saved"}
+                </span>
+              </div>
+
+              <div className="border-l-2 border-[#5d7d37] pl-3">
+                <p className="font-display text-xl sm:text-2xl font-bold text-[#143d31]">+25%</p>
+                <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                  {isHindi ? "कुल उपज" : "Yield Gain"}
+                </p>
+                <span className="font-sans text-[11px] text-[#4f624f] block mt-0.5">
+                  +30 Qtl/ac
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Visual Real Imagery with Live Overlay Telemetry */}
+          <div className="lg:col-span-6 relative">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-[#143d31]/10 bg-[#143d31]/5 shadow-xl">
+              <img
+                src="/services/hero-precision-farm.jpg"
+                alt="Precision farming yield results"
+                className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+              {/* Top Tag */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-[#a3e635] border border-white/10">
+                <Sparkle className="h-3.5 w-3.5" weight="fill" />
+                <span>{isHindi ? "लाइव सिमुलेशन" : "Verified Field Model"}</span>
+              </div>
+
+              {/* Bottom Live Calculated Return Telemetry */}
+              <div className="absolute bottom-5 left-5 right-5 text-white">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#a3e635] block mb-1">
+                  {isHindi ? `कुल अतिरिक्त शुद्ध लाभ (${calculatorAcres} एकड़)` : `Estimated Net Profit Delta (${calculatorAcres} Acres)`}
+                </span>
+
+                <p className="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                  +₹{totalNetGain.toLocaleString("en-IN")}
+                </p>
+
+                <p className="font-sans text-xs text-white/80 mt-1">
+                  {isHindi
+                    ? `₹${extraRevenue.toLocaleString("en-IN")} अतिरिक्त उपज + ₹${chemicalSavings.toLocaleString("en-IN")} रासायनिक खाद बचत`
+                    : `Combines ₹${extraRevenue.toLocaleString("en-IN")} extra harvest + ₹${chemicalSavings.toLocaleString("en-IN")} chemical savings`}
                 </p>
               </div>
             </div>

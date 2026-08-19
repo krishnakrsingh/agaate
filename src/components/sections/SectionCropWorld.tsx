@@ -11,6 +11,7 @@ import {
   ShoppingBagOpen,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 const CropWorld = lazy(() => import("../crop-world"));
 
@@ -241,13 +242,15 @@ export default function SectionCropWorld() {
                       ))}
                     </div>
                   </div>
-                  <a
+                  <SlideUpPillButton
                     href={getStageField(stage.key, "ctaLink", stage.ctaLink)}
-                    className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-forest-deep text-cream text-xs font-semibold hover:bg-forest transition-colors"
-                  >
-                    <span>{getStageField(stage.key, "ctaText", stage.ctaText)}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                    variant="dark"
+                    size="sm"
+                    fullWidth
+                    label={getStageField(stage.key, "ctaText", stage.ctaText)}
+                    icon={<ArrowRight className="w-3.5 h-3.5" />}
+                    iconPosition="right"
+                  />
                 </div>
               );
             })}
@@ -342,13 +345,14 @@ export default function SectionCropWorld() {
                     </div>
 
                     {/* Direct Action CTA Button */}
-                    <a
+                    <SlideUpPillButton
                       href={getStageField(stage.key, "ctaLink", stage.ctaLink)}
-                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-forest-deep text-cream font-sans text-xs lg:text-sm font-semibold tracking-wide hover:bg-forest hover:shadow-lg transition-all transform hover:-translate-y-0.5 group"
-                    >
-                      <span>{getStageField(stage.key, "ctaText", stage.ctaText)}</span>
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </a>
+                      variant="dark"
+                      size="md"
+                      label={getStageField(stage.key, "ctaText", stage.ctaText)}
+                      icon={<ArrowRight className="w-4 h-4" />}
+                      iconPosition="right"
+                    />
                   </div>
                 );
               })}

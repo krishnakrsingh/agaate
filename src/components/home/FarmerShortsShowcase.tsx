@@ -9,12 +9,12 @@ import {
   WhatsappLogo,
   SpeakerHigh,
   SpeakerSlash,
-  ArrowUpRight,
   Star,
   ShieldCheck,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { EASE } from "@/components/common/motion";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 export interface FarmerShort {
   id: string;
@@ -264,16 +264,16 @@ export default function FarmerShortsShowcase() {
             </button>
           </div>
 
-          <a
+          <SlideUpPillButton
             href="https://wa.me/918350085005?text=Namaste%20Agaate%20Team%2C%20I%20want%20to%20share%20my%20farm%20story."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#143d31] px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-[#1a4d3e] transition-all cursor-pointer"
-          >
-            <WhatsappLogo className="h-4 w-4 text-[#a3e635]" weight="fill" />
-            <span>{isHindi ? "अपनी कहानी साझा करें" : "Share Your Story"}</span>
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </a>
+            variant="dark"
+            size="sm"
+            label={isHindi ? "अपनी कहानी साझा करें" : "Share Your Story"}
+            icon={<WhatsappLogo className="h-4 w-4" weight="fill" />}
+            iconPosition="left"
+          />
         </div>
       </div>
 
@@ -543,17 +543,19 @@ export default function FarmerShortsShowcase() {
 
                   {/* Connect with Agronomist Action */}
                   <div className="pt-0.5">
-                    <a
+                    <SlideUpPillButton
                       href={`https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20saw%20${encodeURIComponent(
                         activeModalShort.name,
                       )}%27s%20story%20and%20want%20to%20learn%20more.`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#a3e635] px-4 py-2.5 text-xs font-bold text-[#143d31] hover:bg-[#b5f247] transition-all cursor-pointer shadow-md"
-                    >
-                      <WhatsappLogo className="h-4 w-4" />
-                      <span>{isHindi ? "इस फसल के बारे में पूछें" : "Ask About This Crop"}</span>
-                    </a>
+                      variant="lime"
+                      size="sm"
+                      fullWidth
+                      label={isHindi ? "इस फसल के बारे में पूछें" : "Ask About This Crop"}
+                      icon={<WhatsappLogo className="h-4 w-4" weight="fill" />}
+                      iconPosition="left"
+                    />
                   </div>
                 </div>
               </div>

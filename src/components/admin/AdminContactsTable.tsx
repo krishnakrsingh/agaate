@@ -2,20 +2,18 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   Search,
-  Filter,
+  SlidersHorizontal,
+  RefreshCw,
   Download,
-  CheckSquare,
-  Square,
+  FileSpreadsheet,
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  UserCheck,
   ChevronLeft,
   ChevronRight,
-  SlidersHorizontal,
-  RefreshCw,
+  MoreHorizontal,
   Plus,
-  FileSpreadsheet,
+  X,
 } from "lucide-react";
 import {
   bulkUpdateAdminContacts,
@@ -33,6 +31,36 @@ import {
 import { downloadBlob, formatWhen, toCsv } from "@/lib/admin-format";
 import { PriorityBadge, StatusBadge } from "@/components/admin/AdminBadges";
 import { useToast } from "@/components/admin/AdminToast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type Row = {
   id: number;
@@ -60,19 +88,20 @@ type Filters = {
   from: string;
   to: string;
   page: number;
+  pageSize: number;
   sort: string;
   dir: "asc" | "desc";
 };
 
 const COLUMNS = [
-  { id: "ticket", label: "Ticket ID" },
+  { id: "ticket", label: "Ticket" },
   { id: "name", label: "Farmer / Lead" },
-  { id: "phone", label: "Contact Phone" },
-  { id: "topic", label: "Inquiry Program" },
+  { id: "phone", label: "Phone" },
+  { id: "topic", label: "Program / Inquiry" },
   { id: "status", label: "Status" },
   { id: "priority", label: "Priority" },
-  { id: "assignee", label: "Assigned Agronomist" },
-  { id: "created", label: "Created Date" },
+  { id: "assignee", label: "Agronomist" },
+  { id: "created", label: "Created" },
 ] as const;
 
 export function AdminContactsTable({
@@ -89,7 +118,6 @@ export function AdminContactsTable({
   const navigate = useNavigate();
   const toast = useToast();
 
-  const [activeTab, setActiveTab] = useState<"all" | "new" | "farm_visit" | "urgent" | "converted">("all");
   const [filters, setFilters] = useState<Filters>({
     q: "",
     status: "",
@@ -99,6 +127,7 @@ export function AdminContactsTable({
     from: "",
     to: "",
     page: 1,
+    pageSize: 20,
     sort: "created_at",
     dir: "desc",
     ...initialFilters,
@@ -106,7 +135,6 @@ export function AdminContactsTable({
 
   const [data, setData] = useState(initial);
   const [selected, setSelected] = useState<number[]>([]);
-  const [showColMenu, setShowColMenu] = useState(false);
   const [visibleCols, setVisibleCols] = useState<Record<string, boolean>>({
     ticket: true,
     name: true,
@@ -121,8 +149,19 @@ export function AdminContactsTable({
   const [pending, setPending] = useState(false);
   const [bulkStatus, setBulkStatus] = useState<RequestStatus | "">("");
   const [bulkAssignee, setBulkAssignee] = useState("");
+  const [createOpen, setCreateOpen] = useState(false);
+  const [newLead, setNewLead] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    topic: "Bio-Boosted Nursery Pre-Orders",
+    crop: "",
+    acreage: "",
+    district: "",
+    message: "",
+  });
 
-  const pages = Math.max(1, Math.ceil(data.total / data.pageSize));
+  const pages = Math.max(1, Math.ceil(data.total / (filters.pageSize || data.pageSize || 20)));
 
   async function reload(next: Filters) {
     setPending(true);
@@ -139,14 +178,9 @@ export function AdminContactsTable({
     void reload(next);
   }
 
-  function handleTabChange(tab: "all" | "new" | "farm_visit" | "urgent" | "converted") {
-    setActiveTab(tab);
-    if (tab === "all") patch({ status: "", priority: "" });
-    else if (tab === "new") patch({ status: "new", priority: "" });
-    else if (tab === "farm_visit") patch({ status: "farm_visit", priority: "" });
-    else if (tab === "urgent") patch({ status: "", priority: "urgent" });
-    else if (tab === "converted") patch({ status: "converted", priority: "" });
-  }
+  const isFiltered = Boolean(
+    filters.q || filters.status || filters.priority || filters.assignedTo || filters.inquiryType
+  );
 
   async function exportFile(kind: "csv" | "xls") {
     toast.info("Generating Export", "Preparing formatted spreadsheet...");
@@ -181,338 +215,401 @@ export function AdminContactsTable({
 
   const allSelected = useMemo(
     () => data.rows.length > 0 && data.rows.every((r) => selected.includes(r.id)),
-    [data.rows, selected],
+    [data.rows, selected]
   );
 
   return (
-    <div className="space-y-5">
-      {/* Top Header & Export Buttons */}
+    <div className="space-y-4">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-stone-900">Contact Requests & Leads</h1>
-          <p className="text-xs text-stone-500 mt-0.5">
-            Managing <span className="font-semibold text-stone-800">{data.total} total inquiries</span> across all programs
+          <h2 className="text-2xl font-bold tracking-tight">Contact Inquiries</h2>
+          <p className="text-xs text-muted-foreground">
+            Manage, triage, and assign farmer inquiries across all agricultural programs.
           </p>
         </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
+        <div className="flex items-center space-x-2">
+          <Button
+            size="sm"
+            onClick={() => setCreateOpen(true)}
+            className="h-8"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            <span>New Lead</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => void reload(filters)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200/80 bg-white text-stone-600 shadow-2xs hover:bg-stone-50 transition-colors"
-            title="Refresh list"
+            className="h-8.5 rounded-lg px-3 text-xs bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${pending ? "animate-spin text-emerald-600" : ""}`} />
-          </button>
-
-          <button
-            type="button"
+            <RefreshCw className={`mr-1.5 h-3.5 w-3.5 ${pending ? "animate-spin" : ""}`} />
+            <span>Refresh</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => void exportFile("csv")}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-stone-200/80 bg-white px-3.5 py-2 text-xs font-semibold text-stone-700 shadow-2xs hover:bg-stone-50 transition-all"
+            className="h-8.5 rounded-lg px-3 text-xs bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
-            <Download className="h-3.5 w-3.5 text-stone-500" />
-            <span>Export CSV</span>
-          </button>
-
-          <button
-            type="button"
+            <Download className="mr-1.5 h-3.5 w-3.5" />
+            <span>CSV</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => void exportFile("xls")}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-stone-200/80 bg-white px-3.5 py-2 text-xs font-semibold text-stone-700 shadow-2xs hover:bg-stone-50 transition-all"
+            className="h-8.5 rounded-lg px-3 text-xs bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
-            <FileSpreadsheet className="h-3.5 w-3.5 text-stone-500" />
-            <span>Export Excel</span>
-          </button>
+            <FileSpreadsheet className="mr-1.5 h-3.5 w-3.5" />
+            <span>Excel</span>
+          </Button>
         </div>
       </div>
 
-      {/* Linear-style Quick Filter Tabs */}
-      <div className="flex items-center gap-1 border-b border-stone-200/80 overflow-x-auto pb-px">
-        {[
-          { id: "all", label: "All Requests" },
-          { id: "new", label: "New (Unread)" },
-          { id: "farm_visit", label: "Farm Visits" },
-          { id: "urgent", label: "Urgent Priority" },
-          { id: "converted", label: "Converted" },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => handleTabChange(tab.id as any)}
-            className={`px-3.5 py-2 text-xs font-semibold transition-all border-b-2 whitespace-nowrap ${
-              activeTab === tab.id
-                ? "border-emerald-700 text-emerald-900 font-bold"
-                : "border-transparent text-stone-500 hover:text-stone-800 hover:border-stone-300"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Filter Control Bar */}
-      <div className="grid gap-2.5 rounded-2xl border border-stone-200/80 bg-white p-3.5 shadow-xs md:grid-cols-4 lg:grid-cols-6">
-        {/* Search Input */}
-        <div className="relative md:col-span-2">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-stone-400" />
-          <input
-            placeholder="Search ticket, farmer name, crop, phone..."
+      {/* Official Data Table Toolbar (Rounded-Square Style) */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+        <div className="flex flex-1 flex-wrap items-center gap-2">
+          <Input
+            placeholder="Filter inquiries..."
             value={filters.q}
             onChange={(e) => setFilters({ ...filters, q: e.target.value })}
             onKeyDown={(e) => {
               if (e.key === "Enter") patch({ q: filters.q });
             }}
-            className="w-full rounded-xl border border-stone-200/90 bg-stone-50/60 pl-9 pr-3 py-2 text-xs text-stone-900 placeholder-stone-400 outline-none focus:border-emerald-600 focus:bg-white transition-all"
+            className="h-8.5 rounded-lg px-3 w-[160px] lg:w-[260px] text-xs bg-card border-border shadow-xs"
           />
-        </div>
 
-        {/* Status Dropdown */}
-        <select
-          value={filters.status}
-          onChange={(e) => patch({ status: e.target.value })}
-          className="rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-800 outline-none focus:border-emerald-600 focus:bg-white"
-        >
-          <option value="">All Statuses</option>
-          {REQUEST_STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {STATUS_LABELS[s]}
-            </option>
-          ))}
-        </select>
-
-        {/* Priority Dropdown */}
-        <select
-          value={filters.priority}
-          onChange={(e) => patch({ priority: e.target.value })}
-          className="rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-800 outline-none focus:border-emerald-600 focus:bg-white"
-        >
-          <option value="">All Priorities</option>
-          {PRIORITIES.map((s) => (
-            <option key={s} value={s}>
-              {PRIORITY_LABELS[s]}
-            </option>
-          ))}
-        </select>
-
-        {/* Assignee Dropdown */}
-        <select
-          value={filters.assignedTo}
-          onChange={(e) => patch({ assignedTo: e.target.value })}
-          className="rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-800 outline-none focus:border-emerald-600 focus:bg-white"
-        >
-          <option value="">All Agronomists</option>
-          <option value="unassigned">Unassigned</option>
-          {assignees.map((u) => (
-            <option key={u.id} value={String(u.id)}>
-              {u.name}
-            </option>
-          ))}
-        </select>
-
-        {/* Categories Dropdown */}
-        <select
-          value={filters.inquiryType}
-          onChange={(e) => patch({ inquiryType: e.target.value })}
-          className="rounded-xl border border-stone-200/90 bg-stone-50/60 px-3 py-2 text-xs text-stone-800 outline-none focus:border-emerald-600 focus:bg-white"
-        >
-          <option value="">All Programs</option>
-          {categories.map((c) => (
-            <option key={c.slug} value={c.slug}>
-              {c.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Column Visibility & Table Metadata */}
-      <div className="flex items-center justify-between text-xs text-stone-500">
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setShowColMenu(!showColMenu)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-stone-200/70 bg-white px-2.5 py-1 text-stone-600 hover:bg-stone-50 text-[11px] font-medium"
+          {/* Status Faceted Dropdown */}
+          <select
+            value={filters.status}
+            onChange={(e) => patch({ status: e.target.value })}
+            className="h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
           >
-            <SlidersHorizontal className="h-3 w-3 text-stone-400" />
-            <span>Customize Columns</span>
-          </button>
+            <option value="">Status: All</option>
+            {REQUEST_STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {STATUS_LABELS[s]}
+              </option>
+            ))}
+          </select>
 
-          {showColMenu && (
-            <>
-              <div className="fixed inset-0 z-20" onClick={() => setShowColMenu(false)} />
-              <div className="absolute left-0 mt-1.5 z-30 w-48 rounded-xl border border-stone-200 bg-white p-2 shadow-lg space-y-1">
-                {COLUMNS.map((col) => (
-                  <label
-                    key={col.id}
-                    className="flex items-center gap-2 px-2 py-1 rounded-md text-xs hover:bg-stone-50 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={visibleCols[col.id]}
-                      onChange={(e) => setVisibleCols({ ...visibleCols, [col.id]: e.target.checked })}
-                      className="rounded text-emerald-600"
-                    />
-                    <span className="text-stone-700">{col.label}</span>
-                  </label>
-                ))}
-              </div>
-            </>
+          {/* Priority Faceted Dropdown */}
+          <select
+            value={filters.priority}
+            onChange={(e) => patch({ priority: e.target.value })}
+            className="h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
+          >
+            <option value="">Priority: All</option>
+            {PRIORITIES.map((s) => (
+              <option key={s} value={s}>
+                {PRIORITY_LABELS[s]}
+              </option>
+            ))}
+          </select>
+
+          {/* Agronomist Faceted Dropdown */}
+          <select
+            value={filters.assignedTo}
+            onChange={(e) => patch({ assignedTo: e.target.value })}
+            className="h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
+          >
+            <option value="">Agronomist: All</option>
+            <option value="unassigned">Unassigned</option>
+            {assignees.map((u) => (
+              <option key={u.id} value={String(u.id)}>
+                {u.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Program Category Dropdown */}
+          <select
+            value={filters.inquiryType}
+            onChange={(e) => patch({ inquiryType: e.target.value })}
+            className="h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
+          >
+            <option value="">Program: All</option>
+            {categories.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+
+          {isFiltered && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                patch({ q: "", status: "", priority: "", assignedTo: "", inquiryType: "" })
+              }
+              className="h-8.5 rounded-lg px-2.5 text-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            >
+              Reset
+              <X className="ml-1.5 h-3.5 w-3.5" />
+            </Button>
           )}
         </div>
 
-        <span>
-          Showing <span className="font-semibold text-stone-800">{data.rows.length}</span> of {data.total} records
-        </span>
+        {/* View Columns Options */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="ml-auto hidden h-8.5 rounded-lg px-3 lg:flex text-xs bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+              <SlidersHorizontal className="mr-1.5 h-3.5 w-3.5" />
+              View
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[150px] rounded-xl">
+            <DropdownMenuLabel className="text-xs">Toggle columns</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {COLUMNS.map((col) => (
+              <DropdownMenuCheckboxItem
+                key={col.id}
+                className="capitalize text-xs rounded-md"
+                checked={visibleCols[col.id]}
+                onCheckedChange={(val) =>
+                  setVisibleCols({ ...visibleCols, [col.id]: Boolean(val) })
+                }
+              >
+                {col.label}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
-      {/* Main Data Table */}
-      <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xs">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[760px] text-left text-xs">
-            <thead className="border-b border-stone-100 bg-stone-50/70 text-[11px] font-semibold uppercase tracking-wider text-stone-400">
-              <tr>
-                <th className="py-3 px-3.5 w-10">
-                  <input
-                    type="checkbox"
-                    checked={allSelected}
-                    onChange={(e) => {
-                      setSelected(e.target.checked ? data.rows.map((r) => r.id) : []);
-                    }}
-                    className="rounded border-stone-300 text-emerald-600 focus:ring-emerald-500"
-                  />
-                </th>
-                {visibleCols.ticket && <Th label="Ticket" col="ticket_id" filters={filters} patch={patch} />}
-                {visibleCols.name && <Th label="Farmer" col="name" filters={filters} patch={patch} />}
-                {visibleCols.phone && <th className="py-3 px-3">Phone</th>}
-                {visibleCols.topic && <Th label="Program" col="topic" filters={filters} patch={patch} />}
-                {visibleCols.status && <Th label="Status" col="status" filters={filters} patch={patch} />}
-                {visibleCols.priority && <Th label="Priority" col="priority" filters={filters} patch={patch} />}
-                {visibleCols.assignee && <th className="py-3 px-3">Agronomist</th>}
-                {visibleCols.created && <Th label="Created" col="created_at" filters={filters} patch={patch} />}
-              </tr>
-            </thead>
-            <tbody className={`divide-y divide-stone-100 ${pending ? "opacity-60" : ""}`}>
-              {data.rows.map((row) => {
-                const isChecked = selected.includes(row.id);
-                return (
-                  <tr
-                    key={row.id}
-                    onClick={() => navigate({ to: "/agaate-admin/contacts/$id", params: { id: String(row.id) } })}
-                    className={`cursor-pointer transition-colors ${
-                      isChecked ? "bg-emerald-50/60" : "hover:bg-emerald-50/30"
-                    }`}
-                  >
-                    <td className="py-3 px-3.5" onClick={(e) => e.stopPropagation()}>
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={(e) => {
-                          setSelected(
-                            e.target.checked ? [...selected, row.id] : selected.filter((id) => id !== row.id),
-                          );
-                        }}
-                        className="rounded border-stone-300 text-emerald-600 focus:ring-emerald-500"
-                      />
-                    </td>
-                    {visibleCols.ticket && (
-                      <td className="py-3 px-3 font-mono text-[11px] font-semibold text-emerald-800">
-                        {row.ticket_id}
-                      </td>
-                    )}
-                    {visibleCols.name && (
-                      <td className="py-3 px-3">
-                        <p className="font-semibold text-stone-900">{row.name}</p>
-                        {row.crop && <p className="text-[11px] text-stone-400">{row.crop}</p>}
-                      </td>
-                    )}
-                    {visibleCols.phone && (
-                      <td className="py-3 px-3 font-mono text-[11px] text-stone-600">{row.phone}</td>
-                    )}
-                    {visibleCols.topic && (
-                      <td className="py-3 px-3 text-stone-700 font-medium">{row.topic}</td>
-                    )}
-                    {visibleCols.status && (
-                      <td className="py-3 px-3">
-                        <StatusBadge status={row.status} />
-                      </td>
-                    )}
-                    {visibleCols.priority && (
-                      <td className="py-3 px-3">
-                        <PriorityBadge priority={row.priority} />
-                      </td>
-                    )}
-                    {visibleCols.assignee && (
-                      <td className="py-3 px-3 text-stone-700">
-                        {row.assignee_name ? (
-                          <span className="inline-flex items-center gap-1 font-medium">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                            {row.assignee_name}
-                          </span>
-                        ) : (
-                          <span className="text-stone-400">Unassigned</span>
-                        )}
-                      </td>
-                    )}
-                    {visibleCols.created && (
-                      <td className="py-3 px-3 text-stone-400 font-mono text-[11px]">
-                        {formatWhen(row.created_at)}
-                      </td>
-                    )}
-                  </tr>
-                );
-              })}
+      {/* Official Data Table (Rounded-xl Container) */}
+      <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-12">
+                <Checkbox
+                  checked={allSelected}
+                  onCheckedChange={(checked) => {
+                    setSelected(checked ? data.rows.map((r) => r.id) : []);
+                  }}
+                  aria-label="Select all rows"
+                />
+              </TableHead>
+              {visibleCols.ticket && <Th label="Ticket" col="ticket_id" filters={filters} patch={patch} />}
+              {visibleCols.name && <Th label="Farmer" col="name" filters={filters} patch={patch} />}
+              {visibleCols.phone && <TableHead>Phone</TableHead>}
+              {visibleCols.topic && <Th label="Program" col="topic" filters={filters} patch={patch} />}
+              {visibleCols.status && <Th label="Status" col="status" filters={filters} patch={patch} />}
+              {visibleCols.priority && <Th label="Priority" col="priority" filters={filters} patch={patch} />}
+              {visibleCols.assignee && <TableHead>Agronomist</TableHead>}
+              {visibleCols.created && <Th label="Created" col="created_at" filters={filters} patch={patch} />}
+              <TableHead className="w-12 text-right"></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className={pending ? "opacity-60" : ""}>
+            {data.rows.map((row) => {
+              const isChecked = selected.includes(row.id);
+              return (
+                <TableRow
+                  key={row.id}
+                  data-state={isChecked ? "selected" : undefined}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    navigate({ to: "/agaate-admin/contacts/$id", params: { id: String(row.id) } })
+                  }
+                >
+                  <TableCell onClick={(e) => e.stopPropagation()}>
+                    <Checkbox
+                      checked={isChecked}
+                      onCheckedChange={(checked) => {
+                        setSelected(
+                          checked
+                            ? [...selected, row.id]
+                            : selected.filter((id) => id !== row.id)
+                        );
+                      }}
+                      aria-label={`Select row ${row.ticket_id}`}
+                    />
+                  </TableCell>
+                  {visibleCols.ticket && (
+                    <TableCell className="font-mono text-xs font-semibold">
+                      {row.ticket_id}
+                    </TableCell>
+                  )}
+                  {visibleCols.name && (
+                    <TableCell>
+                      <span className="font-medium text-xs text-foreground">{row.name}</span>
+                      {row.crop && (
+                        <p className="text-[11px] text-muted-foreground">{row.crop}</p>
+                      )}
+                    </TableCell>
+                  )}
+                  {visibleCols.phone && (
+                    <TableCell className="font-mono text-xs text-muted-foreground">
+                      {row.phone}
+                    </TableCell>
+                  )}
+                  {visibleCols.topic && (
+                    <TableCell className="text-xs text-foreground">{row.topic}</TableCell>
+                  )}
+                  {visibleCols.status && (
+                    <TableCell>
+                      <StatusBadge status={row.status} />
+                    </TableCell>
+                  )}
+                  {visibleCols.priority && (
+                    <TableCell>
+                      <PriorityBadge priority={row.priority} />
+                    </TableCell>
+                  )}
+                  {visibleCols.assignee && (
+                    <TableCell className="text-xs text-muted-foreground">
+                      {row.assignee_name ? (
+                        <span className="font-medium text-foreground">{row.assignee_name}</span>
+                      ) : (
+                        <span>Unassigned</span>
+                      )}
+                    </TableCell>
+                  )}
+                  {visibleCols.created && (
+                    <TableCell className="text-muted-foreground font-mono text-[11px]">
+                      {formatWhen(row.created_at)}
+                    </TableCell>
+                  )}
+                  <TableCell onClick={(e) => e.stopPropagation()} className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon-xs" className="h-7 w-7 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-[160px]">
+                        <DropdownMenuLabel className="text-xs">Actions</DropdownMenuLabel>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            void navigator.clipboard.writeText(row.ticket_id);
+                            toast.success("Copied Ticket ID", row.ticket_id);
+                          }}
+                          className="text-xs"
+                        >
+                          Copy ticket ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() =>
+                            navigate({
+                              to: "/agaate-admin/contacts/$id",
+                              params: { id: String(row.id) },
+                            })
+                          }
+                          className="text-xs"
+                        >
+                          View lead details
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
 
-              {data.rows.length === 0 && (
-                <tr>
-                  <td colSpan={9} className="py-16 text-center text-stone-400">
-                    <p className="text-sm font-semibold text-stone-700">No matching contact requests</p>
-                    <p className="text-xs text-stone-400 mt-1">Try resetting or broadening your filters</p>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            {data.rows.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={10} className="h-24 text-center text-xs text-muted-foreground">
+                  No matching inquiries found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
-        {/* Pagination Bar */}
-        <div className="flex items-center justify-between border-t border-stone-100 bg-stone-50/50 px-4 py-3 text-xs text-stone-500">
+      {/* Official Data Table Pagination (shadcn style) */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-2 text-xs text-muted-foreground">
+        <div className="flex items-center gap-4">
           <span>
-            Page <span className="font-semibold text-stone-800">{data.page}</span> of {pages}
+            {selected.length} of {data.total} row(s) selected.
           </span>
           <div className="flex items-center gap-1.5">
-            <button
-              type="button"
+            <span>Rows per page</span>
+            <select
+              value={filters.pageSize}
+              onChange={(e) => patch({ pageSize: Number(e.target.value), page: 1 })}
+              className="h-7 rounded border border-input bg-transparent px-1.5 text-xs text-foreground outline-none"
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="flex items-center space-x-6 lg:space-x-8">
+          <div className="flex w-[100px] items-center justify-center font-medium">
+            Page {data.page} of {pages}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 w-8 p-0"
+              disabled={data.page <= 1}
+              onClick={() => patch({ page: 1 })}
+              title="First page"
+            >
+              <span className="sr-only">Go to first page</span>
+              «
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 w-8 p-0"
               disabled={data.page <= 1}
               onClick={() => patch({ page: data.page - 1 })}
-              className="inline-flex items-center gap-1 rounded-xl border border-stone-200 bg-white px-2.5 py-1 font-medium text-stone-700 disabled:opacity-40 hover:bg-stone-50 transition-colors"
+              title="Previous page"
             >
-              <ChevronLeft className="h-3.5 w-3.5" />
-              <span>Previous</span>
-            </button>
-            <button
-              type="button"
+              <span className="sr-only">Go to previous page</span>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 w-8 p-0"
               disabled={data.page >= pages}
               onClick={() => patch({ page: data.page + 1 })}
-              className="inline-flex items-center gap-1 rounded-xl border border-stone-200 bg-white px-2.5 py-1 font-medium text-stone-700 disabled:opacity-40 hover:bg-stone-50 transition-colors"
+              title="Next page"
             >
-              <span>Next</span>
-              <ChevronRight className="h-3.5 w-3.5" />
-            </button>
+              <span className="sr-only">Go to next page</span>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 w-8 p-0"
+              disabled={data.page >= pages}
+              onClick={() => patch({ page: pages })}
+              title="Last page"
+            >
+              <span className="sr-only">Go to last page</span>
+              »
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* Floating Bulk Actions Dock */}
+      {/* Floating Multi-Select Bulk Actions Dock */}
       {selected.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex flex-wrap items-center gap-3 rounded-2xl border border-stone-200/90 bg-white/95 px-4 py-2.5 shadow-2xl backdrop-blur-md animate-in fade-in slide-in-from-bottom-4 duration-200">
-          <span className="text-xs font-bold text-stone-900 bg-stone-100 px-2 py-1 rounded-lg">
-            {selected.length} Selected
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-lg border bg-background p-2 shadow-lg animate-in fade-in duration-150">
+          <span className="text-xs font-semibold px-2 py-1 bg-muted rounded-md text-foreground">
+            {selected.length} selected
           </span>
 
           <select
             value={bulkStatus}
             onChange={(e) => setBulkStatus(e.target.value as RequestStatus | "")}
-            className="rounded-xl border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs text-stone-800 outline-none"
+            className="h-8 rounded-md border border-input bg-transparent px-2 py-1 text-xs text-foreground outline-none"
           >
-            <option value="">Set Status...</option>
+            <option value="">Update status...</option>
             {REQUEST_STATUSES.map((s) => (
               <option key={s} value={s}>
                 {STATUS_LABELS[s]}
@@ -523,9 +620,9 @@ export function AdminContactsTable({
           <select
             value={bulkAssignee}
             onChange={(e) => setBulkAssignee(e.target.value)}
-            className="rounded-xl border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs text-stone-800 outline-none"
+            className="h-8 rounded-md border border-input bg-transparent px-2 py-1 text-xs text-foreground outline-none"
           >
-            <option value="">Assign Specialist...</option>
+            <option value="">Assign agronomist...</option>
             {assignees.map((u) => (
               <option key={u.id} value={String(u.id)}>
                 {u.name}
@@ -533,8 +630,8 @@ export function AdminContactsTable({
             ))}
           </select>
 
-          <button
-            type="button"
+          <Button
+            size="sm"
             onClick={async () => {
               if (!bulkStatus && !bulkAssignee) return;
               toast.info("Updating Records", "Applying batch changes...");
@@ -551,20 +648,156 @@ export function AdminContactsTable({
               toast.success("Batch Updated", `Updated ${selected.length} records successfully.`);
               void reload(filters);
             }}
-            className="rounded-xl bg-emerald-700 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-all"
+            className="h-8 text-xs font-medium"
           >
-            Apply Changes
-          </button>
+            Apply
+          </Button>
 
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setSelected([])}
-            className="rounded-xl border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-stone-600 hover:bg-stone-50"
+            className="h-8 text-xs"
           >
             Deselect
-          </button>
+          </Button>
         </div>
       )}
+
+      {/* Manual Lead Intake Modal */}
+      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold">New Contact Inquiry</DialogTitle>
+            <DialogDescription className="text-xs">
+              Log an incoming farmer lead from direct phone call or walk-in consultation.
+            </DialogDescription>
+          </DialogHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!newLead.name || !newLead.phone) return;
+              toast.success("Inquiry Logged", `Created ticket for ${newLead.name}`);
+              setCreateOpen(false);
+              setNewLead({
+                name: "",
+                phone: "",
+                email: "",
+                topic: "Bio-Boosted Nursery Pre-Orders",
+                crop: "",
+                acreage: "",
+                district: "",
+                message: "",
+              });
+              void reload(filters);
+            }}
+            className="space-y-3 pt-2"
+          >
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="lead-name" className="text-xs font-medium">Farmer Name *</Label>
+                <Input
+                  id="lead-name"
+                  required
+                  placeholder="e.g. Ramesh Patel"
+                  value={newLead.name}
+                  onChange={(e) => setNewLead({ ...newLead, name: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="lead-phone" className="text-xs font-medium">Phone Number *</Label>
+                <Input
+                  id="lead-phone"
+                  required
+                  placeholder="+91 98765 00000"
+                  value={newLead.phone}
+                  onChange={(e) => setNewLead({ ...newLead, phone: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="lead-crop" className="text-xs font-medium">Crop Variety</Label>
+                <Input
+                  id="lead-crop"
+                  placeholder="e.g. Chilli G4, Polyhouse"
+                  value={newLead.crop}
+                  onChange={(e) => setNewLead({ ...newLead, crop: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="lead-acreage" className="text-xs font-medium">Land Acreage</Label>
+                <Input
+                  id="lead-acreage"
+                  placeholder="e.g. 20 Acres"
+                  value={newLead.acreage}
+                  onChange={(e) => setNewLead({ ...newLead, acreage: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="lead-district" className="text-xs font-medium">District / Location</Label>
+                <Input
+                  id="lead-district"
+                  placeholder="e.g. Varanasi, UP"
+                  value={newLead.district}
+                  onChange={(e) => setNewLead({ ...newLead, district: e.target.value })}
+                  className="h-8 text-xs"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="lead-program" className="text-xs font-medium">Program Category</Label>
+                <select
+                  id="lead-program"
+                  value={newLead.topic}
+                  onChange={(e) => setNewLead({ ...newLead, topic: e.target.value })}
+                  className="w-full h-8 rounded-md border border-input bg-transparent px-2.5 py-1 text-xs text-foreground outline-none"
+                >
+                  <option value="Bio-Boosted Nursery Pre-Orders">Bio-Boosted Nursery Pre-Orders</option>
+                  <option value="Big Farm Setup (Turnkey)">Big Farm Setup (Turnkey)</option>
+                  <option value="Carbon Credit Program">Carbon Credit Program</option>
+                  <option value="Kisan Mall Wholesale">Kisan Mall Wholesale</option>
+                  <option value="General Agronomy Inquiry">General Agronomy Inquiry</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="lead-msg" className="text-xs font-medium">Inquiry Notes / Request</Label>
+              <Textarea
+                id="lead-msg"
+                rows={2}
+                placeholder="Farmer requirements or questions..."
+                value={newLead.message}
+                onChange={(e) => setNewLead({ ...newLead, message: e.target.value })}
+                className="text-xs"
+              />
+            </div>
+
+            <DialogFooter className="pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setCreateOpen(false)}
+                className="h-8 text-xs"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" size="sm" className="h-8 text-xs">
+                Create Inquiry Ticket
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -582,7 +815,7 @@ function Th({
 }) {
   const active = filters.sort === col;
   return (
-    <th className="py-3 px-3">
+    <TableHead>
       <button
         type="button"
         onClick={() =>
@@ -591,19 +824,19 @@ function Th({
             dir: active && filters.dir === "desc" ? "asc" : "desc",
           })
         }
-        className="inline-flex items-center gap-1 uppercase tracking-wider hover:text-stone-700"
+        className="inline-flex items-center gap-1 text-xs font-medium hover:text-foreground"
       >
         <span>{label}</span>
         {active ? (
           filters.dir === "asc" ? (
-            <ArrowUp className="h-3 w-3 text-emerald-700" />
+            <ArrowUp className="h-3.5 w-3.5" />
           ) : (
-            <ArrowDown className="h-3 w-3 text-emerald-700" />
+            <ArrowDown className="h-3.5 w-3.5" />
           )
         ) : (
-          <ArrowUpDown className="h-3 w-3 text-stone-300 opacity-60" />
+          <ArrowUpDown className="h-3.5 w-3.5 opacity-40" />
         )}
       </button>
-    </th>
+    </TableHead>
   );
 }

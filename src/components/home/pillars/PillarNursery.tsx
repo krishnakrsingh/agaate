@@ -2,7 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "../useHomeChapterReveal";
-import { CountUp, TiltCard, MagneticButton, EASE } from "@/components/common/motion";
+import { CountUp, TiltCard, EASE } from "@/components/common/motion";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 export default function PillarNursery() {
   const sectionRef = useHomeChapterReveal("fade-up");
@@ -115,15 +116,14 @@ export default function PillarNursery() {
 
             {/* CTA Button */}
             <div>
-              <MagneticButton strength={0.25} as="a" href="/services#nursery">
-                <span className="group relative inline-flex items-center gap-3 rounded-full bg-[#143d31] px-7 py-3.5 text-xs sm:text-sm font-bold text-white overflow-hidden shadow-md transition-all duration-300 cursor-pointer">
-                  <span className="absolute inset-0 bg-[#5d7d37] transition-transform duration-500 ease-out -translate-x-full group-hover:translate-x-0 origin-left" />
-                  <span className="relative z-10 flex items-center gap-3">
-                    <span>Explore Bio Nurseries</span>
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </span>
-              </MagneticButton>
+              <SlideUpPillButton
+                href="/services#nursery"
+                variant="dark"
+                size="md"
+                label="Explore Bio Nurseries"
+                icon={<ArrowRight className="h-4 w-4" />}
+                iconPosition="right"
+              />
             </div>
           </motion.div>
         </div>

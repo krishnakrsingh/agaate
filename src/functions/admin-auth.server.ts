@@ -100,13 +100,18 @@ export async function handleLogout() {
 }
 
 export async function handleGetSession() {
-  if (isDbConfigured()) {
-    try {
-      await ensureAdminSchema();
-    } catch (e) {
-      console.warn("Could not ensure admin schema:", e);
+  try {
+    if (isDbConfigured()) {
+      try {
+        await ensureAdminSchema();
+      } catch (e) {
+        console.warn("Could not ensure admin schema:", e);
+      }
     }
+    const user = await getSessionUser();
+    return { user };
+  } catch (e) {
+    console.warn("handleGetSession error:", e);
+    return { user: null };
   }
-  const user = await getSessionUser();
-  return { user };
 }

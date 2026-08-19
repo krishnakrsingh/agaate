@@ -1,4 +1,4 @@
-import { Icon } from "@phosphor-icons/react";
+import { type Icon, Check } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 type Option = {
@@ -20,52 +20,64 @@ export function TopicSelector({
   disabled?: boolean;
 }) {
   return (
-    <fieldset disabled={disabled} className="space-y-2">
+    <fieldset disabled={disabled} className="space-y-2.5">
       <legend className="sr-only">What do you need help with?</legend>
-      {options.map((topic) => {
-        const Icon = topic.icon;
-        const selected = value === topic.id;
-        return (
-          <button
-            key={topic.id}
-            type="button"
-            role="radio"
-            aria-checked={selected}
-            onClick={() => onChange(topic.id)}
-            className={cn(
-              "w-full rounded-md border p-3.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40",
-              selected
-                ? "border-forest-deep bg-forest-deep text-white"
-                : "border-neutral-200 bg-white text-forest-deep hover:border-neutral-300",
-            )}
-          >
-            <div className="flex items-start gap-3">
-              {Icon ? (
-                <Icon
-                  className={cn(
-                    "mt-0.5 h-4 w-4 shrink-0",
-                    selected ? "text-white/80" : "text-neutral-400",
-                  )}
-                  strokeWidth={1.75}
-                />
-              ) : null}
-              <div>
-                <span className="block text-sm font-semibold leading-snug">{topic.label}</span>
-                {topic.desc ? (
-                  <span
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        {options.map((topic) => {
+          const Icon = topic.icon;
+          const selected = value === topic.id;
+          return (
+            <button
+              key={topic.id}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => onChange(topic.id)}
+              className={cn(
+                "w-full rounded-2xl border p-4 text-left transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/30",
+                selected
+                  ? "border-[#143d31] bg-[#143d31] text-white shadow-md -translate-y-0.5"
+                  : "border-[#143d31]/12 bg-white text-[#143d31] hover:border-[#143d31]/30 hover:bg-[#f4f8f5]/80",
+              )}
+            >
+              <div className="flex items-start gap-3">
+                {Icon ? (
+                  <div
                     className={cn(
-                      "mt-0.5 block text-xs leading-snug",
-                      selected ? "text-white/70" : "text-neutral-500",
+                      "mt-0.5 flex h-8 w-8 items-center justify-center rounded-xl shrink-0 transition-colors",
+                      selected
+                        ? "bg-white/10 text-[#a3e635]"
+                        : "bg-[#143d31]/5 text-[#5d7d37]",
                     )}
                   >
-                    {topic.desc}
-                  </span>
+                    <Icon className="h-4 w-4" weight={selected ? "duotone" : "bold"} />
+                  </div>
                 ) : null}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="block text-sm font-bold font-display leading-snug truncate">
+                      {topic.label}
+                    </span>
+                    {selected && (
+                      <Check className="h-3.5 w-3.5 text-[#a3e635] shrink-0" weight="bold" />
+                    )}
+                  </div>
+                  {topic.desc ? (
+                    <span
+                      className={cn(
+                        "mt-1 block text-xs leading-relaxed font-sans line-clamp-2",
+                        selected ? "text-white/75" : "text-[#4f624f]",
+                      )}
+                    >
+                      {topic.desc}
+                    </span>
+                  ) : null}
+                </div>
               </div>
-            </div>
-          </button>
-        );
-      })}
+            </button>
+          );
+        })}
+      </div>
     </fieldset>
   );
 }
@@ -82,9 +94,9 @@ export function ChannelGroup({
   disabled?: boolean;
 }) {
   return (
-    <fieldset disabled={disabled}>
-      <legend className="mb-1.5 block text-sm font-medium text-forest-deep">
-        Preferred callback channel
+    <fieldset disabled={disabled} className="space-y-2">
+      <legend className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
+        Preferred Callback Channel
       </legend>
       <div className="flex flex-wrap gap-2" role="radiogroup">
         {options.map((ch) => {
@@ -97,10 +109,10 @@ export function ChannelGroup({
               aria-checked={selected}
               onClick={() => onChange(ch)}
               className={cn(
-                "rounded-md px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40",
+                "cursor-pointer rounded-full px-4 py-2 text-xs font-mono font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/30",
                 selected
-                  ? "bg-forest-deep text-white"
-                  : "border border-neutral-300 bg-white text-forest-deep hover:bg-neutral-50",
+                  ? "bg-[#143d31] text-[#a3e635] shadow-xs"
+                  : "border border-[#143d31]/15 bg-white text-[#143d31] hover:bg-[#f4f8f5]",
               )}
             >
               {ch}

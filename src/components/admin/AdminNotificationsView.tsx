@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
-  Bell,
   CheckCircle2,
   AlertCircle,
   Clock,
   Calendar,
   Sparkles,
   ArrowRight,
-  Trash2,
 } from "lucide-react";
 import { useToast } from "@/components/admin/AdminToast";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 type NotificationItem = {
   id: string;
@@ -45,7 +45,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
     id: "notif-3",
     type: "overdue",
     title: "Overdue Response · Fatima Khan",
-    message: "General Agronomy advisory ticket pending agronomist IPM review for 24+ hours.",
+    message: "General Agronomy advisory ticket pending agronomist review for 24+ hours.",
     time: "3 hours ago",
     unread: true,
     link: "/agaate-admin/contacts/6",
@@ -74,116 +74,98 @@ export function AdminNotificationsView() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
-              Activity Stream
-            </span>
-          </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-stone-900">Notification Center</h1>
-          <p className="text-xs text-stone-500 mt-0.5">
-            Real-time alerts for incoming farmer leads, follow-up deadlines, and agronomist schedules.
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Notifications</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            System alerts for inbound farmer inquiries, follow-up deadlines, and agronomist inspection schedules.
           </p>
         </div>
 
-        <button
-          type="button"
+        <Button
+          variant="outline"
+          size="sm"
           onClick={markAllRead}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-stone-200/80 bg-white px-3.5 py-2 text-xs font-semibold text-stone-700 shadow-2xs hover:bg-stone-50 transition-all shrink-0"
+          className="h-8.5 rounded-lg px-3.5 text-xs bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground font-medium"
         >
-          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-          <span>Mark All as Read</span>
-        </button>
+          <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
+          <span>Mark all as read</span>
+        </Button>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2">
+      <div className="inline-flex items-center rounded-lg bg-muted/60 p-0.5 border border-border/80 shadow-2xs">
         <button
           type="button"
           onClick={() => setFilter("all")}
-          className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
+          className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
             filter === "all"
-              ? "bg-emerald-700 text-white shadow-2xs"
-              : "bg-white border border-stone-200 text-stone-600 hover:bg-stone-50"
+              ? "bg-card text-foreground shadow-xs"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          All Notifications ({notifications.length})
+          All ({notifications.length})
         </button>
         <button
           type="button"
           onClick={() => setFilter("unread")}
-          className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
+          className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
             filter === "unread"
-              ? "bg-emerald-700 text-white shadow-2xs"
-              : "bg-white border border-stone-200 text-stone-600 hover:bg-stone-50"
+              ? "bg-card text-foreground shadow-xs"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           Unread ({notifications.filter((n) => n.unread).length})
         </button>
       </div>
 
-      {/* List */}
+      {/* Feed */}
       <div className="space-y-3">
         {filtered.map((item) => (
           <div
             key={item.id}
-            className={`rounded-2xl border p-4 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+            className={`flex items-center justify-between rounded-xl border p-4 transition-colors shadow-xs ${
               item.unread
-                ? "bg-white border-emerald-200/80 shadow-xs ring-1 ring-emerald-600/10"
-                : "bg-white/80 border-stone-200/70"
+                ? "bg-card border-border hover:border-sidebar-accent"
+                : "bg-muted/20 border-border/60 opacity-80"
             }`}
           >
-            <div className="flex items-start gap-3 min-w-0">
-              <div className="mt-0.5 shrink-0">
-                {item.type === "new_lead" && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-50 text-sky-700">
-                    <Sparkles className="h-4 w-4" />
-                  </div>
-                )}
-                {item.type === "due_today" && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
-                    <Clock className="h-4 w-4" />
-                  </div>
-                )}
-                {item.type === "overdue" && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-700">
-                    <AlertCircle className="h-4 w-4" />
-                  </div>
-                )}
-                {item.type === "visit_confirmed" && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
-                    <Calendar className="h-4 w-4" />
-                  </div>
-                )}
+            <div className="flex items-start space-x-3.5 min-w-0">
+              <div className="shrink-0 p-2.5 rounded-lg bg-muted border border-border text-muted-foreground">
+                {item.type === "new_lead" && <Sparkles className="h-4 w-4" />}
+                {item.type === "due_today" && <Clock className="h-4 w-4" />}
+                {item.type === "overdue" && <AlertCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" />}
+                {item.type === "visit_confirmed" && <Calendar className="h-4 w-4" />}
               </div>
 
-              <div className="min-w-0">
+              <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-xs font-bold text-stone-900">{item.title}</p>
+                  <p className="text-sm font-semibold leading-none text-foreground">{item.title}</p>
                   {item.unread && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-sidebar-primary dark:bg-primary shrink-0" />
                   )}
                 </div>
-                <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">{item.message}</p>
-                <p className="text-[11px] text-stone-400 font-mono mt-1">{item.time}</p>
+                <p className="text-xs text-muted-foreground">{item.message}</p>
+                <span className="text-[11px] text-muted-foreground font-mono inline-block">{item.time}</span>
               </div>
             </div>
 
-            <div className="shrink-0 flex items-center justify-end">
-              <Link
-                to={item.link as any}
-                className="inline-flex items-center gap-1 rounded-xl bg-stone-50 border border-stone-200 px-3 py-1.5 text-xs font-semibold text-stone-700 hover:bg-stone-100 transition-colors"
-              >
-                <span>View Details</span>
-                <ArrowRight className="h-3 w-3" />
+            <Button variant="ghost" size="sm" asChild className="ml-4 shrink-0 text-xs rounded-lg px-2.5 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+              <Link to={item.link as any}>
+                <span>View</span>
+                <ArrowRight className="ml-1 h-3.5 w-3.5" />
               </Link>
-            </div>
+            </Button>
           </div>
         ))}
+
+        {filtered.length === 0 && (
+          <div className="rounded-xl border border-dashed border-border/80 p-8 text-center bg-card/50">
+            <p className="text-xs text-muted-foreground">No notifications in this view.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -2,15 +2,11 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
-  Calendar,
   CheckCircle,
-  MapPin,
-  Plant,
-  QrCode,
-  Users,
   X,
 } from "@phosphor-icons/react";
 import { EASE } from "@/components/common/motion";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [visitDate, setVisitDate] = useState("2026-08-18");
@@ -107,14 +103,13 @@ export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 confirm directions and assemble your trial walkthrough itinerary.
               </p>
 
-              <div className="pt-4">
-                <button
-                  type="button"
+              <div className="pt-4 flex justify-center">
+                <SlideUpPillButton
                   onClick={handleReset}
-                  className="rounded-full bg-forest-deep px-8 py-3.5 text-xs font-bold text-cream hover:bg-forest transition-all cursor-pointer shadow-md"
-                >
-                  Close & Explore 8 Zones
-                </button>
+                  variant="dark"
+                  size="md"
+                  label="Close & Explore 8 Zones"
+                />
               </div>
             </motion.div>
           ) : (
@@ -242,13 +237,15 @@ export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 </div>
 
                 <div className="pt-4">
-                  <button
+                  <SlideUpPillButton
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-forest-deep px-8 py-4 text-xs font-bold text-cream hover:bg-forest shadow-md transition-all cursor-pointer"
-                  >
-                    <span>Register VIP Field Visit Pass</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
+                    variant="dark"
+                    size="lg"
+                    fullWidth
+                    label="Register VIP Field Visit Pass"
+                    icon={<ArrowRight className="h-4 w-4" />}
+                    iconPosition="right"
+                  />
                 </div>
               </form>
             </div>

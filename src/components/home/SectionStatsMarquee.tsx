@@ -1,255 +1,167 @@
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import {
-  Plant,
-  TrendUp,
-  HouseLine,
-  Drop,
-  UsersThree,
+  Tractor,
+  PottedPlant,
+  ChartLineUp,
   Handshake,
-  Package,
-  Users,
+  Warehouse,
+  Drop,
+  GraduationCap,
+  UsersThree,
   type Icon,
 } from "@phosphor-icons/react";
-
 import { useTranslation } from "react-i18next";
+import { CountUp } from "@/components/common/motion";
 
 type StatItem = {
+  id: string;
   icon: Icon;
-  value: string;
-  label: string;
+  numValue: number;
+  prefix?: string;
+  suffixEn: string;
+  suffixHi: string;
+  labelEn: string;
+  labelHi: string;
 };
 
-const row1En: StatItem[] = [
+const ROW_1: StatItem[] = [
   {
-    icon: HouseLine,
-    value: "15,00,000+",
-    label: "ACRES ASSOCIATED",
+    id: "acres",
+    icon: Tractor,
+    numValue: 1500000,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Acres Associated",
+    labelHi: "एकड़ जुड़ा रकबा",
   },
   {
-    icon: Plant,
-    value: "85,00,000+",
-    label: "BIO PLANTS DELIVERED",
+    id: "seedlings",
+    icon: PottedPlant,
+    numValue: 8500000,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Bio Plants Delivered",
+    labelHi: "बायो पौधे सप्लाई",
   },
   {
-    icon: TrendUp,
-    value: "₹10 Cr+",
-    label: "ANNUAL VALUE MANAGED",
+    id: "value",
+    icon: ChartLineUp,
+    numValue: 10,
+    prefix: "₹",
+    suffixEn: " Cr+",
+    suffixHi: " करोड़+",
+    labelEn: "Annual Value Managed",
+    labelHi: "वार्षिक मूल्य प्रबंधन",
   },
   {
+    id: "partners",
     icon: Handshake,
-    value: "50+",
-    label: "SUPPLY PARTNERS",
+    numValue: 50,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Supply Partners",
+    labelHi: "साझेदार ब्रांड्स",
   },
 ];
 
-const row1Hi: StatItem[] = [
+const ROW_2: StatItem[] = [
   {
-    icon: HouseLine,
-    value: "15,00,000+",
-    label: "एकड़ जुड़ा रकबा",
+    id: "skus",
+    icon: Warehouse,
+    numValue: 1000,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Agri-Input SKUs",
+    labelHi: "इनपुट उत्पाद",
   },
   {
-    icon: Plant,
-    value: "85,00,000+",
-    label: "बायो पौधे सप्लाई",
-  },
-  {
-    icon: TrendUp,
-    value: "₹10 करोड़+",
-    label: "वार्षिक मूल्य प्रबंधन",
-  },
-  {
-    icon: Handshake,
-    value: "50+",
-    label: "साझेदार ब्रांड्स",
-  },
-];
-
-const row2En: StatItem[] = [
-  {
-    icon: Package,
-    value: "1000+",
-    label: "AGRI-INPUT SKUS",
-  },
-  {
+    id: "irrigation",
     icon: Drop,
-    value: "200+",
-    label: "SMART IRRIGATIONS",
+    numValue: 200,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Smart Irrigations",
+    labelHi: "स्मार्ट ड्रिप सिंचाई",
   },
   {
+    id: "experts",
+    icon: GraduationCap,
+    numValue: 20,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Kisaan Sathi Experts",
+    labelHi: "किसान साथी विशेषज्ञ",
+  },
+  {
+    id: "farmers",
     icon: UsersThree,
-    value: "20+",
-    label: "KISAAN SATHI EXPERTS",
-  },
-  {
-    icon: Users,
-    value: "2,000+",
-    label: "PARIVAAR FARMERS",
+    numValue: 2000,
+    suffixEn: "+",
+    suffixHi: "+",
+    labelEn: "Parivaar Farmers",
+    labelHi: "संतुष्ट किसान परिवार",
   },
 ];
 
-const row2Hi: StatItem[] = [
-  {
-    icon: Package,
-    value: "1000+",
-    label: "इनपुट उत्पाद",
-  },
-  {
-    icon: Drop,
-    value: "200+",
-    label: "स्मार्ट ड्रिप सिंचाई",
-  },
-  {
-    icon: UsersThree,
-    value: "20+",
-    label: "किसान साथी विशेषज्ञ",
-  },
-  {
-    icon: Users,
-    value: "2,000+",
-    label: "संतुष्ट किसान परिवार",
-  },
-];
+const ALL_STATS = [...ROW_1, ...ROW_2];
 
-function StatPill({ item }: { item: StatItem }) {
+function StatCell({
+  item,
+  isHindi,
+  isInView,
+  isRightCol,
+}: {
+  item: StatItem;
+  isHindi: boolean;
+  isInView: boolean;
+  isRightCol: boolean;
+}) {
   const Icon = item.icon;
+  const suffix = isHindi ? item.suffixHi : item.suffixEn;
+  const label = isHindi ? item.labelHi : item.labelEn;
 
   return (
-    <div className="group inline-flex shrink-0 cursor-grab active:cursor-grabbing select-none items-center rounded-[20px] border border-[#143d31]/12 bg-white p-1.5 shadow-[0_2px_8px_rgba(20,61,49,0.05)] transition-all duration-300 hover:border-[#143d31]/25 hover:shadow-[0_4px_14px_rgba(20,61,49,0.1)] hover:-translate-y-0.5">
-      {/* Icon badge — subtle squircle */}
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[16px] bg-[#1d5242] text-white transition-all duration-300 group-hover:bg-[#143d31] group-hover:scale-105 shadow-xs">
-        <Icon weight="fill" className="h-[21px] w-[21px]" />
-      </span>
+    <div className="relative flex items-center justify-between gap-2.5 sm:gap-3 px-2 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 select-none overflow-hidden rounded-lg">
+      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        {/* Deep Forest Green Icon Emblem */}
+        <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-[9px] sm:rounded-[11px] bg-[#123c30] border border-[#143d31]/20 shadow-[0_1px_4px_rgba(18,60,48,0.2)]">
+          <Icon
+            weight="fill"
+            className="h-4 w-4 sm:h-[18px] sm:w-[18px] text-white"
+          />
+        </span>
 
-      {/* Metric value — clean font-semibold typography */}
-      <span className="ml-3.5 font-display text-[17px] font-semibold tracking-tight text-[#0a221a] tabular-nums leading-none whitespace-nowrap">
-        {item.value}
-      </span>
+        {/* Metric typography */}
+        <div className="flex flex-col min-w-0">
+          <div className="flex items-baseline gap-0.5 font-sans text-[14.5px] sm:text-[16.5px] md:text-[17.5px] font-semibold tracking-tight text-[#0d2a21] tabular-nums leading-none">
+            {item.prefix && (
+              <span className="text-[12px] sm:text-[13.5px] font-medium text-[#5d7d37]">
+                {item.prefix}
+              </span>
+            )}
+            <span>
+              {isInView ? (
+                <CountUp to={item.numValue} suffix={suffix} duration={1.5} />
+              ) : (
+                `0${suffix}`
+              )}
+            </span>
+          </div>
 
-      {/* Divider line */}
-      <span className="mx-3.5 h-4.5 w-[1.5px] bg-[#143d31]/25 shrink-0" />
-
-      {/* Label — bold solid text label */}
-      <span className="mr-4 font-display text-[12px] font-bold tracking-[0.11em] text-[#0a221a] whitespace-nowrap leading-none uppercase">
-        {item.label}
-      </span>
-    </div>
-  );
-}
-
-interface InteractiveMarqueeTrackProps {
-  items: StatItem[];
-  baseSpeed: number; // Pixels per frame (e.g., -0.9 for left, 0.9 for right)
-  className?: string;
-}
-
-function InteractiveMarqueeTrack({
-  items,
-  baseSpeed,
-  className = "",
-}: InteractiveMarqueeTrackProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const xRef = useRef(0);
-  const isDraggingRef = useRef(false);
-  const isHoveredRef = useRef(false);
-  const lastXRef = useRef(0);
-  const dragMomentumRef = useRef(0);
-
-  // 6 repetitions ensure seamless infinite looping on any display width
-  const repeatedItems = [...items, ...items, ...items, ...items, ...items, ...items];
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const onTick = (_time: number, deltaTime: number) => {
-      if (!track) return;
-
-      const singleLoopWidth = track.scrollWidth / 2;
-      if (singleLoopWidth <= 0) return;
-
-      const dtFactor = Math.min(deltaTime / 16.667, 2.5);
-
-      if (!isDraggingRef.current) {
-        // Pause or gently glide on hover for easy reading
-        const currentBase = isHoveredRef.current ? baseSpeed * 0.15 : baseSpeed;
-
-        // Advance position by base speed + drag momentum
-        xRef.current += (currentBase + dragMomentumRef.current) * dtFactor;
-
-        // Smooth physics damping on drag release
-        dragMomentumRef.current *= Math.pow(0.88, dtFactor);
-
-        if (Math.abs(dragMomentumRef.current) < 0.01) dragMomentumRef.current = 0;
-      }
-
-      // Infinite seamless loop wrapping
-      while (xRef.current <= -singleLoopWidth) {
-        xRef.current += singleLoopWidth;
-      }
-      while (xRef.current > 0) {
-        xRef.current -= singleLoopWidth;
-      }
-
-      track.style.transform = `translate3d(${xRef.current}px, 0, 0)`;
-    };
-
-    gsap.ticker.add(onTick);
-
-    return () => {
-      gsap.ticker.remove(onTick);
-    };
-  }, [baseSpeed]);
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    isDraggingRef.current = true;
-    lastXRef.current = e.clientX;
-    dragMomentumRef.current = 0;
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {}
-  };
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) return;
-    const delta = e.clientX - lastXRef.current;
-    xRef.current += delta;
-    dragMomentumRef.current = delta * 1.1;
-    lastXRef.current = e.clientX;
-  };
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) return;
-    isDraggingRef.current = false;
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch {}
-  };
-
-  return (
-    <div
-      className={`relative w-full cursor-grab select-none active:cursor-grabbing ${className}`}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-      onMouseEnter={() => {
-        isHoveredRef.current = true;
-      }}
-      onMouseLeave={() => {
-        isHoveredRef.current = false;
-      }}
-    >
-      <div
-        ref={trackRef}
-        className="flex w-max items-center gap-4 will-change-transform"
-        style={{ transform: "translate3d(0, 0, 0)" }}
-      >
-        {repeatedItems.map((stat, idx) => (
-          <StatPill key={`${stat.label}-${idx}`} item={stat} />
-        ))}
+          <p className="font-mono text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-[0.08em] sm:tracking-[0.11em] text-[#5d7d37] truncate mt-0.5 sm:mt-1 leading-none">
+            {label}
+          </p>
+        </div>
       </div>
+
+      {/* Floating faded vertical divider */}
+      {!isRightCol && (
+        <span
+          className="absolute right-0 top-1/2 -translate-y-1/2 h-8 sm:h-10 md:h-11 w-px bg-gradient-to-b from-transparent via-[#143d31]/22 to-transparent pointer-events-none"
+          aria-hidden="true"
+        />
+      )}
     </div>
   );
 }
@@ -257,20 +169,90 @@ function InteractiveMarqueeTrack({
 export default function SectionStatsMarquee() {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
-  const row1 = isHindi ? row1Hi : row1En;
-  const row2 = isHindi ? row2Hi : row2En;
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#fafbf7] py-6 md:py-8">
-      {/* Edge fade masks */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-52 bg-gradient-to-r from-[#fafbf7] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-52 bg-gradient-to-l from-[#fafbf7] to-transparent" />
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-[#fafbf7] py-1.5 sm:py-2 md:py-2.5 text-[#143d31] overflow-hidden"
+    >
+      {/* Side gradient fade masks */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-4 sm:w-16 md:w-32 bg-gradient-to-r from-[#fafbf7] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-4 sm:w-16 md:w-32 bg-gradient-to-l from-[#fafbf7] to-transparent" />
 
-      {/* Row 1: slides left (baseSpeed < 0) */}
-      <InteractiveMarqueeTrack items={row1} baseSpeed={-0.35} className="mb-3.5 px-3" />
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative mx-auto max-w-7xl px-2 sm:px-4 md:px-8"
+      >
+        {/* Top Faded Line */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-[#143d31]/26 to-transparent" />
 
-      {/* Row 2: slides right (baseSpeed > 0) */}
-      <InteractiveMarqueeTrack items={row2} baseSpeed={0.3} className="px-3" />
+        {/* ── DESKTOP VIEW (md+): 2 rows of 4 columns ── */}
+        <div className="hidden md:block">
+          {/* Row 1 */}
+          <div className="grid grid-cols-4 py-0.5">
+            {ROW_1.map((item, idx) => (
+              <StatCell
+                key={item.id}
+                item={item}
+                isHindi={Boolean(isHindi)}
+                isInView={isInView}
+                isRightCol={idx === ROW_1.length - 1}
+              />
+            ))}
+          </div>
+
+          {/* Middle Faded Line */}
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-[#143d31]/20 to-transparent" />
+
+          {/* Row 2 */}
+          <div className="grid grid-cols-4 py-0.5">
+            {ROW_2.map((item, idx) => (
+              <StatCell
+                key={item.id}
+                item={item}
+                isHindi={Boolean(isHindi)}
+                isInView={isInView}
+                isRightCol={idx === ROW_2.length - 1}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ── MOBILE / TABLET VIEW (< md): 4 balanced rows of 2 columns with consistent dividing lines ── */}
+        <div className="block md:hidden">
+          {[0, 2, 4, 6].map((startIndex, rowIndex) => {
+            const pair = ALL_STATS.slice(startIndex, startIndex + 2);
+            const isLastRow = rowIndex === 3;
+
+            return (
+              <React.Fragment key={startIndex}>
+                <div className="grid grid-cols-2 py-0.5">
+                  {pair.map((item, idx) => (
+                    <StatCell
+                      key={item.id}
+                      item={item}
+                      isHindi={Boolean(isHindi)}
+                      isInView={isInView}
+                      isRightCol={idx === 1}
+                    />
+                  ))}
+                </div>
+
+                {!isLastRow && (
+                  <div className="h-px w-full bg-gradient-to-r from-transparent via-[#143d31]/18 to-transparent" />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+
+        {/* Bottom Faded Line */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-[#143d31]/26 to-transparent" />
+      </motion.div>
     </section>
   );
 }

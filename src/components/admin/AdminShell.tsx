@@ -10,14 +10,12 @@ import {
   Settings,
   LogOut,
   Search,
-  ChevronRight,
-  PanelLeftClose,
-  PanelLeft,
   Sparkles,
-  Plus,
   ArrowUpRight,
-  CheckCircle2,
+  Clock,
   AlertCircle,
+  CheckCircle2,
+  ChevronsUpDown,
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -27,6 +25,48 @@ import { cn } from "@/lib/utils";
 import type { SessionUser } from "@/lib/admin-constants";
 import { ToastProvider } from "@/components/admin/AdminToast";
 import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 type NavItem = {
   to: string;
@@ -42,17 +82,12 @@ const NAV_GROUPS: Array<{
   items: NavItem[];
 }> = [
   {
-    group: "Overview",
+    group: "Platform",
     items: [
       { to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-    ],
-  },
-  {
-    group: "Operations",
-    items: [
       {
         to: "/agaate-admin/contacts",
-        label: "Contact Requests",
+        label: "Contact Inquiries",
         icon: Users,
         badge: (n) => n.newToday,
       },
@@ -63,12 +98,12 @@ const NAV_GROUPS: Array<{
   {
     group: "Directory",
     items: [
-      { to: "/agaate-admin/customers", label: "Customers", icon: Users },
+      { to: "/agaate-admin/customers", label: "Growers Directory", icon: Users },
       { to: "/agaate-admin/agronomists", label: "Agronomists", icon: UserCheck },
     ],
   },
   {
-    group: "Insights & Tools",
+    group: "Configuration",
     items: [
       { to: "/agaate-admin/analytics", label: "Analytics", icon: BarChart3 },
       {
@@ -85,10 +120,7 @@ const NAV_GROUPS: Array<{
 export function AdminShell({ user }: { user: SessionUser }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
   const [notes, setNotes] = useState({ newToday: 6, dueToday: 4, overdue: 2 });
 
   useEffect(() => {
@@ -107,7 +139,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
     };
   }, []);
 
-  // Global Ctrl+K / Cmd+K listener
+  // Global ⌘K listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -121,297 +153,316 @@ export function AdminShell({ user }: { user: SessionUser }) {
 
   const badgeTotal = notes.newToday + notes.dueToday + notes.overdue;
 
-  // Breadcrumb generator
-  const breadcrumb = useMemo(() => {
-    if (pathname === "/agaate-admin" || pathname === "/agaate-admin/") return "Dashboard";
-    if (pathname.startsWith("/agaate-admin/contacts/")) return "Contacts / Detail";
-    if (pathname.startsWith("/agaate-admin/contacts")) return "Operations / Contact Requests";
-    if (pathname.startsWith("/agaate-admin/farm-visits")) return "Operations / Farm Visits";
-    if (pathname.startsWith("/agaate-admin/consultations")) return "Operations / Consultations";
-    if (pathname.startsWith("/agaate-admin/customers")) return "Directory / Customers";
-    if (pathname.startsWith("/agaate-admin/agronomists")) return "Directory / Agronomists";
-    if (pathname.startsWith("/agaate-admin/analytics")) return "Insights / Analytics";
-    if (pathname.startsWith("/agaate-admin/notifications")) return "Insights / Notifications";
-    if (pathname.startsWith("/agaate-admin/settings")) return "System / Settings";
-    return "Agaate Admin";
+  const breadcrumbSegments = useMemo(() => {
+    if (pathname === "/agaate-admin" || pathname === "/agaate-admin/") {
+      return [{ label: "Dashboard", href: "/agaate-admin", current: true }];
+    }
+    if (pathname.startsWith("/agaate-admin/contacts/")) {
+      return [
+        { label: "Contacts", href: "/agaate-admin/contacts", current: false },
+        { label: "Lead Detail", href: pathname, current: true },
+      ];
+    }
+    if (pathname === "/agaate-admin/contacts") {
+      return [
+        { label: "Platform", href: "/agaate-admin/contacts", current: false },
+        { label: "Contact Inquiries", href: "/agaate-admin/contacts", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/farm-visits")) {
+      return [
+        { label: "Platform", href: "/agaate-admin/farm-visits", current: false },
+        { label: "Farm Visits", href: "/agaate-admin/farm-visits", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/consultations")) {
+      return [
+        { label: "Platform", href: "/agaate-admin/consultations", current: false },
+        { label: "Consultations", href: "/agaate-admin/consultations", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/customers")) {
+      return [
+        { label: "Directory", href: "/agaate-admin/customers", current: false },
+        { label: "Growers", href: "/agaate-admin/customers", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/agronomists")) {
+      return [
+        { label: "Directory", href: "/agaate-admin/agronomists", current: false },
+        { label: "Agronomists", href: "/agaate-admin/agronomists", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/analytics")) {
+      return [
+        { label: "Configuration", href: "/agaate-admin/analytics", current: false },
+        { label: "Analytics", href: "/agaate-admin/analytics", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/notifications")) {
+      return [
+        { label: "Configuration", href: "/agaate-admin/notifications", current: false },
+        { label: "Notifications", href: "/agaate-admin/notifications", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/settings")) {
+      return [
+        { label: "Configuration", href: "/agaate-admin/settings", current: false },
+        { label: "Settings", href: "/agaate-admin/settings", current: true },
+      ];
+    }
+    return [{ label: "Admin", href: "/agaate-admin", current: true }];
   }, [pathname]);
-
-  const currentDateFormatted = useMemo(() => {
-    return new Intl.DateTimeFormat("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    }).format(new Date());
-  }, []);
 
   return (
     <ToastProvider>
-      <div className="flex min-h-screen bg-[#f8faf8] text-stone-900 font-sans selection:bg-emerald-100 selection:text-emerald-900">
-        {/* Command Palette */}
-        <AdminCommandPalette isOpen={commandOpen} onClose={() => setCommandOpen(false)} />
-
-        {/* Mobile Backdrop */}
-        {mobileOpen && (
-          <div
-            className="fixed inset-0 z-40 bg-stone-900/20 backdrop-blur-xs md:hidden"
-            onClick={() => setMobileOpen(false)}
-          />
-        )}
-
-        {/* Sidebar */}
-        <aside
-          className={cn(
-            "fixed inset-y-0 left-0 z-40 flex flex-col border-r border-stone-200/80 bg-white/95 backdrop-blur-md transition-all duration-200 md:static",
-            collapsed ? "w-[72px]" : "w-64",
-            mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
-          )}
-        >
-          {/* Logo Header */}
-          <div className="flex h-16 items-center justify-between border-b border-stone-100 px-4">
-            <Link to="/agaate-admin" className="flex items-center gap-2.5 overflow-hidden">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-xs text-white">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              {!collapsed && (
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold tracking-tight text-stone-900 leading-tight">Agaate</span>
-                  <span className="text-[10px] font-medium text-emerald-700 uppercase tracking-wider">
-                    Enterprise Admin
-                  </span>
-                </div>
-              )}
+      <AdminCommandPalette isOpen={commandOpen} onClose={() => setCommandOpen(false)} />
+      <SidebarProvider defaultOpen>
+        <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar">
+          {/* Header */}
+          <SidebarHeader className="h-14 flex flex-row items-center justify-between border-b border-sidebar-border px-4 py-0 shrink-0">
+            <Link to="/agaate-admin" className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="Agaate"
+                className="h-8 md:h-9 w-auto max-w-[165px] object-contain object-left block"
+              />
             </Link>
-            <button
-              type="button"
-              onClick={() => setCollapsed(!collapsed)}
-              className="hidden md:flex h-7 w-7 items-center justify-center rounded-lg text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition-colors"
-              title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-            </button>
-          </div>
+          </SidebarHeader>
 
-          {/* Navigation Links */}
-          <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+          {/* Nav groups */}
+          <SidebarContent className="px-2 py-2">
             {NAV_GROUPS.map((group) => {
               const visibleItems = group.items.filter(
-                (item) => !item.adminOnly || canManageSettings(user.role as AdminRole),
+                (item) => !item.adminOnly || canManageSettings(user.role as AdminRole)
               );
               if (visibleItems.length === 0) return null;
 
               return (
-                <div key={group.group} className="space-y-1">
-                  {!collapsed && (
-                    <p className="px-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-stone-400">
-                      {group.group}
-                    </p>
-                  )}
-                  {visibleItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = item.exact
-                      ? pathname === item.to
-                      : pathname === item.to || pathname.startsWith(`${item.to}/`);
-                    const count = item.badge ? item.badge(notes) : 0;
+                <SidebarGroup key={group.group} className="py-1">
+                  <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground px-2">
+                    {group.group}
+                  </SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      {visibleItems.map((item) => {
+                        const Icon = item.icon;
+                        const active = item.exact
+                          ? pathname === item.to
+                          : pathname === item.to || pathname.startsWith(`${item.to}/`);
+                        const count = item.badge ? item.badge(notes) : 0;
 
-                    return (
-                      <Link
-                        key={item.to}
-                        to={item.to}
-                        onClick={() => setMobileOpen(false)}
-                        title={collapsed ? item.label : undefined}
-                        className={cn(
-                          "group flex items-center justify-between rounded-xl px-2.5 py-2 text-xs font-medium transition-all",
-                          active
-                            ? "bg-emerald-50/90 text-emerald-900 font-semibold shadow-2xs"
-                            : "text-stone-600 hover:bg-stone-100/70 hover:text-stone-900",
-                          collapsed && "justify-center px-0 py-2.5",
-                        )}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          <Icon
-                            className={cn(
-                              "h-4 w-4 shrink-0 transition-colors",
-                              active ? "text-emerald-700 stroke-[2.2]" : "text-stone-400 group-hover:text-stone-700 stroke-[1.8]",
+                        return (
+                          <SidebarMenuItem key={item.to}>
+                            <SidebarMenuButton
+                              asChild
+                              isActive={active}
+                              tooltip={item.label}
+                              className={cn(
+                                "text-xs font-normal",
+                                active && "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                              )}
+                            >
+                              <Link to={item.to}>
+                                <Icon className="size-4" />
+                                <span>{item.label}</span>
+                              </Link>
+                            </SidebarMenuButton>
+                            {count > 0 && (
+                              <SidebarMenuBadge className="text-[10px] font-medium">
+                                {count}
+                              </SidebarMenuBadge>
                             )}
-                          />
-                          {!collapsed && <span className="truncate">{item.label}</span>}
-                        </div>
-                        {!collapsed && count > 0 && (
-                          <span
-                            className={cn(
-                              "rounded-full px-1.5 py-0.5 text-[10px] font-semibold leading-none",
-                              active ? "bg-emerald-200/80 text-emerald-900" : "bg-stone-200/80 text-stone-700",
-                            )}
-                          >
-                            {count}
-                          </span>
-                        )}
-                      </Link>
-                    );
-                  })}
-                </div>
+                          </SidebarMenuItem>
+                        );
+                      })}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
               );
             })}
-          </nav>
+          </SidebarContent>
 
-          {/* Profile & Footer */}
-          <div className="border-t border-stone-100 p-3">
-            <div
-              className={cn(
-                "flex items-center gap-2.5 rounded-xl p-2 bg-stone-50/80 border border-stone-200/50",
-                collapsed && "justify-center p-1.5",
-              )}
-            >
-              <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 font-semibold text-emerald-800 text-xs shadow-2xs">
-                {user.name.charAt(0).toUpperCase()}
-                <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-white" />
-              </div>
-              {!collapsed && (
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <p className="truncate text-xs font-semibold text-stone-900 leading-tight">{user.name}</p>
-                  <p className="truncate text-[10px] text-stone-400 capitalize">{user.role.replace("_", " ")}</p>
-                </div>
-              )}
-              {!collapsed && (
-                <button
-                  type="button"
-                  onClick={async () => {
-                    await logoutAdmin();
-                    await navigate({ to: "/agaate-admin/login", search: { redirect: undefined } });
-                  }}
-                  title="Sign out"
-                  className="rounded-lg p-1 text-stone-400 hover:bg-stone-200/60 hover:text-stone-700 transition-colors"
-                >
-                  <LogOut className="h-3.5 w-3.5" />
-                </button>
-              )}
-            </div>
-          </div>
-        </aside>
-
-        {/* Main Content Area */}
-        <div className="flex min-w-0 flex-1 flex-col">
-          {/* Top Sticky Header */}
-          <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-stone-200/70 bg-white/90 px-4 md:px-8 backdrop-blur-md">
-            {/* Left: Mobile Toggle & Breadcrumb */}
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setMobileOpen(true)}
-                className="flex md:hidden h-8 w-8 items-center justify-center rounded-lg border border-stone-200 text-stone-600 hover:bg-stone-50"
-              >
-                <PanelLeft className="h-4 w-4" />
-              </button>
-
-              <div className="hidden sm:flex items-center gap-1.5 text-xs text-stone-400">
-                <span className="font-medium text-stone-500">Agaate</span>
-                <ChevronRight className="h-3 w-3 text-stone-300" />
-                <span className="font-semibold text-stone-800">{breadcrumb}</span>
-              </div>
-            </div>
-
-            {/* Center: Command Palette Trigger Button */}
-            <button
-              type="button"
-              onClick={() => setCommandOpen(true)}
-              className="flex items-center gap-2 rounded-xl border border-stone-200/80 bg-stone-50/70 px-3 py-1.5 text-xs text-stone-500 shadow-2xs hover:bg-stone-100 hover:text-stone-800 transition-all sm:w-64 justify-between"
-            >
-              <div className="flex items-center gap-2">
-                <Search className="h-3.5 w-3.5 text-stone-400" />
-                <span className="hidden sm:inline">Search anything...</span>
-                <span className="sm:hidden">Search...</span>
-              </div>
-              <kbd className="hidden sm:inline-flex items-center rounded border border-stone-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-stone-400">
-                ⌘K
-              </kbd>
-            </button>
-
-            {/* Right: Date, Quick Actions, Notifications */}
-            <div className="flex items-center gap-2.5">
-              <div className="hidden lg:flex items-center gap-1.5 text-xs font-medium text-stone-400 bg-stone-50 px-2.5 py-1 rounded-lg border border-stone-100">
-                <span>{currentDateFormatted}</span>
-              </div>
-
-              {/* Quick Action Button */}
-              <Link
-                to="/agaate-admin/contacts"
-                className="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-emerald-700 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-all"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                <span>New Request</span>
-              </Link>
-
-              {/* Notifications Dropdown Trigger */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setNotifOpen(!notifOpen)}
-                  className="relative flex h-8 w-8 items-center justify-center rounded-xl border border-stone-200/80 bg-white text-stone-600 shadow-2xs hover:bg-stone-50 transition-colors"
-                  title="Notifications"
-                >
-                  <Bell className="h-4 w-4 text-stone-600 stroke-[1.8]" />
-                  {badgeTotal > 0 && (
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[9px] font-bold text-white shadow-xs">
-                      {badgeTotal}
-                    </span>
-                  )}
-                </button>
-
-                {/* Notifications Dropdown Popover */}
-                {notifOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                    <div className="absolute right-0 mt-2 z-50 w-80 rounded-2xl border border-stone-200/90 bg-white p-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150">
-                      <div className="flex items-center justify-between border-b border-stone-100 pb-2 px-1">
-                        <span className="text-xs font-semibold text-stone-900">Notifications & Alerts</span>
-                        <Link
-                          to="/agaate-admin/notifications"
-                          onClick={() => setNotifOpen(false)}
-                          className="text-[11px] font-medium text-emerald-700 hover:underline inline-flex items-center gap-0.5"
-                        >
-                          View all <ArrowUpRight className="h-3 w-3" />
-                        </Link>
+          {/* User profile dropdown in footer */}
+          <SidebarFooter className="border-t border-sidebar-border p-2">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton
+                      size="lg"
+                      className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                    >
+                      <Avatar className="h-8 w-8 rounded-lg">
+                        <AvatarFallback className="rounded-lg text-xs font-semibold">
+                          {user.name.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="grid flex-1 text-left text-xs leading-tight">
+                        <span className="truncate font-semibold">{user.name}</span>
+                        <span className="truncate text-[10px] text-muted-foreground capitalize">
+                          {user.role.replace("_", " ")}
+                        </span>
                       </div>
-                      <div className="mt-2 space-y-1.5">
-                        <div className="flex items-start gap-2.5 rounded-xl p-2 bg-emerald-50/60 border border-emerald-100">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
-                          <div className="text-xs">
-                            <p className="font-semibold text-emerald-950">{notes.newToday} New Inquiries Today</p>
-                            <p className="text-emerald-700 text-[11px]">Farmers requested nursery & setup calls</p>
-                          </div>
+                      <ChevronsUpDown className="ml-auto size-4 text-muted-foreground" />
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                    side="bottom"
+                    align="end"
+                    sideOffset={4}
+                  >
+                    <DropdownMenuLabel className="p-0 font-normal">
+                      <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                        <Avatar className="h-8 w-8 rounded-lg">
+                          <AvatarFallback className="rounded-lg text-xs font-semibold">
+                            {user.name.charAt(0).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="grid flex-1 text-left text-xs leading-tight">
+                          <span className="truncate font-semibold">{user.name}</span>
+                          <span className="truncate text-[10px] text-muted-foreground">{user.email}</span>
                         </div>
-                        {notes.dueToday > 0 && (
-                          <div className="flex items-start gap-2.5 rounded-xl p-2 bg-amber-50/60 border border-amber-100">
-                            <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
-                            <div className="text-xs">
-                              <p className="font-semibold text-amber-950">{notes.dueToday} Follow-ups Due Today</p>
-                              <p className="text-amber-700 text-[11px]">Scheduled farm inspections & callbacks</p>
-                            </div>
-                          </div>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      {canManageSettings(user.role as AdminRole) && (
+                        <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/settings" })}>
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuItem onClick={() => setCommandOpen(true)}>
+                        <Search className="mr-2 h-4 w-4" />
+                        <span>Command Search (⌘K)</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={async () => {
+                        await logoutAdmin();
+                        await navigate({ to: "/agaate-admin/login", search: { redirect: undefined } });
+                      }}
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
+          <SidebarRail />
+        </Sidebar>
+
+        {/* Main Inset Header & Viewport */}
+        <SidebarInset className="bg-background">
+          <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-4">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground" />
+              <Separator orientation="vertical" className="mr-2 h-4" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink asChild>
+                      <Link to="/agaate-admin">Agaate</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  {breadcrumbSegments.map((segment) => (
+                    <span key={segment.label} className="inline-flex items-center gap-1.5">
+                      <BreadcrumbSeparator className="hidden md:block" />
+                      <BreadcrumbItem>
+                        {segment.current ? (
+                          <BreadcrumbPage>{segment.label}</BreadcrumbPage>
+                        ) : (
+                          <BreadcrumbLink asChild>
+                            <Link to={segment.href}>{segment.label}</Link>
+                          </BreadcrumbLink>
                         )}
-                        {notes.overdue > 0 && (
-                          <div className="flex items-start gap-2.5 rounded-xl p-2 bg-rose-50/60 border border-rose-100">
-                            <AlertCircle className="h-4 w-4 text-rose-600 mt-0.5 shrink-0" />
-                            <div className="text-xs">
-                              <p className="font-semibold text-rose-950">{notes.overdue} Overdue Contacts</p>
-                              <p className="text-rose-700 text-[11px]">Requires prompt agronomist response</p>
-                            </div>
-                          </div>
-                        )}
+                      </BreadcrumbItem>
+                    </span>
+                  ))}
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCommandOpen(true)}
+                className="h-8.5 w-9 sm:w-56 justify-between text-xs text-muted-foreground font-normal px-3 rounded-lg bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+              >
+                <span className="hidden sm:inline-flex items-center gap-2">
+                  <Search className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span>Search...</span>
+                </span>
+                <span className="sm:hidden">
+                  <Search className="h-3.5 w-3.5" />
+                </span>
+                <kbd className="pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded-md border bg-muted/60 px-1.5 font-mono text-[10px] font-medium opacity-90">
+                  <span className="text-xs">⌘</span>K
+                </kbd>
+              </Button>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="icon-sm" className="relative rounded-lg text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors" aria-label="Open notifications">
+                    <Bell className="h-4 w-4" />
+                    {badgeTotal > 0 && (
+                      <span className="absolute top-1.5 right-1.5 flex h-2 w-2 rounded-full bg-destructive" />
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 p-0 rounded-xl border border-border shadow-lg" align="end">
+                  <div className="flex items-center justify-between border-b p-3.5">
+                    <span className="text-xs font-semibold text-foreground">Notifications</span>
+                    <Link
+                      to="/agaate-admin/notifications"
+                      className="text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center gap-0.5 rounded-md px-2 py-0.5 hover:bg-muted"
+                    >
+                      View all <ArrowUpRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                  <div className="p-2 space-y-1 text-xs">
+                    <div className="flex items-start gap-2.5 rounded-md p-2 hover:bg-muted transition-colors">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
+                      <div>
+                        <p className="font-medium text-foreground">{notes.newToday} New Inquiries Today</p>
+                        <p className="text-[11px] text-muted-foreground">Inbound nursery & farm turnkey requests</p>
                       </div>
                     </div>
-                  </>
-                )}
-              </div>
+                    {notes.dueToday > 0 && (
+                      <div className="flex items-start gap-2.5 rounded-md p-2 hover:bg-muted transition-colors">
+                        <Clock className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="font-medium text-foreground">{notes.dueToday} Follow-ups Due</p>
+                          <p className="text-[11px] text-muted-foreground">Scheduled callbacks for today</p>
+                        </div>
+                      </div>
+                    )}
+                    {notes.overdue > 0 && (
+                      <div className="flex items-start gap-2.5 rounded-md p-2 hover:bg-muted transition-colors">
+                        <AlertCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                        <div>
+                          <p className="font-medium text-destructive">{notes.overdue} Overdue Inquiries</p>
+                          <p className="text-[11px] text-muted-foreground">Requires immediate staff response</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </header>
 
-          {/* Page Body */}
-          <main className="flex-1 px-4 py-6 md:px-8 md:py-8 max-w-7xl w-full mx-auto">
+          <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
             <Outlet />
           </main>
-        </div>
-      </div>
+        </SidebarInset>
+      </SidebarProvider>
     </ToastProvider>
   );
 }

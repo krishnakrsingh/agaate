@@ -4,28 +4,46 @@ export default function TrustBand() {
   return (
     <section
       aria-labelledby="trust-heading"
-      className="border-t border-neutral-200 bg-white py-16 md:py-20"
+      className="bg-[#f4f8f5] text-[#143d31] py-12 sm:py-16 border-t border-[#143d31]/10"
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="max-w-xl">
-          <p className="text-sm font-medium text-forest">Why reach out</p>
-          <h2
-            id="trust-heading"
-            className="mt-2 font-display text-3xl font-semibold tracking-tight text-forest-deep"
-          >
-            Clear response times. Real places to visit.
-          </h2>
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+                02 · Verified Response Commitments
+              </p>
+            </div>
+            <h2
+              id="trust-heading"
+              className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31]"
+            >
+              Clear Response Times. Real Places to Visit.
+            </h2>
+          </div>
         </div>
-        <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-neutral-200 bg-neutral-200 lg:grid-cols-4">
-          {TRUST_ITEMS.map((item) => (
-            <div key={item.label} className="bg-white p-6">
-              <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+
+        {/* Card-less Hairline Metrics Ledger */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10 py-6">
+          {TRUST_ITEMS.map((item, idx) => (
+            <div
+              key={item.label}
+              className={`space-y-1 text-left ${
+                idx === 0
+                  ? "sm:pr-6"
+                  : idx === TRUST_ITEMS.length - 1
+                  ? "sm:pl-6 pt-4 sm:pt-0"
+                  : "sm:px-6 pt-4 sm:pt-0"
+              }`}
+            >
+              <p className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
                 {item.label}
               </p>
-              <p className="mt-2 font-display text-xl font-semibold text-forest-deep">
+              <p className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
                 {item.value}
               </p>
-              <p className="mt-1 text-sm text-neutral-500">{item.hint}</p>
+              <p className="font-sans text-xs text-[#4f624f]">{item.hint}</p>
             </div>
           ))}
         </div>

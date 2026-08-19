@@ -8,6 +8,14 @@ gsap.registerPlugin(ScrollTrigger);
 const HEADLINE_EN = "Just real science on the ground.";
 const HEADLINE_HI = "जमीन पर सच्चा कृषि विज्ञान।";
 
+function getGraphemes(text: string, isHindi: boolean): string[] {
+  if (typeof Intl !== "undefined" && Intl.Segmenter) {
+    const segmenter = new Intl.Segmenter(isHindi ? "hi" : "en", { granularity: "grapheme" });
+    return Array.from(segmenter.segment(text), (s) => s.segment);
+  }
+  return text.split("");
+}
+
 export default function FieldSignal() {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
@@ -23,22 +31,28 @@ export default function FieldSignal() {
     const slide = slideRef.current;
     if (!section || !h2 || !slide) return;
 
-    // 1. Split headline into individual letter/character <span>s
-    h2.innerHTML = ""; // Clear text
+    // 1. Build character elements & cursor
+    h2.innerHTML = "";
     const chars: HTMLSpanElement[] = [];
     const words = headline.split(" ");
+
+    // Blinking typewriter cursor element
+    const cursor = document.createElement("span");
+    cursor.className =
+      "inline-block w-[3px] sm:w-[4px] md:w-[5px] lg:w-[6px] h-[0.82em] bg-[#174436] ml-1.5 align-middle rounded-xs animate-typewriter-cursor";
+    cursor.setAttribute("aria-hidden", "true");
 
     words.forEach((word, wi) => {
       const wordWrapper = document.createElement("span");
       wordWrapper.className = "inline-block whitespace-nowrap";
       wordWrapper.setAttribute("aria-hidden", "true");
 
-      word.split("").forEach((char) => {
+      const graphemes = getGraphemes(word, isHindi);
+      graphemes.forEach((char) => {
         const charSpan = document.createElement("span");
         charSpan.textContent = char;
         charSpan.style.display = "inline-block";
         charSpan.style.opacity = "0";
-        charSpan.style.transform = "translateY(8px)";
         wordWrapper.appendChild(charSpan);
         chars.push(charSpan);
       });
@@ -48,13 +62,22 @@ export default function FieldSignal() {
       if (wi < words.length - 1) {
         const space = document.createElement("span");
         space.innerHTML = "&nbsp;";
-        space.className = "inline-block";
+        space.style.display = "inline-block";
+        space.style.opacity = "0";
         space.setAttribute("aria-hidden", "true");
         h2.appendChild(space);
+        chars.push(space);
       }
     });
 
-    // 2. Set initial slide container state
+    // Place initial cursor at start
+    const firstChar = chars[0];
+    if (firstChar && firstChar.parentNode) {
+      firstChar.parentNode.insertBefore(cursor, firstChar);
+    } else {
+      h2.appendChild(cursor);
+    }
+
     gsap.set(slide, {
       opacity: 1,
       y: 0,
@@ -63,25 +86,44 @@ export default function FieldSignal() {
     });
 
     const ctx = gsap.context(() => {
-      // 3. Typewriter animation: types out smoothly as section comes up to the top
+      // 2. Discrete Letter-by-Letter Typewriter Timeline
       const typeTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: "top 75%",
-          end: "top 10%",
-          scrub: 0.35,
+          start: "top 70%",
+          toggleActions: "restart none none reverse",
         },
       });
 
-      typeTl.to(chars, {
-        opacity: 1,
-        y: 0,
-        stagger: 0.03,
-        ease: "power1.out",
+      chars.forEach((charSpan, i) => {
+        typeTl.to(
+          charSpan,
+          {
+            opacity: 1,
+            duration: 0.001,
+            ease: "none",
+            onStart: () => {
+              charSpan.after(cursor);
+            },
+            onReverseComplete: () => {
+              if (i === 0) {
+                const first = chars[0];
+                if (first && first.parentNode) {
+                  first.parentNode.insertBefore(cursor, first);
+                }
+              } else {
+                const prev = chars[i - 1];
+                if (prev) {
+                  prev.after(cursor);
+                }
+              }
+            },
+          },
+          i * 0.045
+        );
       });
 
-      // 4. Pin section strictly at the top of the viewport (pinSpacing: false)
-      // The subsequent section will scroll directly UP OVER this pinned section
+      // 3. Pin section strictly at the top of the viewport
       ScrollTrigger.create({
         trigger: section,
         pin: true,
@@ -95,7 +137,7 @@ export default function FieldSignal() {
     return () => {
       ctx.revert();
     };
-  }, [headline]);
+  }, [headline, isHindi]);
 
   return (
     <section
