@@ -46,8 +46,9 @@ function sanitizeString(s: unknown, max = 200): string {
 }
 
 export function generateTicketId(): string {
+  const year = new Date().getFullYear();
   const randomDigits = Math.floor(1000 + Math.random() * 9000);
-  return `AGA-2026-${randomDigits}`;
+  return `AGA-${year}-${randomDigits}`;
 }
 
 export function hashIp(ip: string): string {
@@ -150,15 +151,45 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
       return { ok: true, ticketId: rows[0].ticket_id, stored: true };
     }
 
-    await db.query(
+    const { ensureAdminSchema, logActivity } = await import("@/server/admin-queries");
+    await ensureAdminSchema();
+
+    let userAgent: string | null = payload.user_agent;
+    try {
+      const { getRequestHeader } = await import("@tanstack/react-start/server");
+      userAgent = getRequestHeader("user-agent")?.slice(0, 512) ?? null;
+    } catch {
+      userAgent = payload.user_agent;
+    }
+
+    const farmDetails = JSON.stringify({
+      acreage: payload.acreage,
+      crop: payload.crop,
+      district: payload.district,
+    });
+
+    const [insertResult] = await db.query(
       `INSERT INTO leads
         (ticket_id, name, phone, email, topic, acreage, crop, district, channel, message,
-         consent, consent_at, source_page, ip_hash, user_agent)
+         consent, consent_at, source_page, ip_hash, user_agent, status, priority,
+         farm_details, preferred_language)
        VALUES
         (:ticket_id, :name, :phone, :email, :topic, :acreage, :crop, :district, :channel, :message,
-         :consent, :consent_at, :source_page, :ip_hash, :user_agent)`,
-      payload as unknown as Record<string, unknown>,
+         :consent, :consent_at, :source_page, :ip_hash, :user_agent, 'new', 'medium',
+         :farm_details, 'en')`,
+      {
+        ...(payload as unknown as Record<string, unknown>),
+        user_agent: userAgent,
+        farm_details: farmDetails,
+      },
     );
+
+    const insertId = Number((insertResult as { insertId: number }).insertId);
+    if (insertId) {
+      await logActivity(insertId, null, "request_created", { ticket_id: payload.ticket_id });
+    }
+
+    void notifyAdminNewLead(payload.ticket_id, payload.name, payload.topic, payload.phone);
 
     return { ok: true, ticketId: payload.ticket_id, stored: true };
   } catch (err) {
@@ -168,5 +199,35 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
       error: "We could not save your request right now. Please try again or reach us via WhatsApp.",
       code: "server",
     };
+  }
+}
+
+async function notifyAdminNewLead(ticketId: string, name: string, topic: string, phone: string) {
+  const to = process.env.ADMIN_NOTIFY_EMAIL;
+  if (!to) return;
+  const key = process.env.RESEND_API_KEY;
+  if (!key) {
+    console.info("[submitLead] New lead (email notify skipped — set RESEND_API_KEY)", ticketId);
+    return;
+  }
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: process.env.ADMIN_NOTIFY_FROM || "Agaate <noreply@agaate.in>",
+        to: [to],
+        subject: `New contact request ${ticketId}`,
+        text: `${name} (${phone}) submitted a ${topic} request. Open /agaate-admin/contacts to follow up.`,
+      }),
+    });
+    if (!res.ok) {
+      console.error("[submitLead] notify email failed", await res.text());
+    }
+  } catch (err) {
+    console.error("[submitLead] notify email error", err);
   }
 }
