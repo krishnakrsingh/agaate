@@ -80,6 +80,32 @@ export default defineConfig({
     resolve: {
       dedupe: ["react", "react-dom", "@react-three/fiber", "three"],
     },
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react-dom/client",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "framer-motion",
+        "gsap",
+        "@gsap/react",
+        "three",
+        "@react-three/fiber",
+        "recharts",
+        "i18next",
+        "react-i18next",
+        "clsx",
+        "tailwind-merge",
+        "class-variance-authority",
+        "zod",
+        "@radix-ui/react-slot",
+        "@radix-ui/react-avatar",
+      ],
+      exclude: ["@phosphor-icons/react"],
+    },
   },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
