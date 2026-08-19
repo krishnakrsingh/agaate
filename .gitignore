@@ -18,6 +18,11 @@ dist-ssr
 *.local
 .env
 .env.*
+!.env.example
+
+# Admin uploads (keep folder)
+public/uploads/admin/*
+!public/uploads/admin/.gitkeep
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
