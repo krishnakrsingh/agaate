@@ -187,18 +187,20 @@ export default function PillarsHorizontalParallax() {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        const totalPanels = panels.length;
-        const scrollDistance = (totalPanels - 1) * 100;
+        const panelsCount = panels.length;
+        // The track has width of panelsCount * 100vw (300vw for 3 panels).
+        // To translate by (panelsCount - 1) screens, xPercent of track width must be -((panelsCount - 1) / panelsCount) * 100.
+        const totalShiftPercent = -((panelsCount - 1) / panelsCount) * 100;
 
         const tween = gsap.to(track, {
-          xPercent: -scrollDistance,
+          xPercent: totalShiftPercent,
           ease: "none",
           scrollTrigger: {
             trigger: container,
             pin: true,
-            scrub: 0.8,
+            scrub: 0.6,
             start: "top top",
-            end: () => `+=${window.innerWidth * (totalPanels - 0.5)}`,
+            end: () => `+=${(panelsCount - 1) * window.innerWidth}`,
             invalidateOnRefresh: true,
             anticipatePin: 1,
           },
