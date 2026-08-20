@@ -182,7 +182,7 @@ export function InteractivePhoneApp({
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-[310px] overflow-visible font-sans sm:max-w-[330px]">
+    <div className="relative mx-auto w-full max-w-[320px] sm:max-w-[340px] overflow-visible font-sans">
       {/* Toast notification */}
       {addedItemToast && (
         <div className="animate-bounce absolute -top-10 inset-x-0 z-50 mx-auto w-max max-w-[90%] rounded-full border border-white/30 bg-[#143d31] px-4 py-1.5 text-xs font-bold text-white shadow-xl">
@@ -191,25 +191,25 @@ export function InteractivePhoneApp({
       )}
 
       {/* Flagship Phone Frame */}
-      <div className="relative aspect-[9/16.5] max-h-[585px] overflow-hidden rounded-[2.25rem] border-[3.5px] border-[#1a1a1a] bg-[#1a1a1a] p-[5px] shadow-xl shadow-black/35 ring-1 ring-white/10">
+      <div className="relative aspect-[9/17.5] max-h-[600px] overflow-hidden rounded-[2.4rem] border-[4px] border-[#181d19] bg-[#181d19] p-[3px] shadow-[0_25px_60px_-15px_rgba(13,40,32,0.25)] ring-1 ring-black/20">
         {/* Side physical buttons */}
         <div
-          className="pointer-events-none absolute left-0 top-[18%] z-20 h-9 w-[2.5px] rounded-r-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute left-0 top-[18%] z-20 h-9 w-[2px] rounded-r-xs bg-[#2e3630]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute left-0 top-[28%] z-20 h-13 w-[2.5px] rounded-r-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute left-0 top-[27%] z-20 h-13 w-[2px] rounded-r-xs bg-[#2e3630]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute right-0 top-[24%] z-20 h-15 w-[2.5px] rounded-l-sm bg-[#2a2a2a]"
+          className="pointer-events-none absolute right-0 top-[23%] z-20 h-15 w-[2px] rounded-l-xs bg-[#2e3630]"
           aria-hidden="true"
         />
 
-        <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[1.95rem] bg-[#fffdf4] text-[#143d31]">
+        <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.15rem] bg-[#fffdf4] text-[#143d31]">
           {/* Punch-hole camera */}
           <div
-            className="pointer-events-none absolute left-1/2 top-2.5 z-30 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#0a0a0a] ring-1 ring-black/40"
+            className="pointer-events-none absolute left-1/2 top-2.5 z-30 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#0a0a0a] ring-1 ring-black/50"
             aria-hidden="true"
           />
 
@@ -217,24 +217,24 @@ export function InteractivePhoneApp({
           <PhoneStatusBar />
 
           {/* Single Integrated App Header Bar */}
-          <div className="flex shrink-0 items-center justify-between border-b border-[#143d31]/10 bg-[#fffdf4] px-3.5 py-2.5 shadow-xs">
+          <div className="flex shrink-0 items-center justify-between border-b border-[#143d31]/8 bg-[#fffdf4] px-4 py-2 shadow-2xs">
             <div className="flex items-center gap-2.5">
               <div className="relative h-8 w-8 shrink-0">
                 <img
                   src="/logo11.png"
                   alt="Agaate Agronomist"
-                  className="h-8 w-8 rounded-full border border-[#143d31]/15 bg-[#e7edd9] p-0.5 object-cover shadow-xs"
+                  className="h-8 w-8 rounded-full border border-[#143d31]/15 bg-[#e7edd9] p-0.5 object-cover shadow-2xs"
                 />
                 <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-[#fffdf4]" />
               </div>
               <div>
-                <p className="text-xs font-extrabold leading-tight text-[#143d31]">
+                <p className="text-xs font-bold leading-tight text-[#143d31]">
                   {activeTab === "chat" && "Agaate AI Agronomist"}
                   {activeTab === "mall" && "Agaate Mall Store"}
                   {activeTab === "farm" && "My Chilli Farm Plot"}
                   {activeTab === "park" && "Agaate Agri Park"}
                 </p>
-                <div className="flex items-center gap-1 text-[9px] font-semibold text-[#476f2d]">
+                <div className="flex items-center gap-1 text-[9.5px] font-semibold text-[#5d7d37]">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                   <span>Online · Advisory Active</span>
                 </div>
