@@ -20,16 +20,14 @@ export interface HubLocation {
   coverage: string;
 }
 
-export-[#143d31]
-
 export const AGAATE_HUBS: HubLocation[] = [
   { id: "hub-patna", name: "Agaate Patna Hub", state: "Bihar", lat: 25.5941, lng: 85.1376, coverage: "Bihar, Jharkhand, Eastern UP" },
   { id: "hub-varanasi", name: "Agaate Varanasi Hub", state: "Uttar Pradesh", lat: 25.3176, lng: 82.9739, coverage: "Purvanchal & Central UP" },
   { id: "hub-jabalpur", name: "Agaate Jabalpur Hub", state: "Madhya Pradesh", lat: 23.1815, lng: 79.9864, coverage: "Madhya Pradesh & CG" },
   { id: "hub-jaipur", name: "Agaate Jaipur Hub", state: "Rajasthan", lat: 26.9124, lng: 75.7873, coverage: "Rajasthan & North Gujarat" },
   { id: "hub-pune", name: "Agaate Pune Hub", state: "Maharashtra", lat: 18.5204, lng: 73.8567, coverage: "Maharashtra & North KA" },
-  { id: "hub-[#143d31]", name: "Agaate NCR Karnal Hub", state: "Haryana", lat: 29.6857, lng: 76.9905, coverage: "Haryana, Punjab, Western UP" },
-  { id: "hub-[#5d7d37]", name: "Agaate Hyderabad Hub", state: "Telangana", lat: 17.385, lng: 78.4867, coverage: "Telangana & AP" },
+  { id: "hub-karnal", name: "Agaate NCR Karnal Hub", state: "Haryana", lat: 29.6857, lng: 76.9905, coverage: "Haryana, Punjab, Western UP" },
+  { id: "hub-hyderabad", name: "Agaate Hyderabad Hub", state: "Telangana", lat: 17.385, lng: 78.4867, coverage: "Telangana & AP" },
 ];
 
 export const PINCODE_DATABASE: PincodeEntry[] = [

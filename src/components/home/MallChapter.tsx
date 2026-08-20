@@ -300,6 +300,12 @@ export default function MallChapter() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Pincode & Hub Map Modal */}
+      <PincodeServiceabilityModal
+        isOpen={isPincodeModalOpen}
+        onClose={() => setIsPincodeModalOpen(false)}
+      />
     </section>
   );
 }

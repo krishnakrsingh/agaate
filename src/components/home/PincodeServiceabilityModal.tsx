@@ -13,8 +13,8 @@ import {
   Compass,
   Sparkle,
   ArrowRight,
-  ZoomIn,
-  ZoomOut,
+  MagnifyingGlassPlus,
+  MagnifyingGlassMinus,
   ArrowsOut,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
@@ -347,7 +347,7 @@ export default function PincodeServiceabilityModal({
                     className="p-1 rounded-lg hover:bg-white/20 text-white cursor-pointer"
                     title="Zoom in"
                   >
-                    <ZoomIn className="h-3.5 w-3.5" />
+                    <MagnifyingGlassPlus className="h-3.5 w-3.5" />
                   </button>
                   <button
                     type="button"
@@ -355,7 +355,7 @@ export default function PincodeServiceabilityModal({
                     className="p-1 rounded-lg hover:bg-white/20 text-white cursor-pointer"
                     title="Zoom out"
                   >
-                    <ZoomOut className="h-3.5 w-3.5" />
+                    <MagnifyingGlassMinus className="h-3.5 w-3.5" />
                   </button>
                   <button
                     type="button"

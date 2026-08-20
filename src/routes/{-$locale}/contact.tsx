@@ -3,14 +3,10 @@ import { useCallback, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
-  ContactHero,
-  ContactChannels,
+  ContactHeroSection,
+  ContactLocations,
+  ContactFaqSection,
   MobileStickyContactBar,
-  ContactForm,
-  FacilitiesSection,
-  TrustBand,
-  ContactFaq,
-  CtaBanner,
   ToastProvider,
   FACILITIES,
   EMAIL,
@@ -18,9 +14,9 @@ import {
   TEL_PRIMARY,
 } from "@/components/contact";
 
-const PAGE_TITLE = "Contact Agaate — Talk to an Agronomist | Gurugram";
+const PAGE_TITLE = "Contact Agaate — Direct Agronomy & Operations Desk | Gurugram";
 const PAGE_DESCRIPTION =
-  "Reach Agaate agronomists in Gurugram for crop advice, nursery pre-orders, Big Farm setup, and market linkage. Typical reply within 2 business hours.";
+  "Reach Agaate senior agronomists in Gurugram for crop advice, bio-boosted nursery pre-orders, farm visits, and enterprise inquiries. Direct reply within 15 minutes on WhatsApp.";
 
 function buildJsonLd() {
   const organization = {
@@ -108,15 +104,11 @@ function ContactPage() {
 
   return (
     <ToastProvider>
-      <main className="min-h-screen bg-[#f4f8f5] pb-20 font-sans text-[#143d31] antialiased sm:pb-0">
+      <main className="min-h-screen w-full overflow-x-clip bg-[#f4f8f5] font-sans text-[#143d31] antialiased">
         <Header />
-        <ContactHero />
-        <ContactChannels />
-        <ContactForm onSuccessChange={onSuccessChange} />
-        <FacilitiesSection />
-        <TrustBand />
-        <ContactFaq />
-        <CtaBanner />
+        <ContactHeroSection onSuccessChange={onSuccessChange} />
+        <ContactLocations />
+        <ContactFaqSection />
         <Footer />
         <MobileStickyContactBar hidden={formSuccess} />
         <p className="sr-only">
