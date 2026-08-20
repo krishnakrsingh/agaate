@@ -291,34 +291,50 @@ export default function PillarsHorizontalParallax() {
                   </div>
                 </div>
 
-                <div className="col-span-12 lg:col-span-6 relative flex flex-col items-center justify-center">
-                  <div className="w-full flex flex-col items-center justify-center">
-                    <TiltCard maxTilt={4} glare={false} className="w-full">
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="relative w-full flex items-center justify-center p-0"
-                      >
-                        <img
-                          src={pillar.imageSrc}
-                          alt={pillar.imageAlt}
-                          className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-2xl cursor-pointer"
-                        />
-                      </motion.div>
-                    </TiltCard>
+                {/* Visual Column (Right) */}
+                <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center">
+                  {pillar.id === "pillar-market" ? (
+                    <div className="relative w-full max-w-[540px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
+                      <img
+                        src="/services/market-linkage-harvest.jpg"
+                        alt={pillar.imageAlt}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
 
-                    {pillar.id === "pillar-market" && (
-                      <div className="mt-3 inline-flex items-center gap-3 rounded-full bg-white/95 backdrop-blur-md px-4 py-1.5 border border-[#143d31]/10 shadow-sm text-xs">
-                        <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                          Offtake: Reliance · BigBasket
-                        </span>
-                        <span className="h-2.5 w-px bg-[#143d31]/15" />
-                        <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 px-2 py-0.5 rounded-full">
-                          T+0 Farm-Gate UPI
-                        </span>
+                      {/* Bottom Floating Telemetry Panel */}
+                      <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
+                        <div className="flex flex-col">
+                          <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                            Institutional Offtake & Mandi Linkage
+                          </span>
+                          <span className="font-display text-xs font-bold text-[#143d31]">
+                            Reliance · BigBasket · Direct Mandi Offtake
+                          </span>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 border border-[#a3e635]/50 px-2.5 py-1 rounded-full">
+                            T+0 Farm-Gate UPI
+                          </span>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className="w-full flex items-center justify-center">
+                      <TiltCard maxTilt={4} glare={false} className="w-full">
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="relative w-full flex items-center justify-center p-0"
+                        >
+                          <img
+                            src={pillar.imageSrc}
+                            alt={pillar.imageAlt}
+                            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-xl"
+                          />
+                        </motion.div>
+                      </TiltCard>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -326,6 +342,7 @@ export default function PillarsHorizontalParallax() {
         </div>
       </div>
 
+      {/* ── MOBILE VIEW: Seamless Vertical Stack (< 768px) ── */}
       <div className="block md:hidden py-12 px-5 space-y-12 divide-y divide-[#143d31]/10">
         {PILLARS_DATA.map((pillar) => (
           <div key={pillar.id} className="pt-8 first:pt-0 space-y-5">
@@ -345,19 +362,27 @@ export default function PillarsHorizontalParallax() {
             </p>
 
             {/* Visual */}
-            <div className="relative w-full flex flex-col items-center justify-center my-4">
-              <img
-                src={pillar.imageSrc}
-                alt={pillar.imageAlt}
-                className="w-full max-h-[260px] object-contain drop-shadow-lg"
-              />
-              {pillar.id === "pillar-market" && (
-                <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1 border border-[#143d31]/10 text-[10px] font-mono font-bold text-[#143d31]">
-                  <span>Reliance · BigBasket Offtake</span>
-                  <span className="bg-[#a3e635]/30 px-1.5 py-0.5 rounded-full text-[#143d31]">T+0 UPI</span>
+            {pillar.id === "pillar-market" ? (
+              <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl border border-[#143d31]/12 bg-white shadow-md my-4">
+                <img
+                  src="/services/market-linkage-harvest.jpg"
+                  alt={pillar.imageAlt}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute bottom-2.5 inset-x-2.5 rounded-xl bg-white/95 backdrop-blur-sm p-2 border border-[#143d31]/10 text-left">
+                  <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase">Institutional Offtake</p>
+                  <p className="font-display text-[11px] font-bold text-[#143d31]">Direct Mandi Linkage · T+0 Payouts</p>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className="relative w-full flex items-center justify-center my-4">
+                <img
+                  src={pillar.imageSrc}
+                  alt={pillar.imageAlt}
+                  className="w-full max-h-[260px] object-contain drop-shadow-lg"
+                />
+              </div>
+            )}
 
             {/* Metrics */}
             <div className="border-y border-[#143d31]/10 py-3 grid grid-cols-3 gap-1">
