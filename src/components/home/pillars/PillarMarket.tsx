@@ -18,34 +18,36 @@ export default function PillarMarket() {
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
           {/* Visual Column (Left on Desktop) */}
           <motion.div
-            className="lg:col-span-6 lg:order-1 relative flex items-center justify-center"
+            className="lg:col-span-6 lg:order-1 relative flex flex-col items-center justify-center"
             initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <div className="relative w-full max-w-[540px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
-              <img
-                src="/services/market-linkage-harvest.jpg"
-                alt="Agaate farm-gate harvest aggregation and market linkage"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+            <div className="w-full flex flex-col items-center justify-center">
+              <TiltCard maxTilt={4} glare={false} className="w-full">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="relative w-full flex items-center justify-center p-0"
+                >
+                  <img
+                    src="/market-linkage.png"
+                    alt="Agaate farm-gate harvest aggregation and market linkage"
+                    className="w-full max-h-[440px] sm:max-h-[500px] lg:max-h-[560px] object-contain drop-shadow-2xl cursor-pointer"
+                  />
+                </motion.div>
+              </TiltCard>
 
-              {/* Bottom Floating Telemetry Panel */}
-              <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
-                <div className="flex flex-col">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    Institutional Offtake
-                  </span>
-                  <span className="font-display text-xs font-bold text-[#143d31]">
-                    Reliance · BigBasket · Global Exporters
-                  </span>
-                </div>
-                <div className="shrink-0 text-right">
-                  <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 border border-[#a3e635]/50 px-2.5 py-1 rounded-full">
-                    T+0 Farm-Gate UPI
-                  </span>
-                </div>
+              {/* Floating Telemetry Pill */}
+              <div className="mt-3 inline-flex items-center gap-3 rounded-full bg-white/95 backdrop-blur-md px-4 py-1.5 border border-[#143d31]/10 shadow-sm text-xs">
+                <span className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
+                  Offtake: Reliance · BigBasket
+                </span>
+                <span className="h-2.5 w-px bg-[#143d31]/15" />
+                <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 px-2 py-0.5 rounded-full">
+                  T+0 Farm-Gate UPI
+                </span>
               </div>
             </div>
           </motion.div>
