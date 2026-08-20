@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Package, Sparkle, Storefront, UserCheck } from "@phosphor-icons/react";
+import { MapPin, Package, Sparkle, Storefront, UserCheck, Truck } from "@phosphor-icons/react";
 
 export default function KisaanMallShowcase() {
   const [activePin, setActivePin] = useState<number | null>(null);
@@ -117,6 +117,38 @@ export default function KisaanMallShowcase() {
                 </p>
                 <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
                   Walk in with crop samples for instant spray & dose guidance.
+                </p>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Hotspot Pin 4: Pincode Express Dispatch */}
+          <div className="absolute top-[40%] right-[15%] z-30">
+            <button
+              onMouseEnter={() => setActivePin(4)}
+              onMouseLeave={() => setActivePin(null)}
+              onClick={() => setActivePin(activePin === 4 ? null : 4)}
+              className="relative group flex items-center justify-center h-7 w-7 rounded-full bg-[#143d31] text-[#a3e635] shadow-xl border-2 border-[#a3e635] cursor-pointer hover:scale-125 transition-transform"
+              aria-label="Pincode Express Dispatch Hub"
+            >
+              <Truck className="h-3.5 w-3.5 text-[#a3e635]" />
+              <span className="animate-ping absolute inset-0 rounded-full bg-[#143d31]/60" />
+            </button>
+            {activePin === 4 && (
+              <motion.div
+                initial={{ opacity: 0, y: -6, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-[#143d31] p-3 text-white shadow-2xl border border-[#a3e635]/40 z-40 text-left pointer-events-none"
+              >
+                <div className="flex items-center gap-1.5 text-white font-mono text-[10px] font-bold uppercase">
+                  <Truck className="h-3 w-3 text-[#a3e635]" />
+                  <span>15,000+ PIN Codes</span>
+                </div>
+                <p className="font-display text-xs font-bold text-[#a3e635] mt-1">
+                  Single-Day Gate Delivery
+                </p>
+                <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
+                  Dispatched from regional hubs straight to your field gate in 24 hours.
                 </p>
               </motion.div>
             )}

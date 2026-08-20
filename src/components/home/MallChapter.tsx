@@ -9,12 +9,14 @@ import {
   Package,
   ShoppingBag,
   PhoneCall,
+  MapPinLine,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import KisaanMallShowcase from "./KisaanMallShowcase";
+import PincodeDeliveryChecker from "./PincodeDeliveryChecker";
 
 const SUPPLY_CHAIN_STEPS_EN = [
   {
@@ -38,7 +40,7 @@ const SUPPLY_CHAIN_STEPS_EN = [
   {
     step: "04",
     title: "Single-Day Farm Delivery",
-    desc: "Delivered straight to your field gate across 15+ districts.",
+    desc: "Delivered straight to your field gate across 15,000+ PIN codes.",
     icon: Truck,
   },
 ];
@@ -65,7 +67,7 @@ const SUPPLY_CHAIN_STEPS_HI = [
   {
     step: "04",
     title: "खेत तक त्वरित डिलीवरी",
-    desc: "15+ जिलों में सीधे आपके खेत के गेट तक 24 घंटे में डिलीवरी।",
+    desc: "15,000+ पिनकोड में सीधे आपके खेत के गेट तक 24 घंटे में डिलीवरी।",
     icon: Truck,
   },
 ];
