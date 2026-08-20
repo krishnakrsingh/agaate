@@ -221,7 +221,7 @@ export default function PillarsHorizontalParallax() {
     <section
       ref={containerRef}
       id="pillars-section"
-      className="relative z-10 bg-[#f4f8f5] border-t border-[#143d31]/10 overflow-hidden shadow-[0_-24px_50px_rgba(13,42,33,0.06)]"
+      className="relative z-10 bg-[#f4f8f5] overflow-hidden"
     >
       {/* ── DESKTOP & TABLET: Pinned Horizontal Scroll (>= 768px) ── */}
       <div className="hidden md:block w-full h-screen relative overflow-hidden">
@@ -265,11 +265,10 @@ export default function PillarsHorizontalParallax() {
                     {pillar.metrics.map((m, mIdx) => (
                       <div
                         key={m.label}
-                        className={`text-left ${
-                          mIdx > 0
+                        className={`text-left ${mIdx > 0
                             ? "border-l border-[#143d31]/10 pl-3"
                             : "first:border-l-0 first:pl-0"
-                        }`}
+                          }`}
                       >
                         <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
                           <CountUp to={m.value} prefix={m.prefix || ""} suffix={m.suffix || ""} />

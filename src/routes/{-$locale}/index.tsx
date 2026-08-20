@@ -7,7 +7,6 @@ import LoadingScreen from "@/components/LoadingScreen";
 import SectionHero from "@/components/sections/SectionHero";
 import {
   SectionStatsMarquee,
-  FieldSignal,
   PillarsHorizontalParallax,
   AppChapter,
   MallChapter,
@@ -65,7 +64,7 @@ function Index() {
           onWipeStart={handleWipeStart}
         />
       )}
-      <main className="overflow-x-clip bg-white text-ink antialiased">
+      <main className="overflow-x-clip bg-[#f4f8f5] text-ink antialiased">
         <Header />
         {/* Section 1: Hero Section */}
         <SectionHero
@@ -80,10 +79,7 @@ function Index() {
             {/* Section 2: Stats Marquee */}
             <SectionStatsMarquee />
 
-            {/* Section 3: Farmer pain points — establish empathy & problem */}
-            <FieldSignal />
-
-            {/* Section 4: The 3 Core Integrated Pillars (Horizontal Parallax Transition) */}
+            {/* Section 3: The 3 Core Integrated Pillars (Horizontal Parallax Transition) */}
             <PillarsHorizontalParallax />
 
             {/* Section 5: Agaate Mobile App — Interactive Digital Experience */}

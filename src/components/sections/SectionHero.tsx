@@ -181,11 +181,11 @@ export default memo(function SectionHero({
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full h-[100dvh] p-2 md:p-2.5 bg-[#fafbf7]"
+      className="relative w-full h-[100dvh] p-2 md:p-2.5 bg-[#f4f8f5]"
     >
       <div
         ref={containerRef}
-        className="relative w-full h-full overflow-hidden rounded-[16px] bg-[#fafbf7]"
+        className="relative w-full h-full overflow-hidden rounded-[16px] bg-[#f4f8f5]"
       >
         {/* Background Video */}
         <video
@@ -203,7 +203,7 @@ export default memo(function SectionHero({
         {/* Cinematic reveal curtain (hardware-composited opacity instead of heavy CSS filter shader on video container) */}
         <div
           ref={curtainRef}
-          className="absolute inset-0 z-[1] bg-[#fafbf7] pointer-events-none opacity-0"
+          className="absolute inset-0 z-[1] bg-[#f4f8f5] pointer-events-none opacity-0"
         />
 
         {/* Overlay — strong bottom floor so text always reads */}

@@ -1,5 +1,4 @@
 export { default as SectionStatsMarquee } from "./SectionStatsMarquee";
-export { default as FieldSignal } from "./FieldSignal";
 export { default as PeopleChapter } from "./PeopleChapter";
 export { default as AppChapter } from "./AppChapter";
 export { default as MallChapter } from "./MallChapter";
