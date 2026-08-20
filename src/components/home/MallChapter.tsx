@@ -185,7 +185,7 @@ export default function MallChapter() {
               <SlideUpPillButton
                 type="button"
                 onClick={() => setIsPincodeModalOpen(true)}
-                variant="hero-secondary"
+                variant="outline"
                 size="md"
                 label={isHindi ? "पिनकोड जांचें" : "Check Pincode Delivery"}
                 icon={<MapPinLine className="h-4 w-4 text-[#5d7d37]" />}
