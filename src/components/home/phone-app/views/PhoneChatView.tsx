@@ -42,27 +42,27 @@ export function PhoneChatView({
   return (
     <div className="flex flex-1 flex-col overflow-hidden bg-[#fffdf4]">
       {/* Chat Messages Container */}
-      <div ref={chatContainerRef} className="flex-1 space-y-3 overflow-y-auto p-3.5">
+      <div ref={chatContainerRef} className="flex-1 space-y-2.5 overflow-y-auto p-3.5">
         <AnimatePresence>
           {messages.map((msg) => (
             <motion.div
               key={msg.id}
               initial={{
                 opacity: 0,
-                scale: 0.9,
-                y: 10,
+                scale: 0.94,
+                y: 6,
                 transformOrigin: msg.sender === "farmer" ? "bottom right" : "bottom left",
               }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               className={`flex flex-col ${msg.sender === "farmer" ? "items-end" : "items-start"}`}
             >
               {msg.sender === "farmer" ? (
-                <div className="max-w-[82%] rounded-[14px] rounded-tr-[4px] bg-[#143d31] px-3 py-2 text-white shadow-xs">
-                  <p className="whitespace-pre-line text-xs leading-normal">{msg.text}</p>
-                  <p className="mt-0.5 text-right font-mono text-[9px] text-white/50">{msg.time}</p>
+                <div className="max-w-[82%] rounded-2xl rounded-tr-xs bg-[#143d31] px-3 py-2 text-white shadow-2xs">
+                  <p className="whitespace-pre-line text-[11.5px] leading-relaxed">{msg.text}</p>
+                  <p className="mt-0.5 text-right font-mono text-[8.5px] text-white/60">{msg.time}</p>
                 </div>
               ) : (
-                <div className="max-w-[90%] rounded-[14px] rounded-bl-[4px] border border-[#143d31]/12 bg-white p-3 shadow-sm">
+                <div className="max-w-[92%] rounded-2xl rounded-bl-xs border border-[#143d31]/10 bg-white p-3 shadow-2xs">
                   {/* Advisory Card Header */}
                   <div className="mb-1.5 flex items-center gap-1.5 border-b border-[#143d31]/8 pb-1.5">
                     <div className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border border-[#143d31]/12 bg-[#e7edd9] p-[1.5px]">
@@ -72,7 +72,7 @@ export function PhoneChatView({
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
-                    <span className="text-[10px] font-extrabold text-[#143d31]">
+                    <span className="text-[10px] font-bold text-[#143d31]">
                       Agaate Agronomist
                     </span>
                     {msg.verified && (
@@ -100,12 +100,12 @@ export function PhoneChatView({
                   </div>
 
                   {/* Advisory Content */}
-                  <p className="whitespace-pre-line text-xs font-medium leading-snug text-[#143d31]/90">
+                  <p className="whitespace-pre-line text-[11.5px] font-medium leading-relaxed text-[#143d31]/90">
                     {msg.text}
                   </p>
 
                   {/* Advisory Card Footer */}
-                  <div className="mt-2 flex items-center justify-between border-t border-[#143d31]/6 pt-1.5 text-[9px] text-[#536253]">
+                  <div className="mt-2 flex items-center justify-between border-t border-[#143d31]/6 pt-1.5 text-[9px] text-[#4f624f]">
                     <span className="font-mono text-[#143d31]/40">{msg.time}</span>
                     <a
                       href={WHATSAPP_AGRONOMIST_URL}
@@ -125,12 +125,12 @@ export function PhoneChatView({
 
         {isLoading && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 8 }}
+            initial={{ opacity: 0, scale: 0.95, y: 6 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             className="flex flex-col items-start"
           >
-            <div className="flex max-w-[75%] items-center gap-2 rounded-2xl rounded-bl-xs border border-[#143d31]/12 bg-white px-3.5 py-2.5 shadow-xs">
-              <div className="flex items-center gap-1 px-0.5 py-1.5">
+            <div className="flex max-w-[75%] items-center gap-2 rounded-2xl rounded-bl-xs border border-[#143d31]/10 bg-white px-3 py-2 shadow-2xs">
+              <div className="flex items-center gap-1 px-0.5 py-1">
                 <span
                   className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#5d7d37]"
                   style={{ animationDelay: "0ms" }}
@@ -151,24 +151,24 @@ export function PhoneChatView({
 
         {chatLocked && !isLoading && (
           <motion.div
-            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+            initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="rounded-2xl border border-[#25D366]/35 bg-gradient-to-b from-[#e8fff0] to-white p-3.5 shadow-sm"
+            className="rounded-2xl border border-[#25D366]/35 bg-gradient-to-b from-[#e8fff0] to-white p-3.5 shadow-2xs"
           >
-            <p className="mt-1 text-[12px] font-extrabold leading-snug text-[#143d31]">
+            <p className="mt-1 text-[11.5px] font-bold leading-snug text-[#143d31]">
               Get a real agronomist on WhatsApp for your field.
             </p>
-            <p className="mt-1 text-[10px] font-medium leading-relaxed text-[#143d31]/65">
-              Photo diagnosis, spray dose, and follow-up — usually replies within minutes.
+            <p className="mt-1 text-[10px] font-medium leading-relaxed text-[#143d31]/70">
+              Photo diagnosis, spray dose, and follow-up — replies within minutes.
             </p>
             <a
               href={WHATSAPP_AGRONOMIST_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2.5 text-[12px] font-extrabold text-white shadow-md shadow-[#25D366]/30 transition-transform hover:bg-[#1ebe57] active:scale-[0.98]"
+              className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2 text-[11.5px] font-bold text-white shadow-xs transition-transform hover:bg-[#1ebe57] active:scale-[0.98]"
             >
-              <WhatsAppIcon className="h-4 w-4" />
-              Continue on WhatsApp
+              <WhatsAppIcon className="h-3.5 w-3.5" />
+              <span>Continue on WhatsApp</span>
             </a>
           </motion.div>
         )}
@@ -176,21 +176,21 @@ export function PhoneChatView({
 
       {/* Quick Prompt Chips */}
       {!chatLocked && (
-        <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-[#143d31]/8 bg-[#f6f9f0] px-3 py-1.5">
-          <span className="shrink-0 font-mono text-[9px] uppercase text-[#143d31]/50">Ask:</span>
+        <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-[#143d31]/8 bg-[#f4f8f5] px-3 py-1.5">
+          <span className="shrink-0 font-mono text-[9px] uppercase font-bold text-[#5d7d37]">Ask:</span>
           {SUGGESTED_PROMPTS.map((prompt) => (
             <button
               key={prompt}
               type="button"
               onClick={() => onSendMessage(prompt)}
               disabled={isLoading}
-              className="shrink-0 rounded-full border border-[#143d31]/12 bg-white px-2.5 py-1 text-[10px] font-semibold text-[#143d31] transition-all hover:border-[#5d7d37] hover:bg-[#a3e635]/20 disabled:opacity-50"
+              className="cursor-pointer shrink-0 rounded-full border border-[#143d31]/10 bg-white px-2.5 py-1 text-[10px] font-bold text-[#143d31] transition-all hover:border-[#5d7d37] hover:bg-[#a3e635]/20 disabled:opacity-50 shadow-2xs"
             >
               {prompt}
             </button>
           ))}
           {chatsLeft > 0 && chatsLeft < FREE_CHAT_LIMIT && (
-            <span className="ml-auto shrink-0 font-mono text-[9px] text-[#143d31]/40">
+            <span className="ml-auto shrink-0 font-mono text-[9px] font-bold text-[#5d7d37]">
               {chatsLeft} left
             </span>
           )}
@@ -199,38 +199,38 @@ export function PhoneChatView({
 
       {/* Chat Input Bar */}
       {chatLocked ? (
-        <div className="flex items-center gap-2 border-t border-[#143d31]/10 bg-[#f4f7ef]/50 p-2.5">
+        <div className="flex items-center gap-2 border-t border-[#143d31]/8 bg-[#f4f8f5]/50 p-2.5 px-3">
           <input
             type="text"
             disabled
             placeholder="Free chats limit reached"
-            className="flex-1 cursor-not-allowed rounded-full bg-[#e8eddf] px-3.5 py-2 text-xs text-[#143d31]/40 outline-none"
+            className="flex-1 cursor-not-allowed rounded-full bg-[#e8eddf] px-3.5 py-1.5 text-xs text-[#143d31]/40 outline-none"
           />
           <button
             type="button"
             disabled
-            className="flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-full bg-[#143d31]/20 text-white"
+            className="flex h-7.5 w-7.5 cursor-not-allowed items-center justify-center rounded-full bg-[#143d31]/20 text-white"
           >
             <PaperPlaneRight className="h-3.5 w-3.5" />
           </button>
         </div>
       ) : (
-        <div className="flex items-center gap-2 border-t border-[#143d31]/10 bg-white p-2.5">
+        <div className="flex items-center gap-2 border-t border-[#143d31]/8 bg-white p-2 px-3">
           <input
             type="text"
             value={inputQuery}
             onChange={(e) => setInputQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && onSendMessage()}
             placeholder="Ask crop advice or symptoms..."
-            className="flex-1 rounded-full bg-[#f4f7ef] px-3.5 py-2 text-xs text-[#143d31] outline-none placeholder:text-[#143d31]/40 focus:ring-1 focus:ring-[#5d7d37]"
+            className="flex-1 rounded-full bg-[#f4f8f5] px-3.5 py-1.5 text-[11.5px] text-[#143d31] outline-none placeholder:text-[#143d31]/40 focus:ring-1 focus:ring-[#5d7d37]"
           />
           <button
             type="button"
             onClick={() => onSendMessage()}
             disabled={isLoading || !inputQuery.trim()}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#143d31] text-white transition-all hover:scale-105 disabled:opacity-40"
+            className="cursor-pointer flex h-7.5 w-7.5 items-center justify-center rounded-full bg-[#143d31] text-white transition-all hover:scale-105 disabled:opacity-40 shadow-2xs"
           >
-            <PaperPlaneRight className="h-3.5 w-3.5" />
+            <PaperPlaneRight className="h-3.5 w-3.5" weight="bold" />
           </button>
         </div>
       )}
