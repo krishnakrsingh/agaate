@@ -21,20 +21,20 @@
     "nursery": "Bio-Boosted Nursery",
     "bigFarmSetup": "Big Farm Setup",
     "agriPark": "Agri Park",
-    "farmTech": "Farm Tech",
+    "farmTech": "Farm Tech & IoT",
     "marketLinkage": "Market Linkage",
     "carbonCredits": "Carbon Credits",
     "allServices": "All Services & Offerings"
   },
   "servicesSubDesc": {
-    "advisory": "Direct field diagnosis & crop care",
-    "kisaanMall": "Verified seeds, fertilizers & inputs",
-    "nursery": "High-yield saplings & plug plants",
-    "bigFarmSetup": "Turnkey orchards & estate setups",
-    "agriPark": "6-acre living proving ground & trials",
-    "farmTech": "Drones & automated smart farming",
-    "marketLinkage": "Direct buyer access & buyback",
-    "carbonCredits": "Monetize eco-friendly farm practices"
+    "advisory": "Direct field diagnosis, spray charts & farm visits",
+    "kisaanMall": "Direct-from-brand seeds, fertilizers & inputs",
+    "nursery": "98% survival high-yield plug seedlings & saplings",
+    "bigFarmSetup": "End-to-end turnkey farm setup for clients",
+    "agriPark": "Live crop demonstration, R&D & farmer trials",
+    "farmTech": "Farmer mobile app, IoT soil sensors & automation",
+    "marketLinkage": "Direct retail buyers & guaranteed buyback",
+    "carbonCredits": "Earn extra income from sustainable farming"
   },
   "footer": {
     "tagline": "Empowering Indian farmers through trusted inputs, expert advisory, farm technology, and market access across the entire crop cycle.",

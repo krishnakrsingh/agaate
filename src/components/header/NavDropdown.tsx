@@ -18,7 +18,7 @@ export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps)
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="pointer-events-auto absolute left-1/2 top-full z-50 w-[550px] -translate-x-1/2 pt-2.5">
+        <div className="pointer-events-auto absolute left-1/2 top-full z-50 w-[600px] -translate-x-1/2 pt-2.5">
           <motion.div
             initial="hidden"
             animate="visible"
