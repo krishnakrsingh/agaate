@@ -140,7 +140,7 @@ export default function MallChapter() {
                   <CountUp to={100} suffix="%" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  {isHindi ? "सीधी ब्रांड सोर्सिंग" : "Direct Factory Sourced"}
+                  {isHindi ? "सीधी ब्रांड सोर्सिंग" : "Direct Brand Sourced"}
                 </p>
               </div>
             </div>
@@ -169,14 +169,9 @@ export default function MallChapter() {
               ))}
             </div>
 
-            {/* Delivery & Pincode Coverage Badge */}
-            <div className="flex items-center gap-2 rounded-xl bg-[#143d31]/5 border border-[#143d31]/10 px-3.5 py-2 text-xs font-medium text-[#143d31] mb-6">
-              <MapPinLine className="h-4 w-4 text-[#5d7d37] shrink-0" />
-              <span>
-                {isHindi
-                  ? "📍 15,000+ पिनकोड में सीधे आपके खेत के गेट तक तेज़ व सुरक्षित डिलीवरी"
-                  : "📍 Delivering across 15,000+ PIN codes with Express Field Gate Dispatch"}
-              </span>
+            {/* Compact Inline Pincode Checker */}
+            <div className="mb-6">
+              <PincodeDeliveryChecker />
             </div>
 
             {/* CTA Button */}
@@ -204,18 +199,6 @@ export default function MallChapter() {
           </motion.div>
         </div>
 
-        {/* ── Interactive Pincode Delivery & Serviceability Checker ── */}
-        <motion.div
-          data-home-reveal
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="pt-2"
-        >
-          <PincodeDeliveryChecker />
-        </motion.div>
-
         {/* ── Agaate Direct Supply Guarantee (Card-less Seamless Grid) ── */}
         <div data-home-reveal className="pt-8 border-t border-[#143d31]/10 space-y-8">
           <div className="space-y-3">
@@ -233,8 +216,8 @@ export default function MallChapter() {
               </h3>
               <p className="font-sans text-xs sm:text-sm text-[#4f624f] max-w-md leading-relaxed">
                 {isHindi
-                  ? "प्रमाणित ब्रांड फैक्ट्रियों से लेकर सीधे आपके खेत के गेट तक — हर एक लॉट की अंकुरण, शुद्धता और असलियत जांची जाती है।"
-                  : "From certified factories to your field gate — every batch is verified for germination, purity, and authenticity."}
+                  ? "प्रमाणित ब्रांड्स से लेकर सीधे आपके खेत के गेट तक — हर एक लॉट की अंकुरण, शुद्धता और असलियत जांची जाती है।"
+                  : "From certified partner brands to your field gate — every batch is verified for germination, purity, and authenticity."}
               </p>
             </div>
           </div>

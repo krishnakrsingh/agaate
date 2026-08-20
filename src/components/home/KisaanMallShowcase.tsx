@@ -52,7 +52,7 @@ export default function KisaanMallShowcase() {
                   Authentic Agri Mall
                 </p>
                 <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
-                  Every item QR-traced direct from partner factories.
+                  Every item QR-traced direct from partner brands.
                 </p>
               </motion.div>
             )}
