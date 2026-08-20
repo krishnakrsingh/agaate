@@ -71,7 +71,7 @@ const PILLARS_DATA_EN: PillarData[] = [
     ],
     ctaText: "Explore Bio Nurseries",
     ctaHref: "/services#nursery",
-    imageSrc: "/agri-park-map.png",
+    imageSrc: "/agripark.png",
     imageAlt: "High-Immunity Seedling Infrastructure",
   },
   {
@@ -140,7 +140,7 @@ const PILLARS_DATA_HI: PillarData[] = [
     ],
     ctaText: "नर्सरी पौध देखें",
     ctaHref: "/services#nursery",
-    imageSrc: "/agri-park-map.png",
+    imageSrc: "/agripark.png",
     imageAlt: "बायो-बूस्टेड नर्सरी पौध",
   },
   {

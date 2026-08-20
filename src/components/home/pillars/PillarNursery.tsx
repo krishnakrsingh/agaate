@@ -31,7 +31,7 @@ export default function PillarNursery() {
                 className="relative w-full flex items-center justify-center p-0"
               >
                 <img
-                  src="/agri-park-map.png"
+                  src="/agripark.png"
                   alt="Bio-Boosted Seedling Infrastructure"
                   className="w-full max-h-[440px] sm:max-h-[500px] lg:max-h-[560px] object-contain transition-transform duration-500 drop-shadow-2xl"
                 />
