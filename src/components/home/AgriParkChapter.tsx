@@ -144,68 +144,60 @@ export default function AgriParkChapter() {
               </div>
             </motion.div>
 
-            {/* Right Column: Clean, High-Impact Master Visual */}
+            {/* Right Column: Clean, High-Impact Floating 3D Visual */}
             <motion.div
-              className="lg:col-span-6 relative flex flex-col justify-center"
-              initial={{ opacity: 0, scale: 0.96 }}
+              className="lg:col-span-6 relative flex flex-col items-center justify-center"
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, ease: EASE }}
             >
-              <div
-                onClick={() => setIsMapZoomOpen(true)}
-                className="relative overflow-hidden rounded-2xl border border-[#143d31]/20 shadow-xl group aspect-[16/9] sm:aspect-[16/10] cursor-pointer bg-[#05110d]"
-              >
-                <img
-                  src="/agripark.png"
-                  alt="Agaate Agri Park 5-Acre Master Layout & Partner Plots"
-                  className="h-full w-full object-contain group-hover:scale-102 transition-transform duration-700"
-                />
-
+              <div className="relative w-full max-w-xl group flex flex-col items-center">
                 {/* Top Location & Action Badges */}
-                <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between z-10">
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-mono font-bold text-[#143d31] backdrop-blur-md shadow-xs border border-[#143d31]/10">
+                <div className="w-full flex items-center justify-between mb-3 px-2">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-mono font-bold text-[#143d31] backdrop-blur-md shadow-sm border border-[#143d31]/10">
                     <MapPin className="h-3.5 w-3.5 text-[#5d7d37]" weight="fill" />
                     <span>
                       {isHindi ? "कुकरोला, गुरुग्राम (NH-8)" : "Kukrola, Gurugram (NH-8)"}
                     </span>
                   </div>
 
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3 py-1 text-[10px] font-mono font-bold text-[#a3e635] border border-[#a3e635]/30 shadow-xs">
-                    <MagnifyingGlassPlus className="h-3 w-3" />
-                    <span>{isHindi ? "फुल लेआउट ज़ूम करें" : "Click to Enlarge"}</span>
-                  </span>
-                </div>
-
-                {/* Center Hover Zoom Cue */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/20 backdrop-blur-[1px]">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#143d31] shadow-lg">
-                    <MagnifyingGlassPlus className="h-6 w-6 text-[#143d31]" />
-                  </div>
-                </div>
-
-                {/* Bottom Card Overlay Pill */}
-                <div className="absolute bottom-3 left-3 right-3 bg-[#143d31]/85 backdrop-blur-md p-3 rounded-xl border border-white/10 text-white flex items-center justify-between">
-                  <div>
-                    <p className="font-mono text-[9px] uppercase font-bold text-[#a3e635] tracking-widest">
-                      {isHindi ? "5-एकड़ बहुस्तरीय फार्म लेआउट" : "5-ACRE MULTI-LAYER PROVING GROUND"}
-                    </p>
-                    <p className="font-sans text-xs font-semibold text-white/95 mt-0.5">
-                      PI · Koppert · Coromandel · T.Stanes · Agaate Plots
-                    </p>
-                  </div>
                   <button
                     type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsTourVideoOpen(true);
-                    }}
-                    className="inline-flex items-center gap-1 rounded-lg bg-[#a3e635] hover:bg-[#86efac] text-[#143d31] px-2.5 py-1 text-[11px] font-mono font-bold transition-colors cursor-pointer shrink-0"
+                    onClick={() => setIsTourVideoOpen(true)}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] hover:bg-[#1f5646] text-white px-3.5 py-1 text-[11px] font-mono font-bold transition-all shadow-sm cursor-pointer"
                   >
-                    <Play className="h-3 w-3" weight="fill" />
-                    <span>{isHindi ? "वीडियो टूर" : "Video Tour"}</span>
+                    <Play className="h-3.5 w-3.5 text-[#a3e635]" weight="fill" />
+                    <span>{isHindi ? "वीडियो टूर देखें" : "Watch Video Tour"}</span>
                   </button>
                 </div>
+
+                {/* Floating 3D Transparent Model */}
+                <div
+                  onClick={() => setIsMapZoomOpen(true)}
+                  className="relative w-full cursor-pointer transition-transform duration-500 group-hover:scale-[1.02] flex items-center justify-center p-2"
+                >
+                  <img
+                    src="/agripark.png"
+                    alt="Agaate Agri Park 5-Acre Master Layout & Partner Plots"
+                    className="w-full h-auto max-h-[460px] object-contain drop-shadow-[0_20px_30px_rgba(20,61,49,0.22)]"
+                  />
+
+                  {/* Hover Enlarge Indicator */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31]/90 backdrop-blur-md px-4 py-1.5 text-xs font-mono font-bold text-white shadow-xl border border-white/20">
+                      <MagnifyingGlassPlus className="h-4 w-4 text-[#a3e635]" />
+                      <span>{isHindi ? "बड़ा करके देखें" : "Click to Enlarge Layout"}</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Subtitle Under Model */}
+                <p className="font-mono text-[11px] text-[#5d7d37] font-semibold tracking-wider text-center mt-2">
+                  {isHindi
+                    ? "5-एकड़ बहुस्तरीय फार्म · PI · Koppert · Coromandel · T.Stanes · Agaate"
+                    : "5-ACRE MULTI-LAYER PROVING GROUND · PI · KOPPERT · COROMANDEL · T.STANES · AGAATE"}
+                </p>
               </div>
             </motion.div>
           </div>
