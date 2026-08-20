@@ -154,12 +154,12 @@ export default function AgriParkChapter() {
             >
               <div
                 onClick={() => setIsMapZoomOpen(true)}
-                className="relative overflow-hidden rounded-2xl border border-[#143d31]/15 shadow-lg group aspect-[16/10] cursor-pointer bg-black/5"
+                className="relative overflow-hidden rounded-2xl border border-[#143d31]/20 shadow-xl group aspect-[16/9] sm:aspect-[16/10] cursor-pointer bg-[#05110d]"
               >
                 <img
                   src="/images/agri-park-map.webp"
                   alt="Agaate Agri Park 5-Acre Master Layout & Partner Plots"
-                  className="h-full w-full object-cover group-hover:scale-103 transition-transform duration-700"
+                  className="h-full w-full object-contain sm:object-cover group-hover:scale-102 transition-transform duration-700"
                 />
 
                 {/* Top Location & Action Badges */}
