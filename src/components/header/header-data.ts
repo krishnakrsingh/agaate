@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import {
+  ChatCircleDots,
   Compass,
   Cpu,
   House,
@@ -36,11 +37,11 @@ export const NAV_STRUCTURE: NavItem[] = [
     icon: Stack,
     subLinks: [
       {
-        key: "nursery",
-        href: "/services#nursery",
-        label: "Bio-Boosted Nursery",
-        desc: "High-yield saplings & automated plug plants",
-        icon: Plant,
+        key: "advisory",
+        href: "/services#advisory",
+        label: "Talk to Agronomist",
+        desc: "Direct field diagnosis & stage-wise dosage plans",
+        icon: ChatCircleDots,
       },
       {
         key: "kisaanMall",
@@ -50,6 +51,27 @@ export const NAV_STRUCTURE: NavItem[] = [
         icon: Storefront,
       },
       {
+        key: "nursery",
+        href: "/services#nursery",
+        label: "Bio-Boosted Nursery",
+        desc: "High-yield saplings & automated plug plants",
+        icon: Plant,
+      },
+      {
+        key: "bigFarmSetup",
+        href: "/services#big-farm-setup",
+        label: "Big Farm Setup",
+        desc: "Turnkey orchards, drip & estate layouts",
+        icon: ShieldCheck,
+      },
+      {
+        key: "agriPark",
+        href: "/agri-park",
+        label: "Agri Park",
+        desc: "6-acre living proving ground & trial plots",
+        icon: Compass,
+      },
+      {
         key: "farmTech",
         href: "/services#farm-tech",
         label: "Farm Tech",
@@ -57,25 +79,18 @@ export const NAV_STRUCTURE: NavItem[] = [
         icon: Cpu,
       },
       {
-        key: "carbonCredits",
-        href: "/services#carbon-credits",
-        label: "Carbon Credits",
-        desc: "Monetize sustainable farming practices",
-        icon: Tree,
-      },
-      {
-        key: "bigFarmSetup",
-        href: "/services#big-farm-setup",
-        label: "Big-Farm Setup",
-        desc: "Turnkey drip, mulch & acreage layout",
-        icon: ShieldCheck,
-      },
-      {
         key: "marketLinkage",
         href: "/services#market-linkage",
         label: "Market Linkage",
-        desc: "Direct buyback & transparent price floor",
+        desc: "Direct buyer access & guaranteed buyback",
         icon: TrendUp,
+      },
+      {
+        key: "carbonCredits",
+        href: "/services#carbon-credits",
+        label: "Carbon Credits",
+        desc: "Monetize eco-friendly farming practices",
+        icon: Tree,
       },
     ],
   },
@@ -86,7 +101,7 @@ export const NAV_STRUCTURE: NavItem[] = [
 
 export const NAV_SUBTITLES: Record<string, string> = {
   home: "Home Overview",
-  services: "All 6 Integrated Solutions",
+  services: "All 8 Integrated Solutions",
   agriPark: "6-Acre Demo Center",
   about: "Our Mission & Team",
   contact: "Direct Agronomist Line",

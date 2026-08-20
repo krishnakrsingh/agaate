@@ -77,24 +77,24 @@ const PILLARS_DATA_EN: PillarData[] = [
   {
     id: "pillar-market",
     number: "03",
-    tag: "Market & Carbon",
-    title: "Guaranteed Buyback & Carbon Credits",
+    tag: "Market Linkage",
+    title: "Guaranteed Buyback & Direct Offtake",
     description:
-      "Direct buyer buyback contracts and soil carbon offset credits to maximize farm profit.",
+      "Pre-sowing price contracts, transparent digital weighing, and instant T+0 farm-gate payouts.",
     metrics: [
       { value: 15000, suffix: "+", label: "Acres Associated" },
-      { value: 10, prefix: "₹", suffix: " Cr+", label: "Farmer Value" },
-      { value: 100, suffix: "%", label: "Carbon Enablement" },
+      { value: 12, prefix: "₹", suffix: " Cr+", label: "Farmer Payouts" },
+      { value: 0, suffix: "%", label: "Middleman Cut" },
     ],
     features: [
-      "Guaranteed buyback contract terms",
-      "Digital weighment & instant payouts",
-      "Soil carbon credit monetization",
+      "Pre-sowing price floor guarantee",
+      "Digital weighment & instant UPI payout",
+      "Direct institutional buyer linkage",
     ],
     ctaText: "View Market Linkage",
     ctaHref: "/services#market-linkage",
-    imageSrc: "/carbon credits.png",
-    imageAlt: "Guaranteed Buyback & Carbon Credits",
+    imageSrc: "/services/market-linkage-harvest.jpg",
+    imageAlt: "Agaate farm-gate harvest aggregation and market linkage",
   },
 ];
 
@@ -146,24 +146,24 @@ const PILLARS_DATA_HI: PillarData[] = [
   {
     id: "pillar-market",
     number: "03",
-    tag: "मार्केट व कार्बन",
-    title: "पक्की फसल खरीद व कार्बन क्रेडिट्स से अतिरिक्त आय",
+    tag: "मार्केट लिंकेज",
+    title: "गारंटीड फसल बायबैक व सीधी खरीद",
     description:
-      "सीधे संस्थागत खरीदारों को बिक्री, खेत पर डिजिटल तौल और बिना किसी बिचौलिये के पक्का भुगतान।",
+      "बुवाई से पहले पक्का रेट अनुबंध, खेत पर डिजिटल तौल और तुरंत T+0 बैंक खाता भुगतान।",
     metrics: [
       { value: 15000, suffix: "+", label: "एकड़ रकबा" },
-      { value: 10, prefix: "₹", suffix: " करोड़+", label: "किसान भुगतान" },
-      { value: 100, suffix: "%", label: "पारदर्शी व्यवस्था" },
+      { value: 12, prefix: "₹", suffix: " करोड़+", label: "किसान भुगतान" },
+      { value: 0, suffix: "%", label: "बिचौलिया कमीशन" },
     ],
     features: [
-      "फसल कटाई से पहले पक्का बायबैक अनुबंध",
-      "खेत पर डिजिटल वजन व तुरंत बैंक भुगतान",
-      "टिकाऊ खेती से प्रति एकड़ कार्बन क्रेडिट कमाई",
+      "बुवाई पूर्व न्यूनतम मूल्य गारंटी",
+      "खेत पर डिजिटल वजन व त्वरित भुगतान",
+      "बड़े रिटेलर्स व निर्यातकों से सीधा जुड़ाव",
     ],
-    ctaText: "मार्केट लिंकेज समझें",
+    ctaText: "मार्केट लिंकेज देखें",
     ctaHref: "/services#market-linkage",
-    imageSrc: "/carbon credits.png",
-    imageAlt: "बायबैक और कार्बन क्रेडिट्स",
+    imageSrc: "/services/market-linkage-harvest.jpg",
+    imageAlt: "खेत पर फसल खरीद व मार्केट लिंकेज",
   },
 ];
 
@@ -309,21 +309,48 @@ export default function PillarsHorizontalParallax() {
 
                 {/* Visual Column (Right) */}
                 <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center">
-                  <div className="w-full flex items-center justify-center">
-                    <TiltCard maxTilt={4} glare={false} className="w-full">
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="relative w-full flex items-center justify-center p-0"
-                      >
-                        <img
-                          src={pillar.imageSrc}
-                          alt={pillar.imageAlt}
-                          className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-xl"
-                        />
-                      </motion.div>
-                    </TiltCard>
-                  </div>
+                  {pillar.id === "pillar-market" ? (
+                    <div className="relative w-full max-w-[520px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
+                      <img
+                        src={pillar.imageSrc}
+                        alt={pillar.imageAlt}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+
+                      {/* Bottom Floating Telemetry Panel */}
+                      <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
+                        <div className="flex flex-col">
+                          <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                            Institutional Offtake
+                          </span>
+                          <span className="font-display text-xs font-bold text-[#143d31]">
+                            Reliance · BigBasket · Global Exporters
+                          </span>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 border border-[#a3e635]/50 px-2.5 py-1 rounded-full">
+                            T+0 Farm-Gate UPI
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full flex items-center justify-center">
+                      <TiltCard maxTilt={4} glare={false} className="w-full">
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="relative w-full flex items-center justify-center p-0"
+                        >
+                          <img
+                            src={pillar.imageSrc}
+                            alt={pillar.imageAlt}
+                            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-xl"
+                          />
+                        </motion.div>
+                      </TiltCard>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -352,13 +379,27 @@ export default function PillarsHorizontalParallax() {
             </p>
 
             {/* Visual */}
-            <div className="relative w-full flex items-center justify-center my-4">
-              <img
-                src={pillar.imageSrc}
-                alt={pillar.imageAlt}
-                className="w-full max-h-[260px] object-contain drop-shadow-lg"
-              />
-            </div>
+            {pillar.id === "pillar-market" ? (
+              <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl border border-[#143d31]/12 bg-white shadow-md my-4">
+                <img
+                  src={pillar.imageSrc}
+                  alt={pillar.imageAlt}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute bottom-2.5 inset-x-2.5 rounded-xl bg-white/95 backdrop-blur-sm p-2 border border-[#143d31]/10 text-left">
+                  <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase">Institutional Offtake</p>
+                  <p className="font-display text-[11px] font-bold text-[#143d31]">Direct Buyer Linkage · T+0 Payouts</p>
+                </div>
+              </div>
+            ) : (
+              <div className="relative w-full flex items-center justify-center my-4">
+                <img
+                  src={pillar.imageSrc}
+                  alt={pillar.imageAlt}
+                  className="w-full max-h-[260px] object-contain drop-shadow-lg"
+                />
+              </div>
+            )}
 
             {/* Metrics */}
             <div className="border-y border-[#143d31]/10 py-3 grid grid-cols-3 gap-1">

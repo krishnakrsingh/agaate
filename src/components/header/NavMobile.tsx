@@ -148,8 +148,8 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                               onClick={onClose}
                               className="group/sub flex items-center gap-2.5 rounded-[12px] p-2 transition-colors hover:bg-slate-100/90"
                             >
-                              <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-[10px] border border-slate-200/80 bg-slate-100 text-[#0d2a21] transition-all group-hover/sub:bg-[#0d2a21] group-hover/sub:text-[#a3e635]">
-                                {SubIcon && <SubIcon className="h-4 w-4" strokeWidth={1.85} />}
+                              <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all group-hover/sub:bg-[#143d31] group-hover/sub:text-[#a3e635]">
+                                {SubIcon && <SubIcon className="h-4 w-4" weight="bold" />}
                               </div>
                               <div className="flex min-w-0 flex-col">
                                 <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
