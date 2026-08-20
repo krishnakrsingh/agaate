@@ -45,7 +45,7 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
       {
         key: "kisaanMall",
-        href: "/services#kisaan-mall",
+        href: "/kisaan-mall",
         label: "Kisaan Mall",
         desc: "Verified seeds, fertilizers & machinery store",
         icon: Storefront,
@@ -94,7 +94,7 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
     ],
   },
-  { key: "agriPark", href: "/agri-park", icon: Compass },
+  { key: "kisaanMall", href: "/kisaan-mall", icon: Storefront },
   { key: "about", href: "/about", icon: Info },
   { key: "contact", href: "/contact", icon: Phone },
 ];
@@ -102,6 +102,7 @@ export const NAV_STRUCTURE: NavItem[] = [
 export const NAV_SUBTITLES: Record<string, string> = {
   home: "Home Overview",
   services: "All 8 Integrated Solutions",
+  kisaanMall: "Verified Agri Inputs Store",
   agriPark: "6-Acre Demo Center",
   about: "Our Mission & Team",
   contact: "Direct Agronomist Line",

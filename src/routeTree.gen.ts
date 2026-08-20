@@ -14,6 +14,7 @@ import { Route as AgaateAdminRouteRouteImport } from './routes/agaate-admin/rout
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
 import { Route as Char123LocaleChar125TermsOfServiceRouteImport } from './routes/{-$locale}/terms-of-service'
 import { Route as Char123LocaleChar125PrivacyPolicyRouteImport } from './routes/{-$locale}/privacy-policy'
+import { Route as Char123LocaleChar125KisaanMallRouteImport } from './routes/{-$locale}/kisaan-mall'
 import { Route as Char123LocaleChar125CookiePolicyRouteImport } from './routes/{-$locale}/cookie-policy'
 import { Route as Char123LocaleChar125ContactRouteImport } from './routes/{-$locale}/contact'
 import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
@@ -61,6 +62,12 @@ const Char123LocaleChar125PrivacyPolicyRoute =
   Char123LocaleChar125PrivacyPolicyRouteImport.update({
     id: '/privacy-policy',
     path: '/privacy-policy',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125KisaanMallRoute =
+  Char123LocaleChar125KisaanMallRouteImport.update({
+    id: '/kisaan-mall',
+    path: '/kisaan-mall',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
 const Char123LocaleChar125CookiePolicyRoute =
@@ -184,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
+  '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
@@ -208,6 +216,7 @@ export interface FileRoutesByTo {
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
+  '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
@@ -234,6 +243,7 @@ export interface FileRoutesById {
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
+  '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
+    | '/{-$locale}/kisaan-mall'
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
+    | '/{-$locale}/kisaan-mall'
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}'
@@ -310,6 +322,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
+    | '/{-$locale}/kisaan-mall'
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
@@ -366,6 +379,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/{-$locale}/privacy-policy'
       preLoaderRoute: typeof Char123LocaleChar125PrivacyPolicyRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/kisaan-mall': {
+      id: '/{-$locale}/kisaan-mall'
+      path: '/kisaan-mall'
+      fullPath: '/{-$locale}/kisaan-mall'
+      preLoaderRoute: typeof Char123LocaleChar125KisaanMallRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
     '/{-$locale}/cookie-policy': {
@@ -556,6 +576,7 @@ interface Char123LocaleChar125RouteRouteChildren {
   Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
   Char123LocaleChar125ContactRoute: typeof Char123LocaleChar125ContactRoute
   Char123LocaleChar125CookiePolicyRoute: typeof Char123LocaleChar125CookiePolicyRoute
+  Char123LocaleChar125KisaanMallRoute: typeof Char123LocaleChar125KisaanMallRoute
   Char123LocaleChar125PrivacyPolicyRoute: typeof Char123LocaleChar125PrivacyPolicyRoute
   Char123LocaleChar125TermsOfServiceRoute: typeof Char123LocaleChar125TermsOfServiceRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
@@ -571,6 +592,7 @@ const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChil
     Char123LocaleChar125ContactRoute: Char123LocaleChar125ContactRoute,
     Char123LocaleChar125CookiePolicyRoute:
       Char123LocaleChar125CookiePolicyRoute,
+    Char123LocaleChar125KisaanMallRoute: Char123LocaleChar125KisaanMallRoute,
     Char123LocaleChar125PrivacyPolicyRoute:
       Char123LocaleChar125PrivacyPolicyRoute,
     Char123LocaleChar125TermsOfServiceRoute:

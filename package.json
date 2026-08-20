@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@paper-design/shaders-react": "^0.0.80",
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-alert-dialog": "^1.1.23",
     "@radix-ui/react-avatar": "^1.2.6",

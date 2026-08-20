@@ -251,5 +251,36 @@ export const TRUST_ITEMS = [
   },
 ] as const;
 
+export const TRUST_METRICS = [
+  {
+    label: "Guaranteed SLA",
+    number: 2,
+    suffix: " hrs",
+    sub: "Direct callback from senior agronomy specialist during farm hours.",
+    icon: ChatCircleText,
+  },
+  {
+    label: "Growers Connected",
+    number: 1000,
+    suffix: "+",
+    sub: "Commercial vegetable, grain & orchard growers across North India.",
+    icon: Plant,
+  },
+  {
+    label: "Living R&D Hub",
+    number: 17,
+    suffix: " Acres",
+    sub: "Walk-in smart nursery and active proving grounds in Kukrola.",
+    icon: Compass,
+  },
+  {
+    label: "Verified SKUs",
+    number: 500,
+    suffix: "+",
+    sub: "Direct-from-factory QR-traced seeds, bio-nutrients & drip hardware.",
+    icon: Storefront,
+  },
+];
+
 export const FORM_STORAGE_KEY = "agaate-contact-form-v1";
 export const MESSAGE_MAX = 600;
