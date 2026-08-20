@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CaretDown, PaperPlaneTilt, Sparkle } from "@phosphor-icons/react";
+import { CaretDown, PaperPlaneTilt, Sparkle, ShieldCheck, CheckCircle } from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 import { submitLead } from "@/functions/submit-lead";
@@ -24,8 +26,8 @@ import {
 import { FileUpload } from "./FileUpload";
 import { FormSuccess } from "./FormSuccess";
 import { Spinner } from "./Spinner";
-import { Reveal } from "@/components/common/motion";
-import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
+
+gsap.registerPlugin(useGSAP);
 
 type FormState = {
   name: string;
@@ -62,15 +64,15 @@ function normalizePhone(raw: string) {
 
 function validate(form: FormState, topic: string) {
   const errors: Partial<Record<keyof FormState | "topic", string>> = {};
-  if (form.name.trim().length < 2) errors.name = "Enter your full name.";
+  if (form.name.trim().length < 2) errors.name = "Please enter your full name.";
   if (!/^[6-9]\d{9}$/.test(normalizePhone(form.phone))) {
-    errors.phone = "Enter a 10-digit mobile number.";
+    errors.phone = "Please enter a valid 10-digit mobile number.";
   }
   if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    errors.email = "Enter a valid email address.";
+    errors.email = "Please enter a valid email address.";
   }
-  if (!topic) errors.topic = "Select a topic.";
-  if (!form.consent) errors.consent = "Please accept the privacy notice to continue.";
+  if (!topic) errors.topic = "Please select a consultation topic.";
+  if (!form.consent) errors.consent = "Please accept the privacy notice to proceed.";
   return errors;
 }
 
@@ -83,6 +85,7 @@ export default function ContactForm({
 }: {
   onSuccessChange?: (success: boolean) => void;
 }) {
+  const containerRef = useRef<HTMLElement>(null);
   const { locale } = useParams({ strict: false }) as { locale?: string };
   const [topic, setTopic] = useState("nursery");
   const [form, setForm] = useState<FormState>(defaults);
@@ -100,6 +103,47 @@ export default function ContactForm({
   const clientToken = useRef(makeClientToken());
   const startedTracked = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useGSAP(
+    () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: "(min-width: 768px)",
+          isMobile: "(max-width: 767px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const { reduceMotion } = context.conditions as { reduceMotion: boolean };
+          if (reduceMotion) return;
+
+          gsap.fromTo(
+            ".form-fade-in",
+            { opacity: 0, y: 25 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: container,
+                start: "top 80%",
+                toggleActions: "play none none none",
+              },
+            },
+          );
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: containerRef },
+  );
 
   useEffect(() => {
     try {
@@ -208,7 +252,7 @@ export default function ContactForm({
       return;
     }
     if (offline) {
-      setFormError("You appear offline. Call or WhatsApp us, or retry when connected.");
+      setFormError("You appear offline. Please call or WhatsApp us directly, or retry when connected.");
       return;
     }
 
@@ -265,55 +309,66 @@ export default function ContactForm({
 
   return (
     <section
+      ref={containerRef}
       id="contact-form"
       aria-labelledby="contact-form-heading"
-      className="scroll-mt-24 py-16 sm:py-20 md:py-24 bg-[#f4f8f5] text-[#143d31]"
+      className="scroll-mt-24 py-16 sm:py-20 md:py-24 bg-[#f4f8f5] text-[#143d31] border-b border-[#143d31]/10"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Left Column: Topic Selector & Instructions */}
-          <div className="lg:col-span-5 space-y-6">
-            <Reveal variant="fade-up">
-              <div className="flex items-center gap-2.5">
-                <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                  03 · Consultation Track Routing
-                </p>
-              </div>
-
-              <h2
-                id="contact-form-heading"
-                className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.15]"
-              >
-                Select Your Required Farming Solution
-              </h2>
-
-              <p className="font-sans text-sm sm:text-base text-[#4f624f] leading-relaxed">
-                Choose a dedicated track so our lead agronomy scientist can prepare customized dosage charts and technical specifications before calling you.
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-start">
+          {/* Left Column: Topic Selector & Agronomic Dispatch Commitments */}
+          <div className="lg:col-span-5 space-y-6 form-fade-in">
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+                03 · Consultation Track Routing
               </p>
+            </div>
 
-              <div className="pt-4">
-                <TopicSelector
-                  options={CONSULTATION_TOPICS}
-                  value={topic}
-                  disabled={isSubmitting || !!ticketId}
-                  onChange={(id) => {
-                    setTopic(id);
-                    track("contact_form_field_completed", { field: "topic", topic: id });
-                  }}
-                />
-                {errors.topic ? (
-                  <p className="mt-2 font-mono text-xs font-semibold text-red-600" role="alert">
-                    {errors.topic}
-                  </p>
-                ) : null}
+            <h2
+              id="contact-form-heading"
+              className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.12]"
+            >
+              Select Your Required Agronomy Solution
+            </h2>
+
+            <p className="font-sans text-sm sm:text-base text-[#4f624f] leading-relaxed">
+              Selecting a dedicated track routes your inquiry directly to our lead agronomy specialist in that domain, who prepares tailored dosage schedules and trial data before calling you.
+            </p>
+
+            <div className="pt-2">
+              <TopicSelector
+                options={CONSULTATION_TOPICS}
+                value={topic}
+                disabled={isSubmitting || !!ticketId}
+                onChange={(id) => {
+                  setTopic(id);
+                  track("contact_form_field_completed", { field: "topic", topic: id });
+                }}
+              />
+              {errors.topic ? (
+                <p className="mt-2 font-mono text-xs font-semibold text-red-600" role="alert">
+                  {errors.topic}
+                </p>
+              ) : null}
+            </div>
+
+            {/* Direct Support Commitments */}
+            <div className="pt-6 border-t border-[#143d31]/10 space-y-3 font-sans text-xs text-[#4f624f]">
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck className="h-4 w-4 text-[#5d7d37] shrink-0" weight="fill" />
+                <span>100% free agronomy callbacks for registered growers</span>
               </div>
-            </Reveal>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle className="h-4 w-4 text-[#5d7d37] shrink-0" weight="fill" />
+                <span>Scientific dosage charts compliant with ICAR standards</span>
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Direct Submission Form */}
-          <div className="lg:col-span-7">
-            <div className="rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-8 md:p-10 shadow-xs">
+          <div className="lg:col-span-7 form-fade-in">
+            <div className="rounded-3xl border border-[#143d31]/12 bg-white p-6 sm:p-8 md:p-10 shadow-sm">
               {ticketId ? (
                 <FormSuccess
                   ticketId={ticketId}
@@ -326,14 +381,14 @@ export default function ContactForm({
                 <form ref={formRef} onSubmit={handleSubmit} className="space-y-6" noValidate>
                   <div className="flex items-center justify-between border-b border-[#143d31]/10 pb-4">
                     <span className="font-display text-lg font-bold text-[#143d31]">Grower & Field Details</span>
-                    <span className="max-w-[55%] truncate font-mono text-xs font-bold text-[#5d7d37]">
+                    <span className="max-w-[55%] truncate font-mono text-xs font-bold text-[#5d7d37] bg-[#143d31]/5 border border-[#143d31]/10 px-2.5 py-1 rounded-full">
                       {CONSULTATION_TOPICS.find((t) => t.id === topic)?.label}
                     </span>
                   </div>
 
                   {formError ? (
                     <div
-                      className="rounded-2xl border border-red-200 bg-red-50/70 p-4 font-sans text-xs text-red-700"
+                      className="rounded-2xl border border-red-200 bg-red-50/80 p-4 font-sans text-xs text-red-700"
                       role="alert"
                     >
                       {formError}
@@ -349,6 +404,7 @@ export default function ContactForm({
                     </div>
                   ) : null}
 
+                  {/* Honeypot for spam bots */}
                   <div className="absolute -left-[9999px] top-0 opacity-0" aria-hidden="true">
                     <label htmlFor="company_website">Company website</label>
                     <input
@@ -361,11 +417,12 @@ export default function ContactForm({
                     />
                   </div>
 
+                  {/* Row 1: Name & Phone */}
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <TextField
                       id="name"
                       name="name"
-                      label="Your Name *"
+                      label="Your Full Name *"
                       placeholder="e.g. Ramesh Kumar"
                       autoComplete="name"
                       value={form.name}
@@ -385,7 +442,7 @@ export default function ContactForm({
                       value={form.phone}
                       disabled={isSubmitting}
                       error={errors.phone}
-                      hint="Strictly used only to contact you about this inquiry."
+                      hint="Strictly used only to contact you about this agronomy request."
                       onChange={(e) => setField("phone", e.target.value)}
                       onBlur={() =>
                         form.phone && track("contact_form_field_completed", { field: "phone" })
@@ -393,6 +450,7 @@ export default function ContactForm({
                     />
                   </div>
 
+                  {/* Row 2: Email & Callback Channel */}
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <EmailField
                       id="email"
@@ -460,6 +518,7 @@ export default function ContactForm({
                     )}
                   </div>
 
+                  {/* Message Field */}
                   <TextareaField
                     id="message"
                     name="message"
@@ -472,7 +531,7 @@ export default function ContactForm({
                     onChange={(e) => setField("message", e.target.value)}
                   />
 
-                  {/* Photo / Report Attachment */}
+                  {/* Photo / Soil Report Upload */}
                   <div>
                     <button
                       type="button"
@@ -491,6 +550,7 @@ export default function ContactForm({
                     )}
                   </div>
 
+                  {/* Consent Checkbox */}
                   <ConsentCheckbox
                     id="consent"
                     checked={form.consent}
@@ -503,16 +563,17 @@ export default function ContactForm({
                     </a>.
                   </ConsentCheckbox>
 
+                  {/* Submit Button */}
                   <div className="pt-2">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="cursor-pointer inline-flex w-full min-h-12 items-center justify-center gap-2.5 rounded-full bg-[#143d31] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-[#a3e635] shadow-md transition-all duration-200 hover:bg-[#1a4d3e] disabled:opacity-50"
+                      className="cursor-pointer inline-flex w-full min-h-12 items-center justify-center gap-2.5 rounded-full bg-[#143d31] px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-wider text-[#a3e635] shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#1a4d3e] disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <>
                           <Spinner />
-                          <span>Dispatching Request...</span>
+                          <span>Dispatching Request to Desk...</span>
                         </>
                       ) : (
                         <>

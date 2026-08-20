@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
-import { CountUp } from "@/components/common/motion";
+import { CountUp, TiltCard } from "@/components/common/motion";
 import { useTranslation } from "react-i18next";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
@@ -237,30 +237,64 @@ export default function PillarsHorizontalParallax() {
           {PILLARS_DATA.map((pillar) => (
             <div
               key={pillar.id}
-              className="w-[100vw] h-screen shrink-0 flex items-center justify-center px-5 sm:px-10 lg:px-16 pt-20 pb-16"
+              className="w-[100vw] h-screen shrink-0 flex items-center justify-center px-6 sm:px-12 lg:px-16 pt-20 pb-16"
             >
-              <div className="mx-auto max-w-[1400px] w-full aspect-[16/10] max-h-[85vh] min-h-[600px] grid grid-cols-12 grid-rows-3 gap-4 lg:gap-6">
-                
-                {/* Main Hero Block */}
-                <div className="col-span-8 row-span-2 relative bg-white rounded-[2rem] p-8 lg:p-12 overflow-hidden border border-[#143d31]/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between group hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)] transition-shadow duration-500">
-                  {/* Text Content */}
-                  <div className="relative z-20 max-w-[55%]">
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="h-1.5 w-6 rounded-full bg-[#a3e635]" aria-hidden="true" />
-                      <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                        {pillar.number} · {pillar.tag}
-                      </p>
-                    </div>
-                    <h2 className="font-display text-4xl lg:text-[46px] xl:text-[52px] font-bold tracking-tight text-[#143d31] leading-[1.08] mb-5">
-                      {pillar.title}
-                    </h2>
-                    <p className="font-sans text-[15px] xl:text-base text-[#4f624f] leading-relaxed">
-                      {pillar.description}
+              <div className="mx-auto max-w-7xl w-full grid grid-cols-12 gap-8 lg:gap-14 items-center">
+                {/* Text Column (Left) */}
+                <div className="col-span-12 lg:col-span-6 flex flex-col justify-center max-w-xl lg:pr-6">
+                  {/* Eyebrow / Tag */}
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                      {pillar.number} · {pillar.tag}
                     </p>
                   </div>
-                  
-                  {/* CTA */}
-                  <div className="relative z-20 mt-8">
+
+                  {/* Headline */}
+                  <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]">
+                    {pillar.title}
+                  </h2>
+
+                  {/* Description */}
+                  <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
+                    {pillar.description}
+                  </p>
+
+                  {/* Metrics Strip */}
+                  <div className="my-6 border-y border-[#143d31]/10 py-4 grid grid-cols-3 gap-2">
+                    {pillar.metrics.map((m, mIdx) => (
+                      <div
+                        key={m.label}
+                        className={`text-left ${mIdx > 0
+                            ? "border-l border-[#143d31]/10 pl-3"
+                            : "first:border-l-0 first:pl-0"
+                          }`}
+                      >
+                        <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
+                          <CountUp to={m.value} prefix={m.prefix || ""} suffix={m.suffix || ""} />
+                        </p>
+                        <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                          {m.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Feature Highlights */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
+                    {pillar.features.map((feat) => (
+                      <div
+                        key={feat}
+                        className="flex items-center gap-2 text-xs sm:text-sm font-medium text-[#143d31]"
+                      >
+                        <CheckCircle className="h-4 w-4 text-[#143d31] shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <div>
                     <SlideUpPillButton
                       href={pillar.ctaHref}
                       variant="dark"
@@ -270,84 +304,53 @@ export default function PillarsHorizontalParallax() {
                       iconPosition="right"
                     />
                   </div>
+                </div>
 
-                  {/* Image visually integrated on the right side */}
-                  <div className="absolute right-0 bottom-0 top-0 w-1/2 flex items-end justify-end z-10">
-                    {pillar.id === "pillar-market" ? (
-                      <>
-                        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
-                        <img 
-                          src={pillar.imageSrc} 
-                          alt={pillar.imageAlt} 
-                          className="w-full h-full object-cover rounded-tl-[3rem] transition-transform duration-1000 group-hover:scale-105" 
-                        />
-                        {/* Telemetry panel for Market Linkage */}
-                        <div className="absolute bottom-6 right-6 z-20 flex flex-col gap-2 items-end">
-                          <div className="rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 shadow-xl border border-white/40">
-                            <span className="block font-mono text-[9px] font-bold uppercase tracking-wider text-[#5d7d37] mb-0.5">Institutional Offtake</span>
-                            <span className="block font-display text-xs font-bold text-[#143d31]">Reliance · BigBasket · Exporters</span>
-                          </div>
-                          <div className="rounded-xl bg-[#a3e635] p-2 px-3 shadow-lg">
-                            <span className="font-mono text-[10px] font-bold text-[#143d31] uppercase tracking-wide">T+0 Farm-Gate UPI</span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <img 
-                        src={pillar.imageSrc} 
-                        alt={pillar.imageAlt} 
-                        className="w-[120%] max-w-none max-h-[115%] object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105 group-hover:-translate-y-2 group-hover:-translate-x-2 translate-x-8 translate-y-8" 
+                {/* Visual Column (Right) */}
+                <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center">
+                  {pillar.id === "pillar-market" ? (
+                    <div className="relative w-full max-w-[520px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
+                      <img
+                        src={pillar.imageSrc}
+                        alt={pillar.imageAlt}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
-                    )}
-                  </div>
-                </div>
 
-                {/* Metric 1 (Dark Green) */}
-                <div className="col-span-4 row-span-1 bg-[#143d31] rounded-[2rem] p-6 xl:p-8 flex flex-col justify-center items-start shadow-sm hover:scale-[1.02] transition-transform duration-300 relative overflow-hidden group">
-                  <div className="absolute -right-12 -top-12 w-40 h-40 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-colors duration-500" />
-                  <p className="relative z-10 font-display text-4xl xl:text-5xl font-bold text-white tracking-tight mb-2">
-                    <CountUp to={pillar.metrics[0].value} prefix={pillar.metrics[0].prefix || ""} suffix={pillar.metrics[0].suffix || ""} />
-                  </p>
-                  <p className="relative z-10 font-mono text-[11px] font-bold text-[#a3e635] uppercase tracking-wider">
-                    {pillar.metrics[0].label}
-                  </p>
-                </div>
-
-                {/* Features List */}
-                <div className="col-span-4 row-span-2 bg-[#e8f0eb] rounded-[2rem] p-8 xl:p-10 flex flex-col justify-center shadow-sm border border-[#143d31]/5 hover:scale-[1.02] transition-transform duration-300 relative overflow-hidden">
-                  <div className="absolute right-0 top-0 w-32 h-32 bg-white/40 rounded-full blur-2xl translate-x-1/2 -translate-y-1/2" />
-                  <h3 className="relative z-10 font-display text-lg xl:text-xl font-bold text-[#143d31]/60 mb-6 uppercase tracking-widest">Key Benefits</h3>
-                  <div className="relative z-10 flex flex-col gap-5">
-                    {pillar.features.map((feat) => (
-                      <div key={feat} className="flex items-start gap-4">
-                        <CheckCircle className="h-6 w-6 text-[#5d7d37] shrink-0" weight="fill" />
-                        <span className="text-[15px] font-semibold text-[#143d31] leading-snug">{feat}</span>
+                      {/* Bottom Floating Telemetry Panel */}
+                      <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
+                        <div className="flex flex-col">
+                          <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                            Institutional Offtake
+                          </span>
+                          <span className="font-display text-xs font-bold text-[#143d31]">
+                            Reliance · BigBasket · Global Exporters
+                          </span>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 border border-[#a3e635]/50 px-2.5 py-1 rounded-full">
+                            T+0 Farm-Gate UPI
+                          </span>
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className="w-full flex items-center justify-center">
+                      <TiltCard maxTilt={4} glare={false} className="w-full">
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="relative w-full flex items-center justify-center p-0"
+                        >
+                          <img
+                            src={pillar.imageSrc}
+                            alt={pillar.imageAlt}
+                            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-xl"
+                          />
+                        </motion.div>
+                      </TiltCard>
+                    </div>
+                  )}
                 </div>
-
-                {/* Metric 2 (Lime) */}
-                <div className="col-span-4 row-span-1 bg-[#a3e635] rounded-[2rem] p-6 xl:p-8 flex flex-col justify-center items-start shadow-sm hover:scale-[1.02] transition-transform duration-300 relative overflow-hidden group">
-                  <div className="absolute -left-12 -bottom-12 w-40 h-40 bg-white/20 rounded-full blur-2xl group-hover:bg-white/40 transition-colors duration-500" />
-                  <p className="relative z-10 font-display text-4xl xl:text-5xl font-bold text-[#143d31] tracking-tight mb-2">
-                    <CountUp to={pillar.metrics[1].value} prefix={pillar.metrics[1].prefix || ""} suffix={pillar.metrics[1].suffix || ""} />
-                  </p>
-                  <p className="relative z-10 font-mono text-[11px] font-bold text-[#143d31]/80 uppercase tracking-wider">
-                    {pillar.metrics[1].label}
-                  </p>
-                </div>
-
-                {/* Metric 3 (White) */}
-                <div className="col-span-4 row-span-1 bg-white rounded-[2rem] p-6 xl:p-8 flex flex-col justify-center items-start shadow-sm border border-[#143d31]/5 hover:scale-[1.02] transition-transform duration-300">
-                  <p className="font-display text-4xl xl:text-5xl font-bold text-[#143d31] tracking-tight mb-2">
-                    <CountUp to={pillar.metrics[2].value} prefix={pillar.metrics[2].prefix || ""} suffix={pillar.metrics[2].suffix || ""} />
-                  </p>
-                  <p className="font-mono text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                    {pillar.metrics[2].label}
-                  </p>
-                </div>
-
               </div>
             </div>
           ))}
@@ -355,102 +358,90 @@ export default function PillarsHorizontalParallax() {
       </div>
 
       {/* ── MOBILE VIEW: Seamless Vertical Stack (< 768px) ── */}
-      <div className="block md:hidden py-12 px-4 space-y-16">
+      <div className="block md:hidden py-12 px-5 space-y-12 divide-y divide-[#143d31]/10">
         {PILLARS_DATA.map((pillar) => (
-          <div key={pillar.id} className="flex flex-col gap-4">
-             
-             {/* Main Hero Card */}
-             <div className="bg-white rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#143d31]/5 relative overflow-hidden flex flex-col group">
-               <div className="relative z-20 mb-8">
-                 <div className="flex items-center gap-2 mb-4">
-                   <span className="h-1 w-4 rounded-full bg-[#a3e635]" aria-hidden="true" />
-                   <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                     {pillar.number} · {pillar.tag}
-                   </p>
-                 </div>
-                 <h3 className="font-display text-3xl sm:text-4xl font-bold text-[#143d31] leading-[1.1] mb-3">
-                   {pillar.title}
-                 </h3>
-                 <p className="font-sans text-sm sm:text-base text-[#4f624f] leading-relaxed">
-                   {pillar.description}
-                 </p>
-               </div>
-               
-               {/* Visual */}
-               <div className="relative w-full rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/9] bg-[#f4f8f5] flex items-center justify-center">
-                 {pillar.id === "pillar-market" ? (
-                   <>
-                     <img src={pillar.imageSrc} alt={pillar.imageAlt} className="w-full h-full object-cover" />
-                     <div className="absolute bottom-3 right-3 flex flex-col gap-2 items-end">
-                       <div className="rounded-xl bg-white/95 backdrop-blur-md p-2 px-3 shadow-lg border border-white/40">
-                         <span className="block font-mono text-[8px] sm:text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">Institutional Offtake</span>
-                       </div>
-                       <div className="rounded-lg bg-[#a3e635] p-1.5 px-2.5 shadow-md">
-                         <span className="font-mono text-[9px] sm:text-[11px] font-bold text-[#143d31] uppercase">T+0 UPI</span>
-                       </div>
-                     </div>
-                   </>
-                 ) : (
-                   <img src={pillar.imageSrc} alt={pillar.imageAlt} className="w-[85%] object-contain drop-shadow-xl" />
-                 )}
-               </div>
-             </div>
+          <div key={pillar.id} className="pt-8 first:pt-0 space-y-5">
+            {/* Tag */}
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                {pillar.number} · {pillar.tag}
+              </p>
+            </div>
 
-             {/* Metrics Cards Grid */}
-             <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2 bg-[#143d31] rounded-[1.5rem] p-6 shadow-sm relative overflow-hidden">
-                  <div className="absolute -right-8 -top-8 w-24 h-24 bg-white/5 rounded-full blur-xl" />
-                  <p className="relative z-10 font-display text-3xl font-bold text-white mb-1">
-                    <CountUp to={pillar.metrics[0].value} prefix={pillar.metrics[0].prefix || ""} suffix={pillar.metrics[0].suffix || ""} />
-                  </p>
-                  <p className="relative z-10 font-mono text-[10px] font-bold text-[#a3e635] uppercase tracking-wider">
-                    {pillar.metrics[0].label}
-                  </p>
-                </div>
-                <div className="bg-[#a3e635] rounded-[1.5rem] p-5 shadow-sm relative overflow-hidden">
-                  <div className="absolute -left-6 -bottom-6 w-20 h-20 bg-white/20 rounded-full blur-xl" />
-                  <p className="relative z-10 font-display text-2xl font-bold text-[#143d31] mb-1">
-                    <CountUp to={pillar.metrics[1].value} prefix={pillar.metrics[1].prefix || ""} suffix={pillar.metrics[1].suffix || ""} />
-                  </p>
-                  <p className="relative z-10 font-mono text-[9px] font-bold text-[#143d31]/80 uppercase tracking-wider">
-                    {pillar.metrics[1].label}
-                  </p>
-                </div>
-                <div className="bg-white rounded-[1.5rem] p-5 shadow-sm border border-[#143d31]/5">
-                  <p className="font-display text-2xl font-bold text-[#143d31] mb-1">
-                    <CountUp to={pillar.metrics[2].value} prefix={pillar.metrics[2].prefix || ""} suffix={pillar.metrics[2].suffix || ""} />
-                  </p>
-                  <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                    {pillar.metrics[2].label}
-                  </p>
-                </div>
-             </div>
+            <h3 className="font-display text-2xl font-bold text-[#143d31] leading-tight">
+              {pillar.title}
+            </h3>
 
-             {/* Features & CTA */}
-             <div className="bg-[#e8f0eb] rounded-[1.5rem] p-6 shadow-sm border border-[#143d31]/5 relative overflow-hidden">
-               <div className="absolute right-0 top-0 w-24 h-24 bg-white/40 rounded-full blur-xl translate-x-1/2 -translate-y-1/2" />
-               <h4 className="relative z-10 font-display text-sm font-bold text-[#143d31]/60 mb-4 uppercase tracking-widest">Key Benefits</h4>
-               <div className="relative z-10 space-y-3.5 mb-6">
-                 {pillar.features.map((feat) => (
-                    <div key={feat} className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-[#5d7d37] shrink-0" weight="fill" />
-                      <span className="text-sm font-semibold text-[#143d31] leading-snug">{feat}</span>
-                    </div>
-                 ))}
-               </div>
-               <div className="relative z-10">
-                 <SlideUpPillButton
-                    href={pillar.ctaHref}
-                    variant="dark"
-                    size="md"
-                    label={pillar.ctaText}
-                    icon={<ArrowRight className="h-4 w-4" />}
-                    iconPosition="right"
-                    fullWidth
-                  />
-               </div>
-             </div>
-             
+            <p className="font-sans text-sm text-[#4f624f] leading-relaxed font-normal">
+              {pillar.description}
+            </p>
+
+            {/* Visual */}
+            {pillar.id === "pillar-market" ? (
+              <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl border border-[#143d31]/12 bg-white shadow-md my-4">
+                <img
+                  src={pillar.imageSrc}
+                  alt={pillar.imageAlt}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute bottom-2.5 inset-x-2.5 rounded-xl bg-white/95 backdrop-blur-sm p-2 border border-[#143d31]/10 text-left">
+                  <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase">Institutional Offtake</p>
+                  <p className="font-display text-[11px] font-bold text-[#143d31]">Direct Buyer Linkage · T+0 Payouts</p>
+                </div>
+              </div>
+            ) : (
+              <div className="relative w-full flex items-center justify-center my-4">
+                <img
+                  src={pillar.imageSrc}
+                  alt={pillar.imageAlt}
+                  className="w-full max-h-[260px] object-contain drop-shadow-lg"
+                />
+              </div>
+            )}
+
+            {/* Metrics */}
+            <div className="border-y border-[#143d31]/10 py-3 grid grid-cols-3 gap-1">
+              {pillar.metrics.map((m, mIdx) => (
+                <div
+                  key={m.label}
+                  className={`text-left ${mIdx > 0 ? "border-l border-[#143d31]/10 pl-2" : ""}`}
+                >
+                  <p className="font-display text-xl font-bold text-[#143d31]">
+                    <CountUp to={m.value} prefix={m.prefix || ""} suffix={m.suffix || ""} />
+                  </p>
+                  <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                    {m.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Features */}
+            <div className="space-y-2">
+              {pillar.features.map((feat) => (
+                <div
+                  key={feat}
+                  className="flex items-center gap-2 text-xs font-medium text-[#143d31]"
+                >
+                  <CheckCircle className="h-3.5 w-3.5 text-[#143d31] shrink-0" />
+                  <span>{feat}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="pt-2">
+              <SlideUpPillButton
+                href={pillar.ctaHref}
+                variant="dark"
+                size="md"
+                label={pillar.ctaText}
+                icon={<ArrowRight className="h-4 w-4" />}
+                iconPosition="right"
+                fullWidth
+              />
+            </div>
           </div>
         ))}
       </div>

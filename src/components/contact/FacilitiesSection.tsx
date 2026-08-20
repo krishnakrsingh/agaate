@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
-  ArrowUpRight,
   CheckCircle,
   Clock,
   Copy,
@@ -8,8 +7,11 @@ import {
   MapPin,
   Phone,
   NavigationArrow,
+  Compass,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { EASE } from "@/components/common/motion";
 import { FACILITIES, type Facility } from "./data";
 import GoogleMapEmbed from "./GoogleMapEmbed";
@@ -17,12 +19,55 @@ import { useToast } from "./toast-context";
 import { track } from "@/lib/analytics";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
+gsap.registerPlugin(useGSAP);
+
 export default function FacilitiesSection() {
+  const containerRef = useRef<HTMLElement>(null);
   const [activeTab, setActiveTab] = useState(FACILITIES[0].id);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const { showToast } = useToast();
 
   const activeFacility = FACILITIES.find((f) => f.id === activeTab) || FACILITIES[0];
+
+  useGSAP(
+    () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: "(min-width: 768px)",
+          isMobile: "(max-width: 767px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const { reduceMotion } = context.conditions as { reduceMotion: boolean };
+          if (reduceMotion) return;
+
+          gsap.fromTo(
+            ".facility-header-fade",
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: container,
+                start: "top 80%",
+                toggleActions: "play none none none",
+              },
+            },
+          );
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: containerRef },
+  );
 
   const handleCopyAddress = (facility: Facility) => {
     const full = `${facility.name}, ${facility.address}`;
@@ -36,18 +81,19 @@ export default function FacilitiesSection() {
 
   return (
     <section
+      ref={containerRef}
       id="facilities"
       aria-labelledby="facilities-heading"
-      className="scroll-mt-24 py-16 sm:py-20 md:py-24 bg-[#f4f8f5] text-[#143d31] border-t border-[#143d31]/10"
+      className="scroll-mt-24 py-16 sm:py-20 md:py-24 bg-[#f4f8f5] text-[#143d31] border-b border-[#143d31]/10"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-3 max-w-2xl">
+        <div className="facility-header-fade flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3 max-w-2xl text-left">
             <div className="flex items-center gap-2.5">
               <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                04 · Physical Experiential Hubs
+                04 · Physical Experiential Hubs & Living Soil
               </p>
             </div>
             <h2
@@ -62,7 +108,7 @@ export default function FacilitiesSection() {
           </div>
 
           {/* Facility Switcher Tabs */}
-          <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-white border border-[#143d31]/10 shrink-0">
+          <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-white border border-[#143d31]/12 shrink-0 shadow-2xs">
             {FACILITIES.map((f) => {
               const isActive = f.id === activeTab;
               const Icon = f.icon;
@@ -74,9 +120,9 @@ export default function FacilitiesSection() {
                     setActiveTab(f.id);
                     track("facility_tab_switched", { facility: f.id });
                   }}
-                  className={`cursor-pointer inline-flex items-center gap-2 rounded-xl px-4 py-2 font-mono text-xs font-bold transition-all duration-200 ${
+                  className={`cursor-pointer inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-mono text-xs font-bold transition-all duration-300 ${
                     isActive
-                      ? "bg-[#143d31] text-[#a3e635] shadow-xs"
+                      ? "bg-[#143d31] text-[#a3e635] shadow-sm"
                       : "text-[#143d31] hover:bg-[#f4f8f5]"
                   }`}
                 >
@@ -99,16 +145,16 @@ export default function FacilitiesSection() {
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch"
           >
             {/* Left Column: Photo & Verified Hub Details */}
-            <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-8 md:p-10 shadow-xs">
+            <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl border border-[#143d31]/12 bg-white p-6 sm:p-8 md:p-10 shadow-sm">
               <div className="space-y-6">
                 {/* Visual Header */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-[#143d31]/5 border border-[#143d31]/10">
+                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-[#143d31]/5 border border-[#143d31]/10 group">
                   <img
                     src={activeFacility.image}
                     alt={activeFacility.name}
-                    className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute top-3 left-3 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3 py-1 font-mono text-[10px] font-bold uppercase text-[#a3e635] border border-white/10">
+                  <div className="absolute top-3 left-3 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3.5 py-1 font-mono text-[10px] font-bold uppercase text-[#a3e635] border border-white/10">
                     {activeFacility.role}
                   </div>
                 </div>
@@ -181,7 +227,7 @@ export default function FacilitiesSection() {
                 <button
                   type="button"
                   onClick={() => handleCopyAddress(activeFacility)}
-                  className="cursor-pointer inline-flex items-center gap-2 rounded-full border border-[#143d31]/15 bg-[#f4f8f5] px-4 py-2 font-mono text-xs font-bold text-[#143d31] transition-colors hover:bg-white"
+                  className="cursor-pointer inline-flex items-center gap-2 rounded-full border border-[#143d31]/15 bg-[#f4f8f5] px-4 py-2 font-mono text-xs font-bold text-[#143d31] transition-colors hover:bg-white hover:border-[#143d31]/30"
                 >
                   {copiedId === activeFacility.id ? (
                     <>
@@ -199,11 +245,11 @@ export default function FacilitiesSection() {
             </div>
 
             {/* Right Column: Google Maps Interactive Satellite / Map Embed */}
-            <div className="lg:col-span-6 flex flex-col rounded-3xl border border-[#143d31]/10 bg-white overflow-hidden shadow-xs min-h-[420px]">
+            <div className="lg:col-span-6 flex flex-col rounded-3xl border border-[#143d31]/12 bg-white overflow-hidden shadow-sm min-h-[420px]">
               <div className="p-4 bg-[#f4f8f5] border-b border-[#143d31]/10 flex items-center justify-between">
                 <span className="font-mono text-xs font-bold text-[#143d31] flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-[#5d7d37]" weight="fill" />
-                  <span>Interactive Hub Map Location</span>
+                  <span>Interactive Map & Satellite Pin</span>
                 </span>
                 <span className="font-mono text-[10px] text-[#5d7d37] uppercase tracking-wider font-bold">
                   {activeFacility.coordinates.latLabel} · {activeFacility.coordinates.lngLabel}

@@ -129,7 +129,7 @@ export default function KisaanMallShowcase() {
               onMouseLeave={() => setActivePin(null)}
               onClick={() => setActivePin(activePin === 4 ? null : 4)}
               className="relative group flex items-center justify-center h-7 w-7 rounded-full bg-[#143d31] text-[#a3e635] shadow-xl border-2 border-[#a3e635] cursor-pointer hover:scale-125 transition-transform"
-              aria-label="Pincode Express Dispatch Hub"
+              aria-label="Pincode Serviceability Hub"
             >
               <Truck className="h-3.5 w-3.5 text-[#a3e635]" />
               <span className="animate-ping absolute inset-0 rounded-full bg-[#143d31]/60" />
@@ -145,10 +145,10 @@ export default function KisaanMallShowcase() {
                   <span>15,000+ PIN Codes</span>
                 </div>
                 <p className="font-display text-xs font-bold text-[#a3e635] mt-1">
-                  Single-Day Gate Delivery
+                  Direct Farm Gate Delivery
                 </p>
                 <p className="text-[10px] text-white/75 mt-0.5 leading-tight">
-                  Dispatched from regional hubs straight to your field gate in 24 hours.
+                  Dispatched from regional hubs straight to your field gate.
                 </p>
               </motion.div>
             )}

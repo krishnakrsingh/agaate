@@ -218,7 +218,7 @@ export default function PincodeDeliveryChecker() {
               </div>
 
               <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold text-[#a3e635] tracking-wide uppercase">
-                {isHindi ? "24 घंटे डिलीवरी" : "Single-Day Express"}
+                {isHindi ? "खेत डिलीवरी" : "Express Dispatch"}
               </span>
             </div>
 
@@ -227,8 +227,8 @@ export default function PincodeDeliveryChecker() {
                 <Clock className="h-3.5 w-3.5 text-[#a3e635] shrink-0" />
                 <span>
                   {isHindi
-                    ? "खेत पर डिलीवरी: कल शाम 6:00 बजे तक"
-                    : "Est. Gate Delivery: Tomorrow by 6 PM"}
+                    ? "अनुमानित डिलीवरी: 2-3 कार्यदिवस"
+                    : "Est. Gate Delivery: 2–3 Days"}
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -261,8 +261,8 @@ export default function PincodeDeliveryChecker() {
           <div className="rounded-xl border border-dashed border-[#143d31]/20 bg-[#f4f8f5]/60 p-3.5 text-center">
             <p className="text-xs text-[#4f624f] leading-relaxed">
               {isHindi
-                ? "📍 अगाते मॉल नेटवर्क 15,000+ पिनकोड में 24 घंटे में सीधे आपके खेत के गेट तक खाद, बीज व ड्रिप किट पहुंचाता है।"
-                : "📍 Agaate Mall delivers seeds, biologicals, & drip kits straight to field gates across 15,000+ PIN codes within 24 hours."}
+                ? "📍 अगाते मॉल नेटवर्क 15,000+ पिनकोड में सीधे आपके खेत के गेट तक खाद, बीज व ड्रिप किट सुरक्षित पहुंचाता है।"
+                : "📍 Agaate Mall delivers seeds, biologicals, & drip kits straight to field gates across 15,000+ PIN codes with live tracking."}
             </p>
           </div>
         )}

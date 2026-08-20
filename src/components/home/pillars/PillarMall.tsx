@@ -67,10 +67,10 @@ export default function PillarMall() {
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  Single Day
+                  <CountUp to={100} suffix="%" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Doorstep Delivery
+                  Direct Factory Sourced
                 </p>
               </div>
             </div>

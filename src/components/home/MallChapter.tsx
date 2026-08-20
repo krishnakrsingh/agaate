@@ -39,7 +39,7 @@ const SUPPLY_CHAIN_STEPS_EN = [
   },
   {
     step: "04",
-    title: "Single-Day Farm Delivery",
+    title: "Direct Farm Delivery",
     desc: "Delivered straight to your field gate across 15,000+ PIN codes.",
     icon: Truck,
   },
@@ -66,8 +66,8 @@ const SUPPLY_CHAIN_STEPS_HI = [
   },
   {
     step: "04",
-    title: "खेत तक त्वरित डिलीवरी",
-    desc: "15,000+ पिनकोड में सीधे आपके खेत के गेट तक 24 घंटे में डिलीवरी।",
+    title: "खेत तक सुरक्षित डिलीवरी",
+    desc: "15,000+ पिनकोड में सीधे आपके खेत के गेट तक सुरक्षित डिलीवरी।",
     icon: Truck,
   },
 ];
@@ -137,16 +137,16 @@ export default function MallChapter() {
               </div>
               <div className="text-left border-l border-[#143d31]/10 pl-3">
                 <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                  {isHindi ? "24 घंटे में" : "Single Day"}
+                  <CountUp to={100} suffix="%" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  {isHindi ? "खेत तक डिलीवरी" : "Doorstep Delivery"}
+                  {isHindi ? "सीधी ब्रांड सोर्सिंग" : "Direct Factory Sourced"}
                 </p>
               </div>
             </div>
 
             {/* Feature Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
               {(isHindi
                 ? [
                     "सीधे निर्माता कंपनियों से किफायती दाम",
@@ -167,6 +167,16 @@ export default function MallChapter() {
                   <span>{feat}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Delivery & Pincode Coverage Badge */}
+            <div className="flex items-center gap-2 rounded-xl bg-[#143d31]/5 border border-[#143d31]/10 px-3.5 py-2 text-xs font-medium text-[#143d31] mb-6">
+              <MapPinLine className="h-4 w-4 text-[#5d7d37] shrink-0" />
+              <span>
+                {isHindi
+                  ? "📍 15,000+ पिनकोड में सीधे आपके खेत के गेट तक तेज़ व सुरक्षित डिलीवरी"
+                  : "📍 Delivering across 15,000+ PIN codes with Express Field Gate Dispatch"}
+              </span>
             </div>
 
             {/* CTA Button */}
@@ -193,6 +203,18 @@ export default function MallChapter() {
             <KisaanMallShowcase />
           </motion.div>
         </div>
+
+        {/* ── Interactive Pincode Delivery & Serviceability Checker ── */}
+        <motion.div
+          data-home-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="pt-2"
+        >
+          <PincodeDeliveryChecker />
+        </motion.div>
 
         {/* ── Agaate Direct Supply Guarantee (Card-less Seamless Grid) ── */}
         <div data-home-reveal className="pt-8 border-t border-[#143d31]/10 space-y-8">

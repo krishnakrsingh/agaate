@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
   ContactHero,
-  QuickContactBar,
+  ContactChannels,
   MobileStickyContactBar,
   ContactForm,
   FacilitiesSection,
@@ -111,7 +111,7 @@ function ContactPage() {
       <main className="min-h-screen bg-[#f4f8f5] pb-20 font-sans text-[#143d31] antialiased sm:pb-0">
         <Header />
         <ContactHero />
-        <QuickContactBar />
+        <ContactChannels />
         <ContactForm onSuccessChange={onSuccessChange} />
         <FacilitiesSection />
         <TrustBand />
