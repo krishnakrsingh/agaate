@@ -2,15 +2,24 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import {
   PaperPlaneTilt,
   CaretDown,
-  Check,
+  Clock,
+  ShieldCheck,
+  WhatsappLogo,
+  PhoneCall,
+  EnvelopeSimple,
+  Plant,
+  CornersOut,
+  TreeEvergreen,
+  HourglassHigh,
 } from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { cn } from "@/lib/utils";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 import { submitLead } from "@/functions/submit-lead";
-import teamImage from "@/assets/contact-team.png";
+import teamImage from "@/assets/contact-team.jpg";
 import {
   CONSULTATION_TOPICS,
   ACREAGE_OPTIONS,
@@ -20,7 +29,6 @@ import {
   FORM_STORAGE_KEY,
   MESSAGE_MAX,
 } from "./data";
-import { TextField, PhoneField, EmailField, SelectField, TextareaField, ConsentCheckbox } from "./fields";
 import { FileUpload } from "./FileUpload";
 import { FormSuccess } from "./FormSuccess";
 import { Spinner } from "./Spinner";
@@ -64,20 +72,135 @@ function normalizePhone(raw: string) {
 
 function validate(form: FormState, topic: string) {
   const errors: Partial<Record<keyof FormState | "topic", string>> = {};
+  if (!topic) errors.topic = "This is a required question.";
+  if (!form.channel) errors.channel = "This is a required question.";
   if (form.name.trim().length < 2) errors.name = "Please enter your full name.";
   if (!/^[6-9]\d{9}$/.test(normalizePhone(form.phone))) {
-    errors.phone = "Please enter a valid 10-digit mobile number.";
+    errors.phone = "Please enter a valid 10-digit Indian mobile number.";
   }
   if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
     errors.email = "Please enter a valid email address.";
   }
-  if (!topic) errors.topic = "Please select a consultation track.";
-  if (!form.consent) errors.consent = "Please accept the privacy notice to proceed.";
+  if (!form.consent) errors.consent = "Please agree to the privacy terms to proceed.";
   return errors;
 }
 
 function makeClientToken() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function FormCard({
+  title,
+  required,
+  description,
+  error,
+  children,
+  className,
+}: {
+  title?: string;
+  required?: boolean;
+  description?: string;
+  error?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "bg-white rounded-xl sm:rounded-2xl border border-neutral-200/90 p-4 sm:p-5 shadow-2xs transition-all duration-200 text-left",
+        "focus-within:border-[#143d31] focus-within:ring-2 focus-within:ring-[#143d31]/10",
+        error && "border-red-500 ring-1 ring-red-500/20",
+        className,
+      )}
+    >
+      {title && (
+        <div className="mb-3">
+          <h3 className="text-sm sm:text-[15px] font-semibold text-[#143d31] flex items-center gap-1">
+            <span>{title}</span>
+            {required && <span className="text-red-500 font-bold">*</span>}
+          </h3>
+          {description && (
+            <p className="text-xs text-neutral-500 mt-0.5 leading-normal">
+              {description}
+            </p>
+          )}
+        </div>
+      )}
+      {children}
+      {error && (
+        <p className="text-xs font-medium text-red-600 mt-2 flex items-center gap-1">
+          <span>●</span> {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function GoogleInput({
+  id,
+  type = "text",
+  value,
+  placeholder = "Your answer",
+  onChange,
+  disabled,
+  prefix,
+}: {
+  id: string;
+  type?: string;
+  value: string;
+  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+  prefix?: string;
+}) {
+  return (
+    <div className="relative flex items-center border-b border-neutral-300 focus-within:border-[#143d31] focus-within:border-b-2 py-1.5 transition-all max-w-md">
+      {prefix && (
+        <span className="text-sm font-semibold text-neutral-700 mr-2 select-none">
+          {prefix}
+        </span>
+      )}
+      <input
+        id={id}
+        name={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        placeholder={placeholder}
+        className="w-full bg-transparent text-sm sm:text-base text-[#143d31] placeholder:text-neutral-400 focus:outline-none"
+      />
+    </div>
+  );
+}
+
+function GoogleTextarea({
+  id,
+  value,
+  placeholder = "Your answer",
+  onChange,
+  disabled,
+}: {
+  id: string;
+  value: string;
+  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="relative border-b border-neutral-300 focus-within:border-[#143d31] focus-within:border-b-2 py-1.5 transition-all">
+      <textarea
+        id={id}
+        name={id}
+        rows={2}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        placeholder={placeholder}
+        className="w-full bg-transparent text-sm sm:text-base text-[#143d31] placeholder:text-neutral-400 focus:outline-none resize-y leading-relaxed"
+      />
+    </div>
+  );
 }
 
 export default function ContactHeroSection({
@@ -92,8 +215,6 @@ export default function ContactHeroSection({
   const [topic, setTopic] = useState("nursery");
   const [form, setForm] = useState<FormState>(defaults);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | "topic", string>>>({});
-  const [showFarmDetails, setShowFarmDetails] = useState(true);
-  const [showUpload, setShowUpload] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ticketId, setTicketId] = useState<string | null>(null);
@@ -105,6 +226,11 @@ export default function ContactHeroSection({
   const startedAt = useRef(Date.now());
   const clientToken = useRef(makeClientToken());
   const startedTracked = useRef(false);
+
+  const selectedTopicObj = useMemo(
+    () => CONSULTATION_TOPICS.find((t) => t.id === topic),
+    [topic],
+  );
 
   useGSAP(
     () => {
@@ -191,12 +317,12 @@ export default function ContactHeroSection({
   const privacyHref = getLocalizedPath("/privacy-policy", locale ?? "en");
 
   const whatsappHref = useMemo(() => {
-    const topicLabel = CONSULTATION_TOPICS.find((t) => t.id === topic)?.label || "General";
+    const topicLabel = selectedTopicObj?.label || "General";
     const text = encodeURIComponent(
       `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Crop Stage:* ${form.cropStage}\n*Message:* ${form.message || "Thank you."}`,
     );
     return `https://wa.me/918350085005?text=${text}`;
-  }, [ticketId, topic, form]);
+  }, [ticketId, selectedTopicObj, form]);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     if (!startedTracked.current) {
@@ -217,7 +343,6 @@ export default function ContactHeroSection({
     setErrors({});
     setFormError(null);
     setFile(null);
-    setShowUpload(false);
     startedAt.current = Date.now();
     clientToken.current = makeClientToken();
     sessionStorage.removeItem(FORM_STORAGE_KEY);
@@ -238,7 +363,7 @@ export default function ContactHeroSection({
       return;
     }
     if (offline) {
-      setFormError("You appear offline. Please call or WhatsApp us directly, or retry when connected.");
+      setFormError("You appear offline. Please retry when connected or contact us via WhatsApp.");
       return;
     }
 
@@ -298,15 +423,15 @@ export default function ContactHeroSection({
       ref={containerRef}
       id="contact-master"
       aria-label="Contact Agaate Agronomy Desk"
-      className="relative w-full min-h-screen bg-[#f4f8f5] text-[#143d31] p-[5px] sm:p-2 lg:p-[5px]"
+      className="relative w-full min-h-screen bg-[#f4f8f5] text-[#143d31] px-3 sm:px-4 lg:px-6 pt-20 sm:pt-24 lg:pt-22 pb-16"
     >
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start max-w-7xl mx-auto">
         
         {/* ═══════════════════════════════════════════════════════════
-            LEFT COLUMN: Pure Sticky Image Box (Wider 6-Col Split, 5px Frame, Full Screen Tall, Clean Image Only)
+            LEFT COLUMN: Pure Sticky Image Box (Positioned Below Header)
             ═══════════════════════════════════════════════════════════ */}
-        <div className="lg:col-span-6 xl:col-span-6 w-full lg:sticky lg:top-[5px] lg:h-[calc(100dvh-10px)] contact-anim-left">
-          <div className="relative w-full h-[420px] sm:h-[540px] lg:h-full overflow-hidden rounded-[20px] border border-[#143d31]/10 bg-[#143d31]/5 shadow-sm">
+        <div className="lg:col-span-6 xl:col-span-6 w-full lg:sticky lg:top-24 lg:h-[calc(100dvh-112px)] contact-anim-left">
+          <div className="relative w-full h-[400px] sm:h-[500px] lg:h-full overflow-hidden rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-[#143d31]/5 shadow-xs">
             <img
               src={teamImage}
               alt="Agaate Team"
@@ -316,309 +441,397 @@ export default function ContactHeroSection({
         </div>
 
         {/* ═══════════════════════════════════════════════════════════
-            RIGHT COLUMN: Comprehensive Agronomy Form (6-Col Split)
+            RIGHT COLUMN: Clean Google Forms Card Layout
             ═══════════════════════════════════════════════════════════ */}
-        <div className="lg:col-span-6 xl:col-span-6 w-full pt-20 sm:pt-24 lg:pt-20 pb-16 px-2 sm:px-4 lg:px-6 contact-anim-right text-left">
-          <div className="rounded-3xl border border-[#143d31]/12 bg-white p-5 sm:p-7 md:p-9 shadow-sm">
-            {ticketId ? (
-              <FormSuccess
-                ticketId={ticketId}
-                name={form.name}
-                topicId={topic}
-                onReset={reset}
-                whatsappHref={whatsappHref}
-              />
-            ) : (
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6" noValidate>
-                {/* Form Header */}
-                <div className="border-b border-[#143d31]/10 pb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
-                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                      Direct Grower &amp; Enterprise Desk
+        <div className="lg:col-span-6 xl:col-span-6 w-full contact-anim-right text-left">
+          {ticketId ? (
+            <FormSuccess
+              ticketId={ticketId}
+              name={form.name}
+              topicId={topic}
+              onReset={reset}
+              whatsappHref={whatsappHref}
+            />
+          ) : (
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5" noValidate>
+              
+              {/* ── CARD 0: Header Card with Top Green Band ── */}
+              <div className="bg-white rounded-xl sm:rounded-2xl border border-neutral-200/90 shadow-2xs overflow-hidden text-left">
+                <div className="h-2.5 sm:h-3 w-full bg-[#143d31]" />
+                <div className="p-4 sm:p-6 space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-2 w-2 relative">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
+                    </span>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                      Direct Agronomy Desk · Gurugram Hub
                     </p>
                   </div>
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-[#143d31] tracking-tight leading-[1.15]">
-                    Agronomy Consultation &amp; Inquiry Form
+
+                  <h1 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-bold text-[#143d31] tracking-tight leading-snug">
+                    Agronomy Consultation &amp; Inquiry
                   </h1>
-                  <p className="font-sans text-xs sm:text-sm text-[#4f624f] mt-1.5 leading-relaxed">
-                    Select your inquiry track below so our lead specialist prepares tailored dosage calculations, trial data, and availability schedules before calling you.
+
+                  <p className="text-xs sm:text-[13px] text-neutral-600 leading-relaxed">
+                    Connect directly with our senior agronomists for customized dosage schedules, seedling reservations, or commercial project inquiries.
+                  </p>
+
+                  <div className="pt-1.5 flex flex-wrap items-center gap-2 text-xs text-neutral-700">
+                    <span className="inline-flex items-center gap-1.5 bg-[#f4f8f5] border border-[#143d31]/10 px-2.5 py-1 rounded-md text-[11px] font-semibold text-[#143d31]">
+                      <Clock className="h-3.5 w-3.5 text-[#5d7d37]" weight="bold" />
+                      Reply within 15 mins on WhatsApp
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 bg-[#f4f8f5] border border-[#143d31]/10 px-2.5 py-1 rounded-md text-[11px] font-semibold text-[#143d31]">
+                      <ShieldCheck className="h-3.5 w-3.5 text-[#5d7d37]" weight="bold" />
+                      100% Free Initial Advisory
+                    </span>
+                  </div>
+
+                  <div className="border-t border-neutral-100 pt-2.5 text-xs text-red-600 font-medium">
+                    * Indicates required question
+                  </div>
+                </div>
+              </div>
+
+              {formError && (
+                <div
+                  className="rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs font-semibold text-red-800 shadow-2xs"
+                  role="alert"
+                >
+                  <p className="flex items-center gap-1.5">
+                    <span>⚠️</span> {formError}
                   </p>
                 </div>
+              )}
 
-                {/* ── 1. SERVICE / TOPIC SELECTION (What Agaate Does) ── */}
-                <div className="space-y-2.5">
-                  <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    1. Select Your Inquiry Track *
-                  </label>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {CONSULTATION_TOPICS.map((item) => {
-                      const Icon = item.icon;
-                      const isSelected = topic === item.id;
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => setTopic(item.id)}
-                          className={`cursor-pointer rounded-2xl p-3.5 text-left border transition-all duration-200 ${
-                            isSelected
-                              ? "border-[#143d31] bg-[#143d31] text-white shadow-xs font-bold"
-                              : "border-[#143d31]/12 bg-[#f4f8f5]/60 text-[#143d31] hover:bg-white hover:border-[#143d31]/30 font-medium"
-                          }`}
-                        >
-                          <div className="flex items-start gap-2.5">
-                            <div
-                              className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-lg shrink-0 ${
-                                isSelected ? "bg-white/10 text-[#a3e635]" : "bg-[#143d31]/5 text-[#5d7d37]"
-                              }`}
-                            >
-                              <Icon className="h-4 w-4" weight={isSelected ? "fill" : "duotone"} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-1">
-                                <p className="text-xs sm:text-sm font-display leading-snug truncate">
-                                  {item.label}
-                                </p>
-                                {isSelected && (
-                                  <Check className="h-3.5 w-3.5 text-[#a3e635] shrink-0" weight="bold" />
-                                )}
-                              </div>
-                              <p
-                                className={`text-[11px] font-sans mt-0.5 line-clamp-1 ${
-                                  isSelected ? "text-white/75" : "text-[#4f624f]"
-                                }`}
-                              >
-                                {item.desc}
-                              </p>
-                            </div>
+              {/* ── CARD 1: Topic Selection (Compact 2-Column Grid) ── */}
+              <FormCard
+                title="Inquiry Track / Focus Area"
+                required
+                description="Select the primary topic or service you need assistance with."
+                error={errors.topic}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {CONSULTATION_TOPICS.map((t) => {
+                    const isSelected = topic === t.id;
+                    return (
+                      <label
+                        key={t.id}
+                        className={cn(
+                          "flex items-start gap-2.5 p-2.5 rounded-lg border cursor-pointer transition-all duration-150 select-none",
+                          isSelected
+                            ? "bg-[#143d31]/5 border-[#143d31] ring-1 ring-[#143d31]/20 shadow-2xs"
+                            : "border-neutral-200/80 hover:bg-neutral-50 hover:border-neutral-300",
+                          isSubmitting && "opacity-50 pointer-events-none",
+                        )}
+                      >
+                        <div className="relative flex items-center justify-center mt-0.5 shrink-0">
+                          <input
+                            type="radio"
+                            name="topic"
+                            value={t.id}
+                            checked={isSelected}
+                            onChange={() => {
+                              setTopic(t.id);
+                              setErrors((prev) => {
+                                const next = { ...prev };
+                                delete next.topic;
+                                return next;
+                              });
+                            }}
+                            className="sr-only"
+                          />
+                          <div
+                            className={cn(
+                              "h-4 w-4 rounded-full border-2 transition-all flex items-center justify-center",
+                              isSelected ? "border-[#143d31] bg-white" : "border-neutral-400 bg-white",
+                            )}
+                          >
+                            {isSelected && <div className="h-2 w-2 rounded-full bg-[#143d31]" />}
                           </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className={cn("text-xs font-semibold text-[#143d31] leading-tight", isSelected && "text-[#143d31]")}>
+                            {t.label}
+                          </p>
+                          <p className="text-[11px] text-neutral-500 mt-0.5 line-clamp-1 leading-snug">
+                            {t.desc}
+                          </p>
+                        </div>
+                      </label>
+                    );
+                  })}
                 </div>
+              </FormCard>
 
-                {formError && (
-                  <div
-                    className="rounded-2xl border border-red-200 bg-red-50/90 p-4 font-sans text-xs text-red-700"
-                    role="alert"
-                  >
-                    {formError}
-                  </div>
-                )}
-
-                {/* ── 2. PERSONAL & CONTACT DETAILS ── */}
-                <div className="space-y-4 pt-2 border-t border-[#143d31]/10">
-                  <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    2. Your Contact &amp; Location Details
-                  </label>
-
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <TextField
-                      id="name"
-                      name="name"
-                      label="Full Name *"
-                      placeholder="e.g. Ramesh Kumar"
-                      value={form.name}
-                      disabled={isSubmitting}
-                      error={errors.name}
-                      maxLength={120}
-                      onChange={(e) => setField("name", e.target.value)}
-                    />
-                    <PhoneField
-                      id="phone"
-                      name="phone"
-                      label="Mobile / WhatsApp Number *"
-                      placeholder="e.g. 98123 45678"
-                      value={form.phone}
-                      disabled={isSubmitting}
-                      error={errors.phone}
-                      hint="Strictly used only for this agronomy inquiry."
-                      onChange={(e) => setField("phone", e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <EmailField
-                      id="email"
-                      name="email"
-                      label="Email Address (Optional)"
-                      placeholder="e.g. ramesh@gmail.com"
-                      value={form.email}
-                      disabled={isSubmitting}
-                      error={errors.email}
-                      onChange={(e) => setField("email", e.target.value)}
-                    />
-
-                    <TextField
-                      id="district"
-                      name="district"
-                      label="District / State / Village"
-                      placeholder="e.g. Gurugram, Rewari, Haryana"
-                      value={form.district}
-                      disabled={isSubmitting}
-                      maxLength={120}
-                      onChange={(e) => setField("district", e.target.value)}
-                    />
-                  </div>
+              {/* ── CARD 2: Preferred Response Mode (3-Way Horizontal Pills) ── */}
+              <FormCard
+                title="Preferred Response Mode"
+                required
+                description="How would you like our agronomist team to get back to you?"
+                error={errors.channel}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {CHANNEL_OPTIONS.map((ch) => {
+                    const isSelected = form.channel === ch;
+                    return (
+                      <button
+                        key={ch}
+                        type="button"
+                        disabled={isSubmitting}
+                        onClick={() => setField("channel", ch)}
+                        className={cn(
+                          "cursor-pointer flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-semibold border transition-all duration-150 select-none",
+                          isSelected
+                            ? "bg-[#143d31] text-[#a3e635] border-[#143d31] shadow-2xs"
+                            : "bg-white text-[#143d31] border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50",
+                        )}
+                      >
+                        {ch === "WhatsApp" && <WhatsappLogo className="h-4 w-4 shrink-0 text-emerald-500" weight="bold" />}
+                        {ch === "Phone Call" && <PhoneCall className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />}
+                        {ch === "Email" && <EnvelopeSimple className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />}
+                        <span>{ch}</span>
+                      </button>
+                    );
+                  })}
                 </div>
+              </FormCard>
 
-                {/* ── 3. FARM & CROP SPECIFICATIONS ── */}
-                <div className="space-y-4 pt-2 border-t border-[#143d31]/10">
-                  <div className="flex items-center justify-between">
-                    <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                      3. Farm &amp; Crop Information
+              {/* ── CARD 3: Full Name ── */}
+              <FormCard
+                title="Full Name"
+                required
+                error={errors.name}
+              >
+                <GoogleInput
+                  id="name"
+                  value={form.name}
+                  placeholder="Your answer"
+                  disabled={isSubmitting}
+                  onChange={(e) => setField("name", e.target.value)}
+                />
+              </FormCard>
+
+              {/* ── CARD 4: Mobile / WhatsApp Number ── */}
+              <FormCard
+                title="Mobile / WhatsApp Number"
+                required
+                description="Strictly used only for this agronomy advisory callback."
+                error={errors.phone}
+              >
+                <GoogleInput
+                  id="phone"
+                  type="tel"
+                  prefix="+91"
+                  value={form.phone}
+                  placeholder="Your 10-digit mobile number"
+                  disabled={isSubmitting}
+                  onChange={(e) => setField("phone", e.target.value)}
+                />
+              </FormCard>
+
+              {/* ── CARD 5: District / State / Village ── */}
+              <FormCard
+                title="District / State / Village"
+                description="Optional — helps us assign your nearest local field officer."
+                error={errors.district}
+              >
+                <GoogleInput
+                  id="district"
+                  value={form.district}
+                  placeholder="Your answer"
+                  disabled={isSubmitting}
+                  onChange={(e) => setField("district", e.target.value)}
+                />
+              </FormCard>
+
+              {/* ── CARD 6: Email Address ── */}
+              <FormCard
+                title="Email Address"
+                description="Optional — if you would like an email summary or formal quote."
+                error={errors.email}
+              >
+                <GoogleInput
+                  id="email"
+                  type="email"
+                  value={form.email}
+                  placeholder="Your answer"
+                  disabled={isSubmitting}
+                  onChange={(e) => setField("email", e.target.value)}
+                />
+              </FormCard>
+
+              {/* ── CARD 7: Farm & Crop Details ── */}
+              <FormCard
+                title="Farm & Crop Parameters"
+                description="Optional — provide land size and crop stage for dosage & seedling calculations."
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-0.5">
+                  <div className="space-y-1">
+                    <label htmlFor="acreage" className="block text-xs font-semibold text-neutral-700">
+                      Land Size
                     </label>
-                    <button
-                      type="button"
-                      onClick={() => setShowFarmDetails((v) => !v)}
-                      className="cursor-pointer text-xs font-mono font-bold text-[#5d7d37] hover:text-[#143d31] transition-colors"
-                    >
-                      {showFarmDetails ? "– Collapse Specs" : "+ Expand Specs"}
-                    </button>
-                  </div>
-
-                  {showFarmDetails && (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 p-4 rounded-2xl bg-[#f4f8f5] border border-[#143d31]/10">
-                      <SelectField
+                    <div className="relative inline-flex items-center w-full border border-neutral-300 rounded-lg bg-white px-2.5 py-2 text-xs shadow-2xs hover:border-neutral-400 focus-within:border-[#143d31]">
+                      <select
                         id="acreage"
                         name="acreage"
-                        label="Cultivated Land Size"
-                        options={ACREAGE_OPTIONS}
                         value={form.acreage}
-                        disabled={isSubmitting}
                         onChange={(e) => setField("acreage", e.target.value)}
-                      />
-                      
-                      <SelectField
+                        disabled={isSubmitting}
+                        className="w-full bg-transparent appearance-none pr-5 text-xs text-[#143d31] cursor-pointer focus:outline-none font-medium"
+                      >
+                        {ACREAGE_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      <CaretDown className="pointer-events-none absolute right-2 h-3.5 w-3.5 text-neutral-500" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label htmlFor="crop" className="block text-xs font-semibold text-neutral-700">
+                      Target Crop
+                    </label>
+                    <div className="relative inline-flex items-center w-full border border-neutral-300 rounded-lg bg-white px-2.5 py-2 text-xs shadow-2xs hover:border-neutral-400 focus-within:border-[#143d31]">
+                      <select
                         id="crop"
                         name="crop"
-                        label="Target Crop"
-                        options={CROP_OPTIONS}
                         value={form.crop}
-                        disabled={isSubmitting}
                         onChange={(e) => setField("crop", e.target.value)}
-                      />
+                        disabled={isSubmitting}
+                        className="w-full bg-transparent appearance-none pr-5 text-xs text-[#143d31] cursor-pointer focus:outline-none font-medium"
+                      >
+                        {CROP_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      <CaretDown className="pointer-events-none absolute right-2 h-3.5 w-3.5 text-neutral-500" />
+                    </div>
+                  </div>
 
-                      <SelectField
+                  <div className="space-y-1">
+                    <label htmlFor="cropStage" className="block text-xs font-semibold text-neutral-700">
+                      Current Stage
+                    </label>
+                    <div className="relative inline-flex items-center w-full border border-neutral-300 rounded-lg bg-white px-2.5 py-2 text-xs shadow-2xs hover:border-neutral-400 focus-within:border-[#143d31]">
+                      <select
                         id="cropStage"
                         name="cropStage"
-                        label="Current Crop Stage"
-                        options={CROP_STAGE_OPTIONS}
                         value={form.cropStage}
-                        disabled={isSubmitting}
                         onChange={(e) => setField("cropStage", e.target.value)}
-                      />
+                        disabled={isSubmitting}
+                        className="w-full bg-transparent appearance-none pr-5 text-xs text-[#143d31] cursor-pointer focus:outline-none font-medium"
+                      >
+                        {CROP_STAGE_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      <CaretDown className="pointer-events-none absolute right-2 h-3.5 w-3.5 text-neutral-500" />
                     </div>
-                  )}
-                </div>
-
-                {/* ── 4. DETAILED INQUIRY NOTES ── */}
-                <div className="space-y-4 pt-2 border-t border-[#143d31]/10">
-                  <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    4. Specific Questions / Requirements
-                  </label>
-
-                  <TextareaField
-                    id="message"
-                    name="message"
-                    label="Inquiry Notes or Disease Symptoms"
-                    placeholder="Describe your soil conditions, required seedling quantities, disease symptoms, or project scope..."
-                    value={form.message}
-                    disabled={isSubmitting}
-                    maxLength={MESSAGE_MAX}
-                    charCount={{ current: form.message.length, max: MESSAGE_MAX }}
-                    onChange={(e) => setField("message", e.target.value)}
-                  />
-                </div>
-
-                {/* ── 5. OPTIONAL PHOTO / REPORT ATTACHMENT ── */}
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setShowUpload((v) => !v)}
-                    className="cursor-pointer inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none"
-                  >
-                    <span>{showUpload ? "– Hide Crop Photo Attachment" : "+ Attach Crop Photo or Soil Report (Optional)"}</span>
-                    <CaretDown
-                      className={`h-3 w-3 transition-transform duration-200 ${showUpload ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {showUpload && (
-                    <div className="mt-3">
-                      <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
-                    </div>
-                  )}
-                </div>
-
-                {/* ── 6. CALLBACK CHANNEL ── */}
-                <div className="space-y-2 pt-2 border-t border-[#143d31]/10">
-                  <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    5. Preferred Callback Mode
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {CHANNEL_OPTIONS.map((ch) => {
-                      const isSelected = form.channel === ch;
-                      return (
-                        <button
-                          key={ch}
-                          type="button"
-                          onClick={() => setField("channel", ch)}
-                          className={`cursor-pointer rounded-full px-4 py-2 text-xs font-mono font-bold transition-all duration-200 ${
-                            isSelected
-                              ? "bg-[#143d31] text-[#a3e635] shadow-2xs"
-                              : "border border-[#143d31]/15 bg-white text-[#143d31] hover:bg-[#f4f8f5]"
-                          }`}
-                        >
-                          {ch}
-                        </button>
-                      );
-                    })}
                   </div>
                 </div>
+              </FormCard>
 
-                {/* ── 7. CONSENT & SUBMIT ── */}
-                <div className="pt-2">
-                  <ConsentCheckbox
-                    id="consent"
+              {/* ── CARD 8: Inquiry Notes ── */}
+              <FormCard
+                title="Inquiry Notes or Specific Questions"
+                description="Describe soil conditions, required seedling quantities, disease symptoms, or project scope."
+                error={errors.message}
+              >
+                <GoogleTextarea
+                  id="message"
+                  value={form.message}
+                  placeholder="Your answer"
+                  disabled={isSubmitting}
+                  onChange={(e) => setField("message", e.target.value)}
+                />
+                <div className="mt-1 text-right text-[11px] text-neutral-400 font-mono">
+                  {form.message.length} / {MESSAGE_MAX}
+                </div>
+              </FormCard>
+
+              {/* ── CARD 9: File Attachment ── */}
+              <FormCard
+                title="Attach Crop Photo or Soil Report"
+                description="Upload an infected leaf photo or soil report for instant diagnosis."
+              >
+                <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
+              </FormCard>
+
+              {/* ── CARD 10: Privacy Notice & Consent ── */}
+              <FormCard error={errors.consent}>
+                <label className="flex items-start gap-3 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
                     checked={form.consent}
-                    error={errors.consent}
-                    onChange={(v) => setField("consent", v)}
-                  >
-                    I agree to allow Agaate senior agronomists to contact me regarding this agronomy inquiry in accordance with the{" "}
-                    <a href={privacyHref} target="_blank" rel="noopener noreferrer" className="underline hover:text-[#143d31] font-semibold">
+                    onChange={(e) => setField("consent", e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded-xs border-neutral-300 text-[#143d31] accent-[#143d31] focus:ring-2 focus:ring-[#143d31]/20 cursor-pointer shrink-0"
+                  />
+                  <span className="text-xs text-neutral-700 leading-snug">
+                    I agree to allow Agaate senior agronomists to contact me regarding this inquiry in accordance with the{" "}
+                    <a
+                      href={privacyHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2 font-semibold text-[#143d31] hover:text-[#5d7d37]"
+                    >
                       Privacy Policy
                     </a>.
-                  </ConsentCheckbox>
-                </div>
+                  </span>
+                </label>
+              </FormCard>
 
-                {/* Submit Button */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="cursor-pointer inline-flex w-full min-h-12 items-center justify-center gap-2.5 rounded-full bg-[#143d31] px-6 py-4 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#a3e635] shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#1a4d3e] disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Spinner />
-                        <span>Dispatching Request to Agronomy Desk...</span>
-                      </>
-                    ) : (
-                      <>
-                        <PaperPlaneTilt className="h-4 w-4" weight="bold" />
-                        <span>Submit Inquiry &amp; Request Agronomist Callback</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+              {/* ── ACTION BAR (Submit & Clear Form) ── */}
+              <div className="flex items-center justify-between gap-4 pt-1">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="cursor-pointer inline-flex items-center justify-center gap-2 px-7 py-2.5 rounded-lg bg-[#143d31] hover:bg-[#18483a] text-[#a3e635] font-bold text-sm tracking-wide shadow-2xs transition-all disabled:opacity-50 active:scale-[0.99]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Spinner />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <PaperPlaneTilt className="h-4 w-4 text-[#a3e635]" weight="bold" />
+                      <span>Submit</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={reset}
+                  disabled={isSubmitting}
+                  className="cursor-pointer text-xs font-semibold text-neutral-500 hover:text-neutral-800 transition-colors px-2 py-1.5"
+                >
+                  Clear form
+                </button>
+              </div>
+
+              {/* ── FOOTER NOTE ── */}
+              <div className="pt-2 text-center text-xs text-neutral-500 space-y-0.5">
+                <p className="text-[11px]">Never submit passwords through Agaate Forms.</p>
+                <p className="text-[11px] text-[#5d7d37] font-medium">
+                  Direct Agronomy Desk · Reply in 15 mins (7:30 AM – 8:00 PM IST)
+                </p>
+              </div>
+
+            </form>
+          )}
         </div>
 
       </div>
     </section>
   );
 }
+

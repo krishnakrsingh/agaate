@@ -25,17 +25,17 @@ export default function AgriParkChapter() {
 
   const checklistItems = isHindi
     ? [
-        "वातानुकूलित बायो-बूस्टेड प्लग नर्सरी",
-        "स्मार्ट ड्रिप व ऑटोमैटिक फर्टीगेशन",
-        "शून्य-केमिकल अवशेष जैविक सुरक्षा",
-        "किसानों के लिए निःशुल्क व्यावहारिक प्रशिक्षण",
-      ]
+      "वातानुकूलित बायो-बूस्टेड प्लग नर्सरी",
+      "स्मार्ट ड्रिप व ऑटोमैटिक फर्टीगेशन",
+      "शून्य-केमिकल अवशेष जैविक सुरक्षा",
+      "किसानों के लिए निःशुल्क व्यावहारिक प्रशिक्षण",
+    ]
     : [
-        "Bio-boosted high-immunity nursery plugs",
-        "Automated drip & precision fertigation",
-        "Residue-free biological plant protection",
-        "Hands-on farmer training & masterclasses",
-      ];
+      "Bio-boosted high-immunity nursery plugs",
+      "Automated drip & precision fertigation",
+      "Residue-free biological plant protection",
+      "Hands-on farmer training & masterclasses",
+    ];
 
   return (
     <>
