@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
   CheckCircle,
   Compass,
   MapPin,
+  MagnifyingGlassPlus,
+  X,
+  Play,
 } from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -16,6 +19,8 @@ import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 export default function AgriParkChapter() {
   const [isVisitModalOpen, setIsVisitModalOpen] = useState<boolean>(false);
+  const [isMapZoomOpen, setIsMapZoomOpen] = useState<boolean>(false);
+  const [isTourVideoOpen, setIsTourVideoOpen] = useState<boolean>(false);
 
   const { i18n } = useTranslation();
   const { locale } = useParams({ strict: false }) as any;
@@ -25,15 +30,15 @@ export default function AgriParkChapter() {
 
   const checklistItems = isHindi
     ? [
-      "वातानुकूलित बायो-बूस्टेड प्लग नर्सरी",
-      "स्मार्ट ड्रिप व ऑटोमैटिक फर्टीगेशन",
-      "शून्य-केमिकल अवशेष जैविक सुरक्षा",
-      "किसानों के लिए निःशुल्क व्यावहारिक प्रशिक्षण",
+      "5 एकड़ बहुस्तरीय अनुसंधान और प्रदर्शन प्लॉट",
+      "PI, Koppert, Coromandel, T.Stanes ब्रांड ट्रायल्स",
+      "स्मार्ट ड्रिप ऑटोमेशन व फर्टीगेशन तकनीक",
+      "किसानों के लिए निःशुल्क व्यावहारिक मास्टरक्लास",
     ]
     : [
-      "Bio-boosted high-immunity nursery plugs",
-      "Automated drip & precision fertigation",
-      "Residue-free biological plant protection",
+      "5-Acre Multi-Layer Proving & Demonstration Plots",
+      "Live Partner Trials: PI, Koppert, Coromandel, T.Stanes",
+      "Automated drip & precision fertigation setups",
       "Hands-on farmer training & masterclasses",
     ];
 
@@ -58,29 +63,29 @@ export default function AgriParkChapter() {
               <div className="flex items-center gap-2.5 mb-3">
                 <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
                 <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                  {isHindi ? "03 · 6-एकड़ एग्री पार्क" : "03 · 6-Acre Agri Park"}
+                  {isHindi ? "03 · 5-एकड़ एग्री पार्क" : "03 · 5-Acre Agri Park"}
                 </p>
               </div>
 
               {/* Display Headline */}
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]">
                 {isHindi
-                  ? "6 एकड़ का जीवित फार्म — हर समाधान जमीन पर प्रमाणित"
-                  : "6-Acre Living Proving Ground for Modern Farming"}
+                  ? "5 एकड़ का जीवित फार्म — हर समाधान जमीन पर प्रमाणित"
+                  : "5-Acre Living Proving Ground for Modern Farming"}
               </h2>
 
               {/* Subtext Description */}
               <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
                 {isHindi
-                  ? "गुरुग्राम में 6 एकड़ का खुला अनुसंधान केंद्र। हाई-इम्यूनिटी नर्सरी, ऑटोमैटिक ड्रिप फर्टीगेशन और लाइव फसल परीक्षण — आपके खेत तक पहुंचने से पहले हर तकनीक यहां परखी जाती है।"
-                  : "Our 6-acre proving ground in Gurugram tests and proves every seed variety, bio-nutrient, and automated drip protocol in live field conditions before recommending it to growers."}
+                  ? "गुरुग्राम (NH-8) में 5 एकड़ का खुला अनुसंधान व बहुस्तरीय कृषि केंद्र। PI Industries, Koppert, Coromandel, T.Stanes और अगाते प्रैक्टिसेज के लाइव हाइब्रिड बीज, ड्रिप ऑटोमेशन व जैविक परीक्षण।"
+                  : "Our 5-acre proving ground in Gurugram features live demonstration plots with global partners (PI Industries, Koppert, Coromandel, T.Stanes) testing seed genetics, drip automation, and multi-layer farming."}
               </p>
 
               {/* Metrics Strip (Line-Type Design) */}
               <div className="my-6 border-y border-[#143d31]/10 py-4 grid grid-cols-3 gap-2">
                 <div className="text-left first:border-l-0 first:pl-0">
                   <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                    <CountUp to={6} suffix=" Acres" />
+                    <CountUp to={5} suffix=" Acres" />
                   </p>
                   <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
                     {isHindi ? "जीवित रिसर्च फार्म" : "Live Farm Proving"}
@@ -147,43 +152,150 @@ export default function AgriParkChapter() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, ease: EASE }}
             >
-              <div className="relative overflow-hidden rounded-2xl border border-[#143d31]/15 shadow-md group aspect-[16/11]">
+              <div
+                onClick={() => setIsMapZoomOpen(true)}
+                className="relative overflow-hidden rounded-2xl border border-[#143d31]/15 shadow-lg group aspect-[16/10] cursor-pointer bg-black/5"
+              >
                 <img
-                  src="/farm.jpg"
-                  alt="Agaate 6-Acre Agri Park Demonstration Farm"
+                  src="/images/agri-park-map.webp"
+                  alt="Agaate Agri Park 5-Acre Master Layout & Partner Plots"
                   className="h-full w-full object-cover group-hover:scale-103 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#143d31]/85 via-[#143d31]/20 to-transparent" />
 
-                {/* Top Location Chip */}
-                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[11px] font-mono font-bold text-[#143d31] backdrop-blur-md shadow-xs border border-[#143d31]/10">
-                  <MapPin className="h-3.5 w-3.5 text-[#5d7d37]" weight="fill" />
-                  <span>
-                    {isHindi ? "कुकरोला, गुरुग्राम (NH-8)" : "Kukrola, Gurugram (NH-8)"}
+                {/* Top Location & Action Badges */}
+                <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between z-10">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-mono font-bold text-[#143d31] backdrop-blur-md shadow-xs border border-[#143d31]/10">
+                    <MapPin className="h-3.5 w-3.5 text-[#5d7d37]" weight="fill" />
+                    <span>
+                      {isHindi ? "कुकरोला, गुरुग्राम (NH-8)" : "Kukrola, Gurugram (NH-8)"}
+                    </span>
+                  </div>
+
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3 py-1 text-[10px] font-mono font-bold text-[#a3e635] border border-[#a3e635]/30 shadow-xs">
+                    <MagnifyingGlassPlus className="h-3 w-3" />
+                    <span>{isHindi ? "फुल लेआउट ज़ूम करें" : "Click to Enlarge"}</span>
                   </span>
                 </div>
 
-                {/* Bottom Card Overlay Content */}
-                <div className="absolute bottom-4 left-5 right-5 text-white">
-                  <p className="font-mono text-[10px] uppercase font-bold text-[#a3e635] tracking-widest">
-                    {isHindi ? "ओपन आर एंड डी फार्म" : "OPEN R&D PROVING GROUND"}
-                  </p>
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-white mt-0.5">
-                    {isHindi
-                      ? "6-एकड़ स्मार्ट नर्सरी व फील्ड लैब"
-                      : "6-Acre Smart Nursery & Field Lab"}
-                  </h3>
-                  <p className="font-sans text-xs text-white/80 mt-1 max-w-md line-clamp-2">
-                    {isHindi
-                      ? "हाइब्रिड बीज परीक्षण, ड्रिप ऑटोमेशन, ड्रोन स्कैनिंग और किसान प्रशिक्षण।"
-                      : "Real-world seed trials, automated drip fertigation, drone scouting & farmer masterclasses."}
-                  </p>
+                {/* Center Hover Zoom Cue */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/20 backdrop-blur-[1px]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-[#143d31] shadow-lg">
+                    <MagnifyingGlassPlus className="h-6 w-6 text-[#143d31]" />
+                  </div>
+                </div>
+
+                {/* Bottom Card Overlay Pill */}
+                <div className="absolute bottom-3 left-3 right-3 bg-[#143d31]/85 backdrop-blur-md p-3 rounded-xl border border-white/10 text-white flex items-center justify-between">
+                  <div>
+                    <p className="font-mono text-[9px] uppercase font-bold text-[#a3e635] tracking-widest">
+                      {isHindi ? "5-एकड़ बहुस्तरीय फार्म लेआउट" : "5-ACRE MULTI-LAYER PROVING GROUND"}
+                    </p>
+                    <p className="font-sans text-xs font-semibold text-white/95 mt-0.5">
+                      PI · Koppert · Coromandel · T.Stanes · Agaate Plots
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsTourVideoOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1 rounded-lg bg-[#a3e635] hover:bg-[#86efac] text-[#143d31] px-2.5 py-1 text-[11px] font-mono font-bold transition-colors cursor-pointer shrink-0"
+                  >
+                    <Play className="h-3 w-3" weight="fill" />
+                    <span>{isHindi ? "वीडियो टूर" : "Video Tour"}</span>
+                  </button>
                 </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* High-Resolution Map Lightbox Modal */}
+      <AnimatePresence>
+        {isMapZoomOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-5xl rounded-3xl overflow-hidden bg-black shadow-2xl border border-white/20 flex flex-col text-white max-h-[92vh]"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/70">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-[#a3e635] animate-pulse" />
+                  <p className="font-mono text-xs uppercase font-bold text-[#a3e635] tracking-wider">
+                    {isHindi
+                      ? "अगाते एग्री पार्क — 5-एकड़ विस्तृत मास्टर लेआउट"
+                      : "AGAATE AGRI PARK — 5-ACRE MASTER PLOT & PARTNER BLUEPRINT"}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsMapZoomOpen(false)}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="relative flex-1 overflow-auto p-2 bg-black flex items-center justify-center">
+                <img
+                  src="/images/agri-park-map.webp"
+                  alt="Agaate Agri Park 5-Acre Master Layout Full Blueprint"
+                  className="w-full h-auto max-h-[80vh] object-contain rounded-xl"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 17-Acre Farm Tour Video Modal */}
+      <AnimatePresence>
+        {isTourVideoOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-4xl rounded-3xl overflow-hidden bg-black shadow-2xl border border-white/20 flex flex-col text-white"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/70">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-[#a3e635] animate-pulse" />
+                  <p className="font-mono text-xs uppercase font-bold text-[#a3e635] tracking-wider">
+                    {isHindi ? "एग्री पार्क व स्मार्ट नर्सरी वीडियो टूर" : "AGRI PARK & SMART NURSERY VIDEO TOUR"}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsTourVideoOpen(false)}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+                  aria-label="Close modal"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="relative aspect-video w-full bg-black">
+                <video
+                  src="/videos/farm-first-look.mp4"
+                  poster="/videos/posters/farm-first-look.webp"
+                  autoPlay
+                  controls
+                  playsInline
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Interactive VIP Farm Visit Booking Modal */}
       <AgriParkVisitModal
