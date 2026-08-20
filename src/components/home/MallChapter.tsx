@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -16,7 +16,7 @@ import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import KisaanMallShowcase from "./KisaanMallShowcase";
-import PincodeDeliveryChecker from "./PincodeDeliveryChecker";
+import PincodeServiceabilityModal from "./PincodeServiceabilityModal";
 
 const SUPPLY_CHAIN_STEPS_EN = [
   {
@@ -77,6 +77,8 @@ export default function MallChapter() {
   const isHindi = i18n.language?.startsWith("hi");
   const SUPPLY_CHAIN_STEPS = isHindi ? SUPPLY_CHAIN_STEPS_HI : SUPPLY_CHAIN_STEPS_EN;
   const sectionRef = useHomeChapterReveal("fade-up");
+
+  const [isPincodeModalOpen, setIsPincodeModalOpen] = useState(false);
 
   return (
     <section
@@ -146,7 +148,7 @@ export default function MallChapter() {
             </div>
 
             {/* Feature Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
               {(isHindi
                 ? [
                     "सीधे निर्माता कंपनियों से किफायती दाम",
@@ -169,13 +171,8 @@ export default function MallChapter() {
               ))}
             </div>
 
-            {/* Compact Inline Pincode Checker */}
-            <div className="mb-6">
-              <PincodeDeliveryChecker />
-            </div>
-
-            {/* CTA Button */}
-            <div>
+            {/* CTA Buttons Row: Primary Browse + Small Pincode Check Pill */}
+            <div className="flex flex-wrap items-center gap-3">
               <SlideUpPillButton
                 href="/services#kisaan-mall"
                 variant="dark"
@@ -183,6 +180,16 @@ export default function MallChapter() {
                 label={isHindi ? "किसान मॉल देखें" : "Browse Agaate Mall"}
                 icon={<ArrowRight className="h-4 w-4" />}
                 iconPosition="right"
+              />
+
+              <SlideUpPillButton
+                type="button"
+                onClick={() => setIsPincodeModalOpen(true)}
+                variant="hero-secondary"
+                size="md"
+                label={isHindi ? "पिनकोड जांचें" : "Check Pincode Delivery"}
+                icon={<MapPinLine className="h-4 w-4 text-[#5d7d37]" />}
+                iconPosition="left"
               />
             </div>
           </motion.div>
