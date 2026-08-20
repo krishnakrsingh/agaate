@@ -4,8 +4,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
   ContactHeroSection,
-  ContactLocations,
-  ContactFaqSection,
   MobileStickyContactBar,
   ToastProvider,
   FACILITIES,
@@ -107,8 +105,6 @@ function ContactPage() {
       <main className="min-h-screen w-full overflow-x-clip bg-[#f4f8f5] font-sans text-[#143d31] antialiased">
         <Header />
         <ContactHeroSection onSuccessChange={onSuccessChange} />
-        <ContactLocations />
-        <ContactFaqSection />
         <Footer />
         <MobileStickyContactBar hidden={formSuccess} />
         <p className="sr-only">
