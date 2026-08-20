@@ -1,266 +1,219 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
-  CheckCircle,
+  ArrowUpRight,
+  Check,
   Clock,
   Copy,
-  Check,
   MapPin,
-  Phone,
   NavigationArrow,
-  Compass,
+  Phone,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { EASE } from "@/components/common/motion";
 import { FACILITIES, type Facility } from "./data";
 import GoogleMapEmbed from "./GoogleMapEmbed";
 import { useToast } from "./toast-context";
 import { track } from "@/lib/analytics";
-import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
-gsap.registerPlugin(useGSAP);
-
-export default function FacilitiesSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const [activeTab, setActiveTab] = useState(FACILITIES[0].id);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const { showToast } = useToast();
-
-  const activeFacility = FACILITIES.find((f) => f.id === activeTab) || FACILITIES[0];
-
-  useGSAP(
-    () => {
-      const container = containerRef.current;
-      if (!container) return;
-
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          isDesktop: "(min-width: 768px)",
-          isMobile: "(max-width: 767px)",
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-        },
-        (context) => {
-          const { reduceMotion } = context.conditions as { reduceMotion: boolean };
-          if (reduceMotion) return;
-
-          gsap.fromTo(
-            ".facility-header-fade",
-            { opacity: 0, y: 20 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: container,
-                start: "top 80%",
-                toggleActions: "play none none none",
-              },
-            },
-          );
-        },
-      );
-
-      return () => mm.revert();
-    },
-    { scope: containerRef },
-  );
-
-  const handleCopyAddress = (facility: Facility) => {
-    const full = `${facility.name}, ${facility.address}`;
-    navigator.clipboard?.writeText(full).then(() => {
-      setCopiedId(facility.id);
-      showToast("Address copied to clipboard");
-      track("address_copied", { facility: facility.id });
-      setTimeout(() => setCopiedId(null), 2500);
-    });
-  };
-
+function FacilityCard({
+  facility,
+  onCopy,
+  copied,
+}: {
+  facility: Facility;
+  onCopy: () => void;
+  copied: boolean;
+}) {
   return (
-    <section
-      ref={containerRef}
-      id="facilities"
-      aria-labelledby="facilities-heading"
-      className="scroll-mt-24 py-16 sm:py-20 md:py-24 bg-[#f4f8f5] text-[#143d31] border-b border-[#143d31]/10"
+    <motion.div
+      key={facility.id}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.25, ease: EASE }}
+      className="overflow-hidden rounded-lg border border-neutral-200 bg-white"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-10">
-        {/* Section Header */}
-        <div className="facility-header-fade flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-3 max-w-2xl text-left">
-            <div className="flex items-center gap-2.5">
-              <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                04 · Physical Experiential Hubs & Living Soil
-              </p>
+      <div className="aspect-[16/9] overflow-hidden bg-neutral-100">
+        <img
+          src={facility.image}
+          alt={facility.name}
+          className="h-full w-full object-cover"
+          width={800}
+          height={450}
+        />
+      </div>
+
+      <div className="p-6 md:p-7">
+        <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+          {facility.role}
+        </p>
+        <h3 className="mt-1 font-display text-2xl font-semibold tracking-tight text-forest-deep">
+          {facility.name}
+        </h3>
+        <p className="mt-1 text-sm text-neutral-600">{facility.tagline}</p>
+
+        <div className="mt-5 space-y-4 border-t border-neutral-100 pt-5">
+          <div className="flex items-start gap-3">
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" strokeWidth={1.75} />
+            <div>
+              <p className="text-sm leading-relaxed text-forest-deep">{facility.address}</p>
+              {facility.plusCode ? (
+                <p className="mt-1 font-mono text-[11px] text-neutral-500">{facility.plusCode}</p>
+              ) : null}
             </div>
-            <h2
-              id="facilities-heading"
-              className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]"
-            >
-              Visit Our Living Proving Grounds in Gurugram
-            </h2>
-            <p className="font-sans text-sm sm:text-base text-[#4f624f] leading-relaxed">
-              Walk our 17-acre automated plug nursery, explore the Kisan Mall retail storefront, or meet our leadership team in person.
-            </p>
           </div>
 
-          {/* Facility Switcher Tabs */}
-          <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-white border border-[#143d31]/12 shrink-0 shadow-2xs">
-            {FACILITIES.map((f) => {
-              const isActive = f.id === activeTab;
-              const Icon = f.icon;
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => {
-                    setActiveTab(f.id);
-                    track("facility_tab_switched", { facility: f.id });
-                  }}
-                  className={`cursor-pointer inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-mono text-xs font-bold transition-all duration-300 ${
-                    isActive
-                      ? "bg-[#143d31] text-[#a3e635] shadow-sm"
-                      : "text-[#143d31] hover:bg-[#f4f8f5]"
-                  }`}
-                >
-                  <Icon className="h-4 w-4" weight={isActive ? "fill" : "bold"} />
-                  <span>{f.name.replace("Agaate ", "").replace("Anzix ", "")}</span>
-                </button>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="flex items-center gap-2.5">
+              <Phone className="h-4 w-4 shrink-0 text-neutral-400" strokeWidth={1.75} />
+              <a
+                href={`tel:${facility.telRaw}`}
+                onClick={() =>
+                  track("phone_clicked", { source: "facility", facility: facility.id })
+                }
+                className="text-sm font-medium text-forest-deep hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
+              >
+                {facility.phone}
+              </a>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <Clock className="h-4 w-4 shrink-0 text-neutral-400" strokeWidth={1.75} />
+              <span className="text-sm text-neutral-600">{facility.hours}</span>
+            </div>
           </div>
         </div>
 
-        {/* Active Facility Full Presentation */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFacility.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch"
+        <ul className="mt-5 space-y-2 border-t border-neutral-100 pt-5">
+          {facility.highlights.map((hl) => (
+            <li key={hl} className="flex items-start gap-2 text-sm text-neutral-600">
+              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest" strokeWidth={2} />
+              <span>{hl}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-6 flex flex-wrap gap-2">
+          <a
+            href={facility.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track("directions_clicked", { facility: facility.id })}
+            className="inline-flex items-center gap-2 rounded-md bg-forest-deep px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
           >
-            {/* Left Column: Photo & Verified Hub Details */}
-            <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl border border-[#143d31]/12 bg-white p-6 sm:p-8 md:p-10 shadow-sm">
-              <div className="space-y-6">
-                {/* Visual Header */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-[#143d31]/5 border border-[#143d31]/10 group">
-                  <img
-                    src={activeFacility.image}
-                    alt={activeFacility.name}
-                    className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 left-3 rounded-full bg-[#143d31]/90 backdrop-blur-md px-3.5 py-1 font-mono text-[10px] font-bold uppercase text-[#a3e635] border border-white/10">
-                    {activeFacility.role}
-                  </div>
-                </div>
+            <NavigationArrow className="h-3.5 w-3.5" strokeWidth={1.75} />
+            Get directions
+            <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </a>
+          <button
+            type="button"
+            onClick={onCopy}
+            className="inline-flex items-center gap-2 rounded-md border border-neutral-300 bg-white px-4 py-2.5 text-sm font-semibold text-forest-deep transition-colors hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
+          >
+            {copied ? (
+              <>
+                <Check className="h-3.5 w-3.5 text-forest" />
+                Copied
+              </>
+            ) : (
+              <>
+                <Copy className="h-3.5 w-3.5 text-neutral-400" strokeWidth={1.75} />
+                Copy address
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
-                <div>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                    {activeFacility.name}
-                  </h3>
-                  <p className="font-sans text-sm font-semibold text-[#5d7d37] mt-0.5">
-                    {activeFacility.tagline}
-                  </p>
-                </div>
+export default function FacilitiesSection() {
+  const [activeId, setActiveId] = useState(FACILITIES[0].id);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const { toast } = useToast();
+  const active = FACILITIES.find((f) => f.id === activeId) || FACILITIES[0];
 
-                {/* Location, Contact & Hours Lines */}
-                <div className="space-y-3 pt-3 border-t border-[#143d31]/10 text-sm font-sans">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 shrink-0 text-[#5d7d37] mt-0.5" weight="bold" />
-                    <div>
-                      <p className="text-[#143d31] font-medium leading-relaxed">{activeFacility.address}</p>
-                      {activeFacility.plusCode && (
-                        <p className="font-mono text-xs text-[#5d7d37] mt-0.5">Plus Code: {activeFacility.plusCode}</p>
-                      )}
-                    </div>
-                  </div>
+  return (
+    <section
+      aria-labelledby="facilities-heading"
+      className="border-t border-neutral-200 bg-white py-20 md:py-24"
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <div className="max-w-2xl">
+          <p className="text-sm font-medium text-forest">Locations</p>
+          <h2
+            id="facilities-heading"
+            className="mt-2 font-display text-3xl font-semibold tracking-tight text-forest-deep md:text-4xl"
+          >
+            Visit our Gurugram hubs
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-neutral-600">
+            Nursery and R&amp;D farm in Kukrola, Kisan Mall in Bhora Kalan, and our registered
+            office in Sector 81.
+          </p>
+        </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <div className="flex items-center gap-2.5">
-                      <Phone className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />
-                      <a
-                        href={`tel:${activeFacility.telRaw}`}
-                        onClick={() => track("phone_clicked", { source: "facility", facility: activeFacility.id })}
-                        className="font-mono text-xs font-bold text-[#143d31] hover:underline"
-                      >
-                        {activeFacility.phone}
-                      </a>
-                    </div>
+        <div
+          role="tablist"
+          aria-label="Agaate facilities"
+          className="mt-10 flex gap-1 overflow-x-auto border-b border-neutral-200 pb-px"
+        >
+          {FACILITIES.map((fac) => {
+            const selected = activeId === fac.id;
+            return (
+              <button
+                key={fac.id}
+                role="tab"
+                type="button"
+                id={`facility-tab-${fac.id}`}
+                aria-selected={selected}
+                aria-controls={`facility-panel-${fac.id}`}
+                onClick={() => {
+                  setActiveId(fac.id);
+                  track("facility_tab_changed", { facility: fac.id });
+                }}
+                className={`min-h-11 shrink-0 border-b-2 px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40 ${
+                  selected
+                    ? "border-forest-deep text-forest-deep"
+                    : "border-transparent text-neutral-500 hover:text-forest-deep"
+                }`}
+              >
+                {fac.name
+                  .replace("Agaate ", "")
+                  .replace("Anzix Farm Technologies Pvt Ltd", "Corporate office")}
+              </button>
+            );
+          })}
+        </div>
 
-                    <div className="flex items-center gap-2.5">
-                      <Clock className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />
-                      <span className="font-mono text-xs text-[#4f624f]">{activeFacility.hours}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Highlight Checkpoints */}
-                <div className="space-y-2 pt-3 border-t border-[#143d31]/10 font-sans">
-                  {activeFacility.highlights.map((hl) => (
-                    <div key={hl} className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[#143d31]">
-                      <CheckCircle className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="fill" />
-                      <span>{hl}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-6 border-t border-[#143d31]/10 flex flex-wrap items-center gap-3">
-                <SlideUpPillButton
-                  href={activeFacility.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track("directions_clicked", { facility: activeFacility.id })}
-                  variant="dark"
-                  size="md"
-                  label="Open in Google Maps"
-                  icon={<NavigationArrow className="h-4 w-4" weight="bold" />}
-                  iconPosition="left"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => handleCopyAddress(activeFacility)}
-                  className="cursor-pointer inline-flex items-center gap-2 rounded-full border border-[#143d31]/15 bg-[#f4f8f5] px-4 py-2 font-mono text-xs font-bold text-[#143d31] transition-colors hover:bg-white hover:border-[#143d31]/30"
-                >
-                  {copiedId === activeFacility.id ? (
-                    <>
-                      <Check className="h-3.5 w-3.5 text-[#5d7d37]" weight="bold" />
-                      <span>Address Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3.5 w-3.5 text-[#5d7d37]" weight="bold" />
-                      <span>Copy Address</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column: Google Maps Interactive Satellite / Map Embed */}
-            <div className="lg:col-span-6 flex flex-col rounded-3xl border border-[#143d31]/12 bg-white overflow-hidden shadow-sm min-h-[420px]">
-              <div className="p-4 bg-[#f4f8f5] border-b border-[#143d31]/10 flex items-center justify-between">
-                <span className="font-mono text-xs font-bold text-[#143d31] flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-[#5d7d37]" weight="fill" />
-                  <span>Interactive Map & Satellite Pin</span>
-                </span>
-                <span className="font-mono text-[10px] text-[#5d7d37] uppercase tracking-wider font-bold">
-                  {activeFacility.coordinates.latLabel} · {activeFacility.coordinates.lngLabel}
-                </span>
-              </div>
-              <div className="flex-1 w-full h-full min-h-[380px]">
-                <GoogleMapEmbed facility={activeFacility} query={activeFacility.mapEmbedQuery} />
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <div
+            className="lg:col-span-6"
+            role="tabpanel"
+            id={`facility-panel-${active.id}`}
+            aria-labelledby={`facility-tab-${active.id}`}
+          >
+            <AnimatePresence mode="wait">
+              <FacilityCard
+                facility={active}
+                copied={copiedId === active.id}
+                onCopy={async () => {
+                  try {
+                    await navigator.clipboard.writeText(active.address);
+                    setCopiedId(active.id);
+                    toast("Address copied", "success");
+                    window.setTimeout(() => setCopiedId(null), 2500);
+                  } catch {
+                    toast("Could not copy address", "error");
+                  }
+                }}
+              />
+            </AnimatePresence>
+          </div>
+          <div className="lg:col-span-6">
+            <GoogleMapEmbed facility={active} />
+          </div>
+        </div>
       </div>
     </section>
   );

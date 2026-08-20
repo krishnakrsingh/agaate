@@ -7,8 +7,6 @@ import {
   Plant,
   Stack,
   Storefront,
-  TrendUp,
-  Stethoscope,
 } from "@phosphor-icons/react";
 import farmImage from "@/assets/agro-park.jpg";
 import mallImage from "@/assets/kisaan-mall-gen.png";
@@ -51,9 +49,9 @@ export type Facility = {
 export const FACILITIES: Facility[] = [
   {
     id: "farm",
-    name: "Agaate Anzix Farm & Smart Nursery",
-    tagline: "17-Acre Bio-Boosted Nursery & High-Tech R&D Proving Grounds",
-    role: "Farm & Nursery Propagation",
+    name: "Agaate Anzix Farm",
+    tagline: "17-Acre Smart Nursery & High-Tech R&D Facility",
+    role: "Farm & Production Facility",
     address: "NH8, opposite Bikanervala, Kukrola / Pachgaon, Gurugram, Haryana 122413",
     district: "Gurugram, Haryana",
     plusCode: "8WG2+QR6",
@@ -63,9 +61,9 @@ export const FACILITIES: Facility[] = [
     hours: "Mon – Sat: 07:30 AM – 06:30 PM",
     team: "Agaate Field Advisory & Propagation Team",
     highlights: [
-      "AI climate-controlled germination chambers",
+      "AI-driven climate monitoring & seedless nursery labs",
       "Bio-Boosted seedling propagation & pre-order pickup",
-      "Living demonstration plots for watermelons, chillies & tomatoes",
+      "Living demonstration plots for watermelons & chillies",
       "Direct Kisan Sathi on-field support counter",
     ],
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=8WG2%2BQR6+Gurugram",
@@ -82,7 +80,7 @@ export const FACILITIES: Facility[] = [
   {
     id: "mall",
     name: "Agaate Kisan Mall",
-    tagline: "Comprehensive Direct-From-Brand Agri-Input Storefront",
+    tagline: "Comprehensive Agri-Input Storefront & Experience Hub",
     role: "Retail & Experience Center",
     address: "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
     district: "Gurugram, Haryana",
@@ -147,114 +145,111 @@ export type ConsultationTopic = {
   id: string;
   label: string;
   desc: string;
-  badge?: string;
   icon: Icon;
 };
 
 export const CONSULTATION_TOPICS: ConsultationTopic[] = [
   {
     id: "nursery",
-    label: "Bio-Boosted Nursery Saplings",
-    desc: "Reserve high-immunity plug seedlings with 98% survival guarantee.",
-    badge: "Plug Seedlings",
+    label: "Bio-Boosted Nursery Pre-Orders",
+    desc: "Reserve disease-resistant saplings with 95%+ guaranteed survival.",
     icon: Plant,
   },
   {
-    id: "mall",
-    label: "Kisaan Mall & Input Supply",
-    desc: "Certified hybrid seeds, bio-nutrients, biocures & drip hardware.",
-    badge: "Input Commerce",
-    icon: Storefront,
-  },
-  {
-    id: "advisory",
-    label: "Field Agronomy & Disease Help",
-    desc: "Leaf photo disease diagnosis, fertigation schedule & farm visits.",
-    badge: "< 15 Min Reply",
-    icon: Stethoscope,
-  },
-  {
-    id: "market",
-    label: "Buyback & Market Linkage",
-    desc: "Pre-sowing price floor contracts, direct offtake & T+0 bank payout.",
-    badge: "Guaranteed Offtake",
-    icon: TrendUp,
-  },
-  {
     id: "bigfarm",
-    label: "Turnkey Big Farm Setup (15+ Ac)",
-    desc: "End-to-end commercial farming, automated drip & operations setup.",
-    badge: "Turnkey Project",
+    label: "Big Farm Setup (Turnkey)",
+    desc: "End-to-end commercial farm planning, drip setup & operations.",
     icon: Stack,
   },
   {
     id: "carbon",
-    label: "Carbon Credits Monetization",
-    desc: "Monetise zero-tillage, biochar & drip practices for extra payouts.",
-    badge: "Carbon Payout",
+    label: "Carbon Credit Program",
+    desc: "Monetise zero-tillage & drip irrigation practices for extra payout.",
     icon: Lightning,
   },
   {
+    id: "wholesale",
+    label: "Kisan Mall Wholesale",
+    desc: "Bulk agri-inputs, biocures, mulch rolls & bamboo staking orders.",
+    icon: Storefront,
+  },
+  {
     id: "agripark",
-    label: "Agri Park Guided Tour",
-    desc: "Walk through 8 living partner crop demonstration zones in Kukrola.",
-    badge: "Living Proving Ground",
+    label: "Agri Park Visit",
+    desc: "Book a guided walk through 8 living partner demonstration zones.",
     icon: Compass,
   },
   {
     id: "general",
-    label: "Corporate & General Inquiries",
-    desc: "Institutional tie-ups, B2B procurement, careers or partnerships.",
-    badge: "Executive Desk",
+    label: "General Agronomy Advisory",
+    desc: "Direct guidance on soil reports, fertigation schedules & pests.",
     icon: ChatCircleText,
   },
 ];
 
 export const ACREAGE_OPTIONS = [
-  "1-5 Acres (Small/Medium)",
-  "5-15 Acres (Commercial)",
-  "15-50 Acres (Large Farm)",
-  "50+ Acres (Enterprise/Institutional)",
+  "1-5 Acres",
+  "5-15 Acres",
+  "15-50 Commercial Acres",
+  "50+ Institutional Farm",
 ] as const;
 
 export const CROP_OPTIONS = [
-  "Watermelon & Melons",
-  "Chilli & Peppers",
+  "Watermelon",
+  "Chilli",
   "Tomato",
+  "Cauliflower",
   "Cucumber",
-  "Cauliflower & Cabbage",
-  "Paddy & Wheat",
-  "Cotton & Oilseeds",
-  "Other Vegetables / Fruits",
-] as const;
-
-export const CROP_STAGE_OPTIONS = [
-  "Planning / Pre-Sowing (Sapling Booking)",
-  "Early Vegetative Stage",
-  "Flowering & Fruit Setting Stage",
-  "Harvest & Market Linkage Stage",
+  "Wheat & Paddy",
 ] as const;
 
 export const CHANNEL_OPTIONS = ["WhatsApp", "Phone Call", "Email"] as const;
 
 export const CONTACT_FAQS = [
   {
-    q: "How quickly will an agronomist get back to me?",
-    a: "Our Gurugram agronomy desk replies within 15 minutes on WhatsApp and within 2 hours by phone during farm operating hours (7:30 AM – 8:00 PM IST).",
+    q: "How quickly will someone get back to me?",
+    a: "We aim to reply within 2 business hours during farm operating hours (7:30 AM – 8:00 PM IST). Urgent crop issues are prioritised on WhatsApp and the hotline.",
   },
   {
-    q: "Can I visit the 17-acre nursery or Kisan Mall without an appointment?",
-    a: "Yes. Agaate Kisan Mall is open daily 8:00 AM – 8:00 PM. For guided Agri Park crop tours or nursery pre-orders, submitting this form helps our senior agronomist prepare your customized trial briefing.",
+    q: "Can I visit the farm or Kisan Mall without an appointment?",
+    a: "Yes. The Kisan Mall is open daily 8:00 AM – 8:00 PM. For a guided Agri Park walk or nursery pickup, a quick call or form submission helps us prepare the right advisor.",
   },
   {
-    q: "What information should I share for crop disease diagnosis?",
-    a: "Upload a clear photo of the infected leaf/stem or attach a soil analysis report. Our scientists will diagnose the pest/deficiency and issue an exact stage-wise spray chart.",
+    q: "What should I share for crop disease help?",
+    a: "A clear photo of the affected plant, your crop name, stage, and location is enough. You can upload a photo in the form or send it on WhatsApp after submitting.",
   },
   {
-    q: "Is the initial agronomy consultation chargeable?",
-    a: "No. Initial agronomy diagnostics, dosage calculations, and farm visits for growers in our active clusters are 100% free.",
+    q: "Do you charge for the first consultation?",
+    a: "Initial agronomy callbacks and guidance for farmers connected through Agaate are free. Turnkey Big Farm Setup and specialised projects are scoped separately.",
+  },
+  {
+    q: "Which locations do you serve?",
+    a: "Our hubs are in Gurugram, Haryana. Advisory, nursery, and market linkage support farmers across neighbouring districts; Big Farm projects are planned nationally by scope.",
   },
 ];
 
-export const FORM_STORAGE_KEY = "agaate-contact-form-v2";
-export const MESSAGE_MAX = 800;
+export const TRUST_ITEMS = [
+  {
+    label: "Typical reply",
+    value: "Within 2 hours",
+    hint: "During farm operating hours",
+  },
+  {
+    label: "Farmers connected",
+    value: "1000+",
+    hint: "Across the Agaate network",
+  },
+  {
+    label: "Physical hubs",
+    value: "3 in Gurugram",
+    hint: "Farm · Mall · Corporate",
+  },
+  {
+    label: "Reach us",
+    value: "Call or WhatsApp",
+    hint: "Mon–Sat from 7:30 AM IST",
+  },
+] as const;
+
+export const FORM_STORAGE_KEY = "agaate-contact-form-v1";
+export const MESSAGE_MAX = 600;
