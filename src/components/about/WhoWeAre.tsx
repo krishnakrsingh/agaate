@@ -50,7 +50,7 @@ export default function WhoWeAre() {
               {whoWeAre.body}
             </p>
 
-            <blockquote className="border-l-2 border-[#5d7d37] pl-4 font-serif text-lg md:text-xl italic text-[#143d31] leading-snug">
+            <blockquote className="border-l-2 border-[#5d7d37] pl-4 font-display text-lg md:text-xl font-medium text-[#143d31] leading-snug">
               “{whoWeAre.pullQuote}”
             </blockquote>
 

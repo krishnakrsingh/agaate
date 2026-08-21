@@ -25,7 +25,7 @@ export default function MilestonesSection() {
               className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
             >
               From experimental trial plots to{" "}
-              <span className="font-serif italic font-normal text-[#5d7d37]">
+              <span className="text-[#5d7d37]">
                 regional agri infrastructure
               </span>
             </h2>

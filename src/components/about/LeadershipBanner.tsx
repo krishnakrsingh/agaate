@@ -45,7 +45,7 @@ export function LeadershipBanner({
           >
             <div className="space-y-3">
               <Quotes className="h-7 w-7 text-[#a3e635]/60 shrink-0" weight="duotone" />
-              <blockquote className="font-serif text-base sm:text-[17px] lg:text-[19px] font-normal italic text-white/95 leading-relaxed tracking-normal">
+              <blockquote className="font-display text-base sm:text-[17px] lg:text-[18.5px] font-medium text-white/95 leading-relaxed tracking-normal">
                 “{leader.quote}”
               </blockquote>
             </div>

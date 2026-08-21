@@ -31,31 +31,31 @@ export default function AboutCta() {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <Reveal variant="fade-up">
-          {/* Main Unified Shell */}
-          <div className="overflow-hidden rounded-2xl border border-[#143d31]/10 bg-white shadow-xs">
-            <div className="relative grid lg:grid-cols-[1.1fr_0.9fr]">
+          {/* Main Unified Minimal White Shell */}
+          <div className="overflow-hidden rounded-3xl border border-[#143d31]/10 bg-white shadow-sm transition-shadow hover:shadow-md">
+            <div className="relative grid items-center lg:grid-cols-12">
               {/* Left Side: Call to Action */}
-              <div className="flex flex-col justify-center p-8 sm:p-10 md:p-12 space-y-6">
+              <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-14 space-y-6 lg:col-span-7">
                 <div className="flex items-center gap-2.5">
-                  <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
-                  <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+                  <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
+                  <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
                     Start With Agaate
                   </p>
                 </div>
 
                 <h2
                   id="about-cta-heading"
-                  className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-lg"
+                  className="font-display font-bold text-3xl sm:text-4xl lg:text-[2.75rem] text-[#143d31] tracking-tight leading-[1.12] max-w-lg"
                 >
                   From seed to sale, we stand with the farmer.
                 </h2>
 
-                <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f] max-w-md">
+                <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f] max-w-md font-normal">
                   Talk to an agronomist, reserve Bio-Boosted plug saplings, or download our corporate
                   profile brochure.
                 </p>
 
-                <div className="pt-2 flex flex-wrap items-center gap-3">
+                <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3 max-w-xl">
                   <SlideUpPillButton
                     href={WHATSAPP_ABOUT_URL}
                     target="_blank"
@@ -87,12 +87,12 @@ export default function AboutCta() {
                 </div>
               </div>
 
-              {/* Right Side: Farm Illustration on #f4f8f5 */}
-              <div className="relative flex min-h-[260px] items-center justify-center overflow-hidden border-t border-[#143d31]/10 bg-[#f4f8f5] p-6 lg:min-h-[340px] lg:border-l lg:border-t-0 lg:p-10">
+              {/* Right Side: Seamless Farm Illustration on White */}
+              <div className="relative flex items-center justify-center p-6 sm:p-10 lg:p-12 lg:col-span-5">
                 <img
                   src="/farm.png"
-                  alt="Agaate farm and agronomy support"
-                  className="relative z-10 mx-auto max-h-[280px] w-full object-contain drop-shadow-[0_12px_24px_rgba(20,61,49,0.12)] lg:max-h-[320px] transition-transform duration-700 hover:scale-105"
+                  alt="Agaate farmer and agronomy support"
+                  className="relative z-10 mx-auto max-h-[280px] sm:max-h-[320px] lg:max-h-[340px] w-auto object-contain drop-shadow-[0_16px_32px_rgba(20,61,49,0.08)] transition-transform duration-700 hover:scale-[1.03]"
                   width={800}
                   height={700}
                 />
@@ -103,40 +103,26 @@ export default function AboutCta() {
             <div
               id="compliance"
               aria-labelledby="compliance-heading"
-              className="border-t border-[#143d31]/10 bg-[#f4f8f5]/60"
+              className="border-t border-[#143d31]/8 bg-white px-8 sm:px-12 py-6"
             >
-              <div className="flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-                <div className="max-w-xs shrink-0">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    Registered Corporate Entity
-                  </p>
-                  <h3
-                    id="compliance-heading"
-                    className="mt-1 font-display text-base font-bold text-[#143d31]"
-                  >
-                    Anzix Farm Technologies Pvt Ltd
-                  </h3>
-                </div>
-
-                <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3">
-                  {complianceHighlights.map((item) => {
-                    const Icon = fieldIcons[item.label as keyof typeof fieldIcons] ?? Buildings;
-                    return (
-                      <div key={item.label} className="min-w-0">
-                        <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                          <Icon className="h-3.5 w-3.5 shrink-0 text-[#5d7d37]" weight="duotone" />
-                          <span>{item.label}</span>
-                        </div>
-                        <p className="mt-1 font-sans text-xs font-semibold text-[#143d31] truncate">
-                          {item.value}
-                        </p>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:divide-x divide-[#143d31]/10">
+                {complianceHighlights.map((item, idx) => {
+                  const Icon = fieldIcons[item.label as keyof typeof fieldIcons] ?? Buildings;
+                  return (
+                    <div key={item.label} className={`min-w-0 ${idx > 0 ? "sm:pl-8" : ""}`}>
+                      <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                        <Icon className="h-3.5 w-3.5 shrink-0 text-[#5d7d37]" weight="duotone" />
+                        <span>{item.label}</span>
                       </div>
-                    );
-                  })}
-                </div>
+                      <p className="mt-1 font-sans text-xs sm:text-sm font-semibold text-[#143d31] truncate">
+                        {item.value}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
 
-              <p className="border-t border-[#143d31]/10 px-6 py-3 text-center font-sans text-[11px] text-[#4f624f]">
+              <p className="mt-5 border-t border-[#143d31]/6 pt-4 text-center font-sans text-[11px] text-[#4f624f]/80">
                 Agaate is the registered brand of Anzix Farm Technologies Private Limited. All
                 corporate records are verifiable on the Ministry of Corporate Affairs (MCA) portal.
               </p>

@@ -29,7 +29,7 @@ const impactMetrics = [
   {
     numValue: 500,
     suffix: "+",
-    label: "QC-Verified SKUs",
+    label: "Verified SKUs",
     icon: ShoppingBag,
   },
   {
@@ -78,7 +78,7 @@ export default function ImpactScaleReach() {
               className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
             >
               2,000+ Farmers trust Agaate across{" "}
-              <span className="font-serif italic font-normal text-[#5d7d37]">15,000+ acres</span>
+              <span className="text-[#5d7d37]">15,000+ acres</span>
             </h2>
 
             <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
