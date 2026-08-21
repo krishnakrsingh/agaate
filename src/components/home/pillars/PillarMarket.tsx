@@ -35,10 +35,10 @@ export default function PillarMarket() {
               <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
                 <div className="flex flex-col">
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    Institutional Offtake
+                    Institutional Offtake & Mandi Linkage
                   </span>
                   <span className="font-display text-xs font-bold text-[#143d31]">
-                    Reliance · BigBasket · Global Exporters
+                    Reliance · BigBasket · Direct Mandi Offtake
                   </span>
                 </div>
                 <div className="shrink-0 text-right">

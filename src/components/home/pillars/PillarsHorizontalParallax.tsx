@@ -71,7 +71,7 @@ const PILLARS_DATA_EN: PillarData[] = [
     ],
     ctaText: "Explore Bio Nurseries",
     ctaHref: "/services#nursery",
-    imageSrc: "/nursery.png",
+    imageSrc: "/agripark.png",
     imageAlt: "High-Immunity Seedling Infrastructure",
   },
   {
@@ -93,7 +93,7 @@ const PILLARS_DATA_EN: PillarData[] = [
     ],
     ctaText: "View Market Linkage",
     ctaHref: "/services#market-linkage",
-    imageSrc: "/services/market-linkage-harvest.jpg",
+    imageSrc: "/market-linkage.png",
     imageAlt: "Agaate farm-gate harvest aggregation and market linkage",
   },
 ];
@@ -140,7 +140,7 @@ const PILLARS_DATA_HI: PillarData[] = [
     ],
     ctaText: "नर्सरी पौध देखें",
     ctaHref: "/services#nursery",
-    imageSrc: "/nursery.png",
+    imageSrc: "/agripark.png",
     imageAlt: "बायो-बूस्टेड नर्सरी पौध",
   },
   {
@@ -158,22 +158,22 @@ const PILLARS_DATA_HI: PillarData[] = [
     features: [
       "बुवाई पूर्व न्यूनतम मूल्य गारंटी",
       "खेत पर डिजिटल वजन व त्वरित भुगतान",
-      "बड़े रिटेलर्स व निर्यातकों से सीधा जुड़ाव",
+      "रिलायंस व बिगबास्केट जैसी कंपनियों को सीधी आपूर्ति",
     ],
     ctaText: "मार्केट लिंकेज देखें",
     ctaHref: "/services#market-linkage",
-    imageSrc: "/services/market-linkage-harvest.jpg",
-    imageAlt: "खेत पर फसल खरीद व मार्केट लिंकेज",
+    imageSrc: "/market-linkage.png",
+    imageAlt: "अगाते फसल खरीद व मार्केट लिंकेज",
   },
 ];
 
 export default function PillarsHorizontalParallax() {
-  const { i18n } = useTranslation();
-  const isHindi = i18n.language?.startsWith("hi");
-  const PILLARS_DATA = isHindi ? PILLARS_DATA_HI : PILLARS_DATA_EN;
-
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language || "en";
+  const isHindi = currentLang.startsWith("hi");
+  const PILLARS_DATA = isHindi ? PILLARS_DATA_HI : PILLARS_DATA_EN;
 
   useGSAP(
     () => {
@@ -181,68 +181,60 @@ export default function PillarsHorizontalParallax() {
       const track = trackRef.current;
       if (!container || !track) return;
 
+      const panels = gsap.utils.toArray<HTMLElement>(".horizontal-panel", track);
+      if (panels.length === 0) return;
+
       const mm = gsap.matchMedia();
 
-      // Desktop & Tablet (>= 768px): Pinned Horizontal Scroll with GSAP Snap
       mm.add("(min-width: 768px)", () => {
-        const panelsCount = PILLARS_DATA.length;
+        const panelsCount = panels.length;
+        // The track has width of panelsCount * 100vw (300vw for 3 panels).
+        // To translate by (panelsCount - 1) screens, xPercent of track width must be -((panelsCount - 1) / panelsCount) * 100.
         const totalShiftPercent = -((panelsCount - 1) / panelsCount) * 100;
 
-        const horizontalTween = gsap.to(track, {
+        const tween = gsap.to(track, {
           xPercent: totalShiftPercent,
           ease: "none",
           scrollTrigger: {
-            id: "pillars-horizontal-st",
             trigger: container,
             pin: true,
+            scrub: 0.6,
             start: "top top",
             end: () => `+=${(panelsCount - 1) * window.innerWidth}`,
-            scrub: 0.5,
-            snap: {
-              snapTo: 1 / (panelsCount - 1),
-              duration: { min: 0.2, max: 0.45 },
-              ease: "power2.out",
-            },
             invalidateOnRefresh: true,
+            anticipatePin: 1,
           },
         });
 
         return () => {
-          horizontalTween.kill();
+          tween.scrollTrigger?.kill();
+          tween.kill();
         };
       });
 
       return () => mm.revert();
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [isHindi] }
   );
 
   return (
     <section
       ref={containerRef}
-      id="pillars-section"
-      className="relative z-10 bg-[#f4f8f5] overflow-hidden"
+      id="three-pillars"
+      className="relative bg-[#f4f8f5] text-[#143d31] border-t border-[#143d31]/10 overflow-hidden"
     >
-      {/* ── DESKTOP & TABLET: Pinned Horizontal Scroll (>= 768px) ── */}
-      <div className="hidden md:block w-full h-screen relative overflow-hidden">
-        {/* Horizontal Track */}
+      <div className="hidden md:block h-screen w-full overflow-hidden">
         <div
           ref={trackRef}
-          className="flex h-full items-center will-change-transform"
-          style={{
-            width: `${PILLARS_DATA.length * 100}vw`,
-            transform: "translate3d(0, 0, 0)",
-          }}
+          className="flex h-full w-[300vw] will-change-transform"
         >
           {PILLARS_DATA.map((pillar) => (
             <div
               key={pillar.id}
-              className="w-[100vw] h-screen shrink-0 flex items-center justify-center px-6 sm:px-12 lg:px-16 pt-20 pb-16"
+              className="horizontal-panel relative flex h-full w-[100vw] shrink-0 items-center justify-center px-6 sm:px-12 lg:px-16"
             >
-              <div className="mx-auto max-w-7xl w-full grid grid-cols-12 gap-8 lg:gap-14 items-center">
-                {/* Text Column (Left) */}
-                <div className="col-span-12 lg:col-span-6 flex flex-col justify-center max-w-xl lg:pr-6">
-                  {/* Eyebrow / Tag */}
+              <div className="mx-auto w-full max-w-7xl grid grid-cols-12 gap-8 lg:gap-12 items-center">
+                <div className="col-span-12 lg:col-span-6 flex flex-col justify-center max-w-xl">
                   <div className="flex items-center gap-2.5 mb-3">
                     <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
                     <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
@@ -250,17 +242,14 @@ export default function PillarsHorizontalParallax() {
                     </p>
                   </div>
 
-                  {/* Headline */}
                   <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]">
                     {pillar.title}
                   </h2>
 
-                  {/* Description */}
                   <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
                     {pillar.description}
                   </p>
 
-                  {/* Metrics Strip */}
                   <div className="my-6 border-y border-[#143d31]/10 py-4 grid grid-cols-3 gap-2">
                     {pillar.metrics.map((m, mIdx) => (
                       <div
@@ -280,7 +269,6 @@ export default function PillarsHorizontalParallax() {
                     ))}
                   </div>
 
-                  {/* Feature Highlights */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
                     {pillar.features.map((feat) => (
                       <div
@@ -293,7 +281,6 @@ export default function PillarsHorizontalParallax() {
                     ))}
                   </div>
 
-                  {/* CTA Button */}
                   <div>
                     <SlideUpPillButton
                       href={pillar.ctaHref}
@@ -309,9 +296,9 @@ export default function PillarsHorizontalParallax() {
                 {/* Visual Column (Right) */}
                 <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center">
                   {pillar.id === "pillar-market" ? (
-                    <div className="relative w-full max-w-[520px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
+                    <div className="relative w-full max-w-[540px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
                       <img
-                        src={pillar.imageSrc}
+                        src="/services/market-linkage-harvest.jpg"
                         alt={pillar.imageAlt}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
@@ -320,10 +307,10 @@ export default function PillarsHorizontalParallax() {
                       <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
                         <div className="flex flex-col">
                           <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                            Institutional Offtake
+                            Institutional Offtake & Mandi Linkage
                           </span>
                           <span className="font-display text-xs font-bold text-[#143d31]">
-                            Reliance · BigBasket · Global Exporters
+                            Reliance · BigBasket · Direct Mandi Offtake
                           </span>
                         </div>
                         <div className="shrink-0 text-right">
@@ -361,7 +348,6 @@ export default function PillarsHorizontalParallax() {
       <div className="block md:hidden py-12 px-5 space-y-12 divide-y divide-[#143d31]/10">
         {PILLARS_DATA.map((pillar) => (
           <div key={pillar.id} className="pt-8 first:pt-0 space-y-5">
-            {/* Tag */}
             <div className="flex items-center gap-2.5">
               <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
@@ -381,13 +367,13 @@ export default function PillarsHorizontalParallax() {
             {pillar.id === "pillar-market" ? (
               <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl border border-[#143d31]/12 bg-white shadow-md my-4">
                 <img
-                  src={pillar.imageSrc}
+                  src="/services/market-linkage-harvest.jpg"
                   alt={pillar.imageAlt}
                   className="h-full w-full object-cover"
                 />
                 <div className="absolute bottom-2.5 inset-x-2.5 rounded-xl bg-white/95 backdrop-blur-sm p-2 border border-[#143d31]/10 text-left">
                   <p className="font-mono text-[9px] font-bold text-[#5d7d37] uppercase">Institutional Offtake</p>
-                  <p className="font-display text-[11px] font-bold text-[#143d31]">Direct Buyer Linkage · T+0 Payouts</p>
+                  <p className="font-display text-[11px] font-bold text-[#143d31]">Direct Mandi Linkage · T+0 Payouts</p>
                 </div>
               </div>
             ) : (

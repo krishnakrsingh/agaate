@@ -11,177 +11,27 @@ import {
   SpeakerSlash,
   Star,
   ShieldCheck,
+  Plant,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
-
-export interface FarmerShort {
-  id: string;
-  name: string;
-  role: string;
-  location: string;
-  acres: string;
-  quote: string;
-  thumbnail: string;
-  videoUrl?: string;
-}
-
-const SHORTS_DATA_EN: FarmerShort[] = [
-  {
-    id: "short-1",
-    name: "Rajesh Yadav",
-    role: "Lead Chilli Grower",
-    location: "Rewari, Haryana",
-    acres: "18 Acres",
-    quote:
-      "Agaate's Bio-Boosted nursery plug seedlings gave us 98% survival. My input cost dropped by 40%.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-2",
-    name: "Sunita Devi",
-    role: "Agri-Entrepreneur",
-    location: "Sonipat, Haryana",
-    acres: "15 Acres",
-    quote:
-      "Doorstep delivery in 24 hours with QR batch tracking. Highest tomato harvest our farm has ever recorded.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-3",
-    name: "Rameshwar Singh",
-    role: "Vegetable Grower",
-    location: "Kukrola, Gurugram",
-    acres: "8 Acres",
-    quote:
-      "Visiting the 17-acre Agri Park before installing my drip fertigation kit eliminated all guesswork.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-4",
-    name: "Vikramaditya Rao",
-    role: "Horticulture Specialist",
-    location: "Rohtak, Haryana",
-    acres: "25 Acres",
-    quote:
-      "Agronomist field visits and stage-wise spray charts saved us ₹85,000 on unnecessary pesticides.",
-    thumbnail: "/farm.png",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-5",
-    name: "Pankaj Gupta",
-    role: "Capsicum Farmer",
-    location: "Karnal, Haryana",
-    acres: "12 Acres",
-    quote:
-      "Batch-verified Bio-Cure biologicals from Agaate Mall stopped bacterial wilt across my 12-acre polyhouse.",
-    thumbnail:
-      "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-6",
-    name: "Abhay Ranjan",
-    role: "Agaate Parivaar",
-    location: "Farrukhnagar, Haryana",
-    acres: "10 Acres",
-    quote:
-      "Direct institutional market linkage gave us guaranteed price contracts with zero middleman deductions.",
-    thumbnail: "/about-hero-nursery.png",
-    videoUrl: "/hero1.mp4",
-  },
-];
-
-const SHORTS_DATA_HI: FarmerShort[] = [
-  {
-    id: "short-1",
-    name: "राजेश यादव",
-    role: "प्रमुख मिर्च उत्पादक",
-    location: "रेवाड़ी, हरियाणा",
-    acres: "18 एकड़",
-    quote:
-      "अगाते की बायो-बूस्टेड नर्सरी पौध का 98% जमाव रहा। सीधी बुवाई के मुकाबले लागत 40% कम हो गई।",
-    thumbnail:
-      "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-2",
-    name: "सुनीता देवी",
-    role: "महिला कृषि उद्यमी",
-    location: "सोनीपत, हरियाणा",
-    acres: "15 एकड़",
-    quote:
-      "24 घंटे में खेत तक असली इनपुट्स की डिलीवरी और क्यूआर कोड से जांच। इस बार टमाटर का रिकॉर्ड उत्पादन मिला।",
-    thumbnail:
-      "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-3",
-    name: "रामेश्वर सिंह",
-    role: "सब्जी उत्पादक",
-    location: "कुकरोला, गुरुग्राम",
-    acres: "8 एकड़",
-    quote:
-      "17 एकड़ के एग्री पार्क में ड्रिप और खाद का असर लाइव देखने के बाद खेत में लगाया। बिना किसी दुविधा के शानदार परिणाम मिला।",
-    thumbnail:
-      "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-4",
-    name: "विक्रमादित्य राव",
-    role: "उद्यानिकी विशेषज्ञ",
-    location: "रोहतक, हरियाणा",
-    acres: "25 एकड़",
-    quote:
-      "कृषि वैज्ञानिकों के सीधे खेत दौरे और सही स्प्रे चार्ट से इस सीजन हमारे ₹85,000 के अनावश्यक कीटनाशक बच गए।",
-    thumbnail: "/farm.png",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-5",
-    name: "पंकज गुप्ता",
-    role: "शिमला मिर्च उत्पादक",
-    location: "करनाल, हरियाणा",
-    acres: "12 एकड़",
-    quote:
-      "अगाते किसान मॉल की बायो-दवाओं से 12 एकड़ पॉलीहाउस में उकठा (Wilt) रोग तुरंत रुक गया और फसल बच गई।",
-    thumbnail:
-      "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80",
-    videoUrl: "/hero1.mp4",
-  },
-  {
-    id: "short-6",
-    name: "अभय रंजन",
-    role: "अगाते परिवार सदस्य",
-    location: "फारुखनगर, हरियाणा",
-    acres: "10 एकड़",
-    quote:
-      "सीधे खरीदारों से पक्का बायबैक अनुबंध मिलने से बिना किसी आढ़तिया कमीशन के पूरी फसल का सही दाम मिला।",
-    thumbnail: "/about-hero-nursery.png",
-    videoUrl: "/hero1.mp4",
-  },
-];
+import {
+  SHORTS_DATA_EN,
+  SHORTS_DATA_HI,
+  type FarmerShortItem,
+} from "@/data/farmerShortsData";
 
 export default function FarmerShortsShowcase() {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
   const shortsData = isHindi ? SHORTS_DATA_HI : SHORTS_DATA_EN;
 
-  const [activeModalShort, setActiveModalShort] = useState<FarmerShort | null>(null);
+  const [activeModalShort, setActiveModalShort] = useState<FarmerShortItem | null>(null);
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -404,7 +254,17 @@ export default function FarmerShortsShowcase() {
                 />
 
                 {/* Gradient Scrim */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/30" />
+
+                {/* Top Badge Pill */}
+                {short.badge && (
+                  <div className="absolute top-3 right-3 z-10">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31]/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#a3e635] border border-[#a3e635]/30 shadow-xs">
+                      <Plant className="h-2.5 w-2.5" weight="fill" />
+                      <span>{short.badge}</span>
+                    </span>
+                  </div>
+                )}
 
                 {/* Center Play Icon */}
                 <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
@@ -425,6 +285,13 @@ export default function FarmerShortsShowcase() {
                     <p className="font-sans text-[10px] text-white/80 truncate">
                       {short.location} · {short.acres}
                     </p>
+                  </div>
+
+                  {/* Crop Tag */}
+                  <div className="pt-0.5">
+                    <span className="inline-block text-[10px] font-mono font-medium text-[#a3e635]/90 truncate">
+                      🌱 {short.crop}
+                    </span>
                   </div>
 
                   {/* Quote Snippet */}
@@ -480,35 +347,42 @@ export default function FarmerShortsShowcase() {
                 {/* Ambient Scrim Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/60 pointer-events-none" />
 
-                {/* Top Control Bar */}
-                <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-                  <button
-                    type="button"
-                    onClick={() => setIsMuted(!isMuted)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md hover:bg-white/20 transition-colors"
-                    aria-label="Toggle Sound"
-                  >
-                    {isMuted ? (
-                      <SpeakerSlash className="h-3.5 w-3.5" />
-                    ) : (
-                      <SpeakerHigh className="h-3.5 w-3.5" />
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveModalShort(null)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md hover:bg-white/20 transition-colors cursor-pointer"
-                    aria-label="Close modal"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
+                {/* Top Control Bar with Badge */}
+                <div className="absolute top-4 inset-x-4 flex items-center justify-between z-20">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[10px] font-mono font-bold text-[#a3e635] border border-white/10">
+                    <Plant className="h-3 w-3" weight="fill" />
+                    <span>{activeModalShort.badge || activeModalShort.crop}</span>
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsMuted(!isMuted)}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md hover:bg-white/20 transition-colors cursor-pointer"
+                      aria-label="Toggle Sound"
+                    >
+                      {isMuted ? (
+                        <SpeakerSlash className="h-3.5 w-3.5" />
+                      ) : (
+                        <SpeakerHigh className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveModalShort(null)}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md hover:bg-white/20 transition-colors cursor-pointer"
+                      aria-label="Close modal"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Modal Navigation Arrows (Left/Right) */}
                 <button
                   type="button"
                   onClick={handlePrevModalShort}
-                  className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/70 transition-colors"
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/70 transition-colors cursor-pointer"
                   aria-label="Previous story"
                 >
                   <CaretLeft className="h-4 w-4" />
@@ -516,7 +390,7 @@ export default function FarmerShortsShowcase() {
                 <button
                   type="button"
                   onClick={handleNextModalShort}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/70 transition-colors"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm hover:bg-black/70 transition-colors cursor-pointer"
                   aria-label="Next story"
                 >
                   <CaretRight className="h-4 w-4" />
@@ -532,8 +406,7 @@ export default function FarmerShortsShowcase() {
                       <CheckCircle className="h-3.5 w-3.5 text-[#a3e635]" weight="fill" />
                     </div>
                     <p className="font-sans text-xs text-white/80">
-                      {activeModalShort.role} · {activeModalShort.location} (
-                      {activeModalShort.acres})
+                      {activeModalShort.role} · {activeModalShort.location} ({activeModalShort.acres})
                     </p>
                   </div>
 
@@ -546,7 +419,7 @@ export default function FarmerShortsShowcase() {
                     <SlideUpPillButton
                       href={`https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20saw%20${encodeURIComponent(
                         activeModalShort.name,
-                      )}%27s%20story%20and%20want%20to%20learn%20more.`}
+                      )}%27s%20story%20on%20${encodeURIComponent(activeModalShort.crop)}%20and%20want%20guidance.`}
                       target="_blank"
                       rel="noopener noreferrer"
                       variant="lime"

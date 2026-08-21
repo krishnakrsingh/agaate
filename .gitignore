@@ -37,3 +37,10 @@ public/uploads/admin/*
 *.njsproj
 *.sln
 *.sw?
+
+# Raw media and scripts analysis
+all images and shit/
+scripts/thumbnails/
+scripts/*.json
+scripts/*.html
+
