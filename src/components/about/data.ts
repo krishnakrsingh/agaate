@@ -205,6 +205,23 @@ export const founderNote = {
   image: "/team/ankit.png?v=2",
 };
 
+export const leadershipQuotes = [
+  {
+    quote:
+      "We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss.",
+    name: "Ankit Rawat",
+    role: "Founder & CEO",
+    image: "/team/ankit.png?v=2",
+  },
+  {
+    quote:
+      "Precision agronomy and disease-resistant seedling biology turn unpredictable weather into calculated, high-survival yields for every grower.",
+    name: "Chanchala Shukla",
+    role: "Co-Founder & Agronomist",
+    image: "/team/chanchala.png",
+  },
+];
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -239,6 +256,23 @@ export const team: TeamMember[] = [
       "Every farmer deserves the right guidance, the right tools, and the right support so that their hard work never goes to loss.",
   },
   {
+    id: "chanchala-shukla",
+    name: "Chanchala Shukla",
+    role: "Co-Founder & Agronomist",
+    focus: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
+    tag: "Co-Founder & Agronomy Lead",
+    icon: Compass as Icon,
+    image: "/team/chanchala.png",
+    bio: "Co-Founder and scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
+    keyAch: [
+      "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
+      "Formulated scientific soil testing and stage-wise fertigation protocols",
+      "Authored localized IPM handbooks distributed across 2,000+ farms",
+    ],
+    pub: "Managing Early Blight resistance using targeted botanical sprays and spore traps (2026)",
+    quote: "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
+  },
+  {
     id: "kuldeep-sengar",
     name: "Kuldeep Sengar",
     role: "Procurement Head",
@@ -264,32 +298,15 @@ export const team: TeamMember[] = [
     tag: "Infrastructure & Retail Lead",
     icon: Globe as Icon,
     image: "/team/abhay.png",
-    bio: "Abhay manages critical facility operations, specifically overseeing the 17-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
+    bio: "Abhay manages critical facility operations, specifically overseeing the 5-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
     keyAch: [
-      "Designed and scaled the 17-acre controlled-environment Smart Nursery facility",
+      "Designed and scaled the 5-acre controlled-environment Smart Nursery facility",
       "Expanded Kisan Mall retail offerings to over 500+ verified SKUs",
       "Built experiential technology demonstration zones for visiting farming clusters",
     ],
     pub: "Closed-loop agricultural business frameworks and retail hubs in North India (2025)",
     quote:
       "A farm to experience — exposing growers to modern farming technologies, quality seeds, and best practices in one place.",
-  },
-  {
-    id: "chanchala-shukla",
-    name: "Chanchala Shukla",
-    role: "Agronomist",
-    focus: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
-    tag: "Scientific Agronomy Lead",
-    icon: Compass as Icon,
-    image: "/team/chanchala.png",
-    bio: "Chanchala serves as the scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
-    keyAch: [
-      "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
-      "Formulated scientific soil testing and stage-wise fertigation protocols",
-      "Authored localized IPM handbooks distributed across 2,000+ farms",
-    ],
-    pub: "Managing Early Blight resistance using targeted botanical sprays and spore traps (2026)",
-    quote: "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
   },
   {
     id: "ravi-kumar",

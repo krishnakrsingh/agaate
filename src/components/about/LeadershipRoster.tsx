@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, CheckCircle, Quotes, X, ArrowUpRight } from "@phosphor-icons/react";
+import { BookOpen, CheckCircle, X, ArrowUpRight } from "@phosphor-icons/react";
 import { Reveal } from "@/components/common/motion";
-import { founderNote, team, type TeamMember } from "./data";
+import { LeadershipBanner } from "@/components/about/LeadershipBanner";
+import { team, type TeamMember } from "./data";
+import type { TeamCmsMember } from "@/lib/cms-types";
+import { getLeadershipBanner, toDisplayTeamMember, type DisplayTeamMember } from "@/lib/team-cms";
 
-function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClose: () => void }) {
+function LeaderBioModal({ leader, onClose }: { leader: DisplayTeamMember | null; onClose: () => void }) {
   useEffect(() => {
     if (!leader) return;
     const onKey = (e: KeyboardEvent) => {
@@ -81,10 +84,7 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
             <ul className="space-y-2">
               {leader.keyAch.map((ach) => (
                 <li key={ach} className="flex items-start gap-2 text-xs font-medium text-[#143d31]">
-                  <CheckCircle
-                    className="mt-0.5 h-4 w-4 shrink-0 text-[#5d7d37]"
-                    weight="fill"
-                  />
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#5d7d37]" weight="fill" />
                   <span>{ach}</span>
                 </li>
               ))}
@@ -97,12 +97,12 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
                 <BookOpen className="h-3.5 w-3.5" weight="duotone" />
                 Publication / Focus Area
               </div>
-              <p className="mt-1.5 font-serif text-xs italic text-[#143d31]">"{leader.pub}"</p>
+              <p className="mt-1.5 font-sans text-xs font-medium text-[#143d31]">"{leader.pub}"</p>
             </div>
           )}
 
           {leader.quote && (
-            <blockquote className="mt-4 border-l-2 border-[#5d7d37] pl-3.5 font-serif text-xs italic text-[#4f624f]">
+            <blockquote className="mt-4 border-l-2 border-[#5d7d37] pl-3.5 font-sans text-xs font-medium text-[#4f624f]">
               “{leader.quote}”
             </blockquote>
           )}
@@ -112,8 +112,57 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
   );
 }
 
-export default function LeadershipRoster() {
-  const [activeLeader, setActiveLeader] = useState<TeamMember | null>(null);
+function fallbackMembers(): DisplayTeamMember[] {
+  return team.map((m: TeamMember) => ({
+    id: m.id,
+    name: m.name,
+    role: m.role,
+    focus: m.focus,
+    tag: m.tag,
+    iconKey: "users",
+    icon: m.icon,
+    image: m.image,
+    bio: m.bio,
+    keyAch: m.keyAch,
+    pub: m.pub,
+    quote: m.quote,
+    showInBanner: m.id === "ankit-rawat" || m.id === "chanchala-shukla",
+    bannerBadge: m.id === "ankit-rawat" ? "Founder" : m.id === "chanchala-shukla" ? "Co-Founder" : "",
+  }));
+}
+
+export default function LeadershipRoster({ members }: { members?: TeamCmsMember[] }) {
+  const [activeLeader, setActiveLeader] = useState<DisplayTeamMember | null>(null);
+  const rawRoster = members?.length ? members.map(toDisplayTeamMember) : fallbackMembers();
+
+  // Ensure founders are positioned first in executive hierarchy
+  const roster = [...rawRoster].sort((a, b) => {
+    const roleA = (a.role || "").toLowerCase();
+    const roleB = (b.role || "").toLowerCase();
+    const isFounderA = a.id === "ankit-rawat" || (roleA.includes("founder") && !roleA.includes("co-founder"));
+    const isFounderB = b.id === "ankit-rawat" || (roleB.includes("founder") && !roleB.includes("co-founder"));
+    const isCoFounderA = a.id === "chanchala-shukla" || roleA.includes("co-founder");
+    const isCoFounderB = b.id === "chanchala-shukla" || roleB.includes("co-founder");
+
+    if (isFounderA) return -1;
+    if (isFounderB) return 1;
+    if (isCoFounderA) return -1;
+    if (isCoFounderB) return 1;
+    return 0;
+  });
+
+  const bannerLeaders = members?.length
+    ? getLeadershipBanner(members)
+    : roster.filter((m) => m.showInBanner).slice(0, 2);
+
+  const gridClass =
+    roster.length === 4
+      ? "grid-cols-2 md:grid-cols-4"
+      : roster.length === 3
+      ? "grid-cols-1 sm:grid-cols-3"
+      : roster.length <= 2
+      ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+      : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5";
 
   return (
     <section
@@ -122,7 +171,6 @@ export default function LeadershipRoster() {
       className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
-        {/* Section Header */}
         <Reveal variant="fade-up" className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -146,60 +194,43 @@ export default function LeadershipRoster() {
           </div>
         </Reveal>
 
-        {/* Founder Quote Banner (Consistent with Home PeopleChapter) */}
-        <Reveal variant="fade-up" delay={0.1}>
-          <div className="rounded-2xl bg-white p-8 md:p-10 border border-[#143d31]/10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xs">
-            <div className="flex items-start gap-4 flex-1">
-              <Quotes className="h-8 w-8 text-[#5d7d37] shrink-0 opacity-40 mt-1" weight="duotone" />
-              <blockquote className="font-serif text-lg md:text-xl font-normal italic text-[#143d31] leading-relaxed">
-                “{founderNote.quote}”
-              </blockquote>
-            </div>
+        {bannerLeaders.length > 0 && (
+          <Reveal variant="fade-up" delay={0.1}>
+            <LeadershipBanner leaders={bannerLeaders} />
+          </Reveal>
+        )}
 
-            <div className="flex items-center gap-4 shrink-0 border-t md:border-t-0 md:border-l border-[#143d31]/10 pt-4 md:pt-0 md:pl-8">
-              <img
-                src={founderNote.image}
-                alt={founderNote.name}
-                className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-xs shrink-0"
-              />
-              <div>
-                <p className="font-display text-sm font-bold text-[#143d31]">{founderNote.name}</p>
-                <p className="font-sans text-xs font-semibold text-[#5d7d37]">{founderNote.role}</p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Team Grid */}
         <Reveal variant="fade-up" delay={0.15}>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-            {team.map((member) => (
+          <div className={`grid ${gridClass} gap-4 sm:gap-6`}>
+            {roster.map((member) => (
               <button
                 key={member.id}
                 type="button"
                 onClick={() => setActiveLeader(member)}
-                className="group flex flex-col text-left rounded-2xl border border-[#143d31]/10 bg-white p-3.5 sm:p-4 transition-all hover:border-[#5d7d37]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5d7d37]"
+                className="group flex flex-col justify-between text-left rounded-2xl border border-[#143d31]/10 bg-white p-4 sm:p-4.5 transition-all hover:border-[#5d7d37]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5d7d37] cursor-pointer"
               >
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#143d31]/5 mb-3">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity shadow-xs">
-                    <ArrowUpRight className="h-3 w-3 text-[#143d31]" />
+                <div>
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#143d31]/5 mb-3.5">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity shadow-xs">
+                      <ArrowUpRight className="h-3 w-3 text-[#143d31]" />
+                    </div>
                   </div>
-                </div>
 
-                <p className="font-display text-sm sm:text-base font-bold text-[#143d31] group-hover:text-[#5d7d37] transition-colors line-clamp-1">
-                  {member.name}
-                </p>
-                <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[#5d7d37] line-clamp-1 mt-0.5">
-                  {member.role}
-                </p>
-                <p className="font-sans text-[11px] text-[#4f624f] line-clamp-2 mt-1 leading-snug">
-                  {member.focus}
-                </p>
+                  <p className="font-display text-base font-bold text-[#143d31] group-hover:text-[#5d7d37] transition-colors line-clamp-1">
+                    {member.name}
+                  </p>
+                  <p className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#5d7d37] line-clamp-1 mt-0.5">
+                    {member.role}
+                  </p>
+                  <p className="font-sans text-xs text-[#4f624f] line-clamp-2 mt-1.5 leading-relaxed">
+                    {member.focus}
+                  </p>
+                </div>
               </button>
             ))}
           </div>

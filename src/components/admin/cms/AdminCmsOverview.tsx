@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BarChart3, Image, Video, ArrowRight, Database } from "lucide-react";
+import { BarChart3, Image, Video, Users, ArrowRight, Database } from "lucide-react";
 import type { CmsOverview } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 
@@ -48,8 +48,8 @@ export function AdminCmsOverview({
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Website content</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Manage site statistics, partner logos, and farmer testimonials. Changes go live after
-          publish — no rebuild required.
+          Manage site statistics, partner logos, farmer testimonials, and team members. Changes go live
+          after publish — no rebuild required.
         </p>
       </div>
 
@@ -64,10 +64,11 @@ export function AdminCmsOverview({
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard title="Site statistics" icon={BarChart3} counts={overview.stats} to="/agaate-admin/content/stats" />
         <StatCard title="Brand logos" icon={Image} counts={overview.logos} to="/agaate-admin/content/logos" />
         <StatCard title="Farmer testimonials" icon={Video} counts={overview.stories} to="/agaate-admin/content/stories" />
+        <StatCard title="Team members" icon={Users} counts={overview.team} to="/agaate-admin/content/team" />
       </div>
 
       <div className="rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">

@@ -23,7 +23,7 @@ function toStatItems(stats: HomeCmsStat[]): StatItem[] {
     id: s.id,
     icon: CMS_ICON_MAP[s.iconKey],
     numValue: s.numValue,
-    prefix: s.prefix,
+    prefix: s.prefix ? `${s.prefix} ` : undefined,
     suffixEn: s.suffixEn,
     suffixHi: s.suffixHi,
     labelEn: s.labelEn,
@@ -45,14 +45,17 @@ function StatCell({
   const label = isHindi ? item.labelHi : item.labelEn;
 
   return (
-    <div className="group relative flex items-center gap-3 sm:gap-3.5 md:gap-4 p-3 sm:p-3.5 md:p-4 rounded-xl select-none transition-colors duration-200 hover:bg-[#f4f8f5]/80">
-      <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-[#143d31]/8 text-[#143d31] transition-all duration-300 group-hover:scale-105 group-hover:bg-[#143d31] group-hover:text-[#a3e635] shadow-xs">
-        <Icon weight="duotone" className="h-5 w-5 sm:h-5.5 sm:w-5.5" />
+    <div className="group relative flex items-center gap-3.5 sm:gap-4 p-3.5 sm:p-4 rounded-xl bg-white border border-[#143d31]/10 shadow-[0_2px_12px_-4px_rgba(20,61,49,0.06)] select-none transition-all duration-300 hover:border-[#5d7d37]/40 hover:shadow-md hover:-translate-y-0.5">
+      {/* Icon Badge */}
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-[#a3e635] shadow-xs transition-transform duration-300 group-hover:scale-105 group-hover:bg-[#1a4d3e]">
+        <Icon weight="duotone" className="h-5 w-5 text-[#a3e635]" />
       </div>
+
+      {/* Metric Content */}
       <div className="flex flex-col min-w-0">
-        <div className="flex items-baseline gap-0.5 font-display text-[17px] sm:text-[19px] md:text-[21px] lg:text-[22px] font-extrabold tracking-tight text-[#143d31] tabular-nums leading-none">
+        <div className="flex items-baseline gap-1 font-display text-[18px] sm:text-[20px] md:text-[22px] lg:text-[23px] font-black tracking-tight text-[#143d31] tabular-nums leading-none">
           {item.prefix && (
-            <span className="text-[13px] sm:text-[14px] font-semibold text-[#5d7d37]">
+            <span className="text-[14px] sm:text-[15px] font-bold text-[#5d7d37]">
               {item.prefix}
             </span>
           )}
@@ -64,7 +67,7 @@ function StatCell({
             )}
           </span>
         </div>
-        <p className="font-mono text-[9px] sm:text-[9.5px] md:text-[10px] font-bold uppercase tracking-[0.11em] text-[#5d7d37] truncate mt-1 sm:mt-1.5 leading-tight">
+        <p className="font-mono text-[9.5px] sm:text-[10px] md:text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#5d7d37] truncate mt-1 leading-tight">
           {label}
         </p>
       </div>
@@ -83,7 +86,7 @@ export default function SectionStatsMarquee({ stats }: { stats?: HomeCmsStat[] }
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-[#f4f8f5] pt-1 pb-2 sm:pb-3 text-[#143d31] overflow-hidden"
+      className="relative w-full bg-[#f4f8f5] py-3 sm:py-4 text-[#143d31] overflow-hidden"
     >
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -91,18 +94,15 @@ export default function SectionStatsMarquee({ stats }: { stats?: HomeCmsStat[] }
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="relative mx-auto max-w-7xl px-3 sm:px-6 md:px-8"
       >
-        {/* Seamless Clean Impact Ledger without internal divider lines */}
-        <div className="rounded-2xl border border-[#143d31]/10 bg-white p-2 sm:p-3 md:p-4 shadow-[0_4px_24px_-10px_rgba(20,61,49,0.08)]">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 sm:gap-2">
-            {allStats.map((item) => (
-              <StatCell
-                key={item.id}
-                item={item}
-                isHindi={isHindi}
-                isInView={isInView}
-              />
-            ))}
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3.5">
+          {allStats.map((item) => (
+            <StatCell
+              key={item.id}
+              item={item}
+              isHindi={isHindi}
+              isInView={isInView}
+            />
+          ))}
         </div>
       </motion.div>
     </section>

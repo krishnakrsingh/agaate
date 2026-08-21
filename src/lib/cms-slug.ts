@@ -16,6 +16,12 @@ export function statSlugFromLabel(labelEn: string): string {
   return slug || "stat";
 }
 
+/** Slug for team members from English name */
+export function teamSlugFromName(nameEn: string): string {
+  const slug = slugify(nameEn);
+  return slug || "team-member";
+}
+
 /** Slug for farmer stories — matches existing short-* pattern */
 export function storySlugFrom(nameEn: string, cropEn: string): string {
   const cropPart = cropEn.split(/[(\[]/)[0]?.trim() ?? cropEn;

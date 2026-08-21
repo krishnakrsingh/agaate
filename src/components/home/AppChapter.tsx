@@ -15,16 +15,16 @@ export default function AppChapter() {
 
   const featureChecklist = isHindi
     ? [
-        "फोटो से तुरंत रोग पहचान व सटीक दवा",
-        "अनुभवी कृषि डॉक्टर से सीधी 1-on-1 चैट",
-        "खाद, स्प्रे व सिंचाई के स्टेज अलर्ट",
-        "स्थानीय मौसम और लाइव मंडी भाव",
+        "प्लॉट-वार दैनिक कार्य व फसल शेड्यूलिंग",
+        "लागत, इनपुट व खर्च का डिजिटल बहीखाता",
+        "स्टेज-अनुसार स्प्रे, सिंचाई व न्यूट्रिशन अलर्ट",
+        "फोटो से तुरंत फसल रोग पहचान व वैज्ञानिक सलाह",
       ]
     : [
-        "Instant photo crop disease diagnosis",
-        "Direct 1-on-1 agronomist chat",
-        "Precision stage-wise spray & feed alerts",
-        "Hyperlocal weather & live mandi prices",
+        "Plot-wise crop activity & task scheduling",
+        "Farm expenses, inputs & yield bookkeeping",
+        "Stage-wise fertigation, irrigation & spray alerts",
+        "Instant photo disease diagnosis & expert advisory",
       ];
 
   return (
@@ -61,18 +61,18 @@ export default function AppChapter() {
             {/* Subtext Description */}
             <p className="font-sans text-base sm:text-lg text-[#4f624f] leading-relaxed font-normal">
               {isHindi
-                ? "अनुमान छोड़ें, वैज्ञानिक कृषि अपनाएं। पत्ते की फोटो से तुरंत रोग पहचान, डॉक्टर सलाह और फसल अलर्ट सीधे आपके फोन पर।"
-                : "Replace guesswork with precision. Instant leaf diagnosis, direct expert chat, and stage-wise crop alerts delivered to your pocket."}
+                ? "अपने पूरे खेत के संचालन को डिजिटाइज़ करें। प्लॉट-वार दैनिक कार्य शेड्यूल करें, खाद-दवा व खर्च का हिसाब रखें, और समय पर वैज्ञानिक सलाह व फसल अलर्ट सीधे अपने फोन पर पाएं।"
+                : "Digitize your entire farm operations in one place. Track plot activities, manage daily crop schedules, record farm inputs & expenses, and monitor crop growth with real-time advisory from certified field agronomists."}
             </p>
 
             {/* Metrics Strip — Line Type Design */}
             <div className="border-y border-[#143d31]/10 py-4 grid grid-cols-3 gap-3">
               <div className="text-left first:border-l-0 first:pl-0">
                 <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                  <CountUp to={3} suffix="s" />
+                  <CountUp to={100} suffix="%" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-1">
-                  {isHindi ? "एआई रोग पहचान" : "AI Diagnosis"}
+                  {isHindi ? "डिजिटल प्लॉट ट्रैकिंग" : "Plot-Wise Tracking"}
                 </p>
               </div>
               <div className="text-left border-l border-[#143d31]/10 pl-4">
@@ -80,7 +80,7 @@ export default function AppChapter() {
                   24/7
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-1">
-                  {isHindi ? "डॉक्टर सपोर्ट" : "Doctor Chat"}
+                  {isHindi ? "स्टेज अलर्ट व शेड्यूल" : "Schedules & Alerts"}
                 </p>
               </div>
               <div className="text-left border-l border-[#143d31]/10 pl-4">
@@ -88,7 +88,7 @@ export default function AppChapter() {
                   <CountUp to={50} suffix="K+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-1">
-                  {isHindi ? "सक्रिय किसान" : "Active Farmers"}
+                  {isHindi ? "एकड़ डिजिटल प्रबंधन" : "Acres Managed"}
                 </p>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function AppChapter() {
             </div>
 
             {/* Store Download Badges */}
-            <div className="pt-3 flex flex-wrap items-center gap-3">
+            <div className="pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3">
               <motion.a
                 href="https://play.google.com/store/apps"
                 target="_blank"

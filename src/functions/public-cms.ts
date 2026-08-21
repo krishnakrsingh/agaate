@@ -6,3 +6,10 @@ export const getHomeCms = createServerFn({ method: "GET" })
     const mod = await import("./public-cms.server");
     return mod.handleGetHomeCms(Boolean(data?.preview));
   });
+
+export const getTeamCms = createServerFn({ method: "GET" })
+  .validator((data: { preview?: boolean } | undefined) => data ?? {})
+  .handler(async ({ data }) => {
+    const mod = await import("./public-cms.server");
+    return mod.handleGetTeamCms(Boolean(data?.preview));
+  });

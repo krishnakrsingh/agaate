@@ -18,6 +18,7 @@ import {
   BarChart2,
   Image,
   Video,
+  UsersRound,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -120,6 +121,12 @@ export function AdminCommandPalette({
           >
             <Video className="mr-2 h-4 w-4" />
             <span>Farmer testimonials</span>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/team" }))}
+          >
+            <UsersRound className="mr-2 h-4 w-4" />
+            <span>Team members</span>
           </CommandItem>
           <CommandItem
             onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/notifications" }))}

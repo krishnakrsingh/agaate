@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle,
   Truck,
   Buildings,
-  Microscope,
   Package,
   ShoppingBag,
   PhoneCall,
-  MapPinLine,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import KisaanMallShowcase from "./KisaanMallShowcase";
-import PincodeServiceabilityModal from "./PincodeServiceabilityModal";
 
 const SUPPLY_CHAIN_STEPS_EN = [
   {
@@ -27,18 +24,12 @@ const SUPPLY_CHAIN_STEPS_EN = [
   },
   {
     step: "02",
-    title: "QC Batch Verification",
-    desc: "Every batch tested for germination, purity, and zero counterfeits.",
-    icon: Microscope,
-  },
-  {
-    step: "03",
     title: "Agaate Regional Hub",
     desc: "Stored in humidity-controlled warehouses until your order.",
     icon: Package,
   },
   {
-    step: "04",
+    step: "03",
     title: "Direct Farm Delivery",
     desc: "Delivered straight to your field gate across 15,000+ PIN codes.",
     icon: Truck,
@@ -54,18 +45,12 @@ const SUPPLY_CHAIN_STEPS_HI = [
   },
   {
     step: "02",
-    title: "सख्त गुणवत्ता जांच",
-    desc: "अंकुरण, शुद्धता और 0% नकली की गारंटी जांच।",
-    icon: Microscope,
-  },
-  {
-    step: "03",
     title: "अगाते वेयरहाउस हब",
     desc: "तापमान-नियंत्रित सुरक्षित वेयरहाउस में सुरक्षित भंडारण।",
     icon: Package,
   },
   {
-    step: "04",
+    step: "03",
     title: "खेत तक सुरक्षित डिलीवरी",
     desc: "15,000+ पिनकोड में सीधे आपके खेत के गेट तक सुरक्षित डिलीवरी।",
     icon: Truck,
@@ -77,8 +62,6 @@ export default function MallChapter() {
   const isHindi = i18n.language?.startsWith("hi");
   const SUPPLY_CHAIN_STEPS = isHindi ? SUPPLY_CHAIN_STEPS_HI : SUPPLY_CHAIN_STEPS_EN;
   const sectionRef = useHomeChapterReveal("fade-up");
-
-  const [isPincodeModalOpen, setIsPincodeModalOpen] = useState(false);
 
   return (
     <section
@@ -171,25 +154,15 @@ export default function MallChapter() {
               ))}
             </div>
 
-            {/* CTA Buttons Row: Primary Browse + Small Pincode Check Pill */}
+            {/* CTA Buttons Row: Primary Browse */}
             <div className="flex flex-wrap items-center gap-3">
               <SlideUpPillButton
-                href="/services#kisaan-mall"
+                href="/kisaan-mall"
                 variant="dark"
                 size="md"
                 label={isHindi ? "किसान मॉल देखें" : "Browse Agaate Mall"}
                 icon={<ArrowRight className="h-4 w-4" />}
                 iconPosition="right"
-              />
-
-              <SlideUpPillButton
-                type="button"
-                onClick={() => setIsPincodeModalOpen(true)}
-                variant="outline"
-                size="md"
-                label={isHindi ? "पिनकोड जांचें" : "Check Pincode Delivery"}
-                icon={<MapPinLine className="h-4 w-4 text-[#5d7d37]" />}
-                iconPosition="left"
               />
             </div>
           </motion.div>
@@ -229,13 +202,13 @@ export default function MallChapter() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10 py-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {SUPPLY_CHAIN_STEPS.map((s) => {
               const Icon = s.icon;
               return (
                 <div
                   key={s.step}
-                  className="p-6 flex flex-col justify-between space-y-4 hover:bg-white/40 transition-colors"
+                  className="rounded-2xl bg-white/60 p-5 sm:p-6 flex flex-col justify-between space-y-4 hover:bg-white transition-all shadow-xs"
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[11px] font-bold text-[#5d7d37] tracking-wider uppercase">
@@ -282,7 +255,7 @@ export default function MallChapter() {
 
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <SlideUpPillButton
-              href="/services#kisaan-mall"
+              href="/kisaan-mall"
               variant="lime"
               size="md"
               label={isHindi ? "स्टोर देखें" : "Browse Store"}
@@ -300,12 +273,6 @@ export default function MallChapter() {
           </div>
         </div>
       </div>
-
-      {/* Interactive Pincode & Hub Map Modal */}
-      <PincodeServiceabilityModal
-        isOpen={isPincodeModalOpen}
-        onClose={() => setIsPincodeModalOpen(false)}
-      />
     </section>
   );
 }

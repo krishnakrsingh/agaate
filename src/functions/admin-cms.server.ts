@@ -25,8 +25,16 @@ import {
   unpublishCmsStat,
   unpublishCmsStory,
 } from "@/server/cms-queries";
+import {
+  archiveCmsTeamMember,
+  listCmsTeam,
+  publishCmsTeamMember,
+  reorderCmsTeam,
+  saveCmsTeamMember,
+  unpublishCmsTeamMember,
+} from "@/server/cms-team-queries";
 import type { CmsListFilters } from "@/lib/cms-types";
-import { mockLogos, mockStats, mockStories } from "@/server/cms-memory";
+import { mockLogos, mockStats, mockStories, mockTeam } from "@/server/cms-memory";
 
 function failAuth(err: unknown) {
   const message = err instanceof Error ? err.message : "Error";
@@ -73,7 +81,7 @@ export async function handleCmsOverview() {
       });
       return {
         ok: true as const,
-        overview: { stats: count(mockStats), logos: count(mockLogos), stories: count(mockStories) },
+        overview: { stats: count(mockStats), logos: count(mockLogos), stories: count(mockStories), team: count(mockTeam) },
         dbConfigured: false,
       };
     }
@@ -137,6 +145,98 @@ export async function handleListStories(filters: CmsListFilters) {
     }
     const items = await listCmsStories(filters);
     return { ok: true as const, items, dbConfigured: true };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleListTeam(filters: CmsListFilters) {
+  try {
+    await requireSessionUser();
+    const matchTeam = (r: (typeof mockTeam)[number]) =>
+      !filters.q ||
+      [r.nameEn, r.nameHi, r.slug, r.roleEn].some((f) =>
+        f.toLowerCase().includes(filters.q!.toLowerCase()),
+      );
+
+    if (!isDbConfigured()) {
+      const rows = filterMock(mockTeam, filters, matchTeam);
+      return { ok: true as const, items: rows, dbConfigured: false };
+    }
+
+    let items = await listCmsTeam(filters);
+    if (!items.length) {
+      const { ensureTeamSchema } = await import("@/server/cms-team-queries");
+      await ensureTeamSchema();
+      items = await listCmsTeam(filters);
+    }
+    if (!items.length) {
+      const rows = filterMock(mockTeam, filters, matchTeam);
+      if (rows.length) {
+        return { ok: true as const, items: rows, dbConfigured: false };
+      }
+    }
+    return { ok: true as const, items, dbConfigured: true };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveTeam(data: Parameters<typeof saveCmsTeamMember>[0]) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    if (!isDbConfigured()) {
+      if (data.id) {
+        const idx = mockTeam.findIndex((r) => r.id === data.id);
+        if (idx < 0) return { ok: false as const, error: "Item not found." };
+        const updated = {
+          ...mockTeam[idx]!,
+          ...data,
+          keyAchEn: data.keyAchEn ?? mockTeam[idx]!.keyAchEn,
+          keyAchHi: data.keyAchHi ?? mockTeam[idx]!.keyAchHi,
+          updatedAt: new Date().toISOString(),
+          hasUnpublishedChanges: true,
+        };
+        mockTeam[idx] = updated;
+        return { ok: true as const, item: updated };
+      }
+      const item = {
+        id: mockTeam.length + 1,
+        slug: data.slug ?? `member-${Date.now()}`,
+        nameEn: data.nameEn ?? "",
+        nameHi: data.nameHi ?? "",
+        roleEn: data.roleEn ?? "",
+        roleHi: data.roleHi ?? "",
+        focusEn: data.focusEn ?? "",
+        focusHi: data.focusHi ?? "",
+        tagEn: data.tagEn ?? "",
+        tagHi: data.tagHi ?? "",
+        bioEn: data.bioEn ?? "",
+        bioHi: data.bioHi ?? "",
+        quoteEn: data.quoteEn ?? "",
+        quoteHi: data.quoteHi ?? "",
+        pubEn: data.pubEn ?? "",
+        pubHi: data.pubHi ?? "",
+        keyAchEn: data.keyAchEn ?? [],
+        keyAchHi: data.keyAchHi ?? [],
+        imageUrl: data.imageUrl ?? "",
+        iconKey: data.iconKey ?? "users",
+        showInBanner: data.showInBanner ?? false,
+        bannerBadgeEn: data.bannerBadgeEn ?? "",
+        bannerBadgeHi: data.bannerBadgeHi ?? "",
+        sortOrder: mockTeam.length,
+        status: "draft" as const,
+        livePayload: null,
+        publishedAt: null,
+        updatedAt: new Date().toISOString(),
+        hasUnpublishedChanges: true,
+      };
+      mockTeam.push(item);
+      return { ok: true as const, item };
+    }
+    const item = await saveCmsTeamMember(data);
+    return { ok: true as const, item };
   } catch (err) {
     return failAuth(err);
   }
@@ -273,12 +373,19 @@ export async function handleSaveStory(data: Parameters<typeof saveCmsStory>[0]) 
   }
 }
 
-export async function handlePublish(data: { type: "stats" | "logos" | "stories"; id: number }) {
+export async function handlePublish(data: { type: "stats" | "logos" | "stories" | "team"; id: number }) {
   try {
     assertSameOrigin();
     await requireEditor();
     if (!isDbConfigured()) {
-      const store = data.type === "stats" ? mockStats : data.type === "logos" ? mockLogos : mockStories;
+      const store =
+        data.type === "stats"
+          ? mockStats
+          : data.type === "logos"
+            ? mockLogos
+            : data.type === "stories"
+              ? mockStories
+              : mockTeam;
       const idx = store.findIndex((r) => r.id === data.id);
       if (idx < 0) return { ok: false as const, error: "Item not found." };
       const row = store[idx]!;
@@ -299,19 +406,28 @@ export async function handlePublish(data: { type: "stats" | "logos" | "stories";
         ? await publishCmsStat(data.id)
         : data.type === "logos"
           ? await publishCmsLogo(data.id)
-          : await publishCmsStory(data.id);
+          : data.type === "stories"
+            ? await publishCmsStory(data.id)
+            : await publishCmsTeamMember(data.id);
     return { ok: true as const, item };
   } catch (err) {
     return failAuth(err);
   }
 }
 
-export async function handleUnpublish(data: { type: "stats" | "logos" | "stories"; id: number }) {
+export async function handleUnpublish(data: { type: "stats" | "logos" | "stories" | "team"; id: number }) {
   try {
     assertSameOrigin();
     await requireEditor();
     if (!isDbConfigured()) {
-      const store = data.type === "stats" ? mockStats : data.type === "logos" ? mockLogos : mockStories;
+      const store =
+        data.type === "stats"
+          ? mockStats
+          : data.type === "logos"
+            ? mockLogos
+            : data.type === "stories"
+              ? mockStories
+              : mockTeam;
       const idx = store.findIndex((r) => r.id === data.id);
       if (idx < 0) return { ok: false as const, error: "Item not found." };
       store[idx] = { ...store[idx]!, status: "draft" };
@@ -322,19 +438,28 @@ export async function handleUnpublish(data: { type: "stats" | "logos" | "stories
         ? await unpublishCmsStat(data.id)
         : data.type === "logos"
           ? await unpublishCmsLogo(data.id)
-          : await unpublishCmsStory(data.id);
+          : data.type === "stories"
+            ? await unpublishCmsStory(data.id)
+            : await unpublishCmsTeamMember(data.id);
     return { ok: true as const, item };
   } catch (err) {
     return failAuth(err);
   }
 }
 
-export async function handleArchive(data: { type: "stats" | "logos" | "stories"; id: number }) {
+export async function handleArchive(data: { type: "stats" | "logos" | "stories" | "team"; id: number }) {
   try {
     assertSameOrigin();
     await requireEditor();
     if (!isDbConfigured()) {
-      const store = data.type === "stats" ? mockStats : data.type === "logos" ? mockLogos : mockStories;
+      const store =
+        data.type === "stats"
+          ? mockStats
+          : data.type === "logos"
+            ? mockLogos
+            : data.type === "stories"
+              ? mockStories
+              : mockTeam;
       const idx = store.findIndex((r) => r.id === data.id);
       if (idx < 0) return { ok: false as const, error: "Item not found." };
       store[idx] = { ...store[idx]!, status: "archived" };
@@ -342,7 +467,8 @@ export async function handleArchive(data: { type: "stats" | "logos" | "stories";
     }
     if (data.type === "stats") await archiveCmsStat(data.id);
     else if (data.type === "logos") await archiveCmsLogo(data.id);
-    else await archiveCmsStory(data.id);
+    else if (data.type === "stories") await archiveCmsStory(data.id);
+    else await archiveCmsTeamMember(data.id);
     return { ok: true as const };
   } catch (err) {
     return failAuth(err);
@@ -350,14 +476,21 @@ export async function handleArchive(data: { type: "stats" | "logos" | "stories";
 }
 
 export async function handleReorder(data: {
-  type: "stats" | "logos" | "stories";
+  type: "stats" | "logos" | "stories" | "team";
   ids: number[];
 }) {
   try {
     assertSameOrigin();
     await requireEditor();
     if (!isDbConfigured()) {
-      const store = data.type === "stats" ? mockStats : data.type === "logos" ? mockLogos : mockStories;
+      const store =
+        data.type === "stats"
+          ? mockStats
+          : data.type === "logos"
+            ? mockLogos
+            : data.type === "stories"
+              ? mockStories
+              : mockTeam;
       data.ids.forEach((id, order) => {
         const idx = store.findIndex((r) => r.id === id);
         if (idx >= 0) store[idx] = { ...store[idx]!, sortOrder: order };
@@ -367,7 +500,8 @@ export async function handleReorder(data: {
     }
     if (data.type === "stats") await reorderCmsStats(data.ids);
     else if (data.type === "logos") await reorderCmsLogos(data.ids);
-    else await reorderCmsStories(data.ids);
+    else if (data.type === "stories") await reorderCmsStories(data.ids);
+    else await reorderCmsTeam(data.ids);
     return { ok: true as const };
   } catch (err) {
     return failAuth(err);

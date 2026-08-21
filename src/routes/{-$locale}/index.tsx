@@ -16,22 +16,30 @@ import {
   ProofChapter,
   ClosingChapter,
 } from "@/components/home";
-import { getHomeCms } from "@/functions/public-cms";
+import { getHomeCms, getTeamCms } from "@/functions/public-cms";
 import { isAdminOk } from "@/lib/admin-api";
 import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
+import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
 
 export const Route = createFileRoute("/{-$locale}/")({
   staleTime: 0,
   loader: async () => {
     try {
-      const res = await getHomeCms({ data: { preview: false } });
-      if (isAdminOk<{ data: typeof HOMEPAGE_CMS_FALLBACK }>(res)) {
-        return { cms: res.data };
-      }
+      const [homeRes, teamRes] = await Promise.all([
+        getHomeCms({ data: { preview: false } }),
+        getTeamCms({ data: { preview: false } }),
+      ]);
+      const cms = isAdminOk<{ data: typeof HOMEPAGE_CMS_FALLBACK }>(homeRes)
+        ? homeRes.data
+        : HOMEPAGE_CMS_FALLBACK;
+      const teamCms = isAdminOk<{ data: typeof TEAM_CMS_FALLBACK }>(teamRes)
+        ? teamRes.data
+        : TEAM_CMS_FALLBACK;
+      return { cms, teamCms };
     } catch (err) {
       console.warn("Homepage CMS loader fallback:", err);
     }
-    return { cms: HOMEPAGE_CMS_FALLBACK };
+    return { cms: HOMEPAGE_CMS_FALLBACK, teamCms: TEAM_CMS_FALLBACK };
   },
   head: () => ({
     meta: [
@@ -47,7 +55,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function Index() {
-  const { cms } = Route.useLoaderData();
+  const { cms, teamCms } = Route.useLoaderData();
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [startHeroAnimation, setStartHeroAnimation] = useState(false);
@@ -96,7 +104,7 @@ function Index() {
             <MallChapter />
             <AgriParkChapter />
             <BrandsAssociationsChapter brands={cms.logos} />
-            <PeopleChapter />
+            <PeopleChapter teamCms={teamCms} />
             <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />
             <ClosingChapter />
             <Footer />

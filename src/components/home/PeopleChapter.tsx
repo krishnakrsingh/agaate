@@ -2,7 +2,10 @@ import { Plant, Stethoscope, TrendUp } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { useTranslation } from "react-i18next";
 import { CountUp, Reveal } from "@/components/common/motion";
-
+import { LeadershipBanner } from "@/components/about/LeadershipBanner";
+import type { TeamCmsData } from "@/lib/cms-types";
+import { getLeadershipBanner } from "@/lib/team-cms";
+import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
 const impactStatsEn = [
   {
     id: "network",
@@ -57,12 +60,13 @@ const impactStatsHi = [
   },
 ];
 
-export default function PeopleChapter() {
+export default function PeopleChapter({ teamCms = TEAM_CMS_FALLBACK }: { teamCms?: TeamCmsData }) {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
   const impactStats = isHindi ? impactStatsHi : impactStatsEn;
+  const members = isHindi ? teamCms.membersHi : teamCms.membersEn;
+  const bannerLeaders = getLeadershipBanner(members);
   const sectionRef = useHomeChapterReveal("fade-up");
-
   return (
     <section
       ref={sectionRef}
@@ -149,32 +153,15 @@ export default function PeopleChapter() {
           })}
         </div>
 
-        {/* Founder Quote Banner */}
-        <Reveal variant="fade-up" delay={0.15}>
-          <div className="rounded-2xl bg-white p-8 md:p-10 border border-[#143d31]/10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <blockquote className="font-serif text-lg md:text-xl font-normal italic text-[#143d31] flex-1 max-w-4xl leading-relaxed">
-              {isHindi
-                ? "“हमने अगाते की शुरुआत एक सरल विश्वास के साथ की — कि हर किसान को सही मार्गदर्शन, सही साधन और सही सहयोग मिलना चाहिए, ताकि उनकी मेहनत कभी घाटे में न बदले।”"
-                : '"We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss."'}
-            </blockquote>
-            <div className="flex items-center gap-4 shrink-0 border-t md:border-t-0 md:border-l border-[#143d31]/10 pt-4 md:pt-0 md:pl-8">
-              <img
-                src="/team/ankit.png?v=2"
-                alt="Ankit Rawat"
-                className="h-12 w-12 rounded-full object-cover border-2 border-white shrink-0"
-              />
-              <div>
-                <p className="font-display text-sm font-bold text-[#143d31]">
-                  {isHindi ? "अंकित रावत" : "Ankit Rawat"}
-                </p>
-                <p className="font-sans text-xs font-semibold text-[#5d7d37]">
-                  {isHindi ? "संस्थापक एवं सीईओ" : "Founder & CEO"}
-                </p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
+        {/* Leadership Executive Panorama Banner */}
+        {bannerLeaders.length > 0 && (
+          <Reveal variant="fade-up" delay={0.15}>
+            <LeadershipBanner
+              leaders={bannerLeaders}
+              eyebrow={isHindi ? "संस्थापक विज़न" : "Founders Vision"}
+            />
+          </Reveal>
+        )}      </div>
     </section>
   );
 }

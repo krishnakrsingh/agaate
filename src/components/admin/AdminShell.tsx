@@ -20,6 +20,7 @@ import {
   Image,
   Video,
   BarChart2,
+  UsersRound,
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -113,6 +114,7 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/stats", label: "Site statistics", icon: BarChart2 },
       { to: "/agaate-admin/content/logos", label: "Brand logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
+      { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
     ],
   },
   {
@@ -240,6 +242,12 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Farmer testimonials", href: "/agaate-admin/content/stories", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/team")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Team members", href: "/agaate-admin/content/team", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content")) {

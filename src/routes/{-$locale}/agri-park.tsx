@@ -37,7 +37,7 @@ import {
 
 const PAGE_TITLE = "Agaate Agri Park — India's First Collaborative Living Farm | Gurugram";
 const PAGE_DESCRIPTION =
-  "Explore Agaate's 17-acre collaborative living farm in Kukrola, Gurugram. Discover 8 masterplan innovation zones showcasing advanced seeds, drip irrigation, drone tech, and bio-nutrition.";
+  "Explore Agaate's 5-acre collaborative living farm in Kukrola, Gurugram. Discover 8 masterplan innovation zones showcasing advanced seeds, drip irrigation, drone tech, and bio-nutrition.";
 
 function buildJsonLd() {
   const organization = {
@@ -120,7 +120,7 @@ function AgriPark() {
               <h1 className="mt-4 max-w-xl font-display text-4xl font-semibold tracking-tight text-[#143d31] md:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
                 India's First Agri Park —{" "}
                 <span className="font-serif italic font-normal text-terracotta block mt-1 sm:inline">
-                  One Living 17-Acre Farm.
+                  One Living 5-Acre Farm.
                 </span>
               </h1>
             </Reveal>
@@ -139,7 +139,7 @@ function AgriPark() {
                 <MagneticButton onClick={() => setIsVisitModalOpen(true)} strength={0.25}>
                   <span className="inline-flex items-center gap-2.5 rounded-xl bg-forest-deep px-6 py-3.5 text-xs font-extrabold text-cream shadow-md transition-colors hover:bg-forest cursor-pointer">
                     <Calendar className="h-4 w-4" />
-                    Book VIP Farm Visit
+                    Book Farm Visit
                   </span>
                 </MagneticButton>
                 <a
@@ -185,7 +185,7 @@ function AgriPark() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-stone-200 bg-neutral-100 shadow-xl lg:aspect-[5/4] group">
               <img
                 src={agroParkImg}
-                alt="Overview of Agaate's 17-acre collaborative living farm in Gurugram"
+                alt="Overview of Agaate's 5-acre collaborative living farm in Gurugram"
                 className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
               {/* Soft overlay gradient */}
@@ -233,14 +233,14 @@ function AgriPark() {
         {/* Section 3: Why It's First of Its Kind Highlight Grid */}
         <FirstOfKind />
 
-        {/* Section 4: 17-Acre Smart Nursery Controlled Environment */}
+        {/* Section 4: 5-Acre Smart Nursery Controlled Environment */}
         <SmartNursery />
 
         {/* Section 5: Final Call-To-Action Band */}
         <TaglineBand />
       </div>
 
-      {/* Interactive VIP Farm Visit Booking Modal */}
+      {/* Interactive Farm Visit Booking Modal */}
       <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
 
       <Footer />

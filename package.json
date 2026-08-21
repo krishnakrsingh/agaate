@@ -14,7 +14,11 @@
     "test:watch": "vitest",
     "i18n:sync": "npx tsx scripts/sync-translations.ts",
     "i18n:check": "npx tsx scripts/check-translations.ts",
-    "seed:admin": "node --env-file=.env scripts/seed-admin.mjs"
+    "seed:db": "node --env-file=.env scripts/seed-db.mjs",
+    "seed:admin": "node --env-file=.env scripts/seed-admin.mjs",
+    "seed:cms": "npx tsx --env-file=.env scripts/seed-cms.ts",
+    "seed:cms:force": "npx tsx --env-file=.env scripts/seed-cms.ts --force-team",
+    "seed": "npm run seed:db && npm run seed:admin && npm run seed:cms"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

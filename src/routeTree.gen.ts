@@ -34,6 +34,7 @@ import { Route as AgaateAdminAuthedAnalyticsRouteImport } from './routes/agaate-
 import { Route as AgaateAdminAuthedAgronomistsRouteImport } from './routes/agaate-admin/_authed/agronomists'
 import { Route as AgaateAdminAuthedContentIndexRouteImport } from './routes/agaate-admin/_authed/content/index'
 import { Route as AgaateAdminAuthedContactsIndexRouteImport } from './routes/agaate-admin/_authed/contacts/index'
+import { Route as AgaateAdminAuthedContentTeamRouteImport } from './routes/agaate-admin/_authed/content/team'
 import { Route as AgaateAdminAuthedContentStoriesRouteImport } from './routes/agaate-admin/_authed/content/stories'
 import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaate-admin/_authed/content/stats'
 import { Route as AgaateAdminAuthedContentLogosRouteImport } from './routes/agaate-admin/_authed/content/logos'
@@ -184,6 +185,12 @@ const AgaateAdminAuthedContactsIndexRoute =
     path: '/contacts/',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedContentTeamRoute =
+  AgaateAdminAuthedContentTeamRouteImport.update({
+    id: '/content/team',
+    path: '/content/team',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedContentStoriesRoute =
   AgaateAdminAuthedContentStoriesRouteImport.update({
     id: '/content/stories',
@@ -236,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
+  '/agaate-admin/content/team': typeof AgaateAdminAuthedContentTeamRoute
   '/agaate-admin/contacts/': typeof AgaateAdminAuthedContactsIndexRoute
   '/agaate-admin/content/': typeof AgaateAdminAuthedContentIndexRoute
 }
@@ -264,6 +272,7 @@ export interface FileRoutesByTo {
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
+  '/agaate-admin/content/team': typeof AgaateAdminAuthedContentTeamRoute
   '/agaate-admin/contacts': typeof AgaateAdminAuthedContactsIndexRoute
   '/agaate-admin/content': typeof AgaateAdminAuthedContentIndexRoute
 }
@@ -296,6 +305,7 @@ export interface FileRoutesById {
   '/agaate-admin/_authed/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/_authed/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/_authed/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
+  '/agaate-admin/_authed/content/team': typeof AgaateAdminAuthedContentTeamRoute
   '/agaate-admin/_authed/contacts/': typeof AgaateAdminAuthedContactsIndexRoute
   '/agaate-admin/_authed/content/': typeof AgaateAdminAuthedContentIndexRoute
 }
@@ -328,6 +338,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
+    | '/agaate-admin/content/team'
     | '/agaate-admin/contacts/'
     | '/agaate-admin/content/'
   fileRoutesByTo: FileRoutesByTo
@@ -356,6 +367,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
+    | '/agaate-admin/content/team'
     | '/agaate-admin/contacts'
     | '/agaate-admin/content'
   id:
@@ -387,6 +399,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed/content/logos'
     | '/agaate-admin/_authed/content/stats'
     | '/agaate-admin/_authed/content/stories'
+    | '/agaate-admin/_authed/content/team'
     | '/agaate-admin/_authed/contacts/'
     | '/agaate-admin/_authed/content/'
   fileRoutesById: FileRoutesById
@@ -573,6 +586,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContactsIndexRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/content/team': {
+      id: '/agaate-admin/_authed/content/team'
+      path: '/content/team'
+      fullPath: '/agaate-admin/content/team'
+      preLoaderRoute: typeof AgaateAdminAuthedContentTeamRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/stories': {
       id: '/agaate-admin/_authed/content/stories'
       path: '/content/stories'
@@ -617,6 +637,7 @@ interface AgaateAdminAuthedRouteRouteChildren {
   AgaateAdminAuthedContentLogosRoute: typeof AgaateAdminAuthedContentLogosRoute
   AgaateAdminAuthedContentStatsRoute: typeof AgaateAdminAuthedContentStatsRoute
   AgaateAdminAuthedContentStoriesRoute: typeof AgaateAdminAuthedContentStoriesRoute
+  AgaateAdminAuthedContentTeamRoute: typeof AgaateAdminAuthedContentTeamRoute
   AgaateAdminAuthedContactsIndexRoute: typeof AgaateAdminAuthedContactsIndexRoute
   AgaateAdminAuthedContentIndexRoute: typeof AgaateAdminAuthedContentIndexRoute
 }
@@ -635,6 +656,7 @@ const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
     AgaateAdminAuthedContentLogosRoute: AgaateAdminAuthedContentLogosRoute,
     AgaateAdminAuthedContentStatsRoute: AgaateAdminAuthedContentStatsRoute,
     AgaateAdminAuthedContentStoriesRoute: AgaateAdminAuthedContentStoriesRoute,
+    AgaateAdminAuthedContentTeamRoute: AgaateAdminAuthedContentTeamRoute,
     AgaateAdminAuthedContactsIndexRoute: AgaateAdminAuthedContactsIndexRoute,
     AgaateAdminAuthedContentIndexRoute: AgaateAdminAuthedContentIndexRoute,
   }
