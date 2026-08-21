@@ -14,6 +14,10 @@ import {
   PhoneCall,
   Sprout,
   ShieldAlert,
+  Globe,
+  BarChart2,
+  Image,
+  Video,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -92,6 +96,30 @@ export function AdminCommandPalette({
           >
             <BarChart3 className="mr-2 h-4 w-4" />
             <span>Analytics & Velocity</span>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content" }))}
+          >
+            <Globe className="mr-2 h-4 w-4" />
+            <span>Website content</span>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/stats" }))}
+          >
+            <BarChart2 className="mr-2 h-4 w-4" />
+            <span>Site statistics</span>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/logos" }))}
+          >
+            <Image className="mr-2 h-4 w-4" />
+            <span>Brand logos</span>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/stories" }))}
+          >
+            <Video className="mr-2 h-4 w-4" />
+            <span>Farmer testimonials</span>
           </CommandItem>
           <CommandItem
             onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/notifications" }))}

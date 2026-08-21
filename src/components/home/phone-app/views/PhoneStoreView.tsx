@@ -8,7 +8,7 @@ interface PhoneStoreViewProps {
 
 export function PhoneStoreView({ onAddToCart }: PhoneStoreViewProps) {
   return (
-    <div className="flex flex-1 flex-col space-y-4 overflow-y-auto bg-[#f4f7ef]/50 p-3.5">
+    <div className="flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto bg-[#f4f7ef]/50 p-3.5">
       {/* Category Filter Chips */}
       <div className="no-scrollbar flex shrink-0 items-center gap-2 overflow-x-auto pb-0.5">
         {["All Inputs", "Seeds 🌾", "Bio-Cures 🧪", "Drip 💧", "Mulch 🛡️"].map((cat, i) => (

@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   Save,
   Plus,
+  UserPlus,
 } from "lucide-react";
 import {
   listAdminUsers,
@@ -358,8 +359,13 @@ export function AdminSettingsPanel({
                         <select
                           defaultValue={u.role}
                           onChange={(e) =>
-                            void saveAdminUserRole({
-                              data: { id: u.id, role: e.target.value as AdminRole },
+                            void saveAdminUser({
+                              data: {
+                                id: u.id,
+                                name: u.name,
+                                email: u.email,
+                                role: e.target.value,
+                              },
                             }).then(() => toast.success("Role Updated", `${u.name} is now ${e.target.value}`))
                           }
                           className="h-8 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
@@ -383,7 +389,7 @@ export function AdminSettingsPanel({
                 const res = await saveAdminUser({ data: newUser });
                 if (res && "ok" in res && res.ok) {
                   const listed = await listAdminUsers();
-                  if (listed && "users" in listed) setUsers(listed.users);
+                  if (listed && "ok" in listed && listed.ok) setUsers(listed.users);
                   setNewUser({ email: "", name: "", password: "", role: "agronomist" });
                   toast.success("User Added", newUser.email);
                 } else {

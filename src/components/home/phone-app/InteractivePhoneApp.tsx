@@ -191,7 +191,7 @@ export function InteractivePhoneApp({
       )}
 
       {/* Flagship Phone Frame */}
-      <div className="relative aspect-[9/17.5] max-h-[600px] overflow-hidden rounded-[2.4rem] border-[4px] border-[#181d19] bg-[#181d19] p-[3px] shadow-[0_25px_60px_-15px_rgba(13,40,32,0.25)] ring-1 ring-black/20">
+      <div className="relative h-[580px] sm:h-[620px] w-full isolate overflow-hidden rounded-[2.4rem] border-[5px] border-[#181d19] bg-[#181d19] p-[3px] shadow-[0_25px_60px_-15px_rgba(13,40,32,0.25)] ring-1 ring-black/20">
         {/* Side physical buttons */}
         <div
           className="pointer-events-none absolute left-0 top-[18%] z-20 h-9 w-[2px] rounded-r-xs bg-[#2e3630]"
@@ -206,7 +206,7 @@ export function InteractivePhoneApp({
           aria-hidden="true"
         />
 
-        <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.15rem] bg-[#fffdf4] text-[#143d31]">
+        <div className="relative flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-[2.1rem] bg-[#fffdf4] text-[#143d31]">
           {/* Punch-hole camera */}
           <div
             className="pointer-events-none absolute left-1/2 top-2.5 z-30 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#0a0a0a] ring-1 ring-black/50"

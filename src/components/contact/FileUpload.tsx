@@ -38,7 +38,7 @@ export function FileUpload({
   };
 
   return (
-    <div className="space-y-2 w-full text-left">
+<div className="space-y-2 w-full text-left">
       {file ? (
         <div className="flex items-center justify-between gap-3 p-3 rounded-lg border border-neutral-200 bg-neutral-50/80">
           <div className="flex items-center gap-3 min-w-0">

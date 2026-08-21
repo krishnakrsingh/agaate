@@ -6,29 +6,40 @@ import {
   WhoWeAre,
   ValuesTriptych,
   ImpactScaleReach,
+  MilestonesSection,
   LeadershipRoster,
   FootprintSection,
   AboutCta,
 } from "@/components/about";
-import { BrandsAssociationsChapter } from "@/components/home";
 
 export const Route = createFileRoute("/{-$locale}/about")({
+  head: () => ({
+    meta: [
+      { title: "About Us — Agaate | Rooted in Science, Built for Farmers" },
+      {
+        name: "description",
+        content:
+          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, and sustainable market linkage.",
+      },
+    ],
+  }),
   component: About,
 });
 
 function About() {
   return (
-    <main className="min-h-screen bg-white font-sans text-ink antialiased">
+    <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased overflow-x-clip">
       <Header />
       <AboutHero />
       <WhoWeAre />
       <ValuesTriptych />
       <ImpactScaleReach />
+      <MilestonesSection />
       <LeadershipRoster />
       <FootprintSection />
-      <BrandsAssociationsChapter />
       <AboutCta />
       <Footer />
     </main>
   );
 }
+

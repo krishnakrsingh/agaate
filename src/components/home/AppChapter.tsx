@@ -47,7 +47,7 @@ export default function AppChapter() {
             <div className="flex items-center gap-2.5">
               <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                {isHindi ? "02 · अगाते मोबाइल ऐप" : "02 · Agaate Mobile App"}
+                {isHindi ? "अगाते मोबाइल ऐप" : "Agaate Mobile App"}
               </p>
             </div>
 

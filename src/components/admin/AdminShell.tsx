@@ -16,6 +16,10 @@ import {
   AlertCircle,
   CheckCircle2,
   ChevronsUpDown,
+  Globe,
+  Image,
+  Video,
+  BarChart2,
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -100,6 +104,15 @@ const NAV_GROUPS: Array<{
     items: [
       { to: "/agaate-admin/customers", label: "Growers Directory", icon: Users },
       { to: "/agaate-admin/agronomists", label: "Agronomists", icon: UserCheck },
+    ],
+  },
+  {
+    group: "Website",
+    items: [
+      { to: "/agaate-admin/content", label: "Content overview", icon: Globe, exact: true },
+      { to: "/agaate-admin/content/stats", label: "Site statistics", icon: BarChart2 },
+      { to: "/agaate-admin/content/logos", label: "Brand logos", icon: Image },
+      { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
     ],
   },
   {
@@ -209,6 +222,30 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Configuration", href: "/agaate-admin/settings", current: false },
         { label: "Settings", href: "/agaate-admin/settings", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/stats")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Site statistics", href: "/agaate-admin/content/stats", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/logos")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Brand logos", href: "/agaate-admin/content/logos", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/stories")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Farmer testimonials", href: "/agaate-admin/content/stories", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Content overview", href: "/agaate-admin/content", current: true },
       ];
     }
     return [{ label: "Admin", href: "/agaate-admin", current: true }];

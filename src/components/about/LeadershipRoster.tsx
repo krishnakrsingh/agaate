@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, CheckCircle, Quotes, X } from "@phosphor-icons/react";
+import { BookOpen, CheckCircle, Quotes, X, ArrowUpRight } from "@phosphor-icons/react";
+import { Reveal } from "@/components/common/motion";
 import { founderNote, team, type TeamMember } from "./data";
 
 function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClose: () => void }) {
@@ -29,14 +30,14 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
         aria-labelledby="leader-bio-title"
       >
         <motion.div
-          className="absolute inset-0 bg-forest-deep/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-[#143d31]/60 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         />
         <motion.div
-          className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-neutral-200 bg-white p-6 shadow-2xl md:p-8"
+          className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-[#143d31]/10 bg-white p-6 shadow-2xl md:p-8 text-[#143d31]"
           initial={{ opacity: 0, y: 24, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.98 }}
@@ -45,7 +46,7 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-md border border-neutral-200 text-neutral-500 transition-colors hover:bg-neutral-50 hover:text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
+            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl border border-[#143d31]/10 text-[#4f624f] transition-colors hover:bg-[#f4f8f5] hover:text-[#143d31] focus-visible:outline-none"
             aria-label="Close biography"
           >
             <X className="h-4 w-4" />
@@ -55,42 +56,56 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
             <img
               src={leader.image}
               alt={leader.name}
-              className="h-14 w-14 rounded-lg object-cover"
+              className="h-16 w-16 rounded-xl object-cover border border-[#143d31]/10 shadow-xs"
             />
             <div>
-              <p className="text-xs font-medium text-forest">{leader.tag}</p>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                {leader.tag}
+              </p>
               <h3
                 id="leader-bio-title"
-                className="mt-0.5 font-display text-2xl font-semibold text-forest-deep"
+                className="mt-0.5 font-display text-2xl font-bold text-[#143d31]"
               >
                 {leader.name}
               </h3>
-              <p className="text-sm text-neutral-600">{leader.role}</p>
+              <p className="font-sans text-xs font-semibold text-[#4f624f]">{leader.role}</p>
             </div>
           </div>
 
-          <p className="mt-6 text-sm leading-relaxed text-neutral-600">{leader.bio}</p>
+          <p className="mt-6 font-sans text-sm leading-relaxed text-[#4f624f]">{leader.bio}</p>
 
-          <ul className="mt-6 space-y-2">
-            {leader.keyAch.map((ach) => (
-              <li key={ach} className="flex items-start gap-2.5 text-sm text-forest-deep">
-                <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-forest" strokeWidth={1.75} />
-                <span>{ach}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-              <BookOpen className="h-3.5 w-3.5" />
-              Publication
-            </div>
-            <p className="mt-2 font-serif text-sm italic text-forest-deep">"{leader.pub}"</p>
+          <div className="mt-6 space-y-2.5">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+              Key Accomplishments
+            </p>
+            <ul className="space-y-2">
+              {leader.keyAch.map((ach) => (
+                <li key={ach} className="flex items-start gap-2 text-xs font-medium text-[#143d31]">
+                  <CheckCircle
+                    className="mt-0.5 h-4 w-4 shrink-0 text-[#5d7d37]"
+                    weight="fill"
+                  />
+                  <span>{ach}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <blockquote className="mt-4 border-l-2 border-terracotta pl-4 text-sm italic text-neutral-600">
-            "{leader.quote}"
-          </blockquote>
+          {leader.pub && (
+            <div className="mt-6 rounded-xl border border-[#143d31]/10 bg-[#f4f8f5] p-4">
+              <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                <BookOpen className="h-3.5 w-3.5" weight="duotone" />
+                Publication / Focus Area
+              </div>
+              <p className="mt-1.5 font-serif text-xs italic text-[#143d31]">"{leader.pub}"</p>
+            </div>
+          )}
+
+          {leader.quote && (
+            <blockquote className="mt-4 border-l-2 border-[#5d7d37] pl-3.5 font-serif text-xs italic text-[#4f624f]">
+              “{leader.quote}”
+            </blockquote>
+          )}
         </motion.div>
       </div>
     </AnimatePresence>
@@ -104,89 +119,91 @@ export default function LeadershipRoster() {
     <section
       id="leadership"
       aria-labelledby="leadership-heading"
-      className="border-b border-neutral-200 bg-white py-16 md:py-24"
+      className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        {/* Founder note */}
-        <div className="max-w-3xl">
-          <p className="text-sm font-medium text-forest">Leadership</p>
-          <h2
-            id="leadership-heading"
-            className="mt-2 font-display text-3xl font-semibold tracking-tight text-forest-deep md:text-4xl"
-          >
-            Meet the team behind Agaate.
-          </h2>
-          <div className="mt-8 rounded-lg border border-neutral-200 bg-neutral-50 p-6 md:p-8">
-            <Quotes className="h-5 w-5 text-terracotta" strokeWidth={1.75} />
-            <blockquote className="mt-3 font-serif text-xl italic leading-relaxed text-forest-deep md:text-2xl">
-              "{founderNote.quote}"
-            </blockquote>
-            <div className="mt-6 flex items-center gap-3">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
+        {/* Section Header */}
+        <Reveal variant="fade-up" className="space-y-4">
+          <div className="flex items-center gap-2.5">
+            <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+            <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
+              Leadership &amp; Field Specialists
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <h2
+              id="leadership-heading"
+              className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
+            >
+              The team building the future of Indian agriculture
+            </h2>
+
+            <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
+              Bringing together agronomists, supply chain leaders, nursery architects, and data
+              scientists dedicated to farmer profitability.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* Founder Quote Banner (Consistent with Home PeopleChapter) */}
+        <Reveal variant="fade-up" delay={0.1}>
+          <div className="rounded-2xl bg-white p-8 md:p-10 border border-[#143d31]/10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xs">
+            <div className="flex items-start gap-4 flex-1">
+              <Quotes className="h-8 w-8 text-[#5d7d37] shrink-0 opacity-40 mt-1" weight="duotone" />
+              <blockquote className="font-serif text-lg md:text-xl font-normal italic text-[#143d31] leading-relaxed">
+                “{founderNote.quote}”
+              </blockquote>
+            </div>
+
+            <div className="flex items-center gap-4 shrink-0 border-t md:border-t-0 md:border-l border-[#143d31]/10 pt-4 md:pt-0 md:pl-8">
               <img
                 src={founderNote.image}
                 alt={founderNote.name}
-                className="h-11 w-11 rounded-full object-cover"
+                className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-xs shrink-0"
               />
               <div>
-                <p className="text-sm font-semibold text-forest-deep">{founderNote.name}</p>
-                <p className="text-xs text-neutral-500">{founderNote.role}</p>
+                <p className="font-display text-sm font-bold text-[#143d31]">{founderNote.name}</p>
+                <p className="font-sans text-xs font-semibold text-[#5d7d37]">{founderNote.role}</p>
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Team — list on phone, photo grid on desktop */}
-        <div className="mt-12 md:hidden">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-forest">
-            Leadership team
-          </p>
-          <ul className="divide-y divide-neutral-200 border-y border-neutral-200">
+        {/* Team Grid */}
+        <Reveal variant="fade-up" delay={0.15}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             {team.map((member) => (
-              <li key={member.id}>
-                <button
-                  type="button"
-                  onClick={() => setActiveLeader(member)}
-                  className="flex w-full items-center gap-4 py-4 text-left transition-colors hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-forest/40"
-                >
+              <button
+                key={member.id}
+                type="button"
+                onClick={() => setActiveLeader(member)}
+                className="group flex flex-col text-left rounded-2xl border border-[#143d31]/10 bg-white p-3.5 sm:p-4 transition-all hover:border-[#5d7d37]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5d7d37]"
+              >
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-[#143d31]/5 mb-3">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="h-14 w-14 shrink-0 rounded-full object-cover ring-1 ring-neutral-200"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="min-w-0">
-                    <p className="text-base font-semibold text-forest-deep">{member.name}</p>
-                    <p className="mt-0.5 text-xs font-medium uppercase tracking-wide text-forest">
-                      {member.role}
-                    </p>
+                  <div className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity shadow-xs">
+                    <ArrowUpRight className="h-3 w-3 text-[#143d31]" />
                   </div>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+                </div>
 
-        <div className="mt-12 hidden gap-6 md:grid md:grid-cols-3 lg:grid-cols-5">
-          {team.map((member) => (
-            <button
-              key={member.id}
-              type="button"
-              onClick={() => setActiveLeader(member)}
-              className="group rounded-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40 focus-visible:ring-offset-2"
-            >
-              <div className="aspect-[4/5] overflow-hidden rounded-lg bg-neutral-100">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-              <p className="mt-3 text-sm font-semibold text-forest-deep group-hover:text-forest">
-                {member.name}
-              </p>
-              <p className="mt-0.5 text-xs text-neutral-500">{member.role}</p>
-            </button>
-          ))}
-        </div>
+                <p className="font-display text-sm sm:text-base font-bold text-[#143d31] group-hover:text-[#5d7d37] transition-colors line-clamp-1">
+                  {member.name}
+                </p>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[#5d7d37] line-clamp-1 mt-0.5">
+                  {member.role}
+                </p>
+                <p className="font-sans text-[11px] text-[#4f624f] line-clamp-2 mt-1 leading-snug">
+                  {member.focus}
+                </p>
+              </button>
+            ))}
+          </div>
+        </Reveal>
       </div>
 
       <LeaderBioModal leader={activeLeader} onClose={() => setActiveLeader(null)} />
