@@ -16,8 +16,23 @@ import {
   ProofChapter,
   ClosingChapter,
 } from "@/components/home";
+import { getHomeCms } from "@/functions/public-cms";
+import { isAdminOk } from "@/lib/admin-api";
+import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
 
 export const Route = createFileRoute("/{-$locale}/")({
+  staleTime: 0,
+  loader: async () => {
+    try {
+      const res = await getHomeCms({ data: { preview: false } });
+      if (isAdminOk<{ data: typeof HOMEPAGE_CMS_FALLBACK }>(res)) {
+        return { cms: res.data };
+      }
+    } catch (err) {
+      console.warn("Homepage CMS loader fallback:", err);
+    }
+    return { cms: HOMEPAGE_CMS_FALLBACK };
+  },
   head: () => ({
     meta: [
       { title: "Agaate — Integrated Seed-to-Market Agri Business" },
@@ -32,6 +47,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function Index() {
+  const { cms } = Route.useLoaderData();
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [startHeroAnimation, setStartHeroAnimation] = useState(false);
@@ -66,44 +82,23 @@ function Index() {
       )}
       <main className="overflow-x-clip bg-[#f4f8f5] text-ink antialiased">
         <Header />
-        {/* Section 1: Hero Section */}
         <SectionHero
           onVideoLoaded={handleVideoLoaded}
           startAnimation={startHeroAnimation}
           onAnimationComplete={handleHeroAnimationComplete}
         />
 
-        {/* Defer rendering heavy components until hero animation completes to prevent initial loading screen lag */}
         {contentReady && (
           <>
-            {/* Section 2: Stats Marquee */}
-            <SectionStatsMarquee />
-
-            {/* Section 3: The 3 Core Integrated Pillars (Horizontal Parallax Transition) */}
+            <SectionStatsMarquee stats={cms.stats} />
             <PillarsHorizontalParallax />
-
-            {/* Section 5: Agaate Mobile App — Interactive Digital Experience */}
             <AppChapter />
-
-            {/* Section 6: Agaate Kisaan Mall — Direct-From-Brand Agri Input Supply */}
             <MallChapter />
-
-            {/* Section 7: Physical Proof — 17-Acre Smart Nursery & Agri Park Demonstration */}
             <AgriParkChapter />
-
-            {/* Section 8: Brands & Associations — Partners, Customers & Veg Buyers */}
-            <BrandsAssociationsChapter />
-
-            {/* Section 9: Who We Are — Founder Vision & Leadership Team */}
+            <BrandsAssociationsChapter brands={cms.logos} />
             <PeopleChapter />
-
-            {/* Section 10: Farmer Testimonials & Reviews */}
-            <ProofChapter />
-
-            {/* Section 11: Final Conversion — Three Clear Action Paths */}
+            <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />
             <ClosingChapter />
-
-            {/* Footer */}
             <Footer />
           </>
         )}

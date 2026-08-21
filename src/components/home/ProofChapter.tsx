@@ -1,7 +1,14 @@
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import FarmerShortsShowcase from "./FarmerShortsShowcase";
+import type { HomeCmsStory } from "@/lib/cms-types";
 
-export default function ProofChapter() {
+export default function ProofChapter({
+  storiesEn,
+  storiesHi,
+}: {
+  storiesEn?: HomeCmsStory[];
+  storiesHi?: HomeCmsStory[];
+}) {
   const sectionRef = useHomeChapterReveal();
 
   return (
@@ -12,7 +19,7 @@ export default function ProofChapter() {
     >
       <div className="mx-auto max-w-7xl">
         <div data-home-reveal>
-          <FarmerShortsShowcase />
+          <FarmerShortsShowcase storiesEn={storiesEn} storiesHi={storiesHi} />
         </div>
       </div>
     </section>

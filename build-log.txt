@@ -1,0 +1,66 @@
+﻿
+> build
+> vite build
+
+node.exe : The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the 
+resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config 
+instead.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (The plugin "vit...config instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+vite v8.1.3 building client environment for production...
+[2K
+transforming...Γ£ô 7932 modules transformed.
+Γ£ù Build failed in 2.76s
+error during build:
+Build failed with 2 errors:
+
+[31m[builtin:vite-transform] [0mExpected corresponding JSX closing tag for 'div'.
+    [38;5;246mΓò¡[0m[38;5;246mΓöÇ[0m[38;5;246m[[0m src/components/contact/TopicSelector.tsx:93:7 [38;5;246m][0m
+    [38;5;246mΓöé[0m
+ [38;5;246m26 Γöé[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m 
+[0m[38;5;249m<[0mdiv[38;5;249m [0m[38;5;249mc[0m[38;5;249ml[0m[38;5;249ma[0m[38;5;249ms[0m[38;5;249ms[0m
+[38;5;249mN[0m[38;5;249ma[0m[38;5;249mm[0m[38;5;249me[0m[38;5;249m=[0m[38;5;249m"[0m[38;5;249mg[0m[38;5;
+249mr[0m[38;5;249mi[0m[38;5;249md[0m[38;5;249m [0m[38;5;249mg[0m[38;5;249mr[0m[38;5;249mi[0m[38;5;249md[
+0m[38;5;249m-[0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249ml[0m[38;5;249ms[0m[38;5;249m-[0m[38;5;249m1[0m[38;
+5;249m [0m[38;5;249ms[0m[38;5;249mm[0m[38;5;249m:[0m[38;5;249mg[0m[38;5;249mr[0m[38;5;249mi[0m[38;5;249md
+[0m[38;5;249m-[0m[38;5;249mc[0m[38;5;249mo[0m[38;5;249ml[0m[38;5;249ms[0m[38;5;249m-[0m[38;5;249m2[0m[3
+8;5;249m 
+[0m[38;5;249mb[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249md[0m[38;5;249me[0m[38;5;249mr[0m[38;5;249m [0m[3
+8;5;249mb[0m[38;5;249mo[0m[38;5;249mr[0m[38;5;249md[0m[38;5;249me[0m[38;5;249mr[0m[38;5;249m-[0m[38;5;249
+m[[0m[38;5;249m#[0m[38;5;249m1[0m[38;5;249m4[0m[38;5;249m3[0m[38;5;249md[0m[38;5;249m3[0m[38;5;249m1[0m
+[38;5;249m][0m[38;5;249m/[0m[38;5;249m1[0m[38;5;249m5[0m[38;5;249m [0m[38;5;249mb[0m[38;5;249mg[0m[38;5;2
+49m-[0m[38;5;249mw[0m[38;5;249mh[0m[38;5;249mi[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m/[0m[38;5;249m4[0
+m[38;5;249m0[0m[38;5;249m"[0m[38;5;249m>[0m
+ [38;5;240m   Γöé[0m        ΓöÇΓö¼ΓöÇ  
+ [38;5;240m   Γöé[0m         Γò░ΓöÇΓöÇΓöÇ Opened here
+ [38;5;240m   Γöé[0m 
+ [38;5;246m93 Γöé[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m 
+[0m[38;5;249m<[0m[38;5;249m/[0mfieldset[38;5;249m>[0m
+ [38;5;240m   Γöé[0m       ΓöÇΓöÇΓöÇΓöÇΓö¼ΓöÇΓöÇΓöÇ  
+ [38;5;240m   Γöé[0m           Γò░ΓöÇΓöÇΓöÇΓöÇΓöÇ Expected `</div>`
+[38;5;246mΓöÇΓöÇΓöÇΓöÇΓò»[0m
+
+[31m[builtin:vite-transform] [0mUnexpected token. Did you mean `{'}'}` or `&rbrace;`?
+    [38;5;246mΓò¡[0m[38;5;246mΓöÇ[0m[38;5;246m[[0m src/components/contact/TopicSelector.tsx:95:1 [38;5;246m][0m
+    [38;5;246mΓöé[0m
+ [38;5;246m95 Γöé[0m [38;5;249m}[0m
+ [38;5;240m   Γöé[0m Γöé 
+ [38;5;240m   Γöé[0m Γò░ΓöÇ 
+[38;5;246mΓöÇΓöÇΓöÇΓöÇΓò»[0m
+
+    at aggregateBindingErrorsIntoJsError (file:///D:/agaate/node_modules/rolldown/dist/shared/error-BlQ0-ek7.mjs:48:18)
+    at unwrapBindingResult (file:///D:/agaate/node_modules/rolldown/dist/shared/error-BlQ0-ek7.mjs:18:128)
+    at #build (file:///D:/agaate/node_modules/rolldown/dist/shared/rolldown-build-aV0QeeTW.mjs:3256:34)
+    at async buildEnvironment (file:///D:/agaate/node_modules/vite/dist/node/chunks/node.js:32622:66)
+    at async Object.build (file:///D:/agaate/node_modules/vite/dist/node/chunks/node.js:33044:19)
+    at async buildStartViteEnvironments 
+(file:///D:/agaate/node_modules/@tanstack/start-plugin-core/dist/esm/vite/planning.js:95:23)
+    at async Object.buildApp (file:///D:/agaate/node_modules/@tanstack/start-plugin-core/dist/esm/vite/plugin.js:113:8)
+    at async Object.buildApp (file:///D:/agaate/node_modules/vite/dist/node/chunks/node.js:33036:6)
+    at async CAC.<anonymous> (file:///D:/agaate/node_modules/vite/dist/node/cli.js:777:3) {
+  errors: [Getter/Setter]
+}

@@ -40,9 +40,9 @@ export function PhoneChatView({
   }, [messages, isLoading, chatLocked]);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden bg-[#fffdf4]">
+    <div className="flex flex-1 min-h-0 flex-col overflow-hidden bg-[#fffdf4]">
       {/* Chat Messages Container */}
-      <div ref={chatContainerRef} className="flex-1 space-y-2.5 overflow-y-auto p-3.5">
+      <div ref={chatContainerRef} className="flex-1 min-h-0 space-y-2.5 overflow-y-auto p-3.5">
         <AnimatePresence>
           {messages.map((msg) => (
             <motion.div

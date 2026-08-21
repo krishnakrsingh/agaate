@@ -21,11 +21,31 @@ import {
   SHORTS_DATA_HI,
   type FarmerShortItem,
 } from "@/data/farmerShortsData";
+import type { HomeCmsStory } from "@/lib/cms-types";
 
-export default function FarmerShortsShowcase() {
+export default function FarmerShortsShowcase({
+  storiesEn,
+  storiesHi,
+}: {
+  storiesEn?: HomeCmsStory[];
+  storiesHi?: HomeCmsStory[];
+}) {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
-  const shortsData = isHindi ? SHORTS_DATA_HI : SHORTS_DATA_EN;
+  const enData = storiesEn ?? SHORTS_DATA_EN;
+  const hiData = storiesHi ?? SHORTS_DATA_HI;
+  const shortsData: FarmerShortItem[] = (isHindi ? hiData : enData).map((s) => ({
+    id: s.id,
+    name: s.name,
+    role: s.role,
+    location: s.location,
+    acres: s.acres,
+    crop: s.crop,
+    quote: s.quote,
+    thumbnail: s.thumbnail,
+    videoUrl: s.videoUrl,
+    badge: s.badge,
+  }));
 
   const [activeModalShort, setActiveModalShort] = useState<FarmerShortItem | null>(null);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -44,7 +64,7 @@ export default function FarmerShortsShowcase() {
     }
   };
 
-  const handleOpenShort = useCallback((short: FarmerShort) => {
+  const handleOpenShort = useCallback((short: FarmerShortItem) => {
     setActiveModalShort(short);
   }, []);
 

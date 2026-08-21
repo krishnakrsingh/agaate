@@ -2,7 +2,7 @@ import { CheckCircle, MapPin } from "@phosphor-icons/react";
 
 export function PhoneActionView() {
   return (
-    <div className="flex flex-1 flex-col space-y-3 overflow-y-auto bg-[#fffdf4] p-3.5">
+    <div className="flex flex-1 min-h-0 flex-col space-y-3 overflow-y-auto bg-[#fffdf4] p-3.5">
       {/* Satellite Field Map */}
       <div className="group relative h-44 w-full overflow-hidden rounded-2xl border border-[#143d31]/15 shadow-sm">
         <img

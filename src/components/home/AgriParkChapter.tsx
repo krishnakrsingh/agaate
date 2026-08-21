@@ -63,7 +63,7 @@ export default function AgriParkChapter() {
               <div className="flex items-center gap-2.5 mb-3">
                 <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
                 <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                  {isHindi ? "03 · 5-एकड़ एग्री पार्क" : "03 · 5-Acre Agri Park"}
+                  {isHindi ? "5-एकड़ एग्री पार्क" : "5-Acre Agri Park"}
                 </p>
               </div>
 

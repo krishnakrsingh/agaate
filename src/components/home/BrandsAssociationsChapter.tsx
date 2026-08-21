@@ -6,13 +6,12 @@ import { Marquee } from "@/components/ui/testimonials-13-utils/marquee";
 import { EASE, Reveal } from "@/components/common/motion";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { cn } from "@/lib/utils";
+import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
+import type { CmsBrandGroup, HomeCmsLogo } from "@/lib/cms-types";
 
-type BrandTab = "partners" | "customers" | "buyers";
+type BrandTab = CmsBrandGroup;
 
-type BrandLogo = {
-  name: string;
-  src: string;
-};
+type BrandLogo = HomeCmsLogo;
 
 const TABS_EN: {
   id: BrandTab;
@@ -166,15 +165,20 @@ function BrandTile({ brand }: { brand: BrandLogo }) {
   );
 }
 
-export default function BrandsAssociationsChapter() {
+export default function BrandsAssociationsChapter({
+  brands,
+}: {
+  brands?: Record<BrandTab, BrandLogo[]>;
+}) {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
   const TABS = isHindi ? TABS_HI : TABS_EN;
+  const brandData = brands ?? BRANDS;
 
   const sectionRef = useHomeChapterReveal("fade-up");
   const [tab, setTab] = useState<BrandTab>("partners");
   const active = useMemo(() => TABS.find((t) => t.id === tab)!, [TABS, tab]);
-  const logos = BRANDS[tab];
+  const logos = brandData[tab]?.length ? brandData[tab] : HOMEPAGE_CMS_FALLBACK.logos[tab];
   const useDualRow = logos.length >= 8;
 
   return (
