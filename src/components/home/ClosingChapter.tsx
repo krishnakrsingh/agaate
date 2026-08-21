@@ -65,7 +65,7 @@ const pathwaysEn = [
     subtitle: "8 demonstration zones on living soil",
     description:
       "Walk through live crop trial plots, high-immunity plug nurseries, automated drip systems, and AI drone scouting before implementing any technology on your own land.",
-    actionLabel: "Book VIP Field Visit",
+    actionLabel: "Book Field Visit",
     actionSub: "Kukrola, Gurugram (NH8)",
     type: "modal",
     href: "/agri-park",

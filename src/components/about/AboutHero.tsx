@@ -85,7 +85,7 @@ export default function AboutHero() {
                   </div>
                   <div className="min-w-0">
                     <p className="font-display text-xs font-bold text-[#143d31] truncate">
-                      17-Acre Smart Nursery
+                      5-Acre Smart Nursery
                     </p>
                     <p className="font-mono text-[10px] text-[#5d7d37] font-semibold uppercase tracking-wider truncate">
                       Kukrola, Gurugram (NH8)

@@ -1,5 +1,4 @@
 import { getDbPool, isDbConfigured } from "@/server/db";
-import { ensureCmsSchema } from "@/server/cms-queries";
 import { getFallbackSeedTeam, TEAM_CMS_FALLBACK } from "@/data/team-fallback";
 import type {
   CmsIconKey,
@@ -112,22 +111,31 @@ const TEAM_TABLE_SQL = `CREATE TABLE IF NOT EXISTS cms_team_members (
 
 let teamSchemaReady = false;
 
-export async function ensureTeamSchema() {
-  if (!isDbConfigured()) return;
-  await ensureCmsSchema();
-  if (teamSchemaReady) return;
+export type TeamSeedResult = {
+  before: number;
+  after: number;
+  inserted: number;
+  skipped: boolean;
+};
+
+export async function seedTeamMembers(options: { force?: boolean } = {}): Promise<TeamSeedResult> {
   const db = await getDbPool();
   await db.query(TEAM_TABLE_SQL);
-  await seedTeamIfEmpty();
-  teamSchemaReady = true;
-}
 
-async function seedTeamIfEmpty() {
-  const db = await getDbPool();
-  const [rows] = await db.query(`SELECT COUNT(*) AS c FROM cms_team_members`);
-  const count = Number((rows as Array<{ c: number }>)[0]?.c ?? 0);
-  if (count > 0) return;
+  const [beforeRows] = await db.query(`SELECT COUNT(*) AS c FROM cms_team_members`);
+  const before = Number((beforeRows as Array<{ c: number }>)[0]?.c ?? 0);
 
+  if (options.force && before > 0) {
+    await db.query(`DELETE FROM cms_team_members`);
+  }
+
+  const [currentRows] = await db.query(`SELECT COUNT(*) AS c FROM cms_team_members`);
+  const current = Number((currentRows as Array<{ c: number }>)[0]?.c ?? 0);
+  if (current > 0) {
+    return { before, after: current, inserted: 0, skipped: true };
+  }
+
+  let inserted = 0;
   for (const m of getFallbackSeedTeam()) {
     const payload: CmsTeamMemberPayload = {
       slug: m.slug,
@@ -164,15 +172,45 @@ async function seedTeamIfEmpty() {
         :imageUrl, :iconKey, :showInBanner, :bannerBadgeEn, :bannerBadgeHi,
         :sortOrder, 'published', :livePayload, NOW())`,
       {
-        ...payload,
+        slug: payload.slug,
+        nameEn: payload.nameEn,
+        nameHi: payload.nameHi,
+        roleEn: payload.roleEn,
+        roleHi: payload.roleHi,
+        focusEn: payload.focusEn,
+        focusHi: payload.focusHi,
+        tagEn: payload.tagEn,
+        tagHi: payload.tagHi,
+        bioEn: payload.bioEn,
+        bioHi: payload.bioHi,
+        quoteEn: payload.quoteEn,
+        quoteHi: payload.quoteHi,
+        pubEn: payload.pubEn,
+        pubHi: payload.pubHi,
         keyAchEn: JSON.stringify(payload.keyAchEn),
         keyAchHi: JSON.stringify(payload.keyAchHi),
+        imageUrl: payload.imageUrl,
+        iconKey: payload.iconKey,
         showInBanner: payload.showInBanner ? 1 : 0,
+        bannerBadgeEn: payload.bannerBadgeEn,
+        bannerBadgeHi: payload.bannerBadgeHi,
         sortOrder: m.sortOrder,
         livePayload: JSON.stringify(payload),
       },
     );
+    inserted++;
   }
+
+  return { before, after: inserted, inserted, skipped: false };
+}
+
+export async function ensureTeamSchema(options?: { forceSeed?: boolean }) {
+  if (!isDbConfigured()) return;
+  const { ensureCmsSchema } = await import("@/server/cms-queries");
+  await ensureCmsSchema();
+  if (teamSchemaReady && !options?.forceSeed) return;
+  await seedTeamMembers({ force: options?.forceSeed });
+  teamSchemaReady = true;
 }
 
 function teamToPublic(row: CmsTeamMemberRow, useLive: boolean, lang: "en" | "hi"): TeamCmsMember {

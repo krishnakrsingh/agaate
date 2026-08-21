@@ -28,7 +28,7 @@ export default function FootprintSection() {
             </h2>
 
             <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
-              From our flagship 17-acre nursery to our farmer experience retail store and corporate HQ
+              From our flagship 5-acre nursery to our farmer experience retail store and corporate HQ
               in Gurugram.
             </p>
           </div>

@@ -62,17 +62,14 @@
     "Plus Jakarta Sans", "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, sans-serif;
   --font-mono:
-    "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
+    "JetBrains Mono", "SF Mono", "Fira Code", monospace;
   --font-body:
     "Plus Jakarta Sans", "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, sans-serif;
   --font-serif:
-    "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
+    "Newsreader", "Playfair Display", "Lora", "Georgia", serif;
   --font-jet:
-    "Manrope", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
+    "JetBrains Mono", "SF Mono", "Fira Code", monospace;
   --color-pine: oklch(0.16 0.025 150);
   --color-night: oklch(0.11 0.018 150);
 }

@@ -258,7 +258,15 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((row) => (
+              {filtered.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="py-10 text-center text-sm text-muted-foreground">
+                    No team members yet. Click <strong>Add member</strong> or run{" "}
+                    <code className="rounded bg-muted px-1">npm run seed:cms</code> to load defaults.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filtered.map((row) => (
                 <CmsSortableRow key={row.id} id={row.id}>
                   <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
                   <TableCell>
@@ -316,7 +324,8 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
                     </DropdownMenu>
                   </TableCell>
                 </CmsSortableRow>
-              ))}
+                ))
+              )}
             </TableBody>
           </Table>
         </CmsSortableProvider>

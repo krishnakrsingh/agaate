@@ -29,7 +29,7 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
           Eight Living Innovation Zones
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-forest/70 md:text-base">
-          Click any zone pin on the 17-acre field map or select a zone button below to inspect real
+          Click any zone pin on the 5-acre field map or select a zone button below to inspect real
           crop trial parameters, partner brand showcases, and live sensor telemetry.
         </p>
       </Reveal>
@@ -161,12 +161,12 @@ export function ZoneBoard({ onBookVisit }: { onBookVisit?: () => void }) {
           </AnimatePresence>
         </div>
 
-        {/* Right Column: Interactive 17-Acre Masterplan Vector Map (7 Cols) */}
+        {/* Right Column: Interactive 5-Acre Masterplan Vector Map (7 Cols) */}
         <div className="lg:col-span-7">
           <div className="relative overflow-hidden rounded-[2.5rem] border border-border bg-card p-6 md:p-10 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <span className="font-jet text-[10px] font-bold uppercase text-forest/40">
-                17-Acre Smart Nursery & Park Diagram · Kukrola
+                5-Acre Smart Nursery & Park Diagram · Kukrola
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-forest/10 bg-bone px-3 py-1 font-jet text-[10px] font-bold text-forest">
                 <Compass className="h-3.5 w-3.5 animate-spin text-emerald-500" />

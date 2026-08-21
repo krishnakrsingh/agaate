@@ -153,16 +153,29 @@ export async function handleListStories(filters: CmsListFilters) {
 export async function handleListTeam(filters: CmsListFilters) {
   try {
     await requireSessionUser();
-    if (!isDbConfigured()) {
-      const rows = filterMock(mockTeam, filters, (r) =>
-        !filters.q ||
-        [r.nameEn, r.nameHi, r.slug, r.roleEn].some((f) =>
-          f.toLowerCase().includes(filters.q!.toLowerCase()),
-        ),
+    const matchTeam = (r: (typeof mockTeam)[number]) =>
+      !filters.q ||
+      [r.nameEn, r.nameHi, r.slug, r.roleEn].some((f) =>
+        f.toLowerCase().includes(filters.q!.toLowerCase()),
       );
+
+    if (!isDbConfigured()) {
+      const rows = filterMock(mockTeam, filters, matchTeam);
       return { ok: true as const, items: rows, dbConfigured: false };
     }
-    const items = await listCmsTeam(filters);
+
+    let items = await listCmsTeam(filters);
+    if (!items.length) {
+      const { ensureTeamSchema } = await import("@/server/cms-team-queries");
+      await ensureTeamSchema();
+      items = await listCmsTeam(filters);
+    }
+    if (!items.length) {
+      const rows = filterMock(mockTeam, filters, matchTeam);
+      if (rows.length) {
+        return { ok: true as const, items: rows, dbConfigured: false };
+      }
+    }
     return { ok: true as const, items, dbConfigured: true };
   } catch (err) {
     return failAuth(err);

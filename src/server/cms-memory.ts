@@ -61,6 +61,7 @@ export let mockStories: CmsStoryRow[] = getFallbackSeedStories().map((s, i) => (
     quoteHi: s.quoteHi,
     badgeEn: s.badgeEn,
     badgeHi: s.badgeHi,
+  },
   publishedAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   hasUnpublishedChanges: false,

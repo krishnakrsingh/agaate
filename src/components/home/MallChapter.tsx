@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -8,14 +8,12 @@ import {
   Package,
   ShoppingBag,
   PhoneCall,
-  MapPinLine,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import KisaanMallShowcase from "./KisaanMallShowcase";
-import PincodeServiceabilityModal from "./PincodeServiceabilityModal";
 
 const SUPPLY_CHAIN_STEPS_EN = [
   {
@@ -64,8 +62,6 @@ export default function MallChapter() {
   const isHindi = i18n.language?.startsWith("hi");
   const SUPPLY_CHAIN_STEPS = isHindi ? SUPPLY_CHAIN_STEPS_HI : SUPPLY_CHAIN_STEPS_EN;
   const sectionRef = useHomeChapterReveal("fade-up");
-
-  const [isPincodeModalOpen, setIsPincodeModalOpen] = useState(false);
 
   return (
     <section
@@ -158,25 +154,15 @@ export default function MallChapter() {
               ))}
             </div>
 
-            {/* CTA Buttons Row: Primary Browse + Small Pincode Check Pill */}
+            {/* CTA Buttons Row: Primary Browse */}
             <div className="flex flex-wrap items-center gap-3">
               <SlideUpPillButton
-                href="/services#kisaan-mall"
+                href="/kisaan-mall"
                 variant="dark"
                 size="md"
                 label={isHindi ? "किसान मॉल देखें" : "Browse Agaate Mall"}
                 icon={<ArrowRight className="h-4 w-4" />}
                 iconPosition="right"
-              />
-
-              <SlideUpPillButton
-                type="button"
-                onClick={() => setIsPincodeModalOpen(true)}
-                variant="outline"
-                size="md"
-                label={isHindi ? "पिनकोड जांचें" : "Check Pincode Delivery"}
-                icon={<MapPinLine className="h-4 w-4 text-[#5d7d37]" />}
-                iconPosition="left"
               />
             </div>
           </motion.div>
@@ -269,7 +255,7 @@ export default function MallChapter() {
 
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <SlideUpPillButton
-              href="/services#kisaan-mall"
+              href="/kisaan-mall"
               variant="lime"
               size="md"
               label={isHindi ? "स्टोर देखें" : "Browse Store"}
@@ -287,12 +273,6 @@ export default function MallChapter() {
           </div>
         </div>
       </div>
-
-      {/* Interactive Pincode & Hub Map Modal */}
-      <PincodeServiceabilityModal
-        isOpen={isPincodeModalOpen}
-        onClose={() => setIsPincodeModalOpen(false)}
-      />
     </section>
   );
 }

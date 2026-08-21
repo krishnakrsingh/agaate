@@ -116,14 +116,14 @@ export function SmartNursery() {
       <div className="relative z-10">
         <Reveal variant="fade-up">
           <p className="font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-cream/60">
-            The 17-acre smart nursery · Kukrola, Gurugram
+            The 5-acre smart nursery · Kukrola, Gurugram
           </p>
           <h2 className="mt-4 max-w-3xl font-serif text-4xl font-bold leading-[1.08] tracking-tight md:text-6xl">
             A living lab, <span className="italic text-moss">under controlled skies.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-cream/80 md:text-lg">
             Agaate's Bio-Boosted nursery replaces risky direct seed sowing with seedlings raised in
-            a 17-acre, AI-monitored facility — dramatically better survival, reduced chemical need,
+            a 5-acre, AI-monitored facility — dramatically better survival, reduced chemical need,
             and higher final yield.
           </p>
         </Reveal>

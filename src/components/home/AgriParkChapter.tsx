@@ -16,6 +16,7 @@ import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { CountUp, EASE } from "@/components/common/motion";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
+import { VideoPlayerModal } from "@/components/ui/VideoPlayerModal";
 
 export default function AgriParkChapter() {
   const [isVisitModalOpen, setIsVisitModalOpen] = useState<boolean>(false);
@@ -128,17 +129,17 @@ export default function AgriParkChapter() {
                   onClick={() => setIsVisitModalOpen(true)}
                   variant="dark"
                   size="md"
-                  label={isHindi ? "विजिट शेड्यूल करें" : "Book VIP Farm Visit"}
+                  label={isHindi ? "फार्म विजिट बुक करें" : "Book Farm Visit"}
                   icon={<Calendar className="h-4 w-4" />}
                   iconPosition="left"
                 />
 
                 <SlideUpPillButton
-                  to={getLocalizedPath("/agri-park", currentLang)}
+                  onClick={() => setIsTourVideoOpen(true)}
                   variant="outline"
                   size="md"
-                  label={isHindi ? "पूरा 8-ज़ोन मॉडल देखें" : "Explore Agri Park"}
-                  icon={<Compass className="h-4 w-4" />}
+                  label={isHindi ? "वीडियो टूर देखें" : "Watch Video Tour"}
+                  icon={<Play className="h-4 w-4 text-[#5d7d37]" weight="fill" />}
                   iconPosition="left"
                 />
               </div>
@@ -153,23 +154,14 @@ export default function AgriParkChapter() {
               transition={{ duration: 0.6, ease: EASE }}
             >
               <div className="relative w-full max-w-xl group flex flex-col items-center">
-                {/* Top Location & Action Badges */}
-                <div className="w-full flex items-center justify-between mb-3 px-2">
+                {/* Top Location Badge */}
+                <div className="w-full flex items-center justify-end mb-3 px-2">
                   <div className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-mono font-bold text-[#143d31] backdrop-blur-md shadow-sm border border-[#143d31]/10">
                     <MapPin className="h-3.5 w-3.5 text-[#5d7d37]" weight="fill" />
                     <span>
                       {isHindi ? "कुकरोला, गुरुग्राम (NH-8)" : "Kukrola, Gurugram (NH-8)"}
                     </span>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsTourVideoOpen(true)}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#143d31] hover:bg-[#1f5646] text-white px-3.5 py-1 text-[11px] font-mono font-bold transition-all shadow-sm cursor-pointer"
-                  >
-                    <Play className="h-3.5 w-3.5 text-[#a3e635]" weight="fill" />
-                    <span>{isHindi ? "वीडियो टूर देखें" : "Watch Video Tour"}</span>
-                  </button>
                 </div>
 
                 {/* Floating 3D Transparent Model */}
@@ -246,48 +238,17 @@ export default function AgriParkChapter() {
         )}
       </AnimatePresence>
 
-      {/* 17-Acre Farm Tour Video Modal */}
-      <AnimatePresence>
-        {isTourVideoOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-4xl rounded-3xl overflow-hidden bg-black shadow-2xl border border-white/20 flex flex-col text-white"
-            >
-              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/70">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-2 w-2 rounded-full bg-[#a3e635] animate-pulse" />
-                  <p className="font-mono text-xs uppercase font-bold text-[#a3e635] tracking-wider">
-                    {isHindi ? "एग्री पार्क व स्मार्ट नर्सरी वीडियो टूर" : "AGRI PARK & SMART NURSERY VIDEO TOUR"}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsTourVideoOpen(false)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
-                  aria-label="Close modal"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-
-              <div className="relative aspect-video w-full bg-black">
-                <video
-                  src="/videos/farm-first-look.mp4"
-                  poster="/videos/posters/farm-first-look.webp"
-                  autoPlay
-                  controls
-                  playsInline
-                  className="h-full w-full object-contain"
-                />
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <VideoPlayerModal
+        open={isTourVideoOpen}
+        onClose={() => setIsTourVideoOpen(false)}
+        src="/videos/farm-first-look.mp4"
+        poster="/videos/posters/farm-first-look.webp"
+        title={
+          isHindi
+            ? "एग्री पार्क व स्मार्ट नर्सरी वीडियो टूर"
+            : "Agri Park & Smart Nursery Video Tour"
+        }
+      />
 
       {/* Interactive VIP Farm Visit Booking Modal */}
       <AgriParkVisitModal
