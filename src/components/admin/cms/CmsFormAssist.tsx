@@ -1,59 +1,20 @@
 import { useState } from "react";
-import { Languages, Wand2 } from "lucide-react";
+import { Languages } from "lucide-react";
 import { translateCmsToHindiAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
-export function CmsSlugField({
-  label = "Slug",
-  value,
-  onChange,
-  onAuto,
-  disabled,
-}: {
-  label?: string;
-  value: string;
-  onChange: (value: string) => void;
-  onAuto: () => string;
-  disabled?: boolean;
-}) {
-  return (
-    <div className="space-y-2">
-      <Label>{label}</Label>
-      <div className="flex gap-2">
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
-          className="flex-1"
-        />
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="shrink-0 gap-1.5"
-          disabled={disabled}
-          onClick={() => onChange(onAuto())}
-        >
-          <Wand2 className="h-3.5 w-3.5" />
-          Auto
-        </Button>
-      </div>
-    </div>
-  );
-}
 
 export function CmsTranslateToHindiButton({
   disabled,
   enTexts,
   onTranslated,
+  hint = "Fill English fields, then translate to Hindi.",
 }: {
   disabled?: boolean;
   enTexts: string[];
   onTranslated: (translations: string[]) => void;
+  hint?: string;
 }) {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
@@ -81,16 +42,18 @@ export function CmsTranslateToHindiButton({
   };
 
   return (
-    <Button
-      type="button"
-      variant="secondary"
-      size="sm"
-      className="gap-1.5"
-      disabled={disabled || loading}
-      onClick={() => void handleTranslate()}
-    >
-      <Languages className="h-3.5 w-3.5" />
-      {loading ? "Translating…" : "Translate to Hindi"}
-    </Button>
+    <div className="rounded-xl border-2 border-forest/35 bg-gradient-to-br from-forest/15 via-forest/8 to-transparent p-4 shadow-sm ring-1 ring-forest/10">
+      <Button
+        type="button"
+        size="lg"
+        className="w-full gap-2 bg-forest text-base font-semibold text-white shadow-md hover:bg-forest-deep"
+        disabled={disabled || loading}
+        onClick={() => void handleTranslate()}
+      >
+        <Languages className="h-5 w-5" />
+        {loading ? "Translating…" : "Translate to Hindi"}
+      </Button>
+      <p className="mt-2 text-center text-xs text-forest-deep/80">{hint}</p>
+    </div>
   );
 }

@@ -107,7 +107,7 @@ export default function AppChapter() {
             </div>
 
             {/* Store Download Badges */}
-            <div className="pt-3 flex flex-wrap items-center gap-3">
+            <div className="pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3">
               <motion.a
                 href="https://play.google.com/store/apps"
                 target="_blank"

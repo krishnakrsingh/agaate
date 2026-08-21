@@ -205,7 +205,7 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit & publish</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
                         {canEdit && row.status !== "archived" && (
                           <>
                             {row.status === "published" && (

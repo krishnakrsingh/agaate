@@ -113,11 +113,70 @@ export type HomeCmsData = {
   storiesHi: HomeCmsStory[];
 };
 
+export type CmsTeamMemberPayload = {
+  slug: string;
+  nameEn: string;
+  nameHi: string;
+  roleEn: string;
+  roleHi: string;
+  focusEn: string;
+  focusHi: string;
+  tagEn: string;
+  tagHi: string;
+  bioEn: string;
+  bioHi: string;
+  quoteEn: string;
+  quoteHi: string;
+  pubEn: string;
+  pubHi: string;
+  keyAchEn: string[];
+  keyAchHi: string[];
+  imageUrl: string;
+  iconKey: CmsIconKey;
+  showInBanner: boolean;
+  bannerBadgeEn: string;
+  bannerBadgeHi: string;
+};
+
+export type CmsTeamMemberRow = CmsTeamMemberPayload & {
+  id: number;
+  sortOrder: number;
+  status: CmsStatus;
+  livePayload: CmsTeamMemberPayload | null;
+  publishedAt: string | null;
+  updatedAt: string;
+  hasUnpublishedChanges: boolean;
+};
+
+export type TeamCmsMember = {
+  id: string;
+  name: string;
+  role: string;
+  focus: string;
+  tag: string;
+  iconKey: CmsIconKey;
+  image: string;
+  bio: string;
+  keyAch: string[];
+  pub: string;
+  quote: string;
+  showInBanner: boolean;
+  bannerBadge: string;
+};
+
+export type TeamCmsData = {
+  membersEn: TeamCmsMember[];
+  membersHi: TeamCmsMember[];
+};
+
 export type CmsOverview = {
   stats: { published: number; draft: number; pending: number };
   logos: { published: number; draft: number; pending: number };
   stories: { published: number; draft: number; pending: number };
+  team: { published: number; draft: number; pending: number };
 };
+
+export type CmsContentType = "stats" | "logos" | "stories" | "team";
 
 export type CmsListFilters = {
   q?: string;

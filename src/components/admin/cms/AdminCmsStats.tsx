@@ -50,7 +50,7 @@ import {
 } from "@/components/ui/table";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { statSlugFromLabel } from "@/lib/cms-slug";
-import { CmsSlugField, CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 
 const emptyForm = {
   slug: "",
@@ -109,8 +109,9 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
   };
 
   const handlePublish = async () => {
-    if (!form.slug.trim() || !form.labelEn.trim()) {
-      toast.error("Slug and English label are required.");
+    const slug = form.slug || statSlugFromLabel(form.labelEn);
+    if (!form.labelEn.trim()) {
+      toast.error("English label is required.");
       return;
     }
     setPublishing(true);
@@ -118,6 +119,7 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
       data: {
         id: editing?.id,
         ...form,
+        slug,
         prefix: form.prefix || undefined,
       },
     });
@@ -226,7 +228,7 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit & publish</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
                         {canEdit && row.status !== "archived" && (
                           <>
                             {row.status === "published" && (
@@ -285,39 +287,29 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
               labelHi={form.labelHi}
             />
 
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs text-muted-foreground">Fill English labels, then translate.</p>
-              <CmsTranslateToHindiButton
-                disabled={!canEdit}
-                enTexts={[form.suffixEn, form.labelEn]}
-                onTranslated={([suffixHi, labelHi]) => {
-                  setForm((f) => ({
-                    ...f,
-                    suffixHi: suffixHi ?? f.suffixHi,
-                    labelHi: labelHi ?? f.labelHi,
-                  }));
-                }}
-              />
-            </div>
+            <CmsTranslateToHindiButton
+              disabled={!canEdit}
+              hint="Fill English labels, then translate to Hindi."
+              enTexts={[form.suffixEn, form.labelEn]}
+              onTranslated={([suffixHi, labelHi]) => {
+                setForm((f) => ({
+                  ...f,
+                  suffixHi: suffixHi ?? f.suffixHi,
+                  labelHi: labelHi ?? f.labelHi,
+                }));
+              }}
+            />
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <CmsSlugField
-                value={form.slug}
-                onChange={(slug) => setForm({ ...form, slug })}
-                onAuto={() => statSlugFromLabel(form.labelEn)}
-                disabled={!canEdit}
-              />
-              <div className="space-y-2">
-                <Label>Icon</Label>
-                <Select value={form.iconKey} onValueChange={(v) => setForm({ ...form, iconKey: v as CmsIconKey })} disabled={!canEdit}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {CMS_ICON_OPTIONS.map((o) => (
-                      <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <Select value={form.iconKey} onValueChange={(v) => setForm({ ...form, iconKey: v as CmsIconKey })} disabled={!canEdit}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {CMS_ICON_OPTIONS.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-2">

@@ -401,15 +401,18 @@ function countOverview<T extends { status: CmsStatus; hasUnpublishedChanges: boo
 }
 
 export async function fetchCmsOverview(): Promise<CmsOverview> {
-  const [stats, logos, stories] = await Promise.all([
+  const { listCmsTeam } = await import("@/server/cms-team-queries");
+  const [stats, logos, stories, teamRows] = await Promise.all([
     listCmsStats({ status: "all" }),
     listCmsLogos({ status: "all" }),
     listCmsStories({ status: "all" }),
+    listCmsTeam({ status: "all" }),
   ]);
   return {
     stats: countOverview(stats),
     logos: countOverview(logos),
     stories: countOverview(stories),
+    team: countOverview(teamRows),
   };
 }
 

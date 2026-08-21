@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, CheckCircle, Quotes, X, ArrowUpRight } from "@phosphor-icons/react";
+import { BookOpen, CheckCircle, X, ArrowUpRight } from "@phosphor-icons/react";
 import { Reveal } from "@/components/common/motion";
-import { founderNote, team, type TeamMember } from "./data";
+import { LeadershipBanner } from "@/components/about/LeadershipBanner";
+import { team, type TeamMember } from "./data";
+import type { TeamCmsMember } from "@/lib/cms-types";
+import { getLeadershipBanner, toDisplayTeamMember, type DisplayTeamMember } from "@/lib/team-cms";
 
-function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClose: () => void }) {
+function LeaderBioModal({ leader, onClose }: { leader: DisplayTeamMember | null; onClose: () => void }) {
   useEffect(() => {
     if (!leader) return;
     const onKey = (e: KeyboardEvent) => {
@@ -81,10 +84,7 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
             <ul className="space-y-2">
               {leader.keyAch.map((ach) => (
                 <li key={ach} className="flex items-start gap-2 text-xs font-medium text-[#143d31]">
-                  <CheckCircle
-                    className="mt-0.5 h-4 w-4 shrink-0 text-[#5d7d37]"
-                    weight="fill"
-                  />
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#5d7d37]" weight="fill" />
                   <span>{ach}</span>
                 </li>
               ))}
@@ -112,8 +112,31 @@ function LeaderBioModal({ leader, onClose }: { leader: TeamMember | null; onClos
   );
 }
 
-export default function LeadershipRoster() {
-  const [activeLeader, setActiveLeader] = useState<TeamMember | null>(null);
+function fallbackMembers(): DisplayTeamMember[] {
+  return team.map((m: TeamMember) => ({
+    id: m.id,
+    name: m.name,
+    role: m.role,
+    focus: m.focus,
+    tag: m.tag,
+    iconKey: "users",
+    icon: m.icon,
+    image: m.image,
+    bio: m.bio,
+    keyAch: m.keyAch,
+    pub: m.pub,
+    quote: m.quote,
+    showInBanner: m.id === "ankit-rawat" || m.id === "chanchala-shukla",
+    bannerBadge: m.id === "ankit-rawat" ? "Founder" : m.id === "chanchala-shukla" ? "Co-Founder" : "",
+  }));
+}
+
+export default function LeadershipRoster({ members }: { members?: TeamCmsMember[] }) {
+  const [activeLeader, setActiveLeader] = useState<DisplayTeamMember | null>(null);
+  const roster = members?.length ? members.map(toDisplayTeamMember) : fallbackMembers();
+  const bannerLeaders = members?.length
+    ? getLeadershipBanner(members)
+    : roster.filter((m) => m.showInBanner).slice(0, 2);
 
   return (
     <section
@@ -122,7 +145,6 @@ export default function LeadershipRoster() {
       className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
-        {/* Section Header */}
         <Reveal variant="fade-up" className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -146,34 +168,15 @@ export default function LeadershipRoster() {
           </div>
         </Reveal>
 
-        {/* Founder Quote Banner (Consistent with Home PeopleChapter) */}
-        <Reveal variant="fade-up" delay={0.1}>
-          <div className="rounded-2xl bg-white p-8 md:p-10 border border-[#143d31]/10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xs">
-            <div className="flex items-start gap-4 flex-1">
-              <Quotes className="h-8 w-8 text-[#5d7d37] shrink-0 opacity-40 mt-1" weight="duotone" />
-              <blockquote className="font-serif text-lg md:text-xl font-normal italic text-[#143d31] leading-relaxed">
-                “{founderNote.quote}”
-              </blockquote>
-            </div>
+        {bannerLeaders.length > 0 && (
+          <Reveal variant="fade-up" delay={0.1}>
+            <LeadershipBanner leaders={bannerLeaders} />
+          </Reveal>
+        )}
 
-            <div className="flex items-center gap-4 shrink-0 border-t md:border-t-0 md:border-l border-[#143d31]/10 pt-4 md:pt-0 md:pl-8">
-              <img
-                src={founderNote.image}
-                alt={founderNote.name}
-                className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-xs shrink-0"
-              />
-              <div>
-                <p className="font-display text-sm font-bold text-[#143d31]">{founderNote.name}</p>
-                <p className="font-sans text-xs font-semibold text-[#5d7d37]">{founderNote.role}</p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Team Grid */}
         <Reveal variant="fade-up" delay={0.15}>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-            {team.map((member) => (
+            {roster.map((member) => (
               <button
                 key={member.id}
                 type="button"

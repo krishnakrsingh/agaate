@@ -205,6 +205,23 @@ export const founderNote = {
   image: "/team/ankit.png?v=2",
 };
 
+export const leadershipQuotes = [
+  {
+    quote:
+      "We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss.",
+    name: "Ankit Rawat",
+    role: "Founder & CEO",
+    image: "/team/ankit.png?v=2",
+  },
+  {
+    quote:
+      "Precision agronomy and disease-resistant seedling biology turn unpredictable weather into calculated, high-survival yields for every grower.",
+    name: "Chanchala Shukla",
+    role: "Co-Founder & Agronomist",
+    image: "/team/chanchala.png",
+  },
+];
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -277,12 +294,12 @@ export const team: TeamMember[] = [
   {
     id: "chanchala-shukla",
     name: "Chanchala Shukla",
-    role: "Agronomist",
+    role: "Co-Founder & Agronomist",
     focus: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
-    tag: "Scientific Agronomy Lead",
+    tag: "Co-Founder & Agronomy Lead",
     icon: Compass as Icon,
     image: "/team/chanchala.png",
-    bio: "Chanchala serves as the scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
+    bio: "Co-Founder and scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
     keyAch: [
       "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
       "Formulated scientific soil testing and stage-wise fertigation protocols",
