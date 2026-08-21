@@ -44,6 +44,42 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
       sortOrder: 0,
     },
     {
+      slug: "chanchala-shukla",
+      nameEn: "Chanchala Shukla",
+      nameHi: "चंचला शुक्ला",
+      roleEn: "Co-Founder & Agronomist",
+      roleHi: "सह-संस्थापक एवं मुख्य कृषि वैज्ञानिक",
+      focusEn: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
+      focusHi: "पैथोलॉजी, एकीकृत कीट प्रबंधन (IPM) और फसल व्यवहार्यता",
+      tagEn: "Co-Founder & Agronomy Lead",
+      tagHi: "सह-संस्थापक और एग्रोनॉमी लीड",
+      bioEn:
+        "Co-Founder and scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
+      bioHi:
+        "सह-संस्थापक और फसल व्यवहार्यता की वैज्ञानिक आधारशिला, रोग निदान प्रोटोकॉल और स्प्रे मैट्रिक्स के डिज़ाइनर।",
+      quoteEn: "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
+      quoteHi:
+        "सटीक वैज्ञानिक कृषि हर मौसम की अनिश्चितता को सुरक्षित और भरपूर पैदावार में बदल देती है।",
+      pubEn: "Managing Early Blight resistance using targeted botanical sprays and spore traps (2026)",
+      pubHi: "लक्षित वनस्पति स्प्रे और स्पोर ट्रैप से अर्ली ब्लाइट प्रतिरोध प्रबंधन (2026)",
+      keyAchEn: [
+        "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
+        "Formulated scientific soil testing and stage-wise fertigation protocols",
+        "Authored localized IPM handbooks distributed across 2,000+ farms",
+      ],
+      keyAchHi: [
+        "सोलानेसी और क्यूकर्बिटेसी के लिए मौसम-आधारित रोग रोकथाम अनुसूची विकसित",
+        "वैज्ञानिक मिट्टी परीक्षण और चरणवार फर्टिगेशन प्रोटोकॉल तैयार किए",
+        "2,000+ खेतों में वितरित स्थानीय IPM पुस्तिकाएँ लिखीं",
+      ],
+      imageUrl: "/team/chanchala.png",
+      iconKey: "plant",
+      showInBanner: true,
+      bannerBadgeEn: "Co-Founder",
+      bannerBadgeHi: "सह-संस्थापक",
+      sortOrder: 1,
+    },
+    {
       slug: "kuldeep-sengar",
       nameEn: "Kuldeep Sengar",
       nameHi: "कुलदीप सेंगर",
@@ -80,7 +116,7 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
       showInBanner: false,
       bannerBadgeEn: "",
       bannerBadgeHi: "",
-      sortOrder: 1,
+      sortOrder: 2,
     },
     {
       slug: "abhay-ranjan",
@@ -93,9 +129,9 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
       tagEn: "Infrastructure & Retail Lead",
       tagHi: "इंफ्रास्ट्रक्चर और रिटेल लीड",
       bioEn:
-        "Abhay manages critical facility operations, specifically overseeing the 17-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
+        "Abhay manages critical facility operations, specifically overseeing the 5-acre Kukrola Smart Nursery infrastructure and physical Kisan Mall retail sales hubs in Bilaspur Kalan.",
       bioHi:
-        "अभय महत्वपूर्ण सुविधा संचालन का प्रबंधन करते हैं, विशेष रूप से 17 एकड़ कुकरोला स्मार्ट नर्सरी और किसान मॉल रिटेल हब की देखरेख।",
+        "अभय महत्वपूर्ण सुविधा संचालन का प्रबंधन करते हैं, विशेष रूप से 5 एकड़ कुकरोला स्मार्ट नर्सरी और किसान मॉल रिटेल हब की देखरेख।",
       quoteEn:
         "A farm to experience — exposing growers to modern farming technologies, quality seeds, and best practices in one place.",
       quoteHi:
@@ -103,12 +139,12 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
       pubEn: "Closed-loop agricultural business frameworks and retail hubs in North India (2025)",
       pubHi: "उत्तर भारत में बंद-लूप कृषि व्यापार ढांचे और रिटेल हब (2025)",
       keyAchEn: [
-        "Designed and scaled the 17-acre controlled-environment Smart Nursery facility",
+        "Designed and scaled the 5-acre controlled-environment Smart Nursery facility",
         "Expanded Kisan Mall retail offerings to over 500+ verified SKUs",
         "Built experiential technology demonstration zones for visiting farming clusters",
       ],
       keyAchHi: [
-        "17 एकड़ नियंत्रित-पर्यावरण स्मार्ट नर्सरी सुविधा का डिज़ाइन और विस्तार",
+        "5 एकड़ नियंत्रित-पर्यावरण स्मार्ट नर्सरी सुविधा का डिज़ाइन और विस्तार",
         "किसान मॉल रिटेल को 500+ सत्यापित SKU तक विस्तारित किया",
         "आने वाले किसान समूहों के लिए प्रौद्योगिकी प्रदर्शन क्षेत्र बनाए",
       ],
@@ -117,42 +153,6 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
       showInBanner: false,
       bannerBadgeEn: "",
       bannerBadgeHi: "",
-      sortOrder: 2,
-    },
-    {
-      slug: "chanchala-shukla",
-      nameEn: "Chanchala Shukla",
-      nameHi: "चंचला शुक्ला",
-      roleEn: "Co-Founder & Agronomist",
-      roleHi: "सह-संस्थापक एवं मुख्य कृषि वैज्ञानिक",
-      focusEn: "Pathology, Integrated Pest Management (IPM) & Crop Viability",
-      focusHi: "पैथोलॉजी, एकीकृत कीट प्रबंधन (IPM) और फसल व्यवहार्यता",
-      tagEn: "Co-Founder & Agronomy Lead",
-      tagHi: "सह-संस्थापक और एग्रोनॉमी लीड",
-      bioEn:
-        "Co-Founder and scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
-      bioHi:
-        "सह-संस्थापक और फसल व्यवहार्यता की वैज्ञानिक आधारशिला, रोग निदान प्रोटोकॉल और स्प्रे मैट्रिक्स के डिज़ाइनर।",
-      quoteEn: "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
-      quoteHi:
-        "सटीक वैज्ञानिक कृषि हर मौसम की अनिश्चितता को सुरक्षित और भरपूर पैदावार में बदल देती है।",
-      pubEn: "Managing Early Blight resistance using targeted botanical sprays and spore traps (2026)",
-      pubHi: "लक्षित वनस्पति स्प्रे और स्पोर ट्रैप से अर्ली ब्लाइट प्रतिरोध प्रबंधन (2026)",
-      keyAchEn: [
-        "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
-        "Formulated scientific soil testing and stage-wise fertigation protocols",
-        "Authored localized IPM handbooks distributed across 2,000+ farms",
-      ],
-      keyAchHi: [
-        "सोलानेसी और क्यूकर्बिटेसी के लिए मौसम-आधारित रोग रोकथाम अनुसूची विकसित",
-        "वैज्ञानिक मिट्टी परीक्षण और चरणवार फर्टिगेशन प्रोटोकॉल तैयार किए",
-        "2,000+ खेतों में वितरित स्थानीय IPM पुस्तिकाएँ लिखीं",
-      ],
-      imageUrl: "/team/chanchala.png",
-      iconKey: "plant",
-      showInBanner: true,
-      bannerBadgeEn: "Co-Founder",
-      bannerBadgeHi: "सह-संस्थापक",
       sortOrder: 3,
     },
     {
