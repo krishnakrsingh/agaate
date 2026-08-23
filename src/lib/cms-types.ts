@@ -2,6 +2,7 @@ import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 
 export const CMS_STATUSES = ["draft", "published", "archived"] as const;
 export type CmsStatus = (typeof CMS_STATUSES)[number];
@@ -227,8 +228,65 @@ export type KisaanMallSectionCopy = {
   descriptionHi: string;
 };
 
+export type KisaanMallHomeChapter = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  featuresEn: string[];
+  featuresHi: string[];
+  browseLabelEn: string;
+  browseLabelHi: string;
+  supplyHeadingEn: string;
+  supplyHeadingHi: string;
+  supplySubtextEn: string;
+  supplySubtextHi: string;
+  ctaEyebrowEn: string;
+  ctaEyebrowHi: string;
+  ctaTitleEn: string;
+  ctaTitleHi: string;
+  ctaDescriptionEn: string;
+  ctaDescriptionHi: string;
+  ctaBrowseEn: string;
+  ctaBrowseHi: string;
+  ctaCallEn: string;
+  ctaCallHi: string;
+};
+
+export type HomeChapterStat = {
+  numValue: number;
+  suffixEn: string;
+  suffixHi: string;
+  labelEn: string;
+  labelHi: string;
+};
+
+export type HomeAgriParkChapterContent = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  stats: HomeChapterStat[];
+  checklistEn: string[];
+  checklistHi: string[];
+  bookVisitLabelEn: string;
+  bookVisitLabelHi: string;
+  watchTourLabelEn: string;
+  watchTourLabelHi: string;
+  locationBadgeEn: string;
+  locationBadgeHi: string;
+  mapImageUrl: string;
+  mapAltEn: string;
+  mapAltHi: string;
+};
+
 export type KisaanMallPageContent = {
   displayMode: KisaanMallDisplayMode;
+  homeChapter: KisaanMallHomeChapter;
   heroEyebrowEn: string;
   heroEyebrowHi: string;
   heroTitleEn: string;
@@ -599,6 +657,7 @@ export type CmsSiteConfig = {
   agriParkTour: HomeCmsAgriParkTour;
   kisaanMallLanding: KisaanMallLanding;
   kisaanMallPage: KisaanMallPageContent;
+  agriParkChapter: HomeAgriParkChapterContent;
   careersPage: CareersPageContent;
   siteContact: SiteContactConfig;
   aboutPage: AboutPageContent;
@@ -610,6 +669,7 @@ export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
   kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
+  agriParkChapter: AGRI_PARK_CHAPTER_FALLBACK,
   careersPage: CAREERS_PAGE_FALLBACK,
   siteContact: SITE_CONTACT_FALLBACK,
   aboutPage: ABOUT_PAGE_FALLBACK,

@@ -10,7 +10,6 @@ import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { Reveal } from "@/components/common/motion";
 import { useSiteContact } from "@/contexts/SiteContactContext";
 import { useAboutPage } from "@/contexts/AboutPageContext";
-import { useAboutPage } from "@/contexts/AboutPageContext";
 
 const fieldIcons: Record<string, typeof Buildings> = {
   Entity: Buildings,

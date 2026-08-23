@@ -292,4 +292,44 @@ export const KISAAN_MALL_PAGE_FALLBACK: KisaanMallPageContent = {
   ctaImageUrl: "/farm.png",
   ctaImageAltEn: "Agaate Agronomist with farmer",
   ctaImageAltHi: "अगाते कृषि विशेषज्ञ और किसान",
+  homeChapter: {
+    badgeEn: "Agaate Kisaan Mall",
+    badgeHi: "अगाते किसान मॉल",
+    titleEn: "India's First Modern Input Retail for Farmers",
+    titleHi: "किसानों के लिए भारत का पहला आधुनिक कृषि मॉल",
+    descriptionEn:
+      "One-stop shop for farmers. Verified seeds, biologicals, and drip kits delivered direct to your farm at honest prices.",
+    descriptionHi:
+      "किसानों के लिए वन-स्टॉप कृषि केंद्र। 100% प्रमाणित बीज, जैविक पोषण और ड्रिप किट सीधे खेत तक किफायती दरों पर।",
+    featuresEn: [
+      "Direct-from-brand honest pricing",
+      "100% verified product authenticity",
+      "Custom drip & irrigation packages",
+    ],
+    featuresHi: [
+      "सीधे निर्माता कंपनियों से किफायती दाम",
+      "100% असली व प्रमाणित उत्पाद की गारंटी",
+      "कस्टमाइज्ड ड्रिप व सिंचाई पैकेज",
+    ],
+    browseLabelEn: "Browse Agaate Mall",
+    browseLabelHi: "किसान मॉल देखें",
+    supplyHeadingEn: "How Agaate Direct Supply Works",
+    supplyHeadingHi: "अगाते डायरेक्ट सप्लाई कैसे काम करती है",
+    supplySubtextEn:
+      "From certified partner brands to your field gate — every batch is verified for germination, purity, and authenticity.",
+    supplySubtextHi:
+      "प्रमाणित ब्रांड्स से लेकर सीधे आपके खेत के गेट तक — हर एक लॉट की अंकुरण, शुद्धता और असलियत जांची जाती है।",
+    ctaEyebrowEn: "DIRECT AGRONOMIST RECOMMENDATION",
+    ctaEyebrowHi: "कृषि वैज्ञानिक से सीधी सलाह",
+    ctaTitleEn: "Unsure which seed or bio-input matches your soil?",
+    ctaTitleHi: "तय नहीं कर पा रहे कि आपकी मिट्टी के लिए कौन सा बीज या खाद सही है?",
+    ctaDescriptionEn:
+      "Talk directly with senior field experts to get exact dose calculations before placing your Agaate Mall order.",
+    ctaDescriptionHi:
+      "ऑर्डर करने से पहले सीधे वरिष्ठ कृषि विशेषज्ञों से बात करें और सही मात्रा का चार्ट प्राप्त करें।",
+    ctaBrowseEn: "Browse Store",
+    ctaBrowseHi: "स्टोर देखें",
+    ctaCallEn: "Call Agronomist",
+    ctaCallHi: "कृषि डॉक्टर को कॉल करें",
+  },
 };

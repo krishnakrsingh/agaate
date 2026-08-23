@@ -2,6 +2,7 @@ import React from "react";
 import { ChatCircleText, Phone, Clock } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { useKisaanMallPage } from "@/contexts/KisaanMallPageContext";
 import { useSiteContact } from "@/contexts/SiteContactContext";
 import { track } from "@/lib/analytics";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
@@ -9,6 +10,7 @@ import { Reveal } from "@/components/common/motion";
 
 export default function MallCta() {
   const { i18n } = useTranslation();
+  const page = useKisaanMallPage();
   const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
   const mallWhatsAppUrl = whatsappUrl("mall");
   const isHindi = i18n.language?.startsWith("hi");
@@ -37,7 +39,7 @@ export default function MallCta() {
                 <div className="inline-flex items-center gap-2.5">
                   <span className="h-px w-5 bg-[#a3e635]" aria-hidden="true" />
                   <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#a3e635]">
-                    {isHindi ? "सीधी सहायता व ऑर्डर" : "Direct Farm Supply & Advice"}
+                    {isHindi ? page.ctaBadgeHi : page.ctaBadgeEn}
                   </p>
                 </div>
 
@@ -45,20 +47,16 @@ export default function MallCta() {
                   id="mall-cta-heading"
                   className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-[1.1]"
                 >
-                  {isHindi
-                    ? "अपनी फसल के लिए सही इनपुट चुनें"
-                    : "Order verified inputs for your upcoming sowing"}
+                  {isHindi ? page.ctaTitleHi : page.ctaTitleEn}
                 </h2>
 
                 <p className="font-sans text-sm sm:text-base leading-relaxed text-white/80 max-w-lg">
-                  {isHindi
-                    ? "हमारे कृषि वैज्ञानिक आपकी मिट्टी, फसल और बजट अनुसार सबसे उपयुक्त इनपुट्स का चयन करने में मदद करेंगे।"
-                    : "Speak with our agronomy team to select certified seeds, bio-stimulants, and drip packages customized for your acreage."}
+                  {isHindi ? page.ctaDescriptionHi : page.ctaDescriptionEn}
                 </p>
 
                 <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs text-white/90 backdrop-blur-md">
                   <Clock className="h-3.5 w-3.5 text-[#a3e635]" weight="fill" />
-                  <span>7:30 AM – 8:00 PM IST · Monday – Saturday</span>
+                  <span>{isHindi ? page.ctaHoursHi : page.ctaHoursEn}</span>
                 </div>
 
                 <div className="pt-2 flex flex-wrap items-center gap-3.5">
@@ -69,7 +67,7 @@ export default function MallCta() {
                     onClick={() => track("kisaan_mall_cta_clicked", { action: "whatsapp" })}
                     variant="accent"
                     size="md"
-                    label={isHindi ? "व्हाट्सएप पर संपर्क करें" : "Chat on WhatsApp"}
+                    label={isHindi ? page.ctaWhatsappLabelHi : page.ctaWhatsappLabelEn}
                     icon={<ChatCircleText className="h-4 w-4" weight="fill" />}
                     iconPosition="left"
                   />
@@ -94,8 +92,8 @@ export default function MallCta() {
                   }
                 >
                   <img
-                    src="/farm.png"
-                    alt="Agaate Agronomist with farmer"
+                    src={page.ctaImageUrl}
+                    alt={isHindi ? page.ctaImageAltHi : page.ctaImageAltEn}
                     className="mx-auto max-h-[300px] w-full object-contain drop-shadow-2xl lg:max-h-[340px]"
                     width={800}
                     height={700}
