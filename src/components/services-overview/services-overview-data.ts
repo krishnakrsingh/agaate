@@ -79,7 +79,7 @@ export const SERVICES_EN: ServiceItem[] = [
     icon: Stethoscope,
     title: "Field Agronomy & Plant Doctor",
     category: "advisory-tech",
-    desc: "Senior agricultural scientists providing real-time crop disease diagnosis via WhatsApp photo scanner, soil pH mapping, and on-ground field visits.",
+    desc: "Senior agronomists providing real-time crop disease diagnosis via WhatsApp photo scanner, soil pH mapping, and on-ground field visits.",
     tag: "Field Advisory",
     badgeStat: "< 15 Min",
     badgeLabel: "Diagnosis Response Time",

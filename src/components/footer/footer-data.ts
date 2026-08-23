@@ -34,16 +34,15 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const COMPANY_LINKS = [
   { href: "/about", labelKey: "footer.aboutUs", fallback: "About Us" },
-  { href: "/agri-park", labelKey: "nav.agriPark", fallback: "Agri Park" },
+  { href: "/#agri-park", labelKey: "nav.agriPark", fallback: "Agri Park" },
   { href: "/kisaan-mall", labelKey: "footer.services", fallback: "Services" },
   { href: "/careers", labelKey: "nav.careers", fallback: "Careers" },
 ];
 
 export const EXPLORE_LINKS = [
-  { href: "/community", labelKey: "nav.community", fallback: "Farmer Community" },
   { href: "/#pillar-nursery", labelKey: "servicesSub.nursery", fallback: "Bio-Boosted Nursery" },
   { href: "/kisaan-mall", labelKey: "servicesSub.kisaanMall", fallback: "Kisaan Mall" },
-  { href: "/contact", labelKey: "servicesSub.farmTech", fallback: "Farm Tech & IoT" },
+  { href: "/#agaate-app", labelKey: "servicesSub.farmTech", fallback: "Agaate Mobile App" },
 ];
 
 export const CONTACT_DETAILS = {

@@ -1,7 +1,6 @@
 import "i18next";
 import common from "../locales/en/common.json";
 import hero from "../locales/en/hero.json";
-import agriPark from "../locales/en/agri-park.json";
 import beyond from "../locales/en/beyond.json";
 import nursery from "../locales/en/nursery.json";
 import proof from "../locales/en/proof.json";
@@ -17,7 +16,6 @@ declare module "i18next" {
     resources: {
       common: typeof common;
       hero: typeof hero;
-      "agri-park": typeof agriPark;
       beyond: typeof beyond;
       nursery: typeof nursery;
       proof: typeof proof;

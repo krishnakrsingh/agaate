@@ -170,7 +170,18 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                             <Link
                               key={"mobile-sub-" + sub.key + sub.href}
                               to={getLocalizedPath(sub.href, currentLang) as any}
-                              onClick={onClose}
+                              hash={sub.hash}
+                              onClick={() => {
+                                onClose();
+                                if (sub.hash) {
+                                  setTimeout(() => {
+                                    const el = document.getElementById(sub.hash!);
+                                    if (el) {
+                                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                    }
+                                  }, 100);
+                                }
+                              }}
                               className="group/sub flex items-center gap-2.5 rounded-[12px] p-2 transition-colors hover:bg-slate-100/90"
                             >
                               <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all group-hover/sub:bg-[#143d31] group-hover/sub:text-[#a3e635]">

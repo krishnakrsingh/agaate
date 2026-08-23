@@ -39,6 +39,10 @@ function FooterLink({
     </div>
   );
 
+  const isHash = href.startsWith("/#") || href.startsWith("#");
+  const targetHash = isHash ? href.replace(/^\/?#/, "") : undefined;
+  const targetPath = isHash ? "/" : href;
+
   return (
     <div className={cn("w-full", className)}>
       {isExternal ? (
@@ -46,7 +50,21 @@ function FooterLink({
           {content}
         </a>
       ) : (
-        <Link to={getLocalizedPath(href, currentLang) as any} className="block">
+        <Link
+          to={getLocalizedPath(targetPath, currentLang) as any}
+          hash={targetHash}
+          onClick={() => {
+            if (targetHash) {
+              setTimeout(() => {
+                const el = document.getElementById(targetHash);
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+              }, 50);
+            }
+          }}
+          className="block"
+        >
           {content}
         </Link>
       )}

@@ -93,6 +93,17 @@ export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps)
                     ) : (
                       <Link
                         to={getLocalizedPath(subLink.href, currentLang) as any}
+                        hash={subLink.hash}
+                        onClick={() => {
+                          if (subLink.hash) {
+                            setTimeout(() => {
+                              const el = document.getElementById(subLink.hash!);
+                              if (el) {
+                                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                              }
+                            }, 50);
+                          }
+                        }}
                         className="group relative flex items-center gap-3 overflow-hidden rounded-[12px] p-2 px-2.5 transition-all duration-200 hover:bg-slate-50"
                       >
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all duration-200 group-hover:scale-105 group-hover:bg-[#143d31] group-hover:text-[#a3e635]">

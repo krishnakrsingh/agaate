@@ -22,12 +22,12 @@ const pathwaysEn = [
     title: "Talk to an Agronomist",
     subtitle: "Photo diagnosis & dosage charts",
     description:
-      "Send a photo of diseased leaves or ask soil planning questions. Real agronomy scientists diagnose the issue and share exact stage-wise spray and fertigation doses.",
+      "Send a photo of diseased leaves or ask soil planning questions. Real field agronomists diagnose the issue and share exact stage-wise spray and fertigation doses.",
     actionLabel: "Chat on WhatsApp",
-    actionSub: "< 15 min direct response",
+    actionSub: "Direct Agronomist Support · <15 Mins",
     type: "whatsapp",
     href: "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20am%20reaching%20out%20for%20assistance%20and%20would%20appreciate%20a%20response%20at%20your%20earliest%20convenience.",
-    perks: ["Photo pest & disease identification", "No automated bots · Real senior scientists"],
+    perks: ["Photo pest & disease identification", "No automated bots · Real senior agronomists"],
   },
   {
     number: "02",
@@ -38,7 +38,7 @@ const pathwaysEn = [
     description:
       "Source 100% genuine hybrid seeds, biologicals, and custom drip kits straight from 50+ manufacturer partners at honest, transparent rates with zero duplicate risk.",
     actionLabel: "Get Store Directions",
-    actionSub: "Bhora Kalan, Gurugram",
+    actionSub: "100% Genuine Quality Guarantee",
     type: "link",
     href: "/contact",
     perks: ["Direct manufacturer pricing", "100% genuine quality guarantee"],
@@ -52,9 +52,9 @@ const pathwaysEn = [
     description:
       "Walk through live crop trial plots, high-immunity plug nurseries, automated drip systems, and AI drone scouting before implementing any technology on your own land.",
     actionLabel: "Book Field Visit",
-    actionSub: "Kukrola, Gurugram (NH8)",
+    actionSub: "Live Crop Demo & Nursery Tour",
     type: "modal",
-    href: "/agri-park",
+    href: "/#agri-park",
     perks: ["Walk all 8 crop journey zones live", "One-on-one agronomist field briefing"],
   },
 ];
@@ -83,7 +83,7 @@ const pathwaysHi = [
     description:
       "सीधे 50+ शीर्ष निर्माता कंपनियों से 100% शुद्ध और जांचे-परखे बीज, जैविक पोषण और ड्रिप पैकेज किफायती दरों पर प्राप्त करें — बिना किसी मिलावट व नकली के डर के।",
     actionLabel: "मॉल लोकेशन व संपर्क",
-    actionSub: "भोड़ा कलां, गुरुग्राम",
+    actionSub: "100% असली व प्रमाणित इनपुट्स",
     type: "link",
     href: "/contact",
     perks: ["सीधे फैक्ट्रियों से किफायती दाम", "100% प्रमाणित गुणवत्ता की गारंटी"],
@@ -97,9 +97,9 @@ const pathwaysHi = [
     description:
       "अपने खेत में अपनाने से पहले लाइव फसल प्लॉट, बायो-बूस्टेड नर्सरी, आधुनिक ड्रिप फर्टीगेशन और एआई ड्रोन तकनीक को वास्तविक जमीन पर काम करते देखें।",
     actionLabel: "विजिट शेड्यूल करें",
-    actionSub: "कुकरोला, गुरुग्राम (NH8)",
+    actionSub: "लाइव फसल व नर्सरी टूर",
     type: "modal",
-    href: "/agri-park",
+    href: "/#agri-park",
     perks: ["8 फसल ज़ोन का लाइव टूर", "कृषि वैज्ञानिकों से आमने-सामने चर्चा"],
   },
 ];

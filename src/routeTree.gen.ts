@@ -17,9 +17,7 @@ import { Route as Char123LocaleChar125PrivacyPolicyRouteImport } from './routes/
 import { Route as Char123LocaleChar125KisaanMallRouteImport } from './routes/{-$locale}/kisaan-mall'
 import { Route as Char123LocaleChar125CookiePolicyRouteImport } from './routes/{-$locale}/cookie-policy'
 import { Route as Char123LocaleChar125ContactRouteImport } from './routes/{-$locale}/contact'
-import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
 import { Route as Char123LocaleChar125CareersRouteImport } from './routes/{-$locale}/careers'
-import { Route as Char123LocaleChar125AgriParkRouteImport } from './routes/{-$locale}/agri-park'
 import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
 import { Route as AgaateAdminLoginRouteImport } from './routes/agaate-admin/login'
 import { Route as AgaateAdminAuthedRouteRouteImport } from './routes/agaate-admin/_authed/route'
@@ -82,22 +80,10 @@ const Char123LocaleChar125ContactRoute =
     path: '/contact',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
-const Char123LocaleChar125CommunityRoute =
-  Char123LocaleChar125CommunityRouteImport.update({
-    id: '/community',
-    path: '/community',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
 const Char123LocaleChar125CareersRoute =
   Char123LocaleChar125CareersRouteImport.update({
     id: '/careers',
     path: '/careers',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
-const Char123LocaleChar125AgriParkRoute =
-  Char123LocaleChar125AgriParkRouteImport.update({
-    id: '/agri-park',
-    path: '/agri-park',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
 const Char123LocaleChar125AboutRoute =
@@ -186,9 +172,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}': typeof Char123LocaleChar125RouteRouteWithChildren
   '/agaate-admin/login': typeof AgaateAdminLoginRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
-  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
   '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
-  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
   '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
@@ -211,9 +195,7 @@ export interface FileRoutesByTo {
   '/agaate-admin': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/login': typeof AgaateAdminLoginRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
-  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
   '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
-  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
   '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
@@ -238,9 +220,7 @@ export interface FileRoutesById {
   '/agaate-admin/_authed': typeof AgaateAdminAuthedRouteRouteWithChildren
   '/agaate-admin/login': typeof AgaateAdminLoginRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
-  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
   '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
-  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
   '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
@@ -266,9 +246,7 @@ export interface FileRouteTypes {
     | '/{-$locale}'
     | '/agaate-admin/login'
     | '/{-$locale}/about'
-    | '/{-$locale}/agri-park'
     | '/{-$locale}/careers'
-    | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
     | '/{-$locale}/kisaan-mall'
@@ -291,9 +269,7 @@ export interface FileRouteTypes {
     | '/agaate-admin'
     | '/agaate-admin/login'
     | '/{-$locale}/about'
-    | '/{-$locale}/agri-park'
     | '/{-$locale}/careers'
-    | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
     | '/{-$locale}/kisaan-mall'
@@ -317,9 +293,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed'
     | '/agaate-admin/login'
     | '/{-$locale}/about'
-    | '/{-$locale}/agri-park'
     | '/{-$locale}/careers'
-    | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
     | '/{-$locale}/kisaan-mall'
@@ -402,25 +376,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125ContactRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/{-$locale}/community': {
-      id: '/{-$locale}/community'
-      path: '/community'
-      fullPath: '/{-$locale}/community'
-      preLoaderRoute: typeof Char123LocaleChar125CommunityRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
     '/{-$locale}/careers': {
       id: '/{-$locale}/careers'
       path: '/careers'
       fullPath: '/{-$locale}/careers'
       preLoaderRoute: typeof Char123LocaleChar125CareersRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
-    '/{-$locale}/agri-park': {
-      id: '/{-$locale}/agri-park'
-      path: '/agri-park'
-      fullPath: '/{-$locale}/agri-park'
-      preLoaderRoute: typeof Char123LocaleChar125AgriParkRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
     '/{-$locale}/about': {
@@ -576,9 +536,7 @@ const AgaateAdminRouteRouteWithChildren =
 
 interface Char123LocaleChar125RouteRouteChildren {
   Char123LocaleChar125AboutRoute: typeof Char123LocaleChar125AboutRoute
-  Char123LocaleChar125AgriParkRoute: typeof Char123LocaleChar125AgriParkRoute
   Char123LocaleChar125CareersRoute: typeof Char123LocaleChar125CareersRoute
-  Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
   Char123LocaleChar125ContactRoute: typeof Char123LocaleChar125ContactRoute
   Char123LocaleChar125CookiePolicyRoute: typeof Char123LocaleChar125CookiePolicyRoute
   Char123LocaleChar125KisaanMallRoute: typeof Char123LocaleChar125KisaanMallRoute
@@ -590,9 +548,7 @@ interface Char123LocaleChar125RouteRouteChildren {
 const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChildren =
   {
     Char123LocaleChar125AboutRoute: Char123LocaleChar125AboutRoute,
-    Char123LocaleChar125AgriParkRoute: Char123LocaleChar125AgriParkRoute,
     Char123LocaleChar125CareersRoute: Char123LocaleChar125CareersRoute,
-    Char123LocaleChar125CommunityRoute: Char123LocaleChar125CommunityRoute,
     Char123LocaleChar125ContactRoute: Char123LocaleChar125ContactRoute,
     Char123LocaleChar125CookiePolicyRoute:
       Char123LocaleChar125CookiePolicyRoute,

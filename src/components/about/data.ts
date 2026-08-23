@@ -113,7 +113,7 @@ export const whatWeDo = [
     title: "Science-Backed Decisions",
     desc: "Helping farmers understand their crops and reduce losses.",
     icon: Flask,
-    href: "/agri-park",
+    href: "/#agri-park",
   },
   {
     id: "partners",

@@ -39,7 +39,7 @@ const stages: StageData[] = [
     desc: "Pathogen-free, climate-controlled plug nurseries inoculated with Trichoderma & Mycorrhiza for 100% strong crop start.",
     metrics: ["98% Survival Rate", "15 Days Saved"],
     ctaText: "Order Nursery Seedlings",
-    ctaLink: "/agri-park",
+    ctaLink: "/#agri-park",
   },
   {
     num: "02",
