@@ -1,11 +1,18 @@
 import { motion } from "framer-motion";
-import { CULTURE_CARDS } from "./careers-data";
+import { getCmsIcon } from "@/components/careers/icon-map";
+import type { CmsIconKey } from "@/lib/cms-types";
 
-export function CareersCultureSection() {
+export type LocalizedCultureCard = {
+  tag: string;
+  title: string;
+  desc: string;
+  iconKey: CmsIconKey;
+};
+
+export function CareersCultureSection({ cards }: { cards: LocalizedCultureCard[] }) {
   return (
     <section className="relative bg-[#f4f8f5] text-[#143d31]">
       <div className="space-y-12">
-        {/* Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -25,10 +32,9 @@ export function CareersCultureSection() {
           </div>
         </div>
 
-        {/* 3 Minimal Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10">
-          {CULTURE_CARDS.map((card, idx) => {
-            const Icon = card.icon;
+          {cards.map((card, idx) => {
+            const Icon = getCmsIcon(card.iconKey);
 
             return (
               <motion.div
@@ -40,7 +46,6 @@ export function CareersCultureSection() {
                 className="group relative flex flex-col justify-between p-6 sm:p-8 lg:p-10 transition-colors duration-200 hover:bg-white/60"
               >
                 <div className="space-y-6">
-                  {/* Tag & Icon */}
                   <div className="flex items-center justify-between">
                     <span className="rounded-full bg-[#143d31]/5 border border-[#143d31]/10 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#143d31]">
                       {card.tag}
@@ -51,7 +56,6 @@ export function CareersCultureSection() {
                     </div>
                   </div>
 
-                  {/* Title & Description */}
                   <div className="space-y-2.5">
                     <h3 className="font-display text-xl sm:text-2xl font-bold text-[#143d31] tracking-tight">
                       {card.title}

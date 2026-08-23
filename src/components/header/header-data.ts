@@ -39,12 +39,13 @@ export type NavSubLink = {
 export type NavItem = {
   key: string;
   href: string;
+  hash?: string;
   icon?: ComponentType<any>;
   subLinks?: NavSubLink[];
 };
 
 export const NAV_STRUCTURE: NavItem[] = [
-  { key: "home", href: "/", icon: House },
+  { key: "home", href: "/", hash: "hero", icon: House },
   {
     key: "services",
     href: "/",

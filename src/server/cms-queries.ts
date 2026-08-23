@@ -32,7 +32,9 @@ import {
   DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   DEFAULT_KISAAN_MALL_LANDING,
   type KisaanMallLanding,
+  type CareersPageContent,
 } from "@/lib/cms-types";
+import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 
 function parseJson<T>(value: unknown, fallback: T): T {
   if (value == null) return fallback;
@@ -246,11 +248,69 @@ function normalizeKisaanMallLanding(raw: Partial<KisaanMallLanding> | null | und
   };
 }
 
+function normalizeIconKey(key: unknown): CmsIconKey {
+  const valid = ["tractor", "plant", "chart", "handshake", "warehouse", "drop", "cap", "users"];
+  const k = String(key ?? "").trim();
+  return valid.includes(k) ? (k as CmsIconKey) : "plant";
+}
+
+function normalizeCareersPage(raw: Partial<CareersPageContent> | null | undefined): CareersPageContent {
+  const fb = CAREERS_PAGE_FALLBACK;
+  const heroStats = Array.isArray(raw?.heroStats) ? raw.heroStats : fb.heroStats;
+  const cultureCards = Array.isArray(raw?.cultureCards) ? raw.cultureCards : fb.cultureCards;
+  const campusSkills = Array.isArray(raw?.campusSkills) ? raw.campusSkills : fb.campusSkills;
+
+  return {
+    heroBadgeEn: String(raw?.heroBadgeEn ?? "").trim() || fb.heroBadgeEn,
+    heroBadgeHi: String(raw?.heroBadgeHi ?? "").trim() || fb.heroBadgeHi,
+    heroTitleEn: String(raw?.heroTitleEn ?? "").trim() || fb.heroTitleEn,
+    heroTitleHi: String(raw?.heroTitleHi ?? "").trim() || fb.heroTitleHi,
+    heroDescriptionEn: String(raw?.heroDescriptionEn ?? "").trim() || fb.heroDescriptionEn,
+    heroDescriptionHi: String(raw?.heroDescriptionHi ?? "").trim() || fb.heroDescriptionHi,
+    heroLocationEn: String(raw?.heroLocationEn ?? "").trim() || fb.heroLocationEn,
+    heroLocationHi: String(raw?.heroLocationHi ?? "").trim() || fb.heroLocationHi,
+    heroStats: heroStats.map((s, i) => ({
+      value: Number(s?.value ?? fb.heroStats[i]?.value ?? 0),
+      suffix: String(s?.suffix ?? fb.heroStats[i]?.suffix ?? ""),
+      labelEn: String(s?.labelEn ?? "").trim() || fb.heroStats[i]?.labelEn || "",
+      labelHi: String(s?.labelHi ?? "").trim() || fb.heroStats[i]?.labelHi || "",
+      subEn: String(s?.subEn ?? "").trim() || fb.heroStats[i]?.subEn || "",
+      subHi: String(s?.subHi ?? "").trim() || fb.heroStats[i]?.subHi || "",
+    })),
+    cultureCards: cultureCards.map((c, i) => ({
+      tagEn: String(c?.tagEn ?? "").trim() || fb.cultureCards[i]?.tagEn || "",
+      tagHi: String(c?.tagHi ?? "").trim() || fb.cultureCards[i]?.tagHi || "",
+      titleEn: String(c?.titleEn ?? "").trim() || fb.cultureCards[i]?.titleEn || "",
+      titleHi: String(c?.titleHi ?? "").trim() || fb.cultureCards[i]?.titleHi || "",
+      descEn: String(c?.descEn ?? "").trim() || fb.cultureCards[i]?.descEn || "",
+      descHi: String(c?.descHi ?? "").trim() || fb.cultureCards[i]?.descHi || "",
+      iconKey: normalizeIconKey(c?.iconKey ?? fb.cultureCards[i]?.iconKey),
+    })),
+    openRolesTitleEn: String(raw?.openRolesTitleEn ?? "").trim() || fb.openRolesTitleEn,
+    openRolesTitleHi: String(raw?.openRolesTitleHi ?? "").trim() || fb.openRolesTitleHi,
+    openRolesSubtitleEn: String(raw?.openRolesSubtitleEn ?? "").trim() || fb.openRolesSubtitleEn,
+    openRolesSubtitleHi: String(raw?.openRolesSubtitleHi ?? "").trim() || fb.openRolesSubtitleHi,
+    campusBadgeEn: String(raw?.campusBadgeEn ?? "").trim() || fb.campusBadgeEn,
+    campusBadgeHi: String(raw?.campusBadgeHi ?? "").trim() || fb.campusBadgeHi,
+    campusTitleEn: String(raw?.campusTitleEn ?? "").trim() || fb.campusTitleEn,
+    campusTitleHi: String(raw?.campusTitleHi ?? "").trim() || fb.campusTitleHi,
+    campusDescriptionEn: String(raw?.campusDescriptionEn ?? "").trim() || fb.campusDescriptionEn,
+    campusDescriptionHi: String(raw?.campusDescriptionHi ?? "").trim() || fb.campusDescriptionHi,
+    campusSkills: campusSkills.map((s, i) => ({
+      iconKey: normalizeIconKey(s?.iconKey ?? fb.campusSkills[i]?.iconKey),
+      labelEn: String(s?.labelEn ?? "").trim() || fb.campusSkills[i]?.labelEn || "",
+      labelHi: String(s?.labelHi ?? "").trim() || fb.campusSkills[i]?.labelHi || "",
+    })),
+    campusEmailSubject: String(raw?.campusEmailSubject ?? "").trim() || fb.campusEmailSubject,
+  };
+}
+
 function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): CmsSiteConfig {
   return {
     appLinks: normalizeAppLinks(raw?.appLinks),
     agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
     kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding),
+    careersPage: normalizeCareersPage(raw?.careersPage),
   };
 }
 
@@ -300,6 +360,7 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
     kisaanMallLanding: patch.kisaanMallLanding
       ? normalizeKisaanMallLanding(patch.kisaanMallLanding)
       : current.kisaanMallLanding,
+    careersPage: patch.careersPage ? normalizeCareersPage(patch.careersPage) : current.careersPage,
   });
 }
 
@@ -331,6 +392,16 @@ export async function fetchKisaanMallLanding(): Promise<KisaanMallLanding> {
 export async function saveKisaanMallLanding(landing: KisaanMallLanding): Promise<KisaanMallLanding> {
   const config = await mergeSiteConfig({ kisaanMallLanding: landing });
   return config.kisaanMallLanding;
+}
+
+export async function fetchCareersPage(): Promise<CareersPageContent> {
+  const config = await fetchSiteConfig();
+  return config.careersPage;
+}
+
+export async function saveCareersPage(content: CareersPageContent): Promise<CareersPageContent> {
+  const config = await mergeSiteConfig({ careersPage: content });
+  return config.careersPage;
 }
 
 let cmsSchemaReady = false;

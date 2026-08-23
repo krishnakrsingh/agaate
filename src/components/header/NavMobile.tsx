@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CaretDown, WhatsappLogo, X } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
-import { getLocalizedPath } from "@/lib/i18n";
+import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
 import { LanguageSwitcher } from "../common/LanguageSwitcher";
 import {
   NAV_STRUCTURE,
@@ -20,7 +20,19 @@ interface NavMobileProps {
 
 export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
   const { t } = useTranslation("common");
+  const location = useLocation();
+  const strippedPath = stripLocalePrefix(location.pathname);
+  const isHome = strippedPath === "/";
   const [servicesOpen, setServicesOpen] = useState(false);
+
+  const scrollToHeroOrTop = () => {
+    const heroEl = document.getElementById("hero");
+    if (heroEl) {
+      heroEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -47,7 +59,13 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <Link
                 to={getLocalizedPath("/", currentLang) as any}
-                onClick={onClose}
+                hash="hero"
+                onClick={() => {
+                  onClose();
+                  if (isHome) {
+                    setTimeout(scrollToHeroOrTop, 100);
+                  }
+                }}
                 className="flex items-center gap-2 rounded-full bg-[#0d2a21] px-3.5 py-1.5 shadow-sm"
               >
                 <img src="/logo.svg" alt="Agaate" className="h-5 w-auto object-contain" />
@@ -107,7 +125,22 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                     ) : (
                       <Link
                         to={getLocalizedPath(link.href, currentLang) as any}
-                        onClick={onClose}
+                        hash={link.hash}
+                        onClick={() => {
+                          onClose();
+                          if (link.key === "home") {
+                            if (isHome) {
+                              setTimeout(scrollToHeroOrTop, 100);
+                            }
+                          } else if (link.hash) {
+                            setTimeout(() => {
+                              const el = document.getElementById(link.hash!);
+                              if (el) {
+                                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                              }
+                            }, 100);
+                          }
+                        }}
                         className="group flex items-center justify-between rounded-[18px] p-2.5 transition-colors hover:bg-slate-100/90 active:bg-slate-100"
                       >
                         <div className="flex items-center gap-3">

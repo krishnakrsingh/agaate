@@ -224,3 +224,54 @@ export const saveCmsKisaanMallLandingAdmin = createServerFn({ method: "POST" })
     const mod = await import("./admin-cms.server");
     return mod.handleSaveKisaanMallLanding(data);
   });
+
+export const listCmsCareerJobsAdmin = createServerFn({ method: "GET" })
+  .validator((data: CmsListFilters | undefined) => data ?? {})
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleListCareerJobs(data);
+  });
+
+export const saveCmsCareerJobAdmin = createServerFn({ method: "POST" })
+  .validator(
+    (data: {
+      id?: number;
+      slug: string;
+      titleEn: string;
+      titleHi: string;
+      deptEn: string;
+      deptHi: string;
+      departmentCategory: "Agronomy" | "Corporate" | "Retail";
+      locEn: string;
+      locHi: string;
+      typeEn: string;
+      typeHi: string;
+      descEn: string;
+      descHi: string;
+      experienceLevelEn: string;
+      experienceLevelHi: string;
+      highlightsEn: string[];
+      highlightsHi: string[];
+      reqsEn: string[];
+      reqsHi: string[];
+      responsibilitiesEn: string[];
+      responsibilitiesHi: string[];
+      sortOrder?: number;
+    }) => data,
+  )
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveCareerJob(data);
+  });
+
+export const getCmsCareersAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetCareersAdmin();
+});
+
+export const saveCmsCareersPageAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").CareersPageContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveCareersPage(data);
+  });

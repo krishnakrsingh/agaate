@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { CaretDown } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
-import { getLocalizedPath } from "@/lib/i18n";
-import { NAV_STRUCTURE } from "./header-data";
+import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
+import { NAV_STRUCTURE, type NavItem } from "./header-data";
 import { NavDropdown } from "./NavDropdown";
 
 interface NavDesktopProps {
@@ -14,7 +14,28 @@ interface NavDesktopProps {
 
 export function NavDesktop({ solid, currentLang }: NavDesktopProps) {
   const { t } = useTranslation("common");
+  const location = useLocation();
+  const strippedPath = stripLocalePrefix(location.pathname);
+  const isHome = strippedPath === "/";
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null);
+
+  const handleNavClick = (link: NavItem) => {
+    if (link.key === "home") {
+      if (isHome) {
+        const heroEl = document.getElementById("hero");
+        if (heroEl) {
+          heroEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    } else if (link.hash && isHome) {
+      const el = document.getElementById(link.hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
 
   return (
     <nav className="pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1 lg:flex xl:gap-2">
@@ -30,6 +51,8 @@ export function NavDesktop({ solid, currentLang }: NavDesktopProps) {
           >
             <Link
               to={getLocalizedPath(link.href, currentLang) as any}
+              hash={link.hash}
+              onClick={() => handleNavClick(link)}
               className={`relative z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 font-body text-[14px] font-medium transition-colors duration-200 ${
                 isHovered
                   ? "font-semibold text-white"

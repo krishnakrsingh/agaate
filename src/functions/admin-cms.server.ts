@@ -30,10 +30,14 @@ import {
   saveAgriParkTour,
   fetchKisaanMallLanding,
   saveKisaanMallLanding,
+  fetchCareersPage,
+  saveCareersPage,
 } from "@/server/cms-queries";
 import {
   countNewsletterSignups,
   listNewsletterSignups,
+  countCareerApplications,
+  listCareerApplications,
 } from "@/server/admin-queries";
 import {
   archiveCmsTeamMember,
@@ -43,8 +47,31 @@ import {
   saveCmsTeamMember,
   unpublishCmsTeamMember,
 } from "@/server/cms-team-queries";
-import type { CmsListFilters, HomeCmsAppLinks, HomeCmsAgriParkTour, KisaanMallLanding } from "@/lib/cms-types";
-import { mockLogos, mockStats, mockStories, mockTeam, mockNewsletterSignups } from "@/server/cms-memory";
+import {
+  archiveCmsCareerJob,
+  listCmsCareerJobs,
+  publishCmsCareerJob,
+  reorderCmsCareerJobs,
+  saveCmsCareerJob,
+  unpublishCmsCareerJob,
+  countPublishedCareerJobs,
+} from "@/server/cms-careers-queries";
+import type {
+  CmsListFilters,
+  HomeCmsAppLinks,
+  HomeCmsAgriParkTour,
+  KisaanMallLanding,
+  CareersPageContent,
+} from "@/lib/cms-types";
+import {
+  mockLogos,
+  mockStats,
+  mockStories,
+  mockTeam,
+  mockNewsletterSignups,
+  mockCareerJobs,
+  mockCareerApplications,
+} from "@/server/cms-memory";
 
 function failAuth(err: unknown) {
   const message = err instanceof Error ? err.message : "Error";
@@ -93,12 +120,23 @@ export async function handleCmsOverview() {
         ok: true as const,
         overview: { stats: count(mockStats), logos: count(mockLogos), stories: count(mockStories), team: count(mockTeam) },
         newsletterWaitlist: mockNewsletterSignups.filter((s) => s.source_page === "/kisaan-mall").length,
+        careersJobs: mockCareerJobs.filter((j) => j.status === "published").length,
+        careerApplications: mockCareerApplications.length,
         dbConfigured: false,
       };
     }
     const overview = await fetchCmsOverview();
     const newsletterWaitlist = await countNewsletterSignups("/kisaan-mall");
-    return { ok: true as const, overview, newsletterWaitlist, dbConfigured: true };
+    const careersJobs = await countPublishedCareerJobs();
+    const careerApplications = await countCareerApplications();
+    return {
+      ok: true as const,
+      overview,
+      newsletterWaitlist,
+      careersJobs,
+      careerApplications,
+      dbConfigured: true,
+    };
   } catch (err) {
     return failAuth(err);
   }
@@ -385,7 +423,37 @@ export async function handleSaveStory(data: Parameters<typeof saveCmsStory>[0]) 
   }
 }
 
-export async function handlePublish(data: { type: "stats" | "logos" | "stories" | "team"; id: number }) {
+export async function handleListCareerJobs(filters: CmsListFilters) {
+  try {
+    await requireSessionUser();
+    if (!isDbConfigured()) {
+      const rows = filterMock(mockCareerJobs, filters, (r) =>
+        !filters.q ||
+        [r.titleEn, r.titleHi, r.slug, r.deptEn].some((f) =>
+          f.toLowerCase().includes(filters.q!.toLowerCase()),
+        ),
+      );
+      return { ok: true as const, items: rows, dbConfigured: false };
+    }
+    const items = await listCmsCareerJobs(filters);
+    return { ok: true as const, items, dbConfigured: true };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveCareerJob(data: Parameters<typeof saveCmsCareerJob>[0]) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const item = await saveCmsCareerJob(data);
+    return { ok: true as const, item };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handlePublish(data: { type: "stats" | "logos" | "stories" | "team" | "careerJobs"; id: number }) {
   try {
     assertSameOrigin();
     await requireEditor();
@@ -397,7 +465,9 @@ export async function handlePublish(data: { type: "stats" | "logos" | "stories" 
             ? mockLogos
             : data.type === "stories"
               ? mockStories
-              : mockTeam;
+              : data.type === "team"
+                ? mockTeam
+                : mockCareerJobs;
       const idx = store.findIndex((r) => r.id === data.id);
       if (idx < 0) return { ok: false as const, error: "Item not found." };
       const row = store[idx]!;
@@ -420,14 +490,19 @@ export async function handlePublish(data: { type: "stats" | "logos" | "stories" 
           ? await publishCmsLogo(data.id)
           : data.type === "stories"
             ? await publishCmsStory(data.id)
-            : await publishCmsTeamMember(data.id);
+            : data.type === "team"
+              ? await publishCmsTeamMember(data.id)
+              : await publishCmsCareerJob(data.id);
     return { ok: true as const, item };
   } catch (err) {
     return failAuth(err);
   }
 }
 
-export async function handleUnpublish(data: { type: "stats" | "logos" | "stories" | "team"; id: number }) {
+export async function handleUnpublish(data: {
+  type: "stats" | "logos" | "stories" | "team" | "careerJobs";
+  id: number;
+}) {
   try {
     assertSameOrigin();
     await requireEditor();
@@ -439,7 +514,9 @@ export async function handleUnpublish(data: { type: "stats" | "logos" | "stories
             ? mockLogos
             : data.type === "stories"
               ? mockStories
-              : mockTeam;
+              : data.type === "team"
+                ? mockTeam
+                : mockCareerJobs;
       const idx = store.findIndex((r) => r.id === data.id);
       if (idx < 0) return { ok: false as const, error: "Item not found." };
       store[idx] = { ...store[idx]!, status: "draft" };
@@ -452,14 +529,19 @@ export async function handleUnpublish(data: { type: "stats" | "logos" | "stories
           ? await unpublishCmsLogo(data.id)
           : data.type === "stories"
             ? await unpublishCmsStory(data.id)
-            : await unpublishCmsTeamMember(data.id);
+            : data.type === "team"
+              ? await unpublishCmsTeamMember(data.id)
+              : await unpublishCmsCareerJob(data.id);
     return { ok: true as const, item };
   } catch (err) {
     return failAuth(err);
   }
 }
 
-export async function handleArchive(data: { type: "stats" | "logos" | "stories" | "team"; id: number }) {
+export async function handleArchive(data: {
+  type: "stats" | "logos" | "stories" | "team" | "careerJobs";
+  id: number;
+}) {
   try {
     assertSameOrigin();
     await requireEditor();
@@ -471,7 +553,9 @@ export async function handleArchive(data: { type: "stats" | "logos" | "stories" 
             ? mockLogos
             : data.type === "stories"
               ? mockStories
-              : mockTeam;
+              : data.type === "team"
+                ? mockTeam
+                : mockCareerJobs;
       const idx = store.findIndex((r) => r.id === data.id);
       if (idx < 0) return { ok: false as const, error: "Item not found." };
       store[idx] = { ...store[idx]!, status: "archived" };
@@ -480,7 +564,8 @@ export async function handleArchive(data: { type: "stats" | "logos" | "stories" 
     if (data.type === "stats") await archiveCmsStat(data.id);
     else if (data.type === "logos") await archiveCmsLogo(data.id);
     else if (data.type === "stories") await archiveCmsStory(data.id);
-    else await archiveCmsTeamMember(data.id);
+    else if (data.type === "team") await archiveCmsTeamMember(data.id);
+    else await archiveCmsCareerJob(data.id);
     return { ok: true as const };
   } catch (err) {
     return failAuth(err);
@@ -488,7 +573,7 @@ export async function handleArchive(data: { type: "stats" | "logos" | "stories" 
 }
 
 export async function handleReorder(data: {
-  type: "stats" | "logos" | "stories" | "team";
+  type: "stats" | "logos" | "stories" | "team" | "careerJobs";
   ids: number[];
 }) {
   try {
@@ -502,7 +587,9 @@ export async function handleReorder(data: {
             ? mockLogos
             : data.type === "stories"
               ? mockStories
-              : mockTeam;
+              : data.type === "team"
+                ? mockTeam
+                : mockCareerJobs;
       data.ids.forEach((id, order) => {
         const idx = store.findIndex((r) => r.id === id);
         if (idx >= 0) store[idx] = { ...store[idx]!, sortOrder: order };
@@ -513,7 +600,8 @@ export async function handleReorder(data: {
     if (data.type === "stats") await reorderCmsStats(data.ids);
     else if (data.type === "logos") await reorderCmsLogos(data.ids);
     else if (data.type === "stories") await reorderCmsStories(data.ids);
-    else await reorderCmsTeam(data.ids);
+    else if (data.type === "team") await reorderCmsTeam(data.ids);
+    else await reorderCmsCareerJobs(data.ids);
     return { ok: true as const };
   } catch (err) {
     return failAuth(err);
@@ -641,6 +729,35 @@ export async function handleSaveKisaanMallLanding(landing: KisaanMallLanding) {
     await requireEditor();
     const saved = await saveKisaanMallLanding(landing);
     return { ok: true as const, landing: saved };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetCareersAdmin() {
+  try {
+    await requireSessionUser();
+    const content = await fetchCareersPage();
+    const jobs = await listCmsCareerJobs({ status: "all" });
+    const applications = await listCareerApplications();
+    return {
+      ok: true as const,
+      content,
+      jobs,
+      applications,
+      dbConfigured: isDbConfigured(),
+    };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveCareersPage(content: CareersPageContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveCareersPage(content);
+    return { ok: true as const, content: saved };
   } catch (err) {
     return failAuth(err);
   }

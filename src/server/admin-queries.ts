@@ -83,6 +83,21 @@ const ADMIN_TABLE_SQL = [
     INDEX idx_newsletter_source_created (source_page, created_at),
     INDEX idx_newsletter_contact (contact, source_page)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+  `CREATE TABLE IF NOT EXISTS career_applications (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    job_slug VARCHAR(64) NOT NULL,
+    job_title VARCHAR(200) NOT NULL,
+    name VARCHAR(160) NOT NULL,
+    phone VARCHAR(32) NOT NULL,
+    email VARCHAR(160) NOT NULL,
+    experience_band VARCHAR(80) NOT NULL DEFAULT '',
+    crop_experience VARCHAR(500) NOT NULL DEFAULT '',
+    resume_url VARCHAR(512) NOT NULL,
+    ip_hash CHAR(64) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_career_apps_created (created_at),
+    INDEX idx_career_apps_job (job_slug)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
 ];
 
 let adminSchemaReady = false;
@@ -703,6 +718,108 @@ export async function listNewsletterSignups(
     contact: String(row.contact),
     contact_type: row.contact_type as "email" | "phone",
     source_page: String(row.source_page),
+    created_at:
+      row.created_at instanceof Date
+        ? row.created_at.toISOString()
+        : String(row.created_at ?? new Date().toISOString()),
+  }));
+}
+
+export type CareerApplicationRow = {
+  id: number;
+  job_slug: string;
+  job_title: string;
+  name: string;
+  phone: string;
+  email: string;
+  experience_band: string;
+  crop_experience: string;
+  resume_url: string;
+  created_at: string;
+};
+
+let careerAppsSchemaReady = false;
+
+export async function ensureCareerApplicationsSchema() {
+  if (!isDbConfigured()) return;
+  await ensureAdminSchema();
+  if (careerAppsSchemaReady) return;
+  const db = await getDbPool();
+  await db.query(
+    `CREATE TABLE IF NOT EXISTS career_applications (
+      id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      job_slug VARCHAR(64) NOT NULL,
+      job_title VARCHAR(200) NOT NULL,
+      name VARCHAR(160) NOT NULL,
+      phone VARCHAR(32) NOT NULL,
+      email VARCHAR(160) NOT NULL,
+      experience_band VARCHAR(80) NOT NULL DEFAULT '',
+      crop_experience VARCHAR(500) NOT NULL DEFAULT '',
+      resume_url VARCHAR(512) NOT NULL,
+      ip_hash CHAR(64) NULL,
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      INDEX idx_career_apps_created (created_at),
+      INDEX idx_career_apps_job (job_slug)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+  );
+  careerAppsSchemaReady = true;
+}
+
+export async function insertCareerApplication(input: {
+  job_slug: string;
+  job_title: string;
+  name: string;
+  phone: string;
+  email: string;
+  experience_band: string;
+  crop_experience: string;
+  resume_url: string;
+  ip_hash: string;
+}) {
+  const db = await getDbPool();
+  await db.query(
+    `INSERT INTO career_applications
+     (job_slug, job_title, name, phone, email, experience_band, crop_experience, resume_url, ip_hash)
+     VALUES (:job_slug, :job_title, :name, :phone, :email, :experience_band, :crop_experience, :resume_url, :ip_hash)`,
+    input,
+  );
+}
+
+export async function countCareerApplications(): Promise<number> {
+  if (!isDbConfigured()) {
+    const { mockCareerApplications } = await import("@/server/cms-memory");
+    return mockCareerApplications.length;
+  }
+  await ensureCareerApplicationsSchema();
+  const db = await getDbPool();
+  const [rows] = await db.query(`SELECT COUNT(*) AS c FROM career_applications`);
+  return Number((rows as Array<{ c: number }>)[0]?.c ?? 0);
+}
+
+export async function listCareerApplications(limit = 200): Promise<CareerApplicationRow[]> {
+  if (!isDbConfigured()) {
+    const { mockCareerApplications } = await import("@/server/cms-memory");
+    return mockCareerApplications.slice(0, limit);
+  }
+  await ensureCareerApplicationsSchema();
+  const db = await getDbPool();
+  const [rows] = await db.query(
+    `SELECT id, job_slug, job_title, name, phone, email, experience_band, crop_experience, resume_url, created_at
+     FROM career_applications
+     ORDER BY created_at DESC
+     LIMIT :limit`,
+    { limit },
+  );
+  return (rows as Array<Record<string, unknown>>).map((row) => ({
+    id: Number(row.id),
+    job_slug: String(row.job_slug),
+    job_title: String(row.job_title),
+    name: String(row.name),
+    phone: String(row.phone),
+    email: String(row.email),
+    experience_band: String(row.experience_band ?? ""),
+    crop_experience: String(row.crop_experience ?? ""),
+    resume_url: String(row.resume_url),
     created_at:
       row.created_at instanceof Date
         ? row.created_at.toISOString()

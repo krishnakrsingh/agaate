@@ -4,7 +4,15 @@ import {
   getFallbackSeedStories,
 } from "@/data/homepage-fallback";
 import { getFallbackSeedTeam } from "@/data/team-fallback";
-import type { CmsLogoRow, CmsStatRow, CmsStoryRow, CmsTeamMemberRow, CmsSiteConfig } from "@/lib/cms-types";
+import type {
+  CmsLogoRow,
+  CmsStatRow,
+  CmsStoryRow,
+  CmsTeamMemberRow,
+  CmsCareerJobRow,
+  CmsSiteConfig,
+} from "@/lib/cms-types";
+import { getFallbackSeedCareerJobs } from "@/data/careers-fallback";
 import { DEFAULT_CMS_SITE_CONFIG } from "@/lib/cms-types";
 
 export let mockStats: CmsStatRow[] = getFallbackSeedStats().map((s, i) => ({
@@ -79,6 +87,72 @@ export type MockNewsletterSignup = {
 };
 
 export let mockNewsletterSignups: MockNewsletterSignup[] = [];
+
+export let mockCareerJobs: CmsCareerJobRow[] = getFallbackSeedCareerJobs().map((j, i) => ({
+  id: i + 1,
+  slug: j.slug,
+  titleEn: j.titleEn,
+  titleHi: j.titleHi,
+  deptEn: j.deptEn,
+  deptHi: j.deptHi,
+  departmentCategory: j.departmentCategory,
+  locEn: j.locEn,
+  locHi: j.locHi,
+  typeEn: j.typeEn,
+  typeHi: j.typeHi,
+  descEn: j.descEn,
+  descHi: j.descHi,
+  experienceLevelEn: j.experienceLevelEn,
+  experienceLevelHi: j.experienceLevelHi,
+  highlightsEn: j.highlightsEn,
+  highlightsHi: j.highlightsHi,
+  reqsEn: j.reqsEn,
+  reqsHi: j.reqsHi,
+  responsibilitiesEn: j.responsibilitiesEn,
+  responsibilitiesHi: j.responsibilitiesHi,
+  sortOrder: j.sortOrder,
+  status: "published" as const,
+  livePayload: {
+    slug: j.slug,
+    titleEn: j.titleEn,
+    titleHi: j.titleHi,
+    deptEn: j.deptEn,
+    deptHi: j.deptHi,
+    departmentCategory: j.departmentCategory,
+    locEn: j.locEn,
+    locHi: j.locHi,
+    typeEn: j.typeEn,
+    typeHi: j.typeHi,
+    descEn: j.descEn,
+    descHi: j.descHi,
+    experienceLevelEn: j.experienceLevelEn,
+    experienceLevelHi: j.experienceLevelHi,
+    highlightsEn: j.highlightsEn,
+    highlightsHi: j.highlightsHi,
+    reqsEn: j.reqsEn,
+    reqsHi: j.reqsHi,
+    responsibilitiesEn: j.responsibilitiesEn,
+    responsibilitiesHi: j.responsibilitiesHi,
+  },
+  publishedAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  hasUnpublishedChanges: false,
+}));
+
+export type MockCareerApplication = {
+  id: number;
+  job_slug: string;
+  job_title: string;
+  name: string;
+  phone: string;
+  email: string;
+  experience_band: string;
+  crop_experience: string;
+  resume_url: string;
+  created_at: string;
+};
+
+export let mockCareerApplications: MockCareerApplication[] = [];
 
 export let mockTeam: CmsTeamMemberRow[] = getFallbackSeedTeam().map((m, i) => ({
   id: i + 1,

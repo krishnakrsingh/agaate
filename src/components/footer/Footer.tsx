@@ -9,7 +9,7 @@ import {
   YoutubeLogo,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
-import { getLocalizedPath } from "@/lib/i18n";
+import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { COMPANY_LINKS, EXPLORE_LINKS, SOCIAL_LINKS, CONTACT_DETAILS } from "./footer-data";
 
@@ -85,7 +85,21 @@ export function Footer() {
           {/* Brand Column */}
           <div className="flex flex-col justify-between lg:col-span-5">
             <div className="text-left">
-              <Link to={getLocalizedPath("/", currentLang) as any}>
+              <Link
+                to={getLocalizedPath("/", currentLang) as any}
+                hash="hero"
+                onClick={() => {
+                  const strippedPath = stripLocalePrefix(location.pathname);
+                  if (strippedPath === "/") {
+                    const heroEl = document.getElementById("hero");
+                    if (heroEl) {
+                      heroEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                    } else {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }
+                }}
+              >
                 <img
                   src="/logo.svg"
                   alt="Agaate Logo"
