@@ -11,6 +11,7 @@ import {
   BarChart2,
   UsersRound,
   Smartphone,
+  MapPin,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -83,6 +84,10 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
       { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park video", icon: Video },
     ],
+  },
+  {
+    group: "Inquiries",
+    items: [{ to: "/agaate-admin/farm-visits", label: "Farm Visits", icon: MapPin }],
   },
   {
     group: "Configuration",
