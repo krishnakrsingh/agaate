@@ -92,7 +92,7 @@ export default function PillarMall() {
             {/* CTA Button */}
             <div>
               <SlideUpPillButton
-                href="/services#kisaan-mall"
+                href="/kisaan-mall"
                 variant="dark"
                 size="md"
                 label="Browse Agaate Mall"

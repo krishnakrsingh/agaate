@@ -8,8 +8,9 @@ import SectionHero from "@/components/sections/SectionHero";
 import {
   SectionStatsMarquee,
   PillarsHorizontalParallax,
-  AppChapter,
   MallChapter,
+  PillarMarket,
+  AppChapter,
   AgriParkChapter,
   BrandsAssociationsChapter,
   PeopleChapter,
@@ -100,9 +101,10 @@ function Index() {
           <>
             <SectionStatsMarquee stats={cms.stats} />
             <PillarsHorizontalParallax />
-            <AppChapter />
             <MallChapter />
-            <AgriParkChapter />
+            <AppChapter appLinks={cms.appLinks} />
+            <PillarMarket buyers={cms.logos?.buyers} />
+            <AgriParkChapter agriParkTour={cms.agriParkTour} />
             <BrandsAssociationsChapter brands={cms.logos} />
             <PeopleChapter teamCms={teamCms} />
             <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />

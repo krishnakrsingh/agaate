@@ -73,9 +73,35 @@ export const DEFAULT_ADMIN_SETTINGS = {
     "Hello {{name}},\n\nThank you for contacting Agaate ({{ticket}}).\n\n{{notes}}\n\nBest regards,\nAgaate Team",
   priorityRules:
     "Mark as Urgent for Big Farm Setup or overdue follow-ups. High for nursery pre-orders over 15 acres.",
+  contactNotificationEmail: "info@agaate.in",
+  contactEmailSubject: "New consultation request — {{ticket}}",
+  smtp: {
+    host: "",
+    port: 587,
+    secure: false,
+    user: "",
+    pass: "",
+    fromEmail: "info@agaate.in",
+    fromName: "Agaate Website",
+  },
 };
 
 export type AdminSettingsPayload = typeof DEFAULT_ADMIN_SETTINGS;
+
+export type AdminSettingsForClient = Omit<AdminSettingsPayload, "smtp"> & {
+  smtp: Omit<AdminSettingsPayload["smtp"], "pass"> & { passConfigured: boolean };
+};
+
+export function sanitizeSettingsForClient(settings: AdminSettingsPayload): AdminSettingsForClient {
+  const { pass, ...smtpRest } = settings.smtp;
+  return {
+    ...settings,
+    smtp: {
+      ...smtpRest,
+      passConfigured: Boolean(pass),
+    },
+  };
+}
 
 export function interpolateTemplate(
   template: string,

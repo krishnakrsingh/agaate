@@ -93,6 +93,13 @@ export const saveAdminSettings = createServerFn({ method: "POST" })
     return mod.handleSaveSettings(data);
   });
 
+export const sendAdminTestEmail = createServerFn({ method: "POST" })
+  .validator((data: { to?: string } | undefined) => data ?? {})
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-contacts.server");
+    return mod.handleSendTestEmail(data?.to);
+  });
+
 export const saveAdminCategory = createServerFn({ method: "POST" })
   .validator(
     (data: {

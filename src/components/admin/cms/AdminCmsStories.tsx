@@ -169,7 +169,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
         <div>
           <h1 className="text-2xl font-bold">Farmer testimonials</h1>
           <p className="text-sm text-muted-foreground">
-            Video shorts and farmer reviews shared across the website.
+            Video shorts and written quotes for the homepage farmer stories section. Publish to update the rotating testimonial card and video reels.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

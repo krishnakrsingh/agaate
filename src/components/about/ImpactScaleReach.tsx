@@ -136,7 +136,7 @@ export default function ImpactScaleReach() {
 
             <div className="pt-2">
               <SlideUpPillButton
-                to={getLocalizedPath("/services", currentLang)}
+                to={getLocalizedPath("/", currentLang)}
                 variant="dark"
                 size="md"
                 label="Explore Agri Services"

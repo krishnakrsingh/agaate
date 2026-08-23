@@ -18,12 +18,16 @@ import {
   reorderCmsLogos,
   reorderCmsStats,
   reorderCmsStories,
+  saveAppLinks,
   saveCmsLogo,
   saveCmsStat,
   saveCmsStory,
   unpublishCmsLogo,
   unpublishCmsStat,
   unpublishCmsStory,
+  fetchAppLinks,
+  fetchAgriParkTour,
+  saveAgriParkTour,
 } from "@/server/cms-queries";
 import {
   archiveCmsTeamMember,
@@ -33,7 +37,7 @@ import {
   saveCmsTeamMember,
   unpublishCmsTeamMember,
 } from "@/server/cms-team-queries";
-import type { CmsListFilters } from "@/lib/cms-types";
+import type { CmsListFilters, HomeCmsAppLinks, HomeCmsAgriParkTour } from "@/lib/cms-types";
 import { mockLogos, mockStats, mockStories, mockTeam } from "@/server/cms-memory";
 
 function failAuth(err: unknown) {
@@ -559,6 +563,48 @@ export async function handleTranslateToHindi(texts: string[]) {
     const { translateTextsEnToHi } = await import("@/server/cms-translate");
     const translations = await translateTextsEnToHi(texts);
     return { ok: true as const, translations };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetAppLinks() {
+  try {
+    await requireSessionUser();
+    const appLinks = await fetchAppLinks();
+    return { ok: true as const, appLinks, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveAppLinks(links: HomeCmsAppLinks) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const appLinks = await saveAppLinks(links);
+    return { ok: true as const, appLinks };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetAgriParkTour() {
+  try {
+    await requireSessionUser();
+    const agriParkTour = await fetchAgriParkTour();
+    return { ok: true as const, agriParkTour, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveAgriParkTour(tour: HomeCmsAgriParkTour) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const agriParkTour = await saveAgriParkTour(tour);
+    return { ok: true as const, agriParkTour };
   } catch (err) {
     return failAuth(err);
   }

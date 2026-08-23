@@ -9,8 +9,6 @@ import {
   WhatsappLogo,
   SpeakerHigh,
   SpeakerSlash,
-  Star,
-  ShieldCheck,
   Plant,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
@@ -22,6 +20,7 @@ import {
   type FarmerShortItem,
 } from "@/data/farmerShortsData";
 import type { HomeCmsStory } from "@/lib/cms-types";
+import { RotatingTestimonialCard } from "./RotatingTestimonialCard";
 
 export default function FarmerShortsShowcase({
   storiesEn,
@@ -148,139 +147,43 @@ export default function FarmerShortsShowcase({
       </div>
 
       {/* ── 2. Split Content: Subtexts/Metrics on Left & Video Track on Right ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-        {/* Left Subtext, Ground Proof & Social Trust (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col space-y-4">
-          <p className="font-sans text-[#4f624f] text-base md:text-[17px] leading-relaxed font-normal">
-            {isHindi
-              ? "हरियाणा और एनसीआर के प्रगतिशील किसानों के वास्तविक वीडियो अनुभव — बायो-बूस्टेड नर्सरी पौध जमाव, सटीक खाद और सीधी बिक्री के वास्तविक नतीजे।"
-              : "Watch authentic video shorts from progressive growers across Haryana & NCR sharing their lived results on survival rates, crop yield, and input savings."}
-          </p>
-
-          {/* 2x2 Impact Numbers Matrix Card */}
-          <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-white border border-[#143d31]/10 shadow-xs">
-            <div className="space-y-0.5">
-              <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                98%
-              </p>
-              <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                {isHindi ? "पौध जमाव दर" : "Plug Survival"}
-              </p>
-              <p className="font-sans text-[11px] text-[#4f624f]/80">
-                {isHindi ? "बायो-बूस्टेड प्लग पौध" : "Bio-boosted seedlings"}
-              </p>
-            </div>
-
-            <div className="space-y-0.5 border-l border-[#143d31]/10 pl-3">
-              <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                2,000+
-              </p>
-              <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                {isHindi ? "जुड़े किसान" : "Farmers Enrolled"}
-              </p>
-              <p className="font-sans text-[11px] text-[#4f624f]/80">
-                {isHindi ? "हरियाणा व एनसीआर क्षेत्र" : "Across North India"}
-              </p>
-            </div>
-
-            <div className="space-y-0.5 border-t border-[#143d31]/10 pt-2.5">
-              <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                ₹85K+
-              </p>
-              <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                {isHindi ? "औसत बचत / सीजन" : "Avg. Saved / Season"}
-              </p>
-              <p className="font-sans text-[11px] text-[#4f624f]/80">
-                {isHindi ? "अनावश्यक स्प्रे पर बचत" : "Reduced input waste"}
-              </p>
-            </div>
-
-            <div className="space-y-0.5 border-t border-l border-[#143d31]/10 pt-2.5 pl-3">
-              <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                15,000+
-              </p>
-              <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                {isHindi ? "एकड़ निगरानी" : "Acres Monitored"}
-              </p>
-              <p className="font-sans text-[11px] text-[#4f624f]/80">
-                {isHindi ? "वैज्ञानिक फील्ड विजिट्स" : "Agronomist visits"}
-              </p>
-            </div>
-          </div>
-
-          {/* Farmer Community Social Proof / Rating Strip */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 border border-[#143d31]/10 shadow-xs">
-            <div className="flex items-center gap-2.5">
-              <div className="flex -space-x-2 shrink-0">
-                <img
-                  src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=120&q=80"
-                  alt="Rajesh Yadav"
-                  className="h-7 w-7 rounded-full border-2 border-white object-cover"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=120&q=80"
-                  alt="Sunita Devi"
-                  className="h-7 w-7 rounded-full border-2 border-white object-cover"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=120&q=80"
-                  alt="Rameshwar Singh"
-                  className="h-7 w-7 rounded-full border-2 border-white object-cover"
-                />
-                <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-[#143d31] text-[9px] font-bold text-white">
-                  +2k
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-3 w-3 text-amber-500" weight="fill" />
-                  ))}
-                  <span className="font-mono text-[11px] font-bold text-[#143d31] ml-0.5">
-                    4.9 / 5
-                  </span>
-                </div>
-                <p className="font-sans text-[11px] text-[#4f624f]">
-                  {isHindi ? "प्रगतिशील किसानों का भरोसा" : "Verified Farmer Trust"}
-                </p>
-              </div>
-            </div>
-
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#5d7d37]/15 px-2.5 py-1 font-mono text-[10px] font-bold text-[#3e5920]">
-              <ShieldCheck className="h-3 w-3 text-[#5d7d37]" weight="fill" />
-              <span>{isHindi ? "सत्यापित" : "Field Verified"}</span>
-            </span>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+        {/* Left: single auto-rotating testimonial card (CMS-driven) */}
+        <div className="lg:col-span-5 flex flex-col justify-stretch">
+          <RotatingTestimonialCard
+            stories={shortsData}
+            tapHint={isHindi ? "अगली कहानी के लिए टैप करें" : "Tap for next story"}
+          />
         </div>
 
         {/* Right Horizontal Scrolling Video Reels (7 Cols) */}
-        <div className="lg:col-span-7 min-w-0 relative">
+        <div className="lg:col-span-7 min-w-0 relative flex flex-col justify-stretch">
           <div
             ref={scrollContainerRef}
-            className="flex gap-4 sm:gap-5 overflow-x-auto pb-2 pt-0.5 snap-x snap-mandatory scrollbar-none"
+            className="flex gap-4 sm:gap-5 overflow-x-auto pb-1 pt-0.5 snap-x snap-mandatory scrollbar-none"
             style={{ scrollbarWidth: "none" }}
           >
             {shortsData.map((short) => (
               <div
                 key={short.id}
                 onClick={() => handleOpenShort(short)}
-                className="group relative w-[210px] sm:w-[230px] md:w-[240px] shrink-0 h-[350px] sm:h-[370px] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 snap-start border border-[#143d31]/15 bg-[#143d31]"
+                className="group relative w-[215px] sm:w-[235px] md:w-[245px] shrink-0 h-[380px] sm:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 snap-start border border-[#143d31]/15 bg-[#0e2720]"
               >
                 {/* Poster Image */}
                 <img
                   src={short.thumbnail}
                   alt={short.name}
-                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  className="h-full w-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                 />
 
                 {/* Gradient Scrim */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent" />
 
                 {/* Top Badge Pill */}
                 {short.badge && (
-                  <div className="absolute top-3 right-3 z-10">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#143d31]/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#a3e635] border border-[#a3e635]/30 shadow-xs">
-                      <Plant className="h-2.5 w-2.5" weight="fill" />
+                  <div className="absolute top-3.5 right-3.5 z-10">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[10.5px] font-mono font-bold text-[#a3e635] border border-white/15 shadow-sm">
+                      <Plant className="h-3 w-3" weight="fill" />
                       <span>{short.badge}</span>
                     </span>
                   </div>
@@ -288,43 +191,43 @@ export default function FarmerShortsShowcase({
 
                 {/* Center Play Icon */}
                 <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/25 backdrop-blur-md border border-white/40 text-white shadow-md group-hover:scale-110 group-hover:bg-[#a3e635] group-hover:text-[#143d31] transition-all duration-200">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white shadow-lg group-hover:scale-115 group-hover:bg-[#a3e635] group-hover:text-[#143d31] transition-all duration-300">
                     <Play className="h-5 w-5 ml-0.5" weight="fill" />
                   </div>
                 </div>
 
                 {/* Bottom Content Overlay */}
-                <div className="absolute bottom-0 inset-x-0 p-4 z-10 space-y-1 text-white">
+                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-4.5 z-10 space-y-1.5 text-white">
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <p className="font-display text-sm font-bold text-white leading-tight truncate">
+                      <p className="font-display text-[15px] font-bold text-white leading-tight truncate">
                         {short.name}
                       </p>
-                      <CheckCircle className="h-3 w-3 text-[#a3e635] shrink-0" weight="fill" />
+                      <CheckCircle className="h-3.5 w-3.5 text-[#a3e635] shrink-0" weight="fill" />
                     </div>
-                    <p className="font-sans text-[10px] text-white/80 truncate">
+                    <p className="font-sans text-[11px] text-white/80 truncate mt-0.5">
                       {short.location} · {short.acres}
                     </p>
                   </div>
 
                   {/* Crop Tag */}
-                  <div className="pt-0.5">
-                    <span className="inline-block text-[10px] font-mono font-medium text-[#a3e635]/90 truncate">
+                  <div>
+                    <span className="inline-block text-[11px] font-mono font-semibold text-[#a3e635] truncate">
                       🌱 {short.crop}
                     </span>
                   </div>
 
                   {/* Quote Snippet */}
-                  <p className="font-sans text-[11px] text-white/90 line-clamp-1 leading-snug font-normal italic pt-0.5">
+                  <p className="font-sans text-xs text-white/90 line-clamp-2 leading-snug font-normal italic">
                     "{short.quote}"
                   </p>
 
                   {/* Watch Action Pill */}
-                  <div className="pt-1 flex items-center justify-between text-[10px] font-mono font-bold text-[#a3e635]">
-                    <span className="group-hover:underline flex items-center gap-0.5">
+                  <div className="pt-1.5 flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/15 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-mono font-bold text-white group-hover:bg-[#a3e635] group-hover:text-[#143d31] transition-colors border border-white/20">
                       {isHindi ? "वीडियो देखें" : "Watch Reel"} ▶
                     </span>
-                    <span className="text-white/60 text-[9px]">{short.role}</span>
+                    <span className="text-white/60 text-[10px] truncate max-w-[90px]">{short.role}</span>
                   </div>
                 </div>
               </div>

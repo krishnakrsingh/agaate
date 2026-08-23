@@ -4,7 +4,8 @@ import {
   getFallbackSeedStories,
 } from "@/data/homepage-fallback";
 import { getFallbackSeedTeam } from "@/data/team-fallback";
-import type { CmsLogoRow, CmsStatRow, CmsStoryRow, CmsTeamMemberRow } from "@/lib/cms-types";
+import type { CmsLogoRow, CmsStatRow, CmsStoryRow, CmsTeamMemberRow, CmsSiteConfig } from "@/lib/cms-types";
+import { DEFAULT_CMS_SITE_CONFIG } from "@/lib/cms-types";
 
 export let mockStats: CmsStatRow[] = getFallbackSeedStats().map((s, i) => ({
   id: i + 1,
@@ -66,6 +67,8 @@ export let mockStories: CmsStoryRow[] = getFallbackSeedStories().map((s, i) => (
   updatedAt: new Date().toISOString(),
   hasUnpublishedChanges: false,
 }));
+
+export let mockSiteConfig: CmsSiteConfig = { ...DEFAULT_CMS_SITE_CONFIG };
 
 export let mockTeam: CmsTeamMemberRow[] = getFallbackSeedTeam().map((m, i) => ({
   id: i + 1,

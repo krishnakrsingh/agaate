@@ -23,22 +23,15 @@ import { Route as Char123LocaleChar125AgriParkRouteImport } from './routes/{-$lo
 import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
 import { Route as AgaateAdminLoginRouteImport } from './routes/agaate-admin/login'
 import { Route as AgaateAdminAuthedRouteRouteImport } from './routes/agaate-admin/_authed/route'
-import { Route as Char123LocaleChar125ServicesIndexRouteImport } from './routes/{-$locale}/services/index'
 import { Route as AgaateAdminAuthedIndexRouteImport } from './routes/agaate-admin/_authed/index'
 import { Route as AgaateAdminAuthedSettingsRouteImport } from './routes/agaate-admin/_authed/settings'
-import { Route as AgaateAdminAuthedNotificationsRouteImport } from './routes/agaate-admin/_authed/notifications'
-import { Route as AgaateAdminAuthedFarmVisitsRouteImport } from './routes/agaate-admin/_authed/farm-visits'
-import { Route as AgaateAdminAuthedCustomersRouteImport } from './routes/agaate-admin/_authed/customers'
-import { Route as AgaateAdminAuthedConsultationsRouteImport } from './routes/agaate-admin/_authed/consultations'
-import { Route as AgaateAdminAuthedAnalyticsRouteImport } from './routes/agaate-admin/_authed/analytics'
-import { Route as AgaateAdminAuthedAgronomistsRouteImport } from './routes/agaate-admin/_authed/agronomists'
 import { Route as AgaateAdminAuthedContentIndexRouteImport } from './routes/agaate-admin/_authed/content/index'
-import { Route as AgaateAdminAuthedContactsIndexRouteImport } from './routes/agaate-admin/_authed/contacts/index'
 import { Route as AgaateAdminAuthedContentTeamRouteImport } from './routes/agaate-admin/_authed/content/team'
 import { Route as AgaateAdminAuthedContentStoriesRouteImport } from './routes/agaate-admin/_authed/content/stories'
 import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaate-admin/_authed/content/stats'
 import { Route as AgaateAdminAuthedContentLogosRouteImport } from './routes/agaate-admin/_authed/content/logos'
-import { Route as AgaateAdminAuthedContactsIdRouteImport } from './routes/agaate-admin/_authed/contacts/$id'
+import { Route as AgaateAdminAuthedContentAppLinksRouteImport } from './routes/agaate-admin/_authed/content/app-links'
+import { Route as AgaateAdminAuthedContentAgriParkTourRouteImport } from './routes/agaate-admin/_authed/content/agri-park-tour'
 
 const Char123LocaleChar125RouteRoute =
   Char123LocaleChar125RouteRouteImport.update({
@@ -120,12 +113,6 @@ const AgaateAdminAuthedRouteRoute = AgaateAdminAuthedRouteRouteImport.update({
   id: '/_authed',
   getParentRoute: () => AgaateAdminRouteRoute,
 } as any)
-const Char123LocaleChar125ServicesIndexRoute =
-  Char123LocaleChar125ServicesIndexRouteImport.update({
-    id: '/services/',
-    path: '/services/',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
 const AgaateAdminAuthedIndexRoute = AgaateAdminAuthedIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -137,52 +124,10 @@ const AgaateAdminAuthedSettingsRoute =
     path: '/settings',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
-const AgaateAdminAuthedNotificationsRoute =
-  AgaateAdminAuthedNotificationsRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
-const AgaateAdminAuthedFarmVisitsRoute =
-  AgaateAdminAuthedFarmVisitsRouteImport.update({
-    id: '/farm-visits',
-    path: '/farm-visits',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
-const AgaateAdminAuthedCustomersRoute =
-  AgaateAdminAuthedCustomersRouteImport.update({
-    id: '/customers',
-    path: '/customers',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
-const AgaateAdminAuthedConsultationsRoute =
-  AgaateAdminAuthedConsultationsRouteImport.update({
-    id: '/consultations',
-    path: '/consultations',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
-const AgaateAdminAuthedAnalyticsRoute =
-  AgaateAdminAuthedAnalyticsRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
-const AgaateAdminAuthedAgronomistsRoute =
-  AgaateAdminAuthedAgronomistsRouteImport.update({
-    id: '/agronomists',
-    path: '/agronomists',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
 const AgaateAdminAuthedContentIndexRoute =
   AgaateAdminAuthedContentIndexRouteImport.update({
     id: '/content/',
     path: '/content/',
-    getParentRoute: () => AgaateAdminAuthedRouteRoute,
-  } as any)
-const AgaateAdminAuthedContactsIndexRoute =
-  AgaateAdminAuthedContactsIndexRouteImport.update({
-    id: '/contacts/',
-    path: '/contacts/',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
 const AgaateAdminAuthedContentTeamRoute =
@@ -209,10 +154,16 @@ const AgaateAdminAuthedContentLogosRoute =
     path: '/content/logos',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
-const AgaateAdminAuthedContactsIdRoute =
-  AgaateAdminAuthedContactsIdRouteImport.update({
-    id: '/contacts/$id',
-    path: '/contacts/$id',
+const AgaateAdminAuthedContentAppLinksRoute =
+  AgaateAdminAuthedContentAppLinksRouteImport.update({
+    id: '/content/app-links',
+    path: '/content/app-links',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedContentAgriParkTourRoute =
+  AgaateAdminAuthedContentAgriParkTourRouteImport.update({
+    id: '/content/agri-park-tour',
+    path: '/content/agri-park-tour',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
 
@@ -230,21 +181,14 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
-  '/agaate-admin/agronomists': typeof AgaateAdminAuthedAgronomistsRoute
-  '/agaate-admin/analytics': typeof AgaateAdminAuthedAnalyticsRoute
-  '/agaate-admin/consultations': typeof AgaateAdminAuthedConsultationsRoute
-  '/agaate-admin/customers': typeof AgaateAdminAuthedCustomersRoute
-  '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
-  '/agaate-admin/notifications': typeof AgaateAdminAuthedNotificationsRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/': typeof AgaateAdminAuthedIndexRoute
-  '/{-$locale}/services/': typeof Char123LocaleChar125ServicesIndexRoute
-  '/agaate-admin/contacts/$id': typeof AgaateAdminAuthedContactsIdRoute
+  '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
+  '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
   '/agaate-admin/content/team': typeof AgaateAdminAuthedContentTeamRoute
-  '/agaate-admin/contacts/': typeof AgaateAdminAuthedContactsIndexRoute
   '/agaate-admin/content/': typeof AgaateAdminAuthedContentIndexRoute
 }
 export interface FileRoutesByTo {
@@ -260,20 +204,13 @@ export interface FileRoutesByTo {
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
-  '/agaate-admin/agronomists': typeof AgaateAdminAuthedAgronomistsRoute
-  '/agaate-admin/analytics': typeof AgaateAdminAuthedAnalyticsRoute
-  '/agaate-admin/consultations': typeof AgaateAdminAuthedConsultationsRoute
-  '/agaate-admin/customers': typeof AgaateAdminAuthedCustomersRoute
-  '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
-  '/agaate-admin/notifications': typeof AgaateAdminAuthedNotificationsRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
-  '/{-$locale}/services': typeof Char123LocaleChar125ServicesIndexRoute
-  '/agaate-admin/contacts/$id': typeof AgaateAdminAuthedContactsIdRoute
+  '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
+  '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
   '/agaate-admin/content/team': typeof AgaateAdminAuthedContentTeamRoute
-  '/agaate-admin/contacts': typeof AgaateAdminAuthedContactsIndexRoute
   '/agaate-admin/content': typeof AgaateAdminAuthedContentIndexRoute
 }
 export interface FileRoutesById {
@@ -292,21 +229,14 @@ export interface FileRoutesById {
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
-  '/agaate-admin/_authed/agronomists': typeof AgaateAdminAuthedAgronomistsRoute
-  '/agaate-admin/_authed/analytics': typeof AgaateAdminAuthedAnalyticsRoute
-  '/agaate-admin/_authed/consultations': typeof AgaateAdminAuthedConsultationsRoute
-  '/agaate-admin/_authed/customers': typeof AgaateAdminAuthedCustomersRoute
-  '/agaate-admin/_authed/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
-  '/agaate-admin/_authed/notifications': typeof AgaateAdminAuthedNotificationsRoute
   '/agaate-admin/_authed/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/_authed/': typeof AgaateAdminAuthedIndexRoute
-  '/{-$locale}/services/': typeof Char123LocaleChar125ServicesIndexRoute
-  '/agaate-admin/_authed/contacts/$id': typeof AgaateAdminAuthedContactsIdRoute
+  '/agaate-admin/_authed/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
+  '/agaate-admin/_authed/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/_authed/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/_authed/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/_authed/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
   '/agaate-admin/_authed/content/team': typeof AgaateAdminAuthedContentTeamRoute
-  '/agaate-admin/_authed/contacts/': typeof AgaateAdminAuthedContactsIndexRoute
   '/agaate-admin/_authed/content/': typeof AgaateAdminAuthedContentIndexRoute
 }
 export interface FileRouteTypes {
@@ -325,21 +255,14 @@ export interface FileRouteTypes {
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
-    | '/agaate-admin/agronomists'
-    | '/agaate-admin/analytics'
-    | '/agaate-admin/consultations'
-    | '/agaate-admin/customers'
-    | '/agaate-admin/farm-visits'
-    | '/agaate-admin/notifications'
     | '/agaate-admin/settings'
     | '/agaate-admin/'
-    | '/{-$locale}/services/'
-    | '/agaate-admin/contacts/$id'
+    | '/agaate-admin/content/agri-park-tour'
+    | '/agaate-admin/content/app-links'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
     | '/agaate-admin/content/team'
-    | '/agaate-admin/contacts/'
     | '/agaate-admin/content/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -355,20 +278,13 @@ export interface FileRouteTypes {
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}'
-    | '/agaate-admin/agronomists'
-    | '/agaate-admin/analytics'
-    | '/agaate-admin/consultations'
-    | '/agaate-admin/customers'
-    | '/agaate-admin/farm-visits'
-    | '/agaate-admin/notifications'
     | '/agaate-admin/settings'
-    | '/{-$locale}/services'
-    | '/agaate-admin/contacts/$id'
+    | '/agaate-admin/content/agri-park-tour'
+    | '/agaate-admin/content/app-links'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
     | '/agaate-admin/content/team'
-    | '/agaate-admin/contacts'
     | '/agaate-admin/content'
   id:
     | '__root__'
@@ -386,21 +302,14 @@ export interface FileRouteTypes {
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
-    | '/agaate-admin/_authed/agronomists'
-    | '/agaate-admin/_authed/analytics'
-    | '/agaate-admin/_authed/consultations'
-    | '/agaate-admin/_authed/customers'
-    | '/agaate-admin/_authed/farm-visits'
-    | '/agaate-admin/_authed/notifications'
     | '/agaate-admin/_authed/settings'
     | '/agaate-admin/_authed/'
-    | '/{-$locale}/services/'
-    | '/agaate-admin/_authed/contacts/$id'
+    | '/agaate-admin/_authed/content/agri-park-tour'
+    | '/agaate-admin/_authed/content/app-links'
     | '/agaate-admin/_authed/content/logos'
     | '/agaate-admin/_authed/content/stats'
     | '/agaate-admin/_authed/content/stories'
     | '/agaate-admin/_authed/content/team'
-    | '/agaate-admin/_authed/contacts/'
     | '/agaate-admin/_authed/content/'
   fileRoutesById: FileRoutesById
 }
@@ -509,13 +418,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedRouteRouteImport
       parentRoute: typeof AgaateAdminRouteRoute
     }
-    '/{-$locale}/services/': {
-      id: '/{-$locale}/services/'
-      path: '/services'
-      fullPath: '/{-$locale}/services/'
-      preLoaderRoute: typeof Char123LocaleChar125ServicesIndexRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
     '/agaate-admin/_authed/': {
       id: '/agaate-admin/_authed/'
       path: '/'
@@ -530,60 +432,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedSettingsRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
-    '/agaate-admin/_authed/notifications': {
-      id: '/agaate-admin/_authed/notifications'
-      path: '/notifications'
-      fullPath: '/agaate-admin/notifications'
-      preLoaderRoute: typeof AgaateAdminAuthedNotificationsRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
-    '/agaate-admin/_authed/farm-visits': {
-      id: '/agaate-admin/_authed/farm-visits'
-      path: '/farm-visits'
-      fullPath: '/agaate-admin/farm-visits'
-      preLoaderRoute: typeof AgaateAdminAuthedFarmVisitsRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
-    '/agaate-admin/_authed/customers': {
-      id: '/agaate-admin/_authed/customers'
-      path: '/customers'
-      fullPath: '/agaate-admin/customers'
-      preLoaderRoute: typeof AgaateAdminAuthedCustomersRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
-    '/agaate-admin/_authed/consultations': {
-      id: '/agaate-admin/_authed/consultations'
-      path: '/consultations'
-      fullPath: '/agaate-admin/consultations'
-      preLoaderRoute: typeof AgaateAdminAuthedConsultationsRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
-    '/agaate-admin/_authed/analytics': {
-      id: '/agaate-admin/_authed/analytics'
-      path: '/analytics'
-      fullPath: '/agaate-admin/analytics'
-      preLoaderRoute: typeof AgaateAdminAuthedAnalyticsRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
-    '/agaate-admin/_authed/agronomists': {
-      id: '/agaate-admin/_authed/agronomists'
-      path: '/agronomists'
-      fullPath: '/agaate-admin/agronomists'
-      preLoaderRoute: typeof AgaateAdminAuthedAgronomistsRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
     '/agaate-admin/_authed/content/': {
       id: '/agaate-admin/_authed/content/'
       path: '/content'
       fullPath: '/agaate-admin/content/'
       preLoaderRoute: typeof AgaateAdminAuthedContentIndexRouteImport
-      parentRoute: typeof AgaateAdminAuthedRouteRoute
-    }
-    '/agaate-admin/_authed/contacts/': {
-      id: '/agaate-admin/_authed/contacts/'
-      path: '/contacts'
-      fullPath: '/agaate-admin/contacts/'
-      preLoaderRoute: typeof AgaateAdminAuthedContactsIndexRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
     '/agaate-admin/_authed/content/team': {
@@ -614,50 +467,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentLogosRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
-    '/agaate-admin/_authed/contacts/$id': {
-      id: '/agaate-admin/_authed/contacts/$id'
-      path: '/contacts/$id'
-      fullPath: '/agaate-admin/contacts/$id'
-      preLoaderRoute: typeof AgaateAdminAuthedContactsIdRouteImport
+    '/agaate-admin/_authed/content/app-links': {
+      id: '/agaate-admin/_authed/content/app-links'
+      path: '/content/app-links'
+      fullPath: '/agaate-admin/content/app-links'
+      preLoaderRoute: typeof AgaateAdminAuthedContentAppLinksRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/content/agri-park-tour': {
+      id: '/agaate-admin/_authed/content/agri-park-tour'
+      path: '/content/agri-park-tour'
+      fullPath: '/agaate-admin/content/agri-park-tour'
+      preLoaderRoute: typeof AgaateAdminAuthedContentAgriParkTourRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
   }
 }
 
 interface AgaateAdminAuthedRouteRouteChildren {
-  AgaateAdminAuthedAgronomistsRoute: typeof AgaateAdminAuthedAgronomistsRoute
-  AgaateAdminAuthedAnalyticsRoute: typeof AgaateAdminAuthedAnalyticsRoute
-  AgaateAdminAuthedConsultationsRoute: typeof AgaateAdminAuthedConsultationsRoute
-  AgaateAdminAuthedCustomersRoute: typeof AgaateAdminAuthedCustomersRoute
-  AgaateAdminAuthedFarmVisitsRoute: typeof AgaateAdminAuthedFarmVisitsRoute
-  AgaateAdminAuthedNotificationsRoute: typeof AgaateAdminAuthedNotificationsRoute
   AgaateAdminAuthedSettingsRoute: typeof AgaateAdminAuthedSettingsRoute
   AgaateAdminAuthedIndexRoute: typeof AgaateAdminAuthedIndexRoute
-  AgaateAdminAuthedContactsIdRoute: typeof AgaateAdminAuthedContactsIdRoute
+  AgaateAdminAuthedContentAgriParkTourRoute: typeof AgaateAdminAuthedContentAgriParkTourRoute
+  AgaateAdminAuthedContentAppLinksRoute: typeof AgaateAdminAuthedContentAppLinksRoute
   AgaateAdminAuthedContentLogosRoute: typeof AgaateAdminAuthedContentLogosRoute
   AgaateAdminAuthedContentStatsRoute: typeof AgaateAdminAuthedContentStatsRoute
   AgaateAdminAuthedContentStoriesRoute: typeof AgaateAdminAuthedContentStoriesRoute
   AgaateAdminAuthedContentTeamRoute: typeof AgaateAdminAuthedContentTeamRoute
-  AgaateAdminAuthedContactsIndexRoute: typeof AgaateAdminAuthedContactsIndexRoute
   AgaateAdminAuthedContentIndexRoute: typeof AgaateAdminAuthedContentIndexRoute
 }
 
 const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
   {
-    AgaateAdminAuthedAgronomistsRoute: AgaateAdminAuthedAgronomistsRoute,
-    AgaateAdminAuthedAnalyticsRoute: AgaateAdminAuthedAnalyticsRoute,
-    AgaateAdminAuthedConsultationsRoute: AgaateAdminAuthedConsultationsRoute,
-    AgaateAdminAuthedCustomersRoute: AgaateAdminAuthedCustomersRoute,
-    AgaateAdminAuthedFarmVisitsRoute: AgaateAdminAuthedFarmVisitsRoute,
-    AgaateAdminAuthedNotificationsRoute: AgaateAdminAuthedNotificationsRoute,
     AgaateAdminAuthedSettingsRoute: AgaateAdminAuthedSettingsRoute,
     AgaateAdminAuthedIndexRoute: AgaateAdminAuthedIndexRoute,
-    AgaateAdminAuthedContactsIdRoute: AgaateAdminAuthedContactsIdRoute,
+    AgaateAdminAuthedContentAgriParkTourRoute:
+      AgaateAdminAuthedContentAgriParkTourRoute,
+    AgaateAdminAuthedContentAppLinksRoute:
+      AgaateAdminAuthedContentAppLinksRoute,
     AgaateAdminAuthedContentLogosRoute: AgaateAdminAuthedContentLogosRoute,
     AgaateAdminAuthedContentStatsRoute: AgaateAdminAuthedContentStatsRoute,
     AgaateAdminAuthedContentStoriesRoute: AgaateAdminAuthedContentStoriesRoute,
     AgaateAdminAuthedContentTeamRoute: AgaateAdminAuthedContentTeamRoute,
-    AgaateAdminAuthedContactsIndexRoute: AgaateAdminAuthedContactsIndexRoute,
     AgaateAdminAuthedContentIndexRoute: AgaateAdminAuthedContentIndexRoute,
   }
 
@@ -690,7 +540,6 @@ interface Char123LocaleChar125RouteRouteChildren {
   Char123LocaleChar125PrivacyPolicyRoute: typeof Char123LocaleChar125PrivacyPolicyRoute
   Char123LocaleChar125TermsOfServiceRoute: typeof Char123LocaleChar125TermsOfServiceRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
-  Char123LocaleChar125ServicesIndexRoute: typeof Char123LocaleChar125ServicesIndexRoute
 }
 
 const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChildren =
@@ -708,8 +557,6 @@ const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChil
     Char123LocaleChar125TermsOfServiceRoute:
       Char123LocaleChar125TermsOfServiceRoute,
     Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
-    Char123LocaleChar125ServicesIndexRoute:
-      Char123LocaleChar125ServicesIndexRoute,
   }
 
 const Char123LocaleChar125RouteRouteWithChildren =

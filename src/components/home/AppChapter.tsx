@@ -8,10 +8,18 @@ import InteractivePhoneApp from "./InteractivePhoneApp";
 import googlePlayBadge from "@/assets/google-play-badge.svg";
 import appStoreBadge from "@/assets/app-store-badge.svg";
 
-export default function AppChapter() {
+import type { HomeCmsAppLinks } from "@/lib/cms-types";
+import { DEFAULT_HOME_CMS_APP_LINKS } from "@/lib/cms-types";
+
+type AppChapterProps = {
+  appLinks?: HomeCmsAppLinks;
+};
+
+export default function AppChapter({ appLinks }: AppChapterProps) {
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
   const sectionRef = useHomeChapterReveal("fade-up");
+  const storeLinks = appLinks ?? DEFAULT_HOME_CMS_APP_LINKS;
 
   const featureChecklist = isHindi
     ? [
@@ -109,7 +117,7 @@ export default function AppChapter() {
             {/* Store Download Badges */}
             <div className="pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3">
               <motion.a
-                href="https://play.google.com/store/apps"
+                href={storeLinks.googlePlayUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Get it on Google Play"
@@ -125,7 +133,7 @@ export default function AppChapter() {
                 />
               </motion.a>
               <motion.a
-                href="https://apps.apple.com/us/app"
+                href={storeLinks.appStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Download on the App Store"

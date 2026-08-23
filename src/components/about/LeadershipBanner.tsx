@@ -1,71 +1,108 @@
-import { Quotes } from "@phosphor-icons/react";
 import type { TeamCmsMember } from "@/lib/cms-types";
+import { Quotes } from "@phosphor-icons/react";
 
-type BannerLeader = Pick<TeamCmsMember, "quote" | "name" | "role" | "image" | "bannerBadge">;
+export type BannerLeader = Partial<TeamCmsMember> & {
+  name: string;
+  role: string;
+  image: string;
+  quote?: string;
+  bannerBadge?: string;
+};
 
 export function LeadershipBanner({
   leaders,
-  eyebrow = "Founders Vision",
-  subtitle = "Agaate Leadership",
+  eyebrow,
+  subtitle,
 }: {
   leaders: BannerLeader[];
   eyebrow?: string;
   subtitle?: string;
 }) {
-  if (!leaders.length) return null;
+  if (!leaders || !leaders.length) return null;
+
+  const isMulti = leaders.length > 1;
 
   return (
-    <div className="relative rounded-3xl bg-gradient-to-br from-[#143d31] via-[#0f3429] to-[#0a231b] p-7 sm:p-10 lg:p-12 text-white shadow-xl border border-white/10 overflow-hidden">
-      <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#a3e635]/10 blur-3xl" />
-      <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-[#5d7d37]/15 blur-3xl" />
-
-      <div className="relative flex items-center justify-between pb-5 sm:pb-6 mb-7 sm:mb-9 border-b border-white/10">
-        <div className="flex items-center gap-2.5">
-          <span className="h-2 w-2 rounded-full bg-[#a3e635] animate-pulse shrink-0" />
-          <span className="font-mono text-[10.5px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-[#a3e635]">
-            {eyebrow}
-          </span>
-        </div>
-        <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest hidden sm:inline-block">
-          {subtitle}
-        </span>
-      </div>
-
+    <div className="relative rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-[#fcfdfc] to-[#f4f8f5]/60 border border-[#143d31]/10 p-6 sm:p-8 lg:p-10 shadow-xs overflow-hidden">
+      {/* Decorative ambient corner blur */}
       <div
-        className={`relative grid grid-cols-1 ${
-          leaders.length > 1 ? "lg:grid-cols-2 lg:divide-x divide-white/10" : ""
-        } divide-y lg:divide-y-0 divide-white/10`}
+        className="pointer-events-none absolute -top-12 -right-12 h-40 w-40 rounded-full bg-[#5d7d37]/[0.04] blur-2xl"
+        aria-hidden="true"
+      />
+
+      {/* Optional Eyebrow / Subtitle Header */}
+      {(eyebrow || subtitle) && (
+        <div className="mb-6 sm:mb-8 flex flex-wrap items-center justify-between gap-3 border-b border-[#143d31]/10 pb-4">
+          {eyebrow && (
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-[#5d7d37]" />
+              <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+                {eyebrow}
+              </p>
+            </div>
+          )}
+          {subtitle && (
+            <p className="font-sans text-xs sm:text-sm text-[#4f624f]">
+              {subtitle}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Side-by-side quotes grid */}
+      <div
+        className={
+          isMulti
+            ? "grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 md:divide-x divide-[#143d31]/10"
+            : "max-w-3xl mx-auto"
+        }
       >
         {leaders.map((leader, index) => (
           <div
             key={`${leader.name}-${index}`}
-            className={`flex flex-col justify-between h-full ${
-              index === 0 ? "pb-8 lg:pb-0 lg:pr-10 xl:pr-12" : "pt-8 lg:pt-0 lg:pl-10 xl:pl-12"
+            className={`flex flex-col justify-between ${
+              isMulti
+                ? index === 0
+                  ? "md:pr-8 lg:pr-10"
+                  : "pt-8 border-t border-[#143d31]/10 md:pt-0 md:border-t-0 md:pl-8 lg:pl-10"
+                : ""
             }`}
           >
-            <div className="space-y-3">
-              <Quotes className="h-7 w-7 text-[#a3e635]/60 shrink-0" weight="duotone" />
-              <blockquote className="font-display text-base sm:text-[17px] lg:text-[18.5px] font-medium text-white/95 leading-relaxed tracking-normal">
-                “{leader.quote}”
-              </blockquote>
+            {/* Top: Decorative Quote Icon & Badge */}
+            <div className="space-y-4 sm:space-y-5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#5d7d37]/10 text-[#5d7d37] border border-[#5d7d37]/15">
+                  <Quotes weight="fill" className="h-4.5 w-4.5" />
+                </div>
+                {leader.bannerBadge && (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider bg-[#5d7d37]/10 text-[#5d7d37] border border-[#5d7d37]/20">
+                    {leader.bannerBadge}
+                  </span>
+                )}
+              </div>
+
+              {/* Quote Body */}
+              {leader.quote ? (
+                <blockquote className="font-display italic text-base sm:text-lg lg:text-[19px] xl:text-[20px] font-normal text-[#143d31] leading-relaxed tracking-tight">
+                  “{leader.quote}”
+                </blockquote>
+              ) : null}
             </div>
 
-            <div className="flex items-center gap-4 pt-6 mt-6 sm:mt-8 border-t border-white/10">
+            {/* Bottom: Profile / Author */}
+            <div className="mt-6 sm:mt-8 pt-5 border-t border-[#143d31]/10 flex items-center gap-3.5 shrink-0">
               <img
                 src={leader.image}
                 alt={leader.name}
-                className="h-12 w-12 sm:h-13 sm:w-13 rounded-full object-cover ring-2 ring-[#a3e635]/60 shadow-md shrink-0"
+                className="h-12 w-12 sm:h-13 sm:w-13 rounded-full object-cover border border-[#143d31]/15 shadow-2xs shrink-0 ring-2 ring-white"
               />
-              <div className="flex flex-col justify-center min-w-0">
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <p className="font-display text-base font-bold text-white tracking-tight">{leader.name}</p>
-                  {leader.bannerBadge ? (
-                    <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#a3e635] bg-[#a3e635]/15 px-2 py-0.5 rounded-full border border-[#a3e635]/25">
-                      {leader.bannerBadge}
-                    </span>
-                  ) : null}
-                </div>
-                <p className="font-sans text-xs text-white/70 mt-0.5 truncate">{leader.role}</p>
+              <div className="min-w-0">
+                <p className="font-display text-base sm:text-[17px] font-bold text-[#143d31] leading-tight">
+                  {leader.name}
+                </p>
+                <p className="font-sans text-xs sm:text-sm font-semibold text-[#5d7d37] mt-0.5">
+                  {leader.role}
+                </p>
               </div>
             </div>
           </div>

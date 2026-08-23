@@ -17,8 +17,14 @@ import { CountUp, EASE } from "@/components/common/motion";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { VideoPlayerModal } from "@/components/ui/VideoPlayerModal";
+import type { HomeCmsAgriParkTour } from "@/lib/cms-types";
+import { DEFAULT_HOME_CMS_AGRI_PARK_TOUR } from "@/lib/cms-types";
 
-export default function AgriParkChapter() {
+type AgriParkChapterProps = {
+  agriParkTour?: HomeCmsAgriParkTour;
+};
+
+export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) {
   const [isVisitModalOpen, setIsVisitModalOpen] = useState<boolean>(false);
   const [isMapZoomOpen, setIsMapZoomOpen] = useState<boolean>(false);
   const [isTourVideoOpen, setIsTourVideoOpen] = useState<boolean>(false);
@@ -28,6 +34,7 @@ export default function AgriParkChapter() {
   const currentLang = locale ?? i18n.language ?? "en";
   const isHindi = currentLang.startsWith("hi");
   const sectionRef = useHomeChapterReveal("fade-up");
+  const tourMedia = agriParkTour ?? DEFAULT_HOME_CMS_AGRI_PARK_TOUR;
 
   const checklistItems = isHindi
     ? [
@@ -241,8 +248,8 @@ export default function AgriParkChapter() {
       <VideoPlayerModal
         open={isTourVideoOpen}
         onClose={() => setIsTourVideoOpen(false)}
-        src="/videos/farm-first-look.mp4"
-        poster="/videos/posters/farm-first-look.webp"
+        src={tourMedia.videoUrl}
+        poster={tourMedia.posterUrl}
         title={
           isHindi
             ? "एग्री पार्क व स्मार्ट नर्सरी वीडियो टूर"

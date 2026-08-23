@@ -33,12 +33,12 @@ export const NAV_STRUCTURE: NavItem[] = [
   { key: "home", href: "/", icon: House },
   {
     key: "services",
-    href: "/services",
+    href: "/",
     icon: Stack,
     subLinks: [
       {
         key: "advisory",
-        href: "/services#advisory",
+        href: "/contact",
         label: "Talk to Agronomist",
         desc: "Direct field diagnosis, spray charts & farm visits",
         icon: ChatCircleDots,
@@ -52,14 +52,14 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
       {
         key: "nursery",
-        href: "/services#nursery",
+        href: "/agri-park",
         label: "Bio-Boosted Nursery",
         desc: "98% survival high-yield plug seedlings & saplings",
         icon: Plant,
       },
       {
         key: "bigFarmSetup",
-        href: "/services#big-farm-setup",
+        href: "/contact",
         label: "Big Farm Setup",
         desc: "End-to-end turnkey farm setup for clients",
         icon: ShieldCheck,
@@ -73,21 +73,21 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
       {
         key: "farmTech",
-        href: "/services#farm-tech",
+        href: "/contact",
         label: "Farm Tech & IoT",
         desc: "Farmer mobile app, IoT soil sensors & automation",
         icon: Cpu,
       },
       {
         key: "marketLinkage",
-        href: "/services#market-linkage",
+        href: "/contact",
         label: "Market Linkage",
         desc: "Direct retail buyers & guaranteed buyback",
         icon: TrendUp,
       },
       {
         key: "carbonCredits",
-        href: "/services#carbon-credits",
+        href: "/contact",
         label: "Carbon Credits",
         desc: "Earn extra income from sustainable farming",
         icon: Tree,

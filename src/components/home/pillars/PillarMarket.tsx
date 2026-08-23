@@ -1,18 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "../useHomeChapterReveal";
-import { CountUp, EASE } from "@/components/common/motion";
+import { CountUp, TiltCard, EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
+import { MarketAccessModal } from "./MarketAccessModal";
+import type { HomeCmsLogo } from "@/lib/cms-types";
 
-export default function PillarMarket() {
+interface PillarMarketProps {
+  buyers?: HomeCmsLogo[];
+}
+
+export default function PillarMarket({ buyers }: PillarMarketProps) {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language || "en";
+  const isHindi = currentLang.startsWith("hi");
   const sectionRef = useHomeChapterReveal("fade-up");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const highlights = isHindi
+    ? [
+        "बुवाई पूर्व न्यूनतम मूल्य गारंटी",
+        "खेत पर डिजिटल वजन व त्वरित भुगतान",
+        "रिलायंस व बिगबास्केट जैसी कंपनियों को सीधी आपूर्ति",
+      ]
+    : [
+        "Pre-sowing price floor contracts",
+        "Digital weighment & instant UPI payout",
+        "Direct institutional buyer linkage",
+      ];
 
   return (
     <section
       ref={sectionRef}
       id="pillar-market"
-      className="relative bg-[#f4f8f5] py-16 sm:py-20 lg:py-28 border-t border-[#143d31]/10 overflow-hidden"
+      className="relative bg-[#f4f8f5] py-16 sm:py-20 lg:py-28 border-t border-[#143d31]/10 overflow-hidden text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
@@ -24,29 +47,24 @@ export default function PillarMarket() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <div className="relative w-full max-w-[540px] aspect-[16/11] overflow-hidden rounded-3xl border border-[#143d31]/12 bg-white shadow-[0_24px_50px_rgba(13,40,32,0.12)] group">
-              <img
-                src="/services/market-linkage-harvest.jpg"
-                alt="Agaate farm-gate harvest aggregation and market linkage"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-
-              {/* Bottom Floating Telemetry Panel */}
-              <div className="absolute bottom-4 inset-x-4 flex items-center justify-between gap-3 rounded-2xl bg-white/95 backdrop-blur-md p-3 px-4 border border-[#143d31]/10 shadow-lg">
-                <div className="flex flex-col">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    Institutional Offtake & Mandi Linkage
-                  </span>
-                  <span className="font-display text-xs font-bold text-[#143d31]">
-                    Reliance · BigBasket · Direct Mandi Offtake
-                  </span>
-                </div>
-                <div className="shrink-0 text-right">
-                  <span className="font-mono text-[10px] font-bold text-[#143d31] bg-[#a3e635]/30 border border-[#a3e635]/50 px-2.5 py-1 rounded-full">
-                    T+0 Farm-Gate UPI
-                  </span>
-                </div>
-              </div>
+            <div className="w-full flex items-center justify-center">
+              <TiltCard maxTilt={4} glare={false} className="w-full">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="relative w-full flex items-center justify-center p-0"
+                >
+                  <img
+                    src="/market-linkage.png"
+                    alt={
+                      isHindi
+                        ? "अगाते फसल खरीद व मार्केट लिंकेज"
+                        : "Agaate farm-gate harvest aggregation and market linkage"
+                    }
+                    className="w-full max-h-[380px] sm:max-h-[440px] lg:max-h-[480px] object-contain drop-shadow-xl"
+                  />
+                </motion.div>
+              </TiltCard>
             </div>
           </motion.div>
 
@@ -62,18 +80,20 @@ export default function PillarMarket() {
             <div className="flex items-center gap-2.5 mb-3">
               <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                Market Linkage
+                {isHindi ? "मार्केट लिंकेज" : "Market Linkage"}
               </p>
             </div>
 
             {/* Display Headline */}
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
-              Guaranteed Buyback & Direct Offtake
+              {isHindi ? "सीधी फसल बायबैक व खरीद" : "Buyback & Direct Offtake"}
             </h2>
 
             {/* Subtext Description */}
             <p className="font-sans mt-2.5 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-              Pre-sowing price contracts, transparent digital weighing, and instant T+0 farm-gate payouts.
+              {isHindi
+                ? "बुवाई से पहले पक्का रेट अनुबंध, खेत पर डिजिटल तौल और तुरंत T+0 बैंक खाता भुगतान।"
+                : "Pre-sowing price contracts, transparent digital weighing, and instant T+0 farm-gate payouts."}
             </p>
 
             {/* Metrics Strip */}
@@ -83,15 +103,15 @@ export default function PillarMarket() {
                   <CountUp to={15000} suffix="+" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Acres Associated
+                  {isHindi ? "एकड़ रकबा" : "Acres Associated"}
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
                 <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
-                  <CountUp to={12} prefix="₹" suffix=" Cr+" />
+                  <CountUp to={12} prefix="₹" suffix={isHindi ? " करोड़+" : " Cr+"} />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Farmer Payouts
+                  {isHindi ? "किसान भुगतान" : "Farmer Payouts"}
                 </p>
               </div>
               <div className="text-left border-l border-[#5d7d37]/40 pl-3">
@@ -99,18 +119,14 @@ export default function PillarMarket() {
                   <CountUp to={0} suffix="%" />
                 </p>
                 <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                  Middleman Cut
+                  {isHindi ? "बिचौलिया कमीशन" : "Middleman Cut"}
                 </p>
               </div>
             </div>
 
             {/* Feature Highlights */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-7">
-              {[
-                "Pre-sowing price floor guarantee",
-                "Digital weighment & instant UPI payout",
-                "Direct institutional buyer linkage",
-              ].map((feat) => (
+              {highlights.map((feat) => (
                 <div
                   key={feat}
                   className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#143d31]"
@@ -124,10 +140,11 @@ export default function PillarMarket() {
             {/* CTA Button */}
             <div>
               <SlideUpPillButton
-                href="/services#market-linkage"
+                type="button"
+                onClick={() => setIsModalOpen(true)}
                 variant="dark"
                 size="md"
-                label="View Market Linkage"
+                label={isHindi ? "मार्केट लिंकेज देखें" : "View Market Linkage"}
                 icon={<ArrowRight className="h-4 w-4" />}
                 iconPosition="right"
               />
@@ -135,6 +152,13 @@ export default function PillarMarket() {
           </motion.div>
         </div>
       </div>
+
+      {/* Market Access Partners Popup Modal */}
+      <MarketAccessModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        buyers={buyers}
+      />
     </section>
   );
 }
