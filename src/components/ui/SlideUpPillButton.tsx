@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { getLocalizedPath } from "@/lib/i18n";
 
 export type SlideUpPillButtonVariant =
   | "dark"
@@ -183,12 +184,17 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
       </>
     );
 
+    const location = useLocation();
+    const isHindi =
+      location?.pathname === "/hi" || location?.pathname?.startsWith("/hi/");
+    const currentLang = isHindi ? "hi" : "en";
+
     // 1. TanStack Router Link
     if (to) {
       return (
         <Link
           ref={ref as any}
-          to={to as any}
+          to={getLocalizedPath(to, currentLang) as any}
           target={target}
           rel={target === "_blank" ? "noopener noreferrer" : rel}
           onClick={onClick as any}
@@ -200,8 +206,30 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
       );
     }
 
-    // 2. Anchor tag
+    // 2. Anchor tag / Internal Link via href
     if (href) {
+      const isInternal =
+        href.startsWith("/") &&
+        !href.startsWith("//") &&
+        !target &&
+        !href.startsWith("http");
+
+      if (isInternal) {
+        return (
+          <Link
+            ref={ref as any}
+            to={getLocalizedPath(href, currentLang) as any}
+            target={target}
+            rel={rel}
+            onClick={onClick as any}
+            className={baseContainerStyles}
+            aria-label={ariaLabel}
+          >
+            {buttonContent}
+          </Link>
+        );
+      }
+
       return (
         <a
           ref={ref as any}

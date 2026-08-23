@@ -25,6 +25,8 @@ import type {
   HomeCmsLogo,
   HomeCmsStat,
   HomeCmsStory,
+} from "@/lib/cms-types";
+import {
   DEFAULT_CMS_SITE_CONFIG,
   DEFAULT_HOME_CMS_APP_LINKS,
   DEFAULT_HOME_CMS_AGRI_PARK_TOUR,

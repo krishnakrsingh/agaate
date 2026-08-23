@@ -60,5 +60,3 @@ function Careers() {
     </main>
   );
 }
-
-export default Careers;

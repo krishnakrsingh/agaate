@@ -41,5 +41,3 @@ function CommunityPage() {
     </main>
   );
 }
-
-export default CommunityPage;

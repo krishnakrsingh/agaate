@@ -1,4 +1,4 @@
-import { Link, useParams } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { type ReactNode, type ComponentType } from "react";
 import {
   Envelope,
@@ -24,9 +24,9 @@ function FooterLink({
   icon?: ComponentType<{ className?: string }>;
   className?: string;
 }) {
-  const { locale } = useParams({ strict: false }) as any;
-  const { i18n } = useTranslation();
-  const currentLang = locale ?? i18n.language ?? "en";
+  const location = useLocation();
+  const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const currentLang = isHindi ? "hi" : "en";
   const isExternal =
     href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
 
@@ -55,9 +55,10 @@ function FooterLink({
 }
 
 export function Footer() {
-  const { t, i18n } = useTranslation("common");
-  const { locale } = useParams({ strict: false }) as any;
-  const currentLang = locale ?? i18n.language ?? "en";
+  const { t } = useTranslation("common");
+  const location = useLocation();
+  const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const currentLang = isHindi ? "hi" : "en";
 
   return (
     <footer className="relative w-full bg-[#0d2a21] text-stone-200 border-t border-white/10">

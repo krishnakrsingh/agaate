@@ -6,12 +6,16 @@ const LOCALE_SLUGS = SUPPORTED_LNGS.filter((l) => l !== "en");
 
 export const Route = createFileRoute("/{-$locale}")({
   beforeLoad: async ({ params }) => {
-    const locale = params.locale;
+    const locale = params?.locale;
     if (locale && !LOCALE_SLUGS.includes(locale)) {
       throw notFound();
     }
-    const resolved = locale ?? "en";
-    await setLocale(resolved);
+    const resolved = locale && LOCALE_SLUGS.includes(locale) ? locale : "en";
+    try {
+      await setLocale(resolved);
+    } catch (e) {
+      console.warn("setLocale error:", e);
+    }
     return { locale: resolved };
   },
   component: () => <Outlet />,

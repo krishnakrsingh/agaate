@@ -9,10 +9,10 @@ import { NavMobile } from "./NavMobile";
 import { WHATSAPP_CONSULTATION_URL } from "./header-data";
 
 export function Header() {
-  const { t, i18n } = useTranslation("common");
+  const { t } = useTranslation("common");
   const location = useLocation();
-  const { locale } = useParams({ strict: false }) as any;
-  const currentLang = locale ?? i18n.language ?? "en";
+  const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const currentLang = isHindi ? "hi" : "en";
 
   const strippedPath = stripLocalePrefix(location.pathname);
   const isHome = strippedPath === "/";

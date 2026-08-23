@@ -51,5 +51,3 @@ function KisaanMallPage() {
     </div>
   );
 }
-
-export default KisaanMallPage;
