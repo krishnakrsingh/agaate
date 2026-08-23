@@ -35,7 +35,7 @@ export default function PillarMarket({ buyers }: PillarMarketProps) {
     <section
       ref={sectionRef}
       id="pillar-market"
-      className="relative bg-[#f4f8f5] py-16 sm:py-20 lg:py-28 border-t border-[#143d31]/10 overflow-hidden text-[#143d31]"
+      className="relative scroll-mt-24 sm:scroll-mt-28 md:scroll-mt-32 bg-[#f4f8f5] py-16 sm:py-20 lg:py-28 border-t border-[#143d31]/10 overflow-hidden text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center">

@@ -5,7 +5,6 @@ import {
   CaretRight,
   Play,
   X,
-  CheckCircle,
   WhatsappLogo,
   SpeakerHigh,
   SpeakerSlash,
@@ -21,6 +20,8 @@ import {
 } from "@/data/farmerShortsData";
 import type { HomeCmsStory } from "@/lib/cms-types";
 import { RotatingTestimonialCard } from "./RotatingTestimonialCard";
+import { EmbedVideoPlayer } from "@/components/ui/EmbedVideoPlayer";
+import { parseVideoSource } from "@/lib/video-source";
 
 export default function FarmerShortsShowcase({
   storiesEn,
@@ -197,38 +198,16 @@ export default function FarmerShortsShowcase({
                 </div>
 
                 {/* Bottom Content Overlay */}
-                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-4.5 z-10 space-y-1.5 text-white">
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <p className="font-display text-[15px] font-bold text-white leading-tight truncate">
-                        {short.name}
-                      </p>
-                      <CheckCircle className="h-3.5 w-3.5 text-[#a3e635] shrink-0" weight="fill" />
-                    </div>
-                    <p className="font-sans text-[11px] text-white/80 truncate mt-0.5">
-                      {short.location} · {short.acres}
-                    </p>
-                  </div>
-
-                  {/* Crop Tag */}
-                  <div>
-                    <span className="inline-block text-[11px] font-mono font-semibold text-[#a3e635] truncate">
-                      🌱 {short.crop}
-                    </span>
-                  </div>
-
-                  {/* Quote Snippet */}
-                  <p className="font-sans text-xs text-white/90 line-clamp-2 leading-snug font-normal italic">
-                    "{short.quote}"
+                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-4.5 z-10 space-y-0.5 text-white">
+                  <p className="font-display text-[15px] font-bold text-white leading-tight truncate">
+                    {short.name}
                   </p>
-
-                  {/* Watch Action Pill */}
-                  <div className="pt-1.5 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/15 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-mono font-bold text-white group-hover:bg-[#a3e635] group-hover:text-[#143d31] transition-colors border border-white/20">
-                      {isHindi ? "वीडियो देखें" : "Watch Reel"} ▶
-                    </span>
-                    <span className="text-white/60 text-[10px] truncate max-w-[90px]">{short.role}</span>
-                  </div>
+                  <p className="font-sans text-[11px] text-white/80 truncate">
+                    {short.location}
+                  </p>
+                  <p className="font-mono text-[11px] font-semibold text-[#a3e635] truncate">
+                    {short.crop}
+                  </p>
                 </div>
               </div>
             ))}
@@ -250,14 +229,12 @@ export default function FarmerShortsShowcase({
               {/* Video Player Element */}
               <div className="relative w-full h-full">
                 {activeModalShort.videoUrl ? (
-                  <video
-                    src={activeModalShort.videoUrl}
+                  <EmbedVideoPlayer
+                    videoUrl={activeModalShort.videoUrl}
                     poster={activeModalShort.thumbnail}
-                    autoPlay
-                    loop
                     muted={isMuted}
-                    playsInline
-                    className="w-full h-full object-cover"
+                    loop
+                    autoPlay
                   />
                 ) : (
                   <img
@@ -266,6 +243,18 @@ export default function FarmerShortsShowcase({
                     className="w-full h-full object-cover"
                   />
                 )}
+
+                {parseVideoSource(activeModalShort.videoUrl).type === "unknown" &&
+                  activeModalShort.videoUrl && (
+                    <a
+                      href={activeModalShort.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 text-sm font-semibold text-white"
+                    >
+                      Open video
+                    </a>
+                  )}
 
                 {/* Ambient Scrim Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/60 pointer-events-none" />
@@ -322,14 +311,11 @@ export default function FarmerShortsShowcase({
                 {/* Bottom Story Card Overlay */}
                 <div className="absolute bottom-0 inset-x-0 p-5 z-20 space-y-2.5 text-white">
                   <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-display text-base font-bold text-white">
-                        {activeModalShort.name}
-                      </p>
-                      <CheckCircle className="h-3.5 w-3.5 text-[#a3e635]" weight="fill" />
-                    </div>
+                    <p className="font-display text-base font-bold text-white">
+                      {activeModalShort.name}
+                    </p>
                     <p className="font-sans text-xs text-white/80">
-                      {activeModalShort.role} · {activeModalShort.location} ({activeModalShort.acres})
+                      {activeModalShort.location}
                     </p>
                   </div>
 

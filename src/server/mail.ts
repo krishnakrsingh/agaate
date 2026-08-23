@@ -17,6 +17,9 @@ export type ContactEmailPayload = {
   channel?: string | null;
   message?: string | null;
   sourcePage?: string | null;
+  visitDate?: string;
+  visitorType?: string;
+  groupCount?: string;
 };
 
 const TOPIC_LABELS: Record<string, string> = {
@@ -81,8 +84,9 @@ function isSmtpReady(smtp: AdminSettingsPayload["smtp"]) {
 
 function formatContactBody(data: ContactEmailPayload) {
   const topicLabel = data.topicLabel || TOPIC_LABELS[data.topic] || data.topic;
+  const isFarmVisit = data.topic === "agripark";
   const lines = [
-    "New consultation request from agaate.in",
+    isFarmVisit ? "New Agri Park field visit booking from agaate.in" : "New consultation request from agaate.in",
     "",
     `Ticket: ${data.ticketId}`,
     `Topic: ${topicLabel}`,
@@ -91,17 +95,35 @@ function formatContactBody(data: ContactEmailPayload) {
     `Email: ${data.email || "—"}`,
     `Preferred channel: ${data.channel || "WhatsApp"}`,
     "",
-    "Farm details",
-    `Acreage: ${data.acreage || "—"}`,
-    `District: ${data.district || "—"}`,
-    `Primary crop: ${data.crop || "—"}`,
-    "",
-    "Message",
-    data.message?.trim() || "—",
-    "",
+  ];
+
+  if (isFarmVisit) {
+    lines.push(
+      "Visit details",
+      `Preferred visit date: ${data.visitDate || "—"}`,
+      `Visitor category: ${data.visitorType || "—"}`,
+      `Group size: ${data.groupCount || "—"}`,
+      `Primary crop interest: ${data.crop || "—"}`,
+      `District / state: ${data.district || "—"}`,
+      "",
+    );
+  } else {
+    lines.push(
+      "Farm details",
+      `Acreage: ${data.acreage || "—"}`,
+      `District: ${data.district || "—"}`,
+      `Primary crop: ${data.crop || "—"}`,
+      "",
+      "Message",
+      data.message?.trim() || "—",
+      "",
+    );
+  }
+
+  lines.push(
     `Source page: ${data.sourcePage || "/contact"}`,
     `Submitted at: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST`,
-  ];
+  );
   return lines.join("\n");
 }
 

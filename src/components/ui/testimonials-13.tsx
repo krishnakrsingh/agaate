@@ -53,7 +53,7 @@ const testimonialsEn = [
     designation: "Woman Agri-Entrepreneur",
     company: "Sonipat, Haryana · 15 Acres",
     testimonial:
-      "Doorstep delivery in 24 hours with QR batch tracking gives us complete peace of mind against duplicate chemicals. Highest tomato harvest ever.",
+      "Doorstep delivery in 24 hours with 100% genuine batch packaging gives us complete peace of mind against duplicate chemicals. Highest tomato harvest ever.",
     avatar:
       "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
     logo: Logo04,

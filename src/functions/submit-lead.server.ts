@@ -145,6 +145,9 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
       channel: payload.channel,
       message: payload.message,
       sourcePage: payload.source_page,
+      visitDate: data.visitDate,
+      visitorType: data.visitorType,
+      groupCount: data.groupCount,
     });
     return { ok: true, ticketId: payload.ticket_id, stored: false };
   }
@@ -179,6 +182,9 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
       acreage: payload.acreage,
       crop: payload.crop,
       district: payload.district,
+      visitDate: data.visitDate ? sanitizeString(data.visitDate, 32) : null,
+      visitorType: data.visitorType ? sanitizeString(data.visitorType, 120) : null,
+      groupCount: data.groupCount ? sanitizeString(data.groupCount, 120) : null,
     });
 
     const [insertResult] = await db.query(
@@ -214,6 +220,9 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
       channel: payload.channel,
       message: payload.message,
       sourcePage: payload.source_page,
+      visitDate: data.visitDate,
+      visitorType: data.visitorType,
+      groupCount: data.groupCount,
     });
 
     return { ok: true, ticketId: payload.ticket_id, stored: true };
@@ -239,6 +248,9 @@ async function notifyAdminNewLead(data: {
   channel?: string | null;
   message?: string | null;
   sourcePage?: string | null;
+  visitDate?: string;
+  visitorType?: string;
+  groupCount?: string;
 }) {
   try {
     const { sendContactNotificationEmail } = await import("@/server/mail");

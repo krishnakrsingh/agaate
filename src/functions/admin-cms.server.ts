@@ -28,7 +28,13 @@ import {
   fetchAppLinks,
   fetchAgriParkTour,
   saveAgriParkTour,
+  fetchKisaanMallLanding,
+  saveKisaanMallLanding,
 } from "@/server/cms-queries";
+import {
+  countNewsletterSignups,
+  listNewsletterSignups,
+} from "@/server/admin-queries";
 import {
   archiveCmsTeamMember,
   listCmsTeam,
@@ -37,8 +43,8 @@ import {
   saveCmsTeamMember,
   unpublishCmsTeamMember,
 } from "@/server/cms-team-queries";
-import type { CmsListFilters, HomeCmsAppLinks, HomeCmsAgriParkTour } from "@/lib/cms-types";
-import { mockLogos, mockStats, mockStories, mockTeam } from "@/server/cms-memory";
+import type { CmsListFilters, HomeCmsAppLinks, HomeCmsAgriParkTour, KisaanMallLanding } from "@/lib/cms-types";
+import { mockLogos, mockStats, mockStories, mockTeam, mockNewsletterSignups } from "@/server/cms-memory";
 
 function failAuth(err: unknown) {
   const message = err instanceof Error ? err.message : "Error";
@@ -86,11 +92,13 @@ export async function handleCmsOverview() {
       return {
         ok: true as const,
         overview: { stats: count(mockStats), logos: count(mockLogos), stories: count(mockStories), team: count(mockTeam) },
+        newsletterWaitlist: mockNewsletterSignups.filter((s) => s.source_page === "/kisaan-mall").length,
         dbConfigured: false,
       };
     }
     const overview = await fetchCmsOverview();
-    return { ok: true as const, overview, dbConfigured: true };
+    const newsletterWaitlist = await countNewsletterSignups("/kisaan-mall");
+    return { ok: true as const, overview, newsletterWaitlist, dbConfigured: true };
   } catch (err) {
     return failAuth(err);
   }
@@ -605,6 +613,34 @@ export async function handleSaveAgriParkTour(tour: HomeCmsAgriParkTour) {
     await requireEditor();
     const agriParkTour = await saveAgriParkTour(tour);
     return { ok: true as const, agriParkTour };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetKisaanMallLanding() {
+  try {
+    await requireSessionUser();
+    const landing = await fetchKisaanMallLanding();
+    const signups = await listNewsletterSignups("/kisaan-mall");
+    return {
+      ok: true as const,
+      landing,
+      signups,
+      waitlistCount: signups.length,
+      dbConfigured: isDbConfigured(),
+    };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveKisaanMallLanding(landing: KisaanMallLanding) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveKisaanMallLanding(landing);
+    return { ok: true as const, landing: saved };
   } catch (err) {
     return failAuth(err);
   }

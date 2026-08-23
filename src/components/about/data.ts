@@ -66,7 +66,7 @@ export const pillars = [
     id: "quality-inputs",
     title: "Quality Inputs",
     tagline: "Certified Seedlings & Genuine Inputs",
-    desc: "Seeds, biologicals, irrigation hardware, and crop protection — sourced exclusively from 25+ direct manufacturer partners. Every input passes multi-stage quality checks and factory QR authentication.",
+    desc: "Seeds, biologicals, irrigation hardware, and crop protection — sourced exclusively from 25+ direct manufacturer partners. Every input passes multi-stage quality verification and direct brand certification.",
     icon: Shield,
     badge: "25+ Partner Brands",
     highlight: "Zero Fake/Duplicate Inputs",
@@ -113,7 +113,7 @@ export const whatWeDo = [
     title: "Science-Backed Decisions",
     desc: "Helping farmers understand their crops and reduce losses.",
     icon: Flask,
-    href: "/agri-park",
+    href: "/#agri-park",
   },
   {
     id: "partners",

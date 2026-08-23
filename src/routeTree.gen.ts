@@ -17,19 +17,19 @@ import { Route as Char123LocaleChar125PrivacyPolicyRouteImport } from './routes/
 import { Route as Char123LocaleChar125KisaanMallRouteImport } from './routes/{-$locale}/kisaan-mall'
 import { Route as Char123LocaleChar125CookiePolicyRouteImport } from './routes/{-$locale}/cookie-policy'
 import { Route as Char123LocaleChar125ContactRouteImport } from './routes/{-$locale}/contact'
-import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
 import { Route as Char123LocaleChar125CareersRouteImport } from './routes/{-$locale}/careers'
-import { Route as Char123LocaleChar125AgriParkRouteImport } from './routes/{-$locale}/agri-park'
 import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
 import { Route as AgaateAdminLoginRouteImport } from './routes/agaate-admin/login'
 import { Route as AgaateAdminAuthedRouteRouteImport } from './routes/agaate-admin/_authed/route'
 import { Route as AgaateAdminAuthedIndexRouteImport } from './routes/agaate-admin/_authed/index'
 import { Route as AgaateAdminAuthedSettingsRouteImport } from './routes/agaate-admin/_authed/settings'
+import { Route as AgaateAdminAuthedFarmVisitsRouteImport } from './routes/agaate-admin/_authed/farm-visits'
 import { Route as AgaateAdminAuthedContentIndexRouteImport } from './routes/agaate-admin/_authed/content/index'
 import { Route as AgaateAdminAuthedContentTeamRouteImport } from './routes/agaate-admin/_authed/content/team'
 import { Route as AgaateAdminAuthedContentStoriesRouteImport } from './routes/agaate-admin/_authed/content/stories'
 import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaate-admin/_authed/content/stats'
 import { Route as AgaateAdminAuthedContentLogosRouteImport } from './routes/agaate-admin/_authed/content/logos'
+import { Route as AgaateAdminAuthedContentKisaanMallRouteImport } from './routes/agaate-admin/_authed/content/kisaan-mall'
 import { Route as AgaateAdminAuthedContentAppLinksRouteImport } from './routes/agaate-admin/_authed/content/app-links'
 import { Route as AgaateAdminAuthedContentAgriParkTourRouteImport } from './routes/agaate-admin/_authed/content/agri-park-tour'
 
@@ -80,22 +80,10 @@ const Char123LocaleChar125ContactRoute =
     path: '/contact',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
-const Char123LocaleChar125CommunityRoute =
-  Char123LocaleChar125CommunityRouteImport.update({
-    id: '/community',
-    path: '/community',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
 const Char123LocaleChar125CareersRoute =
   Char123LocaleChar125CareersRouteImport.update({
     id: '/careers',
     path: '/careers',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
-const Char123LocaleChar125AgriParkRoute =
-  Char123LocaleChar125AgriParkRouteImport.update({
-    id: '/agri-park',
-    path: '/agri-park',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
 const Char123LocaleChar125AboutRoute =
@@ -122,6 +110,12 @@ const AgaateAdminAuthedSettingsRoute =
   AgaateAdminAuthedSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedFarmVisitsRoute =
+  AgaateAdminAuthedFarmVisitsRouteImport.update({
+    id: '/farm-visits',
+    path: '/farm-visits',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
 const AgaateAdminAuthedContentIndexRoute =
@@ -154,6 +148,12 @@ const AgaateAdminAuthedContentLogosRoute =
     path: '/content/logos',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedContentKisaanMallRoute =
+  AgaateAdminAuthedContentKisaanMallRouteImport.update({
+    id: '/content/kisaan-mall',
+    path: '/content/kisaan-mall',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedContentAppLinksRoute =
   AgaateAdminAuthedContentAppLinksRouteImport.update({
     id: '/content/app-links',
@@ -172,19 +172,19 @@ export interface FileRoutesByFullPath {
   '/{-$locale}': typeof Char123LocaleChar125RouteRouteWithChildren
   '/agaate-admin/login': typeof AgaateAdminLoginRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
-  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
   '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
-  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
   '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
+  '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
@@ -195,18 +195,18 @@ export interface FileRoutesByTo {
   '/agaate-admin': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/login': typeof AgaateAdminLoginRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
-  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
   '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
-  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
   '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
+  '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
+  '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
@@ -220,19 +220,19 @@ export interface FileRoutesById {
   '/agaate-admin/_authed': typeof AgaateAdminAuthedRouteRouteWithChildren
   '/agaate-admin/login': typeof AgaateAdminLoginRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
-  '/{-$locale}/agri-park': typeof Char123LocaleChar125AgriParkRoute
   '/{-$locale}/careers': typeof Char123LocaleChar125CareersRoute
-  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/contact': typeof Char123LocaleChar125ContactRoute
   '/{-$locale}/cookie-policy': typeof Char123LocaleChar125CookiePolicyRoute
   '/{-$locale}/kisaan-mall': typeof Char123LocaleChar125KisaanMallRoute
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/agaate-admin/_authed/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/_authed/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/_authed/': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/_authed/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/_authed/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
+  '/agaate-admin/_authed/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/_authed/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/_authed/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/_authed/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
@@ -246,19 +246,19 @@ export interface FileRouteTypes {
     | '/{-$locale}'
     | '/agaate-admin/login'
     | '/{-$locale}/about'
-    | '/{-$locale}/agri-park'
     | '/{-$locale}/careers'
-    | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
     | '/{-$locale}/kisaan-mall'
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
+    | '/agaate-admin/farm-visits'
     | '/agaate-admin/settings'
     | '/agaate-admin/'
     | '/agaate-admin/content/agri-park-tour'
     | '/agaate-admin/content/app-links'
+    | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
@@ -269,18 +269,18 @@ export interface FileRouteTypes {
     | '/agaate-admin'
     | '/agaate-admin/login'
     | '/{-$locale}/about'
-    | '/{-$locale}/agri-park'
     | '/{-$locale}/careers'
-    | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
     | '/{-$locale}/kisaan-mall'
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}'
+    | '/agaate-admin/farm-visits'
     | '/agaate-admin/settings'
     | '/agaate-admin/content/agri-park-tour'
     | '/agaate-admin/content/app-links'
+    | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
@@ -293,19 +293,19 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed'
     | '/agaate-admin/login'
     | '/{-$locale}/about'
-    | '/{-$locale}/agri-park'
     | '/{-$locale}/careers'
-    | '/{-$locale}/community'
     | '/{-$locale}/contact'
     | '/{-$locale}/cookie-policy'
     | '/{-$locale}/kisaan-mall'
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
+    | '/agaate-admin/_authed/farm-visits'
     | '/agaate-admin/_authed/settings'
     | '/agaate-admin/_authed/'
     | '/agaate-admin/_authed/content/agri-park-tour'
     | '/agaate-admin/_authed/content/app-links'
+    | '/agaate-admin/_authed/content/kisaan-mall'
     | '/agaate-admin/_authed/content/logos'
     | '/agaate-admin/_authed/content/stats'
     | '/agaate-admin/_authed/content/stories'
@@ -376,25 +376,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125ContactRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/{-$locale}/community': {
-      id: '/{-$locale}/community'
-      path: '/community'
-      fullPath: '/{-$locale}/community'
-      preLoaderRoute: typeof Char123LocaleChar125CommunityRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
     '/{-$locale}/careers': {
       id: '/{-$locale}/careers'
       path: '/careers'
       fullPath: '/{-$locale}/careers'
       preLoaderRoute: typeof Char123LocaleChar125CareersRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
-    '/{-$locale}/agri-park': {
-      id: '/{-$locale}/agri-park'
-      path: '/agri-park'
-      fullPath: '/{-$locale}/agri-park'
-      preLoaderRoute: typeof Char123LocaleChar125AgriParkRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
     '/{-$locale}/about': {
@@ -432,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedSettingsRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/farm-visits': {
+      id: '/agaate-admin/_authed/farm-visits'
+      path: '/farm-visits'
+      fullPath: '/agaate-admin/farm-visits'
+      preLoaderRoute: typeof AgaateAdminAuthedFarmVisitsRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/': {
       id: '/agaate-admin/_authed/content/'
       path: '/content'
@@ -467,6 +460,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentLogosRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/content/kisaan-mall': {
+      id: '/agaate-admin/_authed/content/kisaan-mall'
+      path: '/content/kisaan-mall'
+      fullPath: '/agaate-admin/content/kisaan-mall'
+      preLoaderRoute: typeof AgaateAdminAuthedContentKisaanMallRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/app-links': {
       id: '/agaate-admin/_authed/content/app-links'
       path: '/content/app-links'
@@ -485,10 +485,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AgaateAdminAuthedRouteRouteChildren {
+  AgaateAdminAuthedFarmVisitsRoute: typeof AgaateAdminAuthedFarmVisitsRoute
   AgaateAdminAuthedSettingsRoute: typeof AgaateAdminAuthedSettingsRoute
   AgaateAdminAuthedIndexRoute: typeof AgaateAdminAuthedIndexRoute
   AgaateAdminAuthedContentAgriParkTourRoute: typeof AgaateAdminAuthedContentAgriParkTourRoute
   AgaateAdminAuthedContentAppLinksRoute: typeof AgaateAdminAuthedContentAppLinksRoute
+  AgaateAdminAuthedContentKisaanMallRoute: typeof AgaateAdminAuthedContentKisaanMallRoute
   AgaateAdminAuthedContentLogosRoute: typeof AgaateAdminAuthedContentLogosRoute
   AgaateAdminAuthedContentStatsRoute: typeof AgaateAdminAuthedContentStatsRoute
   AgaateAdminAuthedContentStoriesRoute: typeof AgaateAdminAuthedContentStoriesRoute
@@ -498,12 +500,15 @@ interface AgaateAdminAuthedRouteRouteChildren {
 
 const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
   {
+    AgaateAdminAuthedFarmVisitsRoute: AgaateAdminAuthedFarmVisitsRoute,
     AgaateAdminAuthedSettingsRoute: AgaateAdminAuthedSettingsRoute,
     AgaateAdminAuthedIndexRoute: AgaateAdminAuthedIndexRoute,
     AgaateAdminAuthedContentAgriParkTourRoute:
       AgaateAdminAuthedContentAgriParkTourRoute,
     AgaateAdminAuthedContentAppLinksRoute:
       AgaateAdminAuthedContentAppLinksRoute,
+    AgaateAdminAuthedContentKisaanMallRoute:
+      AgaateAdminAuthedContentKisaanMallRoute,
     AgaateAdminAuthedContentLogosRoute: AgaateAdminAuthedContentLogosRoute,
     AgaateAdminAuthedContentStatsRoute: AgaateAdminAuthedContentStatsRoute,
     AgaateAdminAuthedContentStoriesRoute: AgaateAdminAuthedContentStoriesRoute,
@@ -531,9 +536,7 @@ const AgaateAdminRouteRouteWithChildren =
 
 interface Char123LocaleChar125RouteRouteChildren {
   Char123LocaleChar125AboutRoute: typeof Char123LocaleChar125AboutRoute
-  Char123LocaleChar125AgriParkRoute: typeof Char123LocaleChar125AgriParkRoute
   Char123LocaleChar125CareersRoute: typeof Char123LocaleChar125CareersRoute
-  Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
   Char123LocaleChar125ContactRoute: typeof Char123LocaleChar125ContactRoute
   Char123LocaleChar125CookiePolicyRoute: typeof Char123LocaleChar125CookiePolicyRoute
   Char123LocaleChar125KisaanMallRoute: typeof Char123LocaleChar125KisaanMallRoute
@@ -545,9 +548,7 @@ interface Char123LocaleChar125RouteRouteChildren {
 const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChildren =
   {
     Char123LocaleChar125AboutRoute: Char123LocaleChar125AboutRoute,
-    Char123LocaleChar125AgriParkRoute: Char123LocaleChar125AgriParkRoute,
     Char123LocaleChar125CareersRoute: Char123LocaleChar125CareersRoute,
-    Char123LocaleChar125CommunityRoute: Char123LocaleChar125CommunityRoute,
     Char123LocaleChar125ContactRoute: Char123LocaleChar125ContactRoute,
     Char123LocaleChar125CookiePolicyRoute:
       Char123LocaleChar125CookiePolicyRoute,

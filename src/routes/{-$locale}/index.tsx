@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useCallback } from "react";
+import { createFileRoute, useLocation } from "@tanstack/react-router";
+import { useState, useCallback, useEffect } from "react";
 import { useScrollTriggerRefresh } from "@/hooks";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -74,9 +74,27 @@ function Index() {
     setVideoLoaded(true);
   }, []);
 
+  const location = useLocation();
+
   const handleHeroAnimationComplete = useCallback(() => {
     setContentReady(true);
   }, []);
+
+  useEffect(() => {
+    if (contentReady) {
+      const rawHash = location.hash || (typeof window !== "undefined" ? window.location.hash : "");
+      const hash = rawHash.replace(/^#/, "");
+      if (hash) {
+        const timer = setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 150);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [contentReady, location.hash]);
 
   useScrollTriggerRefresh(contentReady);
 

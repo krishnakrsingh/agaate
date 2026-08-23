@@ -261,29 +261,32 @@ export default function ContactForm({
       setIsSubmitting(false);
     }
   };
-
   return (
     <section
       id="contact-form"
       aria-labelledby="contact-form-heading"
-      className="border-t border-neutral-200 bg-white py-20 md:py-24"
+      className="border-t border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
           <div className="lg:col-span-5">
-            <Reveal variant="fade-up">
-              <p className="text-sm font-medium text-forest">Consultation request</p>
+            <Reveal variant="fade-up" className="space-y-4">
+              <div className="flex items-center gap-2.5">
+                <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
+                <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+                  Consultation Request
+                </p>
+              </div>
               <h2
                 id="contact-form-heading"
-                className="mt-2 font-display text-3xl font-semibold tracking-tight text-forest-deep md:text-4xl"
+                className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]"
               >
-                Tell us what you need
+                Tell us what your farm needs
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-neutral-600">
-                Choose a topic so we route you to the right advisor. Typical reply within 2 business
-                hours.
+              <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
+                Choose your inquiry track below so our agronomists can prepare specific soil, seedling, or market data for your consultation.
               </p>
-              <div className="mt-8">
+              <div className="pt-4">
                 <TopicSelector
                   options={CONSULTATION_TOPICS}
                   value={topic}
@@ -294,8 +297,8 @@ export default function ContactForm({
                   }}
                 />
                 {errors.topic ? (
-                  <p className="mt-2 text-xs font-medium text-destructive" role="alert">
-                    {errors.topic}
+                  <p className="mt-2 text-xs font-medium text-red-600" role="alert">
+                    ● {errors.topic}
                   </p>
                 ) : null}
               </div>
@@ -303,199 +306,203 @@ export default function ContactForm({
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-lg border border-neutral-200 bg-white p-6 sm:p-8">
-              {ticketId ? (
-                <FormSuccess
-                  ticketId={ticketId}
-                  name={form.name}
-                  topicId={topic}
-                  onReset={reset}
-                  whatsappHref={whatsappHref}
-                />
-              ) : (
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" noValidate>
-                  <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
-                    <span className="text-sm font-medium text-forest-deep">Your details</span>
-                    <span className="max-w-[55%] truncate text-xs text-neutral-500">
-                      {CONSULTATION_TOPICS.find((t) => t.id === topic)?.label}
-                    </span>
-                  </div>
-
-                  {formError ? (
-                    <div
-                      className="rounded-md border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
-                      role="alert"
-                    >
-                      {formError}
-                    </div>
-                  ) : null}
-                  {offline ? (
-                    <div
-                      className="rounded-md border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700"
-                      role="status"
-                    >
-                      You appear offline. You can still fill the form — or call / WhatsApp us now.
-                    </div>
-                  ) : null}
-
-                  <div className="absolute -left-[9999px] top-0 opacity-0" aria-hidden="true">
-                    <label htmlFor="company_website">Company website</label>
-                    <input
-                      id="company_website"
-                      name="company_website"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={form.honeypot}
-                      onChange={(e) => setField("honeypot", e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <TextField
-                      id="name"
-                      name="name"
-                      label="Your name *"
-                      placeholder="e.g. Ramesh Kumar"
-                      autoComplete="name"
-                      value={form.name}
-                      disabled={isSubmitting}
-                      error={errors.name}
-                      maxLength={120}
-                      onChange={(e) => setField("name", e.target.value)}
-                      onBlur={() =>
-                        form.name && track("contact_form_field_completed", { field: "name" })
-                      }
-                    />
-                    <PhoneField
-                      id="phone"
-                      name="phone"
-                      label="Phone / WhatsApp *"
-                      placeholder="e.g. 98123 45678"
-                      value={form.phone}
-                      disabled={isSubmitting}
-                      error={errors.phone}
-                      hint="We'll only use this to reach you about your query."
-                      onChange={(e) => setField("phone", e.target.value)}
-                      onBlur={() =>
-                        form.phone && track("contact_form_field_completed", { field: "phone" })
-                      }
-                    />
-                  </div>
-
-                  <EmailField
-                    id="email"
-                    name="email"
-                    label="Email (optional)"
-                    placeholder="e.g. ramesh@email.com"
-                    value={form.email}
-                    disabled={isSubmitting}
-                    error={errors.email}
-                    onChange={(e) => setField("email", e.target.value)}
+            <Reveal variant="fade-up" delay={0.1}>
+              <div className="rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-8 md:p-10 shadow-xs">
+                {ticketId ? (
+                  <FormSuccess
+                    ticketId={ticketId}
+                    name={form.name}
+                    topicId={topic}
+                    onReset={reset}
+                    whatsappHref={whatsappHref}
                   />
+                ) : (
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" noValidate>
+                    <div className="flex items-center justify-between border-b border-[#143d31]/10 pb-4">
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                        Direct Contact Details
+                      </span>
+                      <span className="max-w-[55%] truncate font-mono text-[11px] font-medium text-[#143d31]/60">
+                        {CONSULTATION_TOPICS.find((t) => t.id === topic)?.label}
+                      </span>
+                    </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowFarmDetails((v) => !v)}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
-                  >
-                    Add farm details (optional)
-                    <CaretDown
-                      className={`h-3.5 w-3.5 transition-transform ${showFarmDetails ? "rotate-180" : ""}`}
-                    />
-                  </button>
+                    {formError ? (
+                      <div
+                        className="rounded-xl border border-red-200 bg-red-50 p-4 text-xs sm:text-sm font-medium text-red-700"
+                        role="alert"
+                      >
+                        {formError}
+                      </div>
+                    ) : null}
+                    {offline ? (
+                      <div
+                        className="rounded-xl border border-[#143d31]/15 bg-[#f4f8f5] p-4 text-xs sm:text-sm text-[#143d31]"
+                        role="status"
+                      >
+                        You appear offline. You can still fill the form — or call / WhatsApp us directly.
+                      </div>
+                    ) : null}
 
-                  {showFarmDetails ? (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                      <SelectField
-                        id="acreage"
-                        name="acreage"
-                        label="Land acreage"
-                        options={ACREAGE_OPTIONS}
-                        value={form.acreage}
-                        disabled={isSubmitting}
-                        onChange={(e) => setField("acreage", e.target.value)}
+                    <div className="absolute -left-[9999px] top-0 opacity-0" aria-hidden="true">
+                      <label htmlFor="company_website">Company website</label>
+                      <input
+                        id="company_website"
+                        name="company_website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={form.honeypot}
+                        onChange={(e) => setField("honeypot", e.target.value)}
                       />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                       <TextField
-                        id="district"
-                        name="district"
-                        label="District / region"
-                        placeholder="e.g. Gurugram, Rewari"
-                        value={form.district}
+                        id="name"
+                        name="name"
+                        label="Your name *"
+                        placeholder="e.g. Ramesh Kumar"
+                        autoComplete="name"
+                        value={form.name}
                         disabled={isSubmitting}
+                        error={errors.name}
                         maxLength={120}
-                        onChange={(e) => setField("district", e.target.value)}
+                        onChange={(e) => setField("name", e.target.value)}
+                        onBlur={() =>
+                          form.name && track("contact_form_field_completed", { field: "name" })
+                        }
                       />
-                      <SelectField
-                        id="crop"
-                        name="crop"
-                        label="Primary crop"
-                        options={CROP_OPTIONS}
-                        value={form.crop}
+                      <PhoneField
+                        id="phone"
+                        name="phone"
+                        label="Phone / WhatsApp *"
+                        placeholder="e.g. 98123 45678"
+                        value={form.phone}
                         disabled={isSubmitting}
-                        onChange={(e) => setField("crop", e.target.value)}
+                        error={errors.phone}
+                        hint="We'll only use this to reach you about your query."
+                        onChange={(e) => setField("phone", e.target.value)}
+                        onBlur={() =>
+                          form.phone && track("contact_form_field_completed", { field: "phone" })
+                        }
                       />
                     </div>
-                  ) : null}
 
-                  <TextareaField
-                    id="message"
-                    name="message"
-                    label="Notes / questions"
-                    placeholder="Describe your crop stage, soil conditions, or sapling quantity..."
-                    value={form.message}
-                    disabled={isSubmitting}
-                    maxLength={MESSAGE_MAX}
-                    onChange={(e) => setField("message", e.target.value)}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setShowUpload((v) => !v)}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-forest-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
-                  >
-                    Attach a photo or report (optional)
-                    <CaretDown
-                      className={`h-3.5 w-3.5 transition-transform ${showUpload ? "rotate-180" : ""}`}
+                    <EmailField
+                      id="email"
+                      name="email"
+                      label="Email (optional)"
+                      placeholder="e.g. ramesh@email.com"
+                      value={form.email}
+                      disabled={isSubmitting}
+                      error={errors.email}
+                      onChange={(e) => setField("email", e.target.value)}
                     />
-                  </button>
-                  {showUpload ? (
-                    <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
-                  ) : null}
 
-                  <ConsentCheckbox
-                    id="consent"
-                    checked={form.consent}
-                    disabled={isSubmitting}
-                    error={errors.consent}
-                    privacyHref={privacyHref}
-                    onChange={(v) => setField("consent", v)}
-                  />
+                    <button
+                      type="button"
+                      onClick={() => setShowFarmDetails((v) => !v)}
+                      className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none"
+                    >
+                      <span>{showFarmDetails ? "Hide farm details" : "+ Add farm details (optional)"}</span>
+                      <CaretDown
+                        className={`h-3.5 w-3.5 transition-transform ${showFarmDetails ? "rotate-180" : ""}`}
+                      />
+                    </button>
 
-                  <p className="text-xs text-neutral-500">
-                    Typical reply within 2 business hours, 7:30 AM – 8:00 PM IST.
-                  </p>
+                    {showFarmDetails ? (
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 rounded-xl border border-[#143d31]/10 bg-[#f4f8f5]/50 p-4">
+                        <SelectField
+                          id="acreage"
+                          name="acreage"
+                          label="Land acreage"
+                          options={ACREAGE_OPTIONS}
+                          value={form.acreage}
+                          disabled={isSubmitting}
+                          onChange={(e) => setField("acreage", e.target.value)}
+                        />
+                        <TextField
+                          id="district"
+                          name="district"
+                          label="District / region"
+                          placeholder="e.g. Gurugram, Rewari"
+                          value={form.district}
+                          disabled={isSubmitting}
+                          maxLength={120}
+                          onChange={(e) => setField("district", e.target.value)}
+                        />
+                        <SelectField
+                          id="crop"
+                          name="crop"
+                          label="Primary crop"
+                          options={CROP_OPTIONS}
+                          value={form.crop}
+                          disabled={isSubmitting}
+                          onChange={(e) => setField("crop", e.target.value)}
+                        />
+                      </div>
+                    ) : null}
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    aria-busy={isSubmitting}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-forest-deep px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-forest disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest/40"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Spinner />
-                        <span>Sending request...</span>
-                      </>
-                    ) : (
-                      <>
-                        <PaperPlaneRight className="h-4 w-4" strokeWidth={1.75} />
-                        <span>Request a callback</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
+                    <TextareaField
+                      id="message"
+                      name="message"
+                      label="Notes / questions"
+                      placeholder="Describe your crop stage, soil conditions, or sapling quantity..."
+                      value={form.message}
+                      disabled={isSubmitting}
+                      maxLength={MESSAGE_MAX}
+                      onChange={(e) => setField("message", e.target.value)}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setShowUpload((v) => !v)}
+                      className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none"
+                    >
+                      <span>{showUpload ? "Hide attachment" : "+ Attach crop photo or soil report (optional)"}</span>
+                      <CaretDown
+                        className={`h-3.5 w-3.5 transition-transform ${showUpload ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    {showUpload ? (
+                      <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
+                    ) : null}
+
+                    <ConsentCheckbox
+                      id="consent"
+                      checked={form.consent}
+                      disabled={isSubmitting}
+                      error={errors.consent}
+                      privacyHref={privacyHref}
+                      onChange={(v) => setField("consent", v)}
+                    />
+
+                    <p className="font-sans text-xs text-[#4f624f]">
+                      Typical reply within 2 business hours, 7:30 AM – 8:00 PM IST.
+                    </p>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      aria-busy={isSubmitting}
+                      className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a3e635] px-6 py-3.5 font-body text-sm font-bold text-[#0d2820] shadow-sm transition-all duration-300 hover:bg-[#91d820] hover:shadow-md disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/40"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Spinner />
+                          <span>Sending request...</span>
+                        </>
+                      ) : (
+                        <>
+                          <PaperPlaneRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" weight="bold" />
+                          <span>Request Consultation Callback</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

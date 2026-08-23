@@ -12,11 +12,15 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/")({
 function ContentOverviewPage() {
   const data = Route.useLoaderData();
 
-  if (!isAdminOk<{ overview: CmsOverview; dbConfigured: boolean }>(data)) {
+  if (!isAdminOk<{ overview: CmsOverview; dbConfigured: boolean; newsletterWaitlist: number }>(data)) {
     return <p className="text-sm text-rose-600">{adminError(data, "Unable to load CMS overview.")}</p>;
   }
 
   return (
-    <AdminCmsOverview overview={data.overview} dbConfigured={data.dbConfigured} />
+    <AdminCmsOverview
+      overview={data.overview}
+      dbConfigured={data.dbConfigured}
+      newsletterWaitlist={data.newsletterWaitlist}
+    />
   );
 }

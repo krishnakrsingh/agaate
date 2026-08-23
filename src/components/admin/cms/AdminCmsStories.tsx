@@ -52,6 +52,7 @@ import {
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { storySlugFrom } from "@/lib/cms-slug";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
+import { autoThumbnailForVideoUrl, isValidVideoSource } from "@/lib/video-source";
 
 const emptyForm = {
   slug: "",
@@ -129,8 +130,13 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
 
   const handlePublish = async () => {
     const slug = form.slug || storySlugFrom(form.nameEn, form.cropEn);
-    if (!form.thumbnailUrl || !form.videoUrl) {
-      toast.error("Thumbnail and video are required.");
+    if (!isValidVideoSource(form.videoUrl)) {
+      toast.error("Add a valid video: upload MP4/WebM or paste a YouTube or Instagram link.");
+      return;
+    }
+    const thumb = form.thumbnailUrl || autoThumbnailForVideoUrl(form.videoUrl) || "";
+    if (!thumb) {
+      toast.error("Thumbnail is required (upload image or use a YouTube link for auto-thumbnail).");
       return;
     }
     if (!form.nameEn.trim() || !form.cropEn.trim()) {
@@ -138,7 +144,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
       return;
     }
     setPublishing(true);
-    const saveRes = await saveCmsStoryAdmin({ data: { id: editing?.id, ...form, slug } });
+    const saveRes = await saveCmsStoryAdmin({ data: { id: editing?.id, ...form, slug, thumbnailUrl: thumb } });
     if (!isAdminOk<{ item: CmsStoryRow }>(saveRes)) {
       toast.error(adminError(saveRes));
       setPublishing(false);
@@ -398,8 +404,27 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
               onChange={(url) => setForm({ ...form, thumbnailUrl: url })}
               disabled={!canEdit}
             />
+            <div className="space-y-2">
+              <Label>Video URL</Label>
+              <Input
+                value={form.videoUrl}
+                onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+                onBlur={() => {
+                  if (!form.thumbnailUrl && form.videoUrl) {
+                    const auto = autoThumbnailForVideoUrl(form.videoUrl);
+                    if (auto) setForm((f) => ({ ...f, thumbnailUrl: auto }));
+                  }
+                }}
+                placeholder="https://youtube.com/shorts/... or https://instagram.com/reel/..."
+                disabled={!canEdit}
+              />
+              <p className="text-xs text-muted-foreground">
+                Paste a YouTube or Instagram reel link, or upload MP4/WebM below. YouTube links auto-fill the
+                thumbnail.
+              </p>
+            </div>
             <CmsUploadField
-              label="Video (MP4)"
+              label="Upload video (MP4/WebM)"
               kind="video"
               accept="video/mp4,video/webm"
               value={form.videoUrl}
@@ -411,7 +436,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
             <SheetFooter className="mt-6">
               <Button
                 onClick={() => void handlePublish()}
-                disabled={publishing || !form.thumbnailUrl || !form.videoUrl}
+                disabled={publishing || !isValidVideoSource(form.videoUrl) || !(form.thumbnailUrl || autoThumbnailForVideoUrl(form.videoUrl))}
                 className="w-full"
               >
                 {publishing ? "Publishing…" : "Publish"}

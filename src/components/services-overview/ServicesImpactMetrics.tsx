@@ -86,7 +86,7 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
                   <p className="font-sans text-xs text-white/80 mt-0.5">
                     {isHindi
                       ? "100% निःशुल्क सलाह · कोई ऑटोमेटेड बॉट नहीं"
-                      : "100% Free Consultation · Real Senior Scientists"}
+                      : "100% Free Consultation · Real Senior Agronomists"}
                   </p>
                 </div>
               </div>

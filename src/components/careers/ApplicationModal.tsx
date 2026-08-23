@@ -15,14 +15,14 @@ import { EASE } from "@/components/common/motion";
 const STEPS = ["Candidate Info", "Experience & Resume", "Confirm & Submit"];
 
 const CONFETTI = [
-  { x: -70, y: -60, color: "var(--color-moss)" },
-  { x: 70, y: -55, color: "var(--color-terracotta)" },
-  { x: -90, y: 20, color: "var(--color-forest)" },
-  { x: 90, y: 25, color: "var(--color-moss)" },
-  { x: -55, y: 70, color: "var(--color-terracotta)" },
-  { x: 55, y: 75, color: "var(--color-forest)" },
-  { x: -25, y: -85, color: "var(--color-moss)" },
-  { x: 25, y: -88, color: "var(--color-terracotta)" },
+  { x: -70, y: -60, color: "#a3e635" },
+  { x: 70, y: -55, color: "#5d7d37" },
+  { x: -90, y: 20, color: "#143d31" },
+  { x: 90, y: 25, color: "#a3e635" },
+  { x: -55, y: 70, color: "#5d7d37" },
+  { x: 55, y: 75, color: "#143d31" },
+  { x: -25, y: -85, color: "#a3e635" },
+  { x: 25, y: -88, color: "#5d7d37" },
 ];
 
 type Props = {
@@ -85,36 +85,45 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6">
+        {/* Backdrop */}
         <motion.div
-          className="absolute inset-0 bg-forest-deep/60 backdrop-blur-md"
+          className="absolute inset-0 bg-[#143d31]/60 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: EASE }}
+          transition={{ duration: 0.25 }}
           onClick={onClose}
         />
+
+        {/* Modal Container */}
         <motion.div
-          className="relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-[2.5rem] border border-border bg-cream p-6 shadow-2xl md:p-10"
-          initial={{ opacity: 0, scale: 0.88, y: 44 }}
+          className="relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-3xl border border-[#143d31]/10 bg-[#f4f8f5] p-6 text-[#143d31] shadow-2xl md:p-8"
+          initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 20 }}
-          transition={{ type: "spring", bounce: 0.28, duration: 0.55 }}
+          exit={{ opacity: 0, scale: 0.96, y: 15 }}
+          transition={{ type: "spring", bounce: 0.2, duration: 0.45 }}
         >
+          {/* Close button */}
           <button
+            type="button"
             onClick={onClose}
-            className="absolute right-5 top-5 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border bg-card text-forest/65 shadow-sm transition-colors hover:text-forest hover:bg-forest/10"
+            aria-label="Close modal"
+            className="absolute right-5 top-5 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[#143d31]/15 bg-white text-[#143d31] shadow-xs transition-colors hover:bg-[#143d31]/5"
           >
             <X className="h-4 w-4" />
           </button>
 
-          <div className="space-y-8 text-left">
+          <div className="space-y-6 text-left">
+            {/* Header info */}
             <div className="pr-10">
-              <span className="font-jet text-[9px] tracking-widest uppercase text-terracotta font-bold block mb-1">
-                Agaate AgTech Recruitment Portal
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#5d7d37] font-bold block mb-1">
+                Agaate Career Portal
               </span>
-              <h3 className="font-serif text-3xl text-forest-deep font-bold">{activeJob?.title}</h3>
-              <span className="font-mono text-[10px] text-forest/60 block mt-1">
+              <h3 className="font-display text-2xl sm:text-3xl text-[#143d31] font-bold">
+                {activeJob?.title}
+              </h3>
+              <span className="font-mono text-xs text-[#4f624f] block mt-1">
                 {activeJob?.dept} · {activeJob?.loc} · {activeJob?.type}
               </span>
             </div>
@@ -123,22 +132,12 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
               {applied ? (
                 <motion.div
                   key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.92 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.94 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.35, ease: EASE }}
-                  className="relative flex min-h-[340px] flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-forest/10 bg-card p-8 text-center"
+                  className="relative flex min-h-[320px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#143d31]/10 bg-white p-8 text-center shadow-xs"
                 >
-                  <motion.span
-                    className="pointer-events-none absolute h-40 w-40 rounded-full border border-moss/40"
-                    animate={{ scale: [1, 1.9], opacity: [0.7, 0] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
-                  />
-                  <motion.span
-                    className="pointer-events-none absolute h-40 w-40 rounded-full border border-terracotta/40"
-                    animate={{ scale: [1, 2.3], opacity: [0.6, 0] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut", delay: 0.5 }}
-                  />
                   {CONFETTI.map((c, i) => (
                     <motion.span
                       key={i}
@@ -148,44 +147,25 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                       animate={{ x: c.x, y: c.y, scale: 1, opacity: 0 }}
                       transition={{
                         duration: 1.8,
-                        delay: 0.3 + i * 0.09,
+                        delay: 0.2 + i * 0.08,
                         repeat: Infinity,
-                        repeatDelay: 0.6,
+                        repeatDelay: 0.8,
                         ease: "easeOut",
                       }}
                     />
                   ))}
-                  <svg viewBox="0 0 64 64" className="relative h-20 w-20">
-                    <motion.circle
-                      cx="32"
-                      cy="32"
-                      r="28"
-                      fill="none"
-                      stroke="var(--color-forest)"
-                      strokeWidth="3"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{ duration: 0.7, ease: EASE }}
-                    />
-                    <motion.path
-                      d="M20 33 L29 42 L45 24"
-                      fill="none"
-                      stroke="var(--color-forest)"
-                      strokeWidth="4.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: 0.45, ease: EASE, delay: 0.55 }}
-                    />
-                  </svg>
-                  <h4 className="relative mt-6 font-serif text-3xl font-bold text-forest-deep">
-                    Application Successfully Logged!
+
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#143d31] text-[#a3e635] mb-4">
+                    <Check className="h-8 w-8 text-[#a3e635]" weight="bold" />
+                  </div>
+
+                  <h4 className="font-display text-2xl font-bold text-[#143d31]">
+                    Application Submitted!
                   </h4>
-                  <p className="relative mt-3 max-w-xs text-xs leading-relaxed text-forest/75">
-                    Thank you, <strong>{name}</strong>! Your application for{" "}
-                    <strong>{activeJob.title}</strong> has been logged in our HR system. Our
-                    operations team will evaluate your profile and contact you within 48 hours.
+                  <p className="mt-2.5 max-w-sm font-sans text-xs leading-relaxed text-[#4f624f]">
+                    Thank you, <strong>{name}</strong>! Your profile for{" "}
+                    <strong>{activeJob.title}</strong> has been received by our talent team. We will
+                    review your details and reach out within 48 hours.
                   </p>
                 </motion.div>
               ) : (
@@ -194,15 +174,18 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3, ease: EASE }}
+                  transition={{ duration: 0.25 }}
                   className="space-y-6"
                 >
-                  {/* Step Stepper */}
+                  {/* Step Indicators */}
                   <div>
-                    <div className="mb-2 flex items-center justify-between font-mono text-[9px] font-bold tracking-widest text-forest/40">
+                    <div className="mb-2 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
                       {STEPS.map((label, i) => (
-                        <span key={label} className={step === i + 1 ? "text-forest font-bold" : ""}>
-                          {String(i + 1).padStart(2, "0")} {label.toUpperCase()}
+                        <span
+                          key={label}
+                          className={step === i + 1 ? "text-[#143d31] font-bold" : "opacity-60"}
+                        >
+                          {String(i + 1).padStart(2, "0")} {label}
                         </span>
                       ))}
                     </div>
@@ -210,14 +193,14 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                       {[1, 2, 3].map((n) => (
                         <div
                           key={n}
-                          className="h-1.5 flex-1 overflow-hidden rounded-full bg-border"
+                          className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#143d31]/10"
                         >
                           {step >= n && (
                             <motion.div
-                              className="h-full rounded-full bg-forest"
+                              className="h-full rounded-full bg-[#143d31]"
                               initial={{ scaleX: 0 }}
                               animate={{ scaleX: 1 }}
-                              transition={{ duration: 0.45, ease: EASE }}
+                              transition={{ duration: 0.4, ease: EASE }}
                             />
                           )}
                         </div>
@@ -225,25 +208,26 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                     </div>
                   </div>
 
-                  <div className="min-h-[260px]">
+                  {/* Step Content */}
+                  <div className="min-h-[250px]">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={step}
-                        initial={{ opacity: 0, x: 24 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -24 }}
-                        transition={{ duration: 0.3, ease: EASE }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.25, ease: EASE }}
                       >
                         {step === 1 && (
                           <div className="space-y-4">
                             <div>
-                              <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
-                                Target Open Role *
+                              <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
+                                Target Role *
                               </label>
                               <select
                                 value={selectedRoleId}
                                 onChange={(e) => setSelectedRoleId(e.target.value)}
-                                className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs font-serif font-bold text-forest-deep focus:border-forest focus:outline-none"
+                                className="w-full bg-white border border-[#143d31]/15 rounded-xl px-4 py-3 text-xs font-mono font-bold text-[#143d31] focus:border-[#143d31] focus:outline-none"
                               >
                                 {jobs.map((j) => (
                                   <option key={j.id} value={j.id}>
@@ -254,42 +238,42 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                             </div>
 
                             <div>
-                              <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
-                                Your Full Name *
+                              <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
+                                Full Name *
                               </label>
                               <input
                                 required
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                                className="w-full bg-white border border-[#143d31]/15 rounded-xl px-4 py-3 text-xs text-[#143d31] focus:border-[#143d31] focus:outline-none"
                                 placeholder="e.g. Sandeep Phogat"
                               />
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <div>
-                                <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
-                                  Phone Number *
+                                <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
+                                  Mobile Number *
                                 </label>
                                 <input
                                   required
                                   type="tel"
                                   value={phone}
                                   onChange={(e) => setPhone(e.target.value)}
-                                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                                  className="w-full bg-white border border-[#143d31]/15 rounded-xl px-4 py-3 text-xs text-[#143d31] focus:border-[#143d31] focus:outline-none"
                                   placeholder="e.g. +91 99887 76655"
                                 />
                               </div>
                               <div>
-                                <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
+                                <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
                                   Email Address
                                 </label>
                                 <input
                                   type="email"
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
-                                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
+                                  className="w-full bg-white border border-[#143d31]/15 rounded-xl px-4 py-3 text-xs text-[#143d31] focus:border-[#143d31] focus:outline-none"
                                   placeholder="e.g. candidate@agaate.in"
                                 />
                               </div>
@@ -301,15 +285,15 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                           <div className="space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <div>
-                                <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
+                                <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
                                   Experience Level *
                                 </label>
                                 <select
                                   value={exp}
                                   onChange={(e) => setExp(e.target.value)}
-                                  className="w-full bg-card border border-border rounded-xl px-3 py-3 text-xs font-semibold text-forest-deep focus:border-forest focus:outline-none"
+                                  className="w-full bg-white border border-[#143d31]/15 rounded-xl px-3 py-3 text-xs font-semibold text-[#143d31] focus:border-[#143d31] focus:outline-none"
                                 >
-                                  <option>Fresh Graduate (CSAUAT / Ag Institute)</option>
+                                  <option>Fresh Graduate (Agri / Tech)</option>
                                   <option>1-3 Years</option>
                                   <option>3-5 Years</option>
                                   <option>5+ Years</option>
@@ -317,23 +301,23 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                               </div>
 
                               <div>
-                                <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
-                                  Key Crop / Tech Expertise
+                                <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
+                                  Key Agronomy / Tech Expertise
                                 </label>
                                 <input
                                   type="text"
                                   value={cropExp}
                                   onChange={(e) => setCropExp(e.target.value)}
-                                  className="w-full bg-card border border-border rounded-xl px-4 py-3 text-xs focus:border-forest focus:outline-none"
-                                  placeholder="e.g. Solanaceae IPM / Drip Fertigation / Drone Remote Sensing"
+                                  className="w-full bg-white border border-[#143d31]/15 rounded-xl px-4 py-3 text-xs text-[#143d31] focus:border-[#143d31] focus:outline-none"
+                                  placeholder="e.g. Solanaceae IPM / Drip Fertigation"
                                 />
                               </div>
                             </div>
 
-                            {/* Resume Drag and Drop Box */}
+                            {/* Resume Upload */}
                             <div>
-                              <label className="block text-[10px] font-mono tracking-wider text-forest/70 mb-1.5 uppercase font-semibold">
-                                Resume Drag & Drop Upload
+                              <label className="block text-[11px] font-mono tracking-wider text-[#143d31] mb-1.5 uppercase font-semibold">
+                                Resume Upload (PDF / DOC)
                               </label>
                               <div
                                 onDragOver={(e) => {
@@ -345,10 +329,10 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                                 onClick={() => fileInputRef.current?.click()}
                                 className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all cursor-pointer ${
                                   isDragging
-                                    ? "border-forest bg-forest/10"
+                                    ? "border-[#143d31] bg-[#143d31]/10"
                                     : resumeFile
-                                      ? "border-moss bg-moss/5"
-                                      : "border-border bg-card hover:border-forest/40"
+                                    ? "border-[#5d7d37] bg-[#5d7d37]/5"
+                                    : "border-[#143d31]/20 bg-white hover:border-[#143d31]/40"
                                 }`}
                               >
                                 <input
@@ -360,13 +344,13 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                                 />
                                 {resumeFile ? (
                                   <div className="flex items-center gap-3">
-                                    <FileText className="h-7 w-7 text-moss" />
+                                    <FileText className="h-7 w-7 text-[#5d7d37]" />
                                     <div className="text-left">
-                                      <p className="font-jet text-xs font-bold text-forest-deep truncate max-w-[200px]">
+                                      <p className="font-mono text-xs font-bold text-[#143d31] truncate max-w-[200px]">
                                         {resumeFile.name}
                                       </p>
-                                      <p className="font-mono text-[9px] text-forest/50">
-                                        {(resumeFile.size / 1024).toFixed(1)} KB · File Attached
+                                      <p className="font-mono text-[9px] text-[#4f624f]">
+                                        {(resumeFile.size / 1024).toFixed(1)} KB · Attached
                                       </p>
                                     </div>
                                     <button
@@ -375,19 +359,19 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                                         e.stopPropagation();
                                         setResumeFile(null);
                                       }}
-                                      className="ml-2 text-forest/40 hover:text-terracotta text-xs"
+                                      className="ml-2 font-mono text-xs text-[#5d7d37] hover:underline"
                                     >
                                       Remove
                                     </button>
                                   </div>
                                 ) : (
                                   <>
-                                    <CloudArrowUp className="h-8 w-8 text-forest/50 mb-2" />
-                                    <p className="font-jet text-xs font-semibold text-forest-deep">
-                                      Drag & drop your resume PDF here, or{" "}
-                                      <span className="text-terracotta underline">browse</span>
+                                    <CloudArrowUp className="h-8 w-8 text-[#5d7d37] mb-2" />
+                                    <p className="font-sans text-xs font-semibold text-[#143d31]">
+                                      Drag & drop resume PDF here, or{" "}
+                                      <span className="text-[#5d7d37] underline">browse</span>
                                     </p>
-                                    <p className="font-mono text-[9px] text-forest/45 mt-1">
+                                    <p className="font-mono text-[9px] text-[#4f624f]/70 mt-1">
                                       Supports PDF, DOC, DOCX up to 10MB
                                     </p>
                                   </>
@@ -399,36 +383,41 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
 
                         {step === 3 && (
                           <div className="space-y-4 leading-relaxed">
-                            <div className="rounded-2xl border border-border bg-card p-5 space-y-2 text-xs">
-                              <h5 className="font-jet text-[9px] font-bold uppercase tracking-widest text-terracotta mb-2">
-                                Application Details Summary
+                            <div className="rounded-2xl border border-[#143d31]/10 bg-white p-5 space-y-2 text-xs font-sans">
+                              <h5 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37] mb-2">
+                                Application Summary
                               </h5>
-                              <p className="text-forest-deep">
+                              <p className="text-[#143d31]">
                                 <strong>Role:</strong> {activeJob.title} ({activeJob.loc})
                               </p>
-                              <p className="text-forest-deep">
-                                <strong>Candidate Name:</strong> {name || "Not provided"}
+                              <p className="text-[#143d31]">
+                                <strong>Name:</strong> {name || "Not provided"}
                               </p>
-                              <p className="text-forest-deep">
+                              <p className="text-[#143d31]">
                                 <strong>Phone:</strong> {phone || "Not provided"}
                               </p>
-                              <p className="text-forest-deep">
-                                <strong>Email:</strong> {email || "Not provided"}
+                              {email && (
+                                <p className="text-[#143d31]">
+                                  <strong>Email:</strong> {email}
+                                </p>
+                              )}
+                              <p className="text-[#143d31]">
+                                <strong>Experience:</strong> {exp}
                               </p>
-                              <p className="text-forest-deep">
-                                <strong>Experience Level:</strong> {exp}
-                              </p>
-                              <p className="text-forest-deep">
-                                <strong>Expertise Focus:</strong> {cropExp || "General Agronomy"}
-                              </p>
-                              <p className="text-forest-deep">
-                                <strong>Resume Attached:</strong>{" "}
-                                {resumeFile ? resumeFile.name : "Simulated Profile Upload"}
+                              {cropExp && (
+                                <p className="text-[#143d31]">
+                                  <strong>Focus Area:</strong> {cropExp}
+                                </p>
+                              )}
+                              <p className="text-[#143d31]">
+                                <strong>Resume:</strong>{" "}
+                                {resumeFile ? resumeFile.name : "Profile Submission"}
                               </p>
                             </div>
-                            <p className="text-xs text-forest/70">
+
+                            <p className="font-sans text-xs text-[#4f624f]">
                               By submitting, your candidate profile is dispatched directly to Agaate
-                              operations HR. Response guaranteed within 48 hours.
+                              talent acquisition. Response guaranteed within 48 hours.
                             </p>
                           </div>
                         )}
@@ -436,38 +425,39 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                     </AnimatePresence>
                   </div>
 
-                  <div className="flex gap-3">
+                  {/* Buttons */}
+                  <div className="flex gap-3 pt-2">
                     {step > 1 && (
                       <button
                         type="button"
                         onClick={handleBackStep}
-                        className="cursor-pointer rounded-xl border border-border bg-card px-6 py-3.5 font-mono text-xs font-bold uppercase tracking-wider text-forest/70 transition-colors hover:text-forest-deep"
+                        className="cursor-pointer rounded-full border border-[#143d31]/15 bg-white px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-[#143d31] transition-colors hover:bg-[#143d31]/5"
                       >
                         Back
                       </button>
                     )}
-                    <motion.button
+                    <button
+                      type="button"
                       onClick={handleNextStep}
                       disabled={step === 1 ? !name || !phone : false}
-                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-forest-deep py-3.5 text-xs font-bold uppercase tracking-wider text-cream shadow-md transition-all hover:bg-forest disabled:cursor-not-allowed disabled:bg-forest/40"
-                      whileHover={{ scale: step === 1 && (!name || !phone) ? 1 : 1.02 }}
-                      whileTap={{ scale: step === 1 && (!name || !phone) ? 1 : 0.98 }}
+                      className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-[#143d31] py-3 text-xs font-mono font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#1a4d3e] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <span>{step === 3 ? "Submit Application" : "Continue"}</span>
-                      <PaperPlaneRight className="h-4 w-4" />
-                    </motion.button>
+                      <PaperPlaneRight className="h-4 w-4 text-[#a3e635]" />
+                    </button>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className="border-t border-border/50 pt-4 text-[9px] font-mono text-forest/40 flex justify-between items-center text-left">
+            {/* Modal footer status */}
+            <div className="border-t border-[#143d31]/10 pt-3 text-[10px] font-mono text-[#4f624f]/70 flex justify-between items-center">
               <span className="flex items-center gap-1">
-                <Sparkle className="h-3 w-3 text-terracotta" />
-                AG-HR-RECRUITMENT-ENGINE
+                <Sparkle className="h-3 w-3 text-[#5d7d37]" />
+                AGAATE TALENT DESK
               </span>
               <span className="flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5" /> 48h Response SLA
+                <Clock className="h-3 w-3" /> 48h Response SLA
               </span>
             </div>
           </div>

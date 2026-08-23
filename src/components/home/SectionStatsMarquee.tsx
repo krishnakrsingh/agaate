@@ -45,17 +45,17 @@ function StatCell({
   const label = isHindi ? item.labelHi : item.labelEn;
 
   return (
-    <div className="group relative flex items-center gap-3.5 sm:gap-4 p-3.5 sm:p-4 rounded-xl bg-white border border-[#143d31]/10 shadow-[0_2px_12px_-4px_rgba(20,61,49,0.06)] select-none transition-all duration-300 hover:border-[#5d7d37]/40 hover:shadow-md hover:-translate-y-0.5">
+    <div className="group relative flex items-center gap-2.5 sm:gap-3.5 p-3 sm:p-4 rounded-xl bg-white border border-[#143d31]/10 shadow-[0_2px_12px_-4px_rgba(20,61,49,0.06)] select-none transition-all duration-300 hover:border-[#5d7d37]/40 hover:shadow-md hover:-translate-y-0.5 min-w-0">
       {/* Icon Badge */}
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-[#a3e635] shadow-xs transition-transform duration-300 group-hover:scale-105 group-hover:bg-[#1a4d3e]">
-        <Icon weight="duotone" className="h-5 w-5 text-[#a3e635]" />
+      <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-[#143d31] text-[#a3e635] shadow-xs transition-transform duration-300 group-hover:scale-105 group-hover:bg-[#1a4d3e]">
+        <Icon weight="duotone" className="h-4.5 w-4.5 sm:h-5 sm:w-5 text-[#a3e635]" />
       </div>
 
       {/* Metric Content */}
-      <div className="flex flex-col min-w-0">
-        <div className="flex items-baseline gap-1 font-display text-[18px] sm:text-[20px] md:text-[22px] lg:text-[23px] font-black tracking-tight text-[#143d31] tabular-nums leading-none">
+      <div className="flex flex-col min-w-0 flex-1 justify-center">
+        <div className="flex items-baseline gap-0.5 sm:gap-1 font-display text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] font-black tracking-tight text-[#143d31] tabular-nums leading-none">
           {item.prefix && (
-            <span className="text-[14px] sm:text-[15px] font-bold text-[#5d7d37]">
+            <span className="text-[12px] sm:text-[14px] font-bold text-[#5d7d37]">
               {item.prefix}
             </span>
           )}
@@ -67,7 +67,7 @@ function StatCell({
             )}
           </span>
         </div>
-        <p className="font-mono text-[9.5px] sm:text-[10px] md:text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#5d7d37] truncate mt-1 leading-tight">
+        <p className="font-mono text-[8.5px] sm:text-[9.5px] md:text-[10px] lg:text-[10.5px] font-bold uppercase tracking-[0.04em] sm:tracking-[0.06em] text-[#5d7d37] mt-1 leading-[1.2] break-words line-clamp-2">
           {label}
         </p>
       </div>

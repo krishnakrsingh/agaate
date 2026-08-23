@@ -1,20 +1,9 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard,
-  Users,
-  Calendar,
-  FileText,
-  UserCheck,
-  BarChart3,
-  Bell,
   Settings,
   LogOut,
   Search,
-  Sparkles,
-  ArrowUpRight,
-  Clock,
-  AlertCircle,
-  CheckCircle2,
   ChevronsUpDown,
   Globe,
   Image,
@@ -22,10 +11,11 @@ import {
   BarChart2,
   UsersRound,
   Smartphone,
+  MapPin,
+  Store,
 } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
-import { getAdminNotifications } from "@/functions/admin-contacts";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { cn } from "@/lib/utils";
 import type { SessionUser } from "@/lib/admin-constants";
@@ -41,7 +31,6 @@ import {
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
@@ -65,11 +54,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -80,7 +64,6 @@ type NavItem = {
   icon: typeof LayoutDashboard;
   exact?: boolean;
   adminOnly?: boolean;
-  badge?: (n: { newToday: number; dueToday: number; overdue: number }) => number;
 };
 
 const NAV_GROUPS: Array<{
@@ -88,19 +71,8 @@ const NAV_GROUPS: Array<{
   items: NavItem[];
 }> = [
   {
-    group: "Platform",
-    items: [
-      { to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-      { to: "/agaate-admin/farm-visits", label: "Farm Visits", icon: Calendar },
-      { to: "/agaate-admin/consultations", label: "Consultations", icon: FileText },
-    ],
-  },
-  {
-    group: "Directory",
-    items: [
-      { to: "/agaate-admin/customers", label: "Growers Directory", icon: Users },
-      { to: "/agaate-admin/agronomists", label: "Agronomists", icon: UserCheck },
-    ],
+    group: "Overview",
+    items: [{ to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true }],
   },
   {
     group: "Website",
@@ -112,20 +84,16 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
       { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park video", icon: Video },
+      { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall waitlist", icon: Store },
     ],
   },
   {
+    group: "Inquiries",
+    items: [{ to: "/agaate-admin/farm-visits", label: "Farm Visits", icon: MapPin }],
+  },
+  {
     group: "Configuration",
-    items: [
-      { to: "/agaate-admin/analytics", label: "Analytics", icon: BarChart3 },
-      {
-        to: "/agaate-admin/notifications",
-        label: "Notifications",
-        icon: Bell,
-        badge: (n) => n.dueToday + n.overdue,
-      },
-      { to: "/agaate-admin/settings", label: "Settings", icon: Settings, adminOnly: true },
-    ],
+    items: [{ to: "/agaate-admin/settings", label: "Settings", icon: Settings, adminOnly: true }],
   },
 ];
 
@@ -133,25 +101,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const [commandOpen, setCommandOpen] = useState(false);
-  const [notes, setNotes] = useState({ newToday: 6, dueToday: 4, overdue: 2 });
 
-  useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      const res = await getAdminNotifications();
-      if (!cancelled && res && "ok" in res && res.ok) {
-        setNotes({ newToday: res.newToday, dueToday: res.dueToday, overdue: res.overdue });
-      }
-    };
-    void load();
-    const id = window.setInterval(load, 45_000);
-    return () => {
-      cancelled = true;
-      window.clearInterval(id);
-    };
-  }, []);
-
-  // Global ⌘K listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -163,59 +113,9 @@ export function AdminShell({ user }: { user: SessionUser }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const badgeTotal = notes.newToday + notes.dueToday + notes.overdue;
-
   const breadcrumbSegments = useMemo(() => {
     if (pathname === "/agaate-admin" || pathname === "/agaate-admin/") {
       return [{ label: "Dashboard", href: "/agaate-admin", current: true }];
-    }
-    if (pathname.startsWith("/agaate-admin/contacts/")) {
-      return [
-        { label: "Contacts", href: "/agaate-admin/contacts", current: false },
-        { label: "Lead Detail", href: pathname, current: true },
-      ];
-    }
-    if (pathname === "/agaate-admin/contacts") {
-      return [
-        { label: "Platform", href: "/agaate-admin/contacts", current: false },
-        { label: "Contact Inquiries", href: "/agaate-admin/contacts", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/farm-visits")) {
-      return [
-        { label: "Platform", href: "/agaate-admin/farm-visits", current: false },
-        { label: "Farm Visits", href: "/agaate-admin/farm-visits", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/consultations")) {
-      return [
-        { label: "Platform", href: "/agaate-admin/consultations", current: false },
-        { label: "Consultations", href: "/agaate-admin/consultations", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/customers")) {
-      return [
-        { label: "Directory", href: "/agaate-admin/customers", current: false },
-        { label: "Growers", href: "/agaate-admin/customers", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/agronomists")) {
-      return [
-        { label: "Directory", href: "/agaate-admin/agronomists", current: false },
-        { label: "Agronomists", href: "/agaate-admin/agronomists", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/analytics")) {
-      return [
-        { label: "Configuration", href: "/agaate-admin/analytics", current: false },
-        { label: "Analytics", href: "/agaate-admin/analytics", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/notifications")) {
-      return [
-        { label: "Configuration", href: "/agaate-admin/notifications", current: false },
-        { label: "Notifications", href: "/agaate-admin/notifications", current: true },
-      ];
     }
     if (pathname.startsWith("/agaate-admin/settings")) {
       return [
@@ -259,6 +159,18 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "Agri Park video", href: "/agaate-admin/content/agri-park-tour", current: true },
       ];
     }
+    if (pathname.startsWith("/agaate-admin/content/kisaan-mall")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Kisaan Mall waitlist", href: "/agaate-admin/content/kisaan-mall", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/farm-visits")) {
+      return [
+        { label: "Inquiries", href: "/agaate-admin/farm-visits", current: false },
+        { label: "Farm Visits", href: "/agaate-admin/farm-visits", current: true },
+      ];
+    }
     if (pathname.startsWith("/agaate-admin/content")) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
@@ -273,7 +185,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
       <AdminCommandPalette isOpen={commandOpen} onClose={() => setCommandOpen(false)} />
       <SidebarProvider defaultOpen>
         <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar">
-          {/* Header */}
           <SidebarHeader className="h-14 flex flex-row items-center justify-between border-b border-sidebar-border px-4 py-0 shrink-0">
             <Link to="/agaate-admin" className="flex items-center">
               <img
@@ -284,11 +195,10 @@ export function AdminShell({ user }: { user: SessionUser }) {
             </Link>
           </SidebarHeader>
 
-          {/* Nav groups */}
           <SidebarContent className="px-2 py-2">
             {NAV_GROUPS.map((group) => {
               const visibleItems = group.items.filter(
-                (item) => !item.adminOnly || canManageSettings(user.role as AdminRole)
+                (item) => !item.adminOnly || canManageSettings(user.role as AdminRole),
               );
               if (visibleItems.length === 0) return null;
 
@@ -304,7 +214,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
                         const active = item.exact
                           ? pathname === item.to
                           : pathname === item.to || pathname.startsWith(`${item.to}/`);
-                        const count = item.badge ? item.badge(notes) : 0;
 
                         return (
                           <SidebarMenuItem key={item.to}>
@@ -314,7 +223,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                               tooltip={item.label}
                               className={cn(
                                 "text-xs font-normal",
-                                active && "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                                active && "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
                               )}
                             >
                               <Link to={item.to}>
@@ -322,11 +231,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
                                 <span>{item.label}</span>
                               </Link>
                             </SidebarMenuButton>
-                            {count > 0 && (
-                              <SidebarMenuBadge className="text-[10px] font-medium">
-                                {count}
-                              </SidebarMenuBadge>
-                            )}
                           </SidebarMenuItem>
                         );
                       })}
@@ -337,7 +241,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
             })}
           </SidebarContent>
 
-          {/* User profile dropdown in footer */}
           <SidebarFooter className="border-t border-sidebar-border p-2">
             <SidebarMenu>
               <SidebarMenuItem>
@@ -411,7 +314,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
           <SidebarRail />
         </Sidebar>
 
-        {/* Main Inset Header & Viewport */}
         <SidebarInset className="bg-background">
           <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border bg-background px-4">
             <div className="flex items-center gap-2">
@@ -442,74 +344,23 @@ export function AdminShell({ user }: { user: SessionUser }) {
               </Breadcrumb>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCommandOpen(true)}
-                className="h-8.5 w-9 sm:w-56 justify-between text-xs text-muted-foreground font-normal px-3 rounded-lg bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-              >
-                <span className="hidden sm:inline-flex items-center gap-2">
-                  <Search className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span>Search...</span>
-                </span>
-                <span className="sm:hidden">
-                  <Search className="h-3.5 w-3.5" />
-                </span>
-                <kbd className="pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded-md border bg-muted/60 px-1.5 font-mono text-[10px] font-medium opacity-90">
-                  <span className="text-xs">⌘</span>K
-                </kbd>
-              </Button>
-
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost" size="icon-sm" className="relative rounded-lg text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors" aria-label="Open notifications">
-                    <Bell className="h-4 w-4" />
-                    {badgeTotal > 0 && (
-                      <span className="absolute top-1.5 right-1.5 flex h-2 w-2 rounded-full bg-destructive" />
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 p-0 rounded-xl border border-border shadow-lg" align="end">
-                  <div className="flex items-center justify-between border-b p-3.5">
-                    <span className="text-xs font-semibold text-foreground">Notifications</span>
-                    <Link
-                      to="/agaate-admin/notifications"
-                      className="text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center gap-0.5 rounded-md px-2 py-0.5 hover:bg-muted"
-                    >
-                      View all <ArrowUpRight className="h-3 w-3" />
-                    </Link>
-                  </div>
-                  <div className="p-2 space-y-1 text-xs">
-                    <div className="flex items-start gap-2.5 rounded-md p-2 hover:bg-muted transition-colors">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 shrink-0" />
-                      <div>
-                        <p className="font-medium text-foreground">{notes.newToday} New Inquiries Today</p>
-                        <p className="text-[11px] text-muted-foreground">Inbound nursery & farm turnkey requests</p>
-                      </div>
-                    </div>
-                    {notes.dueToday > 0 && (
-                      <div className="flex items-start gap-2.5 rounded-md p-2 hover:bg-muted transition-colors">
-                        <Clock className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
-                        <div>
-                          <p className="font-medium text-foreground">{notes.dueToday} Follow-ups Due</p>
-                          <p className="text-[11px] text-muted-foreground">Scheduled callbacks for today</p>
-                        </div>
-                      </div>
-                    )}
-                    {notes.overdue > 0 && (
-                      <div className="flex items-start gap-2.5 rounded-md p-2 hover:bg-muted transition-colors">
-                        <AlertCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
-                        <div>
-                          <p className="font-medium text-destructive">{notes.overdue} Overdue Inquiries</p>
-                          <p className="text-[11px] text-muted-foreground">Requires immediate staff response</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCommandOpen(true)}
+              className="h-8.5 w-9 sm:w-56 justify-between text-xs text-muted-foreground font-normal px-3 rounded-lg bg-card border-border shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+            >
+              <span className="hidden sm:inline-flex items-center gap-2">
+                <Search className="h-3.5 w-3.5 text-muted-foreground" />
+                <span>Search...</span>
+              </span>
+              <span className="sm:hidden">
+                <Search className="h-3.5 w-3.5" />
+              </span>
+              <kbd className="pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded-md border bg-muted/60 px-1.5 font-mono text-[10px] font-medium opacity-90">
+                <span className="text-xs">⌘</span>K
+              </kbd>
+            </Button>
           </header>
 
           <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">

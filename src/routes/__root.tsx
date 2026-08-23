@@ -45,13 +45,19 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
+      <div className="max-w-lg text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
+        {import.meta.env.DEV && error?.message && (
+          <pre className="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded text-left overflow-auto max-h-48 border border-red-200">
+            {error.message}
+            {error.stack ? `\n\n${error.stack}` : ""}
+          </pre>
+        )}
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -135,7 +141,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const localeMatch = router.state.matches.find((m) => m.routeId === "/{-$locale}");
+  const localeMatch = router.state?.matches?.find((m) => m.routeId === "/{-$locale}");
   const lang = (localeMatch?.params as any)?.locale ?? "en";
   return (
     <html lang={lang}>

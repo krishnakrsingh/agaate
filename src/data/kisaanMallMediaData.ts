@@ -74,7 +74,7 @@ export const KISAAN_MALL_MEDIA: KisaanMallMediaContent = {
     location: "Bilaspur Kalan, Gurugram (Haryana)",
     videoUrl: "/videos/shorts/farmer-kisan-mall.mp4",
     posterUrl: "/videos/posters/farmer-kisan-mall.webp",
-    quote: "No fake inputs, no black marketing. Genuine brand fertilizers and seeds delivered right on time with QR authentication.",
+    quote: "No fake inputs, no black marketing. Genuine brand fertilizers and seeds delivered right on time with 100% authenticity.",
     quoteHi: "कोई नकली दवा या कालाबाजारी नहीं। सीधे कंपनी का असली माल सही दाम पर और खेत तक डिलीवरी।"
   },
   storeAisles: [

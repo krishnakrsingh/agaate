@@ -1,4 +1,5 @@
-import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { setLocale, getLocalizedPath } from "@/lib/i18n";
 import { motion } from "framer-motion";
@@ -14,10 +15,19 @@ export function LanguageSwitcher({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { locale } = useParams({ strict: false }) as any;
   const { i18n } = useTranslation();
 
-  const currentLangCode = (locale ?? i18n.language ?? "en").startsWith("hi") ? "hi" : "en";
+  const isHindi =
+    location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const currentLangCode = isHindi ? "hi" : "en";
+
+  // Keep i18next language synchronized with the current route pathname
+  useEffect(() => {
+    const expectedLang = isHindi ? "hi" : "en";
+    if (i18n.language !== expectedLang) {
+      setLocale(expectedLang);
+    }
+  }, [isHindi, i18n]);
 
   const switchTo = async (lng: string) => {
     if (lng === currentLangCode) return;
@@ -31,7 +41,9 @@ export function LanguageSwitcher({
   };
 
   const inactiveTextClass =
-    variant === "light" ? "text-slate-600 hover:text-slate-900" : "text-cream/70 hover:text-cream";
+    variant === "light"
+      ? "text-slate-600 hover:text-slate-900"
+      : "text-cream/70 hover:text-cream";
 
   const containerTrackClass =
     variant === "light"

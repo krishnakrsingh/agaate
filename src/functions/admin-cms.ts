@@ -199,3 +199,28 @@ export const saveCmsAgriParkTourAdmin = createServerFn({ method: "POST" })
     const mod = await import("./admin-cms.server");
     return mod.handleSaveAgriParkTour(data);
   });
+
+export const getCmsKisaanMallAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetKisaanMallLanding();
+});
+
+export const saveCmsKisaanMallLandingAdmin = createServerFn({ method: "POST" })
+  .validator(
+    (data: {
+      badgeEn: string;
+      badgeHi: string;
+      titleEn: string;
+      titleHi: string;
+      descriptionEn: string;
+      descriptionHi: string;
+      placeholderEn: string;
+      placeholderHi: string;
+      successEn: string;
+      successHi: string;
+    }) => data,
+  )
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveKisaanMallLanding(data);
+  });

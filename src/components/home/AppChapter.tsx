@@ -39,7 +39,7 @@ export default function AppChapter({ appLinks }: AppChapterProps) {
     <section
       ref={sectionRef}
       id="agaate-app"
-      className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] py-16 sm:py-20 md:py-28 border-t border-[#143d31]/10 text-[#143d31]"
+      className="relative scroll-mt-24 sm:scroll-mt-28 md:scroll-mt-32 overflow-hidden bg-[#f4f8f5] py-16 sm:py-20 md:py-28 border-t border-[#143d31]/10 text-[#143d31]"
     >
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">

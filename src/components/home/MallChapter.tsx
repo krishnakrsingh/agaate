@@ -148,12 +148,12 @@ export default function MallChapter() {
               {(isHindi
                 ? [
                     "सीधे निर्माता कंपनियों से किफायती दाम",
-                    "क्यूआर कोड से 100% असली उत्पाद की गारंटी",
+                    "100% असली व प्रमाणित उत्पाद की गारंटी",
                     "कस्टमाइज्ड ड्रिप व सिंचाई पैकेज",
                   ]
                 : [
                     "Direct-from-brand honest pricing",
-                    "QR-verified product authenticity",
+                    "100% verified product authenticity",
                     "Custom drip & irrigation packages",
                   ]
               ).map((feat) => (

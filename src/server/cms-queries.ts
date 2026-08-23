@@ -25,9 +25,13 @@ import type {
   HomeCmsLogo,
   HomeCmsStat,
   HomeCmsStory,
+} from "@/lib/cms-types";
+import {
   DEFAULT_CMS_SITE_CONFIG,
   DEFAULT_HOME_CMS_APP_LINKS,
   DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
+  DEFAULT_KISAAN_MALL_LANDING,
+  type KisaanMallLanding,
 } from "@/lib/cms-types";
 
 function parseJson<T>(value: unknown, fallback: T): T {
@@ -226,10 +230,27 @@ function normalizeAgriParkTour(raw: Partial<HomeCmsAgriParkTour> | null | undefi
   };
 }
 
+function normalizeKisaanMallLanding(raw: Partial<KisaanMallLanding> | null | undefined): KisaanMallLanding {
+  const fallback = DEFAULT_KISAAN_MALL_LANDING;
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fallback.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fallback.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fallback.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fallback.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fallback.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fallback.descriptionHi,
+    placeholderEn: String(raw?.placeholderEn ?? "").trim() || fallback.placeholderEn,
+    placeholderHi: String(raw?.placeholderHi ?? "").trim() || fallback.placeholderHi,
+    successEn: String(raw?.successEn ?? "").trim() || fallback.successEn,
+    successHi: String(raw?.successHi ?? "").trim() || fallback.successHi,
+  };
+}
+
 function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): CmsSiteConfig {
   return {
     appLinks: normalizeAppLinks(raw?.appLinks),
     agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
+    kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding),
   };
 }
 
@@ -276,6 +297,9 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
   return saveSiteConfig({
     appLinks: patch.appLinks ? normalizeAppLinks(patch.appLinks) : current.appLinks,
     agriParkTour: patch.agriParkTour ? normalizeAgriParkTour(patch.agriParkTour) : current.agriParkTour,
+    kisaanMallLanding: patch.kisaanMallLanding
+      ? normalizeKisaanMallLanding(patch.kisaanMallLanding)
+      : current.kisaanMallLanding,
   });
 }
 
@@ -297,6 +321,16 @@ export async function fetchAgriParkTour(): Promise<HomeCmsAgriParkTour> {
 export async function saveAgriParkTour(tour: HomeCmsAgriParkTour): Promise<HomeCmsAgriParkTour> {
   const config = await mergeSiteConfig({ agriParkTour: tour });
   return config.agriParkTour;
+}
+
+export async function fetchKisaanMallLanding(): Promise<KisaanMallLanding> {
+  const config = await fetchSiteConfig();
+  return config.kisaanMallLanding;
+}
+
+export async function saveKisaanMallLanding(landing: KisaanMallLanding): Promise<KisaanMallLanding> {
+  const config = await mergeSiteConfig({ kisaanMallLanding: landing });
+  return config.kisaanMallLanding;
 }
 
 let cmsSchemaReady = false;

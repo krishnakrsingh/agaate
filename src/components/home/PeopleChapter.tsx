@@ -1,4 +1,4 @@
-import { Plant, Stethoscope, TrendUp } from "@phosphor-icons/react";
+import { Plant, ShoppingBag, Stethoscope } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { useTranslation } from "react-i18next";
 import { CountUp, Reveal } from "@/components/common/motion";
@@ -24,12 +24,12 @@ const impactStatsEn = [
     secondary: { value: 98, suffix: "%", label: "Field Survival Rate" },
   },
   {
-    id: "market",
-    icon: TrendUp,
-    label: "Market Linkage",
-    headline: "Fair buybacks & additional income.",
-    primary: { value: 10, prefix: "₹", suffix: "Cr+", label: "Farmer Value Generated" },
-    secondary: { value: 100, suffix: "%", label: "Direct Buyback" },
+    id: "inputs",
+    icon: ShoppingBag,
+    label: "Agri Input Sale",
+    headline: "100% verified inputs & direct supply.",
+    primary: { value: 10, prefix: "₹", suffix: "Cr+", label: "Inputs Delivered" },
+    secondary: { value: 100, suffix: "%", label: "Genuine Quality Guarantee" },
   },
 ];
 
@@ -51,12 +51,12 @@ const impactStatsHi = [
     secondary: { value: 98, suffix: "%", label: "खेत में जमाव दर" },
   },
   {
-    id: "market",
-    icon: TrendUp,
-    label: "मार्केट लिंकेज",
-    headline: "उचित फसल खरीद व अतिरिक्त कमाई।",
-    primary: { value: 10, prefix: "₹", suffix: " करोड़+", label: "किसानों को भुगतान" },
-    secondary: { value: 100, suffix: "%", label: "पक्का बायबैक" },
+    id: "inputs",
+    icon: ShoppingBag,
+    label: "कृषि इनपुट बिक्री",
+    headline: "100% प्रमाणित बीज, जैविक पोषण व सटीक सप्लाई।",
+    primary: { value: 10, prefix: "₹", suffix: " करोड़+", label: "सप्लाई इनपुट वैल्यू" },
+    secondary: { value: 100, suffix: "%", label: "प्रमाणित गुणवत्ता" },
   },
 ];
 

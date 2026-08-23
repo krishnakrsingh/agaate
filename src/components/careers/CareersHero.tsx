@@ -1,81 +1,106 @@
-import { ArrowRight } from "@phosphor-icons/react";
-import {
-  CountUp,
-  MagneticButton,
-  Marquee,
-  PageHero,
-  Stagger,
-  StaggerItem,
-} from "@/components/common/motion";
+import { ArrowRight, MapPin } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
+import { CountUp } from "@/components/common/motion";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { CAREER_STATS } from "./careers-data";
 
 export function CareersHero() {
-  const marqueeItems = [
-    "Kisan Sathi Field Agronomists",
-    "Smart Nursery Managers",
-    "IoT Systems Engineers",
-    "Supply Chain Leads",
-    "AI Vision Researchers",
-    "Agri-Input Territory Managers",
-  ];
-
   return (
-    <>
-      <PageHero
-        eyebrow="Careers & Campus Outreach at Agaate"
-        title={
-          <>
-            Build the Future of Indian Agriculture —{" "}
-            <span className="italic text-terracotta">On the Ground.</span>
-          </>
-        }
-        description="We are agronomists, hardware engineers, and supply chain builders committed to transforming farmer livelihoods across India through science-backed, high-yield agriculture."
-      >
-        <div className="mt-8 flex flex-wrap items-center gap-5">
-          <MagneticButton as="a" href="#open-roles">
-            <span className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-forest-deep px-8 py-4 text-sm font-bold text-cream shadow-xl shadow-forest/20 transition-colors hover:bg-forest">
-              Explore Open Roles
-              <ArrowRight className="h-4 w-4" />
-            </span>
-          </MagneticButton>
-          <span className="font-jet text-[11px] font-bold uppercase tracking-[0.2em] text-forest/70">
-            Delhi NCR · Gurugram · Field Operations
-          </span>
+    <section className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] text-[#143d31] pt-28 sm:pt-32 md:pt-36 lg:pt-40 pb-16 sm:pb-20">
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-96 w-full max-w-7xl opacity-30 blur-3xl bg-gradient-to-b from-[#a3e635]/25 via-emerald-500/10 to-transparent" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 space-y-12 sm:space-y-14">
+        {/* Clean Typography Narrative (No Image) */}
+        <div className="max-w-3xl space-y-5">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-2.5"
+          >
+            <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
+              Careers & Opportunities
+            </p>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#143d31] leading-[1.08]"
+          >
+            Build the Future of Indian Agriculture.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+            className="font-sans text-base sm:text-lg text-[#4f624f] leading-relaxed max-w-2xl"
+          >
+            We are field agronomists, systems engineers, and supply chain builders committed to
+            transforming grower prosperity across India through science-backed, high-yield agriculture.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.22 }}
+            className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6"
+          >
+            <SlideUpPillButton
+              href="#open-roles"
+              variant="dark"
+              size="md"
+              label="Explore Open Positions"
+              icon={<ArrowRight className="h-4 w-4" />}
+              iconPosition="right"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("open-roles")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+            />
+
+            <div className="flex items-center gap-2 font-mono text-xs font-semibold text-[#5d7d37]">
+              <MapPin className="h-4 w-4 text-[#5d7d37] shrink-0" />
+              <span>Gurugram HQ · Smart Nursery · Field Clusters</span>
+            </div>
+          </motion.div>
         </div>
-      </PageHero>
 
-      <div className="border-y border-border bg-forest-deep py-3 text-cream">
-        <Marquee duration={30}>
-          {marqueeItems.map((item) => (
-            <span
-              key={item}
-              className="mx-4 inline-flex items-center gap-8 font-jet text-[11px] font-bold uppercase tracking-[0.22em] text-cream/90"
-            >
-              {item}
-              <span className="text-moss">✦</span>
-            </span>
-          ))}
-        </Marquee>
-      </div>
-
-      <div className="mx-auto mt-12 w-full max-w-7xl px-6 lg:px-12">
-        <Stagger
-          className="grid grid-cols-2 gap-6 rounded-3xl border border-forest/10 bg-bone px-8 py-8 shadow-sm sm:grid-cols-4"
-          stagger={0.1}
+        {/* Minimal Scale Metrics Strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10 py-6 sm:py-8"
         >
-          {CAREER_STATS.map((s) => (
-            <StaggerItem key={s.label} variant="fade-up" className="text-center">
-              <p className="font-serif text-4xl font-bold text-forest-deep md:text-5xl">
-                <CountUp to={s.value} suffix={s.suffix} />
+          {CAREER_STATS.map((stat, idx) => (
+            <div
+              key={stat.label}
+              className={`space-y-1 ${
+                idx === 0
+                  ? "md:pr-6"
+                  : idx === 3
+                  ? "md:pl-6 pt-4 md:pt-0"
+                  : "md:px-6 pt-4 md:pt-0"
+              }`}
+            >
+              <p className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-[#143d31] tracking-tight">
+                <CountUp to={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="mt-1 font-jet text-xs font-bold uppercase tracking-wider text-forest-deep">
-                {s.label}
+              <p className="font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37]">
+                {stat.label}
               </p>
-              <p className="font-mono text-[10px] text-forest/50">{s.sub}</p>
-            </StaggerItem>
+              <p className="font-sans text-xs text-[#4f624f]/80 mt-0.5">
+                {stat.sub}
+              </p>
+            </div>
           ))}
-        </Stagger>
+        </motion.div>
       </div>
-    </>
+    </section>
   );
 }

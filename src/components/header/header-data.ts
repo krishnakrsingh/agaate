@@ -2,7 +2,7 @@ import type { ComponentType } from "react";
 import {
   ChatCircleDots,
   Compass,
-  Cpu,
+  DeviceMobile,
   House,
   Info,
   Phone,
@@ -14,9 +14,23 @@ import {
   TrendUp,
 } from "@phosphor-icons/react";
 
+export const WHATSAPP_CONSULTATION_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20book%20a%20farm%20consultation.";
+
+export const WHATSAPP_AGRONOMIST_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20need%20expert%20agronomy%20advice%20for%20my%20crop.";
+
+export const WHATSAPP_BIG_FARM_SETUP_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20want%20to%20inquire%20about%20Big%20Farm%20Setup%20services.";
+
+export const WHATSAPP_CARBON_CREDITS_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20want%20to%20know%20more%20about%20the%20Carbon%20Credits%20program.";
+
 export type NavSubLink = {
   key: string;
   href: string;
+  hash?: string;
+  external?: boolean;
   label?: string;
   desc?: string;
   icon?: ComponentType<any>;
@@ -38,7 +52,8 @@ export const NAV_STRUCTURE: NavItem[] = [
     subLinks: [
       {
         key: "advisory",
-        href: "/contact",
+        href: WHATSAPP_AGRONOMIST_URL,
+        external: true,
         label: "Talk to Agronomist",
         desc: "Direct field diagnosis, spray charts & farm visits",
         icon: ChatCircleDots,
@@ -52,42 +67,48 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
       {
         key: "nursery",
-        href: "/agri-park",
+        href: "/",
+        hash: "pillar-nursery",
         label: "Bio-Boosted Nursery",
         desc: "98% survival high-yield plug seedlings & saplings",
         icon: Plant,
       },
       {
         key: "bigFarmSetup",
-        href: "/contact",
+        href: WHATSAPP_BIG_FARM_SETUP_URL,
+        external: true,
         label: "Big Farm Setup",
         desc: "End-to-end turnkey farm setup for clients",
         icon: ShieldCheck,
       },
       {
         key: "agriPark",
-        href: "/agri-park",
+        href: "/",
+        hash: "agri-park",
         label: "Agri Park",
         desc: "Live crop demonstration, R&D & farmer trials",
         icon: Compass,
       },
       {
         key: "farmTech",
-        href: "/contact",
-        label: "Farm Tech & IoT",
-        desc: "Farmer mobile app, IoT soil sensors & automation",
-        icon: Cpu,
+        href: "/",
+        hash: "agaate-app",
+        label: "Agaate Mobile App",
+        desc: "Digital farm diary, crop scheduling & advisories",
+        icon: DeviceMobile,
       },
       {
         key: "marketLinkage",
-        href: "/contact",
+        href: "/",
+        hash: "pillar-market",
         label: "Market Linkage",
         desc: "Direct retail buyers & guaranteed buyback",
         icon: TrendUp,
       },
       {
         key: "carbonCredits",
-        href: "/contact",
+        href: WHATSAPP_CARBON_CREDITS_URL,
+        external: true,
         label: "Carbon Credits",
         desc: "Earn extra income from sustainable farming",
         icon: Tree,
@@ -107,9 +128,3 @@ export const NAV_SUBTITLES: Record<string, string> = {
   about: "Our Mission & Team",
   contact: "Direct Agronomist Line",
 };
-
-export const WHATSAPP_CONSULTATION_URL =
-  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20book%20a%20farm%20consultation.";
-
-export const WHATSAPP_AGRONOMIST_URL =
-  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20need%20expert%20agronomy%20advice%20for%20my%20crop.";
