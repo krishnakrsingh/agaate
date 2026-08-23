@@ -9,9 +9,9 @@ import {
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { Reveal } from "@/components/common/motion";
 import { useSiteContact } from "@/contexts/SiteContactContext";
+import { useAboutPage } from "@/contexts/AboutPageContext";
 import {
   brochureHref,
-  complianceHighlights,
 } from "./data";
 
 const fieldIcons = {
@@ -20,8 +20,9 @@ const fieldIcons = {
   "Registered Office": MapPin,
 } as const;
 
-export default function AboutCta() {
+export default function AboutCta({ isHi = false }: { isHi?: boolean }) {
   const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
+  const { complianceHighlights, complianceFooterEn, complianceFooterHi } = useAboutPage();
   return (
     <section
       id="about-cta"
@@ -95,15 +96,17 @@ export default function AboutCta() {
             >
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:divide-x divide-[#143d31]/10">
                 {complianceHighlights.map((item, idx) => {
-                  const Icon = fieldIcons[item.label as keyof typeof fieldIcons] ?? Buildings;
+                  const Icon = fieldIcons[item.labelEn as keyof typeof fieldIcons] ?? Buildings;
+                  const label = isHi ? item.labelHi : item.labelEn;
+                  const value = isHi ? item.valueHi : item.valueEn;
                   return (
-                    <div key={item.label} className={`min-w-0 ${idx > 0 ? "sm:pl-8" : ""}`}>
+                    <div key={item.labelEn} className={`min-w-0 ${idx > 0 ? "sm:pl-8" : ""}`}>
                       <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
                         <Icon className="h-3.5 w-3.5 shrink-0 text-[#5d7d37]" weight="duotone" />
-                        <span>{item.label}</span>
+                        <span>{label}</span>
                       </div>
                       <p className="mt-1 font-sans text-xs sm:text-sm font-semibold text-[#143d31] truncate">
-                        {item.value}
+                        {value}
                       </p>
                     </div>
                   );
@@ -111,8 +114,7 @@ export default function AboutCta() {
               </div>
 
               <p className="mt-5 border-t border-[#143d31]/6 pt-4 text-center font-sans text-[11px] text-[#4f624f]/80">
-                Agaate is the registered brand of Anzix Farm Technologies Private Limited. All
-                corporate records are verifiable on the Ministry of Corporate Affairs (MCA) portal.
+                {isHi ? complianceFooterHi : complianceFooterEn}
               </p>
             </div>
           </div>
