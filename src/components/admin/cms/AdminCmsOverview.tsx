@@ -174,6 +174,9 @@ export function AdminCmsOverview({
         </div>
 
         <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Kisaan Mall waitlist</p>
               <p className="mt-2 text-3xl font-bold tabular-nums">{newsletterWaitlist}</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Email and mobile signups from the coming-soon page

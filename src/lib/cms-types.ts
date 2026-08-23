@@ -1,6 +1,7 @@
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
+import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 
 export const CMS_STATUSES = ["draft", "published", "archived"] as const;
 export type CmsStatus = (typeof CMS_STATUSES)[number];
@@ -162,6 +163,110 @@ export const DEFAULT_KISAAN_MALL_LANDING: KisaanMallLanding = {
   placeholderHi: "ईमेल या मोबाइल नंबर दर्ज करें",
   successEn: "You're on the list. We'll be in touch soon!",
   successHi: "धन्यवाद! हम आपको लॉन्च अपडेट्स जल्द भेजेंगे।",
+};
+
+export type KisaanMallDisplayMode = "coming_soon" | "full";
+
+export type KisaanMallHeroStat = {
+  numValue: number;
+  suffixEn: string;
+  suffixHi: string;
+  valueTextEn: string;
+  valueTextHi: string;
+  labelEn: string;
+  labelHi: string;
+};
+
+export type KisaanMallCategoryItem = {
+  id: string;
+  titleEn: string;
+  titleHi: string;
+  tagEn: string;
+  tagHi: string;
+  descEn: string;
+  descHi: string;
+  examplesEn: string[];
+  examplesHi: string[];
+  badgeEn: string;
+  badgeHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type KisaanMallSupplyStep = {
+  step: string;
+  titleEn: string;
+  titleHi: string;
+  descEn: string;
+  descHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type KisaanMallTrustItem = {
+  labelEn: string;
+  labelHi: string;
+  valueEn: string;
+  valueHi: string;
+  hintEn: string;
+  hintHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type KisaanMallFaqItem = {
+  qEn: string;
+  qHi: string;
+  aEn: string;
+  aHi: string;
+};
+
+export type KisaanMallSectionCopy = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+};
+
+export type KisaanMallPageContent = {
+  displayMode: KisaanMallDisplayMode;
+  heroEyebrowEn: string;
+  heroEyebrowHi: string;
+  heroTitleEn: string;
+  heroTitleHi: string;
+  heroTitleAccentEn: string;
+  heroTitleAccentHi: string;
+  heroDescriptionEn: string;
+  heroDescriptionHi: string;
+  heroNotifyPlaceholderEn: string;
+  heroNotifyPlaceholderHi: string;
+  heroNotifyButtonEn: string;
+  heroNotifyButtonHi: string;
+  heroNotifySuccessEn: string;
+  heroNotifySuccessHi: string;
+  heroWhatsappLabelEn: string;
+  heroWhatsappLabelHi: string;
+  heroStats: KisaanMallHeroStat[];
+  aisles: KisaanMallSectionCopy;
+  categories: KisaanMallCategoryItem[];
+  supplyChain: KisaanMallSectionCopy;
+  supplySteps: KisaanMallSupplyStep[];
+  trust: KisaanMallSectionCopy;
+  trustItems: KisaanMallTrustItem[];
+  faq: KisaanMallSectionCopy;
+  faqs: KisaanMallFaqItem[];
+  ctaBadgeEn: string;
+  ctaBadgeHi: string;
+  ctaTitleEn: string;
+  ctaTitleHi: string;
+  ctaDescriptionEn: string;
+  ctaDescriptionHi: string;
+  ctaHoursEn: string;
+  ctaHoursHi: string;
+  ctaWhatsappLabelEn: string;
+  ctaWhatsappLabelHi: string;
+  ctaImageUrl: string;
+  ctaImageAltEn: string;
+  ctaImageAltHi: string;
 };
 
 export const CAREER_DEPARTMENT_CATEGORIES = ["Agronomy", "Corporate", "Retail"] as const;
@@ -493,6 +598,7 @@ export type CmsSiteConfig = {
   appLinks: HomeCmsAppLinks;
   agriParkTour: HomeCmsAgriParkTour;
   kisaanMallLanding: KisaanMallLanding;
+  kisaanMallPage: KisaanMallPageContent;
   careersPage: CareersPageContent;
   siteContact: SiteContactConfig;
   aboutPage: AboutPageContent;
@@ -503,6 +609,7 @@ export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   appLinks: DEFAULT_HOME_CMS_APP_LINKS,
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
+  kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
   careersPage: CAREERS_PAGE_FALLBACK,
   siteContact: SITE_CONTACT_FALLBACK,
   aboutPage: ABOUT_PAGE_FALLBACK,

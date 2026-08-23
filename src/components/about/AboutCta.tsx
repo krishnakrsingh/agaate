@@ -10,7 +10,7 @@ import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { Reveal } from "@/components/common/motion";
 import { useSiteContact } from "@/contexts/SiteContactContext";
 import { useAboutPage } from "@/contexts/AboutPageContext";
-import { brochureHref } from "./data";
+import { useAboutPage } from "@/contexts/AboutPageContext";
 
 const fieldIcons: Record<string, typeof Buildings> = {
   Entity: Buildings,
@@ -20,7 +20,7 @@ const fieldIcons: Record<string, typeof Buildings> = {
 
 export default function AboutCta({ isHi = false }: { isHi?: boolean }) {
   const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
-  const { complianceHighlights, complianceFooterEn, complianceFooterHi } = useAboutPage();
+  const { complianceHighlights, complianceFooterEn, complianceFooterHi, brochureHref } = useAboutPage();
   return (
     <section
       id="about-cta"
