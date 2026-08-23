@@ -26,8 +26,8 @@ export default function AboutHero() {
             </h1>
 
             <p className="font-sans text-[#4f624f] text-base sm:text-lg leading-relaxed font-normal max-w-xl">
-              Agaate empowers Indian farmers with science-backed, sustainable nursery solutions,
-              genuine inputs, and on-ground agronomy that build stronger crops from the very beginning.
+              From seeds to sales — Agaate provides complete crop support through science-backed farming decisions,
+              trusted agri partnerships, and the Agaate Kisaan Mall for all essential agri inputs.
             </p>
 
             <div className="pt-1 flex flex-wrap items-center gap-3.5">

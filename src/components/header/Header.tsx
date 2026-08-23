@@ -70,6 +70,17 @@ export function Header() {
         <div className="relative z-10 flex min-w-0 shrink-0 items-center justify-start">
           <Link
             to={getLocalizedPath("/", currentLang) as any}
+            hash="hero"
+            onClick={() => {
+              if (isHome) {
+                const heroEl = document.getElementById("hero");
+                if (heroEl) {
+                  heroEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                } else {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }
+            }}
             className="flex max-w-[42vw] items-center text-cream transition-opacity hover:opacity-80 sm:max-w-none"
           >
             <img

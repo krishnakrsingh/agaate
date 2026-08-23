@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
+import { ArrowRight, ArrowSquareOut, CheckCircle, MapPin } from "@phosphor-icons/react";
 import { CountUp, TiltCard } from "@/components/common/motion";
 import { useTranslation } from "react-i18next";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { WHATSAPP_AGRONOMIST_URL } from "@/components/header/header-data";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
+import { LocationsModal } from "@/components/common/LocationsModal";
 
 interface PillarData {
   id: string;
@@ -126,6 +127,7 @@ export default function PillarsHorizontalParallax() {
   const isHindi = currentLang.startsWith("hi");
   const PILLARS_DATA = isHindi ? PILLARS_DATA_HI : PILLARS_DATA_EN;
   const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
+  const [isLocationsModalOpen, setIsLocationsModalOpen] = useState(false);
 
   return (
     <>
@@ -154,11 +156,28 @@ export default function PillarsHorizontalParallax() {
                     isReversed ? "lg:order-2 lg:pl-4" : "lg:order-1 lg:pr-4"
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 mb-3.5">
+                  <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
                     <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
                     <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
                       {pillar.tag}
                     </p>
+
+                    {pillar.id === "pillar-nursery" && (
+                      <button
+                        type="button"
+                        onClick={() => setIsLocationsModalOpen(true)}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-white/90 hover:bg-white px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#143d31] transition-all cursor-pointer border border-[#143d31]/15 shadow-xs hover:border-[#5d7d37] hover:scale-105"
+                        title="Click to view all locations on Google Maps"
+                      >
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5d7d37] opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5d7d37]"></span>
+                        </span>
+                        <MapPin weight="fill" className="h-3 w-3 text-[#5d7d37]" />
+                        <span>3 Locations in Gurugram</span>
+                        <ArrowSquareOut className="h-3 w-3 text-[#5d7d37]" />
+                      </button>
+                    )}
                   </div>
 
                   <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.12]">
@@ -204,17 +223,27 @@ export default function PillarsHorizontalParallax() {
                   </div>
 
                   {/* CTA Button */}
-                  <div>
+                  <div className="flex flex-wrap items-center gap-3">
                     {pillar.id === "pillar-nursery" ? (
-                      <SlideUpPillButton
-                        type="button"
-                        onClick={() => setIsVisitModalOpen(true)}
-                        variant="dark"
-                        size="md"
-                        label={pillar.ctaText}
-                        icon={<ArrowRight className="h-4 w-4" />}
-                        iconPosition="right"
-                      />
+                      <>
+                        <SlideUpPillButton
+                          type="button"
+                          onClick={() => setIsVisitModalOpen(true)}
+                          variant="dark"
+                          size="md"
+                          label={pillar.ctaText}
+                          icon={<ArrowRight className="h-4 w-4" />}
+                          iconPosition="right"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setIsLocationsModalOpen(true)}
+                          className="inline-flex items-center gap-2 rounded-full border border-[#143d31]/20 bg-white/80 hover:bg-white hover:border-[#143d31] px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#143d31] shadow-xs transition-all duration-300 cursor-pointer"
+                        >
+                          <MapPin weight="fill" className="h-4 w-4 text-[#5d7d37]" />
+                          <span>View Locations &amp; Maps</span>
+                        </button>
+                      </>
                     ) : (
                       <SlideUpPillButton
                         href={pillar.ctaHref}
@@ -234,7 +263,28 @@ export default function PillarsHorizontalParallax() {
                     isReversed ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
-                  <div className="w-full flex items-center justify-center">
+                  <div className="relative w-full flex items-center justify-center">
+                    {/* Location Pointer + Counter on visual */}
+                    {pillar.id === "pillar-nursery" && (
+                      <button
+                        type="button"
+                        onClick={() => setIsLocationsModalOpen(true)}
+                        className="absolute top-2 left-2 sm:top-4 sm:left-4 z-20 flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 border border-[#143d31]/15 shadow-md hover:shadow-lg hover:border-[#5d7d37] hover:scale-105 transition-all duration-300 group cursor-pointer"
+                        title="Click to view all Agaate facilities on Google Maps"
+                      >
+                        <span className="relative flex h-2.5 w-2.5">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5d7d37] opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#5d7d37]"></span>
+                        </span>
+                        <MapPin weight="fill" className="h-4 w-4 text-[#143d31] group-hover:text-[#5d7d37] transition-colors" />
+                        <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs font-bold text-[#143d31]">
+                          <span className="font-extrabold text-[#5d7d37]">3</span>
+                          <span>Hubs in Gurugram</span>
+                          <ArrowSquareOut className="h-3.5 w-3.5 text-[#5d7d37] opacity-70 group-hover:opacity-100 transition-opacity ml-0.5" />
+                        </div>
+                      </button>
+                    )}
+
                     <TiltCard maxTilt={4} glare={false} className="w-full">
                       <motion.div
                         whileHover={{ scale: 1.02 }}
@@ -262,6 +312,14 @@ export default function PillarsHorizontalParallax() {
           onClose={() => setIsVisitModalOpen(false)}
         />
       )}
+
+      {isLocationsModalOpen && (
+        <LocationsModal
+          isOpen={isLocationsModalOpen}
+          onClose={() => setIsLocationsModalOpen(false)}
+        />
+      )}
     </>
   );
 }
+

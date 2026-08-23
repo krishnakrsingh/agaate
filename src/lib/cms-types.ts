@@ -1,3 +1,5 @@
+import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
+
 export const CMS_STATUSES = ["draft", "published", "archived"] as const;
 export type CmsStatus = (typeof CMS_STATUSES)[number];
 
@@ -155,16 +157,118 @@ export const DEFAULT_KISAAN_MALL_LANDING: KisaanMallLanding = {
   successHi: "धन्यवाद! हम आपको लॉन्च अपडेट्स जल्द भेजेंगे।",
 };
 
+export const CAREER_DEPARTMENT_CATEGORIES = ["Agronomy", "Corporate", "Retail"] as const;
+export type CareerDepartmentCategory = (typeof CAREER_DEPARTMENT_CATEGORIES)[number];
+
+export type CareersHeroStat = {
+  value: number;
+  suffix: string;
+  labelEn: string;
+  labelHi: string;
+  subEn: string;
+  subHi: string;
+};
+
+export type CareersCultureCard = {
+  tagEn: string;
+  tagHi: string;
+  titleEn: string;
+  titleHi: string;
+  descEn: string;
+  descHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type CareersCampusSkill = {
+  iconKey: CmsIconKey;
+  labelEn: string;
+  labelHi: string;
+};
+
+export type CareersPageContent = {
+  heroBadgeEn: string;
+  heroBadgeHi: string;
+  heroTitleEn: string;
+  heroTitleHi: string;
+  heroDescriptionEn: string;
+  heroDescriptionHi: string;
+  heroLocationEn: string;
+  heroLocationHi: string;
+  heroStats: CareersHeroStat[];
+  cultureCards: CareersCultureCard[];
+  openRolesTitleEn: string;
+  openRolesTitleHi: string;
+  openRolesSubtitleEn: string;
+  openRolesSubtitleHi: string;
+  campusBadgeEn: string;
+  campusBadgeHi: string;
+  campusTitleEn: string;
+  campusTitleHi: string;
+  campusDescriptionEn: string;
+  campusDescriptionHi: string;
+  campusSkills: CareersCampusSkill[];
+  campusEmailSubject: string;
+};
+
+export type CareerJob = {
+  id: string;
+  title: string;
+  dept: string;
+  departmentCategory: CareerDepartmentCategory;
+  loc: string;
+  type: string;
+  desc: string;
+  experienceLevel?: string;
+  highlights?: string[];
+  reqs: string[];
+  responsibilities?: string[];
+};
+
+export type CmsCareerJobPayload = {
+  slug: string;
+  titleEn: string;
+  titleHi: string;
+  deptEn: string;
+  deptHi: string;
+  departmentCategory: CareerDepartmentCategory;
+  locEn: string;
+  locHi: string;
+  typeEn: string;
+  typeHi: string;
+  descEn: string;
+  descHi: string;
+  experienceLevelEn: string;
+  experienceLevelHi: string;
+  highlightsEn: string[];
+  highlightsHi: string[];
+  reqsEn: string[];
+  reqsHi: string[];
+  responsibilitiesEn: string[];
+  responsibilitiesHi: string[];
+};
+
+export type CmsCareerJobRow = CmsCareerJobPayload & {
+  id: number;
+  sortOrder: number;
+  status: CmsStatus;
+  livePayload: CmsCareerJobPayload | null;
+  publishedAt: string | null;
+  updatedAt: string;
+  hasUnpublishedChanges: boolean;
+};
+
 export type CmsSiteConfig = {
   appLinks: HomeCmsAppLinks;
   agriParkTour: HomeCmsAgriParkTour;
   kisaanMallLanding: KisaanMallLanding;
+  careersPage: CareersPageContent;
 };
 
 export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   appLinks: DEFAULT_HOME_CMS_APP_LINKS,
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
+  careersPage: CAREERS_PAGE_FALLBACK,
 };
 
 export type HomeCmsData = {
@@ -239,7 +343,7 @@ export type CmsOverview = {
   team: { published: number; draft: number; pending: number };
 };
 
-export type CmsContentType = "stats" | "logos" | "stories" | "team";
+export type CmsContentType = "stats" | "logos" | "stories" | "team" | "careerJobs";
 
 export type CmsListFilters = {
   q?: string;

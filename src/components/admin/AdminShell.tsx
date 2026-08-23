@@ -13,6 +13,7 @@ import {
   Smartphone,
   MapPin,
   Store,
+  Briefcase,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -85,6 +86,7 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
       { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park video", icon: Video },
       { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall waitlist", icon: Store },
+      { to: "/agaate-admin/content/careers", label: "Careers", icon: Briefcase },
     ],
   },
   {
@@ -163,6 +165,12 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Kisaan Mall waitlist", href: "/agaate-admin/content/kisaan-mall", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/careers")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Careers", href: "/agaate-admin/content/careers", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/farm-visits")) {

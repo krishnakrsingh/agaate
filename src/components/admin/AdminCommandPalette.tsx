@@ -10,6 +10,7 @@ import {
   Smartphone,
   MapPin,
   Store,
+  Briefcase,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -79,6 +80,10 @@ export function AdminCommandPalette({
           <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/kisaan-mall" }))}>
             <Store className="mr-2 h-4 w-4" />
             <span>Kisaan Mall waitlist</span>
+          </CommandItem>
+          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/careers" }))}>
+            <Briefcase className="mr-2 h-4 w-4" />
+            <span>Careers</span>
           </CommandItem>
         </CommandGroup>
 

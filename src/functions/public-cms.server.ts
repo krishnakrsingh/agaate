@@ -1,6 +1,15 @@
-import { fetchHomeCms, fetchKisaanMallLanding } from "@/server/cms-queries";
+import { fetchHomeCms, fetchKisaanMallLanding, fetchCareersPage } from "@/server/cms-queries";
 import { fetchTeamCms } from "@/server/cms-team-queries";
+import { listPublishedCareerJobs } from "@/server/cms-careers-queries";
 import { getSessionUser } from "@/server/auth";
+
+export async function handleGetCareersPage(lang: "en" | "hi" = "en") {
+  const content = await fetchCareersPage();
+  const jobsEn = await listPublishedCareerJobs("en");
+  const jobsHi = await listPublishedCareerJobs("hi");
+  const jobs = lang === "hi" ? jobsHi : jobsEn;
+  return { ok: true as const, content, jobs, jobsEn, jobsHi };
+}
 
 export async function handleGetKisaanMallPage() {
   const landing = await fetchKisaanMallLanding();

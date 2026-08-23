@@ -23,7 +23,7 @@ export const Route = createFileRoute("/agaate-admin/_authed/")({
 function DashboardPage() {
   const { cmsRes, settingsRes, farmVisitsRes } = Route.useLoaderData();
 
-  if (!isAdminOk<{ overview: CmsOverview; dbConfigured: boolean; newsletterWaitlist: number }>(cmsRes)) {
+  if (!isAdminOk<{ overview: CmsOverview; dbConfigured: boolean; newsletterWaitlist: number; careersJobs: number; careerApplications: number }>(cmsRes)) {
     return <p className="text-sm text-rose-600">{adminError(cmsRes, "Unable to load CMS overview.")}</p>;
   }
 
@@ -104,6 +104,8 @@ function DashboardPage() {
         overview={cmsRes.overview}
         dbConfigured={cmsRes.dbConfigured}
         newsletterWaitlist={cmsRes.newsletterWaitlist}
+        careersJobs={cmsRes.careersJobs}
+        careerApplications={cmsRes.careerApplications}
       />
     </div>
   );

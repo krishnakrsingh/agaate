@@ -1,4 +1,4 @@
-import { CalendarCheck } from "@phosphor-icons/react";
+import { CheckCircle } from "@phosphor-icons/react";
 import { Reveal } from "@/components/common/motion";
 import { milestones } from "./data";
 
@@ -24,15 +24,15 @@ export default function MilestonesSection() {
               id="milestones-heading"
               className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
             >
-              From experimental trial plots to{" "}
+              From seed to sale —{" "}
               <span className="text-[#5d7d37]">
-                regional agri infrastructure
+                building India's agri infrastructure
               </span>
             </h2>
 
             <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
-              Step-by-step progress backed by verified field science, infrastructure expansion, and
-              deep farmer trust across Haryana and North India.
+              Three years of verified progress — from a 1-acre trial plot to a 5-acre Smart Nursery,
+              India's first Agri Park, and a Carbon Credit program for sustainable farming.
             </p>
           </div>
         </Reveal>
@@ -62,11 +62,18 @@ export default function MilestonesSection() {
                   <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
                     {m.desc}
                   </p>
-                </div>
 
-                <div className="pt-4 border-t border-[#143d31]/10 flex items-center gap-2 text-xs font-semibold text-[#5d7d37]">
-                  <CalendarCheck className="h-4 w-4 shrink-0" weight="duotone" />
-                  <span>Milestone Verified</span>
+                  {/* Key Highlights */}
+                  {m.highlights && (
+                    <ul className="space-y-1.5 pt-1">
+                      {m.highlights.map((h) => (
+                        <li key={h} className="flex items-start gap-2 text-xs text-[#143d31]/80">
+                          <CheckCircle weight="fill" className="h-3.5 w-3.5 mt-0.5 shrink-0 text-[#5d7d37]" />
+                          <span className="leading-snug">{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             ))}
@@ -76,3 +83,4 @@ export default function MilestonesSection() {
     </section>
   );
 }
+

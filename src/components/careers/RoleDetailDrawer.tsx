@@ -10,12 +10,12 @@ import {
   Buildings,
   ShieldCheck,
 } from "@phosphor-icons/react";
-import type { ExtendedJobPosition } from "@/data/careers-data";
+import type { CareerJob } from "@/lib/cms-types";
 
 interface RoleDetailDrawerProps {
-  role: ExtendedJobPosition | null;
+  role: CareerJob | null;
   onClose: () => void;
-  onApply: (role: ExtendedJobPosition) => void;
+  onApply: (role: CareerJob) => void;
 }
 
 export function RoleDetailDrawer({ role, onClose, onApply }: RoleDetailDrawerProps) {

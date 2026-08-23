@@ -35,18 +35,18 @@ export const marqueePhrases = [
 export const whoWeAre = {
   eyebrow: "Who we are",
   headline: "Built for farmers, always.",
-  body: "Agaate stands with Indian farmers through the entire vegetable crop journey — from seed to harvest. By bringing together trusted agri companies, modern technologies, and practical support, we help growers farm with confidence, reduce risk, and make better decisions at every step.",
-  pullQuote: "From seed to sale — Agaate stays with you at every step.",
-  image: "/farm.png",
+  body: "Agaate is built for farmers, always. We stand with them through the entire vegetable crop journey, from seed to harvest. By bringing together trusted agri companies, modern technologies, and practical support, we help farmers grow with confidence, reduce risks, and make better decisions at every step.",
+  pullQuote: "We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss.",
+  image: "/who-we-are-farm.jpg",
   imageAlt: "Agaate farm fields in Gurugram",
 };
 
 export const mission = {
   eyebrow: "Our Mission",
-  title: "Growing Better Tomorrow",
-  body: "Agaate's mission is to strengthen Indian farmers by providing science-backed, sustainable agriculture solutions that improve crop survival, reduce early-stage losses, and build long-term productivity through reliable Bio-Boosted nursery systems nationwide.",
+  title: "Managing Farming Outcome",
+  body: "Higher yield. Better price. Zero guesswork. Agaate's mission is to strengthen Indian farmers by providing science-backed, sustainable agriculture solutions that improve crop survival, reduce early-stage losses, and build long-term productivity through reliable Bio-Boosted nursery systems nationwide.",
   support:
-    "We focus on practical research, quality inputs, and farmer-first thinking to create confidence, resilience, and growth across Indian agriculture.",
+    "We focus on practical research, quality inputs, and farmer-first thinking — designing ecosystems that prioritize the economic resilience and growth of the cultivator.",
 };
 
 export const introBlurb =
@@ -84,19 +84,22 @@ export const pillars = [
 
 export const guarantees = [
   {
-    title: "Organic & Pure",
-    desc: "Naturally grown without harmful chemicals",
-    icon: Leaf,
+    title: "Practical Research",
+    desc: "Every recommendation is grounded in field-tested, actionable science — not theory. We trial seeds, bio-inoculants, and crop protection protocols in real sub-tropical farm conditions before prescribing them.",
+    icon: Flask,
+    badge: "Field-Tested Protocols",
   },
   {
-    title: "Sustainable",
-    desc: "Environmentally responsible farming practices",
-    icon: Plant,
+    title: "Quality Inputs",
+    desc: "Seeds, biologicals, irrigation hardware, and crop protection sourced exclusively from 25+ direct manufacturer partners. Every input passes multi-stage quality verification and brand certification.",
+    icon: Shield,
+    badge: "25+ Certified Partners",
   },
   {
-    title: "High Quality",
-    desc: "Certified seedlings with guaranteed germination",
-    icon: Medal,
+    title: "Farmer-First Thinking",
+    desc: "Every advisory, bio-boosted seedling batch, and buyback agreement is engineered to protect farmer economics — reducing early losses and securing higher yield returns.",
+    icon: Users,
+    badge: "Risk Mitigation Built-In",
   },
 ];
 
@@ -140,10 +143,10 @@ export const stats = [
     icon: Globe,
   },
   {
-    to: 500,
-    suffix: "+",
-    label: "Nursery Plants Delivered (Ac. Eq.)",
-    sub: "Bio-boosted seedling coverage",
+    to: 85,
+    suffix: " Lakh+",
+    label: "Bio-Seedlings Delivered",
+    sub: "Bio-boosted nursery saplings",
     icon: Plant,
   },
   { to: 2000, suffix: "+", label: "Parivaar Farmers", sub: "Empowered rural network", icon: Users },
@@ -273,22 +276,22 @@ export const team: TeamMember[] = [
     quote: "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
   },
   {
-    id: "kuldeep-sengar",
-    name: "Kuldeep Sengar",
-    role: "Procurement Head",
-    focus: "Strategic Sourcing, Agri-Inputs & Supply Chain Procurement",
-    tag: "Procurement & Sourcing Lead",
+    id: "kuldeep-singh",
+    name: "Kuldeep Singh",
+    role: "Head of Operations",
+    focus: "Farm Operations, Crop Sales & Revenue Logistics",
+    tag: "Operations & Revenue Lead",
     icon: Medal as Icon,
     image: "/team/kuldeep.png",
-    bio: "Kuldeep leads strategic procurement and input sourcing across seed-to-sale pipelines, partnering with certified manufacturers and managing input delivery schedules across 15,000+ associated acres.",
+    bio: "Kuldeep oversees the logistical and revenue-generating mechanics of Farm and Crop Sales, managing operational execution across 15,000+ associated acres and coordinating with 25+ manufacturer partners.",
     keyAch: [
-      "Streamlined input procurement and supply logistics across North India hubs",
+      "Streamlined farm operations and crop sales logistics across North India hubs",
       "Secured high-grade seed & input contracts with 25+ certified manufacturing partners",
-      "Oversees quality-verified procurement pipelines for 20+ Kisan Sathi field teams",
+      "Drives revenue execution and field-level operational planning for 20+ Kisan Sathi teams",
     ],
-    pub: "Procurement optimization and supply chain mechanics for high-density agricultural input networks (2025)",
+    pub: "Operational mechanics and revenue optimization in high-density agricultural input networks (2025)",
     quote:
-      "Precision procurement and direct-from-source inputs guarantee the highest quality foundation for every crop cycle.",
+      "Precision operations and direct-from-source inputs guarantee the highest quality foundation for every crop cycle.",
   },
   {
     id: "abhay-ranjan",
@@ -331,18 +334,33 @@ export const team: TeamMember[] = [
 export const milestones = [
   {
     year: "2024",
-    title: "Incorporation & Experimental Nursery Setup",
-    desc: "Anzix Farm Technologies Private Limited formally incorporated on May 28, 2024 in Gurugram. Launched the 1-acre experimental nursery block testing root density variables under bio-inoculation.",
+    title: "Incorporation & Experimental Nursery",
+    desc: "Anzix Farm Technologies Private Limited formally incorporated on May 28, 2024, under RoC Delhi (CIN: U46200HR2024PTC121982). Launched a 1-acre experimental nursery block in Kukrola, Gurugram, testing root density variables under bio-inoculation and AI-driven climate monitoring.",
+    highlights: [
+      "Company incorporated — May 28, 2024",
+      "1-acre controlled nursery trial block launched",
+      "Bio-Boosted seedling R&D initiated",
+    ],
   },
   {
     year: "2025",
-    title: "17-Acre Smart Nursery Facility & Kisan Mall Expansion",
-    desc: "Scaled production to our flagship 17-acre climate-controlled Smart Nursery in Kukrola. Opened the Kisan Mall experience hub in Bilaspur and achieved ₹96.9 Lakhs in initial corporate revenue.",
+    title: "5-Acre Smart Nursery & Kisan Mall",
+    desc: "Scaled to the flagship 5-acre climate-controlled Smart Nursery in Kukrola with AI-driven monitoring, standardized protocols, and end-to-end traceability. Opened the Agaate Kisan Mall experience center in Bilaspur Kalan — a one-stop shop for all agri inputs, seeds, and technology demos.",
+    highlights: [
+      "5-acre Smart Nursery fully operational",
+      "Kisan Mall retail hub launched in Bilaspur Kalan",
+      "₹96.9 Lakhs initial corporate revenue (MCA filed)",
+    ],
   },
   {
     year: "2026",
-    title: "Agri Park, 15,000+ Acres & ₹10 Cr+ Platform GMV",
-    desc: "Inaugurated India's first collaborative Agri Park, expanded associated farmland to 15,000+ acres, serving 2,000+ Parivaar farmers with over ₹10 Cr+ in managed crop value and gross platform transactions.",
+    title: "India's First Agri Park & Carbon Credits",
+    desc: "Inaugurated India's first collaborative Agri Park — a single living farm where leading seed, irrigation, nutrition, protection, machinery, and market partners demonstrate real crops across the full seed-to-sale journey. Launched the Carbon Credit Program helping farmers monetise sustainable practices.",
+    highlights: [
+      "8-zone Agri Park: Seed, Nursery, Irrigation, Nutrition, Protection, Tech, Training, Market",
+      "15,000+ acres · 2,000+ Parivaar farmers",
+      "Carbon Credit Program — earn from sustainable farming",
+    ],
   },
 ];
 
@@ -351,7 +369,7 @@ export const locations = [
     tag: "Farm & Production Facility",
     name: "Agaate – Anzix Farm",
     address: "NH8, opposite Bikanervala, Kukrola, Gurugram, Haryana 122413",
-    sub: "Plus Code: 8WG2+QR6 · 17-Acre Smart Nursery",
+    sub: "Plus Code: 8WG2+QR6 · 5-Acre Smart Nursery",
   },
   {
     tag: "Retail & Experience Center",

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check,
@@ -9,8 +9,21 @@ import {
   Sparkle,
   X,
 } from "@phosphor-icons/react";
-import { ExtendedJobPosition, jobs } from "@/data/careers-data";
 import { EASE } from "@/components/common/motion";
+import { submitCareerApplication } from "@/functions/submit-career-application";
+import type { CareerJob } from "@/lib/cms-types";
+
+function makeClientToken() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+async function fileToBase64(file: File): Promise<string> {
+  const buf = await file.arrayBuffer();
+  let binary = "";
+  const bytes = new Uint8Array(buf);
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
 
 const STEPS = ["Candidate Info", "Experience & Resume", "Confirm & Submit"];
 
@@ -26,16 +39,18 @@ const CONFETTI = [
 ];
 
 type Props = {
-  job: ExtendedJobPosition | null;
+  job: CareerJob | null;
+  jobs: CareerJob[];
   isOpen?: boolean;
   onClose: () => void;
 };
 
-export default function ApplicationModal({ job, isOpen = true, onClose }: Props) {
+export default function ApplicationModal({ job, jobs, isOpen = true, onClose }: Props) {
   const [step, setStep] = useState(1);
   const [applied, setApplied] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Form fields
   const [selectedRoleId, setSelectedRoleId] = useState<string>(job?.id ?? jobs[0]?.id ?? "");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -46,6 +61,20 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
   const [isDragging, setIsDragging] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const clientToken = useRef(makeClientToken());
+  const startedAt = useRef(Date.now());
+
+  useEffect(() => {
+    if (job && isOpen) {
+      setSelectedRoleId(job.id);
+      setStep(1);
+      setApplied(false);
+      setError(null);
+      setIsSubmitting(false);
+      clientToken.current = makeClientToken();
+      startedAt.current = Date.now();
+    }
+  }, [job, isOpen]);
 
   if (!isOpen || !job) return null;
 
@@ -66,14 +95,56 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
     }
   };
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (step < 3) {
+      setError(null);
       setStep(step + 1);
-    } else {
-      setApplied(true);
-      setTimeout(() => {
-        onClose();
-      }, 4500);
+      return;
+    }
+
+    if (!resumeFile || !activeJob) {
+      setError("Please upload your resume before submitting.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const base64 = await fileToBase64(resumeFile);
+      const res = await submitCareerApplication({
+        data: {
+          jobSlug: activeJob.id,
+          name: name.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+          experienceBand: exp,
+          cropExperience: cropExp.trim(),
+          resume: {
+            filename: resumeFile.name,
+            mime: resumeFile.type || "application/pdf",
+            base64,
+          },
+          clientToken: clientToken.current,
+          startedAt: startedAt.current,
+          honeypot: "",
+        },
+      });
+
+      setIsSubmitting(false);
+
+      if (res.ok) {
+        setApplied(true);
+        clientToken.current = makeClientToken();
+        startedAt.current = Date.now();
+        setTimeout(() => onClose(), 4500);
+        return;
+      }
+
+      setError(res.error ?? "Could not submit your application. Please try again.");
+    } catch {
+      setIsSubmitting(false);
+      setError("Could not submit your application. Please try again.");
     }
   };
 
@@ -426,23 +497,36 @@ export default function ApplicationModal({ job, isOpen = true, onClose }: Props)
                   </div>
 
                   {/* Buttons */}
+                  {error && (
+                    <p className="text-xs text-rose-600 text-center">{error}</p>
+                  )}
                   <div className="flex gap-3 pt-2">
                     {step > 1 && (
                       <button
                         type="button"
                         onClick={handleBackStep}
-                        className="cursor-pointer rounded-full border border-[#143d31]/15 bg-white px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-[#143d31] transition-colors hover:bg-[#143d31]/5"
+                        disabled={isSubmitting}
+                        className="cursor-pointer rounded-full border border-[#143d31]/15 bg-white px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-[#143d31] transition-colors hover:bg-[#143d31]/5 disabled:opacity-50"
                       >
                         Back
                       </button>
                     )}
                     <button
                       type="button"
-                      onClick={handleNextStep}
-                      disabled={step === 1 ? !name || !phone : false}
+                      onClick={() => void handleNextStep()}
+                      disabled={
+                        isSubmitting ||
+                        (step === 1 ? !name || !phone || !email : step === 2 ? !resumeFile : false)
+                      }
                       className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full bg-[#143d31] py-3 text-xs font-mono font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#1a4d3e] disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      <span>{step === 3 ? "Submit Application" : "Continue"}</span>
+                      <span>
+                        {isSubmitting
+                          ? "Submitting…"
+                          : step === 3
+                            ? "Submit Application"
+                            : "Continue"}
+                      </span>
                       <PaperPlaneRight className="h-4 w-4 text-[#a3e635]" />
                     </button>
                   </div>

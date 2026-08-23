@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CaretDown, PaperPlaneRight } from "@phosphor-icons/react";
+import { CaretDown, PaperPlaneRight, Phone, WhatsappLogo } from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
@@ -11,6 +11,9 @@ import {
   CROP_OPTIONS,
   FORM_STORAGE_KEY,
   MESSAGE_MAX,
+  PRIMARY_PHONE,
+  TEL_PRIMARY,
+  WHATSAPP_URL,
 } from "./data";
 import { TopicSelector } from "./TopicSelector";
 import {
@@ -61,15 +64,16 @@ function normalizePhone(raw: string) {
 
 function validate(form: FormState, topic: string) {
   const errors: Partial<Record<keyof FormState | "topic", string>> = {};
-  if (form.name.trim().length < 2) errors.name = "Enter your full name.";
+  if (!topic) errors.topic = "This is a required question.";
+  if (!form.channel) errors.channel = "This is a required question.";
+  if (form.name.trim().length < 2) errors.name = "Please enter your full name.";
   if (!/^[6-9]\d{9}$/.test(normalizePhone(form.phone))) {
-    errors.phone = "Enter a 10-digit mobile number.";
+    errors.phone = "Please enter a valid 10-digit Indian mobile number.";
   }
   if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    errors.email = "Enter a valid email address.";
+    errors.email = "Please enter a valid email address.";
   }
-  if (!topic) errors.topic = "Select a topic.";
-  if (!form.consent) errors.consent = "Please accept the privacy notice to continue.";
+  if (!form.consent) errors.consent = "Please agree to the privacy terms to proceed.";
   return errors;
 }
 
@@ -77,17 +81,17 @@ function makeClientToken() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-export default function ContactForm({
+export function ContactForm({
   onSuccessChange,
 }: {
   onSuccessChange?: (success: boolean) => void;
 }) {
+  const formRef = useRef<HTMLFormElement>(null);
   const { locale } = useParams({ strict: false }) as { locale?: string };
+
   const [topic, setTopic] = useState("nursery");
   const [form, setForm] = useState<FormState>(defaults);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | "topic", string>>>({});
-  const [showFarmDetails, setShowFarmDetails] = useState(false);
-  const [showUpload, setShowUpload] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ticketId, setTicketId] = useState<string | null>(null);
@@ -95,10 +99,16 @@ export default function ContactForm({
   const [offline, setOffline] = useState(
     typeof navigator !== "undefined" ? !navigator.onLine : false,
   );
+  const [showFarmDetails, setShowFarmDetails] = useState(false);
+
   const startedAt = useRef(Date.now());
   const clientToken = useRef(makeClientToken());
   const startedTracked = useRef(false);
-  const formRef = useRef<HTMLFormElement>(null);
+
+  const selectedTopicObj = useMemo(
+    () => CONSULTATION_TOPICS.find((t) => t.id === topic),
+    [topic],
+  );
 
   useEffect(() => {
     try {
@@ -113,7 +123,6 @@ export default function ContactForm({
       if (!urlTopic && parsed.topic && CONSULTATION_TOPICS.some((t) => t.id === parsed.topic)) {
         setTopic(parsed.topic);
       }
-      if (parsed.acreage || parsed.crop || parsed.district) setShowFarmDetails(true);
     } catch {
       // ignore
     }
@@ -146,25 +155,15 @@ export default function ContactForm({
     onSuccessChange?.(!!ticketId);
   }, [ticketId, onSuccessChange]);
 
-  useEffect(() => {
-    const handler = () => {
-      if (!ticketId && (form.name || form.phone || form.message)) {
-        track("contact_form_abandoned", { topic });
-      }
-    };
-    window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
-  }, [form.name, form.phone, form.message, topic, ticketId]);
-
   const privacyHref = getLocalizedPath("/privacy-policy", locale ?? "en");
 
   const whatsappHref = useMemo(() => {
-    const topicLabel = CONSULTATION_TOPICS.find((t) => t.id === topic)?.label || "General";
+    const topicLabel = selectedTopicObj?.label || "General";
     const text = encodeURIComponent(
-      `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\nI submitted a request via agaate.in.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`,
+      `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`,
     );
     return `https://wa.me/918350085005?text=${text}`;
-  }, [ticketId, topic, form]);
+  }, [ticketId, selectedTopicObj, form]);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     if (!startedTracked.current) {
@@ -185,8 +184,6 @@ export default function ContactForm({
     setErrors({});
     setFormError(null);
     setFile(null);
-    setShowFarmDetails(false);
-    setShowUpload(false);
     startedAt.current = Date.now();
     clientToken.current = makeClientToken();
     sessionStorage.removeItem(FORM_STORAGE_KEY);
@@ -195,72 +192,63 @@ export default function ContactForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
-    const nextErrors = validate(form, topic);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) {
-      track("contact_form_error", { reason: "validation" });
-      const firstKey = Object.keys(nextErrors)[0];
-      const el = formRef.current?.querySelector(
-        `[name="${firstKey}"], #${firstKey}`,
-      ) as HTMLElement | null;
+
+    const validationErrors = validate(form, topic);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      track("contact_form_validation_failed", { errors: Object.keys(validationErrors) });
+      const firstKey = Object.keys(validationErrors)[0];
+      const el = document.getElementById(firstKey);
       el?.focus();
-      return;
-    }
-    if (offline) {
-      setFormError("You appear offline. Call or WhatsApp us, or retry when connected.");
       return;
     }
 
     setIsSubmitting(true);
-    try {
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 15000);
-      const result = await Promise.race([
-        submitLead({
-          data: {
-            name: form.name,
-            phone: form.phone,
-            email: form.email || undefined,
-            topic,
-            acreage: form.acreage,
-            crop: form.crop,
-            district: form.district || undefined,
-            channel: form.channel,
-            message: form.message || undefined,
-            consent: form.consent,
-            honeypot: form.honeypot,
-            startedAt: startedAt.current,
-            clientToken: clientToken.current,
-            sourcePage: typeof window !== "undefined" ? window.location.pathname : "/contact",
-          },
-        }),
-        new Promise<never>((_, reject) => {
-          controller.signal.addEventListener("abort", () => reject(new Error("timeout")));
-        }),
-      ]);
-      window.clearTimeout(timeout);
+    const durationSeconds = Math.round((Date.now() - startedAt.current) / 1000);
 
-      if (!result.ok) {
-        setFormError(result.error);
-        track("contact_form_error", { reason: result.code || "server" });
-        return;
-      }
-      setTicketId(result.ticketId);
-      sessionStorage.removeItem(FORM_STORAGE_KEY);
-      track("contact_form_submitted", {
+    try {
+      const payload = {
+        name: form.name.trim(),
+        phone: normalizePhone(form.phone),
+        email: form.email.trim() || undefined,
         topic,
         acreage: form.acreage,
-        stored: result.stored,
+        district: form.district.trim() || undefined,
+        crop: form.crop,
+        channel: form.channel,
+        message: form.message.trim() || undefined,
+        consent: form.consent,
+        honeypot: form.honeypot,
+        clientToken: clientToken.current,
+        formDurationSeconds: durationSeconds,
+        fileName: file?.name,
+        fileSizeBytes: file?.size,
+        fileType: file?.type,
+      };
+
+      const res = await submitLead({ data: payload });
+
+      if (!res || !res.ok) {
+        throw new Error(res?.error || "Submission failed. Please try again.");
+      }
+
+      setTicketId(res.ticketId);
+      track("contact_form_submitted", {
+        topic,
+        channel: form.channel,
+        hasAttachment: !!file,
+        durationSeconds,
       });
-    } catch {
-      setFormError(
-        "We could not reach the server. Please try again, or WhatsApp / call us directly.",
-      );
-      track("contact_form_error", { reason: "network" });
+      sessionStorage.removeItem(FORM_STORAGE_KEY);
+    } catch (err: any) {
+      const msg = err?.message || "Failed to send your request. Please try WhatsApp or call us.";
+      setFormError(msg);
+      track("contact_form_failed", { error: msg });
     } finally {
       setIsSubmitting(false);
     }
   };
+
   return (
     <section
       id="contact-form"
@@ -274,19 +262,16 @@ export default function ContactForm({
               <div className="flex items-center gap-2.5">
                 <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
                 <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-                  Consultation Request
+                  Inquiry Track
                 </p>
               </div>
-              <h2
-                id="contact-form-heading"
-                className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]"
-              >
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
                 Tell us what your farm needs
               </h2>
-              <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
-                Choose your inquiry track below so our agronomists can prepare specific soil, seedling, or market data for your consultation.
+              <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
+                Select your inquiry track below so our agronomists can prepare specific soil, seedling, or market linkage data.
               </p>
-              <div className="pt-4">
+              <div className="pt-2">
                 <TopicSelector
                   options={CONSULTATION_TOPICS}
                   value={topic}
@@ -402,7 +387,7 @@ export default function ContactForm({
                     <button
                       type="button"
                       onClick={() => setShowFarmDetails((v) => !v)}
-                      className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none"
+                      className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none cursor-pointer"
                     >
                       <span>{showFarmDetails ? "Hide farm details" : "+ Add farm details (optional)"}</span>
                       <CaretDown
@@ -454,19 +439,7 @@ export default function ContactForm({
                       onChange={(e) => setField("message", e.target.value)}
                     />
 
-                    <button
-                      type="button"
-                      onClick={() => setShowUpload((v) => !v)}
-                      className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none"
-                    >
-                      <span>{showUpload ? "Hide attachment" : "+ Attach crop photo or soil report (optional)"}</span>
-                      <CaretDown
-                        className={`h-3.5 w-3.5 transition-transform ${showUpload ? "rotate-180" : ""}`}
-                      />
-                    </button>
-                    {showUpload ? (
-                      <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
-                    ) : null}
+                    <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
 
                     <ConsentCheckbox
                       id="consent"
@@ -485,7 +458,7 @@ export default function ContactForm({
                       type="submit"
                       disabled={isSubmitting}
                       aria-busy={isSubmitting}
-                      className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a3e635] px-6 py-3.5 font-body text-sm font-bold text-[#0d2820] shadow-sm transition-all duration-300 hover:bg-[#91d820] hover:shadow-md disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/40"
+                      className="group inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#143d31] px-6 py-3.5 font-body text-sm font-bold text-white shadow-sm transition-all duration-300 hover:bg-[#1a4d3e] hover:shadow-md disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143d31]/40"
                     >
                       {isSubmitting ? (
                         <>
@@ -494,7 +467,7 @@ export default function ContactForm({
                         </>
                       ) : (
                         <>
-                          <PaperPlaneRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" weight="bold" />
+                          <PaperPlaneRight className="h-4 w-4 text-[#a3e635] transition-transform group-hover:translate-x-0.5" weight="bold" />
                           <span>Request Consultation Callback</span>
                         </>
                       )}
@@ -509,3 +482,5 @@ export default function ContactForm({
     </section>
   );
 }
+
+export default ContactForm;

@@ -51,8 +51,7 @@ export default function AboutCta() {
                 </h2>
 
                 <p className="font-sans text-sm sm:text-base leading-relaxed text-[#4f624f] max-w-md font-normal">
-                  Talk to an agronomist, reserve Bio-Boosted plug saplings, or download our corporate
-                  profile brochure.
+                  Talk to an agronomist or reserve Bio-Boosted plug saplings directly with our team.
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3 max-w-xl">
@@ -72,16 +71,6 @@ export default function AboutCta() {
                     size="md"
                     label={`Call ${PHONE_DISPLAY}`}
                     icon={<Phone className="h-4 w-4" />}
-                    iconPosition="right"
-                  />
-                  <SlideUpPillButton
-                    href={brochureHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="light"
-                    size="md"
-                    label="Download Brochure"
-                    icon={<Download className="h-4 w-4" />}
                     iconPosition="right"
                   />
                 </div>
