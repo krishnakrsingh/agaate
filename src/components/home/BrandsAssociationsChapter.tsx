@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Buildings, Leaf, ShoppingBagOpen } from "@phosphor-icons/react";
+import { Buildings, Leaf, ShoppingBagOpen, GraduationCap } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { Marquee } from "@/components/ui/testimonials-13-utils/marquee";
 import { EASE, Reveal } from "@/components/common/motion";
@@ -37,6 +37,12 @@ const TABS_EN: {
       hint: "Market channels connected through our linkage network",
       icon: ShoppingBagOpen,
     },
+    {
+      id: "institutional",
+      label: "Institutional Tieups",
+      hint: "Academic, university, and research institutions partnering with Agaate",
+      icon: GraduationCap,
+    },
   ];
 
 const TABS_HI: {
@@ -63,103 +69,33 @@ const TABS_HI: {
       hint: "हमारे लिंकेज नेटवर्क से जुड़े बड़े संस्थागत खरीदार",
       icon: ShoppingBagOpen,
     },
+    {
+      id: "institutional",
+      label: "संस्थागत साझेदारी",
+      hint: "अगाते के साथ जुड़े शैक्षणिक व अनुसंधान संस्थान",
+      icon: GraduationCap,
+    },
   ];
 
-/** Logos sourced from agaate.in /data/brands.js */
-const BRANDS: Record<BrandTab, BrandLogo[]> = {
-  partners: [
-    {
-      name: "Coromandel",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768289198/coromandel_sgjzct.png",
-    },
-    {
-      name: "Ravi",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298183/ravi_e6yg0j.png",
-    },
-    {
-      name: "Indus",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298206/indus_j41n1o.png",
-    },
-    {
-      name: "Netafim",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298152/netafim_ayhi1x.png",
-    },
-    {
-      name: "Vihaan",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298261/vihaan_yzqhdy.png",
-    },
-    {
-      name: "Known-You Seed",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298299/known-you_rlfhmu.png",
-    },
-    {
-      name: "Aries Agro",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768289196/aries_kxccjq.png",
-    },
-    {
-      name: "Namdhari Seeds",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768562662/Naamdhari_seeds_xq4a4d.png",
-    },
-    {
-      name: "Syngenta",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768894202/Syngenta_nflip5.png",
-    },
-    {
-      name: "Seminis",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768895033/Seminis_oyretu.png",
-    },
-  ],
-  customers: [
-    {
-      name: "DS Group",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768560703/DS_y9vrlk.png",
-    },
-    {
-      name: "Harit Bhoomi",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768560925/Harit_Bhoomi_h64koo.png",
-    },
-    {
-      name: "FPO Network",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768561266/FPO_wokfze.png",
-    },
-  ],
-  buyers: [
-    {
-      name: "Blinkit",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768289196/blinkit_dzjrag.png",
-    },
-    {
-      name: "SNS",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298331/sns_ilisot.png",
-    },
-    {
-      name: "Handpickd",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298381/Handpickd_iygla7.jpg",
-    },
-    {
-      name: "Local Mandi",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768298412/localmandi_sanyvw.jpg",
-    },
-    {
-      name: "Flipkart",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768561427/Flipkart_yiiedx.png",
-    },
-    {
-      name: "Aadat Mandi",
-      src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768893718/aadat_mandi_zicmdx.png",
-    },
-  ],
-};
-
-function BrandTile({ brand }: { brand: BrandLogo }) {
+function BrandTile({ brand, isSingle }: { brand: BrandLogo; isSingle?: boolean }) {
   return (
-    <div className="group flex h-[72px] w-[150px] shrink-0 items-center justify-center rounded-[18px] bg-white/50 px-5 transition-all duration-300 hover:bg-white hover:shadow-[0_8px_26px_-10px_rgba(20,61,49,0.12)] sm:h-[88px] sm:w-[185px] cursor-pointer">
+    <div
+      className={cn(
+        "group flex shrink-0 items-center justify-center rounded-[20px] bg-white/70 px-6 transition-all duration-300 hover:bg-white hover:shadow-[0_10px_30px_-10px_rgba(20,61,49,0.15)] border border-[#143d31]/5 hover:border-[#143d31]/15 cursor-pointer",
+        isSingle
+          ? "h-[115px] w-[280px] sm:h-[135px] sm:w-[360px] px-8 shadow-sm"
+          : "h-[84px] w-[180px] sm:h-[98px] sm:w-[215px]",
+      )}
+    >
       <img
         src={brand.src}
         alt={brand.name}
         loading="lazy"
         decoding="async"
-        className="max-h-10 w-full object-contain transition-transform duration-300 group-hover:scale-105 sm:max-h-12"
+        className={cn(
+          "w-full object-contain transition-transform duration-300 group-hover:scale-105",
+          isSingle ? "max-h-16 sm:max-h-20" : "max-h-12 sm:max-h-14",
+        )}
       />
     </div>
   );
@@ -173,13 +109,15 @@ export default function BrandsAssociationsChapter({
   const { i18n } = useTranslation();
   const isHindi = i18n.language?.startsWith("hi");
   const TABS = isHindi ? TABS_HI : TABS_EN;
-  const brandData = brands ?? BRANDS;
+  const brandData = brands ?? HOMEPAGE_CMS_FALLBACK.logos;
 
   const sectionRef = useHomeChapterReveal("fade-up");
   const [tab, setTab] = useState<BrandTab>("partners");
   const active = useMemo(() => TABS.find((t) => t.id === tab)!, [TABS, tab]);
   const logos = brandData[tab]?.length ? brandData[tab] : HOMEPAGE_CMS_FALLBACK.logos[tab];
-  const useDualRow = logos.length >= 8;
+  const isSingleLogo = logos.length === 1;
+  const isDualRow = logos.length >= 8;
+  const repeatCount = logos.length <= 4 ? 8 : 5;
 
   return (
     <section
@@ -262,14 +200,18 @@ export default function BrandsAssociationsChapter({
         </Reveal>
 
         <div className="relative mt-8 sm:mt-10">
-          <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white via-white/90 to-transparent sm:w-24 md:w-36"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white via-white/90 to-transparent sm:w-24 md:w-36"
-            aria-hidden="true"
-          />
+          {!isSingleLogo && (
+            <>
+              <div
+                className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white via-white/90 to-transparent sm:w-24 md:w-36"
+                aria-hidden="true"
+              />
+              <div
+                className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white via-white/90 to-transparent sm:w-24 md:w-36"
+                aria-hidden="true"
+              />
+            </>
+          )}
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -280,33 +222,40 @@ export default function BrandsAssociationsChapter({
               transition={{ duration: 0.35, ease: EASE }}
               className="space-y-3.5 sm:space-y-4"
             >
-              {useDualRow ? (
+              {isSingleLogo ? (
+                <div className="flex items-center justify-center py-4">
+                  <BrandTile brand={logos[0]} isSingle />
+                </div>
+              ) : isDualRow ? (
                 <>
                   <Marquee
                     pauseOnHover
                     className="[--duration:50s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
+                    repeat={4}
                   >
-                    {logos.slice(0, Math.ceil(logos.length / 2)).map((brand) => (
-                      <BrandTile key={`${tab}-a-${brand.name}`} brand={brand} />
+                    {logos.slice(0, Math.ceil(logos.length / 2)).map((brand, i) => (
+                      <BrandTile key={`${tab}-a-${brand.name}-${i}`} brand={brand} />
                     ))}
                   </Marquee>
                   <Marquee
                     reverse
                     pauseOnHover
                     className="[--duration:60s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
+                    repeat={4}
                   >
-                    {logos.slice(Math.ceil(logos.length / 2)).map((brand) => (
-                      <BrandTile key={`${tab}-b-${brand.name}`} brand={brand} />
+                    {logos.slice(Math.ceil(logos.length / 2)).map((brand, i) => (
+                      <BrandTile key={`${tab}-b-${brand.name}-${i}`} brand={brand} />
                     ))}
                   </Marquee>
                 </>
               ) : (
                 <Marquee
                   pauseOnHover
-                  className="[--duration:45s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
+                  className="[--duration:40s] [--gap:1.25rem] sm:[--gap:1.5rem] py-1.5"
+                  repeat={repeatCount}
                 >
-                  {logos.map((brand) => (
-                    <BrandTile key={`${tab}-${brand.name}`} brand={brand} />
+                  {logos.map((brand, i) => (
+                    <BrandTile key={`${tab}-${brand.name}-${i}`} brand={brand} />
                   ))}
                 </Marquee>
               )}

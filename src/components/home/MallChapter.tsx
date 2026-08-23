@@ -8,6 +8,7 @@ import {
   Package,
   ShoppingBag,
   PhoneCall,
+  MagnifyingGlass,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
@@ -18,18 +19,24 @@ import KisaanMallShowcase from "./KisaanMallShowcase";
 const SUPPLY_CHAIN_STEPS_EN = [
   {
     step: "01",
+    title: "Information Gathering",
+    desc: "Localized soil, weather & crop data mapped to curate verified inputs.",
+    icon: MagnifyingGlass,
+  },
+  {
+    step: "02",
     title: "Direct Partner Sourcing",
     desc: "Sourced directly from 50+ certified seed & input manufacturers.",
     icon: Buildings,
   },
   {
-    step: "02",
+    step: "03",
     title: "Agaate Regional Hub",
     desc: "Stored in humidity-controlled warehouses until your order.",
     icon: Package,
   },
   {
-    step: "03",
+    step: "04",
     title: "Direct Farm Delivery",
     desc: "Delivered straight to your field gate across 15,000+ PIN codes.",
     icon: Truck,
@@ -39,18 +46,24 @@ const SUPPLY_CHAIN_STEPS_EN = [
 const SUPPLY_CHAIN_STEPS_HI = [
   {
     step: "01",
+    title: "जानकारी संग्रह",
+    desc: "क्षेत्रीय मिट्टी, मौसम व फसल डेटा अनुसार सही इनपुट्स का चयन।",
+    icon: MagnifyingGlass,
+  },
+  {
+    step: "02",
     title: "सीधे कंपनियों से सोर्सिंग",
     desc: "50+ प्रमाणित बीज व इनपुट निर्माताओं से सीधी आपूर्ति।",
     icon: Buildings,
   },
   {
-    step: "02",
+    step: "03",
     title: "अगाते वेयरहाउस हब",
     desc: "तापमान-नियंत्रित सुरक्षित वेयरहाउस में सुरक्षित भंडारण।",
     icon: Package,
   },
   {
-    step: "03",
+    step: "04",
     title: "खेत तक सुरक्षित डिलीवरी",
     desc: "15,000+ पिनकोड में सीधे आपके खेत के गेट तक सुरक्षित डिलीवरी।",
     icon: Truck,
@@ -67,7 +80,7 @@ export default function MallChapter() {
     <section
       ref={sectionRef}
       id="kisaan-mall"
-      className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] py-16 sm:py-20 md:py-24 border-t border-[#143d31]/10 text-[#143d31]"
+      className="relative scroll-mt-20 overflow-hidden bg-[#f4f8f5] pt-8 sm:pt-12 md:pt-16 pb-16 sm:pb-20 md:pb-24 text-[#143d31]"
     >
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-16">
         {/* ── Main Showcase Grid ── */}
@@ -202,7 +215,7 @@ export default function MallChapter() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {SUPPLY_CHAIN_STEPS.map((s) => {
               const Icon = s.icon;
               return (

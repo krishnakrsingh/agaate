@@ -18,10 +18,16 @@ import type {
   CmsStatus,
   CmsStoryPayload,
   CmsStoryRow,
+  HomeCmsAppLinks,
+  HomeCmsAgriParkTour,
+  CmsSiteConfig,
   HomeCmsData,
   HomeCmsLogo,
   HomeCmsStat,
   HomeCmsStory,
+  DEFAULT_CMS_SITE_CONFIG,
+  DEFAULT_HOME_CMS_APP_LINKS,
+  DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
 } from "@/lib/cms-types";
 
 function parseJson<T>(value: unknown, fallback: T): T {
@@ -158,7 +164,7 @@ const CMS_TABLE_SQL = [
   `CREATE TABLE IF NOT EXISTS cms_brand_logos (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(160) NOT NULL,
-    logo_group ENUM('partners','customers','buyers') NOT NULL,
+    logo_group ENUM('partners','customers','buyers','institutional') NOT NULL,
     image_url VARCHAR(512) NOT NULL,
     sort_order INT NOT NULL DEFAULT 0,
     status ENUM('draft','published','archived') NOT NULL DEFAULT 'published',
@@ -195,7 +201,103 @@ const CMS_TABLE_SQL = [
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_cms_stories_status (status, sort_order)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+  `CREATE TABLE IF NOT EXISTS cms_site_config (
+    id TINYINT UNSIGNED NOT NULL PRIMARY KEY,
+    payload JSON NOT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
 ];
+
+function normalizeAppLinks(raw: Partial<HomeCmsAppLinks> | null | undefined): HomeCmsAppLinks {
+  const googlePlayUrl = String(raw?.googlePlayUrl ?? "").trim();
+  const appStoreUrl = String(raw?.appStoreUrl ?? "").trim();
+  return {
+    googlePlayUrl: googlePlayUrl || DEFAULT_HOME_CMS_APP_LINKS.googlePlayUrl,
+    appStoreUrl: appStoreUrl || DEFAULT_HOME_CMS_APP_LINKS.appStoreUrl,
+  };
+}
+
+function normalizeAgriParkTour(raw: Partial<HomeCmsAgriParkTour> | null | undefined): HomeCmsAgriParkTour {
+  const videoUrl = String(raw?.videoUrl ?? "").trim();
+  const posterUrl = String(raw?.posterUrl ?? "").trim();
+  return {
+    videoUrl: videoUrl || DEFAULT_HOME_CMS_AGRI_PARK_TOUR.videoUrl,
+    posterUrl: posterUrl || DEFAULT_HOME_CMS_AGRI_PARK_TOUR.posterUrl,
+  };
+}
+
+function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): CmsSiteConfig {
+  return {
+    appLinks: normalizeAppLinks(raw?.appLinks),
+    agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
+  };
+}
+
+async function readSiteConfigFromMemory(): Promise<CmsSiteConfig> {
+  const { mockSiteConfig } = await import("@/server/cms-memory");
+  return normalizeSiteConfig(mockSiteConfig);
+}
+
+export async function fetchSiteConfig(): Promise<CmsSiteConfig> {
+  if (!isDbConfigured()) return readSiteConfigFromMemory();
+  try {
+    await ensureCmsSchema();
+    const db = await getDbPool();
+    const [rows] = await db.query(`SELECT payload FROM cms_site_config WHERE id = 1 LIMIT 1`);
+    const row = (rows as Array<{ payload: unknown }>)[0];
+    if (!row) return DEFAULT_CMS_SITE_CONFIG;
+    const payload = parseJson<Partial<CmsSiteConfig>>(row.payload, {});
+    return normalizeSiteConfig(payload);
+  } catch (err) {
+    console.warn("fetchSiteConfig fallback:", err);
+    return DEFAULT_CMS_SITE_CONFIG;
+  }
+}
+
+async function saveSiteConfig(config: CmsSiteConfig): Promise<CmsSiteConfig> {
+  const normalized = normalizeSiteConfig(config);
+  if (!isDbConfigured()) {
+    const mem = await import("@/server/cms-memory");
+    mem.mockSiteConfig = normalized;
+    return normalized;
+  }
+  await ensureCmsSchema();
+  const db = await getDbPool();
+  await db.query(
+    `INSERT INTO cms_site_config (id, payload) VALUES (1, :payload)
+     ON DUPLICATE KEY UPDATE payload = :payload`,
+    { payload: JSON.stringify(normalized) },
+  );
+  return normalized;
+}
+
+async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteConfig> {
+  const current = await fetchSiteConfig();
+  return saveSiteConfig({
+    appLinks: patch.appLinks ? normalizeAppLinks(patch.appLinks) : current.appLinks,
+    agriParkTour: patch.agriParkTour ? normalizeAgriParkTour(patch.agriParkTour) : current.agriParkTour,
+  });
+}
+
+export async function fetchAppLinks(): Promise<HomeCmsAppLinks> {
+  const config = await fetchSiteConfig();
+  return config.appLinks;
+}
+
+export async function saveAppLinks(links: HomeCmsAppLinks): Promise<HomeCmsAppLinks> {
+  const config = await mergeSiteConfig({ appLinks: links });
+  return config.appLinks;
+}
+
+export async function fetchAgriParkTour(): Promise<HomeCmsAgriParkTour> {
+  const config = await fetchSiteConfig();
+  return config.agriParkTour;
+}
+
+export async function saveAgriParkTour(tour: HomeCmsAgriParkTour): Promise<HomeCmsAgriParkTour> {
+  const config = await mergeSiteConfig({ agriParkTour: tour });
+  return config.agriParkTour;
+}
 
 let cmsSchemaReady = false;
 
@@ -348,6 +450,7 @@ export function buildHomeCmsFromRows(
     partners: [],
     customers: [],
     buyers: [],
+    institutional: [],
   };
   for (const row of activeLogos) {
     const pub = logoToPublic(row, useLive);
@@ -359,13 +462,18 @@ export function buildHomeCmsFromRows(
     logos: logoGroups,
     storiesEn: activeStories.map((r) => storyToPublic(r, useLive, "en")),
     storiesHi: activeStories.map((r) => storyToPublic(r, useLive, "hi")),
+    appLinks: DEFAULT_CMS_SITE_CONFIG.appLinks,
+    agriParkTour: DEFAULT_CMS_SITE_CONFIG.agriParkTour,
   };
 }
 
 export async function fetchHomeCms(preview = false): Promise<HomeCmsData> {
   if (!isDbConfigured()) {
-    const { mockStats, mockLogos, mockStories } = await import("@/server/cms-memory");
-    return buildHomeCmsFromRows(mockStats, mockLogos, mockStories, preview);
+    const { mockStats, mockLogos, mockStories, mockSiteConfig } = await import("@/server/cms-memory");
+    const data = buildHomeCmsFromRows(mockStats, mockLogos, mockStories, preview);
+    data.appLinks = mockSiteConfig.appLinks;
+    data.agriParkTour = mockSiteConfig.agriParkTour;
+    return data;
   }
   try {
     await ensureCmsSchema();
@@ -376,7 +484,14 @@ export async function fetchHomeCms(preview = false): Promise<HomeCmsData> {
     const stats = (statRows as Record<string, unknown>[]).map(mapStatRow);
     const logos = (logoRows as Record<string, unknown>[]).map(mapLogoRow);
     const stories = (storyRows as Record<string, unknown>[]).map(mapStoryRow);
-    if (!stats.length && !logos.length && !stories.length) return HOMEPAGE_CMS_FALLBACK;
+    if (!stats.length && !logos.length && !stories.length) {
+      const siteConfig = await fetchSiteConfig();
+      return {
+        ...HOMEPAGE_CMS_FALLBACK,
+        appLinks: siteConfig.appLinks,
+        agriParkTour: siteConfig.agriParkTour,
+      };
+    }
     const data = buildHomeCmsFromRows(stats, logos, stories, preview);
     if (!data.stats.length) data.stats = HOMEPAGE_CMS_FALLBACK.stats;
     if (!data.storiesEn.length) {
@@ -385,6 +500,9 @@ export async function fetchHomeCms(preview = false): Promise<HomeCmsData> {
     }
     const hasLogos = Object.values(data.logos).some((g) => g.length > 0);
     if (!hasLogos) data.logos = HOMEPAGE_CMS_FALLBACK.logos;
+    const siteConfig = await fetchSiteConfig();
+    data.appLinks = siteConfig.appLinks;
+    data.agriParkTour = siteConfig.agriParkTour;
     return data;
   } catch (err) {
     console.warn("fetchHomeCms fallback:", err);

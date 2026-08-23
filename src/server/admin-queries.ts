@@ -567,7 +567,13 @@ export async function getSettings(): Promise<AdminSettingsPayload> {
   const db = await getDbPool();
   const [rows] = await db.query(`SELECT payload FROM admin_settings WHERE id = 1 LIMIT 1`);
   const payload = (rows as Array<{ payload: unknown }>)[0]?.payload;
-  return { ...DEFAULT_ADMIN_SETTINGS, ...parseJson(payload, {}) };
+  const parsed = parseJson(payload, {} as Partial<AdminSettingsPayload>);
+  return {
+    ...DEFAULT_ADMIN_SETTINGS,
+    ...parsed,
+    businessHours: { ...DEFAULT_ADMIN_SETTINGS.businessHours, ...parsed.businessHours },
+    smtp: { ...DEFAULT_ADMIN_SETTINGS.smtp, ...parsed.smtp },
+  };
 }
 
 export async function saveSettings(user: SessionUser, payload: AdminSettingsPayload) {

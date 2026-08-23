@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AdminSettingsPanel } from "@/components/admin/AdminSettingsPanel";
 import { getAdminCategories, getAdminSettings, listAdminUsers } from "@/functions/admin-contacts";
-import { canManageSettings, DEFAULT_ADMIN_SETTINGS, type AdminRole } from "@/lib/admin-constants";
+import { canManageSettings, DEFAULT_ADMIN_SETTINGS, type AdminRole, type AdminSettingsForClient } from "@/lib/admin-constants";
 
 export const Route = createFileRoute("/agaate-admin/_authed/settings")({
   beforeLoad: ({ context }) => {
@@ -32,7 +32,7 @@ function SettingsPage() {
   }
   return (
     <AdminSettingsPanel
-      settings={settings.settings ?? DEFAULT_ADMIN_SETTINGS}
+      settings={(settings.settings ?? DEFAULT_ADMIN_SETTINGS) as AdminSettingsForClient}
       categories={categories && "ok" in categories && categories.ok ? categories.categories : []}
       users={users && "ok" in users && users.ok ? users.users : []}
     />

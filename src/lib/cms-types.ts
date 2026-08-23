@@ -13,13 +13,14 @@ export const CMS_ICON_KEYS = [
 ] as const;
 export type CmsIconKey = (typeof CMS_ICON_KEYS)[number];
 
-export const CMS_BRAND_GROUPS = ["partners", "customers", "buyers"] as const;
+export const CMS_BRAND_GROUPS = ["partners", "customers", "buyers", "institutional"] as const;
 export type CmsBrandGroup = (typeof CMS_BRAND_GROUPS)[number];
 
 export const CMS_BRAND_GROUP_LABELS: Record<CmsBrandGroup, string> = {
   partners: "Partners",
   customers: "Customers (FPOs)",
   buyers: "Market access",
+  institutional: "Institutional Tieups",
 };
 
 export type CmsStatPayload = {
@@ -106,11 +107,43 @@ export type HomeCmsStory = {
   badge: string;
 };
 
+export type HomeCmsAppLinks = {
+  googlePlayUrl: string;
+  appStoreUrl: string;
+};
+
+export const DEFAULT_HOME_CMS_APP_LINKS: HomeCmsAppLinks = {
+  googlePlayUrl: "https://play.google.com/store/apps",
+  appStoreUrl: "https://apps.apple.com/us/app",
+};
+
+export type HomeCmsAgriParkTour = {
+  videoUrl: string;
+  posterUrl: string;
+};
+
+export const DEFAULT_HOME_CMS_AGRI_PARK_TOUR: HomeCmsAgriParkTour = {
+  videoUrl: "/videos/farm-first-look.mp4",
+  posterUrl: "/videos/posters/farm-first-look.webp",
+};
+
+export type CmsSiteConfig = {
+  appLinks: HomeCmsAppLinks;
+  agriParkTour: HomeCmsAgriParkTour;
+};
+
+export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
+  appLinks: DEFAULT_HOME_CMS_APP_LINKS,
+  agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
+};
+
 export type HomeCmsData = {
   stats: HomeCmsStat[];
   logos: Record<CmsBrandGroup, HomeCmsLogo[]>;
   storiesEn: HomeCmsStory[];
   storiesHi: HomeCmsStory[];
+  appLinks: HomeCmsAppLinks;
+  agriParkTour: HomeCmsAgriParkTour;
 };
 
 export type CmsTeamMemberPayload = {

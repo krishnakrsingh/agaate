@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BarChart3, Image, Video, Users, ArrowRight, Database } from "lucide-react";
+import { BarChart3, Image, Video, Users, ArrowRight, Database, Smartphone } from "lucide-react";
 import type { CmsOverview } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 
@@ -69,6 +69,46 @@ export function AdminCmsOverview({
         <StatCard title="Brand logos" icon={Image} counts={overview.logos} to="/agaate-admin/content/logos" />
         <StatCard title="Farmer testimonials" icon={Video} counts={overview.stories} to="/agaate-admin/content/stories" />
         <StatCard title="Team members" icon={Users} counts={overview.team} to="/agaate-admin/content/team" />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">App store links</p>
+              <p className="mt-2 text-sm text-foreground">Google Play & App Store download badge URLs</p>
+              <p className="mt-1 text-xs text-muted-foreground">Shown in the mobile app section on the homepage</p>
+            </div>
+            <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
+              <Smartphone className="h-5 w-5" />
+            </div>
+          </div>
+          <Button asChild variant="outline" size="sm" className="mt-4 w-full sm:w-auto">
+            <Link to="/agaate-admin/content/app-links">
+              Manage links
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
+
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Agri Park video tour</p>
+              <p className="mt-2 text-sm text-foreground">Homepage &quot;Watch Video Tour&quot; modal</p>
+              <p className="mt-1 text-xs text-muted-foreground">Agri Park & Smart Nursery video and poster</p>
+            </div>
+            <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
+              <Video className="h-5 w-5" />
+            </div>
+          </div>
+          <Button asChild variant="outline" size="sm" className="mt-4 w-full sm:w-auto">
+            <Link to="/agaate-admin/content/agri-park-tour">
+              Manage video
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">

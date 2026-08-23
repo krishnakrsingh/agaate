@@ -21,6 +21,7 @@ import {
   Video,
   BarChart2,
   UsersRound,
+  Smartphone,
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -90,12 +91,6 @@ const NAV_GROUPS: Array<{
     group: "Platform",
     items: [
       { to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-      {
-        to: "/agaate-admin/contacts",
-        label: "Contact Inquiries",
-        icon: Users,
-        badge: (n) => n.newToday,
-      },
       { to: "/agaate-admin/farm-visits", label: "Farm Visits", icon: Calendar },
       { to: "/agaate-admin/consultations", label: "Consultations", icon: FileText },
     ],
@@ -115,6 +110,8 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/logos", label: "Brand logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
+      { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
+      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park video", icon: Video },
     ],
   },
   {
@@ -248,6 +245,18 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Team members", href: "/agaate-admin/content/team", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/app-links")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "App store links", href: "/agaate-admin/content/app-links", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/agri-park-tour")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Agri Park video", href: "/agaate-admin/content/agri-park-tour", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content")) {

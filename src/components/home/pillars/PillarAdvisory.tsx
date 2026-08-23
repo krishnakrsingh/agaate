@@ -91,7 +91,7 @@ export default function PillarAdvisory() {
             {/* CTA Button */}
             <div>
               <SlideUpPillButton
-                href="/services#farm-tech"
+                href="/contact"
                 variant="dark"
                 size="md"
                 label="Talk to Agronomist"

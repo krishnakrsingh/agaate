@@ -43,7 +43,7 @@ const PILLARS_DATA_EN: PillarData[] = [
       "Direct access to senior agronomists",
     ],
     ctaText: "Talk to Agronomist",
-    ctaHref: "/services#farm-tech",
+    ctaHref: "/contact",
     imageSrc: "/farm.png",
     imageAlt: "On-Ground Expert Agronomist Support",
   },
@@ -65,31 +65,9 @@ const PILLARS_DATA_EN: PillarData[] = [
       "High-vigour root system for higher yield",
     ],
     ctaText: "Explore Bio Nurseries",
-    ctaHref: "/services#nursery",
-    imageSrc: "/agripark.png",
+    ctaHref: "/agri-park",
+    imageSrc: "/bio-nursery.png",
     imageAlt: "High-Immunity Seedling Infrastructure",
-  },
-  {
-    id: "pillar-market",
-    number: "03",
-    tag: "Market Linkage",
-    title: "Guaranteed Buyback & Direct Offtake",
-    description:
-      "Pre-sowing price contracts, transparent digital weighing, and instant T+0 farm-gate payouts.",
-    metrics: [
-      { value: 15000, suffix: "+", label: "Acres Associated" },
-      { value: 12, prefix: "₹", suffix: " Cr+", label: "Farmer Payouts" },
-      { value: 0, suffix: "%", label: "Middleman Cut" },
-    ],
-    features: [
-      "Pre-sowing price floor guarantee",
-      "Digital weighment & instant UPI payout",
-      "Direct institutional buyer linkage",
-    ],
-    ctaText: "View Market Linkage",
-    ctaHref: "/services#market-linkage",
-    imageSrc: "/market-linkage.png",
-    imageAlt: "Agaate farm-gate harvest aggregation and market linkage",
   },
 ];
 
@@ -112,7 +90,7 @@ const PILLARS_DATA_HI: PillarData[] = [
       "वरिष्ठ कृषि डॉक्टरों से सीधी बातचीत",
     ],
     ctaText: "कृषि डॉक्टर से बात करें",
-    ctaHref: "/services#farm-tech",
+    ctaHref: "/contact",
     imageSrc: "/farm.png",
     imageAlt: "खेत पर कृषि वैज्ञानिक सहायता",
   },
@@ -134,31 +112,9 @@ const PILLARS_DATA_HI: PillarData[] = [
       "मजबूत जड़ें जो दें 15-30% अधिक उपज",
     ],
     ctaText: "नर्सरी पौध देखें",
-    ctaHref: "/services#nursery",
-    imageSrc: "/agripark.png",
+    ctaHref: "/agri-park",
+    imageSrc: "/bio-nursery.png",
     imageAlt: "बायो-बूस्टेड नर्सरी पौध",
-  },
-  {
-    id: "pillar-market",
-    number: "03",
-    tag: "मार्केट लिंकेज",
-    title: "गारंटीड फसल बायबैक व सीधी खरीद",
-    description:
-      "बुवाई से पहले पक्का रेट अनुबंध, खेत पर डिजिटल तौल और तुरंत T+0 बैंक खाता भुगतान।",
-    metrics: [
-      { value: 15000, suffix: "+", label: "एकड़ रकबा" },
-      { value: 12, prefix: "₹", suffix: " करोड़+", label: "किसान भुगतान" },
-      { value: 0, suffix: "%", label: "बिचौलिया कमीशन" },
-    ],
-    features: [
-      "बुवाई पूर्व न्यूनतम मूल्य गारंटी",
-      "खेत पर डिजिटल वजन व त्वरित भुगतान",
-      "रिलायंस व बिगबास्केट जैसी कंपनियों को सीधी आपूर्ति",
-    ],
-    ctaText: "मार्केट लिंकेज देखें",
-    ctaHref: "/services#market-linkage",
-    imageSrc: "/market-linkage.png",
-    imageAlt: "अगाते फसल खरीद व मार्केट लिंकेज",
   },
 ];
 
@@ -173,7 +129,7 @@ export default function PillarsHorizontalParallax() {
       id="three-pillars"
       className="relative bg-[#f4f8f5] text-[#143d31] overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-14 pb-16 sm:pb-24 lg:pb-28 space-y-16 sm:space-y-24 lg:space-y-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-14 pb-8 sm:pb-12 lg:pb-14 space-y-16 sm:space-y-24 lg:space-y-28">
 
         {PILLARS_DATA.map((pillar, index) => {
           const isReversed = index % 2 === 1;

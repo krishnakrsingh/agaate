@@ -1,4 +1,7 @@
 import type { CmsBrandGroup, CmsIconKey, HomeCmsData } from "@/lib/cms-types";
+import {
+  DEFAULT_CMS_SITE_CONFIG,
+} from "@/lib/cms-types";
 
 const STATS_FALLBACK: HomeCmsData["stats"] = [
   {
@@ -110,6 +113,12 @@ const LOGOS_FALLBACK: Record<CmsBrandGroup, HomeCmsData["logos"][CmsBrandGroup]>
     { name: "Flipkart", src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768561427/Flipkart_yiiedx.png" },
     { name: "Aadat Mandi", src: "https://res.cloudinary.com/dsxfpu2tk/image/upload/v1768893718/aadat_mandi_zicmdx.png" },
   ],
+  institutional: [
+    {
+      name: "KR Mangalam University",
+      src: "https://www.krmangalam.edu.in/_next/image?url=%2FKRMU-Logo-NAAC.webp&w=750&q=75",
+    },
+  ],
 };
 
 const STORIES_EN_FALLBACK: HomeCmsData["storiesEn"] = [
@@ -139,6 +148,8 @@ export const HOMEPAGE_CMS_FALLBACK: HomeCmsData = {
   logos: LOGOS_FALLBACK,
   storiesEn: STORIES_EN_FALLBACK,
   storiesHi: STORIES_HI_FALLBACK,
+  appLinks: DEFAULT_CMS_SITE_CONFIG.appLinks,
+  agriParkTour: DEFAULT_CMS_SITE_CONFIG.agriParkTour,
 };
 
 export function getFallbackSeedStats() {
@@ -158,7 +169,7 @@ export function getFallbackSeedStats() {
 export function getFallbackSeedLogos() {
   const items: Array<{ name: string; group: CmsBrandGroup; imageUrl: string; sortOrder: number }> = [];
   let order = 0;
-  for (const group of ["partners", "customers", "buyers"] as const) {
+  for (const group of ["partners", "customers", "buyers", "institutional"] as const) {
     for (const logo of LOGOS_FALLBACK[group]) {
       items.push({ name: logo.name, group, imageUrl: logo.src, sortOrder: order++ });
     }

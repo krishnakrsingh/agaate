@@ -127,7 +127,7 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
         <div>
           <h1 className="text-2xl font-bold">Brand logos</h1>
           <p className="text-sm text-muted-foreground">
-            Partner, customer, and buyer logos shared across the website.
+            Logos for the homepage Brands &amp; Associations section — Partners, Customers, Market access, and Institutional Tieups tabs.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

@@ -175,3 +175,27 @@ export const translateCmsToHindiAdmin = createServerFn({ method: "POST" })
     const mod = await import("./admin-cms.server");
     return mod.handleTranslateToHindi(data.texts);
   });
+
+export const getCmsAppLinksAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetAppLinks();
+});
+
+export const saveCmsAppLinksAdmin = createServerFn({ method: "POST" })
+  .validator((data: { googlePlayUrl: string; appStoreUrl: string }) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveAppLinks(data);
+  });
+
+export const getCmsAgriParkTourAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetAgriParkTour();
+});
+
+export const saveCmsAgriParkTourAdmin = createServerFn({ method: "POST" })
+  .validator((data: { videoUrl: string; posterUrl: string }) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveAgriParkTour(data);
+  });

@@ -14,20 +14,6 @@ import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
-const trustFactsEn = [
-  { value: "2,000+", label: "Agaate Parivaar Farmers" },
-  { value: "15,000+", label: "Acres Monitored" },
-  { value: "6-Acre", label: "Smart Nursery & Park" },
-  { value: "100%", label: "QC Verified Inputs" },
-];
-
-const trustFactsHi = [
-  { value: "2,000+", label: "संतुष्ट किसान परिवार" },
-  { value: "15,000+", label: "एकड़ जुड़ा रकबा" },
-  { value: "6-एकड़", label: "स्मार्ट नर्सरी व पार्क" },
-  { value: "100%", label: "प्रमाणित असली उत्पाद" },
-];
-
 const pathwaysEn = [
   {
     number: "01",
@@ -128,7 +114,6 @@ export default function ClosingChapter() {
   const currentLang = locale ?? i18n.language ?? "en";
   const isHindi = currentLang.startsWith("hi");
 
-  const trustFacts = isHindi ? trustFactsHi : trustFactsEn;
   const pathways = isHindi ? pathwaysHi : pathwaysEn;
 
   return (
@@ -266,25 +251,6 @@ export default function ClosingChapter() {
                 </div>
               );
             })}
-          </div>
-
-          {/* ── 3. Trust Metadata Bar ── */}
-          <div
-            data-home-reveal
-            className="rounded-2xl bg-white p-6 sm:p-8 border border-[#143d31]/10"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-              {trustFacts.map((fact) => (
-                <div key={fact.label} className="text-center sm:text-left space-y-1">
-                  <span className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
-                    {fact.value}
-                  </span>
-                  <p className="font-mono text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider">
-                    {fact.label}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>

@@ -113,7 +113,8 @@ export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps)
               </div>
 
               <Link
-                to={getLocalizedPath("/services", currentLang) as any}
+                to={getLocalizedPath("/", currentLang) as any}
+                hash="three-pillars"
                 className="group/btn flex shrink-0 items-center gap-1.5 rounded-[10px] bg-[#0d2a21] px-3.5 py-2 text-[11.5px] font-bold text-white shadow-2xs transition-all duration-200 hover:bg-[#14332b] active:scale-[0.98]"
               >
                 <span>Explore All Services</span>

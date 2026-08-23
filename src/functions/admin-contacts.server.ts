@@ -29,7 +29,9 @@ import { assertSameOrigin, requireSessionUser } from "@/server/auth";
 import {
   canManageSettings,
   DEFAULT_ADMIN_SETTINGS,
+  sanitizeSettingsForClient,
   type AdminRole,
+  type AdminSettingsPayload,
   type RequestPriority,
   type RequestStatus,
 } from "@/lib/admin-constants";
@@ -649,22 +651,53 @@ export async function handleGetSettings() {
     if (isDbConfigured()) {
       try {
         const settings = await getSettings();
-        return { ok: true as const, settings };
+        return { ok: true as const, settings: sanitizeSettingsForClient(settings) };
       } catch (e) {
         console.warn("DB getSettings fallback:", e);
       }
     }
-    return { ok: true as const, settings: DEFAULT_ADMIN_SETTINGS };
+    return { ok: true as const, settings: sanitizeSettingsForClient(DEFAULT_ADMIN_SETTINGS) };
   } catch (err) {
     return failAuth(err);
   }
+}
+
+function mergeSettingsPayload(
+  raw: Record<string, unknown>,
+  existing: AdminSettingsPayload,
+): AdminSettingsPayload {
+  const incoming = {
+    ...DEFAULT_ADMIN_SETTINGS,
+    ...existing,
+    ...raw,
+    businessHours: {
+      ...DEFAULT_ADMIN_SETTINGS.businessHours,
+      ...existing.businessHours,
+      ...(raw.businessHours as AdminSettingsPayload["businessHours"] | undefined),
+    },
+    smtp: {
+      ...DEFAULT_ADMIN_SETTINGS.smtp,
+      ...existing.smtp,
+      ...(raw.smtp as AdminSettingsPayload["smtp"] | undefined),
+    },
+  } as AdminSettingsPayload;
+
+  const nextPass = incoming.smtp.pass?.trim();
+  incoming.smtp.pass = nextPass ? nextPass : existing.smtp.pass;
+  return incoming;
 }
 
 export async function handleSaveSettings(raw: Record<string, unknown>) {
   try {
     assertSameOrigin();
     const user = await requireSessionUser();
-    const payload = { ...DEFAULT_ADMIN_SETTINGS, ...raw } as typeof DEFAULT_ADMIN_SETTINGS;
+    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+
+    const existing = isDbConfigured()
+      ? await getSettings().catch(() => DEFAULT_ADMIN_SETTINGS)
+      : DEFAULT_ADMIN_SETTINGS;
+    const payload = mergeSettingsPayload(raw, existing);
+
     if (isDbConfigured()) {
       try {
         await saveSettings(user, payload);
@@ -672,7 +705,23 @@ export async function handleSaveSettings(raw: Record<string, unknown>) {
         console.warn("DB saveSettings fallback:", e);
       }
     }
-    return { ok: true as const, settings: payload };
+    return { ok: true as const, settings: sanitizeSettingsForClient(payload) };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSendTestEmail(to?: string) {
+  try {
+    assertSameOrigin();
+    const user = await requireSessionUser();
+    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+
+    const recipient = to?.trim() || user.email;
+    const { sendTestEmail } = await import("@/server/mail");
+    const result = await sendTestEmail(recipient);
+    if (!result.ok) return { ok: false as const, error: result.error };
+    return { ok: true as const, to: recipient };
   } catch (err) {
     return failAuth(err);
   }

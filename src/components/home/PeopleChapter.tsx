@@ -29,7 +29,7 @@ const impactStatsEn = [
     label: "Market Linkage",
     headline: "Fair buybacks & additional income.",
     primary: { value: 10, prefix: "₹", suffix: "Cr+", label: "Farmer Value Generated" },
-    secondary: { value: 100, suffix: "%", label: "Guaranteed Buyback" },
+    secondary: { value: 100, suffix: "%", label: "Direct Buyback" },
   },
 ];
 

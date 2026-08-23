@@ -132,7 +132,20 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
   };
 
   if (!isDbConfigured()) {
-    console.warn("[submitLead] MySQL not configured — returning generated ticket without persist");
+    console.warn("[submitLead] MySQL not configured — sending email without DB persist");
+    void notifyAdminNewLead({
+      ticketId: payload.ticket_id,
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email,
+      topic: payload.topic,
+      acreage: payload.acreage,
+      crop: payload.crop,
+      district: payload.district,
+      channel: payload.channel,
+      message: payload.message,
+      sourcePage: payload.source_page,
+    });
     return { ok: true, ticketId: payload.ticket_id, stored: false };
   }
 
@@ -189,7 +202,19 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
       await logActivity(insertId, null, "request_created", { ticket_id: payload.ticket_id });
     }
 
-    void notifyAdminNewLead(payload.ticket_id, payload.name, payload.topic, payload.phone);
+    void notifyAdminNewLead({
+      ticketId: payload.ticket_id,
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email,
+      topic: payload.topic,
+      acreage: payload.acreage,
+      crop: payload.crop,
+      district: payload.district,
+      channel: payload.channel,
+      message: payload.message,
+      sourcePage: payload.source_page,
+    });
 
     return { ok: true, ticketId: payload.ticket_id, stored: true };
   } catch (err) {
@@ -202,32 +227,26 @@ export async function handleSubmitLead(rawData: LeadInput): Promise<LeadResult> 
   }
 }
 
-async function notifyAdminNewLead(ticketId: string, name: string, topic: string, phone: string) {
-  const to = process.env.ADMIN_NOTIFY_EMAIL;
-  if (!to) return;
-  const key = process.env.RESEND_API_KEY;
-  if (!key) {
-    console.info("[submitLead] New lead (email notify skipped — set RESEND_API_KEY)", ticketId);
-    return;
-  }
+async function notifyAdminNewLead(data: {
+  ticketId: string;
+  name: string;
+  phone: string;
+  email?: string | null;
+  topic: string;
+  acreage?: string | null;
+  crop?: string | null;
+  district?: string | null;
+  channel?: string | null;
+  message?: string | null;
+  sourcePage?: string | null;
+}) {
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: process.env.ADMIN_NOTIFY_FROM || "Agaate <noreply@agaate.in>",
-        to: [to],
-        subject: `New contact request ${ticketId}`,
-        text: `${name} (${phone}) submitted a ${topic} request. Open /agaate-admin/contacts to follow up.`,
-      }),
-    });
-    if (!res.ok) {
-      console.error("[submitLead] notify email failed", await res.text());
+    const { sendContactNotificationEmail } = await import("@/server/mail");
+    const result = await sendContactNotificationEmail(data);
+    if (!result.ok) {
+      console.warn("[submitLead] Contact email not sent:", result.error, data.ticketId);
     }
   } catch (err) {
-    console.error("[submitLead] notify email error", err);
+    console.error("[submitLead] Contact email error", err);
   }
 }

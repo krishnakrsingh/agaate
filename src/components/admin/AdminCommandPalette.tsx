@@ -11,14 +11,12 @@ import {
   Settings,
   PlusCircle,
   FileSpreadsheet,
-  PhoneCall,
-  Sprout,
-  ShieldAlert,
   Globe,
   BarChart2,
   Image,
   Video,
   UsersRound,
+  Smartphone,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -61,11 +59,11 @@ export function AdminCommandPalette({
             <CommandShortcut>⌘D</CommandShortcut>
           </CommandItem>
           <CommandItem
-            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/contacts" }))}
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/settings" }))}
           >
-            <Users className="mr-2 h-4 w-4" />
-            <span>Contact Requests & CRM</span>
-            <CommandShortcut>⌘C</CommandShortcut>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Email & SMTP Settings</span>
+            <CommandShortcut>⌘E</CommandShortcut>
           </CommandItem>
           <CommandItem
             onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/farm-visits" }))}
@@ -129,6 +127,18 @@ export function AdminCommandPalette({
             <span>Team members</span>
           </CommandItem>
           <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/app-links" }))}
+          >
+            <Smartphone className="mr-2 h-4 w-4" />
+            <span>App store links</span>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/agri-park-tour" }))}
+          >
+            <Video className="mr-2 h-4 w-4" />
+            <span>Agri Park video tour</span>
+          </CommandItem>
+          <CommandItem
             onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/notifications" }))}
           >
             <Bell className="mr-2 h-4 w-4" />
@@ -148,54 +158,16 @@ export function AdminCommandPalette({
         {/* Quick Actions */}
         <CommandGroup heading="Quick Actions">
           <CommandItem
-            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/contacts" }))}
+            onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/settings" }))}
           >
             <PlusCircle className="mr-2 h-4 w-4" />
-            <span>View All Contact Inquiries</span>
+            <span>Configure contact form email</span>
           </CommandItem>
           <CommandItem
             onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/farm-visits" }))}
           >
             <Calendar className="mr-2 h-4 w-4" />
             <span>Open Field Inspection Schedule</span>
-          </CommandItem>
-        </CommandGroup>
-
-        <CommandSeparator />
-
-        {/* Recent High Priority Leads */}
-        <CommandGroup heading="High Priority Requests">
-          <CommandItem
-            onSelect={() =>
-              handleSelect(() =>
-                navigate({ to: "/agaate-admin/contacts/$id", params: { id: "2" } })
-              )
-            }
-          >
-            <ShieldAlert className="mr-2 h-4 w-4 text-rose-500" />
-            <span>Sunita Devi · Big Farm Turnkey (55 Acres)</span>
-            <CommandShortcut>Urgent</CommandShortcut>
-          </CommandItem>
-          <CommandItem
-            onSelect={() =>
-              handleSelect(() =>
-                navigate({ to: "/agaate-admin/contacts/$id", params: { id: "1" } })
-              )
-            }
-          >
-            <Sprout className="mr-2 h-4 w-4 text-emerald-500" />
-            <span>Ramesh Patel · Bio-Boosted Nursery (20 Acres)</span>
-            <CommandShortcut>High</CommandShortcut>
-          </CommandItem>
-          <CommandItem
-            onSelect={() =>
-              handleSelect(() =>
-                navigate({ to: "/agaate-admin/contacts/$id", params: { id: "3" } })
-              )
-            }
-          >
-            <PhoneCall className="mr-2 h-4 w-4 text-sky-500" />
-            <span>Harpreet Singh · Carbon Credit Program (35 Acres)</span>
           </CommandItem>
         </CommandGroup>
       </CommandList>

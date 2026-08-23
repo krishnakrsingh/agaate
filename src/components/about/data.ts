@@ -106,28 +106,28 @@ export const whatWeDo = [
     title: "From Seeds to Sales",
     desc: "Complete crop support — from sowing to selling.",
     icon: Plant,
-    href: "/services",
+    href: "/",
   },
   {
     id: "science",
     title: "Science-Backed Decisions",
     desc: "Helping farmers understand their crops and reduce losses.",
     icon: Flask,
-    href: "/services#nursery",
+    href: "/agri-park",
   },
   {
     id: "partners",
     title: "Trusted Agri Partnerships",
     desc: "Working with the best agri brands for reliable solutions.",
     icon: Handshake,
-    href: "/services",
+    href: "/",
   },
   {
     id: "mall",
     title: "Agaate Kisaan Mall",
     desc: "One place for all essential agri inputs.",
     icon: ShoppingBag,
-    href: "/services#kisaan-mall",
+    href: "/kisaan-mall",
   },
 ];
 
