@@ -12,7 +12,7 @@
 #>
 
 param (
-    [int]$IntervalMinutes = 5,
+    [int]$IntervalMinutes = 4,
     [string]$Branch
 )
 

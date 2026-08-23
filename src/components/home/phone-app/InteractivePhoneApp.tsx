@@ -8,7 +8,7 @@ import { PhoneStoreView } from "./views/PhoneStoreView";
 import { PhoneActionView } from "./views/PhoneActionView";
 import { PhoneParkView } from "./views/PhoneParkView";
 import type { Message } from "./phone-app-data";
-import { FREE_CHAT_LIMIT, getFreshWelcomeMessage } from "./phone-app-data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export interface InteractivePhoneAppProps {
   activeTab?: "chat" | "mall" | "farm" | "park";
@@ -19,6 +19,7 @@ export function InteractivePhoneApp({
   activeTab: propActiveTab,
   onChangeTab,
 }: InteractivePhoneAppProps = {}) {
+  const { telPrimaryHref } = useSiteContact();
   const [internalActiveTab, setInternalActiveTab] = useState<"chat" | "mall" | "farm" | "park">(
     "chat",
   );
@@ -275,7 +276,7 @@ export function InteractivePhoneApp({
                 </motion.div>
               )}
               <a
-                href="tel:8350085005"
+                href={telPrimaryHref}
                 className="flex h-7 w-7 items-center justify-center rounded-full bg-[#143d31] text-white transition-colors hover:bg-[#3a6b28]"
                 title="Call Hotline"
               >

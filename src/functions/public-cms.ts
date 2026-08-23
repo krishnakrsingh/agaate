@@ -19,6 +19,21 @@ export const getKisaanMallPage = createServerFn({ method: "GET" }).handler(async
   return mod.handleGetKisaanMallPage();
 });
 
+export const getSiteContact = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./public-cms.server");
+  return mod.handleGetSiteContact();
+});
+
+export const getAboutPage = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./public-cms.server");
+  return mod.handleGetAboutPage();
+});
+
+export const getContactPage = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./public-cms.server");
+  return mod.handleGetContactPage();
+});
+
 export const getCareersPage = createServerFn({ method: "GET" })
   .validator((data: { lang?: "en" | "hi" } | undefined) => data ?? {})
   .handler(async ({ data }) => {

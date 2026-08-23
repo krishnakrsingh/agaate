@@ -4,17 +4,9 @@ import { useParams } from "@tanstack/react-router";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 import { submitLead } from "@/functions/submit-lead";
-import {
-  ACREAGE_OPTIONS,
-  CHANNEL_OPTIONS,
-  CONSULTATION_TOPICS,
-  CROP_OPTIONS,
-  FORM_STORAGE_KEY,
-  MESSAGE_MAX,
-  PRIMARY_PHONE,
-  TEL_PRIMARY,
-  WHATSAPP_URL,
-} from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
+import { useContactPage } from "@/contexts/ContactPageContext";
+import { FORM_STORAGE_KEY, MESSAGE_MAX } from "./data";
 import { TopicSelector } from "./TopicSelector";
 import {
   ConsentCheckbox,
@@ -42,18 +34,18 @@ type FormState = {
   honeypot: string;
 };
 
-const defaults: FormState = {
+const defaults = (acreage: string, crop: string, channel: string): FormState => ({
   name: "",
   phone: "",
   email: "",
-  acreage: ACREAGE_OPTIONS[0],
+  acreage,
   district: "",
-  crop: CROP_OPTIONS[0],
-  channel: CHANNEL_OPTIONS[0],
+  crop,
+  channel,
   message: "",
   consent: false,
   honeypot: "",
-};
+});
 
 function normalizePhone(raw: string) {
   const digits = raw.replace(/\D/g, "");
@@ -88,9 +80,29 @@ export function ContactForm({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const { locale } = useParams({ strict: false }) as { locale?: string };
+  const isHi = locale === "hi";
+  const page = useContactPage();
+  const acreageOptions = isHi ? page.acreageOptionsHi : page.acreageOptionsEn;
+  const cropOptions = isHi ? page.cropOptionsHi : page.cropOptionsEn;
+  const channelOptions = isHi ? page.channelOptionsHi : page.channelOptionsEn;
+  const topicOptions = useMemo(
+    () =>
+      page.consultationTopics.map((t) => ({
+        id: t.id,
+        label: isHi ? t.labelHi : t.labelEn,
+        desc: isHi ? t.descHi : t.descEn,
+      })),
+    [page.consultationTopics, isHi],
+  );
+  const topicIds = useMemo(() => page.consultationTopics.map((t) => t.id), [page.consultationTopics]);
+  const defaultTopic = topicIds[0] ?? "nursery";
 
-  const [topic, setTopic] = useState("nursery");
-  const [form, setForm] = useState<FormState>(defaults);
+  const { whatsappUrlWithText } = useSiteContact();
+
+  const [topic, setTopic] = useState(defaultTopic);
+  const [form, setForm] = useState<FormState>(() =>
+    defaults(acreageOptions[0] ?? "", cropOptions[0] ?? "", channelOptions[0] ?? ""),
+  );
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | "topic", string>>>({});
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,27 +118,27 @@ export function ContactForm({
   const startedTracked = useRef(false);
 
   const selectedTopicObj = useMemo(
-    () => CONSULTATION_TOPICS.find((t) => t.id === topic),
-    [topic],
+    () => topicOptions.find((t) => t.id === topic),
+    [topic, topicOptions],
   );
 
   useEffect(() => {
     try {
       const urlTopic = new URLSearchParams(window.location.search).get("topic");
-      if (urlTopic && CONSULTATION_TOPICS.some((t) => t.id === urlTopic)) {
+      if (urlTopic && topicIds.includes(urlTopic)) {
         setTopic(urlTopic);
       }
       const raw = sessionStorage.getItem(FORM_STORAGE_KEY);
       if (!raw) return;
       const parsed = JSON.parse(raw) as Partial<FormState> & { topic?: string };
       setForm((prev) => ({ ...prev, ...parsed, honeypot: "", consent: false }));
-      if (!urlTopic && parsed.topic && CONSULTATION_TOPICS.some((t) => t.id === parsed.topic)) {
+      if (!urlTopic && parsed.topic && topicIds.includes(parsed.topic)) {
         setTopic(parsed.topic);
       }
     } catch {
       // ignore
     }
-  }, []);
+  }, [topicIds]);
 
   useEffect(() => {
     if (ticketId) return;
@@ -159,11 +171,9 @@ export function ContactForm({
 
   const whatsappHref = useMemo(() => {
     const topicLabel = selectedTopicObj?.label || "General";
-    const text = encodeURIComponent(
-      `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`,
-    );
-    return `https://wa.me/918350085005?text=${text}`;
-  }, [ticketId, selectedTopicObj, form]);
+    const message = `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`;
+    return whatsappUrlWithText(message);
+  }, [ticketId, selectedTopicObj, form, whatsappUrlWithText]);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     if (!startedTracked.current) {
@@ -180,7 +190,7 @@ export function ContactForm({
 
   const reset = () => {
     setTicketId(null);
-    setForm(defaults);
+    setForm(defaults(acreageOptions[0] ?? "", cropOptions[0] ?? "", channelOptions[0] ?? ""));
     setErrors({});
     setFormError(null);
     setFile(null);
@@ -273,7 +283,7 @@ export function ContactForm({
               </p>
               <div className="pt-2">
                 <TopicSelector
-                  options={CONSULTATION_TOPICS}
+                  options={topicOptions}
                   value={topic}
                   disabled={isSubmitting || !!ticketId}
                   onChange={(id) => {
@@ -308,7 +318,7 @@ export function ContactForm({
                         Direct Contact Details
                       </span>
                       <span className="max-w-[55%] truncate font-mono text-[11px] font-medium text-[#143d31]/60">
-                        {CONSULTATION_TOPICS.find((t) => t.id === topic)?.label}
+                        {topicOptions.find((t) => t.id === topic)?.label}
                       </span>
                     </div>
 
@@ -401,7 +411,7 @@ export function ContactForm({
                           id="acreage"
                           name="acreage"
                           label="Land acreage"
-                          options={ACREAGE_OPTIONS}
+                          options={acreageOptions}
                           value={form.acreage}
                           disabled={isSubmitting}
                           onChange={(e) => setField("acreage", e.target.value)}
@@ -420,7 +430,7 @@ export function ContactForm({
                           id="crop"
                           name="crop"
                           label="Primary crop"
-                          options={CROP_OPTIONS}
+                          options={cropOptions}
                           value={form.crop}
                           disabled={isSubmitting}
                           onChange={(e) => setField("crop", e.target.value)}

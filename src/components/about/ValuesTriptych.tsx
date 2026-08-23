@@ -1,7 +1,10 @@
 import { Reveal } from "@/components/common/motion";
-import { guarantees } from "./data";
+import { getCmsIcon } from "@/components/careers/icon-map";
+import { useAboutPage } from "@/contexts/AboutPageContext";
 
-export default function ValuesTriptych() {
+export default function ValuesTriptych({ isHi = false }: { isHi?: boolean }) {
+  const { guarantees } = useAboutPage();
+
   return (
     <section
       id="values"
@@ -9,7 +12,6 @@ export default function ValuesTriptych() {
       className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
-        {/* Section Header */}
         <Reveal variant="fade-up" className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -33,14 +35,13 @@ export default function ValuesTriptych() {
           </div>
         </Reveal>
 
-        {/* Card-less Hairline Grid */}
         <Reveal variant="fade-up" delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10 py-2">
             {guarantees.map((g) => {
-              const Icon = g.icon;
+              const Icon = getCmsIcon(g.iconKey);
               return (
                 <div
-                  key={g.title}
+                  key={g.titleEn}
                   className="p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:bg-white/40 transition-colors"
                 >
                   <div className="space-y-4">
@@ -48,15 +49,15 @@ export default function ValuesTriptych() {
                       <Icon className="h-5 w-5 text-[#143d31]" weight="duotone" />
                     </div>
                     <h3 className="font-display text-xl sm:text-2xl font-bold text-[#143d31] tracking-tight">
-                      {g.title}
+                      {isHi ? g.titleHi : g.titleEn}
                     </h3>
                     <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
-                      {g.desc}
+                      {isHi ? g.descHi : g.descEn}
                     </p>
                   </div>
                   <div className="pt-4 border-t border-[#143d31]/10">
                     <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                      {g.badge}
+                      {isHi ? g.badgeHi : g.badgeEn}
                     </span>
                   </div>
                 </div>
@@ -68,4 +69,3 @@ export default function ValuesTriptych() {
     </section>
   );
 }
-

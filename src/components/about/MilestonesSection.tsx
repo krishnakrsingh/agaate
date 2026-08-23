@@ -1,8 +1,10 @@
 import { CheckCircle } from "@phosphor-icons/react";
 import { Reveal } from "@/components/common/motion";
-import { milestones } from "./data";
+import { useAboutPage } from "@/contexts/AboutPageContext";
 
-export default function MilestonesSection() {
+export default function MilestonesSection({ isHi = false }: { isHi?: boolean }) {
+  const { milestones } = useAboutPage();
+
   return (
     <section
       id="milestones"
@@ -10,7 +12,6 @@ export default function MilestonesSection() {
       className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
-        {/* Section Header */}
         <Reveal variant="fade-up" className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -25,9 +26,7 @@ export default function MilestonesSection() {
               className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
             >
               From seed to sale —{" "}
-              <span className="text-[#5d7d37]">
-                building India's agri infrastructure
-              </span>
+              <span className="text-[#5d7d37]">building India's agri infrastructure</span>
             </h2>
 
             <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
@@ -37,50 +36,48 @@ export default function MilestonesSection() {
           </div>
         </Reveal>
 
-        {/* 3-Column Milestone Journey Grid */}
         <Reveal variant="fade-up" delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10 py-2">
-            {milestones.map((m, idx) => (
-              <div
-                key={m.year}
-                className="p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:bg-white/40 transition-colors"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-3xl sm:text-4xl font-extrabold text-[#143d31] tracking-tight">
-                      {m.year}
-                    </span>
-                    <span className="rounded-full bg-[#143d31]/5 border border-[#143d31]/10 px-3 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                      Phase 0{idx + 1}
-                    </span>
-                  </div>
+            {milestones.map((m, idx) => {
+              const highlights = isHi ? m.highlightsHi : m.highlightsEn;
+              return (
+                <div
+                  key={m.year}
+                  className="p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:bg-white/40 transition-colors"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="font-display text-3xl sm:text-4xl font-extrabold text-[#143d31] tracking-tight">
+                        {m.year}
+                      </span>
+                      <span className="rounded-full bg-[#143d31]/5 border border-[#143d31]/10 px-3 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                        Phase 0{idx + 1}
+                      </span>
+                    </div>
 
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-[#143d31] tracking-tight">
-                    {m.title}
-                  </h3>
+                    <h3 className="font-display text-lg sm:text-xl font-bold text-[#143d31] tracking-tight">
+                      {isHi ? m.titleHi : m.titleEn}
+                    </h3>
 
-                  <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
-                    {m.desc}
-                  </p>
+                    <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
+                      {isHi ? m.descHi : m.descEn}
+                    </p>
 
-                  {/* Key Highlights */}
-                  {m.highlights && (
                     <ul className="space-y-1.5 pt-1">
-                      {m.highlights.map((h) => (
+                      {highlights.map((h) => (
                         <li key={h} className="flex items-start gap-2 text-xs text-[#143d31]/80">
                           <CheckCircle weight="fill" className="h-3.5 w-3.5 mt-0.5 shrink-0 text-[#5d7d37]" />
                           <span className="leading-snug">{h}</span>
                         </li>
                       ))}
                     </ul>
-                  )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Reveal>
       </div>
     </section>
   );
 }
-

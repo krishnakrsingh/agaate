@@ -2,13 +2,15 @@ import React from "react";
 import { ChatCircleText, Phone, Clock } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { MALL_PHONE, TEL_MALL, WHATSAPP_MALL_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { track } from "@/lib/analytics";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { Reveal } from "@/components/common/motion";
 
 export default function MallCta() {
   const { i18n } = useTranslation();
+  const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
+  const mallWhatsAppUrl = whatsappUrl("mall");
   const isHindi = i18n.language?.startsWith("hi");
   const reduceMotion = useReducedMotion();
 
@@ -61,7 +63,7 @@ export default function MallCta() {
 
                 <div className="pt-2 flex flex-wrap items-center gap-3.5">
                   <SlideUpPillButton
-                    href={WHATSAPP_MALL_URL}
+                    href={mallWhatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => track("kisaan_mall_cta_clicked", { action: "whatsapp" })}
@@ -72,11 +74,11 @@ export default function MallCta() {
                     iconPosition="left"
                   />
                   <SlideUpPillButton
-                    href={`tel:${TEL_MALL}`}
+                    href={telPrimaryHref}
                     onClick={() => track("kisaan_mall_cta_clicked", { action: "phone" })}
                     variant="hero-secondary"
                     size="md"
-                    label={`Call ${MALL_PHONE}`}
+                    label={`Call ${contact.primaryPhoneDisplay}`}
                     icon={<Phone className="h-4 w-4" weight="fill" />}
                     iconPosition="left"
                   />

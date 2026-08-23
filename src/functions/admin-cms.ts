@@ -225,6 +225,13 @@ export const saveCmsKisaanMallLandingAdmin = createServerFn({ method: "POST" })
     return mod.handleSaveKisaanMallLanding(data);
   });
 
+export const saveCmsKisaanMallPageAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").KisaanMallPageContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveKisaanMallPage(data);
+  });
+
 export const listCmsCareerJobsAdmin = createServerFn({ method: "GET" })
   .validator((data: CmsListFilters | undefined) => data ?? {})
   .handler(async ({ data }) => {
@@ -274,4 +281,40 @@ export const saveCmsCareersPageAdmin = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const mod = await import("./admin-cms.server");
     return mod.handleSaveCareersPage(data);
+  });
+
+export const getCmsSiteContactAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetSiteContactAdmin();
+});
+
+export const saveCmsSiteContactAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").SiteContactConfig) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveSiteContactAdmin(data);
+  });
+
+export const getCmsAboutPageAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetAboutPageAdmin();
+});
+
+export const saveCmsAboutPageAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").AboutPageContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveAboutPageAdmin(data);
+  });
+
+export const getCmsContactPageAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetContactPageAdmin();
+});
+
+export const saveCmsContactPageAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").ContactPageContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveContactPageAdmin(data);
   });

@@ -1,0 +1,226 @@
+import type { SiteContactConfig } from "@/lib/cms-types";
+import farmImage from "@/assets/agro-park.jpg";
+import mallImage from "@/assets/kisaan-mall-gen.png";
+import officeImage from "@/assets/about-farmer-advisor.png";
+
+export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
+  primaryPhone: "8350085005",
+  primaryPhoneDisplay: "+91 83500 85005",
+  primaryTel: "918350085005",
+  altPhone: "9487263498",
+  altPhoneDisplay: "+91 94872 63498",
+  altTel: "919487263498",
+  primaryEmail: "info@agaate.in",
+  careersEmail: "careers@agaate.in",
+  whatsappNumber: "918350085005",
+  whatsappMessages: {
+    consultation:
+      "Hello Agaate Team, I would like to book a farm consultation.",
+    agronomist:
+      "Hello Agaate Team, I need expert agronomy advice for my crop.",
+    bigFarmSetup:
+      "Hello Agaate Team, I want to inquire about Big Farm Setup services.",
+    carbonCredits:
+      "Hello Agaate Team, I want to know more about the Carbon Credits program.",
+    contact:
+      "Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.",
+    about:
+      "Hello Agaate Team, I would like to know more about Agaate and your farm services.",
+    mall:
+      "Hello Agaate Team, I want to know more about Agaate Kisaan Mall inputs and pre-orders.",
+    closingAdvisoryEn:
+      "Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.",
+    closingAdvisoryHi:
+      "Namaste Agaate Team, mujhe apni fasal ke liye krishi salah chahiye.",
+    farmerStory:
+      "Namaste Agaate Team, I want to share my farm story.",
+    farmerStoryModal:
+      "Hello Agaate Team, I saw {name}'s success story and would like to learn more about Agaate's services.",
+    appContinue:
+      "Hello Agaate Team, I chatted on the app and want to continue with a real agronomist for my crop.",
+    community:
+      "Hi Agaate, I'd like to join the Agaate farmer community and WhatsApp groups.",
+    marketAccess:
+      "Hello Agaate Team, I want to know more about Market Linkage and Buyback.",
+  },
+  social: {
+    facebook: "https://www.facebook.com/p/Agaate-Anzix-Farm-Technologies-61571500574178/",
+    youtube: "https://www.youtube.com/@AgaateAgri",
+    instagram: "https://www.instagram.com/agaateanzixfarm/",
+    linkedin: "https://www.linkedin.com/company/agaate-anzixfarm/",
+  },
+  footerLocationEn: "Pachgaon / Kukrola, Gurugram, Haryana",
+  footerLocationHi: "पचगाँव / कुकरोला, गुरुग्राम, हरियाणा",
+  registeredOfficeEn:
+    "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+  registeredOfficeHi:
+    "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+  cin: "CIN: U46200HR2024PTC121982",
+  contactTrustStats: [
+    {
+      labelEn: "Typical reply",
+      labelHi: "सामान्य जवाब",
+      valueEn: "Within 2 hours",
+      valueHi: "2 घंटे के भीतर",
+      hintEn: "During farm operating hours",
+      hintHi: "फार्म संचालन समय के दौरान",
+    },
+    {
+      labelEn: "Farmers connected",
+      labelHi: "जुड़े किसान",
+      valueEn: "1000+",
+      valueHi: "1000+",
+      hintEn: "Across the Agaate network",
+      hintHi: "Agaate नेटवर्क में",
+    },
+    {
+      labelEn: "Physical hubs",
+      labelHi: "भौतिक केंद्र",
+      valueEn: "3 in Gurugram",
+      valueHi: "गुरुग्राम में 3",
+      hintEn: "Farm · Mall · Corporate",
+      hintHi: "फार्म · मॉल · कॉर्पोरेट",
+    },
+    {
+      labelEn: "Reach us",
+      labelHi: "हमसे संपर्क करें",
+      valueEn: "Call or WhatsApp",
+      valueHi: "कॉल या WhatsApp",
+      hintEn: "Mon–Sat from 7:30 AM IST",
+      hintHi: "सोम–शनि 7:30 AM IST से",
+    },
+  ],
+  facilities: [
+    {
+      id: "farm",
+      nameEn: "Agaate Anzix Farm",
+      nameHi: "Agaate Anzix फार्म",
+      taglineEn: "17-Acre Smart Nursery & High-Tech R&D Facility",
+      taglineHi: "17 एकड़ स्मार्ट नर्सरी और हाई-टेक R&D सुविधा",
+      roleEn: "Farm & Production Facility",
+      roleHi: "फार्म और उत्पादन सुविधा",
+      addressEn:
+        "NH8, opposite Bikanervala, Kukrola / Pachgaon, Gurugram, Haryana 122413",
+      addressHi:
+        "NH8, बिकानेरवाला के सामने, कुकरोला / पचगाँव, गुरुग्राम, हरियाणा 122413",
+      districtEn: "Gurugram, Haryana",
+      districtHi: "गुरुग्राम, हरियाणा",
+      plusCode: "8WG2+QR6",
+      phone: "+91 94872 63498",
+      telRaw: "919487263498",
+      email: "info@agaate.in",
+      hoursEn: "Mon – Sat: 07:30 AM – 06:30 PM",
+      hoursHi: "सोम – शनि: 07:30 AM – 06:30 PM",
+      teamEn: "Agaate Field Advisory & Propagation Team",
+      teamHi: "Agaate फील्ड सलाह और प्रसारण टीम",
+      highlightsEn: [
+        "AI-driven climate monitoring & seedless nursery labs",
+        "Bio-Boosted seedling propagation & pre-order pickup",
+        "Living demonstration plots for watermelons & chillies",
+        "Direct Kisan Sathi on-field support counter",
+      ],
+      highlightsHi: [
+        "AI-संचालित जलवायु निगरानी और बीज रहित नर्सरी प्रयोगशालाएं",
+        "बायो-बूस्टेड पौधे प्रसार और प्री-ऑर्डर पिकअप",
+        "वाटरमेलन और मिर्च के लिए जीवित प्रदर्शन प्लॉट",
+        "प्रत्यक्ष किसान साथी मैदानी सहायता काउंटर",
+      ],
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=8WG2%2BQR6+Gurugram",
+      mapEmbedQuery: "8WG2+QR6 Gurugram",
+      lat: 28.3241,
+      lng: 76.9124,
+      latLabel: "28.3241° N",
+      lngLabel: "76.9124° E",
+      iconKey: "plant",
+      imageUrl: farmImage,
+    },
+    {
+      id: "mall",
+      nameEn: "Agaate Kisan Mall",
+      nameHi: "Agaate किसान मॉल",
+      taglineEn: "Comprehensive Agri-Input Storefront & Experience Hub",
+      taglineHi: "व्यापक कृषि-इनपुट स्टोरफ्रंट और अनुभव केंद्र",
+      roleEn: "Retail & Experience Center",
+      roleHi: "रिटेल और अनुभव केंद्र",
+      addressEn:
+        "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
+      addressHi:
+        "बिलासपुर रोड, पत्ती कवान, भोरा कलां, बिलासपुर कलां, गुरुग्राम, हरियाणा 122413",
+      districtEn: "Gurugram, Haryana",
+      districtHi: "गुरुग्राम, हरियाणा",
+      plusCode: "8W88+9C Gurugram",
+      phone: "+91 83500 85005",
+      telRaw: "918350085005",
+      email: "info@agaate.in",
+      hoursEn: "Mon – Sun: 08:00 AM – 08:00 PM",
+      hoursHi: "सोम – रवि: 08:00 AM – 08:00 PM",
+      teamEn: "Agaate Kisan Mall Agronomist & Retail Counter",
+      teamHi: "Agaate किसान मॉल कृषि विशेषज्ञ और रिटेल काउंटर",
+      highlightsEn: [
+        "500+ SKUs of seeds, biocures & drip hardware",
+        "On-site scientific soil testing & basal dose planning",
+        "Mulching (18x12 & 1ft) and bamboo staking supplies",
+        "Direct buyback market registration counter",
+      ],
+      highlightsHi: [
+        "बीज, बायोक्योर और ड्रिप हार्डवेयर के 500+ SKU",
+        "साइट पर वैज्ञानिक मिट्टी परीक्षण और बेसल डोज योजना",
+        "मल्चिंग (18x12 और 1ft) और बांस स्टेकिंग आपूर्ति",
+        "प्रत्यक्ष बायबैक बाजार पंजीकरण काउंटर",
+      ],
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Agaate+Kisan+Mall+Bilaspur+Rd+Gurugram",
+      mapEmbedQuery: "Agaate Kisan Mall Bilaspur Rd Gurugram",
+      lat: 28.3015,
+      lng: 76.8842,
+      latLabel: "28.3015° N",
+      lngLabel: "76.8842° E",
+      iconKey: "warehouse",
+      imageUrl: mallImage,
+    },
+    {
+      id: "corporate",
+      nameEn: "Anzix Farm Technologies Pvt Ltd",
+      nameHi: "Anzix Farm Technologies Pvt Ltd",
+      taglineEn: "Corporate Headquarters & Governance Center",
+      taglineHi: "कॉर्पोरेट मुख्यालय और शासन केंद्र",
+      roleEn: "Corporate Registered Office",
+      roleHi: "कॉर्पोरेट पंजीकृत कार्यालय",
+      addressEn:
+        "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+      addressHi:
+        "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+      districtEn: "Gurugram, Haryana",
+      districtHi: "गुरुग्राम, हरियाणा",
+      plusCode: "CIN: U46200HR2024PTC121982",
+      phone: "+91 83500 85005",
+      telRaw: "918350085005",
+      email: "info@agaate.in",
+      hoursEn: "Mon – Fri: 09:30 AM – 06:00 PM",
+      hoursHi: "सोम – शनि: 09:30 AM – 06:00 PM",
+      teamEn: "Executive Leadership & Tech Strategy Division",
+      teamHi: "कार्यकारी नेतृत्व और तकनीकी रणनीति विभाग",
+      highlightsEn: [
+        "Turnkey Big-Farm Setup strategy & project planning",
+        "Carbon Credit Program enrolment & MRV verification",
+        "Institutional seed company partnerships & ties",
+        "Campus recruitment & research administration",
+      ],
+      highlightsHi: [
+        "टर्नकी बिग-फार्म सेटअप रणनीति और प्रोजेक्ट योजना",
+        "कार्बन क्रेडिट कार्यक्रम पंजीकरण और MRV सत्यापन",
+        "संस्थागत बीज कंपनी साझेदारी और संबंध",
+        "कैंपस भर्ती और अनुसंधान प्रशासन",
+      ],
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Bestech+Park+View+Ananda+Sector+81+Gurugram",
+      mapEmbedQuery: "Bestech Park View Ananda Sector 81 Gurugram",
+      lat: 28.398,
+      lng: 76.961,
+      latLabel: "28.3980° N",
+      lngLabel: "76.9610° E",
+      iconKey: "cap",
+      imageUrl: officeImage,
+    },
+  ],
+};

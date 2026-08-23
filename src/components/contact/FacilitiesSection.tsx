@@ -12,7 +12,9 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, Reveal } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
-import { FACILITIES, type Facility } from "./data";
+import { useLocation } from "@tanstack/react-router";
+import { useSiteContact } from "@/contexts/SiteContactContext";
+import type { Facility } from "./data";
 import GoogleMapEmbed from "./GoogleMapEmbed";
 import { useToast } from "./toast-context";
 import { track } from "@/lib/analytics";
@@ -179,10 +181,16 @@ function FacilityCard({
 }
 
 export default function FacilitiesSection() {
-  const [activeId, setActiveId] = useState(FACILITIES[0].id);
+  const location = useLocation();
+  const isHindi =
+    location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const lang = isHindi ? "hi" : "en";
+  const { mapFacilities } = useSiteContact();
+  const facilities = mapFacilities(lang);
+  const [activeId, setActiveId] = useState(facilities[0]?.id ?? "farm");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const { toast } = useToast();
-  const active = FACILITIES.find((f) => f.id === activeId) || FACILITIES[0];
+  const active = facilities.find((f) => f.id === activeId) || facilities[0];
 
   return (
     <section
@@ -216,7 +224,7 @@ export default function FacilitiesSection() {
             aria-label="Agaate facilities"
             className="grid grid-cols-1 sm:grid-cols-3 gap-3"
           >
-            {FACILITIES.map((fac) => {
+            {facilities.map((fac) => {
               const selected = activeId === fac.id;
               const Icon = fac.icon;
 

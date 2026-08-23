@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
-import { DEFAULT_KISAAN_MALL_LANDING, type KisaanMallLanding } from "@/lib/cms-types";
+import { DEFAULT_KISAAN_MALL_LANDING, type KisaanMallLanding, type KisaanMallPageContent } from "@/lib/cms-types";
+import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { AdminCmsKisaanMallPageForm } from "@/components/admin/cms/AdminCmsKisaanMallPageForm";
 import type { NewsletterSignupRow } from "@/server/admin-queries";
 import {
   Table,
@@ -23,6 +25,7 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
   const toast = useToast();
   const canEdit = canManageSettings(role);
   const [landing, setLanding] = useState<KisaanMallLanding>(DEFAULT_KISAAN_MALL_LANDING);
+  const [page, setPage] = useState<KisaanMallPageContent>(KISAAN_MALL_PAGE_FALLBACK);
   const [signups, setSignups] = useState<NewsletterSignupRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -31,8 +34,9 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
   const load = useCallback(async () => {
     setLoading(true);
     const res = await getCmsKisaanMallAdmin();
-    if (isAdminOk<{ landing: KisaanMallLanding; signups: NewsletterSignupRow[]; dbConfigured: boolean }>(res)) {
+    if (isAdminOk<{ landing: KisaanMallLanding; page: KisaanMallPageContent; signups: NewsletterSignupRow[]; dbConfigured: boolean }>(res)) {
       setLanding(res.landing);
+      setPage(res.page);
       setSignups(res.signups);
       setDbConfigured(res.dbConfigured);
     } else {
@@ -62,10 +66,9 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Kisaan Mall waitlist</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Kisaan Mall</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Edit the coming-soon page at <code className="rounded bg-muted px-1">/kisaan-mall</code> and review
-          newsletter signups.
+          Edit the public <code className="rounded bg-muted px-1">/kisaan-mall</code> page (waitlist or full catalog), FAQs, and review newsletter signups.
         </p>
       </div>
 
@@ -74,6 +77,14 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
           MySQL is not configured. Signups are stored in memory only and will not persist across restarts.
         </div>
       )}
+
+      <div className="rounded-2xl border bg-card p-6 shadow-sm">
+        <h2 className="text-base font-semibold">Full page content</h2>
+        <p className="mt-0.5 text-xs text-muted-foreground mb-4">
+          Hero, FAQs, and CTA when display mode is set to full mall page.
+        </p>
+        <AdminCmsKisaanMallPageForm page={page} setPage={setPage} canEdit={canEdit} loading={loading} />
+      </div>
 
       <div className="rounded-2xl border bg-card p-6 shadow-sm">
         <div className="flex items-start gap-3">

@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import {
   CaretRight,
   Check,
@@ -99,6 +100,19 @@ const POLICY_SECTIONS = [
 
 function CookiePolicyPage() {
   const [activeSection, setActiveSection] = useState("overview");
+  const { contact } = useSiteContact();
+  const cookieSections = useMemo(
+    () =>
+      POLICY_SECTIONS.map((section) =>
+        section.id === "contact"
+          ? {
+              ...section,
+              content: `If you have questions regarding this Cookie Policy or data practices at Anzix Farm Technologies Private Limited, please contact our administrative desk:\n\nEmail: ${contact.primaryEmail}\nRegistered Office: Anzix Farm Technologies Private Limited, ${contact.registeredOfficeEn}\n${contact.cin}`,
+            }
+          : section,
+      ),
+    [contact],
+  );
   const [cookiePrefs, setCookiePrefs] = useState({
     essential: true, // Always true
     preferences: true,
@@ -246,7 +260,7 @@ function CookiePolicyPage() {
                 <span className="block font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-moss mb-4">
                   TABLE OF CONTENTS
                 </span>
-                {POLICY_SECTIONS.map((sec) => (
+                {cookieSections.map((sec) => (
                   <button
                     key={sec.id}
                     onClick={() => scrollToSection(sec.id)}
@@ -264,7 +278,7 @@ function CookiePolicyPage() {
 
             {/* Right: Policy Document Body */}
             <div className="lg:col-span-8 space-y-12">
-              {POLICY_SECTIONS.map((sec) => (
+              {cookieSections.map((sec) => (
                 <div
                   key={sec.id}
                   id={sec.id}

@@ -4,7 +4,7 @@ import { X, WhatsappLogo } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
 import type { HomeCmsLogo } from "@/lib/cms-types";
-import { EASE } from "@/components/common/motion";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 interface MarketAccessModalProps {
   isOpen: boolean;
@@ -18,6 +18,8 @@ export function MarketAccessModal({
   buyers,
 }: MarketAccessModalProps) {
   const { i18n } = useTranslation();
+  const { whatsappUrl } = useSiteContact();
+  const marketAccessUrl = whatsappUrl("marketAccess");
   const isHindi = i18n.language?.startsWith("hi");
 
   const partnerList =
@@ -149,7 +151,7 @@ export function MarketAccessModal({
               </p>
 
               <a
-                href="https://wa.me/919999176878?text=Hello%20Agaate%20Team%2C%20I%20want%20to%20know%20more%20about%20Market%20Linkage%20and%20Buyback"
+                href={marketAccessUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] px-4 py-2 text-xs sm:text-sm font-bold text-white shadow-xs transition-all hover:shadow-md cursor-pointer"

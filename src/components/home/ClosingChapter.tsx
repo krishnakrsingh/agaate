@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -13,6 +13,7 @@ import { getLocalizedPath } from "@/lib/i18n";
 import { useHomeChapterReveal } from "./useHomeChapterReveal";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 const pathwaysEn = [
   {
@@ -113,8 +114,19 @@ export default function ClosingChapter() {
   const { locale } = useParams({ strict: false }) as any;
   const currentLang = locale ?? i18n.language ?? "en";
   const isHindi = currentLang.startsWith("hi");
+  const { whatsappUrl } = useSiteContact();
 
-  const pathways = isHindi ? pathwaysHi : pathwaysEn;
+  const pathways = useMemo(() => {
+    const base = isHindi ? pathwaysHi : pathwaysEn;
+    return base.map((p) =>
+      p.type === "whatsapp"
+        ? {
+            ...p,
+            href: isHindi ? whatsappUrl("closingAdvisoryHi") : whatsappUrl("closingAdvisoryEn"),
+          }
+        : p,
+    );
+  }, [isHindi, whatsappUrl]);
 
   return (
     <>

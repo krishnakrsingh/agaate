@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { getCmsIcon } from "@/components/careers/icon-map";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import type { CmsIconKey } from "@/lib/cms-types";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export type LocalizedCampusSkill = {
   iconKey: CmsIconKey;
@@ -24,7 +25,8 @@ export function CampusOutreachSection({
   skills,
   emailSubject,
 }: CampusOutreachSectionProps) {
-  const mailto = `mailto:careers@agaate.in?subject=${encodeURIComponent(emailSubject)}`;
+  const { contact } = useSiteContact();
+  const mailto = `mailto:${contact.careersEmail}?subject=${encodeURIComponent(emailSubject)}`;
 
   return (
     <section id="campus" className="scroll-mt-28">

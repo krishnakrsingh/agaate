@@ -21,17 +21,17 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
 
+import { useSiteContact } from "@/contexts/SiteContactContext";
+
 export const Route = createFileRoute("/{-$locale}/terms-of-service")({
   component: TermsOfServicePage,
 });
 
-const TERMS_SECTIONS = [
-  {
-    id: "corporate",
-    title: "1. Corporate Entity & Scope of Agreement",
-    content:
-      "These Terms of Service ('Terms') constitute a legally binding agreement between you ('User', 'Farmer', or 'Client') and Anzix Farm Technologies Private Limited ('Agaate', 'Company', 'we', or 'us'), incorporated on May 28, 2024 (Corporate Identification Number: U46200HR2024PTC121982), having its registered office at I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004.\n\nThese Terms govern your access to and use of our digital portal (agaate.in), physical facilities (Agaate Anzix Farm in Kukrola and Agaate Kisan Mall in Bhora Kalan), nursery pre-booking systems, agronomy advisory services, and buyback programs.",
-  },
+function buildCorporateSection(registeredOffice: string, cin: string) {
+  return `These Terms of Service ('Terms') constitute a legally binding agreement between you ('User', 'Farmer', or 'Client') and Anzix Farm Technologies Private Limited ('Agaate', 'Company', 'we', or 'us'), incorporated on May 28, 2024 (Corporate Identification Number: ${cin}), having its registered office at ${registeredOffice}.\n\nThese Terms govern your access to and use of our digital portal (agaate.in), physical facilities (Agaate Anzix Farm in Kukrola and Agaate Kisan Mall in Bhora Kalan), nursery pre-booking systems, agronomy advisory services, and buyback programs.`;
+}
+
+const TERMS_SECTIONS_REST = [
   {
     id: "nursery",
     title: "2. Bio-Boosted Nursery Pre-Orders & Sapling Delivery",
@@ -87,24 +87,32 @@ const TERMS_SECTIONS = [
   },
 ];
 
-const TERMS_FAQ = [
-  {
-    q: "Can I modify my seedling pre-order quantity after booking?",
-    a: "Modifications can be made up to 10 days before seed propagation starts by calling your Kisan Sathi or the Gurugram hotline at +91 83500 85005.",
-  },
-  {
-    q: "What happens if a seedling batch suffers transit damage?",
-    a: "If saplings are damaged during Agaate-managed transport, notify the delivery driver immediately. Verified damaged trays will be replaced or credited to your account.",
-  },
-  {
-    q: "How are buyback rates calculated for watermelons and chillies?",
-    a: "Buyback rates reflect real-time market benchmark indices plus premium bonuses for export-grade fruit form achieved via recommended staking and mulching techniques.",
-  },
-];
-
 function TermsOfServicePage() {
+  const { contact } = useSiteContact();
+  const termsSections = [
+    {
+      id: "corporate",
+      title: "1. Corporate Entity & Scope of Agreement",
+      content: buildCorporateSection(contact.registeredOfficeEn, contact.cin),
+    },
+    ...TERMS_SECTIONS_REST,
+  ];
   const [activeSection, setActiveSection] = useState("corporate");
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const termsFaq = [
+    {
+      q: "Can I modify my seedling pre-order quantity after booking?",
+      a: `Modifications can be made up to 10 days before seed propagation starts by calling your Kisan Sathi or the Gurugram hotline at ${contact.primaryPhoneDisplay}.`,
+    },
+    {
+      q: "What happens if a seedling batch suffers transit damage?",
+      a: "If saplings are damaged during Agaate-managed transport, notify the delivery driver immediately. Verified damaged trays will be replaced or credited to your account.",
+    },
+    {
+      q: "How are buyback rates calculated for watermelons and chillies?",
+      a: "Buyback rates reflect real-time market benchmark indices plus premium bonuses for export-grade fruit form achieved via recommended staking and mulching techniques.",
+    },
+  ];
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -189,7 +197,7 @@ function TermsOfServicePage() {
                 <span className="block font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-moss mb-4">
                   TERMS TOC
                 </span>
-                {TERMS_SECTIONS.map((sec) => (
+                {termsSections.map((sec) => (
                   <button
                     key={sec.id}
                     onClick={() => scrollToSection(sec.id)}
@@ -207,7 +215,7 @@ function TermsOfServicePage() {
 
             {/* Right: Policy Document Body */}
             <div className="lg:col-span-8 space-y-12">
-              {TERMS_SECTIONS.map((sec) => (
+              {termsSections.map((sec) => (
                 <div
                   key={sec.id}
                   id={sec.id}
@@ -244,7 +252,7 @@ function TermsOfServicePage() {
                 </h3>
 
                 <div className="space-y-4">
-                  {TERMS_FAQ.map((faq, idx) => {
+                  {termsFaq.map((faq, idx) => {
                     const isOpen = openFaqIdx === idx;
                     return (
                       <div

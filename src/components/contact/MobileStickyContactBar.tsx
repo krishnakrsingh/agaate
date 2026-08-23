@@ -1,8 +1,9 @@
 import { ChatCircleText, Phone } from "@phosphor-icons/react";
-import { TEL_PRIMARY, WHATSAPP_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { track } from "@/lib/analytics";
 
 export default function MobileStickyContactBar({ hidden }: { hidden?: boolean }) {
+  const { telPrimaryHref, whatsappUrl } = useSiteContact();
   if (hidden) return null;
 
   return (
@@ -12,7 +13,7 @@ export default function MobileStickyContactBar({ hidden }: { hidden?: boolean })
     >
       <div className="mx-auto grid max-w-lg grid-cols-2 gap-3">
         <a
-          href={`tel:${TEL_PRIMARY}`}
+          href={telPrimaryHref}
           onClick={() => track("phone_clicked", { source: "mobile_sticky" })}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#143d31] px-4 text-xs font-bold text-white shadow-xs transition-colors hover:bg-[#1b4e3f] focus-visible:outline-none"
         >
@@ -20,7 +21,7 @@ export default function MobileStickyContactBar({ hidden }: { hidden?: boolean })
           <span>Call Desk</span>
         </a>
         <a
-          href={WHATSAPP_URL}
+          href={whatsappUrl("contact")}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => track("whatsapp_clicked", { source: "mobile_sticky" })}

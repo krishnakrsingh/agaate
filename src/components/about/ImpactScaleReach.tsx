@@ -12,49 +12,22 @@ import farmerAdvisorImg from "@/assets/about-farmer-advisor.png";
 import { getLocalizedPath } from "@/lib/i18n";
 import { CountUp, Reveal } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
+import { getCmsIcon } from "@/components/careers/icon-map";
+import { useAboutPage } from "@/contexts/AboutPageContext";
 
-const impactMetrics = [
-  {
-    numValue: 15000,
-    suffix: "+",
-    label: "Under Association",
-    icon: Plant,
-  },
-  {
-    numValue: 2000,
-    suffix: "+",
-    label: "Agaate Parivaar",
-    icon: Users,
-  },
-  {
-    numValue: 500,
-    suffix: "+",
-    label: "Verified SKUs",
-    icon: ShoppingBag,
-  },
-  {
-    numValue: 25,
-    suffix: "+",
-    label: "Direct Manufacturers",
-    icon: Buildings,
-  },
-  {
-    numValue: 200,
-    suffix: "+",
-    label: "Precision Drip Kits",
-    icon: Drop,
-  },
-  {
-    numValue: 20,
-    suffix: "+",
-    label: "On-Ground Kisan Sathis",
-    icon: ShieldCheck,
-  },
-];
+const EXTRA_IMPACT_ICONS: Record<string, typeof Plant> = {
+  plant: Plant,
+  users: Users,
+  warehouse: ShoppingBag,
+  cap: Buildings,
+  drop: Drop,
+  handshake: ShieldCheck,
+};
 
-export default function ImpactScaleReach() {
+export default function ImpactScaleReach({ isHi = false }: { isHi?: boolean }) {
   const { locale } = useParams({ strict: false }) as { locale?: string };
   const currentLang = locale ?? "en";
+  const { impactMetrics } = useAboutPage();
 
   return (
     <section
@@ -63,7 +36,6 @@ export default function ImpactScaleReach() {
       className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
-        {/* Section Header */}
         <Reveal variant="fade-up" className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -89,7 +61,6 @@ export default function ImpactScaleReach() {
         </Reveal>
 
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-          {/* Left Column: Field Photo */}
           <Reveal variant="fade-up" className="lg:col-span-5">
             <div className="relative aspect-[4/4.5] overflow-hidden rounded-2xl border border-[#143d31]/10 bg-[#143d31]/5 shadow-xs">
               <img
@@ -100,14 +71,15 @@ export default function ImpactScaleReach() {
             </div>
           </Reveal>
 
-          {/* Right Column: Metric Grid + Action */}
           <Reveal variant="fade-up" delay={0.15} className="space-y-8 lg:col-span-7">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {impactMetrics.map((m) => {
-                const Icon = m.icon;
+                const Icon = EXTRA_IMPACT_ICONS[m.iconKey] ?? getCmsIcon(m.iconKey) ?? Plant;
+                const suffix = isHi ? m.suffixHi : m.suffixEn;
+                const label = isHi ? m.labelHi : m.labelEn;
                 return (
                   <div
-                    key={m.label}
+                    key={label}
                     className="group rounded-xl border border-[#143d31]/10 bg-white p-4 transition-all hover:border-[#5d7d37]/40 hover:shadow-xs"
                   >
                     <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#143d31]/10 text-[#143d31] transition-transform group-hover:scale-105 mb-3">
@@ -115,10 +87,10 @@ export default function ImpactScaleReach() {
                     </div>
                     <div>
                       <p className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#143d31]">
-                        <CountUp to={m.numValue} suffix={m.suffix} />
+                        <CountUp to={m.numValue} suffix={suffix} />
                       </p>
                       <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                        {m.label}
+                        {label}
                       </p>
                     </div>
                   </div>

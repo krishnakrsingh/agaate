@@ -3,10 +3,12 @@
 import { ArrowRight, PhoneCall, WhatsappLogo, CheckCircle, ShieldCheck, UserCheck } from "@phosphor-icons/react";
 import { CountUp } from "@/components/common/motion";
 import { getLocalizedPath } from "@/lib/i18n";
-import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) {
   const isHindi = currentLang.startsWith("hi");
+  const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
+  const agronomistUrl = whatsappUrl("agronomist");
 
   const coreImpactStats = isHindi
     ? [
@@ -135,7 +137,7 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
                 />
 
                 <SlideUpPillButton
-                  href="https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20want%20to%20consult%20an%20agronomist%20for%20my%20farm."
+                  href={agronomistUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="outline"
@@ -146,10 +148,10 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
                 />
 
                 <SlideUpPillButton
-                  href="tel:8350085005"
+                  href={telPrimaryHref}
                   variant="ghost"
                   size="lg"
-                  label={isHindi ? "कॉल: 83500 85005" : "Call: 83500 85005"}
+                  label={isHindi ? `कॉल: ${contact.primaryPhoneDisplay}` : `Call: ${contact.primaryPhoneDisplay}`}
                   icon={<PhoneCall className="h-5 w-5 text-[#5d7d37]" weight="bold" />}
                   iconPosition="left"
                   className="border border-[#143d31]/15 text-[#143d31]"

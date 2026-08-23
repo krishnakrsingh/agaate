@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { CaretDown } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
-import { NAV_STRUCTURE, type NavItem } from "./header-data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
+import type { NavItem } from "./header-data";
 import { NavDropdown } from "./NavDropdown";
 
 interface NavDesktopProps {
@@ -14,6 +15,7 @@ interface NavDesktopProps {
 
 export function NavDesktop({ solid, currentLang }: NavDesktopProps) {
   const { t } = useTranslation("common");
+  const { navStructure } = useSiteContact();
   const location = useLocation();
   const strippedPath = stripLocalePrefix(location.pathname);
   const isHome = strippedPath === "/";
@@ -39,7 +41,7 @@ export function NavDesktop({ solid, currentLang }: NavDesktopProps) {
 
   return (
     <nav className="pointer-events-auto absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1 lg:flex xl:gap-2">
-      {NAV_STRUCTURE.map((link) => {
+      {navStructure.map((link) => {
         const isHovered = hoveredMenu === link.key;
 
         return (

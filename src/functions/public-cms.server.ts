@@ -1,7 +1,22 @@
-import { fetchHomeCms, fetchKisaanMallLanding, fetchCareersPage } from "@/server/cms-queries";
+import { fetchHomeCms, fetchKisaanMallLanding, fetchKisaanMallPage, fetchCareersPage, fetchSiteContact, fetchAboutPage, fetchContactPage } from "@/server/cms-queries";
 import { fetchTeamCms } from "@/server/cms-team-queries";
 import { listPublishedCareerJobs } from "@/server/cms-careers-queries";
 import { getSessionUser } from "@/server/auth";
+
+export async function handleGetSiteContact() {
+  const contact = await fetchSiteContact();
+  return { ok: true as const, contact };
+}
+
+export async function handleGetAboutPage() {
+  const content = await fetchAboutPage();
+  return { ok: true as const, content };
+}
+
+export async function handleGetContactPage() {
+  const content = await fetchContactPage();
+  return { ok: true as const, content };
+}
 
 export async function handleGetCareersPage(lang: "en" | "hi" = "en") {
   const content = await fetchCareersPage();
@@ -13,7 +28,8 @@ export async function handleGetCareersPage(lang: "en" | "hi" = "en") {
 
 export async function handleGetKisaanMallPage() {
   const landing = await fetchKisaanMallLanding();
-  return { ok: true as const, landing };
+  const page = await fetchKisaanMallPage();
+  return { ok: true as const, landing, page };
 }
 
 export async function handleGetHomeCms(preview: boolean) {

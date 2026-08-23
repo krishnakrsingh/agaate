@@ -11,7 +11,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { COMPANY_LINKS, EXPLORE_LINKS, SOCIAL_LINKS, CONTACT_DETAILS } from "./footer-data";
+import { COMPANY_LINKS, EXPLORE_LINKS } from "./footer-data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 function FooterLink({
   href,
@@ -74,6 +75,7 @@ function FooterLink({
 
 export function Footer() {
   const { t } = useTranslation("common");
+  const { contact, socialLinks, telPrimaryHref } = useSiteContact();
   const location = useLocation();
   const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
   const currentLang = isHindi ? "hi" : "en";
@@ -116,7 +118,7 @@ export function Footer() {
 
             {/* Social Channels - Pure White Icons */}
             <div className="mt-8 flex gap-5">
-              {SOCIAL_LINKS.map((item) => {
+              {socialLinks.map((item) => {
                 let IconComponent = FacebookLogo;
                 if (item.ariaLabel.toLowerCase().includes("youtube")) {
                   IconComponent = YoutubeLogo;
@@ -179,11 +181,11 @@ export function Footer() {
               </h4>
               <div className="flex flex-col gap-1.5 pl-0.5">
                 <FooterLink href="/contact">{t("footer.contactUs", "Get In Touch")}</FooterLink>
-                <FooterLink href={`tel:${CONTACT_DETAILS.phone}`} icon={Phone}>
-                  {CONTACT_DETAILS.phoneDisplay}
+                <FooterLink href={telPrimaryHref} icon={Phone}>
+                  {contact.primaryPhoneDisplay}
                 </FooterLink>
-                <FooterLink href={`mailto:${CONTACT_DETAILS.email}`} icon={Envelope}>
-                  {CONTACT_DETAILS.email}
+                <FooterLink href={`mailto:${contact.primaryEmail}`} icon={Envelope}>
+                  {contact.primaryEmail}
                 </FooterLink>
               </div>
             </div>

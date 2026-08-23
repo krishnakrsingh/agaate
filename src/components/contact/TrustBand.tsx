@@ -1,7 +1,19 @@
-import { TRUST_ITEMS } from "./data";
+import { useLocation } from "@tanstack/react-router";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { Reveal } from "@/components/common/motion";
 
 export default function TrustBand() {
+  const location = useLocation();
+  const isHindi =
+    location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const lang = isHindi ? "hi" : "en";
+  const { contact } = useSiteContact();
+  const trustItems = contact.contactTrustStats.map((item) => ({
+    label: lang === "hi" ? item.labelHi : item.labelEn,
+    value: lang === "hi" ? item.valueHi : item.valueEn,
+    hint: lang === "hi" ? item.hintHi : item.hintEn,
+  }));
+
   return (
     <section
       aria-labelledby="trust-heading"
@@ -25,7 +37,7 @@ export default function TrustBand() {
 
         <Reveal variant="fade-up" delay={0.1}>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {TRUST_ITEMS.map((item) => (
+            {trustItems.map((item) => (
               <div
                 key={item.label}
                 className="rounded-2xl border border-[#143d31]/10 bg-white p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300"

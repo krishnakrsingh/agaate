@@ -1,12 +1,13 @@
 import { Clock, ChatCircleText, Phone } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "framer-motion";
-import { PRIMARY_PHONE, TEL_PRIMARY, WHATSAPP_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { track } from "@/lib/analytics";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { Reveal } from "@/components/common/motion";
 
 export default function CtaBanner() {
   const reduceMotion = useReducedMotion();
+  const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
 
   return (
     <section
@@ -53,16 +54,16 @@ export default function CtaBanner() {
 
                 <div className="pt-2 flex flex-wrap items-center gap-3.5">
                   <SlideUpPillButton
-                    href={`tel:${TEL_PRIMARY}`}
+                    href={telPrimaryHref}
                     onClick={() => track("cta_banner_clicked", { action: "phone" })}
                     variant="accent"
                     size="md"
-                    label={`Call ${PRIMARY_PHONE}`}
+                    label={`Call ${contact.primaryPhoneDisplay}`}
                     icon={<Phone className="h-4 w-4" weight="fill" />}
                     iconPosition="left"
                   />
                   <SlideUpPillButton
-                    href={WHATSAPP_URL}
+                    href={whatsappUrl("contact")}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => track("cta_banner_clicked", { action: "whatsapp" })}
