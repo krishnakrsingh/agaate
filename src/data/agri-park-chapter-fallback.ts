@@ -32,7 +32,7 @@ export const AGRI_PARK_CHAPTER_FALLBACK: HomeAgriParkChapterContent = {
   watchTourLabelHi: "वीडियो टूर देखें",
   locationBadgeEn: "Kukrola, Gurugram (NH-8)",
   locationBadgeHi: "कुकरोला, गुरुग्राम (NH-8)",
-  mapImageUrl: "/images/agri-park-map.png",
+  mapImageUrl: "/agripark.png",
   mapAltEn: "Agaate Agri Park map layout",
   mapAltHi: "अगाते एग्री पार्क मानचित्र",
 };

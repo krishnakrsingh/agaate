@@ -200,6 +200,13 @@ export const saveCmsAgriParkTourAdmin = createServerFn({ method: "POST" })
     return mod.handleSaveAgriParkTour(data);
   });
 
+export const saveCmsAgriParkChapterAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").HomeAgriParkChapterContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveAgriParkChapter(data);
+  });
+
 export const getCmsKisaanMallAdmin = createServerFn({ method: "GET" }).handler(async () => {
   const mod = await import("./admin-cms.server");
   return mod.handleGetKisaanMallLanding();

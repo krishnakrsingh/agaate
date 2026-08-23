@@ -332,6 +332,8 @@ function normalizeKisaanMallHomeChapter(
     ctaCallHi: String(raw?.ctaCallHi ?? "").trim() || fb.ctaCallHi,
   };
 }
+
+function normalizeMallSection(
   raw: Partial<KisaanMallSectionCopy> | null | undefined,
   fb: KisaanMallSectionCopy,
 ): KisaanMallSectionCopy {
@@ -854,6 +856,16 @@ export async function fetchKisaanMallPage(): Promise<KisaanMallPageContent> {
 export async function saveKisaanMallPage(content: KisaanMallPageContent): Promise<KisaanMallPageContent> {
   const config = await mergeSiteConfig({ kisaanMallPage: content });
   return config.kisaanMallPage;
+}
+
+export async function fetchAgriParkChapter(): Promise<HomeAgriParkChapterContent> {
+  const config = await fetchSiteConfig();
+  return config.agriParkChapter;
+}
+
+export async function saveAgriParkChapter(content: HomeAgriParkChapterContent): Promise<HomeAgriParkChapterContent> {
+  const config = await mergeSiteConfig({ agriParkChapter: content });
+  return config.agriParkChapter;
 }
 
 export async function fetchCareersPage(): Promise<CareersPageContent> {

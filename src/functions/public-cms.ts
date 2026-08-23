@@ -19,6 +19,11 @@ export const getKisaanMallPage = createServerFn({ method: "GET" }).handler(async
   return mod.handleGetKisaanMallPage();
 });
 
+export const getAgriParkChapter = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./public-cms.server");
+  return mod.handleGetAgriParkChapter();
+});
+
 export const getSiteContact = createServerFn({ method: "GET" }).handler(async () => {
   const mod = await import("./public-cms.server");
   return mod.handleGetSiteContact();
