@@ -109,7 +109,6 @@ function ContactPage() {
     <ToastProvider>
       <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased pb-20 sm:pb-0 overflow-x-clip">
         <Header />
-        <ContactHero />
         <ContactForm onSuccessChange={onSuccessChange} />
         <FacilitiesSection />
         <TrustBand />
