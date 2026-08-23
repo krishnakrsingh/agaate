@@ -96,7 +96,7 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
-      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park video", icon: Video },
+      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: Video },
     ],
   },
   {
@@ -177,7 +177,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
     if (pathname.startsWith("/agaate-admin/content/agri-park-tour")) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Agri Park video", href: "/agaate-admin/content/agri-park-tour", current: true },
+        { label: "Agri Park", href: "/agaate-admin/content/agri-park-tour", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/about")) {

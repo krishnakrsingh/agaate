@@ -120,6 +120,138 @@ export function AdminCmsKisaanMallPageForm({
       <Bilingual label="Hero title accent" en={page.heroTitleAccentEn} hi={page.heroTitleAccentHi} onEn={(v) => setPage({ ...page, heroTitleAccentEn: v })} onHi={(v) => setPage({ ...page, heroTitleAccentHi: v })} disabled={!canEdit || loading} />
       <Bilingual label="Hero description" en={page.heroDescriptionEn} hi={page.heroDescriptionHi} onEn={(v) => setPage({ ...page, heroDescriptionEn: v })} onHi={(v) => setPage({ ...page, heroDescriptionHi: v })} disabled={!canEdit || loading} multiline />
 
+      <div className="space-y-3 rounded-lg border p-4">
+        <h3 className="text-sm font-semibold">Homepage chapter (MallChapter)</h3>
+        <p className="text-xs text-muted-foreground">
+          Copy for the Kisaan Mall section on the homepage scroll narrative.
+        </p>
+        <Bilingual
+          label="Badge"
+          en={page.homeChapter.badgeEn}
+          hi={page.homeChapter.badgeHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, badgeEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, badgeHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="Title"
+          en={page.homeChapter.titleEn}
+          hi={page.homeChapter.titleHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, titleEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, titleHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="Description"
+          en={page.homeChapter.descriptionEn}
+          hi={page.homeChapter.descriptionHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, descriptionEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, descriptionHi: v } })}
+          disabled={!canEdit || loading}
+          multiline
+        />
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Features (EN)</Label>
+          <Textarea
+            value={page.homeChapter.featuresEn.join("\n")}
+            onChange={(e) =>
+              setPage({
+                ...page,
+                homeChapter: {
+                  ...page.homeChapter,
+                  featuresEn: e.target.value.split("\n").filter(Boolean),
+                },
+              })
+            }
+            disabled={!canEdit || loading}
+            rows={3}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Features (HI)</Label>
+          <Textarea
+            value={page.homeChapter.featuresHi.join("\n")}
+            onChange={(e) =>
+              setPage({
+                ...page,
+                homeChapter: {
+                  ...page.homeChapter,
+                  featuresHi: e.target.value.split("\n").filter(Boolean),
+                },
+              })
+            }
+            disabled={!canEdit || loading}
+            rows={3}
+          />
+        </div>
+        <Bilingual
+          label="Browse button"
+          en={page.homeChapter.browseLabelEn}
+          hi={page.homeChapter.browseLabelHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, browseLabelEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, browseLabelHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="Supply heading"
+          en={page.homeChapter.supplyHeadingEn}
+          hi={page.homeChapter.supplyHeadingHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, supplyHeadingEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, supplyHeadingHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="Supply subtext"
+          en={page.homeChapter.supplySubtextEn}
+          hi={page.homeChapter.supplySubtextHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, supplySubtextEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, supplySubtextHi: v } })}
+          disabled={!canEdit || loading}
+          multiline
+        />
+        <Bilingual
+          label="CTA eyebrow"
+          en={page.homeChapter.ctaEyebrowEn}
+          hi={page.homeChapter.ctaEyebrowHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaEyebrowEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaEyebrowHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="CTA title"
+          en={page.homeChapter.ctaTitleEn}
+          hi={page.homeChapter.ctaTitleHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaTitleEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaTitleHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="CTA description"
+          en={page.homeChapter.ctaDescriptionEn}
+          hi={page.homeChapter.ctaDescriptionHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaDescriptionEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaDescriptionHi: v } })}
+          disabled={!canEdit || loading}
+          multiline
+        />
+        <Bilingual
+          label="CTA browse button"
+          en={page.homeChapter.ctaBrowseEn}
+          hi={page.homeChapter.ctaBrowseHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaBrowseEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaBrowseHi: v } })}
+          disabled={!canEdit || loading}
+        />
+        <Bilingual
+          label="CTA call button"
+          en={page.homeChapter.ctaCallEn}
+          hi={page.homeChapter.ctaCallHi}
+          onEn={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaCallEn: v } })}
+          onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaCallHi: v } })}
+          disabled={!canEdit || loading}
+        />
+      </div>
+
       <div className="space-y-3">
         <h3 className="text-sm font-semibold">FAQs</h3>
         {page.faqs.map((faq, i) => (
