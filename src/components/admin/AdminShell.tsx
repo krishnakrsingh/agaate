@@ -15,6 +15,8 @@ import {
   Store,
   Briefcase,
   MessageCircle,
+  BookOpen,
+  MessageSquare,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -100,6 +102,8 @@ const NAV_GROUPS: Array<{
   {
     group: "Pages",
     items: [
+      { to: "/agaate-admin/content/about", label: "About page", icon: BookOpen },
+      { to: "/agaate-admin/content/contact-page", label: "Contact page", icon: MessageSquare },
       { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall waitlist", icon: Store },
       { to: "/agaate-admin/content/careers", label: "Careers", icon: Briefcase },
     ],
@@ -174,6 +178,18 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Agri Park video", href: "/agaate-admin/content/agri-park-tour", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/about")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "About page", href: "/agaate-admin/content/about", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/contact-page")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Contact page", href: "/agaate-admin/content/contact-page", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/kisaan-mall")) {

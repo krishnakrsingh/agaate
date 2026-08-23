@@ -31,9 +31,11 @@ import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaa
 import { Route as AgaateAdminAuthedContentSiteContactRouteImport } from './routes/agaate-admin/_authed/content/site-contact'
 import { Route as AgaateAdminAuthedContentLogosRouteImport } from './routes/agaate-admin/_authed/content/logos'
 import { Route as AgaateAdminAuthedContentKisaanMallRouteImport } from './routes/agaate-admin/_authed/content/kisaan-mall'
+import { Route as AgaateAdminAuthedContentContactPageRouteImport } from './routes/agaate-admin/_authed/content/contact-page'
 import { Route as AgaateAdminAuthedContentCareersRouteImport } from './routes/agaate-admin/_authed/content/careers'
 import { Route as AgaateAdminAuthedContentAppLinksRouteImport } from './routes/agaate-admin/_authed/content/app-links'
 import { Route as AgaateAdminAuthedContentAgriParkTourRouteImport } from './routes/agaate-admin/_authed/content/agri-park-tour'
+import { Route as AgaateAdminAuthedContentAboutRouteImport } from './routes/agaate-admin/_authed/content/about'
 
 const Char123LocaleChar125RouteRoute =
   Char123LocaleChar125RouteRouteImport.update({
@@ -162,6 +164,12 @@ const AgaateAdminAuthedContentKisaanMallRoute =
     path: '/content/kisaan-mall',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedContentContactPageRoute =
+  AgaateAdminAuthedContentContactPageRouteImport.update({
+    id: '/content/contact-page',
+    path: '/content/contact-page',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedContentCareersRoute =
   AgaateAdminAuthedContentCareersRouteImport.update({
     id: '/content/careers',
@@ -180,6 +188,12 @@ const AgaateAdminAuthedContentAgriParkTourRoute =
     path: '/content/agri-park-tour',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedContentAboutRoute =
+  AgaateAdminAuthedContentAboutRouteImport.update({
+    id: '/content/about',
+    path: '/content/about',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/agaate-admin': typeof AgaateAdminRouteRouteWithChildren
@@ -196,9 +210,11 @@ export interface FileRoutesByFullPath {
   '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/': typeof AgaateAdminAuthedIndexRoute
+  '/agaate-admin/content/about': typeof AgaateAdminAuthedContentAboutRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/content/careers': typeof AgaateAdminAuthedContentCareersRoute
+  '/agaate-admin/content/contact-page': typeof AgaateAdminAuthedContentContactPageRoute
   '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/site-contact': typeof AgaateAdminAuthedContentSiteContactRoute
@@ -220,9 +236,11 @@ export interface FileRoutesByTo {
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
+  '/agaate-admin/content/about': typeof AgaateAdminAuthedContentAboutRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/content/careers': typeof AgaateAdminAuthedContentCareersRoute
+  '/agaate-admin/content/contact-page': typeof AgaateAdminAuthedContentContactPageRoute
   '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/site-contact': typeof AgaateAdminAuthedContentSiteContactRoute
@@ -248,9 +266,11 @@ export interface FileRoutesById {
   '/agaate-admin/_authed/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/_authed/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/_authed/': typeof AgaateAdminAuthedIndexRoute
+  '/agaate-admin/_authed/content/about': typeof AgaateAdminAuthedContentAboutRoute
   '/agaate-admin/_authed/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/_authed/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/_authed/content/careers': typeof AgaateAdminAuthedContentCareersRoute
+  '/agaate-admin/_authed/content/contact-page': typeof AgaateAdminAuthedContentContactPageRoute
   '/agaate-admin/_authed/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/_authed/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/_authed/content/site-contact': typeof AgaateAdminAuthedContentSiteContactRoute
@@ -276,9 +296,11 @@ export interface FileRouteTypes {
     | '/agaate-admin/farm-visits'
     | '/agaate-admin/settings'
     | '/agaate-admin/'
+    | '/agaate-admin/content/about'
     | '/agaate-admin/content/agri-park-tour'
     | '/agaate-admin/content/app-links'
     | '/agaate-admin/content/careers'
+    | '/agaate-admin/content/contact-page'
     | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/site-contact'
@@ -300,9 +322,11 @@ export interface FileRouteTypes {
     | '/{-$locale}'
     | '/agaate-admin/farm-visits'
     | '/agaate-admin/settings'
+    | '/agaate-admin/content/about'
     | '/agaate-admin/content/agri-park-tour'
     | '/agaate-admin/content/app-links'
     | '/agaate-admin/content/careers'
+    | '/agaate-admin/content/contact-page'
     | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/site-contact'
@@ -327,9 +351,11 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed/farm-visits'
     | '/agaate-admin/_authed/settings'
     | '/agaate-admin/_authed/'
+    | '/agaate-admin/_authed/content/about'
     | '/agaate-admin/_authed/content/agri-park-tour'
     | '/agaate-admin/_authed/content/app-links'
     | '/agaate-admin/_authed/content/careers'
+    | '/agaate-admin/_authed/content/contact-page'
     | '/agaate-admin/_authed/content/kisaan-mall'
     | '/agaate-admin/_authed/content/logos'
     | '/agaate-admin/_authed/content/site-contact'
@@ -500,6 +526,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentKisaanMallRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/content/contact-page': {
+      id: '/agaate-admin/_authed/content/contact-page'
+      path: '/content/contact-page'
+      fullPath: '/agaate-admin/content/contact-page'
+      preLoaderRoute: typeof AgaateAdminAuthedContentContactPageRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/careers': {
       id: '/agaate-admin/_authed/content/careers'
       path: '/content/careers'
@@ -521,6 +554,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentAgriParkTourRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/content/about': {
+      id: '/agaate-admin/_authed/content/about'
+      path: '/content/about'
+      fullPath: '/agaate-admin/content/about'
+      preLoaderRoute: typeof AgaateAdminAuthedContentAboutRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
   }
 }
 
@@ -528,9 +568,11 @@ interface AgaateAdminAuthedRouteRouteChildren {
   AgaateAdminAuthedFarmVisitsRoute: typeof AgaateAdminAuthedFarmVisitsRoute
   AgaateAdminAuthedSettingsRoute: typeof AgaateAdminAuthedSettingsRoute
   AgaateAdminAuthedIndexRoute: typeof AgaateAdminAuthedIndexRoute
+  AgaateAdminAuthedContentAboutRoute: typeof AgaateAdminAuthedContentAboutRoute
   AgaateAdminAuthedContentAgriParkTourRoute: typeof AgaateAdminAuthedContentAgriParkTourRoute
   AgaateAdminAuthedContentAppLinksRoute: typeof AgaateAdminAuthedContentAppLinksRoute
   AgaateAdminAuthedContentCareersRoute: typeof AgaateAdminAuthedContentCareersRoute
+  AgaateAdminAuthedContentContactPageRoute: typeof AgaateAdminAuthedContentContactPageRoute
   AgaateAdminAuthedContentKisaanMallRoute: typeof AgaateAdminAuthedContentKisaanMallRoute
   AgaateAdminAuthedContentLogosRoute: typeof AgaateAdminAuthedContentLogosRoute
   AgaateAdminAuthedContentSiteContactRoute: typeof AgaateAdminAuthedContentSiteContactRoute
@@ -545,11 +587,14 @@ const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
     AgaateAdminAuthedFarmVisitsRoute: AgaateAdminAuthedFarmVisitsRoute,
     AgaateAdminAuthedSettingsRoute: AgaateAdminAuthedSettingsRoute,
     AgaateAdminAuthedIndexRoute: AgaateAdminAuthedIndexRoute,
+    AgaateAdminAuthedContentAboutRoute: AgaateAdminAuthedContentAboutRoute,
     AgaateAdminAuthedContentAgriParkTourRoute:
       AgaateAdminAuthedContentAgriParkTourRoute,
     AgaateAdminAuthedContentAppLinksRoute:
       AgaateAdminAuthedContentAppLinksRoute,
     AgaateAdminAuthedContentCareersRoute: AgaateAdminAuthedContentCareersRoute,
+    AgaateAdminAuthedContentContactPageRoute:
+      AgaateAdminAuthedContentContactPageRoute,
     AgaateAdminAuthedContentKisaanMallRoute:
       AgaateAdminAuthedContentKisaanMallRoute,
     AgaateAdminAuthedContentLogosRoute: AgaateAdminAuthedContentLogosRoute,

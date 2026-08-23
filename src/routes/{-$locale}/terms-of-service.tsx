@@ -21,17 +21,27 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
 
+import { useSiteContact } from "@/contexts/SiteContactContext";
+
 export const Route = createFileRoute("/{-$locale}/terms-of-service")({
   component: TermsOfServicePage,
 });
 
-const TERMS_SECTIONS = [
-  {
-    id: "corporate",
-    title: "1. Corporate Entity & Scope of Agreement",
-    content:
-      "These Terms of Service ('Terms') constitute a legally binding agreement between you ('User', 'Farmer', or 'Client') and Anzix Farm Technologies Private Limited ('Agaate', 'Company', 'we', or 'us'), incorporated on May 28, 2024 (Corporate Identification Number: U46200HR2024PTC121982), having its registered office at I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004.\n\nThese Terms govern your access to and use of our digital portal (agaate.in), physical facilities (Agaate Anzix Farm in Kukrola and Agaate Kisan Mall in Bhora Kalan), nursery pre-booking systems, agronomy advisory services, and buyback programs.",
-  },
+function buildCorporateSection(registeredOffice: string, cin: string) {
+  return `These Terms of Service ('Terms') constitute a legally binding agreement between you ('User', 'Farmer', or 'Client') and Anzix Farm Technologies Private Limited ('Agaate', 'Company', 'we', or 'us'), incorporated on May 28, 2024 (Corporate Identification Number: ${cin}), having its registered office at ${registeredOffice}.\n\nThese Terms govern your access to and use of our digital portal (agaate.in), physical facilities (Agaate Anzix Farm in Kukrola and Agaate Kisan Mall in Bhora Kalan), nursery pre-booking systems, agronomy advisory services, and buyback programs.`;
+}
+
+function TermsOfServicePage() {
+  const { contact } = useSiteContact();
+  const corporateContent = buildCorporateSection(contact.registeredOfficeEn, contact.cin);
+  const termsSections = [
+    {
+      id: "corporate",
+      title: "1. Corporate Entity & Scope of Agreement",
+      content: corporateContent,
+    },
+    ...TERMS_SECTIONS_REST,
+  ];
   {
     id: "nursery",
     title: "2. Bio-Boosted Nursery Pre-Orders & Sapling Delivery",
