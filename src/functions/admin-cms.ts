@@ -225,6 +225,13 @@ export const saveCmsKisaanMallLandingAdmin = createServerFn({ method: "POST" })
     return mod.handleSaveKisaanMallLanding(data);
   });
 
+export const saveCmsKisaanMallPageAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").KisaanMallPageContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveKisaanMallPage(data);
+  });
+
 export const listCmsCareerJobsAdmin = createServerFn({ method: "GET" })
   .validator((data: CmsListFilters | undefined) => data ?? {})
   .handler(async ({ data }) => {

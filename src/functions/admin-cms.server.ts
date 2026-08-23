@@ -30,6 +30,8 @@ import {
   saveAgriParkTour,
   fetchKisaanMallLanding,
   saveKisaanMallLanding,
+  fetchKisaanMallPage,
+  saveKisaanMallPage,
   fetchCareersPage,
   saveCareersPage,
   fetchSiteContact,
@@ -67,6 +69,7 @@ import type {
   HomeCmsAppLinks,
   HomeCmsAgriParkTour,
   KisaanMallLanding,
+  KisaanMallPageContent,
   CareersPageContent,
   SiteContactConfig,
   AboutPageContent,
@@ -719,14 +722,27 @@ export async function handleGetKisaanMallLanding() {
   try {
     await requireSessionUser();
     const landing = await fetchKisaanMallLanding();
+    const page = await fetchKisaanMallPage();
     const signups = await listNewsletterSignups("/kisaan-mall");
     return {
       ok: true as const,
       landing,
+      page,
       signups,
       waitlistCount: signups.length,
       dbConfigured: isDbConfigured(),
     };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveKisaanMallPage(content: KisaanMallPageContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const page = await saveKisaanMallPage(content);
+    return { ok: true as const, page };
   } catch (err) {
     return failAuth(err);
   }
