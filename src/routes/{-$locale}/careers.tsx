@@ -33,10 +33,10 @@ function Careers() {
   const [filter, setFilter] = useState<Filter>("All");
 
   return (
-    <main className="flex min-h-screen flex-col bg-cream font-sans text-ink antialiased">
+    <main className="flex min-h-screen flex-col bg-[#f4f8f5] font-sans text-[#143d31] antialiased">
       <Header />
       <CareersHero />
-      <div className="mx-auto w-full max-w-7xl flex-grow space-y-32 px-6 py-24 lg:px-12">
+      <div className="mx-auto w-full max-w-7xl flex-grow space-y-20 sm:space-y-28 lg:space-y-32 px-5 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-24">
         <CareersCultureSection />
         <OpenRolesSection
           filter={filter}
