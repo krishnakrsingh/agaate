@@ -97,14 +97,6 @@ export default function ImpactScaleReach() {
                 alt="Agaate farmer and agronomist in the field"
                 className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/90 backdrop-blur-md p-3 border border-[#143d31]/10 shadow-xs flex items-center justify-between">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#143d31]">
-                  North India Operations
-                </span>
-                <span className="font-mono text-[10px] font-semibold text-[#5d7d37]">
-                  Gurugram · Haryana
-                </span>
-              </div>
             </div>
           </Reveal>
 
@@ -136,7 +128,7 @@ export default function ImpactScaleReach() {
 
             <div className="pt-2">
               <SlideUpPillButton
-                to={getLocalizedPath("/", currentLang)}
+                to={getLocalizedPath("/#three-pillars", currentLang)}
                 variant="dark"
                 size="md"
                 label="Explore Agri Services"

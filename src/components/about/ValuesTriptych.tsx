@@ -14,7 +14,7 @@ export default function ValuesTriptych() {
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-              What We Stand For
+              Our Three Non-Negotiable Pillars
             </p>
           </div>
 
@@ -23,12 +23,12 @@ export default function ValuesTriptych() {
               id="values-heading"
               className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
             >
-              Organic, sustainable, and uncompromisingly high quality
+              Practical research, quality inputs, and farmer-first thinking
             </h2>
 
             <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
-              Every sapling grown, protocol developed, and input supplied adheres to rigorous quality
-              and ecological standards.
+              These three pillars define every decision at Agaate — from the seeds we source to the
+              advisories we deliver and the buyback agreements we honour.
             </p>
           </div>
         </Reveal>
@@ -56,7 +56,7 @@ export default function ValuesTriptych() {
                   </div>
                   <div className="pt-4 border-t border-[#143d31]/10">
                     <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                      100% Quality Guaranteed
+                      {g.badge}
                     </span>
                   </div>
                 </div>
@@ -68,3 +68,4 @@ export default function ValuesTriptych() {
     </section>
   );
 }
+

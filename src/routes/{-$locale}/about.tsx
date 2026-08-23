@@ -8,6 +8,7 @@ import {
   ImpactScaleReach,
   MilestonesSection,
   LeadershipRoster,
+  LifeAtAgaate,
   FootprintSection,
   AboutCta,
 } from "@/components/about";
@@ -55,6 +56,7 @@ function About() {
       <ImpactScaleReach />
       <MilestonesSection />
       <LeadershipRoster members={members} />
+      <LifeAtAgaate />
       <FootprintSection />
       <AboutCta />
       <Footer />

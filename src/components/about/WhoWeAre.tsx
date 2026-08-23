@@ -17,11 +17,11 @@ export default function WhoWeAre() {
               <img
                 src={whoWeAre.image}
                 alt={whoWeAre.imageAlt}
-                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105"
                 width={800}
                 height={1000}
               />
-              <div className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur-md px-3 py-1 border border-[#143d31]/10 shadow-xs flex items-center gap-1.5">
+              <div className="absolute top-4 right-4 z-20 rounded-full bg-white/90 backdrop-blur-md px-3 py-1 border border-[#143d31]/10 shadow-xs flex items-center gap-1.5">
                 <ShieldCheck weight="fill" className="h-3.5 w-3.5 text-[#5d7d37]" />
                 <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#143d31]">
                   On-Ground Verified

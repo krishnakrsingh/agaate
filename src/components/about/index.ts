@@ -5,5 +5,6 @@ export { default as ImpactScaleReach } from "./ImpactScaleReach";
 export { default as MilestonesSection } from "./MilestonesSection";
 export { default as LeadershipRoster } from "./LeadershipRoster";
 export { default as FootprintSection } from "./FootprintSection";
+export { default as LifeAtAgaate } from "./LifeAtAgaate";
 export { default as AboutCta } from "./AboutCta";
 export * from "./data";
