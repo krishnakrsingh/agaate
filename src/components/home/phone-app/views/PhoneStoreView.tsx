@@ -126,7 +126,7 @@ export function PhoneStoreView({ onAddToCart }: PhoneStoreViewProps) {
       {/* Trust Footer Bar */}
       <div className="mt-2 flex shrink-0 items-center justify-around rounded-xl border border-[#143d31]/5 bg-white p-2.5 text-[8px] font-extrabold uppercase tracking-wider text-[#476f2d] shadow-sm">
         <span className="flex items-center gap-1">✓ Direct Supply</span>
-        <span className="flex items-center gap-1">✓ QC Verified</span>
+        <span className="flex items-center gap-1">✓ 100% Genuine</span>
       </div>
     </div>
   );

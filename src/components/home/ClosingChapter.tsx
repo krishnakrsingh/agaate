@@ -34,14 +34,14 @@ const pathwaysEn = [
     icon: Storefront,
     tag: "Input Commerce",
     title: "Visit Kisaan Mall",
-    subtitle: "500+ QR-verified genuine inputs",
+    subtitle: "500+ genuine tested inputs",
     description:
       "Source 100% genuine hybrid seeds, biologicals, and custom drip kits straight from 50+ manufacturer partners at honest, transparent rates with zero duplicate risk.",
     actionLabel: "Get Store Directions",
     actionSub: "Bhora Kalan, Gurugram",
     type: "link",
     href: "/contact",
-    perks: ["Direct manufacturer pricing", "Batch QC verified authenticity guarantee"],
+    perks: ["Direct manufacturer pricing", "100% genuine quality guarantee"],
   },
   {
     number: "03",
@@ -86,7 +86,7 @@ const pathwaysHi = [
     actionSub: "भोड़ा कलां, गुरुग्राम",
     type: "link",
     href: "/contact",
-    perks: ["सीधे फैक्ट्रियों से किफायती दाम", "क्यूआर कोड से 100% शुद्धता गारंटी"],
+    perks: ["सीधे फैक्ट्रियों से किफायती दाम", "100% प्रमाणित गुणवत्ता की गारंटी"],
   },
   {
     number: "03",

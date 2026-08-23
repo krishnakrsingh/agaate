@@ -8,6 +8,8 @@ import {
   Video,
   UsersRound,
   Smartphone,
+  MapPin,
+  Store,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -73,6 +75,17 @@ export function AdminCommandPalette({
           <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/agri-park-tour" }))}>
             <Video className="mr-2 h-4 w-4" />
             <span>Agri Park video</span>
+          </CommandItem>
+          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/kisaan-mall" }))}>
+            <Store className="mr-2 h-4 w-4" />
+            <span>Kisaan Mall waitlist</span>
+          </CommandItem>
+        </CommandGroup>
+
+        <CommandGroup heading="Inquiries">
+          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/farm-visits" }))}>
+            <MapPin className="mr-2 h-4 w-4" />
+            <span>Farm Visits</span>
           </CommandItem>
         </CommandGroup>
 

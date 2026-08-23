@@ -1,6 +1,8 @@
 import { CMS_ICON_MAP } from "@/lib/cms-icons";
 import type { CmsIconKey } from "@/lib/cms-types";
 import { CMS_BRAND_GROUP_LABELS, type CmsBrandGroup } from "@/lib/cms-types";
+import { EmbedVideoPlayer } from "@/components/ui/EmbedVideoPlayer";
+import { isValidVideoSource } from "@/lib/video-source";
 
 export function CmsStatPreview({
   iconKey,
@@ -127,8 +129,22 @@ export function CmsStoryPreview({
         <div className="space-y-2">
           <p className="text-[10px] font-bold uppercase text-[#5d7d37]">Hindi</p>
           <p className="font-semibold text-sm">{nameHi || "—"}</p>
-          {videoUrl ? (
-            <video src={videoUrl} controls className="w-full rounded-lg border max-h-40" />
+          {videoUrl && isValidVideoSource(videoUrl) ? (
+            <div className="aspect-video max-h-40 overflow-hidden rounded-lg border bg-black">
+              <EmbedVideoPlayer
+                videoUrl={videoUrl}
+                poster={thumbnailUrl}
+                muted
+                autoPlay={false}
+                loop={false}
+                className="h-full w-full object-contain"
+                iframeClassName="h-full w-full border-0"
+              />
+            </div>
+          ) : videoUrl ? (
+            <p className="text-xs text-muted-foreground rounded-lg border border-dashed p-3">
+              Paste a valid YouTube, Instagram, or file video URL to preview.
+            </p>
           ) : (
             <div className="flex h-24 items-center justify-center rounded-lg border border-dashed text-xs text-muted-foreground">
               Video preview

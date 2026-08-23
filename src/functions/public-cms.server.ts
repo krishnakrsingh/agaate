@@ -1,6 +1,11 @@
-import { fetchHomeCms } from "@/server/cms-queries";
+import { fetchHomeCms, fetchKisaanMallLanding } from "@/server/cms-queries";
 import { fetchTeamCms } from "@/server/cms-team-queries";
 import { getSessionUser } from "@/server/auth";
+
+export async function handleGetKisaanMallPage() {
+  const landing = await fetchKisaanMallLanding();
+  return { ok: true as const, landing };
+}
 
 export async function handleGetHomeCms(preview: boolean) {
   let usePreview = false;

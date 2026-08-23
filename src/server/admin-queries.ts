@@ -73,6 +73,16 @@ const ADMIN_TABLE_SQL = [
     payload JSON NOT NULL,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+  `CREATE TABLE IF NOT EXISTS newsletter_signups (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    contact VARCHAR(160) NOT NULL,
+    contact_type ENUM('email', 'phone') NOT NULL,
+    source_page VARCHAR(255) NOT NULL DEFAULT '/kisaan-mall',
+    ip_hash CHAR(64) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_newsletter_source_created (source_page, created_at),
+    INDEX idx_newsletter_contact (contact, source_page)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
 ];
 
 let adminSchemaReady = false;
@@ -596,4 +606,106 @@ export function serializeContact(row: ContactRequestRow) {
       district: row.district,
     }),
   };
+}
+
+export type NewsletterSignupRow = {
+  id: number;
+  contact: string;
+  contact_type: "email" | "phone";
+  source_page: string;
+  created_at: string;
+};
+
+let newsletterSchemaReady = false;
+
+export async function ensureNewsletterSchema() {
+  if (!isDbConfigured()) return;
+  await ensureAdminSchema();
+  if (newsletterSchemaReady) return;
+  const db = await getDbPool();
+  await db.query(
+    `CREATE TABLE IF NOT EXISTS newsletter_signups (
+      id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      contact VARCHAR(160) NOT NULL,
+      contact_type ENUM('email', 'phone') NOT NULL,
+      source_page VARCHAR(255) NOT NULL DEFAULT '/kisaan-mall',
+      ip_hash CHAR(64) NULL,
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      INDEX idx_newsletter_source_created (source_page, created_at),
+      INDEX idx_newsletter_contact (contact, source_page)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+  );
+  newsletterSchemaReady = true;
+}
+
+export async function insertNewsletterSignup(input: {
+  contact: string;
+  contact_type: "email" | "phone";
+  source_page: string;
+  ip_hash: string;
+}) {
+  const db = await getDbPool();
+  await db.query(
+    `INSERT INTO newsletter_signups (contact, contact_type, source_page, ip_hash)
+     VALUES (:contact, :contact_type, :source_page, :ip_hash)`,
+    input,
+  );
+}
+
+export async function hasRecentNewsletterSignup(contact: string, sourcePage: string): Promise<boolean> {
+  const db = await getDbPool();
+  const [rows] = await db.query(
+    `SELECT id FROM newsletter_signups
+     WHERE contact = :contact AND source_page = :sourcePage
+       AND created_at > (NOW() - INTERVAL 24 HOUR)
+     LIMIT 1`,
+    { contact, sourcePage },
+  );
+  return Boolean((rows as Array<{ id: number }>)[0]?.id);
+}
+
+export async function countNewsletterSignups(sourcePage = "/kisaan-mall"): Promise<number> {
+  if (!isDbConfigured()) {
+    const { mockNewsletterSignups } = await import("@/server/cms-memory");
+    return mockNewsletterSignups.filter((s) => s.source_page === sourcePage).length;
+  }
+  await ensureNewsletterSchema();
+  const db = await getDbPool();
+  const [rows] = await db.query(
+    `SELECT COUNT(*) AS c FROM newsletter_signups WHERE source_page = :sourcePage`,
+    { sourcePage },
+  );
+  return Number((rows as Array<{ c: number }>)[0]?.c ?? 0);
+}
+
+export async function listNewsletterSignups(
+  sourcePage = "/kisaan-mall",
+  limit = 200,
+): Promise<NewsletterSignupRow[]> {
+  if (!isDbConfigured()) {
+    const { mockNewsletterSignups } = await import("@/server/cms-memory");
+    return mockNewsletterSignups
+      .filter((s) => s.source_page === sourcePage)
+      .slice(0, limit);
+  }
+  await ensureNewsletterSchema();
+  const db = await getDbPool();
+  const [rows] = await db.query(
+    `SELECT id, contact, contact_type, source_page, created_at
+     FROM newsletter_signups
+     WHERE source_page = :sourcePage
+     ORDER BY created_at DESC
+     LIMIT :limit`,
+    { sourcePage, limit },
+  );
+  return (rows as Array<Record<string, unknown>>).map((row) => ({
+    id: Number(row.id),
+    contact: String(row.contact),
+    contact_type: row.contact_type as "email" | "phone",
+    source_page: String(row.source_page),
+    created_at:
+      row.created_at instanceof Date
+        ? row.created_at.toISOString()
+        : String(row.created_at ?? new Date().toISOString()),
+  }));
 }

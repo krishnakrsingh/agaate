@@ -127,14 +127,44 @@ export const DEFAULT_HOME_CMS_AGRI_PARK_TOUR: HomeCmsAgriParkTour = {
   posterUrl: "/videos/posters/farm-first-look.webp",
 };
 
+export type KisaanMallLanding = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  placeholderEn: string;
+  placeholderHi: string;
+  successEn: string;
+  successHi: string;
+};
+
+export const DEFAULT_KISAAN_MALL_LANDING: KisaanMallLanding = {
+  badgeEn: "Launching Soon",
+  badgeHi: "जल्द आ रहा है",
+  titleEn: "Kisaan Mall",
+  titleHi: "किसान मॉल",
+  descriptionEn:
+    "Direct access to 100% genuine hybrid seeds, biologicals, and modern farm inputs. Join the waitlist for launch updates.",
+  descriptionHi:
+    "भारतीय किसानों के लिए 100% प्रामाणिक बीज, जैविक पोषण व आधुनिक कृषि इनपुट्स। लॉन्च अपडेट्स पाने के लिए जुड़े रहें।",
+  placeholderEn: "Enter email or mobile number",
+  placeholderHi: "ईमेल या मोबाइल नंबर दर्ज करें",
+  successEn: "You're on the list. We'll be in touch soon!",
+  successHi: "धन्यवाद! हम आपको लॉन्च अपडेट्स जल्द भेजेंगे।",
+};
+
 export type CmsSiteConfig = {
   appLinks: HomeCmsAppLinks;
   agriParkTour: HomeCmsAgriParkTour;
+  kisaanMallLanding: KisaanMallLanding;
 };
 
 export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   appLinks: DEFAULT_HOME_CMS_APP_LINKS,
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
+  kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
 };
 
 export type HomeCmsData = {

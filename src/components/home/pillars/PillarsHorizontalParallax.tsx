@@ -127,7 +127,7 @@ export default function PillarsHorizontalParallax() {
   return (
     <section
       id="three-pillars"
-      className="relative bg-[#f4f8f5] text-[#143d31] overflow-hidden"
+      className="relative bg-[#f4f8f5] text-[#143d31] overflow-hidden scroll-mt-24 sm:scroll-mt-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-14 pb-8 sm:pb-12 lg:pb-14 space-y-16 sm:space-y-24 lg:space-y-28">
 
@@ -142,7 +142,7 @@ export default function PillarsHorizontalParallax() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center"
+              className="grid grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center scroll-mt-28 sm:scroll-mt-32 md:scroll-mt-36"
             >
               {/* Text Column */}
               <div

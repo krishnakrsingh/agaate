@@ -131,8 +131,8 @@ export const NURSERY_STORY: NurseryStory[] = [
   },
   {
     icon: SealCheck,
-    label: "Standardized Traceability",
-    desc: "Every batch certified with serial QR traceability records.",
+    label: "Standardized Quality Control",
+    desc: "Every batch tested and certified for guaranteed field performance.",
   },
 ];
 

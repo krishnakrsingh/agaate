@@ -3,7 +3,6 @@ import { Calendar, MapPin, RefreshCw, Search } from "lucide-react";
 import { listAdminFarmVisits, updateAdminFarmVisit } from "@/functions/admin-contacts";
 import { STATUS_LABELS, type RequestStatus } from "@/lib/admin-constants";
 import { useToast } from "@/components/admin/AdminToast";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,13 +44,6 @@ type FarmVisitRow = {
 };
 
 const FARM_VISIT_STATUSES: RequestStatus[] = ["new", "contacted", "farm_visit", "closed"];
-
-function statusVariant(status: RequestStatus): "warning" | "info" | "success" | "secondary" | "outline" {
-  if (status === "new") return "warning";
-  if (status === "contacted" || status === "in_progress") return "info";
-  if (status === "farm_visit" || status === "converted") return "success";
-  return "secondary";
-}
 
 function formatDate(value: string | null | undefined) {
   if (!value) return "—";
@@ -117,7 +109,7 @@ export function AdminFarmVisits() {
     } else {
       toast.error("Load failed", res && "error" in res ? res.error : "Could not load farm visits.");
     }
-  }, [q, status, from, to, page, toast]);
+  }, [q, status, from, to, page]);
 
   useEffect(() => {
     void load();
@@ -294,11 +286,7 @@ export function AdminFarmVisits() {
                         onValueChange={(v) => void handleStatusChange(row.id, v as RequestStatus)}
                       >
                         <SelectTrigger className="h-8 w-[150px] text-xs">
-                          <SelectValue>
-                            <Badge variant={statusVariant(row.status)} className="font-normal">
-                              {STATUS_LABELS[row.status]}
-                            </Badge>
-                          </SelectValue>
+                          <SelectValue>{STATUS_LABELS[row.status]}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           {FARM_VISIT_STATUSES.map((s) => (

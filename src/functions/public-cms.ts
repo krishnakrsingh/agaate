@@ -13,3 +13,8 @@ export const getTeamCms = createServerFn({ method: "GET" })
     const mod = await import("./public-cms.server");
     return mod.handleGetTeamCms(Boolean(data?.preview));
   });
+
+export const getKisaanMallPage = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./public-cms.server");
+  return mod.handleGetKisaanMallPage();
+});

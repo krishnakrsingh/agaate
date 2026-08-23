@@ -74,7 +74,9 @@ export function stripLocalePrefix(pathName: string): string {
 export function getLocalizedPath(pathName: string, locale?: string): string {
   const cleanPath = stripLocalePrefix(pathName);
   if (!locale || locale === "en") return cleanPath;
-  return cleanPath === "/" ? `/${locale}` : `/${locale}${cleanPath}`;
+  if (cleanPath === "/") return `/${locale}`;
+  if (cleanPath.startsWith("/#")) return `/${locale}${cleanPath.substring(1)}`;
+  return `/${locale}${cleanPath}`;
 }
 
 export { SUPPORTED_LNGS };

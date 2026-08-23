@@ -14,9 +14,16 @@ import {
   TrendUp,
 } from "@phosphor-icons/react";
 
+export const WHATSAPP_CONSULTATION_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20book%20a%20farm%20consultation.";
+
+export const WHATSAPP_AGRONOMIST_URL =
+  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20need%20expert%20agronomy%20advice%20for%20my%20crop.";
+
 export type NavSubLink = {
   key: string;
   href: string;
+  external?: boolean;
   label?: string;
   desc?: string;
   icon?: ComponentType<any>;
@@ -38,7 +45,8 @@ export const NAV_STRUCTURE: NavItem[] = [
     subLinks: [
       {
         key: "advisory",
-        href: "/contact",
+        href: WHATSAPP_AGRONOMIST_URL,
+        external: true,
         label: "Talk to Agronomist",
         desc: "Direct field diagnosis, spray charts & farm visits",
         icon: ChatCircleDots,
@@ -52,7 +60,7 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
       {
         key: "nursery",
-        href: "/agri-park",
+        href: "/#pillar-nursery",
         label: "Bio-Boosted Nursery",
         desc: "98% survival high-yield plug seedlings & saplings",
         icon: Plant,
@@ -80,7 +88,7 @@ export const NAV_STRUCTURE: NavItem[] = [
       },
       {
         key: "marketLinkage",
-        href: "/contact",
+        href: "/#pillar-market",
         label: "Market Linkage",
         desc: "Direct retail buyers & guaranteed buyback",
         icon: TrendUp,
@@ -107,9 +115,3 @@ export const NAV_SUBTITLES: Record<string, string> = {
   about: "Our Mission & Team",
   contact: "Direct Agronomist Line",
 };
-
-export const WHATSAPP_CONSULTATION_URL =
-  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20would%20like%20to%20book%20a%20farm%20consultation.";
-
-export const WHATSAPP_AGRONOMIST_URL =
-  "https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20need%20expert%20agronomy%20advice%20for%20my%20crop.";

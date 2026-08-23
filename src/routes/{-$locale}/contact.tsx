@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
   ContactHero,
-  QuickContactBar,
   MobileStickyContactBar,
   ContactForm,
   FacilitiesSection,
@@ -108,10 +107,9 @@ function ContactPage() {
 
   return (
     <ToastProvider>
-      <main className="min-h-screen bg-white pb-20 font-sans text-ink antialiased sm:pb-0">
-      <Header />
+      <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased pb-20 sm:pb-0 overflow-x-clip">
+        <Header />
         <ContactHero />
-        <QuickContactBar />
         <ContactForm onSuccessChange={onSuccessChange} />
         <FacilitiesSection />
         <TrustBand />
@@ -122,7 +120,7 @@ function ContactPage() {
         <p className="sr-only">
           Call {PRIMARY_PHONE} or email {EMAIL} for agronomy support in Gurugram.
         </p>
-    </main>
+      </main>
     </ToastProvider>
   );
 }

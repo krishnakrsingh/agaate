@@ -37,11 +37,11 @@ export function ServicesHero({ currentLang }: { currentLang: string }) {
   const marqueeChipsEn = [
     { icon: Plant, stat: "98% Field Survival", text: "Bio-Plug Nursery Chambers" },
     { icon: Stethoscope, stat: "< 15 Min", text: "WhatsApp AI Disease Diagnosis" },
-    { icon: Storefront, stat: "500+ SKUs", text: "Direct Manufacturer QR-Verified Inputs" },
+    { icon: Storefront, stat: "500+ SKUs", text: "Direct Manufacturer Tested Inputs" },
     { icon: Drop, stat: "50% Input Savings", text: "Precision Drip Fertigation Dosing" },
     { icon: Hammer, stat: "15,000+ Acres", text: "Turnkey Big Farm Engineering" },
     { icon: Truck, stat: "0% Commission", text: "48h Direct Supermarket Buyback" },
-    { icon: ShieldCheck, stat: "100% QC Certified", text: "Residue-Free Organic Formulations" },
+    { icon: ShieldCheck, stat: "100% Certified", text: "Residue-Free Organic Formulations" },
     { icon: MapPin, stat: "17-Acre Facility", text: "Living Farm & Demo Park (Kukrola, NH8)" },
   ];
 

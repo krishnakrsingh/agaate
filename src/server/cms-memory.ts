@@ -70,6 +70,16 @@ export let mockStories: CmsStoryRow[] = getFallbackSeedStories().map((s, i) => (
 
 export let mockSiteConfig: CmsSiteConfig = { ...DEFAULT_CMS_SITE_CONFIG };
 
+export type MockNewsletterSignup = {
+  id: number;
+  contact: string;
+  contact_type: "email" | "phone";
+  source_page: string;
+  created_at: string;
+};
+
+export let mockNewsletterSignups: MockNewsletterSignup[] = [];
+
 export let mockTeam: CmsTeamMemberRow[] = getFallbackSeedTeam().map((m, i) => ({
   id: i + 1,
   slug: m.slug,

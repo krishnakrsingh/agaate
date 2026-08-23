@@ -41,7 +41,7 @@ export const COMPANY_LINKS = [
 
 export const EXPLORE_LINKS = [
   { href: "/community", labelKey: "nav.community", fallback: "Farmer Community" },
-  { href: "/agri-park", labelKey: "servicesSub.nursery", fallback: "Bio-Boosted Nursery" },
+  { href: "/#pillar-nursery", labelKey: "servicesSub.nursery", fallback: "Bio-Boosted Nursery" },
   { href: "/kisaan-mall", labelKey: "servicesSub.kisaanMall", fallback: "Kisaan Mall" },
   { href: "/contact", labelKey: "servicesSub.farmTech", fallback: "Farm Tech & IoT" },
 ];

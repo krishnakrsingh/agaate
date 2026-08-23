@@ -61,32 +61,63 @@ export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps)
                       },
                     }}
                   >
-                    <Link
-                      to={getLocalizedPath(subLink.href, currentLang) as any}
-                      className="group relative flex items-center gap-3 overflow-hidden rounded-[12px] p-2 px-2.5 transition-all duration-200 hover:bg-slate-50"
-                    >
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all duration-200 group-hover:scale-105 group-hover:bg-[#143d31] group-hover:text-[#a3e635]">
-                        {SubIcon && (
-                          <SubIcon
-                            className="h-4.5 w-4.5 transition-transform duration-200 group-hover:scale-110"
-                            weight="bold"
-                          />
-                        )}
-                      </div>
-                      <div className="flex min-w-0 flex-1 flex-col">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[13px] font-bold text-slate-800 transition-colors group-hover:text-[#0d2a21] leading-tight">
-                            {subTitle}
-                          </span>
-                          <ArrowRight className="h-3 w-3 -translate-x-1 text-[#0d2a21] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
+                    {subLink.external || subLink.href.startsWith("http") ? (
+                      <a
+                        href={subLink.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative flex items-center gap-3 overflow-hidden rounded-[12px] p-2 px-2.5 transition-all duration-200 hover:bg-slate-50"
+                      >
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all duration-200 group-hover:scale-105 group-hover:bg-[#143d31] group-hover:text-[#a3e635]">
+                          {SubIcon && (
+                            <SubIcon
+                              className="h-4.5 w-4.5 transition-transform duration-200 group-hover:scale-110"
+                              weight="bold"
+                            />
+                          )}
                         </div>
-                        {subDesc && (
-                          <p className="mt-0.5 line-clamp-1 text-[11px] font-normal leading-tight text-slate-500 transition-colors group-hover:text-slate-600">
-                            {subDesc}
-                          </p>
-                        )}
-                      </div>
-                    </Link>
+                        <div className="flex min-w-0 flex-1 flex-col">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[13px] font-bold text-slate-800 transition-colors group-hover:text-[#0d2a21] leading-tight">
+                              {subTitle}
+                            </span>
+                            <ArrowRight className="h-3 w-3 -translate-x-1 text-[#0d2a21] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
+                          </div>
+                          {subDesc && (
+                            <p className="mt-0.5 line-clamp-1 text-[11px] font-normal leading-tight text-slate-500 transition-colors group-hover:text-slate-600">
+                              {subDesc}
+                            </p>
+                          )}
+                        </div>
+                      </a>
+                    ) : (
+                      <Link
+                        to={getLocalizedPath(subLink.href, currentLang) as any}
+                        className="group relative flex items-center gap-3 overflow-hidden rounded-[12px] p-2 px-2.5 transition-all duration-200 hover:bg-slate-50"
+                      >
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all duration-200 group-hover:scale-105 group-hover:bg-[#143d31] group-hover:text-[#a3e635]">
+                          {SubIcon && (
+                            <SubIcon
+                              className="h-4.5 w-4.5 transition-transform duration-200 group-hover:scale-110"
+                              weight="bold"
+                            />
+                          )}
+                        </div>
+                        <div className="flex min-w-0 flex-1 flex-col">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[13px] font-bold text-slate-800 transition-colors group-hover:text-[#0d2a21] leading-tight">
+                              {subTitle}
+                            </span>
+                            <ArrowRight className="h-3 w-3 -translate-x-1 text-[#0d2a21] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
+                          </div>
+                          {subDesc && (
+                            <p className="mt-0.5 line-clamp-1 text-[11px] font-normal leading-tight text-slate-500 transition-colors group-hover:text-slate-600">
+                              {subDesc}
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    )}
                   </motion.div>
                 );
               })}

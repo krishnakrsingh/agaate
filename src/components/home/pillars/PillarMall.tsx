@@ -76,7 +76,7 @@ export default function PillarMall() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
               {[
                 "Direct-from-brand honest pricing",
-                "QR-verified product authenticity",
+                "100% verified product authenticity",
                 "Custom drip & irrigation packages",
               ].map((feat) => (
                 <div

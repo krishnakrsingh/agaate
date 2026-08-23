@@ -1,16 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CaretDown } from "@phosphor-icons/react";
+import { useTranslation } from "react-i18next";
 import { EASE, Reveal } from "@/components/common/motion";
-import { CONTACT_FAQS } from "./data";
+import { MALL_FAQS } from "./data";
 import { track } from "@/lib/analytics";
 
-export default function ContactFaq() {
+export default function MallFaq() {
+  const { i18n } = useTranslation();
+  const isHindi = i18n.language?.startsWith("hi");
   const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section
-      aria-labelledby="faq-heading"
+      aria-labelledby="faq-mall-heading"
       className="border-t border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
       <div className="mx-auto max-w-4xl px-5 sm:px-8 lg:px-10 space-y-10">
@@ -18,35 +21,38 @@ export default function ContactFaq() {
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
             <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
-              FAQ · Quick Answers
+              {isHindi ? "एफएक्यू · सामान्य प्रश्न" : "Kisaan Mall · FAQ"}
             </p>
           </div>
           <h2
-            id="faq-heading"
+            id="faq-mall-heading"
             className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]"
           >
-            Common questions
+            {isHindi ? "किसान भाइयों के प्रमुख सवाल" : "Frequently Asked Questions"}
           </h2>
         </Reveal>
 
         <Reveal variant="fade-up" delay={0.1}>
           <div className="divide-y divide-[#143d31]/10 rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-8 shadow-xs">
-            {CONTACT_FAQS.map((f, i) => {
+            {MALL_FAQS.map((f, i) => {
               const isOpen = open === i;
+              const q = isHindi ? f.qHi : f.qEn;
+              const a = isHindi ? f.aHi : f.aEn;
+
               return (
-                <div key={f.q} className="py-5 first:pt-0 last:pb-0">
+                <div key={f.qEn} className="py-5 first:pt-0 last:pb-0">
                   <button
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => {
                       const next = isOpen ? null : i;
                       setOpen(next);
-                      if (next !== null) track("faq_opened", { index: i });
+                      if (next !== null) track("kisaan_mall_faq_opened", { index: i });
                     }}
                     className="flex w-full items-center justify-between gap-4 text-left focus-visible:outline-none"
                   >
                     <h3 className="flex-1 font-display text-base sm:text-lg font-bold text-[#143d31]">
-                      {f.q}
+                      {q}
                     </h3>
                     <motion.span
                       animate={{ rotate: isOpen ? 180 : 0 }}
@@ -66,7 +72,7 @@ export default function ContactFaq() {
                         transition={{ duration: 0.28, ease: EASE }}
                       >
                         <p className="pt-3 font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
-                          {f.a}
+                          {a}
                         </p>
                       </motion.div>
                     ) : null}

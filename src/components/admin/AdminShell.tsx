@@ -12,6 +12,7 @@ import {
   UsersRound,
   Smartphone,
   MapPin,
+  Store,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -83,6 +84,7 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
       { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park video", icon: Video },
+      { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall waitlist", icon: Store },
     ],
   },
   {
@@ -155,6 +157,18 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Agri Park video", href: "/agaate-admin/content/agri-park-tour", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/kisaan-mall")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Kisaan Mall waitlist", href: "/agaate-admin/content/kisaan-mall", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/farm-visits")) {
+      return [
+        { label: "Inquiries", href: "/agaate-admin/farm-visits", current: false },
+        { label: "Farm Visits", href: "/agaate-admin/farm-visits", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content")) {

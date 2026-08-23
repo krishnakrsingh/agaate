@@ -141,7 +141,32 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                           const SubIcon = sub.icon;
                           const subTitle = t(`servicesSub.${sub.key}` as any, sub.label || sub.key);
                           const subDesc = t(`servicesSubDesc.${sub.key}` as any, sub.desc || "");
-                          return (
+                          const isExternal = (sub as any).external || sub.href.startsWith("http");
+
+                          return isExternal ? (
+                            <a
+                              key={"mobile-sub-" + sub.key + sub.href}
+                              href={sub.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={onClose}
+                              className="group/sub flex items-center gap-2.5 rounded-[12px] p-2 transition-colors hover:bg-slate-100/90"
+                            >
+                              <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all group-hover/sub:bg-[#143d31] group-hover/sub:text-[#a3e635]">
+                                {SubIcon && <SubIcon className="h-4 w-4" weight="bold" />}
+                              </div>
+                              <div className="flex min-w-0 flex-1 flex-col">
+                                <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
+                                  {subTitle}
+                                </span>
+                                {subDesc && (
+                                  <span className="line-clamp-1 text-[10.5px] font-normal text-slate-500">
+                                    {subDesc}
+                                  </span>
+                                )}
+                              </div>
+                            </a>
+                          ) : (
                             <Link
                               key={"mobile-sub-" + sub.key + sub.href}
                               to={getLocalizedPath(sub.href, currentLang) as any}
@@ -151,7 +176,7 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                               <div className="flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-[10px] bg-[#23634f] text-white shadow-2xs transition-all group-hover/sub:bg-[#143d31] group-hover/sub:text-[#a3e635]">
                                 {SubIcon && <SubIcon className="h-4 w-4" weight="bold" />}
                               </div>
-                              <div className="flex min-w-0 flex-col">
+                              <div className="flex min-w-0 flex-1 flex-col">
                                 <span className="text-xs font-bold text-slate-800 group-hover/sub:text-[#0d2a21]">
                                   {subTitle}
                                 </span>

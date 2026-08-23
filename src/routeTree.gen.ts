@@ -31,6 +31,7 @@ import { Route as AgaateAdminAuthedContentTeamRouteImport } from './routes/agaat
 import { Route as AgaateAdminAuthedContentStoriesRouteImport } from './routes/agaate-admin/_authed/content/stories'
 import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaate-admin/_authed/content/stats'
 import { Route as AgaateAdminAuthedContentLogosRouteImport } from './routes/agaate-admin/_authed/content/logos'
+import { Route as AgaateAdminAuthedContentKisaanMallRouteImport } from './routes/agaate-admin/_authed/content/kisaan-mall'
 import { Route as AgaateAdminAuthedContentAppLinksRouteImport } from './routes/agaate-admin/_authed/content/app-links'
 import { Route as AgaateAdminAuthedContentAgriParkTourRouteImport } from './routes/agaate-admin/_authed/content/agri-park-tour'
 
@@ -161,6 +162,12 @@ const AgaateAdminAuthedContentLogosRoute =
     path: '/content/logos',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedContentKisaanMallRoute =
+  AgaateAdminAuthedContentKisaanMallRouteImport.update({
+    id: '/content/kisaan-mall',
+    path: '/content/kisaan-mall',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedContentAppLinksRoute =
   AgaateAdminAuthedContentAppLinksRouteImport.update({
     id: '/content/app-links',
@@ -193,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/agaate-admin/': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
+  '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
@@ -216,6 +224,7 @@ export interface FileRoutesByTo {
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
+  '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
@@ -243,6 +252,7 @@ export interface FileRoutesById {
   '/agaate-admin/_authed/': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/_authed/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
   '/agaate-admin/_authed/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
+  '/agaate-admin/_authed/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/_authed/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/_authed/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/_authed/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/'
     | '/agaate-admin/content/agri-park-tour'
     | '/agaate-admin/content/app-links'
+    | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/settings'
     | '/agaate-admin/content/agri-park-tour'
     | '/agaate-admin/content/app-links'
+    | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
@@ -319,6 +331,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed/'
     | '/agaate-admin/_authed/content/agri-park-tour'
     | '/agaate-admin/_authed/content/app-links'
+    | '/agaate-admin/_authed/content/kisaan-mall'
     | '/agaate-admin/_authed/content/logos'
     | '/agaate-admin/_authed/content/stats'
     | '/agaate-admin/_authed/content/stories'
@@ -487,6 +500,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentLogosRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/content/kisaan-mall': {
+      id: '/agaate-admin/_authed/content/kisaan-mall'
+      path: '/content/kisaan-mall'
+      fullPath: '/agaate-admin/content/kisaan-mall'
+      preLoaderRoute: typeof AgaateAdminAuthedContentKisaanMallRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/app-links': {
       id: '/agaate-admin/_authed/content/app-links'
       path: '/content/app-links'
@@ -510,6 +530,7 @@ interface AgaateAdminAuthedRouteRouteChildren {
   AgaateAdminAuthedIndexRoute: typeof AgaateAdminAuthedIndexRoute
   AgaateAdminAuthedContentAgriParkTourRoute: typeof AgaateAdminAuthedContentAgriParkTourRoute
   AgaateAdminAuthedContentAppLinksRoute: typeof AgaateAdminAuthedContentAppLinksRoute
+  AgaateAdminAuthedContentKisaanMallRoute: typeof AgaateAdminAuthedContentKisaanMallRoute
   AgaateAdminAuthedContentLogosRoute: typeof AgaateAdminAuthedContentLogosRoute
   AgaateAdminAuthedContentStatsRoute: typeof AgaateAdminAuthedContentStatsRoute
   AgaateAdminAuthedContentStoriesRoute: typeof AgaateAdminAuthedContentStoriesRoute
@@ -526,6 +547,8 @@ const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
       AgaateAdminAuthedContentAgriParkTourRoute,
     AgaateAdminAuthedContentAppLinksRoute:
       AgaateAdminAuthedContentAppLinksRoute,
+    AgaateAdminAuthedContentKisaanMallRoute:
+      AgaateAdminAuthedContentKisaanMallRoute,
     AgaateAdminAuthedContentLogosRoute: AgaateAdminAuthedContentLogosRoute,
     AgaateAdminAuthedContentStatsRoute: AgaateAdminAuthedContentStatsRoute,
     AgaateAdminAuthedContentStoriesRoute: AgaateAdminAuthedContentStoriesRoute,

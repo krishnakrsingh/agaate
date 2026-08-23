@@ -159,7 +159,7 @@ export default function PincodeDeliveryChecker() {
               </span>
               <span className="flex items-center gap-1">
                 <ShieldCheck className="h-3 w-3 text-[#a3e635]" />
-                {isHindi ? "100% असली" : "QR Authentic"}
+                {isHindi ? "100% असली" : "100% Genuine"}
               </span>
               <span className="flex items-center gap-1">
                 <CurrencyInr className="h-3 w-3 text-[#a3e635]" />
