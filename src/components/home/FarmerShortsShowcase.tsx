@@ -21,7 +21,7 @@ import {
 import type { HomeCmsStory } from "@/lib/cms-types";
 import { RotatingTestimonialCard } from "./RotatingTestimonialCard";
 import { EmbedVideoPlayer } from "@/components/ui/EmbedVideoPlayer";
-import { parseVideoSource } from "@/lib/video-source";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export default function FarmerShortsShowcase({
   storiesEn,
@@ -31,6 +31,8 @@ export default function FarmerShortsShowcase({
   storiesHi?: HomeCmsStory[];
 }) {
   const { i18n } = useTranslation();
+  const { whatsappUrl } = useSiteContact();
+  const farmerStoryUrl = whatsappUrl("farmerStory");
   const isHindi = i18n.language?.startsWith("hi");
   const enData = storiesEn ?? SHORTS_DATA_EN;
   const hiData = storiesHi ?? SHORTS_DATA_HI;
@@ -135,7 +137,7 @@ export default function FarmerShortsShowcase({
           </div>
 
           <SlideUpPillButton
-            href="https://wa.me/918350085005?text=Namaste%20Agaate%20Team%2C%20I%20want%20to%20share%20my%20farm%20story."
+            href={farmerStoryUrl}
             target="_blank"
             rel="noopener noreferrer"
             variant="dark"
@@ -326,9 +328,7 @@ export default function FarmerShortsShowcase({
                   {/* Connect with Agronomist Action */}
                   <div className="pt-0.5">
                     <SlideUpPillButton
-                      href={`https://wa.me/918350085005?text=Hello%20Agaate%20Team%2C%20I%20saw%20${encodeURIComponent(
-                        activeModalShort.name,
-                      )}%27s%20story%20on%20${encodeURIComponent(activeModalShort.crop)}%20and%20want%20guidance.`}
+                      href={whatsappUrl("farmerStoryModal", { name: activeModalShort.name })}
                       target="_blank"
                       rel="noopener noreferrer"
                       variant="lime"

@@ -1,4 +1,4 @@
-import React from "react";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -72,6 +72,7 @@ const SUPPLY_CHAIN_STEPS_HI = [
 
 export default function MallChapter() {
   const { i18n } = useTranslation();
+  const { telAltHref } = useSiteContact();
   const isHindi = i18n.language?.startsWith("hi");
   const SUPPLY_CHAIN_STEPS = isHindi ? SUPPLY_CHAIN_STEPS_HI : SUPPLY_CHAIN_STEPS_EN;
   const sectionRef = useHomeChapterReveal("fade-up");
@@ -276,7 +277,7 @@ export default function MallChapter() {
               iconPosition="left"
             />
             <SlideUpPillButton
-              href="tel:9487263498"
+              href={telAltHref}
               variant="hero-secondary"
               size="md"
               label={isHindi ? "कृषि डॉक्टर को कॉल करें" : "Call Agronomist"}

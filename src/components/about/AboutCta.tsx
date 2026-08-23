@@ -8,12 +8,10 @@ import {
 } from "@phosphor-icons/react";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { Reveal } from "@/components/common/motion";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import {
   brochureHref,
   complianceHighlights,
-  PHONE_DISPLAY,
-  TEL_ABOUT,
-  WHATSAPP_ABOUT_URL,
 } from "./data";
 
 const fieldIcons = {
@@ -23,6 +21,7 @@ const fieldIcons = {
 } as const;
 
 export default function AboutCta() {
+  const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
   return (
     <section
       id="about-cta"
@@ -56,7 +55,7 @@ export default function AboutCta() {
 
                 <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3 max-w-xl">
                   <SlideUpPillButton
-                    href={WHATSAPP_ABOUT_URL}
+                    href={whatsappUrl("about")}
                     target="_blank"
                     rel="noopener noreferrer"
                     variant="dark"
@@ -66,10 +65,10 @@ export default function AboutCta() {
                     iconPosition="right"
                   />
                   <SlideUpPillButton
-                    href={TEL_ABOUT}
+                    href={telPrimaryHref}
                     variant="outline"
                     size="md"
-                    label={`Call ${PHONE_DISPLAY}`}
+                    label={`Call ${contact.primaryPhoneDisplay}`}
                     icon={<Phone className="h-4 w-4" />}
                     iconPosition="right"
                   />

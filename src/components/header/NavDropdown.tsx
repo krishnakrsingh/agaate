@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, WhatsappLogo } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath } from "@/lib/i18n";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import type { NavSubLink } from "./header-data";
-import { WHATSAPP_AGRONOMIST_URL } from "./header-data";
 
 interface NavDropdownProps {
   subLinks: NavSubLink[];
@@ -14,6 +14,8 @@ interface NavDropdownProps {
 
 export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps) {
   const { t } = useTranslation("common");
+  const { whatsappUrl } = useSiteContact();
+  const agronomistUrl = whatsappUrl("agronomist");
 
   return (
     <AnimatePresence>
@@ -141,7 +143,7 @@ export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps)
                   Need custom farm setup or advisory?
                 </span>
                 <a
-                  href={WHATSAPP_AGRONOMIST_URL}
+                  href={agronomistUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group/agrolink mt-0.5 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 transition-colors hover:text-emerald-800"

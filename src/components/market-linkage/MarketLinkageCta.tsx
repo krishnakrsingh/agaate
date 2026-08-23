@@ -1,7 +1,9 @@
 import { ArrowRight, PhoneCall } from "@phosphor-icons/react";
 import { MagneticButton } from "@/components/common/motion";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export function MarketLinkageCta({ onOpenModal }: { onOpenModal: () => void }) {
+  const { contact, telPrimaryHref } = useSiteContact();
   return (
     <section id="buyback-cta" className="scroll-mt-28">
       <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-forest-deep via-forest to-forest-deep p-10 text-center text-cream shadow-2xl md:p-16">
@@ -24,10 +26,10 @@ export function MarketLinkageCta({ onOpenModal }: { onOpenModal: () => void }) {
             </MagneticButton>
 
             <a
-              href="tel:8350085005"
+              href={telPrimaryHref}
               className="inline-flex items-center gap-2 rounded-full border border-cream/30 bg-cream/10 px-8 py-4 text-sm font-bold text-cream transition-colors hover:bg-cream/20"
             >
-              <PhoneCall className="h-4 w-4" /> Call Buyback Desk: 8350085005
+              <PhoneCall className="h-4 w-4" /> Call Buyback Desk: {contact.primaryPhone}
             </a>
           </div>
         </div>

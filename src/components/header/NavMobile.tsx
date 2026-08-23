@@ -5,12 +5,8 @@ import { ArrowRight, CaretDown, WhatsappLogo, X } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
 import { LanguageSwitcher } from "../common/LanguageSwitcher";
-import {
-  NAV_STRUCTURE,
-  NAV_SUBTITLES,
-  WHATSAPP_AGRONOMIST_URL,
-  WHATSAPP_CONSULTATION_URL,
-} from "./header-data";
+import { useSiteContact, useConsultationWhatsAppUrl } from "@/contexts/SiteContactContext";
+import { NAV_SUBTITLES } from "./header-data";
 
 interface NavMobileProps {
   isOpen: boolean;
@@ -20,6 +16,9 @@ interface NavMobileProps {
 
 export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
   const { t } = useTranslation("common");
+  const { navStructure, whatsappUrl } = useSiteContact();
+  const consultationUrl = useConsultationWhatsAppUrl();
+  const agronomistUrl = whatsappUrl("agronomist");
   const location = useLocation();
   const strippedPath = stripLocalePrefix(location.pathname);
   const isHome = strippedPath === "/";
@@ -90,7 +89,7 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                 Main Navigation
               </span>
 
-              {NAV_STRUCTURE.map((link) => {
+              {navStructure.map((link) => {
                 const IconComp = link.icon;
                 const isServices = link.key === "services";
                 const subLabel = NAV_SUBTITLES[link.key] || "";
@@ -250,7 +249,7 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
                   </span>
                 </div>
                 <a
-                  href={WHATSAPP_AGRONOMIST_URL}
+                  href={agronomistUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 transition-colors hover:text-emerald-800"
@@ -261,7 +260,7 @@ export function NavMobile({ isOpen, onClose, currentLang }: NavMobileProps) {
               </div>
 
               <a
-                href={WHATSAPP_CONSULTATION_URL}
+                href={consultationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-[13px] bg-[#0d2a21] px-5 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-[#14332b] active:scale-[0.98]"

@@ -1,8 +1,9 @@
 import { Envelope, ChatCircleText, Phone, Clock } from "@phosphor-icons/react";
-import { EMAIL, MAILTO_URL, PRIMARY_PHONE, TEL_PRIMARY, WHATSAPP_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { track } from "@/lib/analytics";
 
 export default function QuickContactBar() {
+  const { contact, telPrimaryHref, whatsappUrl, mailtoInquiryUrl } = useSiteContact();
   return (
     <section aria-label="Quick contact options" className="border-b border-[#143d31]/10 bg-white/70 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
@@ -22,23 +23,23 @@ export default function QuickContactBar() {
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm">
           <a
-            href={`tel:${TEL_PRIMARY}`}
+            href={telPrimaryHref}
             onClick={() => track("phone_clicked", { source: "quickbar", line: "primary" })}
             className="inline-flex items-center gap-1.5 rounded-full border border-[#143d31]/15 bg-white px-3.5 py-1.5 font-medium text-[#143d31] shadow-2xs transition-colors hover:border-[#143d31] hover:bg-[#143d31]/5"
           >
             <Phone className="h-3.5 w-3.5 text-[#5d7d37]" weight="bold" />
-            <span>{PRIMARY_PHONE}</span>
+            <span>{contact.primaryPhoneDisplay}</span>
           </a>
           <a
-            href={MAILTO_URL}
+            href={mailtoInquiryUrl}
             onClick={() => track("email_clicked", { source: "quickbar" })}
             className="inline-flex items-center gap-1.5 rounded-full border border-[#143d31]/15 bg-white px-3.5 py-1.5 font-medium text-[#143d31] shadow-2xs transition-colors hover:border-[#143d31] hover:bg-[#143d31]/5"
           >
             <Envelope className="h-3.5 w-3.5 text-[#5d7d37]" weight="bold" />
-            <span>{EMAIL}</span>
+            <span>{contact.primaryEmail}</span>
           </a>
           <a
-            href={WHATSAPP_URL}
+            href={whatsappUrl("contact")}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track("whatsapp_clicked", { source: "quickbar" })}

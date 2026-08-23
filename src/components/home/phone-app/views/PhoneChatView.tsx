@@ -2,7 +2,8 @@ import { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PaperPlaneRight } from "@phosphor-icons/react";
 import type { Message } from "../phone-app-data";
-import { FREE_CHAT_LIMIT, SUGGESTED_PROMPTS, WHATSAPP_AGRONOMIST_URL } from "../phone-app-data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
+import { FREE_CHAT_LIMIT, SUGGESTED_PROMPTS } from "../phone-app-data";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -29,6 +30,8 @@ export function PhoneChatView({
   chatLocked,
   onSendMessage,
 }: PhoneChatViewProps) {
+  const { whatsappUrl } = useSiteContact();
+  const appContinueUrl = whatsappUrl("appContinue");
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const farmerChatCount = messages.filter((m) => m.sender === "farmer").length;
   const chatsLeft = Math.max(0, FREE_CHAT_LIMIT - farmerChatCount);
@@ -108,7 +111,7 @@ export function PhoneChatView({
                   <div className="mt-2 flex items-center justify-between border-t border-[#143d31]/6 pt-1.5 text-[9px] text-[#4f624f]">
                     <span className="font-mono text-[#143d31]/40">{msg.time}</span>
                     <a
-                      href={WHATSAPP_AGRONOMIST_URL}
+                      href={appContinueUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 font-bold text-[#128C7E] hover:underline"
@@ -162,7 +165,7 @@ export function PhoneChatView({
               Photo diagnosis, spray dose, and follow-up — replies within minutes.
             </p>
             <a
-              href={WHATSAPP_AGRONOMIST_URL}
+              href={appContinueUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2 text-[11.5px] font-bold text-white shadow-xs transition-transform hover:bg-[#1ebe57] active:scale-[0.98]"

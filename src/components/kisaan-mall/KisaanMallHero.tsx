@@ -4,11 +4,13 @@ import { useTranslation } from "react-i18next";
 import { Reveal, CountUp } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import KisaanMallShowcase from "@/components/home/KisaanMallShowcase";
-import { MALL_PHONE, TEL_MALL, WHATSAPP_MALL_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { track } from "@/lib/analytics";
 
 export default function KisaanMallHero() {
   const { i18n } = useTranslation();
+  const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
+  const mallWhatsAppUrl = whatsappUrl("mall");
   const isHindi = i18n.language?.startsWith("hi");
   const [notifyInput, setNotifyInput] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -92,7 +94,7 @@ export default function KisaanMallHero() {
             {/* Direct Connect Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <SlideUpPillButton
-                href={WHATSAPP_MALL_URL}
+                href={mallWhatsAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track("whatsapp_clicked", { source: "kisaan_mall_hero" })}
@@ -103,11 +105,11 @@ export default function KisaanMallHero() {
                 iconPosition="left"
               />
               <SlideUpPillButton
-                href={`tel:${TEL_MALL}`}
+                href={telPrimaryHref}
                 onClick={() => track("phone_clicked", { source: "kisaan_mall_hero" })}
                 variant="outline"
                 size="md"
-                label={`Call ${MALL_PHONE}`}
+                label={`Call ${contact.primaryPhoneDisplay}`}
                 icon={<Phone className="h-4 w-4" weight="fill" />}
                 iconPosition="left"
               />

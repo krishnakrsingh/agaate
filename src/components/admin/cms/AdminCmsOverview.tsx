@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BarChart3, Image, Video, Users, ArrowRight, Database, Smartphone, Store, Briefcase } from "lucide-react";
+import { BarChart3, Image, Video, Users, ArrowRight, Database, Smartphone, Store, Briefcase, MessageCircle } from "lucide-react";
 import type { CmsOverview } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 
@@ -78,6 +78,25 @@ export function AdminCmsOverview({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Site contact & social</p>
+              <p className="mt-2 text-sm text-foreground">Phones, WhatsApp, emails, facilities</p>
+              <p className="mt-1 text-xs text-muted-foreground">Header, footer, contact page, and CTAs</p>
+            </div>
+            <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
+              <MessageCircle className="h-5 w-5" />
+            </div>
+          </div>
+          <Button asChild variant="outline" size="sm" className="mt-4 w-full sm:w-auto">
+            <Link to="/agaate-admin/content/site-contact">
+              Manage contact
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
+
         <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>

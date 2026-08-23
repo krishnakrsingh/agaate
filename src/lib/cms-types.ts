@@ -1,4 +1,6 @@
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
+import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
+import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 
 export const CMS_STATUSES = ["draft", "published", "archived"] as const;
 export type CmsStatus = (typeof CMS_STATUSES)[number];
@@ -12,6 +14,11 @@ export const CMS_ICON_KEYS = [
   "drop",
   "cap",
   "users",
+  "stack",
+  "lightning",
+  "storefront",
+  "compass",
+  "chat",
 ] as const;
 export type CmsIconKey = (typeof CMS_ICON_KEYS)[number];
 
@@ -257,11 +264,239 @@ export type CmsCareerJobRow = CmsCareerJobPayload & {
   hasUnpublishedChanges: boolean;
 };
 
+export type SiteSocialLinks = {
+  facebook: string;
+  youtube: string;
+  instagram: string;
+  linkedin: string;
+};
+
+export type SiteWhatsAppMessages = {
+  consultation: string;
+  agronomist: string;
+  bigFarmSetup: string;
+  carbonCredits: string;
+  contact: string;
+  about: string;
+  mall: string;
+  closingAdvisoryEn: string;
+  closingAdvisoryHi: string;
+  farmerStory: string;
+  farmerStoryModal: string;
+  appContinue: string;
+  community: string;
+  marketAccess: string;
+};
+
+export type SiteContactTrustStat = {
+  labelEn: string;
+  labelHi: string;
+  valueEn: string;
+  valueHi: string;
+  hintEn: string;
+  hintHi: string;
+};
+
+export type SiteFacilityConfig = {
+  id: string;
+  nameEn: string;
+  nameHi: string;
+  taglineEn: string;
+  taglineHi: string;
+  roleEn: string;
+  roleHi: string;
+  addressEn: string;
+  addressHi: string;
+  districtEn: string;
+  districtHi: string;
+  plusCode: string;
+  phone: string;
+  telRaw: string;
+  email: string;
+  hoursEn: string;
+  hoursHi: string;
+  teamEn: string;
+  teamHi: string;
+  highlightsEn: string[];
+  highlightsHi: string[];
+  mapsUrl: string;
+  mapEmbedQuery: string;
+  lat: number;
+  lng: number;
+  latLabel: string;
+  lngLabel: string;
+  iconKey: CmsIconKey;
+  imageUrl: string;
+};
+
+export type SiteContactConfig = {
+  primaryPhone: string;
+  primaryPhoneDisplay: string;
+  primaryTel: string;
+  altPhone: string;
+  altPhoneDisplay: string;
+  altTel: string;
+  primaryEmail: string;
+  careersEmail: string;
+  whatsappNumber: string;
+  whatsappMessages: SiteWhatsAppMessages;
+  social: SiteSocialLinks;
+  footerLocationEn: string;
+  footerLocationHi: string;
+  registeredOfficeEn: string;
+  registeredOfficeHi: string;
+  cin: string;
+  contactTrustStats: SiteContactTrustStat[];
+  facilities: SiteFacilityConfig[];
+};
+
+export type ContactFaqItem = {
+  qEn: string;
+  qHi: string;
+  aEn: string;
+  aHi: string;
+};
+
+export type ContactConsultationTopic = {
+  id: string;
+  labelEn: string;
+  labelHi: string;
+  descEn: string;
+  descHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type ContactPageContent = {
+  faqBadgeEn: string;
+  faqBadgeHi: string;
+  faqTitleEn: string;
+  faqTitleHi: string;
+  faqs: ContactFaqItem[];
+  consultationTopics: ContactConsultationTopic[];
+  acreageOptionsEn: string[];
+  acreageOptionsHi: string[];
+  cropOptionsEn: string[];
+  cropOptionsHi: string[];
+  channelOptionsEn: string[];
+  channelOptionsHi: string[];
+};
+
+export type AboutHeroStat = {
+  valueEn: string;
+  valueHi: string;
+  labelEn: string;
+  labelHi: string;
+};
+
+export type AboutHeroContent = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  titleAccentEn: string;
+  titleAccentHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  heroImageUrl: string;
+  heroImageAltEn: string;
+  heroImageAltHi: string;
+  stats: AboutHeroStat[];
+};
+
+export type AboutWhoWeAreContent = {
+  eyebrowEn: string;
+  eyebrowHi: string;
+  headlineEn: string;
+  headlineHi: string;
+  bodyEn: string;
+  bodyHi: string;
+  pullQuoteEn: string;
+  pullQuoteHi: string;
+  imageUrl: string;
+  imageAltEn: string;
+  imageAltHi: string;
+};
+
+export type AboutMissionContent = {
+  eyebrowEn: string;
+  eyebrowHi: string;
+  titleEn: string;
+  titleHi: string;
+  bodyEn: string;
+  bodyHi: string;
+  supportEn: string;
+  supportHi: string;
+};
+
+export type AboutGuaranteeCard = {
+  titleEn: string;
+  titleHi: string;
+  descEn: string;
+  descHi: string;
+  badgeEn: string;
+  badgeHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type AboutImpactMetric = {
+  numValue: number;
+  suffixEn: string;
+  suffixHi: string;
+  labelEn: string;
+  labelHi: string;
+  iconKey: CmsIconKey;
+};
+
+export type AboutMilestone = {
+  year: string;
+  titleEn: string;
+  titleHi: string;
+  descEn: string;
+  descHi: string;
+  highlightsEn: string[];
+  highlightsHi: string[];
+};
+
+export type AboutLocation = {
+  tagEn: string;
+  tagHi: string;
+  nameEn: string;
+  nameHi: string;
+  addressEn: string;
+  addressHi: string;
+  subEn: string;
+  subHi: string;
+};
+
+export type AboutComplianceItem = {
+  labelEn: string;
+  labelHi: string;
+  valueEn: string;
+  valueHi: string;
+};
+
+export type AboutPageContent = {
+  brochureHref: string;
+  hero: AboutHeroContent;
+  whoWeAre: AboutWhoWeAreContent;
+  mission: AboutMissionContent;
+  guarantees: AboutGuaranteeCard[];
+  impactMetrics: AboutImpactMetric[];
+  milestones: AboutMilestone[];
+  locations: AboutLocation[];
+  complianceHighlights: AboutComplianceItem[];
+  complianceFooterEn: string;
+  complianceFooterHi: string;
+};
+
 export type CmsSiteConfig = {
   appLinks: HomeCmsAppLinks;
   agriParkTour: HomeCmsAgriParkTour;
   kisaanMallLanding: KisaanMallLanding;
   careersPage: CareersPageContent;
+  siteContact: SiteContactConfig;
+  aboutPage: AboutPageContent;
+  contactPage: ContactPageContent;
 };
 
 export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
@@ -269,6 +504,9 @@ export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
   careersPage: CAREERS_PAGE_FALLBACK,
+  siteContact: SITE_CONTACT_FALLBACK,
+  aboutPage: ABOUT_PAGE_FALLBACK,
+  contactPage: CONTACT_PAGE_FALLBACK,
 };
 
 export type HomeCmsData = {

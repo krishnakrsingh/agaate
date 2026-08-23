@@ -1,7 +1,7 @@
 import { ArrowRight, Briefcase, GraduationCap, MapPin, Eye } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import type { CareerJob } from "@/lib/cms-types";
-import { FILTERS, type Filter } from "./filters";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 interface OpenRolesSectionProps {
   jobs: CareerJob[];
@@ -22,6 +22,7 @@ export function OpenRolesSection({
   onSelectRole,
   onApplyDirect,
 }: OpenRolesSectionProps) {
+  const { contact } = useSiteContact();
   const visibleJobs = jobs.filter((job) => filter === "All" || job.departmentCategory === filter);
 
   const getCount = (key: Filter) => {
@@ -75,7 +76,7 @@ export function OpenRolesSection({
 
       {visibleJobs.length === 0 ? (
         <p className="font-sans text-sm text-[#4f624f] py-8 text-center">
-          No open positions in this category right now. Check back soon or email careers@agaate.in.
+          No open positions in this category right now. Check back soon or email {contact.careersEmail}.
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">

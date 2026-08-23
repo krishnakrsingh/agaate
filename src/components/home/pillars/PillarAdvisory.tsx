@@ -4,10 +4,12 @@ import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import { useHomeChapterReveal } from "../useHomeChapterReveal";
 import { CountUp, TiltCard, EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
-import { WHATSAPP_AGRONOMIST_URL } from "@/components/header/header-data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export default function PillarAdvisory() {
   const sectionRef = useHomeChapterReveal("fade-up");
+  const { whatsappUrl } = useSiteContact();
+  const agronomistUrl = whatsappUrl("agronomist");
 
   return (
     <section
@@ -92,7 +94,7 @@ export default function PillarAdvisory() {
             {/* CTA Button */}
             <div>
               <SlideUpPillButton
-                href={WHATSAPP_AGRONOMIST_URL}
+                href={agronomistUrl}
                 variant="dark"
                 size="md"
                 label="Talk to Agronomist"

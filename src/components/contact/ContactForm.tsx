@@ -4,6 +4,7 @@ import { useParams } from "@tanstack/react-router";
 import { getLocalizedPath } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 import { submitLead } from "@/functions/submit-lead";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import {
   ACREAGE_OPTIONS,
   CHANNEL_OPTIONS,
@@ -11,9 +12,6 @@ import {
   CROP_OPTIONS,
   FORM_STORAGE_KEY,
   MESSAGE_MAX,
-  PRIMARY_PHONE,
-  TEL_PRIMARY,
-  WHATSAPP_URL,
 } from "./data";
 import { TopicSelector } from "./TopicSelector";
 import {
@@ -88,6 +86,7 @@ export function ContactForm({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const { locale } = useParams({ strict: false }) as { locale?: string };
+  const { whatsappUrlWithText } = useSiteContact();
 
   const [topic, setTopic] = useState("nursery");
   const [form, setForm] = useState<FormState>(defaults);
@@ -159,11 +158,9 @@ export function ContactForm({
 
   const whatsappHref = useMemo(() => {
     const topicLabel = selectedTopicObj?.label || "General";
-    const text = encodeURIComponent(
-      `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`,
-    );
-    return `https://wa.me/918350085005?text=${text}`;
-  }, [ticketId, selectedTopicObj, form]);
+    const message = `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`;
+    return whatsappUrlWithText(message);
+  }, [ticketId, selectedTopicObj, form, whatsappUrlWithText]);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     if (!startedTracked.current) {

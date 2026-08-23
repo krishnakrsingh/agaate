@@ -3,7 +3,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { EASE } from "@/components/common/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { CONSULTATION_TOPICS, WHATSAPP_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
+import { CONSULTATION_TOPICS } from "./data";
 import { track } from "@/lib/analytics";
 
 export function FormSuccess({
@@ -19,6 +20,8 @@ export function FormSuccess({
   onReset: () => void;
   whatsappHref: string;
 }) {
+  const { whatsappUrl } = useSiteContact();
+  const fallbackWhatsApp = whatsappUrl("contact");
   const [copied, setCopied] = useState(false);
   const topic = CONSULTATION_TOPICS.find((t) => t.id === topicId)?.label;
   const reducedMotion = usePrefersReducedMotion();
@@ -99,7 +102,7 @@ export function FormSuccess({
 
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <a
-              href={whatsappHref || WHATSAPP_URL}
+              href={whatsappHref || fallbackWhatsApp}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track("whatsapp_clicked", { source: "form_success" })}

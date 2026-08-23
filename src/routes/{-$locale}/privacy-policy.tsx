@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import {
   CaretRight,
   Check,
@@ -94,6 +95,19 @@ const PRIVACY_SECTIONS = [
 
 function PrivacyPolicyPage() {
   const [activeSection, setActiveSection] = useState("overview");
+  const { contact } = useSiteContact();
+  const privacySections = useMemo(
+    () =>
+      PRIVACY_SECTIONS.map((section) =>
+        section.id === "contact"
+          ? {
+              ...section,
+              content: `For privacy inquiries, data access requests, or grievance redressal, please contact our Data Governance Desk:\n\nPrivacy Officer: Anzix Farm Technologies Private Limited\nEmail: ${contact.primaryEmail}\nRegistered Office: ${contact.registeredOfficeEn}\n${contact.cin}`,
+            }
+          : section,
+      ),
+    [contact],
+  );
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -179,7 +193,7 @@ function PrivacyPolicyPage() {
                 <span className="block font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-moss mb-4">
                   PRIVACY TOC
                 </span>
-                {PRIVACY_SECTIONS.map((sec) => (
+                {privacySections.map((sec) => (
                   <button
                     key={sec.id}
                     onClick={() => scrollToSection(sec.id)}
@@ -197,7 +211,7 @@ function PrivacyPolicyPage() {
 
             {/* Right: Policy Document Body */}
             <div className="lg:col-span-8 space-y-12">
-              {PRIVACY_SECTIONS.map((sec) => (
+              {privacySections.map((sec) => (
                 <div
                   key={sec.id}
                   id={sec.id}

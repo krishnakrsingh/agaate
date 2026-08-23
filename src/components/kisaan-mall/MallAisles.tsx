@@ -2,11 +2,13 @@ import React from "react";
 import { Check, ArrowUpRight } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { Reveal } from "@/components/common/motion";
-import { MALL_CATEGORIES, WHATSAPP_MALL_URL } from "./data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
+import { MALL_CATEGORIES } from "./data";
 import { track } from "@/lib/analytics";
 
 export default function MallAisles() {
   const { i18n } = useTranslation();
+  const { whatsappUrlWithText } = useSiteContact();
   const isHindi = i18n.language?.startsWith("hi");
 
   return (
@@ -91,7 +93,7 @@ export default function MallAisles() {
                   {/* Action Link */}
                   <div className="mt-6 border-t border-[#143d31]/10 pt-4">
                     <a
-                      href={`${WHATSAPP_MALL_URL}&text=${encodeURIComponent(`Hi Agaate, I am looking for details and pricing for ${title}.`)}`}
+                      href={whatsappUrlWithText(`Hi Agaate, I am looking for details and pricing for ${title}.`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => track("kisaan_mall_category_clicked", { category: cat.id })}

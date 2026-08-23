@@ -32,6 +32,12 @@ import {
   saveKisaanMallLanding,
   fetchCareersPage,
   saveCareersPage,
+  fetchSiteContact,
+  saveSiteContact,
+  fetchAboutPage,
+  saveAboutPage,
+  fetchContactPage,
+  saveContactPage,
 } from "@/server/cms-queries";
 import {
   countNewsletterSignups,
@@ -62,6 +68,9 @@ import type {
   HomeCmsAgriParkTour,
   KisaanMallLanding,
   CareersPageContent,
+  SiteContactConfig,
+  AboutPageContent,
+  ContactPageContent,
 } from "@/lib/cms-types";
 import {
   mockLogos,
@@ -757,6 +766,69 @@ export async function handleSaveCareersPage(content: CareersPageContent) {
     assertSameOrigin();
     await requireEditor();
     const saved = await saveCareersPage(content);
+    return { ok: true as const, content: saved };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetSiteContactAdmin() {
+  try {
+    await requireSessionUser();
+    const contact = await fetchSiteContact();
+    return { ok: true as const, contact, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveSiteContactAdmin(contact: SiteContactConfig) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveSiteContact(contact);
+    return { ok: true as const, contact: saved };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetAboutPageAdmin() {
+  try {
+    await requireSessionUser();
+    const content = await fetchAboutPage();
+    return { ok: true as const, content, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveAboutPageAdmin(content: AboutPageContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveAboutPage(content);
+    return { ok: true as const, content: saved };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetContactPageAdmin() {
+  try {
+    await requireSessionUser();
+    const content = await fetchContactPage();
+    return { ok: true as const, content, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveContactPageAdmin(content: ContactPageContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveContactPage(content);
     return { ok: true as const, content: saved };
   } catch (err) {
     return failAuth(err);

@@ -1,7 +1,8 @@
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
 import { setLocale, SUPPORTED_LNGS } from "@/lib/i18n";
+import { getSiteContact } from "@/functions/public-cms";
+import { SiteContactProvider } from "@/contexts/SiteContactContext";
 
-// Non-English supported locales (English is the default at root `/`)
 const LOCALE_SLUGS = SUPPORTED_LNGS.filter((l) => l !== "en");
 
 export const Route = createFileRoute("/{-$locale}")({
@@ -18,5 +19,18 @@ export const Route = createFileRoute("/{-$locale}")({
     }
     return { locale: resolved };
   },
-  component: () => <Outlet />,
+  loader: async () => {
+    const res = await getSiteContact();
+    return { siteContact: res.contact };
+  },
+  component: LocaleLayout,
 });
+
+function LocaleLayout() {
+  const { siteContact } = Route.useLoaderData();
+  return (
+    <SiteContactProvider contact={siteContact}>
+      <Outlet />
+    </SiteContactProvider>
+  );
+}

@@ -4,7 +4,7 @@ import { ArrowRight, ArrowSquareOut, CheckCircle, MapPin } from "@phosphor-icons
 import { CountUp, TiltCard } from "@/components/common/motion";
 import { useTranslation } from "react-i18next";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
-import { WHATSAPP_AGRONOMIST_URL } from "@/components/header/header-data";
+import { useSiteContact } from "@/contexts/SiteContactContext";
 import { AgriParkVisitModal } from "@/components/agri-park/AgriParkVisitModal";
 import { LocationsModal } from "@/components/common/LocationsModal";
 
@@ -46,7 +46,7 @@ const PILLARS_DATA_EN: PillarData[] = [
       "Direct access to senior agronomists",
     ],
     ctaText: "Talk to Agronomist",
-    ctaHref: WHATSAPP_AGRONOMIST_URL,
+    ctaHref: "#agronomist",
     imageSrc: "/farm.png",
     imageAlt: "On-Ground Expert Agronomist Support",
   },
@@ -93,7 +93,7 @@ const PILLARS_DATA_HI: PillarData[] = [
       "वरिष्ठ कृषि डॉक्टरों से सीधी बातचीत",
     ],
     ctaText: "कृषि डॉक्टर से बात करें",
-    ctaHref: WHATSAPP_AGRONOMIST_URL,
+    ctaHref: "#agronomist",
     imageSrc: "/farm.png",
     imageAlt: "खेत पर कृषि वैज्ञानिक सहायता",
   },
@@ -123,6 +123,8 @@ const PILLARS_DATA_HI: PillarData[] = [
 
 export default function PillarsHorizontalParallax() {
   const { i18n } = useTranslation();
+  const { whatsappUrl } = useSiteContact();
+  const agronomistUrl = whatsappUrl("agronomist");
   const currentLang = i18n.language || "en";
   const isHindi = currentLang.startsWith("hi");
   const PILLARS_DATA = isHindi ? PILLARS_DATA_HI : PILLARS_DATA_EN;
@@ -246,7 +248,7 @@ export default function PillarsHorizontalParallax() {
                       </>
                     ) : (
                       <SlideUpPillButton
-                        href={pillar.ctaHref}
+                        href={pillar.ctaHref === "#agronomist" ? agronomistUrl : pillar.ctaHref}
                         variant="dark"
                         size="md"
                         label={pillar.ctaText}

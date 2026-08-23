@@ -33,8 +33,16 @@ import {
   DEFAULT_KISAAN_MALL_LANDING,
   type KisaanMallLanding,
   type CareersPageContent,
+  type SiteContactConfig,
+  type SiteFacilityConfig,
+  type SiteContactTrustStat,
+  type AboutPageContent,
+  type ContactPageContent,
 } from "@/lib/cms-types";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
+import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
+import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
+import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 
 function parseJson<T>(value: unknown, fallback: T): T {
   if (value == null) return fallback;
@@ -249,9 +257,256 @@ function normalizeKisaanMallLanding(raw: Partial<KisaanMallLanding> | null | und
 }
 
 function normalizeIconKey(key: unknown): CmsIconKey {
-  const valid = ["tractor", "plant", "chart", "handshake", "warehouse", "drop", "cap", "users"];
+  const valid = [
+    "tractor", "plant", "chart", "handshake", "warehouse", "drop", "cap", "users",
+    "stack", "lightning", "storefront", "compass", "chat",
+  ];
   const k = String(key ?? "").trim();
   return valid.includes(k) ? (k as CmsIconKey) : "plant";
+}
+
+function normalizeFacility(raw: Partial<SiteFacilityConfig> | null | undefined, fb: SiteFacilityConfig): SiteFacilityConfig {
+  const highlightsEn = Array.isArray(raw?.highlightsEn) ? raw.highlightsEn : fb.highlightsEn;
+  const highlightsHi = Array.isArray(raw?.highlightsHi) ? raw.highlightsHi : fb.highlightsHi;
+  return {
+    id: String(raw?.id ?? fb.id).trim() || fb.id,
+    nameEn: String(raw?.nameEn ?? "").trim() || fb.nameEn,
+    nameHi: String(raw?.nameHi ?? "").trim() || fb.nameHi,
+    taglineEn: String(raw?.taglineEn ?? "").trim() || fb.taglineEn,
+    taglineHi: String(raw?.taglineHi ?? "").trim() || fb.taglineHi,
+    roleEn: String(raw?.roleEn ?? "").trim() || fb.roleEn,
+    roleHi: String(raw?.roleHi ?? "").trim() || fb.roleHi,
+    addressEn: String(raw?.addressEn ?? "").trim() || fb.addressEn,
+    addressHi: String(raw?.addressHi ?? "").trim() || fb.addressHi,
+    districtEn: String(raw?.districtEn ?? "").trim() || fb.districtEn,
+    districtHi: String(raw?.districtHi ?? "").trim() || fb.districtHi,
+    plusCode: String(raw?.plusCode ?? "").trim() || fb.plusCode,
+    phone: String(raw?.phone ?? "").trim() || fb.phone,
+    telRaw: String(raw?.telRaw ?? "").trim() || fb.telRaw,
+    email: String(raw?.email ?? "").trim() || fb.email,
+    hoursEn: String(raw?.hoursEn ?? "").trim() || fb.hoursEn,
+    hoursHi: String(raw?.hoursHi ?? "").trim() || fb.hoursHi,
+    teamEn: String(raw?.teamEn ?? "").trim() || fb.teamEn,
+    teamHi: String(raw?.teamHi ?? "").trim() || fb.teamHi,
+    highlightsEn: highlightsEn.map((h, i) => String(h ?? "").trim() || fb.highlightsEn[i] || ""),
+    highlightsHi: highlightsHi.map((h, i) => String(h ?? "").trim() || fb.highlightsHi[i] || ""),
+    mapsUrl: String(raw?.mapsUrl ?? "").trim() || fb.mapsUrl,
+    mapEmbedQuery: String(raw?.mapEmbedQuery ?? "").trim() || fb.mapEmbedQuery,
+    lat: Number(raw?.lat ?? fb.lat),
+    lng: Number(raw?.lng ?? fb.lng),
+    latLabel: String(raw?.latLabel ?? "").trim() || fb.latLabel,
+    lngLabel: String(raw?.lngLabel ?? "").trim() || fb.lngLabel,
+    iconKey: normalizeIconKey(raw?.iconKey ?? fb.iconKey),
+    imageUrl: String(raw?.imageUrl ?? "").trim() || fb.imageUrl,
+  };
+}
+
+function normalizeTrustStat(
+  raw: Partial<SiteContactTrustStat> | null | undefined,
+  fb: SiteContactTrustStat,
+): SiteContactTrustStat {
+  return {
+    labelEn: String(raw?.labelEn ?? "").trim() || fb.labelEn,
+    labelHi: String(raw?.labelHi ?? "").trim() || fb.labelHi,
+    valueEn: String(raw?.valueEn ?? "").trim() || fb.valueEn,
+    valueHi: String(raw?.valueHi ?? "").trim() || fb.valueHi,
+    hintEn: String(raw?.hintEn ?? "").trim() || fb.hintEn,
+    hintHi: String(raw?.hintHi ?? "").trim() || fb.hintHi,
+  };
+}
+
+function normalizeSiteContact(raw: Partial<SiteContactConfig> | null | undefined): SiteContactConfig {
+  const fb = SITE_CONTACT_FALLBACK;
+  const facilitiesRaw = Array.isArray(raw?.facilities) ? raw.facilities : fb.facilities;
+  const trustRaw = Array.isArray(raw?.contactTrustStats) ? raw.contactTrustStats : fb.contactTrustStats;
+  const messages = raw?.whatsappMessages ?? {};
+  const social = raw?.social ?? {};
+
+  return {
+    primaryPhone: String(raw?.primaryPhone ?? "").trim() || fb.primaryPhone,
+    primaryPhoneDisplay: String(raw?.primaryPhoneDisplay ?? "").trim() || fb.primaryPhoneDisplay,
+    primaryTel: String(raw?.primaryTel ?? "").trim() || fb.primaryTel,
+    altPhone: String(raw?.altPhone ?? "").trim() || fb.altPhone,
+    altPhoneDisplay: String(raw?.altPhoneDisplay ?? "").trim() || fb.altPhoneDisplay,
+    altTel: String(raw?.altTel ?? "").trim() || fb.altTel,
+    primaryEmail: String(raw?.primaryEmail ?? "").trim() || fb.primaryEmail,
+    careersEmail: String(raw?.careersEmail ?? "").trim() || fb.careersEmail,
+    whatsappNumber: String(raw?.whatsappNumber ?? "").trim() || fb.whatsappNumber,
+    whatsappMessages: {
+      consultation: String(messages.consultation ?? "").trim() || fb.whatsappMessages.consultation,
+      agronomist: String(messages.agronomist ?? "").trim() || fb.whatsappMessages.agronomist,
+      bigFarmSetup: String(messages.bigFarmSetup ?? "").trim() || fb.whatsappMessages.bigFarmSetup,
+      carbonCredits: String(messages.carbonCredits ?? "").trim() || fb.whatsappMessages.carbonCredits,
+      contact: String(messages.contact ?? "").trim() || fb.whatsappMessages.contact,
+      about: String(messages.about ?? "").trim() || fb.whatsappMessages.about,
+      mall: String(messages.mall ?? "").trim() || fb.whatsappMessages.mall,
+      closingAdvisoryEn:
+        String(messages.closingAdvisoryEn ?? "").trim() || fb.whatsappMessages.closingAdvisoryEn,
+      closingAdvisoryHi:
+        String(messages.closingAdvisoryHi ?? "").trim() || fb.whatsappMessages.closingAdvisoryHi,
+      farmerStory: String(messages.farmerStory ?? "").trim() || fb.whatsappMessages.farmerStory,
+      farmerStoryModal:
+        String(messages.farmerStoryModal ?? "").trim() || fb.whatsappMessages.farmerStoryModal,
+      appContinue: String(messages.appContinue ?? "").trim() || fb.whatsappMessages.appContinue,
+      community: String(messages.community ?? "").trim() || fb.whatsappMessages.community,
+      marketAccess: String(messages.marketAccess ?? "").trim() || fb.whatsappMessages.marketAccess,
+    },
+    social: {
+      facebook: String(social.facebook ?? "").trim() || fb.social.facebook,
+      youtube: String(social.youtube ?? "").trim() || fb.social.youtube,
+      instagram: String(social.instagram ?? "").trim() || fb.social.instagram,
+      linkedin: String(social.linkedin ?? "").trim() || fb.social.linkedin,
+    },
+    footerLocationEn: String(raw?.footerLocationEn ?? "").trim() || fb.footerLocationEn,
+    footerLocationHi: String(raw?.footerLocationHi ?? "").trim() || fb.footerLocationHi,
+    registeredOfficeEn: String(raw?.registeredOfficeEn ?? "").trim() || fb.registeredOfficeEn,
+    registeredOfficeHi: String(raw?.registeredOfficeHi ?? "").trim() || fb.registeredOfficeHi,
+    cin: String(raw?.cin ?? "").trim() || fb.cin,
+    contactTrustStats: trustRaw.map((s, i) =>
+      normalizeTrustStat(s, fb.contactTrustStats[i] ?? fb.contactTrustStats[0]),
+    ),
+    facilities: facilitiesRaw.map((f, i) =>
+      normalizeFacility(f, fb.facilities[i] ?? fb.facilities[0]),
+    ),
+  };
+}
+
+function normalizeContactPage(raw: Partial<ContactPageContent> | null | undefined): ContactPageContent {
+  const fb = CONTACT_PAGE_FALLBACK;
+  const faqs = Array.isArray(raw?.faqs) ? raw.faqs : fb.faqs;
+  const topics = Array.isArray(raw?.consultationTopics) ? raw.consultationTopics : fb.consultationTopics;
+  return {
+    faqBadgeEn: String(raw?.faqBadgeEn ?? "").trim() || fb.faqBadgeEn,
+    faqBadgeHi: String(raw?.faqBadgeHi ?? "").trim() || fb.faqBadgeHi,
+    faqTitleEn: String(raw?.faqTitleEn ?? "").trim() || fb.faqTitleEn,
+    faqTitleHi: String(raw?.faqTitleHi ?? "").trim() || fb.faqTitleHi,
+    faqs: faqs.map((f, i) => ({
+      qEn: String(f?.qEn ?? "").trim() || fb.faqs[i]?.qEn || "",
+      qHi: String(f?.qHi ?? "").trim() || fb.faqs[i]?.qHi || "",
+      aEn: String(f?.aEn ?? "").trim() || fb.faqs[i]?.aEn || "",
+      aHi: String(f?.aHi ?? "").trim() || fb.faqs[i]?.aHi || "",
+    })),
+    consultationTopics: topics.map((t, i) => ({
+      id: String(t?.id ?? "").trim() || fb.consultationTopics[i]?.id || `topic-${i}`,
+      labelEn: String(t?.labelEn ?? "").trim() || fb.consultationTopics[i]?.labelEn || "",
+      labelHi: String(t?.labelHi ?? "").trim() || fb.consultationTopics[i]?.labelHi || "",
+      descEn: String(t?.descEn ?? "").trim() || fb.consultationTopics[i]?.descEn || "",
+      descHi: String(t?.descHi ?? "").trim() || fb.consultationTopics[i]?.descHi || "",
+      iconKey: normalizeIconKey(t?.iconKey ?? fb.consultationTopics[i]?.iconKey),
+    })),
+    acreageOptionsEn: Array.isArray(raw?.acreageOptionsEn) ? raw.acreageOptionsEn.map(String) : fb.acreageOptionsEn,
+    acreageOptionsHi: Array.isArray(raw?.acreageOptionsHi) ? raw.acreageOptionsHi.map(String) : fb.acreageOptionsHi,
+    cropOptionsEn: Array.isArray(raw?.cropOptionsEn) ? raw.cropOptionsEn.map(String) : fb.cropOptionsEn,
+    cropOptionsHi: Array.isArray(raw?.cropOptionsHi) ? raw.cropOptionsHi.map(String) : fb.cropOptionsHi,
+    channelOptionsEn: Array.isArray(raw?.channelOptionsEn) ? raw.channelOptionsEn.map(String) : fb.channelOptionsEn,
+    channelOptionsHi: Array.isArray(raw?.channelOptionsHi) ? raw.channelOptionsHi.map(String) : fb.channelOptionsHi,
+  };
+}
+
+function normalizeAboutPage(raw: Partial<AboutPageContent> | null | undefined): AboutPageContent {
+  const fb = ABOUT_PAGE_FALLBACK;
+  const hero = raw?.hero ?? fb.hero;
+  const who = raw?.whoWeAre ?? fb.whoWeAre;
+  const mission = raw?.mission ?? fb.mission;
+  const guarantees = Array.isArray(raw?.guarantees) ? raw.guarantees : fb.guarantees;
+  const impactMetrics = Array.isArray(raw?.impactMetrics) ? raw.impactMetrics : fb.impactMetrics;
+  const milestones = Array.isArray(raw?.milestones) ? raw.milestones : fb.milestones;
+  const locations = Array.isArray(raw?.locations) ? raw.locations : fb.locations;
+  const compliance = Array.isArray(raw?.complianceHighlights) ? raw.complianceHighlights : fb.complianceHighlights;
+
+  return {
+    brochureHref: String(raw?.brochureHref ?? "").trim() || fb.brochureHref,
+    hero: {
+      badgeEn: String(hero?.badgeEn ?? "").trim() || fb.hero.badgeEn,
+      badgeHi: String(hero?.badgeHi ?? "").trim() || fb.hero.badgeHi,
+      titleEn: String(hero?.titleEn ?? "").trim() || fb.hero.titleEn,
+      titleHi: String(hero?.titleHi ?? "").trim() || fb.hero.titleHi,
+      titleAccentEn: String(hero?.titleAccentEn ?? "").trim() || fb.hero.titleAccentEn,
+      titleAccentHi: String(hero?.titleAccentHi ?? "").trim() || fb.hero.titleAccentHi,
+      descriptionEn: String(hero?.descriptionEn ?? "").trim() || fb.hero.descriptionEn,
+      descriptionHi: String(hero?.descriptionHi ?? "").trim() || fb.hero.descriptionHi,
+      heroImageUrl: String(hero?.heroImageUrl ?? "").trim() || fb.hero.heroImageUrl,
+      heroImageAltEn: String(hero?.heroImageAltEn ?? "").trim() || fb.hero.heroImageAltEn,
+      heroImageAltHi: String(hero?.heroImageAltHi ?? "").trim() || fb.hero.heroImageAltHi,
+      stats: (Array.isArray(hero?.stats) ? hero.stats : fb.hero.stats).map((s, i) => ({
+        valueEn: String(s?.valueEn ?? "").trim() || fb.hero.stats[i]?.valueEn || "",
+        valueHi: String(s?.valueHi ?? "").trim() || fb.hero.stats[i]?.valueHi || "",
+        labelEn: String(s?.labelEn ?? "").trim() || fb.hero.stats[i]?.labelEn || "",
+        labelHi: String(s?.labelHi ?? "").trim() || fb.hero.stats[i]?.labelHi || "",
+      })),
+    },
+    whoWeAre: {
+      eyebrowEn: String(who?.eyebrowEn ?? "").trim() || fb.whoWeAre.eyebrowEn,
+      eyebrowHi: String(who?.eyebrowHi ?? "").trim() || fb.whoWeAre.eyebrowHi,
+      headlineEn: String(who?.headlineEn ?? "").trim() || fb.whoWeAre.headlineEn,
+      headlineHi: String(who?.headlineHi ?? "").trim() || fb.whoWeAre.headlineHi,
+      bodyEn: String(who?.bodyEn ?? "").trim() || fb.whoWeAre.bodyEn,
+      bodyHi: String(who?.bodyHi ?? "").trim() || fb.whoWeAre.bodyHi,
+      pullQuoteEn: String(who?.pullQuoteEn ?? "").trim() || fb.whoWeAre.pullQuoteEn,
+      pullQuoteHi: String(who?.pullQuoteHi ?? "").trim() || fb.whoWeAre.pullQuoteHi,
+      imageUrl: String(who?.imageUrl ?? "").trim() || fb.whoWeAre.imageUrl,
+      imageAltEn: String(who?.imageAltEn ?? "").trim() || fb.whoWeAre.imageAltEn,
+      imageAltHi: String(who?.imageAltHi ?? "").trim() || fb.whoWeAre.imageAltHi,
+    },
+    mission: {
+      eyebrowEn: String(mission?.eyebrowEn ?? "").trim() || fb.mission.eyebrowEn,
+      eyebrowHi: String(mission?.eyebrowHi ?? "").trim() || fb.mission.eyebrowHi,
+      titleEn: String(mission?.titleEn ?? "").trim() || fb.mission.titleEn,
+      titleHi: String(mission?.titleHi ?? "").trim() || fb.mission.titleHi,
+      bodyEn: String(mission?.bodyEn ?? "").trim() || fb.mission.bodyEn,
+      bodyHi: String(mission?.bodyHi ?? "").trim() || fb.mission.bodyHi,
+      supportEn: String(mission?.supportEn ?? "").trim() || fb.mission.supportEn,
+      supportHi: String(mission?.supportHi ?? "").trim() || fb.mission.supportHi,
+    },
+    guarantees: guarantees.map((g, i) => ({
+      titleEn: String(g?.titleEn ?? "").trim() || fb.guarantees[i]?.titleEn || "",
+      titleHi: String(g?.titleHi ?? "").trim() || fb.guarantees[i]?.titleHi || "",
+      descEn: String(g?.descEn ?? "").trim() || fb.guarantees[i]?.descEn || "",
+      descHi: String(g?.descHi ?? "").trim() || fb.guarantees[i]?.descHi || "",
+      badgeEn: String(g?.badgeEn ?? "").trim() || fb.guarantees[i]?.badgeEn || "",
+      badgeHi: String(g?.badgeHi ?? "").trim() || fb.guarantees[i]?.badgeHi || "",
+      iconKey: normalizeIconKey(g?.iconKey ?? fb.guarantees[i]?.iconKey),
+    })),
+    impactMetrics: impactMetrics.map((m, i) => ({
+      numValue: Number(m?.numValue ?? fb.impactMetrics[i]?.numValue ?? 0),
+      suffixEn: String(m?.suffixEn ?? "").trim() || fb.impactMetrics[i]?.suffixEn || "",
+      suffixHi: String(m?.suffixHi ?? "").trim() || fb.impactMetrics[i]?.suffixHi || "",
+      labelEn: String(m?.labelEn ?? "").trim() || fb.impactMetrics[i]?.labelEn || "",
+      labelHi: String(m?.labelHi ?? "").trim() || fb.impactMetrics[i]?.labelHi || "",
+      iconKey: normalizeIconKey(m?.iconKey ?? fb.impactMetrics[i]?.iconKey),
+    })),
+    milestones: milestones.map((m, i) => ({
+      year: String(m?.year ?? "").trim() || fb.milestones[i]?.year || "",
+      titleEn: String(m?.titleEn ?? "").trim() || fb.milestones[i]?.titleEn || "",
+      titleHi: String(m?.titleHi ?? "").trim() || fb.milestones[i]?.titleHi || "",
+      descEn: String(m?.descEn ?? "").trim() || fb.milestones[i]?.descEn || "",
+      descHi: String(m?.descHi ?? "").trim() || fb.milestones[i]?.descHi || "",
+      highlightsEn: (Array.isArray(m?.highlightsEn) ? m.highlightsEn : fb.milestones[i]?.highlightsEn).map(
+        (h, j) => String(h ?? "").trim() || fb.milestones[i]?.highlightsEn[j] || "",
+      ),
+      highlightsHi: (Array.isArray(m?.highlightsHi) ? m.highlightsHi : fb.milestones[i]?.highlightsHi).map(
+        (h, j) => String(h ?? "").trim() || fb.milestones[i]?.highlightsHi[j] || "",
+      ),
+    })),
+    locations: locations.map((l, i) => ({
+      tagEn: String(l?.tagEn ?? "").trim() || fb.locations[i]?.tagEn || "",
+      tagHi: String(l?.tagHi ?? "").trim() || fb.locations[i]?.tagHi || "",
+      nameEn: String(l?.nameEn ?? "").trim() || fb.locations[i]?.nameEn || "",
+      nameHi: String(l?.nameHi ?? "").trim() || fb.locations[i]?.nameHi || "",
+      addressEn: String(l?.addressEn ?? "").trim() || fb.locations[i]?.addressEn || "",
+      addressHi: String(l?.addressHi ?? "").trim() || fb.locations[i]?.addressHi || "",
+      subEn: String(l?.subEn ?? "").trim() || fb.locations[i]?.subEn || "",
+      subHi: String(l?.subHi ?? "").trim() || fb.locations[i]?.subHi || "",
+    })),
+    complianceHighlights: compliance.map((c, i) => ({
+      labelEn: String(c?.labelEn ?? "").trim() || fb.complianceHighlights[i]?.labelEn || "",
+      labelHi: String(c?.labelHi ?? "").trim() || fb.complianceHighlights[i]?.labelHi || "",
+      valueEn: String(c?.valueEn ?? "").trim() || fb.complianceHighlights[i]?.valueEn || "",
+      valueHi: String(c?.valueHi ?? "").trim() || fb.complianceHighlights[i]?.valueHi || "",
+    })),
+    complianceFooterEn: String(raw?.complianceFooterEn ?? "").trim() || fb.complianceFooterEn,
+    complianceFooterHi: String(raw?.complianceFooterHi ?? "").trim() || fb.complianceFooterHi,
+  };
 }
 
 function normalizeCareersPage(raw: Partial<CareersPageContent> | null | undefined): CareersPageContent {
@@ -311,6 +566,9 @@ function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): Cm
     agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
     kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding),
     careersPage: normalizeCareersPage(raw?.careersPage),
+    siteContact: normalizeSiteContact(raw?.siteContact),
+    aboutPage: normalizeAboutPage(raw?.aboutPage),
+    contactPage: normalizeContactPage(raw?.contactPage),
   };
 }
 
@@ -361,6 +619,9 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
       ? normalizeKisaanMallLanding(patch.kisaanMallLanding)
       : current.kisaanMallLanding,
     careersPage: patch.careersPage ? normalizeCareersPage(patch.careersPage) : current.careersPage,
+    siteContact: patch.siteContact ? normalizeSiteContact(patch.siteContact) : current.siteContact,
+    aboutPage: patch.aboutPage ? normalizeAboutPage(patch.aboutPage) : current.aboutPage,
+    contactPage: patch.contactPage ? normalizeContactPage(patch.contactPage) : current.contactPage,
   });
 }
 
@@ -402,6 +663,36 @@ export async function fetchCareersPage(): Promise<CareersPageContent> {
 export async function saveCareersPage(content: CareersPageContent): Promise<CareersPageContent> {
   const config = await mergeSiteConfig({ careersPage: content });
   return config.careersPage;
+}
+
+export async function fetchSiteContact(): Promise<SiteContactConfig> {
+  const config = await fetchSiteConfig();
+  return config.siteContact;
+}
+
+export async function saveSiteContact(contact: SiteContactConfig): Promise<SiteContactConfig> {
+  const config = await mergeSiteConfig({ siteContact: contact });
+  return config.siteContact;
+}
+
+export async function fetchAboutPage(): Promise<AboutPageContent> {
+  const config = await fetchSiteConfig();
+  return config.aboutPage;
+}
+
+export async function saveAboutPage(content: AboutPageContent): Promise<AboutPageContent> {
+  const config = await mergeSiteConfig({ aboutPage: content });
+  return config.aboutPage;
+}
+
+export async function fetchContactPage(): Promise<ContactPageContent> {
+  const config = await fetchSiteConfig();
+  return config.contactPage;
+}
+
+export async function saveContactPage(content: ContactPageContent): Promise<ContactPageContent> {
+  const config = await mergeSiteConfig({ contactPage: content });
+  return config.contactPage;
 }
 
 let cmsSchemaReady = false;

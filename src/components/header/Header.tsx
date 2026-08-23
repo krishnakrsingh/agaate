@@ -6,10 +6,11 @@ import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
 import { LanguageSwitcher } from "../common/LanguageSwitcher";
 import { NavDesktop } from "./NavDesktop";
 import { NavMobile } from "./NavMobile";
-import { WHATSAPP_CONSULTATION_URL } from "./header-data";
+import { useSiteContact, useConsultationWhatsAppUrl } from "@/contexts/SiteContactContext";
 
 export function Header() {
   const { t } = useTranslation("common");
+  const consultationUrl = useConsultationWhatsAppUrl();
   const location = useLocation();
   const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
   const currentLang = isHindi ? "hi" : "en";
@@ -101,7 +102,7 @@ export function Header() {
           </div>
 
           <a
-            href={WHATSAPP_CONSULTATION_URL}
+            href={consultationUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-[#a3e635] px-5 font-body text-sm font-semibold text-[#0d2820] shadow-sm transition-colors hover:bg-[#91d820]"
