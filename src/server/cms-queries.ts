@@ -38,11 +38,14 @@ import {
   type SiteContactTrustStat,
   type AboutPageContent,
   type ContactPageContent,
+  type KisaanMallPageContent,
+  type KisaanMallSectionCopy,
 } from "@/lib/cms-types";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
+import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 
 function parseJson<T>(value: unknown, fallback: T): T {
   if (value == null) return fallback;
@@ -253,6 +256,113 @@ function normalizeKisaanMallLanding(raw: Partial<KisaanMallLanding> | null | und
     placeholderHi: String(raw?.placeholderHi ?? "").trim() || fallback.placeholderHi,
     successEn: String(raw?.successEn ?? "").trim() || fallback.successEn,
     successHi: String(raw?.successHi ?? "").trim() || fallback.successHi,
+  };
+}
+
+function normalizeMallSection(
+  raw: Partial<KisaanMallSectionCopy> | null | undefined,
+  fb: KisaanMallSectionCopy,
+): KisaanMallSectionCopy {
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+  };
+}
+
+function normalizeKisaanMallPage(raw: Partial<KisaanMallPageContent> | null | undefined): KisaanMallPageContent {
+  const fb = KISAAN_MALL_PAGE_FALLBACK;
+  const displayMode = raw?.displayMode === "full" ? "full" : "coming_soon";
+  const categories = Array.isArray(raw?.categories) ? raw.categories : fb.categories;
+  const supplySteps = Array.isArray(raw?.supplySteps) ? raw.supplySteps : fb.supplySteps;
+  const trustItems = Array.isArray(raw?.trustItems) ? raw.trustItems : fb.trustItems;
+  const faqs = Array.isArray(raw?.faqs) ? raw.faqs : fb.faqs;
+  const heroStats = Array.isArray(raw?.heroStats) ? raw.heroStats : fb.heroStats;
+
+  return {
+    displayMode,
+    heroEyebrowEn: String(raw?.heroEyebrowEn ?? "").trim() || fb.heroEyebrowEn,
+    heroEyebrowHi: String(raw?.heroEyebrowHi ?? "").trim() || fb.heroEyebrowHi,
+    heroTitleEn: String(raw?.heroTitleEn ?? "").trim() || fb.heroTitleEn,
+    heroTitleHi: String(raw?.heroTitleHi ?? "").trim() || fb.heroTitleHi,
+    heroTitleAccentEn: String(raw?.heroTitleAccentEn ?? "").trim() || fb.heroTitleAccentEn,
+    heroTitleAccentHi: String(raw?.heroTitleAccentHi ?? "").trim() || fb.heroTitleAccentHi,
+    heroDescriptionEn: String(raw?.heroDescriptionEn ?? "").trim() || fb.heroDescriptionEn,
+    heroDescriptionHi: String(raw?.heroDescriptionHi ?? "").trim() || fb.heroDescriptionHi,
+    heroNotifyPlaceholderEn: String(raw?.heroNotifyPlaceholderEn ?? "").trim() || fb.heroNotifyPlaceholderEn,
+    heroNotifyPlaceholderHi: String(raw?.heroNotifyPlaceholderHi ?? "").trim() || fb.heroNotifyPlaceholderHi,
+    heroNotifyButtonEn: String(raw?.heroNotifyButtonEn ?? "").trim() || fb.heroNotifyButtonEn,
+    heroNotifyButtonHi: String(raw?.heroNotifyButtonHi ?? "").trim() || fb.heroNotifyButtonHi,
+    heroNotifySuccessEn: String(raw?.heroNotifySuccessEn ?? "").trim() || fb.heroNotifySuccessEn,
+    heroNotifySuccessHi: String(raw?.heroNotifySuccessHi ?? "").trim() || fb.heroNotifySuccessHi,
+    heroWhatsappLabelEn: String(raw?.heroWhatsappLabelEn ?? "").trim() || fb.heroWhatsappLabelEn,
+    heroWhatsappLabelHi: String(raw?.heroWhatsappLabelHi ?? "").trim() || fb.heroWhatsappLabelHi,
+    heroStats: heroStats.map((s, i) => ({
+      numValue: Number(s?.numValue ?? fb.heroStats[i]?.numValue ?? 0),
+      suffixEn: String(s?.suffixEn ?? "").trim() || fb.heroStats[i]?.suffixEn || "",
+      suffixHi: String(s?.suffixHi ?? "").trim() || fb.heroStats[i]?.suffixHi || "",
+      valueTextEn: String(s?.valueTextEn ?? "").trim() || fb.heroStats[i]?.valueTextEn || "",
+      valueTextHi: String(s?.valueTextHi ?? "").trim() || fb.heroStats[i]?.valueTextHi || "",
+      labelEn: String(s?.labelEn ?? "").trim() || fb.heroStats[i]?.labelEn || "",
+      labelHi: String(s?.labelHi ?? "").trim() || fb.heroStats[i]?.labelHi || "",
+    })),
+    aisles: normalizeMallSection(raw?.aisles, fb.aisles),
+    categories: categories.map((c, i) => ({
+      id: String(c?.id ?? "").trim() || fb.categories[i]?.id || `cat-${i}`,
+      titleEn: String(c?.titleEn ?? "").trim() || fb.categories[i]?.titleEn || "",
+      titleHi: String(c?.titleHi ?? "").trim() || fb.categories[i]?.titleHi || "",
+      tagEn: String(c?.tagEn ?? "").trim() || fb.categories[i]?.tagEn || "",
+      tagHi: String(c?.tagHi ?? "").trim() || fb.categories[i]?.tagHi || "",
+      descEn: String(c?.descEn ?? "").trim() || fb.categories[i]?.descEn || "",
+      descHi: String(c?.descHi ?? "").trim() || fb.categories[i]?.descHi || "",
+      examplesEn: Array.isArray(c?.examplesEn) ? c.examplesEn.map(String) : fb.categories[i]?.examplesEn || [],
+      examplesHi: Array.isArray(c?.examplesHi) ? c.examplesHi.map(String) : fb.categories[i]?.examplesHi || [],
+      badgeEn: String(c?.badgeEn ?? "").trim() || fb.categories[i]?.badgeEn || "",
+      badgeHi: String(c?.badgeHi ?? "").trim() || fb.categories[i]?.badgeHi || "",
+      iconKey: normalizeIconKey(c?.iconKey ?? fb.categories[i]?.iconKey),
+    })),
+    supplyChain: normalizeMallSection(raw?.supplyChain, fb.supplyChain),
+    supplySteps: supplySteps.map((s, i) => ({
+      step: String(s?.step ?? "").trim() || fb.supplySteps[i]?.step || "",
+      titleEn: String(s?.titleEn ?? "").trim() || fb.supplySteps[i]?.titleEn || "",
+      titleHi: String(s?.titleHi ?? "").trim() || fb.supplySteps[i]?.titleHi || "",
+      descEn: String(s?.descEn ?? "").trim() || fb.supplySteps[i]?.descEn || "",
+      descHi: String(s?.descHi ?? "").trim() || fb.supplySteps[i]?.descHi || "",
+      iconKey: normalizeIconKey(s?.iconKey ?? fb.supplySteps[i]?.iconKey),
+    })),
+    trust: normalizeMallSection(raw?.trust, fb.trust),
+    trustItems: trustItems.map((item, i) => ({
+      labelEn: String(item?.labelEn ?? "").trim() || fb.trustItems[i]?.labelEn || "",
+      labelHi: String(item?.labelHi ?? "").trim() || fb.trustItems[i]?.labelHi || "",
+      valueEn: String(item?.valueEn ?? "").trim() || fb.trustItems[i]?.valueEn || "",
+      valueHi: String(item?.valueHi ?? "").trim() || fb.trustItems[i]?.valueHi || "",
+      hintEn: String(item?.hintEn ?? "").trim() || fb.trustItems[i]?.hintEn || "",
+      hintHi: String(item?.hintHi ?? "").trim() || fb.trustItems[i]?.hintHi || "",
+      iconKey: normalizeIconKey(item?.iconKey ?? fb.trustItems[i]?.iconKey),
+    })),
+    faq: normalizeMallSection(raw?.faq, fb.faq),
+    faqs: faqs.map((f, i) => ({
+      qEn: String(f?.qEn ?? "").trim() || fb.faqs[i]?.qEn || "",
+      qHi: String(f?.qHi ?? "").trim() || fb.faqs[i]?.qHi || "",
+      aEn: String(f?.aEn ?? "").trim() || fb.faqs[i]?.aEn || "",
+      aHi: String(f?.aHi ?? "").trim() || fb.faqs[i]?.aHi || "",
+    })),
+    ctaBadgeEn: String(raw?.ctaBadgeEn ?? "").trim() || fb.ctaBadgeEn,
+    ctaBadgeHi: String(raw?.ctaBadgeHi ?? "").trim() || fb.ctaBadgeHi,
+    ctaTitleEn: String(raw?.ctaTitleEn ?? "").trim() || fb.ctaTitleEn,
+    ctaTitleHi: String(raw?.ctaTitleHi ?? "").trim() || fb.ctaTitleHi,
+    ctaDescriptionEn: String(raw?.ctaDescriptionEn ?? "").trim() || fb.ctaDescriptionEn,
+    ctaDescriptionHi: String(raw?.ctaDescriptionHi ?? "").trim() || fb.ctaDescriptionHi,
+    ctaHoursEn: String(raw?.ctaHoursEn ?? "").trim() || fb.ctaHoursEn,
+    ctaHoursHi: String(raw?.ctaHoursHi ?? "").trim() || fb.ctaHoursHi,
+    ctaWhatsappLabelEn: String(raw?.ctaWhatsappLabelEn ?? "").trim() || fb.ctaWhatsappLabelEn,
+    ctaWhatsappLabelHi: String(raw?.ctaWhatsappLabelHi ?? "").trim() || fb.ctaWhatsappLabelHi,
+    ctaImageUrl: String(raw?.ctaImageUrl ?? "").trim() || fb.ctaImageUrl,
+    ctaImageAltEn: String(raw?.ctaImageAltEn ?? "").trim() || fb.ctaImageAltEn,
+    ctaImageAltHi: String(raw?.ctaImageAltHi ?? "").trim() || fb.ctaImageAltHi,
   };
 }
 
@@ -565,6 +675,7 @@ function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): Cm
     appLinks: normalizeAppLinks(raw?.appLinks),
     agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
     kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding),
+    kisaanMallPage: normalizeKisaanMallPage(raw?.kisaanMallPage),
     careersPage: normalizeCareersPage(raw?.careersPage),
     siteContact: normalizeSiteContact(raw?.siteContact),
     aboutPage: normalizeAboutPage(raw?.aboutPage),
@@ -618,6 +729,9 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
     kisaanMallLanding: patch.kisaanMallLanding
       ? normalizeKisaanMallLanding(patch.kisaanMallLanding)
       : current.kisaanMallLanding,
+    kisaanMallPage: patch.kisaanMallPage
+      ? normalizeKisaanMallPage(patch.kisaanMallPage)
+      : current.kisaanMallPage,
     careersPage: patch.careersPage ? normalizeCareersPage(patch.careersPage) : current.careersPage,
     siteContact: patch.siteContact ? normalizeSiteContact(patch.siteContact) : current.siteContact,
     aboutPage: patch.aboutPage ? normalizeAboutPage(patch.aboutPage) : current.aboutPage,
@@ -653,6 +767,16 @@ export async function fetchKisaanMallLanding(): Promise<KisaanMallLanding> {
 export async function saveKisaanMallLanding(landing: KisaanMallLanding): Promise<KisaanMallLanding> {
   const config = await mergeSiteConfig({ kisaanMallLanding: landing });
   return config.kisaanMallLanding;
+}
+
+export async function fetchKisaanMallPage(): Promise<KisaanMallPageContent> {
+  const config = await fetchSiteConfig();
+  return config.kisaanMallPage;
+}
+
+export async function saveKisaanMallPage(content: KisaanMallPageContent): Promise<KisaanMallPageContent> {
+  const config = await mergeSiteConfig({ kisaanMallPage: content });
+  return config.kisaanMallPage;
 }
 
 export async function fetchCareersPage(): Promise<CareersPageContent> {
