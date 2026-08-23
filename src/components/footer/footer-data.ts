@@ -43,6 +43,7 @@ export const EXPLORE_LINKS = [
   { href: "/#pillar-nursery", labelKey: "servicesSub.nursery", fallback: "Bio-Boosted Nursery" },
   { href: "/kisaan-mall", labelKey: "servicesSub.kisaanMall", fallback: "Kisaan Mall" },
   { href: "/#agaate-app", labelKey: "servicesSub.farmTech", fallback: "Agaate Mobile App" },
+  { href: "/#pillar-market", labelKey: "servicesSub.marketLinkage", fallback: "Market Linkage" },
 ];
 
 export const CONTACT_DETAILS = {
