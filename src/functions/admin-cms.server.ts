@@ -30,6 +30,8 @@ import {
   saveAgriParkTour,
   fetchAgriParkChapter,
   saveAgriParkChapter,
+  fetchHomepageChapters,
+  saveHomepageChapters,
   fetchKisaanMallLanding,
   saveKisaanMallLanding,
   fetchKisaanMallPage,
@@ -71,6 +73,7 @@ import type {
   HomeCmsAppLinks,
   HomeCmsAgriParkTour,
   HomeAgriParkChapterContent,
+  HomepageChaptersContent,
   KisaanMallLanding,
   KisaanMallPageContent,
   CareersPageContent,
@@ -717,6 +720,27 @@ export async function handleSaveAgriParkChapter(chapter: HomeAgriParkChapterCont
     await requireEditor();
     const saved = await saveAgriParkChapter(chapter);
     return { ok: true as const, chapter: saved };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetHomepageChapters() {
+  try {
+    await requireSessionUser();
+    const chapters = await fetchHomepageChapters();
+    return { ok: true as const, chapters, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveHomepageChapters(chapters: HomepageChaptersContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveHomepageChapters(chapters);
+    return { ok: true as const, chapters: saved };
   } catch (err) {
     return failAuth(err);
   }
