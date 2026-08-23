@@ -1,9 +1,13 @@
 import { hash } from "bcryptjs";
 import {
   createUser,
+  ensureAdminSchema,
   getSettings,
+  listContacts,
   listUsers,
   saveSettings,
+  serializeContact,
+  updateContact,
   updateUser,
 } from "@/server/admin-queries";
 import { assertSameOrigin, requireSessionUser } from "@/server/auth";
@@ -13,6 +17,7 @@ import {
   sanitizeSettingsForClient,
   type AdminRole,
   type AdminSettingsPayload,
+  type RequestStatus,
 } from "@/lib/admin-constants";
 import { isDbConfigured } from "@/server/db";
 
@@ -192,6 +197,74 @@ export async function handleSaveCategory(_data: unknown) {
     const user = await requireSessionUser();
     if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
     return { ok: true as const };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export type FarmVisitFilters = {
+  q?: string;
+  status?: string;
+  from?: string;
+  to?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+export async function handleListFarmVisits(filters: FarmVisitFilters = {}) {
+  try {
+    const user = await requireSessionUser();
+    if (!isDbConfigured()) {
+      return { ok: true as const, rows: [], total: 0, page: 1, pageSize: 20, pending: 0 };
+    }
+    await ensureAdminSchema();
+    const result = await listContacts(user, {
+      inquiryType: "agripark",
+      q: filters.q,
+      status: filters.status,
+      from: filters.from,
+      to: filters.to,
+      page: filters.page,
+      pageSize: filters.pageSize,
+      sort: "created_at",
+      dir: "desc",
+    });
+    const pendingResult = await listContacts(user, {
+      inquiryType: "agripark",
+      status: "new",
+      page: 1,
+      pageSize: 1,
+    });
+    return {
+      ok: true as const,
+      rows: result.rows.map(serializeContact),
+      total: result.total,
+      page: result.page,
+      pageSize: result.pageSize,
+      pending: pendingResult.total,
+    };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleUpdateFarmVisit(data: {
+  id: number;
+  status?: RequestStatus;
+  follow_up_date?: string | null;
+}) {
+  try {
+    assertSameOrigin();
+    const user = await requireSessionUser();
+    if (!isDbConfigured()) return { ok: false as const, error: "Database not configured." };
+    await ensureAdminSchema();
+    const updated = await updateContact(user, data.id, {
+      status: data.status,
+      follow_up_date: data.follow_up_date,
+    });
+    if (!updated) return { ok: false as const, error: "Booking not found." };
+    if (updated.topic !== "agripark") return { ok: false as const, error: "Not a farm visit booking." };
+    return { ok: true as const, row: serializeContact(updated) };
   } catch (err) {
     return failAuth(err);
   }

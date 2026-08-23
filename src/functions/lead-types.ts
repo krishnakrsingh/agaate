@@ -46,6 +46,9 @@ export const leadInputSchema = z.object({
   district: z.string().max(120).optional(),
   channel: z.string().max(32).default("WhatsApp"),
   message: z.string().max(600, { message: "Message is too long (max 600 characters)." }).optional(),
+  visitDate: z.string().max(32).optional(),
+  visitorType: z.string().max(120).optional(),
+  groupCount: z.string().max(120).optional(),
   consent: z.boolean().refine((val) => val === true, {
     message: "Please accept the privacy notice to continue.",
   }),
