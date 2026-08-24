@@ -73,9 +73,7 @@ export function EmbedVideoPlayer({
   }
 
   if (poster) {
-    return (
-      <img src={poster} alt="" className={className} />
-    );
+    return <img src={poster} alt="" className={className} />;
   }
 
   return (

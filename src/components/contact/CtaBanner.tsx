@@ -44,7 +44,8 @@ export default function CtaBanner() {
                 </h2>
 
                 <p className="font-sans text-sm sm:text-base leading-relaxed text-white/80 max-w-lg">
-                  No online form required. Our Gurugram operations desk and agronomists are available throughout farm operating hours.
+                  No online form required. Our Gurugram operations desk and agronomists are
+                  available throughout farm operating hours.
                 </p>
 
                 <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs text-white/90 backdrop-blur-md">

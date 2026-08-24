@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { isValidIndianPhoneNumber, normalizePhoneNumber } from "@/functions/lead-types";
 
-export function parseNewsletterContact(raw: string): { contact: string; contactType: "email" | "phone" } | null {
+export function parseNewsletterContact(
+  raw: string,
+): { contact: string; contactType: "email" | "phone" } | null {
   const value = String(raw ?? "").trim();
   if (!value) return null;
 

@@ -13,7 +13,10 @@ export default function ContactHero() {
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-          <Reveal variant="fade-up" className="space-y-6 lg:col-span-7 flex flex-col justify-center">
+          <Reveal
+            variant="fade-up"
+            className="space-y-6 lg:col-span-7 flex flex-col justify-center"
+          >
             <div className="flex items-center gap-2.5">
               <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
@@ -22,8 +25,7 @@ export default function ContactHero() {
             </div>
 
             <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-[#143d31] leading-[1.1]">
-              Speak with the agronomists{" "}
-              <span className="text-[#5d7d37]">on your schedule.</span>
+              Speak with the agronomists <span className="text-[#5d7d37]">on your schedule.</span>
             </h1>
 
             <p className="font-sans text-base sm:text-lg text-[#4f624f] leading-relaxed max-w-xl">
@@ -81,7 +83,11 @@ export default function ContactHero() {
             </div>
           </Reveal>
 
-          <Reveal variant="fade-up" delay={0.12} className="lg:col-span-5 relative flex justify-center items-center">
+          <Reveal
+            variant="fade-up"
+            delay={0.12}
+            className="lg:col-span-5 relative flex justify-center items-center"
+          >
             <div className="pointer-events-none absolute -inset-4 rounded-full bg-gradient-to-tr from-[#143d31]/10 via-[#a3e635]/25 to-transparent blur-3xl" />
 
             <div className="relative w-full max-w-[340px] sm:max-w-[400px] flex flex-col items-center">

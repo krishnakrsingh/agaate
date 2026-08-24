@@ -28,7 +28,10 @@ export default function KisaanMallHero() {
     <section className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] pt-28 sm:pt-32 md:pt-36 pb-16 sm:pb-20 text-[#143d31]">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-          <Reveal variant="fade-up" className="space-y-6 lg:col-span-6 flex flex-col justify-center">
+          <Reveal
+            variant="fade-up"
+            className="space-y-6 lg:col-span-6 flex flex-col justify-center"
+          >
             <div className="flex items-center gap-2.5">
               <span className="h-px w-6 bg-[#5d7d37]" aria-hidden="true" />
               <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
@@ -69,7 +72,9 @@ export default function KisaanMallHero() {
                     required
                     value={notifyInput}
                     onChange={(e) => setNotifyInput(e.target.value)}
-                    placeholder={isHindi ? page.heroNotifyPlaceholderHi : page.heroNotifyPlaceholderEn}
+                    placeholder={
+                      isHindi ? page.heroNotifyPlaceholderHi : page.heroNotifyPlaceholderEn
+                    }
                     className="flex-1 rounded-full border border-[#143d31]/20 bg-white px-5 py-3 font-sans text-xs sm:text-sm text-[#143d31] placeholder-[#143d31]/40 shadow-2xs focus:border-[#143d31] focus:outline-none focus:ring-2 focus:ring-[#143d31]/10"
                   />
                   <button
@@ -77,7 +82,10 @@ export default function KisaanMallHero() {
                     className="cursor-pointer group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#a3e635] px-6 py-3 font-sans text-xs sm:text-sm font-bold text-[#0d2820] shadow-sm transition-all duration-300 hover:bg-[#91d820] hover:shadow-md"
                   >
                     <span>{isHindi ? page.heroNotifyButtonHi : page.heroNotifyButtonEn}</span>
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" weight="bold" />
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      weight="bold"
+                    />
                   </button>
                 </form>
               )}
@@ -111,9 +119,19 @@ export default function KisaanMallHero() {
                 const label = isHindi ? stat.labelHi : stat.labelEn;
                 const valueText = isHindi ? stat.valueTextHi : stat.valueTextEn;
                 return (
-                  <div key={label} className={idx > 0 ? "border-l border-[#143d31]/10 pl-3 sm:pl-4" : ""}>
+                  <div
+                    key={label}
+                    className={idx > 0 ? "border-l border-[#143d31]/10 pl-3 sm:pl-4" : ""}
+                  >
                     <p className="font-display text-2xl sm:text-3xl font-extrabold text-[#143d31] tracking-tight">
-                      {valueText ? valueText : <CountUp to={stat.numValue} suffix={isHindi ? stat.suffixHi : stat.suffixEn} />}
+                      {valueText ? (
+                        valueText
+                      ) : (
+                        <CountUp
+                          to={stat.numValue}
+                          suffix={isHindi ? stat.suffixHi : stat.suffixEn}
+                        />
+                      )}
                     </p>
                     <p className="font-mono text-[10px] sm:text-[11px] font-bold text-[#5d7d37] uppercase tracking-wider mt-1">
                       {label}
@@ -124,7 +142,11 @@ export default function KisaanMallHero() {
             </div>
           </Reveal>
 
-          <Reveal variant="fade-up" delay={0.12} className="lg:col-span-6 flex justify-center items-center">
+          <Reveal
+            variant="fade-up"
+            delay={0.12}
+            className="lg:col-span-6 flex justify-center items-center"
+          >
             <div className="w-full">
               <KisaanMallShowcase />
             </div>

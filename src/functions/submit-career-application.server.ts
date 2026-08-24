@@ -31,11 +31,7 @@ export async function saveCareerResumeFile(
   if (buf.byteLength > 5 * 1024 * 1024) return null;
   const ext =
     extname(filename).toLowerCase() ||
-    (mime === "application/pdf"
-      ? ".pdf"
-      : mime.includes("wordprocessingml")
-        ? ".docx"
-        : ".doc");
+    (mime === "application/pdf" ? ".pdf" : mime.includes("wordprocessingml") ? ".docx" : ".doc");
   if (!RESUME_EXT.has(ext)) return null;
   const dir = join(process.cwd(), "public", "uploads", "careers", "resumes");
   await mkdir(dir, { recursive: true });
@@ -70,7 +66,11 @@ export async function handleSubmitCareerApplication(
   const publishedJobs = await listPublishedCareerJobs("en");
   const job = publishedJobs.find((j) => j.id === data.jobSlug);
   if (!job) {
-    return { ok: false, error: "This role is no longer open. Please choose another position.", code: "validation" };
+    return {
+      ok: false,
+      error: "This role is no longer open. Please choose another position.",
+      code: "validation",
+    };
   }
 
   const ip = process.env.CF_CONNECTING_IP || process.env.REMOTE_ADDR || "local";

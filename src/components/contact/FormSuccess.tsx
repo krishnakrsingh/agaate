@@ -94,10 +94,14 @@ export function FormSuccess({
               </button>
             </div>
             <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f] border-t border-[#143d31]/10 pt-3">
-              Thank you, <strong className="font-semibold text-[#143d31]">{name || "Grower"}</strong>.
+              Thank you,{" "}
+              <strong className="font-semibold text-[#143d31]">{name || "Grower"}</strong>.
               {topic ? (
                 <>
-                  {" "}Your consultation request for <strong className="font-semibold text-[#143d31]">{topic}</strong> has been assigned to our senior agronomist.
+                  {" "}
+                  Your consultation request for{" "}
+                  <strong className="font-semibold text-[#143d31]">{topic}</strong> has been
+                  assigned to our senior agronomist.
                 </>
               ) : (
                 " Your inquiry has been routed to our senior agronomy desk."

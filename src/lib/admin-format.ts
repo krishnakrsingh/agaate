@@ -1,5 +1,7 @@
 export function digitsPhone(phone: string) {
-  return String(phone ?? "").replace(/\D/g, "").replace(/^0+/, "");
+  return String(phone ?? "")
+    .replace(/\D/g, "")
+    .replace(/^0+/, "");
 }
 
 export function whatsappDigits(phone: string) {
@@ -36,9 +38,7 @@ export function csvEscape(value: unknown) {
 
 export function toCsv(rows: Array<Record<string, unknown>>, columns: string[]) {
   const header = columns.join(",");
-  const body = rows
-    .map((row) => columns.map((col) => csvEscape(row[col])).join(","))
-    .join("\n");
+  const body = rows.map((row) => columns.map((col) => csvEscape(row[col])).join(",")).join("\n");
   return `${header}\n${body}`;
 }
 

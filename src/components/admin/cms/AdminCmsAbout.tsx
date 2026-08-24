@@ -191,7 +191,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             {hero.stats.map((stat, i) => (
               <div key={i} className="rounded-lg border p-3 grid gap-2 sm:grid-cols-2">
                 <CmsBilingualField
-            variant="plain"
+                  variant="plain"
                   label="Value"
                   en={stat.valueEn}
                   hi={stat.valueHi}
@@ -216,7 +216,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   disabled={!canEdit}
                 />
                 <CmsBilingualField
-            variant="plain"
+                  variant="plain"
                   label="Label"
                   en={stat.labelEn}
                   hi={stat.labelHi}
@@ -310,7 +310,9 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
           <CmsImageField
             label="Section image"
             value={whoWeAre.imageUrl}
-            onChange={(url) => updateContent({ ...content, whoWeAre: { ...whoWeAre, imageUrl: url } })}
+            onChange={(url) =>
+              updateContent({ ...content, whoWeAre: { ...whoWeAre, imageUrl: url } })
+            }
             disabled={!canEdit}
           />
         </section>
@@ -356,13 +358,15 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   </SelectTrigger>
                   <SelectContent>
                     {CMS_ICON_KEYS.map((key) => (
-                      <SelectItem key={key} value={key}>{key}</SelectItem>
+                      <SelectItem key={key} value={key}>
+                        {key}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Title"
                 en={g.titleEn}
                 hi={g.titleHi}
@@ -385,7 +389,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Description"
                 en={g.descEn}
                 hi={g.descHi}
@@ -409,7 +413,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 multiline
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Badge"
                 en={g.badgeEn}
                 hi={g.badgeHi}
@@ -491,13 +495,15 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   </SelectTrigger>
                   <SelectContent>
                     {CMS_ICON_KEYS.map((key) => (
-                      <SelectItem key={key} value={key}>{key}</SelectItem>
+                      <SelectItem key={key} value={key}>
+                        {key}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Suffix"
                 en={m.suffixEn}
                 hi={m.suffixHi}
@@ -520,7 +526,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Label"
                 en={m.labelEn}
                 hi={m.labelHi}
@@ -588,7 +594,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 />
               </div>
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Title"
                 en={m.titleEn}
                 hi={m.titleHi}
@@ -611,7 +617,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Description"
                 en={m.descEn}
                 hi={m.descHi}
@@ -701,7 +707,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
           {content.locations.map((loc, i) => (
             <div key={i} className="rounded-lg border p-4 space-y-3">
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Tag"
                 en={loc.tagEn}
                 hi={loc.tagHi}
@@ -724,7 +730,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Name"
                 en={loc.nameEn}
                 hi={loc.nameHi}
@@ -747,7 +753,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Address"
                 en={loc.addressEn}
                 hi={loc.addressHi}
@@ -771,7 +777,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 multiline
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Subtitle"
                 en={loc.subEn}
                 hi={loc.subHi}
@@ -831,7 +837,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
           {content.complianceHighlights.map((item, i) => (
             <div key={i} className="rounded-lg border p-3 space-y-2">
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Label"
                 en={item.labelEn}
                 hi={item.labelHi}
@@ -854,7 +860,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <CmsBilingualField
-            variant="plain"
+                variant="plain"
                 label="Value"
                 en={item.valueEn}
                 hi={item.valueHi}
@@ -890,9 +896,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
           />
         </section>
 
-        {canEdit ? (
-          <CmsStickySaveBar saving={saving} label="Save about page" />
-        ) : null}
+        {canEdit ? <CmsStickySaveBar saving={saving} label="Save about page" /> : null}
       </form>
     </div>
   );

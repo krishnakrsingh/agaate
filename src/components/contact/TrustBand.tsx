@@ -1,11 +1,4 @@
-import {
-  ArrowRight,
-  Clock,
-  MapPin,
-  PhoneCall,
-  Users,
-  WhatsappLogo,
-} from "@phosphor-icons/react";
+import { ArrowRight, Clock, MapPin, PhoneCall, Users, WhatsappLogo } from "@phosphor-icons/react";
 import { useLocation } from "@tanstack/react-router";
 import contactPhoto from "@/assets/contact-agronomist-hub.jpg";
 import { Reveal } from "@/components/common/motion";
@@ -16,8 +9,7 @@ const TRUST_ICONS = [Clock, Users, MapPin, PhoneCall];
 
 export default function TrustBand() {
   const location = useLocation();
-  const isHindi =
-    location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
   const lang = isHindi ? "hi" : "en";
   const { contact, whatsappUrl } = useSiteContact();
 
@@ -37,7 +29,6 @@ export default function TrustBand() {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-center">
-          
           {/* Left Column: Heading, Editorial Narrative, & On-Ground Visual Frame */}
           <div className="lg:col-span-5 space-y-6">
             <Reveal variant="fade-up" className="space-y-3.5">
@@ -74,7 +65,7 @@ export default function TrustBand() {
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
-                
+
                 {/* Floating Meta Overlay */}
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2 text-white">
                   <div className="flex items-center gap-2">
@@ -104,18 +95,20 @@ export default function TrustBand() {
                   <div
                     key={item.label}
                     className={`flex flex-col justify-between py-6 sm:py-7 transition-colors group ${
-                      isLeft ? "sm:border-r sm:border-[#143d31]/15 sm:pr-6 md:pr-8" : "sm:pl-6 md:pl-8"
+                      isLeft
+                        ? "sm:border-r sm:border-[#143d31]/15 sm:pr-6 md:pr-8"
+                        : "sm:pl-6 md:pl-8"
                     } ${
-                      isTop ? "border-b border-[#143d31]/15 sm:pb-7" : "border-b sm:border-b-0 border-[#143d31]/15 pt-6 sm:pt-7"
+                      isTop
+                        ? "border-b border-[#143d31]/15 sm:pb-7"
+                        : "border-b sm:border-b-0 border-[#143d31]/15 pt-6 sm:pt-7"
                     }`}
                   >
                     <div className="space-y-3">
                       {/* Index, Icon & Eyebrow */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs font-bold text-[#5d7d37]">
-                            {num}
-                          </span>
+                          <span className="font-mono text-xs font-bold text-[#5d7d37]">{num}</span>
                           <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-[#5d7d37]/80">
                             {item.label}
                           </span>
@@ -157,7 +150,6 @@ export default function TrustBand() {
               </p>
             </div>
           </Reveal>
-
         </div>
       </div>
     </section>

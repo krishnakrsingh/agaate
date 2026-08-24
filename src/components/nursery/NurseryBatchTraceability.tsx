@@ -5,7 +5,9 @@ import { MOCK_BATCHES, type BatchInfo } from "./nursery-data";
 
 export function NurseryBatchTraceability() {
   const [searchBatchId, setSearchBatchId] = useState("AG-2026-N8");
-  const [activeBatch, setActiveBatch] = useState<BatchInfo | null>(MOCK_BATCHES["AG-2026-N8"] ?? null);
+  const [activeBatch, setActiveBatch] = useState<BatchInfo | null>(
+    MOCK_BATCHES["AG-2026-N8"] ?? null,
+  );
   const [searchError, setSearchError] = useState(false);
 
   const handleBatchSearch = (idToSearch: string) => {

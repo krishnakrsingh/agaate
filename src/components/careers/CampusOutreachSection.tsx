@@ -79,9 +79,12 @@ export function CampusOutreachSection({
               <GraduationCap className="h-6 w-6" weight="fill" />
             </div>
 
-            <h4 className="font-display text-xl font-bold text-white">University Placement Cell?</h4>
+            <h4 className="font-display text-xl font-bold text-white">
+              University Placement Cell?
+            </h4>
             <p className="mt-1.5 font-sans text-xs text-white/75 leading-relaxed">
-              Invite Agaate for on-campus presentations, technical seminars, and graduate recruitment drives.
+              Invite Agaate for on-campus presentations, technical seminars, and graduate
+              recruitment drives.
             </p>
 
             <div className="mt-6">

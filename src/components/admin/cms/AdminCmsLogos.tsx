@@ -13,12 +13,20 @@ import { useToast } from "@/components/admin/AdminToast";
 import type { CmsBrandGroup, CmsLogoRow, CmsStatus } from "@/lib/cms-types";
 import { CMS_BRAND_GROUP_LABELS } from "@/lib/cms-types";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
-import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import {
+  CmsTableEmptyAction,
+  CmsTableEmptyRow,
+  CmsTableLoadingRow,
+} from "@/components/admin/cms/CmsTableState";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { CmsStatusBadge } from "@/components/admin/cms/CmsStatusBadge";
 import { CmsLogoPreview } from "@/components/admin/cms/CmsInlinePreview";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
-import { CmsDragHandle, CmsSortableProvider, CmsSortableRow } from "@/components/admin/cms/CmsSortable";
+import {
+  CmsDragHandle,
+  CmsSortableProvider,
+  CmsSortableRow,
+} from "@/components/admin/cms/CmsSortable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -150,7 +158,12 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search name…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <Input
+            className="pl-9"
+            placeholder="Search name…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
         </div>
         <Select value={group} onValueChange={(v) => setGroup(v as CmsBrandGroup | "all")}>
           <SelectTrigger className="w-full sm:w-44">
@@ -159,7 +172,9 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
           <SelectContent>
             <SelectItem value="all">All groups</SelectItem>
             {(Object.keys(CMS_BRAND_GROUP_LABELS) as CmsBrandGroup[]).map((g) => (
-              <SelectItem key={g} value={g}>{CMS_BRAND_GROUP_LABELS[g]}</SelectItem>
+              <SelectItem key={g} value={g}>
+                {CMS_BRAND_GROUP_LABELS[g]}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -195,80 +210,88 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
                   colSpan={6}
                   title="No logos yet"
                   description="Upload your first partner or buyer logo, then publish it."
-                  action={canEdit ? <CmsTableEmptyAction label="Add logo" onClick={openCreate} /> : undefined}
+                  action={
+                    canEdit ? (
+                      <CmsTableEmptyAction label="Add logo" onClick={openCreate} />
+                    ) : undefined
+                  }
                 />
               ) : null}
               {!loading
                 ? filtered.map((row) => (
-                <CmsSortableRow key={row.id} id={row.id}>
-                  <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
-                  <TableCell>
-                    <img src={row.imageUrl} alt="" className="h-10 w-20 object-contain" />
-                  </TableCell>
-                  <TableCell className="font-medium">{row.name}</TableCell>
-                  <TableCell>{CMS_BRAND_GROUP_LABELS[row.group]}</TableCell>
-                  <TableCell>
-                    <CmsStatusBadge status={row.status} />
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
-                        {canEdit && row.status !== "archived" && (
-                          <>
-                            {row.status === "published" && (
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  requestConfirm({
-                                    title: "Unpublish logo?",
-                                    description: `"${row.name}" will be removed from the live website.`,
-                                    confirmLabel: "Unpublish",
-                                    action: async () => {
-                                      const res = await unpublishCmsItemAdmin({ data: { type: "logos", id: row.id } });
-                                      if (isAdminOk(res)) {
-                                        toast.success("Removed from live site.");
-                                        await load();
-                                      } else toast.error(adminError(res));
-                                    },
-                                  })
-                                }
-                              >
-                                Unpublish
-                              </DropdownMenuItem>
+                    <CmsSortableRow key={row.id} id={row.id}>
+                      <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
+                      <TableCell>
+                        <img src={row.imageUrl} alt="" className="h-10 w-20 object-contain" />
+                      </TableCell>
+                      <TableCell className="font-medium">{row.name}</TableCell>
+                      <TableCell>{CMS_BRAND_GROUP_LABELS[row.group]}</TableCell>
+                      <TableCell>
+                        <CmsStatusBadge status={row.status} />
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
+                            {canEdit && row.status !== "archived" && (
+                              <>
+                                {row.status === "published" && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      requestConfirm({
+                                        title: "Unpublish logo?",
+                                        description: `"${row.name}" will be removed from the live website.`,
+                                        confirmLabel: "Unpublish",
+                                        action: async () => {
+                                          const res = await unpublishCmsItemAdmin({
+                                            data: { type: "logos", id: row.id },
+                                          });
+                                          if (isAdminOk(res)) {
+                                            toast.success("Removed from live site.");
+                                            await load();
+                                          } else toast.error(adminError(res));
+                                        },
+                                      })
+                                    }
+                                  >
+                                    Unpublish
+                                  </DropdownMenuItem>
+                                )}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-rose-600"
+                                  onClick={() =>
+                                    requestConfirm({
+                                      title: "Archive logo?",
+                                      description: `"${row.name}" will be archived and hidden from this list.`,
+                                      confirmLabel: "Archive",
+                                      destructive: true,
+                                      action: async () => {
+                                        const res = await archiveCmsItemAdmin({
+                                          data: { type: "logos", id: row.id },
+                                        });
+                                        if (isAdminOk(res)) {
+                                          toast.success("Archived.");
+                                          await load();
+                                        } else toast.error(adminError(res));
+                                      },
+                                    })
+                                  }
+                                >
+                                  Archive
+                                </DropdownMenuItem>
+                              </>
                             )}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-rose-600"
-                              onClick={() =>
-                                requestConfirm({
-                                  title: "Archive logo?",
-                                  description: `"${row.name}" will be archived and hidden from this list.`,
-                                  confirmLabel: "Archive",
-                                  destructive: true,
-                                  action: async () => {
-                                    const res = await archiveCmsItemAdmin({ data: { type: "logos", id: row.id } });
-                                    if (isAdminOk(res)) {
-                                      toast.success("Archived.");
-                                      await load();
-                                    } else toast.error(adminError(res));
-                                  },
-                                })
-                              }
-                            >
-                              Archive
-                            </DropdownMenuItem>
-                          </>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </CmsSortableRow>
-              ))
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </CmsSortableRow>
+                  ))
                 : null}
             </TableBody>
           </Table>
@@ -279,22 +302,36 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
         <SheetContent className="overflow-y-auto sm:max-w-lg">
           <SheetHeader>
             <SheetTitle>{editing ? "Edit logo" : "New logo"}</SheetTitle>
-            <SheetDescription>Preview below, then publish to update the live website.</SheetDescription>
+            <SheetDescription>
+              Preview below, then publish to update the live website.
+            </SheetDescription>
           </SheetHeader>
           <div className="mt-6 space-y-4">
             <CmsLogoPreview name={form.name} imageUrl={form.imageUrl} group={form.group} />
 
             <div className="space-y-2">
               <Label>Name</Label>
-              <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} disabled={!canEdit} />
+              <Input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                disabled={!canEdit}
+              />
             </div>
             <div className="space-y-2">
               <Label>Tab group</Label>
-              <Select value={form.group} onValueChange={(v) => setForm({ ...form, group: v as CmsBrandGroup })} disabled={!canEdit}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+              <Select
+                value={form.group}
+                onValueChange={(v) => setForm({ ...form, group: v as CmsBrandGroup })}
+                disabled={!canEdit}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {(Object.keys(CMS_BRAND_GROUP_LABELS) as CmsBrandGroup[]).map((g) => (
-                    <SelectItem key={g} value={g}>{CMS_BRAND_GROUP_LABELS[g]}</SelectItem>
+                    <SelectItem key={g} value={g}>
+                      {CMS_BRAND_GROUP_LABELS[g]}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -309,12 +346,20 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
             />
             <div className="space-y-2">
               <Label>Or paste image URL</Label>
-              <Input value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} disabled={!canEdit} />
+              <Input
+                value={form.imageUrl}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                disabled={!canEdit}
+              />
             </div>
           </div>
           {canEdit && (
             <SheetFooter className="mt-6">
-              <Button onClick={() => void handlePublish()} disabled={publishing || !form.imageUrl} className="w-full">
+              <Button
+                onClick={() => void handlePublish()}
+                disabled={publishing || !form.imageUrl}
+                className="w-full"
+              >
                 {publishing ? "Publishing…" : "Publish"}
               </Button>
             </SheetFooter>

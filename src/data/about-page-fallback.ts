@@ -18,8 +18,18 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
     heroImageAltEn: "The Agaate team at the Gurugram hub",
     heroImageAltHi: "गुरुग्राम केंद्र पर Agaate टीम",
     stats: [
-      { valueEn: "15,000+", valueHi: "15,000+", labelEn: "Monitored Acres", labelHi: "निगरानी एकड़" },
-      { valueEn: "2,000+", valueHi: "2,000+", labelEn: "Enrolled Farmers", labelHi: "पंजीकृत किसान" },
+      {
+        valueEn: "15,000+",
+        valueHi: "15,000+",
+        labelEn: "Monitored Acres",
+        labelHi: "निगरानी एकड़",
+      },
+      {
+        valueEn: "2,000+",
+        valueHi: "2,000+",
+        labelEn: "Enrolled Farmers",
+        labelHi: "पंजीकृत किसान",
+      },
       { valueEn: "5-Acre", valueHi: "5-एकड़", labelEn: "Smart Nursery", labelHi: "स्मार्ट नर्सरी" },
     ],
   },
@@ -47,12 +57,10 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
     titleHi: "खेती के परिणाम का प्रबंधन",
     bodyEn:
       "Higher yield. Better price. Zero guesswork. Agaate's mission is to strengthen Indian farmers by providing science-backed, sustainable agriculture solutions that improve crop survival, reduce early-stage losses, and build long-term productivity through reliable Bio-Boosted nursery systems nationwide.",
-    bodyHi:
-      "उच्च उपज। बेहतर मूल्य। शून्य अनुमान। Agaate का मिशन भारतीय किसानों को मजबूत करना है।",
+    bodyHi: "उच्च उपज। बेहतर मूल्य। शून्य अनुमान। Agaate का मिशन भारतीय किसानों को मजबूत करना है।",
     supportEn:
       "We focus on practical research, quality inputs, and farmer-first thinking — designing ecosystems that prioritize the economic resilience and growth of the cultivator.",
-    supportHi:
-      "हम व्यावहारिक अनुसंधान, गुणवत्ता इनपुट और किसान-प्रथम सोच पर केंद्रित हैं।",
+    supportHi: "हम व्यावहारिक अनुसंधान, गुणवत्ता इनपुट और किसान-प्रथम सोच पर केंद्रित हैं।",
   },
   guarantees: [
     {
@@ -60,8 +68,7 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
       titleHi: "व्यावहारिक अनुसंधान",
       descEn:
         "Every recommendation is grounded in field-tested, actionable science — not theory. We trial seeds, bio-inoculants, and crop protection protocols in real sub-tropical farm conditions before prescribing them.",
-      descHi:
-        "हर सिफारिश मैदान-परीक्षित, कार्यान्वयन योग्य विज्ञान पर आधारित है।",
+      descHi: "हर सिफारिश मैदान-परीक्षित, कार्यान्वयन योग्य विज्ञान पर आधारित है।",
       badgeEn: "Field-Tested Protocols",
       badgeHi: "फील्ड-परीक्षित प्रोटोकॉल",
       iconKey: "chart",
@@ -71,8 +78,7 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
       titleHi: "गुणवत्ता इनपुट",
       descEn:
         "Seeds, biologicals, irrigation hardware, and crop protection sourced exclusively from 25+ direct manufacturer partners. Every input passes multi-stage quality verification and brand certification.",
-      descHi:
-        "बीज, जैविक, सिंचाई हार्डवेयर 25+ प्रत्यक्ष निर्माता भागीदारों से।",
+      descHi: "बीज, जैविक, सिंचाई हार्डवेयर 25+ प्रत्यक्ष निर्माता भागीदारों से।",
       badgeEn: "25+ Certified Partners",
       badgeHi: "25+ प्रमाणित भागीदार",
       iconKey: "handshake",
@@ -82,18 +88,45 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
       titleHi: "किसान-प्रथम सोच",
       descEn:
         "Every advisory, bio-boosted seedling batch, and buyback agreement is engineered to protect farmer economics — reducing early losses and securing higher yield returns.",
-      descHi:
-        "हर सलाह, पौधे और बायबैक किसान अर्थशास्त्र की सुरक्षा के लिए डिज़ाइन किया गया है।",
+      descHi: "हर सलाह, पौधे और बायबैक किसान अर्थशास्त्र की सुरक्षा के लिए डिज़ाइन किया गया है।",
       badgeEn: "Risk Mitigation Built-In",
       badgeHi: "जोखिम कमी अंतर्निहित",
       iconKey: "users",
     },
   ],
   impactMetrics: [
-    { numValue: 15000, suffixEn: "+", suffixHi: "+", labelEn: "Under Association", labelHi: "जुड़े एकड़", iconKey: "plant" },
-    { numValue: 2000, suffixEn: "+", suffixHi: "+", labelEn: "Agaate Parivaar", labelHi: "Agaate परिवार", iconKey: "users" },
-    { numValue: 500, suffixEn: "+", suffixHi: "+", labelEn: "Verified SKUs", labelHi: "सत्यापित SKU", iconKey: "warehouse" },
-    { numValue: 25, suffixEn: "+", suffixHi: "+", labelEn: "Direct Manufacturers", labelHi: "प्रत्यक्ष निर्माता", iconKey: "cap" },
+    {
+      numValue: 15000,
+      suffixEn: "+",
+      suffixHi: "+",
+      labelEn: "Under Association",
+      labelHi: "जुड़े एकड़",
+      iconKey: "plant",
+    },
+    {
+      numValue: 2000,
+      suffixEn: "+",
+      suffixHi: "+",
+      labelEn: "Agaate Parivaar",
+      labelHi: "Agaate परिवार",
+      iconKey: "users",
+    },
+    {
+      numValue: 500,
+      suffixEn: "+",
+      suffixHi: "+",
+      labelEn: "Verified SKUs",
+      labelHi: "सत्यापित SKU",
+      iconKey: "warehouse",
+    },
+    {
+      numValue: 25,
+      suffixEn: "+",
+      suffixHi: "+",
+      labelEn: "Direct Manufacturers",
+      labelHi: "प्रत्यक्ष निर्माता",
+      iconKey: "cap",
+    },
   ],
   milestones: [
     {
@@ -136,7 +169,11 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
         "15,000+ acres · 2,000+ Parivaar farmers",
         "Carbon Credit Program — earn from sustainable farming",
       ],
-      highlightsHi: ["8-ज़ोन एग्री पार्क", "15,000+ एकड़ · 2,000+ किसान", "कार्बन क्रेडिट कार्यक्रम"],
+      highlightsHi: [
+        "8-ज़ोन एग्री पार्क",
+        "15,000+ एकड़ · 2,000+ किसान",
+        "कार्बन क्रेडिट कार्यक्रम",
+      ],
     },
   ],
   locations: [
@@ -172,9 +209,24 @@ export const ABOUT_PAGE_FALLBACK: AboutPageContent = {
     },
   ],
   complianceHighlights: [
-    { labelEn: "Entity", labelHi: "इकाई", valueEn: "Anzix Farm Technologies Pvt Ltd", valueHi: "Anzix Farm Technologies Pvt Ltd" },
-    { labelEn: "CIN", labelHi: "CIN", valueEn: "U46200HR2024PTC121982", valueHi: "U46200HR2024PTC121982" },
-    { labelEn: "Registered Office", labelHi: "पंजीकृत कार्यालय", valueEn: "Sector-81, Gurugram, Haryana", valueHi: "सेक्टर-81, गुरुग्राम, हरियाणा" },
+    {
+      labelEn: "Entity",
+      labelHi: "इकाई",
+      valueEn: "Anzix Farm Technologies Pvt Ltd",
+      valueHi: "Anzix Farm Technologies Pvt Ltd",
+    },
+    {
+      labelEn: "CIN",
+      labelHi: "CIN",
+      valueEn: "U46200HR2024PTC121982",
+      valueHi: "U46200HR2024PTC121982",
+    },
+    {
+      labelEn: "Registered Office",
+      labelHi: "पंजीकृत कार्यालय",
+      valueEn: "Sector-81, Gurugram, Haryana",
+      valueHi: "सेक्टर-81, गुरुग्राम, हरियाणा",
+    },
   ],
   complianceFooterEn:
     "Agaate is the registered brand of Anzix Farm Technologies Private Limited. All corporate records are verifiable on the Ministry of Corporate Affairs (MCA) portal.",

@@ -53,7 +53,8 @@ export const AGAATE_LOCATIONS: LocationItem[] = [
     phone: "+91 83500 85005",
     hours: "Mon – Sun: 08:00 AM – 08:00 PM",
     badges: ["500+ SKUs", "Soil Testing Lab", "Drip Hardware & Mulching"],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Agaate+Kisan+Mall+Bilaspur+Rd+Gurugram",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Agaate+Kisan+Mall+Bilaspur+Rd+Gurugram",
     icon: Storefront,
   },
   {
@@ -67,7 +68,8 @@ export const AGAATE_LOCATIONS: LocationItem[] = [
     phone: "+91 83500 85005",
     hours: "Mon – Fri: 09:30 AM – 06:00 PM",
     badges: ["Big Farm Strategy", "Carbon Credits", "Institutional Ties"],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Bestech+Park+View+Ananda+Sector+81+Gurugram",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Bestech+Park+View+Ananda+Sector+81+Gurugram",
     icon: Buildings,
   },
 ];
@@ -126,7 +128,8 @@ export function LocationsModal({ isOpen, onClose }: LocationsModalProps) {
               Agaate Operational Locations
             </h3>
             <p className="text-xs sm:text-sm text-[#4f624f] mt-1 leading-relaxed">
-              Visit our 5-acre Smart Nursery, experience center, or retail mall. Click any location below to open directions directly in Google Maps.
+              Visit our 5-acre Smart Nursery, experience center, or retail mall. Click any location
+              below to open directions directly in Google Maps.
             </p>
           </div>
 
@@ -161,7 +164,10 @@ export function LocationsModal({ isOpen, onClose }: LocationsModalProps) {
                         {loc.name}
                       </h4>
                       <p className="font-sans text-xs text-[#4f624f] mt-0.5 leading-relaxed flex items-start gap-1.5">
-                        <MapPin weight="fill" className="h-3.5 w-3.5 text-[#5d7d37] mt-0.5 shrink-0" />
+                        <MapPin
+                          weight="fill"
+                          className="h-3.5 w-3.5 text-[#5d7d37] mt-0.5 shrink-0"
+                        />
                         <span>{loc.address}</span>
                       </p>
                     </div>
@@ -214,7 +220,9 @@ export function LocationsModal({ isOpen, onClose }: LocationsModalProps) {
           {/* Modal Footer Note */}
           <div className="mt-4 pt-3 border-t border-[#143d31]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#4f624f]">
             <span>All facilities are open for grower visits, farm trials, and consultations.</span>
-            <span className="font-mono text-[11px] font-bold text-[#143d31]">Hotline: +91 83500 85005</span>
+            <span className="font-mono text-[11px] font-bold text-[#143d31]">
+              Hotline: +91 83500 85005
+            </span>
           </div>
         </motion.div>
       </div>

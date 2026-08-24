@@ -119,7 +119,7 @@ export default function FieldSignal() {
               }
             },
           },
-          i * 0.045
+          i * 0.045,
         );
       });
 

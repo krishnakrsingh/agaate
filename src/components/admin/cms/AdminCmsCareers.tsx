@@ -13,7 +13,11 @@ import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
-import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import {
+  CmsTableEmptyAction,
+  CmsTableEmptyRow,
+  CmsTableLoadingRow,
+} from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { Button } from "@/components/ui/button";
@@ -218,14 +222,19 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
         </div>
       )}
 
-      <form onSubmit={handleSavePage} className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
+      <form
+        onSubmit={handleSavePage}
+        className="rounded-2xl border bg-card p-6 shadow-sm space-y-4"
+      >
         <div className="flex items-start gap-3">
           <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
             <Briefcase className="h-5 w-5" />
           </div>
           <div>
             <h2 className="text-base font-semibold">Page copy</h2>
-            <p className="text-xs text-muted-foreground">Hero, stats, culture, campus, and open roles headers.</p>
+            <p className="text-xs text-muted-foreground">
+              Hero, stats, culture, campus, and open roles headers.
+            </p>
           </div>
         </div>
         <CmsTranslateToHindiButton
@@ -238,7 +247,13 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             content.openRolesTitleEn,
             content.campusTitleEn,
           ]}
-          onTranslated={([heroBadgeHi, heroTitleHi, heroDescriptionHi, openRolesTitleHi, campusTitleHi]) => {
+          onTranslated={([
+            heroBadgeHi,
+            heroTitleHi,
+            heroDescriptionHi,
+            openRolesTitleHi,
+            campusTitleHi,
+          ]) => {
             setContent({
               ...content,
               heroBadgeHi: heroBadgeHi ?? content.heroBadgeHi,
@@ -253,49 +268,121 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Hero badge (EN)</Label>
-            <Input value={content.heroBadgeEn} onChange={(e) => { setContent({ ...content, heroBadgeEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.heroBadgeEn}
+              onChange={(e) => {
+                setContent({ ...content, heroBadgeEn: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero badge (HI)</Label>
-            <Input value={content.heroBadgeHi} onChange={(e) => { setContent({ ...content, heroBadgeHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.heroBadgeHi}
+              onChange={(e) => {
+                setContent({ ...content, heroBadgeHi: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero title (EN)</Label>
-            <Input value={content.heroTitleEn} onChange={(e) => { setContent({ ...content, heroTitleEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.heroTitleEn}
+              onChange={(e) => {
+                setContent({ ...content, heroTitleEn: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero title (HI)</Label>
-            <Input value={content.heroTitleHi} onChange={(e) => { setContent({ ...content, heroTitleHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.heroTitleHi}
+              onChange={(e) => {
+                setContent({ ...content, heroTitleHi: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Hero description (EN)</Label>
-            <Textarea value={content.heroDescriptionEn} onChange={(e) => { setContent({ ...content, heroDescriptionEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} rows={3} />
+            <Textarea
+              value={content.heroDescriptionEn}
+              onChange={(e) => {
+                setContent({ ...content, heroDescriptionEn: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+              rows={3}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero description (HI)</Label>
-            <Textarea value={content.heroDescriptionHi} onChange={(e) => { setContent({ ...content, heroDescriptionHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} rows={3} />
+            <Textarea
+              value={content.heroDescriptionHi}
+              onChange={(e) => {
+                setContent({ ...content, heroDescriptionHi: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+              rows={3}
+            />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Open roles title (EN)</Label>
-            <Input value={content.openRolesTitleEn} onChange={(e) => { setContent({ ...content, openRolesTitleEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.openRolesTitleEn}
+              onChange={(e) => {
+                setContent({ ...content, openRolesTitleEn: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Open roles title (HI)</Label>
-            <Input value={content.openRolesTitleHi} onChange={(e) => { setContent({ ...content, openRolesTitleHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.openRolesTitleHi}
+              onChange={(e) => {
+                setContent({ ...content, openRolesTitleHi: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Campus title (EN)</Label>
-            <Input value={content.campusTitleEn} onChange={(e) => { setContent({ ...content, campusTitleEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.campusTitleEn}
+              onChange={(e) => {
+                setContent({ ...content, campusTitleEn: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Campus title (HI)</Label>
-            <Input value={content.campusTitleHi} onChange={(e) => { setContent({ ...content, campusTitleHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
+            <Input
+              value={content.campusTitleHi}
+              onChange={(e) => {
+                setContent({ ...content, campusTitleHi: e.target.value });
+                setPageDirty(true);
+              }}
+              disabled={!canEdit || loading}
+            />
           </div>
         </div>
         <CmsStickySaveBar saving={savingPage} disabled={!canEdit} label="Save page copy" />
@@ -329,77 +416,101 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
                 colSpan={4}
                 title="No roles yet"
                 description="Add an open position, then publish it to appear on the careers page."
-                action={canEdit ? <CmsTableEmptyAction label="Add role" onClick={openNewJob} /> : undefined}
+                action={
+                  canEdit ? (
+                    <CmsTableEmptyAction label="Add role" onClick={openNewJob} />
+                  ) : undefined
+                }
               />
             ) : null}
             {!loading
               ? jobs.map((job) => (
-                <TableRow key={job.id}>
-                  <TableCell className="text-sm font-medium">{job.titleEn}</TableCell>
-                  <TableCell className="text-xs">{job.departmentCategory}</TableCell>
-                  <TableCell><CmsStatusBadge status={job.status} pending={job.hasUnpublishedChanges} /></TableCell>
-                  <TableCell className="text-right space-x-1">
-                    {canEdit && (
-                      <>
-                        <Button size="sm" variant="ghost" onClick={() => openEditJob(job)}>Edit</Button>
-                        {job.status !== "published" && (
-                          <Button size="sm" variant="ghost" onClick={() => void handlePublishJob(job.id)}>Publish</Button>
-                        )}
-                        {job.status === "published" && (
+                  <TableRow key={job.id}>
+                    <TableCell className="text-sm font-medium">{job.titleEn}</TableCell>
+                    <TableCell className="text-xs">{job.departmentCategory}</TableCell>
+                    <TableCell>
+                      <CmsStatusBadge status={job.status} pending={job.hasUnpublishedChanges} />
+                    </TableCell>
+                    <TableCell className="text-right space-x-1">
+                      {canEdit && (
+                        <>
+                          <Button size="sm" variant="ghost" onClick={() => openEditJob(job)}>
+                            Edit
+                          </Button>
+                          {job.status !== "published" && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => void handlePublishJob(job.id)}
+                            >
+                              Publish
+                            </Button>
+                          )}
+                          {job.status === "published" && (
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() =>
+                                requestConfirm({
+                                  title: "Unpublish role?",
+                                  description: `"${job.titleEn}" will be removed from public listings.`,
+                                  confirmLabel: "Unpublish",
+                                  action: async () => {
+                                    const res = await unpublishCmsItemAdmin({
+                                      data: { type: "careerJobs", id: job.id },
+                                    });
+                                    if (isAdminOk(res)) {
+                                      toast.success(
+                                        "Unpublished",
+                                        "Role removed from public listings.",
+                                      );
+                                      await load();
+                                    } else toast.error(adminError(res));
+                                  },
+                                })
+                              }
+                            >
+                              Unpublish
+                            </Button>
+                          )}
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() =>
                               requestConfirm({
-                                title: "Unpublish role?",
-                                description: `"${job.titleEn}" will be removed from public listings.`,
-                                confirmLabel: "Unpublish",
+                                title: "Archive role?",
+                                description: `"${job.titleEn}" will be archived and hidden from this list.`,
+                                confirmLabel: "Archive",
+                                destructive: true,
                                 action: async () => {
-                                  const res = await unpublishCmsItemAdmin({ data: { type: "careerJobs", id: job.id } });
+                                  const res = await archiveCmsItemAdmin({
+                                    data: { type: "careerJobs", id: job.id },
+                                  });
                                   if (isAdminOk(res)) {
-                                    toast.success("Unpublished", "Role removed from public listings.");
+                                    toast.success("Archived", "Role archived.");
                                     await load();
                                   } else toast.error(adminError(res));
                                 },
                               })
                             }
                           >
-                            Unpublish
+                            Archive
                           </Button>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() =>
-                            requestConfirm({
-                              title: "Archive role?",
-                              description: `"${job.titleEn}" will be archived and hidden from this list.`,
-                              confirmLabel: "Archive",
-                              destructive: true,
-                              action: async () => {
-                                const res = await archiveCmsItemAdmin({ data: { type: "careerJobs", id: job.id } });
-                                if (isAdminOk(res)) {
-                                  toast.success("Archived", "Role archived.");
-                                  await load();
-                                } else toast.error(adminError(res));
-                              },
-                            })
-                          }
-                        >
-                          Archive
-                        </Button>
-                      </>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))
               : null}
           </TableBody>
         </Table>
       </div>
 
       {editingJob && (
-        <form onSubmit={handleSaveJob} className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
+        <form
+          onSubmit={handleSaveJob}
+          className="rounded-2xl border bg-card p-6 shadow-sm space-y-4"
+        >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="font-semibold">{editingJob.id ? "Edit role" : "New role"}</h3>
             <CmsTranslateToHindiButton
@@ -422,7 +533,9 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
                   deptHi: take() || editingJob.deptHi,
                   locHi: take() || editingJob.locHi,
                   descHi: take() || editingJob.descHi,
-                  reqsHi: editingJob.reqsEn.map((_, idx) => (take() || editingJob.reqsHi[idx]) ?? ""),
+                  reqsHi: editingJob.reqsEn.map(
+                    (_, idx) => (take() || editingJob.reqsHi[idx]) ?? "",
+                  ),
                   responsibilitiesHi: editingJob.responsibilitiesEn.map(
                     (_, idx) => (take() || editingJob.responsibilitiesHi[idx]) ?? "",
                   ),
@@ -434,15 +547,30 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label className="text-xs">Slug</Label>
-              <Input value={editingJob.slug} onChange={(e) => { setEditingJob({ ...editingJob, slug: e.target.value }); setJobDirty(true); }} required />
+              <Input
+                value={editingJob.slug}
+                onChange={(e) => {
+                  setEditingJob({ ...editingJob, slug: e.target.value });
+                  setJobDirty(true);
+                }}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Category</Label>
               <Select
                 value={editingJob.departmentCategory}
-                onValueChange={(v) => { setEditingJob({ ...editingJob, departmentCategory: v as CmsCareerJobRow["departmentCategory"] }); setJobDirty(true); }}
+                onValueChange={(v) => {
+                  setEditingJob({
+                    ...editingJob,
+                    departmentCategory: v as CmsCareerJobRow["departmentCategory"],
+                  });
+                  setJobDirty(true);
+                }}
               >
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Agronomy">Agronomy</SelectItem>
                   <SelectItem value="Corporate">Corporate</SelectItem>
@@ -452,30 +580,66 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Title (EN)</Label>
-              <Input value={editingJob.titleEn} onChange={(e) => { setEditingJob({ ...editingJob, titleEn: e.target.value }); setJobDirty(true); }} required />
+              <Input
+                value={editingJob.titleEn}
+                onChange={(e) => {
+                  setEditingJob({ ...editingJob, titleEn: e.target.value });
+                  setJobDirty(true);
+                }}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Title (HI)</Label>
-              <Input value={editingJob.titleHi} onChange={(e) => { setEditingJob({ ...editingJob, titleHi: e.target.value }); setJobDirty(true); }} required />
+              <Input
+                value={editingJob.titleHi}
+                onChange={(e) => {
+                  setEditingJob({ ...editingJob, titleHi: e.target.value });
+                  setJobDirty(true);
+                }}
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Department (EN)</Label>
-              <Input value={editingJob.deptEn} onChange={(e) => { setEditingJob({ ...editingJob, deptEn: e.target.value }); setJobDirty(true); }} />
+              <Input
+                value={editingJob.deptEn}
+                onChange={(e) => {
+                  setEditingJob({ ...editingJob, deptEn: e.target.value });
+                  setJobDirty(true);
+                }}
+              />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Location (EN)</Label>
-              <Input value={editingJob.locEn} onChange={(e) => { setEditingJob({ ...editingJob, locEn: e.target.value }); setJobDirty(true); }} />
+              <Input
+                value={editingJob.locEn}
+                onChange={(e) => {
+                  setEditingJob({ ...editingJob, locEn: e.target.value });
+                  setJobDirty(true);
+                }}
+              />
             </div>
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Description (EN)</Label>
-            <Textarea value={editingJob.descEn} onChange={(e) => { setEditingJob({ ...editingJob, descEn: e.target.value }); setJobDirty(true); }} rows={3} />
+            <Textarea
+              value={editingJob.descEn}
+              onChange={(e) => {
+                setEditingJob({ ...editingJob, descEn: e.target.value });
+                setJobDirty(true);
+              }}
+              rows={3}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Requirements (EN, one per line)</Label>
             <Textarea
               value={listToLines(editingJob.reqsEn)}
-              onChange={(e) => { setEditingJob({ ...editingJob, reqsEn: linesToList(e.target.value) }); setJobDirty(true); }}
+              onChange={(e) => {
+                setEditingJob({ ...editingJob, reqsEn: linesToList(e.target.value) });
+                setJobDirty(true);
+              }}
               rows={4}
             />
           </div>
@@ -483,13 +647,20 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             <Label className="text-xs">Responsibilities (EN, one per line)</Label>
             <Textarea
               value={listToLines(editingJob.responsibilitiesEn)}
-              onChange={(e) => { setEditingJob({ ...editingJob, responsibilitiesEn: linesToList(e.target.value) }); setJobDirty(true); }}
+              onChange={(e) => {
+                setEditingJob({ ...editingJob, responsibilitiesEn: linesToList(e.target.value) });
+                setJobDirty(true);
+              }}
               rows={4}
             />
           </div>
           <div className="flex gap-2 justify-end">
-            <Button type="button" variant="outline" onClick={cancelEditJob}>Cancel</Button>
-            <Button type="submit" disabled={savingJob}>{savingJob ? "Saving…" : "Save draft"}</Button>
+            <Button type="button" variant="outline" onClick={cancelEditJob}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={savingJob}>
+              {savingJob ? "Saving…" : "Save draft"}
+            </Button>
           </div>
         </form>
       )}
@@ -526,7 +697,12 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
                     <div className="text-muted-foreground">{app.email}</div>
                   </TableCell>
                   <TableCell>
-                    <a href={app.resume_url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline">
+                    <a
+                      href={app.resume_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-primary underline"
+                    >
                       Download
                     </a>
                   </TableCell>

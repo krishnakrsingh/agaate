@@ -5,7 +5,14 @@ import { ShieldCheck, UserCheck, Users, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function AdminLoginForm() {
@@ -35,7 +42,9 @@ export function AdminLoginForm() {
 
           <Card className="border-border bg-card shadow-xs">
             <CardHeader className="text-center pb-4">
-              <CardTitle className="text-xl font-bold tracking-tight text-foreground">Operations Portal</CardTitle>
+              <CardTitle className="text-xl font-bold tracking-tight text-foreground">
+                Operations Portal
+              </CardTitle>
               <CardDescription className="text-xs text-muted-foreground">
                 Sign in to manage farmer inquiries, farm visits, and agronomists
               </CardDescription>
@@ -94,7 +103,11 @@ export function AdminLoginForm() {
                   </Alert>
                 )}
 
-                <Button type="submit" disabled={pending} className="w-full h-9 text-xs font-medium bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 transition-opacity">
+                <Button
+                  type="submit"
+                  disabled={pending}
+                  className="w-full h-9 text-xs font-medium bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 transition-opacity"
+                >
                   <span>{pending ? "Signing in..." : "Sign In to Admin"}</span>
                 </Button>
               </form>

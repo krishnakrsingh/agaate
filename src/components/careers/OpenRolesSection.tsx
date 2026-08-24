@@ -77,7 +77,8 @@ export function OpenRolesSection({
 
       {visibleJobs.length === 0 ? (
         <p className="font-sans text-sm text-[#4f624f] py-8 text-center">
-          No open positions in this category right now. Check back soon or email {contact.careersEmail}.
+          No open positions in this category right now. Check back soon or email{" "}
+          {contact.careersEmail}.
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">

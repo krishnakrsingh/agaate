@@ -144,7 +144,8 @@ export const HOMEPAGE_CHAPTERS_FALLBACK: HomepageChaptersContent = {
     titleHi: "सीधी फसल बायबैक व खरीद",
     descriptionEn:
       "Pre-sowing price contracts, transparent digital weighing, and instant T+0 farm-gate payouts.",
-    descriptionHi: "बुवाई से पहले पक्का रेट अनुबंध, खेत पर डिजिटल तौल और तुरंत T+0 बैंक खाता भुगतान।",
+    descriptionHi:
+      "बुवाई से पहले पक्का रेट अनुबंध, खेत पर डिजिटल तौल और तुरंत T+0 बैंक खाता भुगतान।",
     stats: [
       {
         numValue: 15000,
@@ -282,7 +283,10 @@ export const HOMEPAGE_CHAPTERS_FALLBACK: HomepageChaptersContent = {
         actionSubHi: "15 मिनट में त्वरित जवाब",
         type: "whatsapp",
         linkHref: "",
-        perksEn: ["Photo pest & disease identification", "No automated bots · Real senior agronomists"],
+        perksEn: [
+          "Photo pest & disease identification",
+          "No automated bots · Real senior agronomists",
+        ],
         perksHi: ["व्हाट्सएप फोटो से सटीक रोग पहचान", "सीधे अनुभवी कृषि वैज्ञानिकों से सलाह"],
       },
       {

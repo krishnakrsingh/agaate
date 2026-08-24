@@ -7,13 +7,7 @@ const STATUS_STYLES: Record<CmsStatus, string> = {
   archived: "border-slate-500/20 bg-slate-500/10 text-slate-600",
 };
 
-export function CmsStatusBadge({
-  status,
-  pending,
-}: {
-  status: CmsStatus;
-  pending?: boolean;
-}) {
+export function CmsStatusBadge({ status, pending }: { status: CmsStatus; pending?: boolean }) {
   return (
     <span className="inline-flex items-center gap-1.5">
       <span

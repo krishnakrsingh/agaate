@@ -14,34 +14,24 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
   careersEmail: "careers@agaate.in",
   whatsappNumber: "918350085005",
   whatsappMessages: {
-    consultation:
-      "Hello Agaate Team, I would like to book a farm consultation.",
-    agronomist:
-      "Hello Agaate Team, I need expert agronomy advice for my crop.",
-    bigFarmSetup:
-      "Hello Agaate Team, I want to inquire about Big Farm Setup services.",
-    carbonCredits:
-      "Hello Agaate Team, I want to know more about the Carbon Credits program.",
+    consultation: "Hello Agaate Team, I would like to book a farm consultation.",
+    agronomist: "Hello Agaate Team, I need expert agronomy advice for my crop.",
+    bigFarmSetup: "Hello Agaate Team, I want to inquire about Big Farm Setup services.",
+    carbonCredits: "Hello Agaate Team, I want to know more about the Carbon Credits program.",
     contact:
       "Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.",
-    about:
-      "Hello Agaate Team, I would like to know more about Agaate and your farm services.",
-    mall:
-      "Hello Agaate Team, I want to know more about Agaate Kisaan Mall inputs and pre-orders.",
+    about: "Hello Agaate Team, I would like to know more about Agaate and your farm services.",
+    mall: "Hello Agaate Team, I want to know more about Agaate Kisaan Mall inputs and pre-orders.",
     closingAdvisoryEn:
       "Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.",
-    closingAdvisoryHi:
-      "Namaste Agaate Team, mujhe apni fasal ke liye krishi salah chahiye.",
-    farmerStory:
-      "Namaste Agaate Team, I want to share my farm story.",
+    closingAdvisoryHi: "Namaste Agaate Team, mujhe apni fasal ke liye krishi salah chahiye.",
+    farmerStory: "Namaste Agaate Team, I want to share my farm story.",
     farmerStoryModal:
       "Hello Agaate Team, I saw {name}'s success story and would like to learn more about Agaate's services.",
     appContinue:
       "Hello Agaate Team, I chatted on the app and want to continue with a real agronomist for my crop.",
-    community:
-      "Hi Agaate, I'd like to join the Agaate farmer community and WhatsApp groups.",
-    marketAccess:
-      "Hello Agaate Team, I want to know more about Market Linkage and Buyback.",
+    community: "Hi Agaate, I'd like to join the Agaate farmer community and WhatsApp groups.",
+    marketAccess: "Hello Agaate Team, I want to know more about Market Linkage and Buyback.",
   },
   social: {
     facebook: "https://www.facebook.com/p/Agaate-Anzix-Farm-Technologies-61571500574178/",
@@ -99,10 +89,8 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
       taglineHi: "17 एकड़ स्मार्ट नर्सरी और हाई-टेक R&D सुविधा",
       roleEn: "Farm & Production Facility",
       roleHi: "फार्म और उत्पादन सुविधा",
-      addressEn:
-        "NH8, opposite Bikanervala, Kukrola / Pachgaon, Gurugram, Haryana 122413",
-      addressHi:
-        "NH8, बिकानेरवाला के सामने, कुकरोला / पचगाँव, गुरुग्राम, हरियाणा 122413",
+      addressEn: "NH8, opposite Bikanervala, Kukrola / Pachgaon, Gurugram, Haryana 122413",
+      addressHi: "NH8, बिकानेरवाला के सामने, कुकरोला / पचगाँव, गुरुग्राम, हरियाणा 122413",
       districtEn: "Gurugram, Haryana",
       districtHi: "गुरुग्राम, हरियाणा",
       plusCode: "8WG2+QR6",
@@ -142,10 +130,8 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
       taglineHi: "व्यापक कृषि-इनपुट स्टोरफ्रंट और अनुभव केंद्र",
       roleEn: "Retail & Experience Center",
       roleHi: "रिटेल और अनुभव केंद्र",
-      addressEn:
-        "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
-      addressHi:
-        "बिलासपुर रोड, पत्ती कवान, भोरा कलां, बिलासपुर कलां, गुरुग्राम, हरियाणा 122413",
+      addressEn: "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
+      addressHi: "बिलासपुर रोड, पत्ती कवान, भोरा कलां, बिलासपुर कलां, गुरुग्राम, हरियाणा 122413",
       districtEn: "Gurugram, Haryana",
       districtHi: "गुरुग्राम, हरियाणा",
       plusCode: "8W88+9C Gurugram",
@@ -186,10 +172,8 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
       taglineHi: "कॉर्पोरेट मुख्यालय और शासन केंद्र",
       roleEn: "Corporate Registered Office",
       roleHi: "कॉर्पोरेट पंजीकृत कार्यालय",
-      addressEn:
-        "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
-      addressHi:
-        "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+      addressEn: "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
+      addressHi: "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
       districtEn: "Gurugram, Haryana",
       districtHi: "गुरुग्राम, हरियाणा",
       plusCode: "CIN: U46200HR2024PTC121982",

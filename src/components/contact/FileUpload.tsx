@@ -54,9 +54,7 @@ export function FileUpload({
               <FileText className="h-6 w-6 text-[#5d7d37]" weight="bold" />
             </div>
             <div className="min-w-0">
-              <p className="truncate text-xs sm:text-sm font-bold text-[#143d31]">
-                {file.name}
-              </p>
+              <p className="truncate text-xs sm:text-sm font-bold text-[#143d31]">{file.name}</p>
               <p className="font-mono text-[11px] font-medium text-[#5d7d37]">
                 {(file.size / 1024).toFixed(0)} KB · Attached Ready for Agronomist
               </p>

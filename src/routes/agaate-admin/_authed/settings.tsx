@@ -1,15 +1,23 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AdminSettingsPanel } from "@/components/admin/AdminSettingsPanel";
 import { getAdminSettings, listAdminUsers } from "@/functions/admin-contacts";
-import { canManageSettings, DEFAULT_ADMIN_SETTINGS, type AdminRole, type AdminSettingsForClient } from "@/lib/admin-constants";
+import {
+  canManageSettings,
+  DEFAULT_ADMIN_SETTINGS,
+  type AdminRole,
+  type AdminSettingsForClient,
+} from "@/lib/admin-constants";
+
+const SETTINGS_TABS = ["email", "users", "app-links"] as const;
+type SettingsTab = (typeof SETTINGS_TABS)[number];
+
+function validateSettingsSearch(search: Record<string, unknown>): { tab?: SettingsTab } {
+  const tab = SETTINGS_TABS.find((t) => t === search.tab);
+  return tab ? { tab } : {};
+}
 
 export const Route = createFileRoute("/agaate-admin/_authed/settings")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    tab:
-      search.tab === "email" || search.tab === "users" || search.tab === "app-links"
-        ? search.tab
-        : undefined,
-  }),
+  validateSearch: validateSettingsSearch,
   beforeLoad: ({ context }) => {
     const user = (context as { adminUser?: { role: string } }).adminUser;
     if (!user || !canManageSettings(user.role as AdminRole)) {

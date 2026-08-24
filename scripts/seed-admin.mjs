@@ -17,7 +17,10 @@ function loadEnvFile() {
       if (eq < 1) continue;
       const key = line.slice(0, eq).trim();
       let value = line.slice(eq + 1).trim();
-      if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
         value = value.slice(1, -1);
       }
       if (!process.env[key]) process.env[key] = value;
@@ -216,24 +219,204 @@ async function main() {
   const priya = byEmail["priya@agaate.in"];
 
   const samples = [
-    ["Ramesh Patel", "9876500001", "nursery", "15-50 Commercial Acres", "Chilli", "Varanasi", "new", "high", null],
-    ["Sunita Devi", "9876500002", "bigfarm", "50+ Institutional Farm", "Tomato", "Nashik", "assigned", "urgent", rahul],
-    ["Harpreet Singh", "9876500003", "carbon", "5-15 Acres", "Wheat", "Ludhiana", "contacted", "medium", aman],
-    ["Meena Joshi", "9876500004", "wholesale", "1-5 Acres", "Onion", "Nashik", "in_progress", "medium", priya],
-    ["Arjun Reddy", "9876500005", "agripark", "5-15 Acres", "Watermelon", "Kurnool", "waiting", "low", priya],
-    ["Fatima Khan", "9876500006", "general", "1-5 Acres", "Paddy", "Guntur", "farm_visit", "high", aman],
-    ["Vikram Chauhan", "9876500007", "nursery", "5-15 Acres", "Capsicum", "Gurugram", "converted", "medium", rahul],
-    ["Lakshmi Iyer", "9876500008", "bigfarm", "15-50 Commercial Acres", "Grapes", "Sangli", "closed", "low", rahul],
-    ["Imran Sheikh", "9876500009", "carbon", "15-50 Commercial Acres", "Sugarcane", "Kolhapur", "spam", "low", null],
-    ["Pooja Desai", "9876500010", "wholesale", "5-15 Acres", "Cotton", "Rajkot", "new", "high", null],
-    ["Sanjay Yadav", "9876500011", "nursery", "1-5 Acres", "Tomato", "Jaipur", "assigned", "medium", aman],
-    ["Anita Kulkarni", "9876500012", "general", "5-15 Acres", "Soybean", "Indore", "contacted", "medium", priya],
-    ["Rohit Nair", "9876500013", "agripark", "1-5 Acres", "Chilli", "Thrissur", "in_progress", "low", rahul],
-    ["Geeta Kumari", "9876500014", "bigfarm", "50+ Institutional Farm", "Banana", "Theni", "waiting", "urgent", aman],
-    ["Naveen Rao", "9876500015", "carbon", "5-15 Acres", "Maize", "Warangal", "farm_visit", "high", priya],
-    ["Kiran Bhat", "9876500016", "wholesale", "15-50 Commercial Acres", "Potato", "Shimla", "converted", "medium", rahul],
-    ["Deepa Menon", "9876500017", "nursery", "5-15 Acres", "Brinjal", "Palakkad", "new", "medium", null],
-    ["Ajay Thakur", "9876500018", "general", "1-5 Acres", "Mustard", "Hisar", "closed", "low", priya],
+    [
+      "Ramesh Patel",
+      "9876500001",
+      "nursery",
+      "15-50 Commercial Acres",
+      "Chilli",
+      "Varanasi",
+      "new",
+      "high",
+      null,
+    ],
+    [
+      "Sunita Devi",
+      "9876500002",
+      "bigfarm",
+      "50+ Institutional Farm",
+      "Tomato",
+      "Nashik",
+      "assigned",
+      "urgent",
+      rahul,
+    ],
+    [
+      "Harpreet Singh",
+      "9876500003",
+      "carbon",
+      "5-15 Acres",
+      "Wheat",
+      "Ludhiana",
+      "contacted",
+      "medium",
+      aman,
+    ],
+    [
+      "Meena Joshi",
+      "9876500004",
+      "wholesale",
+      "1-5 Acres",
+      "Onion",
+      "Nashik",
+      "in_progress",
+      "medium",
+      priya,
+    ],
+    [
+      "Arjun Reddy",
+      "9876500005",
+      "agripark",
+      "5-15 Acres",
+      "Watermelon",
+      "Kurnool",
+      "waiting",
+      "low",
+      priya,
+    ],
+    [
+      "Fatima Khan",
+      "9876500006",
+      "general",
+      "1-5 Acres",
+      "Paddy",
+      "Guntur",
+      "farm_visit",
+      "high",
+      aman,
+    ],
+    [
+      "Vikram Chauhan",
+      "9876500007",
+      "nursery",
+      "5-15 Acres",
+      "Capsicum",
+      "Gurugram",
+      "converted",
+      "medium",
+      rahul,
+    ],
+    [
+      "Lakshmi Iyer",
+      "9876500008",
+      "bigfarm",
+      "15-50 Commercial Acres",
+      "Grapes",
+      "Sangli",
+      "closed",
+      "low",
+      rahul,
+    ],
+    [
+      "Imran Sheikh",
+      "9876500009",
+      "carbon",
+      "15-50 Commercial Acres",
+      "Sugarcane",
+      "Kolhapur",
+      "spam",
+      "low",
+      null,
+    ],
+    [
+      "Pooja Desai",
+      "9876500010",
+      "wholesale",
+      "5-15 Acres",
+      "Cotton",
+      "Rajkot",
+      "new",
+      "high",
+      null,
+    ],
+    [
+      "Sanjay Yadav",
+      "9876500011",
+      "nursery",
+      "1-5 Acres",
+      "Tomato",
+      "Jaipur",
+      "assigned",
+      "medium",
+      aman,
+    ],
+    [
+      "Anita Kulkarni",
+      "9876500012",
+      "general",
+      "5-15 Acres",
+      "Soybean",
+      "Indore",
+      "contacted",
+      "medium",
+      priya,
+    ],
+    [
+      "Rohit Nair",
+      "9876500013",
+      "agripark",
+      "1-5 Acres",
+      "Chilli",
+      "Thrissur",
+      "in_progress",
+      "low",
+      rahul,
+    ],
+    [
+      "Geeta Kumari",
+      "9876500014",
+      "bigfarm",
+      "50+ Institutional Farm",
+      "Banana",
+      "Theni",
+      "waiting",
+      "urgent",
+      aman,
+    ],
+    [
+      "Naveen Rao",
+      "9876500015",
+      "carbon",
+      "5-15 Acres",
+      "Maize",
+      "Warangal",
+      "farm_visit",
+      "high",
+      priya,
+    ],
+    [
+      "Kiran Bhat",
+      "9876500016",
+      "wholesale",
+      "15-50 Commercial Acres",
+      "Potato",
+      "Shimla",
+      "converted",
+      "medium",
+      rahul,
+    ],
+    [
+      "Deepa Menon",
+      "9876500017",
+      "nursery",
+      "5-15 Acres",
+      "Brinjal",
+      "Palakkad",
+      "new",
+      "medium",
+      null,
+    ],
+    [
+      "Ajay Thakur",
+      "9876500018",
+      "general",
+      "1-5 Acres",
+      "Mustard",
+      "Hisar",
+      "closed",
+      "low",
+      priya,
+    ],
   ];
 
   const year = new Date().getFullYear();
@@ -270,9 +453,9 @@ async function main() {
         daysAgo,
       ],
     );
-    const insertId = result.insertId || (
-      await db.query(`SELECT id FROM leads WHERE ticket_id = ?`, [ticket])
-    )[0][0]?.id;
+    const insertId =
+      result.insertId ||
+      (await db.query(`SELECT id FROM leads WHERE ticket_id = ?`, [ticket]))[0][0]?.id;
     if (insertId) {
       await db.query(
         `INSERT INTO request_activity (request_id, user_id, action, payload, created_at)
@@ -288,7 +471,11 @@ async function main() {
         await db.query(
           `INSERT INTO request_notes (request_id, user_id, body)
            VALUES (?, ?, ?)`,
-          [insertId, assigned, "Seeded follow-up note: farmer prefers a WhatsApp callback after 6pm."],
+          [
+            insertId,
+            assigned,
+            "Seeded follow-up note: farmer prefers a WhatsApp callback after 6pm.",
+          ],
         );
       }
     }

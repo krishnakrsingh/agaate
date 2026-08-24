@@ -7,7 +7,13 @@ import { team, type TeamMember } from "./data";
 import type { TeamCmsMember } from "@/lib/cms-types";
 import { getLeadershipBanner, toDisplayTeamMember, type DisplayTeamMember } from "@/lib/team-cms";
 
-function LeaderBioModal({ leader, onClose }: { leader: DisplayTeamMember | null; onClose: () => void }) {
+function LeaderBioModal({
+  leader,
+  onClose,
+}: {
+  leader: DisplayTeamMember | null;
+  onClose: () => void;
+}) {
   useEffect(() => {
     if (!leader) return;
     const onKey = (e: KeyboardEvent) => {
@@ -127,7 +133,8 @@ function fallbackMembers(): DisplayTeamMember[] {
     pub: m.pub,
     quote: m.quote,
     showInBanner: m.id === "ankit-rawat" || m.id === "chanchala-shukla",
-    bannerBadge: m.id === "ankit-rawat" ? "Founder" : m.id === "chanchala-shukla" ? "Co-Founder" : "",
+    bannerBadge:
+      m.id === "ankit-rawat" ? "Founder" : m.id === "chanchala-shukla" ? "Co-Founder" : "",
   }));
 }
 
@@ -139,8 +146,10 @@ export default function LeadershipRoster({ members }: { members?: TeamCmsMember[
   const roster = [...rawRoster].sort((a, b) => {
     const roleA = (a.role || "").toLowerCase();
     const roleB = (b.role || "").toLowerCase();
-    const isFounderA = a.id === "ankit-rawat" || (roleA.includes("founder") && !roleA.includes("co-founder"));
-    const isFounderB = b.id === "ankit-rawat" || (roleB.includes("founder") && !roleB.includes("co-founder"));
+    const isFounderA =
+      a.id === "ankit-rawat" || (roleA.includes("founder") && !roleA.includes("co-founder"));
+    const isFounderB =
+      b.id === "ankit-rawat" || (roleB.includes("founder") && !roleB.includes("co-founder"));
     const isCoFounderA = a.id === "chanchala-shukla" || roleA.includes("co-founder");
     const isCoFounderB = b.id === "chanchala-shukla" || roleB.includes("co-founder");
 
@@ -159,10 +168,10 @@ export default function LeadershipRoster({ members }: { members?: TeamCmsMember[
     roster.length === 4
       ? "grid-cols-2 md:grid-cols-4"
       : roster.length === 3
-      ? "grid-cols-1 sm:grid-cols-3"
-      : roster.length <= 2
-      ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
-      : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5";
+        ? "grid-cols-1 sm:grid-cols-3"
+        : roster.length <= 2
+          ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+          : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5";
 
   return (
     <section

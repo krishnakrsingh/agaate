@@ -62,7 +62,9 @@ export default function ContactFaq() {
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.25, ease: EASE }}
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors ${
-                        isOpen ? "bg-[#143d31] text-[#a3e635]" : "bg-[#143d31]/5 text-[#143d31] group-hover:bg-[#143d31]/10"
+                        isOpen
+                          ? "bg-[#143d31] text-[#a3e635]"
+                          : "bg-[#143d31]/5 text-[#143d31] group-hover:bg-[#143d31]/10"
                       }`}
                     >
                       <CaretDown className="h-4 w-4" weight="bold" />

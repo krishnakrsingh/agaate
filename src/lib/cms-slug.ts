@@ -24,7 +24,7 @@ export function teamSlugFromName(nameEn: string): string {
 
 /** Slug for farmer stories — matches existing short-* pattern */
 export function storySlugFrom(nameEn: string, cropEn: string): string {
-  const cropPart = cropEn.split(/[(\[]/)[0]?.trim() ?? cropEn;
+  const cropPart = cropEn.split(/[([]/)[0]?.trim() ?? cropEn;
   const word = slugify(cropPart).split("-").filter(Boolean)[0];
   if (word) return `short-${word}`;
   const nameWord = slugify(nameEn).split("-").filter(Boolean)[0];

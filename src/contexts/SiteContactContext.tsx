@@ -62,13 +62,15 @@ function mapFacilityFromConfig(
   mapIcon: SiteContactContextValue["mapFacilityIcon"],
 ): Facility {
   const isHi = lang === "hi";
+  const district = isHi ? facility.districtHi : facility.districtEn;
   return {
     id: facility.id,
     name: isHi ? facility.nameHi : facility.nameEn,
     tagline: isHi ? facility.taglineHi : facility.taglineEn,
     role: isHi ? facility.roleHi : facility.roleEn,
     address: isHi ? facility.addressHi : facility.addressEn,
-    district: isHi ? facility.districtHi : facility.districtEn,
+    district,
+    state: district.split(",").pop()?.trim() || district.trim(),
     plusCode: facility.plusCode,
     phone: facility.phone,
     telRaw: facility.telRaw,

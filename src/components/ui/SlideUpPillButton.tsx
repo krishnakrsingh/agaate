@@ -83,8 +83,7 @@ const variantStyles: Record<
     content: "text-[#143d31] group-hover:text-white",
   },
   "hero-primary": {
-    container:
-      "bg-[#a3e635] border border-transparent shadow-none hover:shadow-none",
+    container: "bg-[#a3e635] border border-transparent shadow-none hover:shadow-none",
     fill: "bg-[#143d31]",
     content: "text-[#0f2d25] group-hover:text-white",
   },
@@ -133,7 +132,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
       ariaLabel,
       uppercase = false,
     },
-    ref
+    ref,
   ) => {
     const selectedVariant = variantStyles[variant] || variantStyles.dark;
     const selectedSize = sizeStyles[size] || sizeStyles.md;
@@ -144,7 +143,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
       selectedSize,
       fullWidth ? "w-full" : "w-auto",
       disabled && "opacity-50 pointer-events-none cursor-not-allowed",
-      className
+      className,
     );
 
     const buttonContent = (
@@ -154,7 +153,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
           className={cn(
             "absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none",
             selectedVariant.fill,
-            fillClassName
+            fillClassName,
           )}
         />
 
@@ -164,7 +163,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
             "relative z-10 flex items-center justify-center gap-2 transition-colors duration-300",
             selectedVariant.content,
             uppercase && "uppercase tracking-wider",
-            contentClassName
+            contentClassName,
           )}
         >
           {icon && iconPosition === "left" && (
@@ -185,8 +184,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
     );
 
     const location = useLocation();
-    const isHindi =
-      location?.pathname === "/hi" || location?.pathname?.startsWith("/hi/");
+    const isHindi = location?.pathname === "/hi" || location?.pathname?.startsWith("/hi/");
     const currentLang = isHindi ? "hi" : "en";
 
     // 1. TanStack Router Link
@@ -209,10 +207,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
     // 2. Anchor tag / Internal Link via href
     if (href) {
       const isInternal =
-        href.startsWith("/") &&
-        !href.startsWith("//") &&
-        !target &&
-        !href.startsWith("http");
+        href.startsWith("/") && !href.startsWith("//") && !target && !href.startsWith("http");
 
       if (isInternal) {
         return (
@@ -258,7 +253,7 @@ export const SlideUpPillButton = React.forwardRef<HTMLElement, SlideUpPillButton
         {buttonContent}
       </button>
     );
-  }
+  },
 );
 
 SlideUpPillButton.displayName = "SlideUpPillButton";

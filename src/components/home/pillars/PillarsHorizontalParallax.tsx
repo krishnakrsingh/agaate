@@ -36,7 +36,9 @@ export default function PillarsHorizontalParallax() {
             const ctaText = isHindi ? pillar.ctaTextHi : pillar.ctaTextEn;
             const imageAlt = isHindi ? pillar.imageAltHi : pillar.imageAltEn;
             const locationsBadge = isHindi ? pillar.locationsBadgeHi : pillar.locationsBadgeEn;
-            const viewLocationsLabel = isHindi ? pillar.viewLocationsLabelHi : pillar.viewLocationsLabelEn;
+            const viewLocationsLabel = isHindi
+              ? pillar.viewLocationsLabelHi
+              : pillar.viewLocationsLabelEn;
             const showLocations = pillar.ctaType === "locations";
 
             return (
@@ -76,7 +78,9 @@ export default function PillarsHorizontalParallax() {
                         <div
                           key={label}
                           className={`text-left ${
-                            mIdx > 0 ? "border-l border-[#143d31]/10 pl-3" : "first:border-l-0 first:pl-0"
+                            mIdx > 0
+                              ? "border-l border-[#143d31]/10 pl-3"
+                              : "first:border-l-0 first:pl-0"
                           }`}
                         >
                           <p className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-[#143d31] tracking-tight">
@@ -155,7 +159,10 @@ export default function PillarsHorizontalParallax() {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5d7d37] opacity-75" />
                           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#5d7d37]" />
                         </span>
-                        <MapPin weight="fill" className="h-4 w-4 text-[#143d31] group-hover:text-[#5d7d37] transition-colors" />
+                        <MapPin
+                          weight="fill"
+                          className="h-4 w-4 text-[#143d31] group-hover:text-[#5d7d37] transition-colors"
+                        />
                         <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs font-bold text-[#143d31]">
                           <span>{locationsBadge}</span>
                           <ArrowSquareOut className="h-3.5 w-3.5 text-[#5d7d37] opacity-70 group-hover:opacity-100 transition-opacity ml-0.5" />
@@ -189,7 +196,10 @@ export default function PillarsHorizontalParallax() {
       )}
 
       {isLocationsModalOpen && (
-        <LocationsModal isOpen={isLocationsModalOpen} onClose={() => setIsLocationsModalOpen(false)} />
+        <LocationsModal
+          isOpen={isLocationsModalOpen}
+          onClose={() => setIsLocationsModalOpen(false)}
+        />
       )}
     </>
   );

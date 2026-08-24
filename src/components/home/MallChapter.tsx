@@ -54,11 +54,20 @@ export default function MallChapter() {
                 return (
                   <div
                     key={label}
-                    className={idx > 0 ? "text-left border-l border-[#143d31]/10 pl-3" : "text-left first:border-l-0 first:pl-0"}
+                    className={
+                      idx > 0
+                        ? "text-left border-l border-[#143d31]/10 pl-3"
+                        : "text-left first:border-l-0 first:pl-0"
+                    }
                   >
                     <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                      {valueText ? valueText : (
-                        <CountUp to={stat.numValue} suffix={isHindi ? stat.suffixHi : stat.suffixEn} />
+                      {valueText ? (
+                        valueText
+                      ) : (
+                        <CountUp
+                          to={stat.numValue}
+                          suffix={isHindi ? stat.suffixHi : stat.suffixEn}
+                        />
                       )}
                     </p>
                     <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">

@@ -16,11 +16,7 @@ import {
 } from "@phosphor-icons/react";
 
 export type ServiceCategory =
-  | "all"
-  | "nursery-inputs"
-  | "advisory-tech"
-  | "scale-infra"
-  | "buyback";
+  "all" | "nursery-inputs" | "advisory-tech" | "scale-infra" | "buyback";
 
 export type ServiceItem = {
   id: string;

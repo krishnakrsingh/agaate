@@ -39,9 +39,7 @@ async function main() {
       `Team members — ${teamAfter} already in database (skipped). Run npm run seed:cms:force to replace.`,
     );
   } else {
-    console.log(
-      `Team members — ${teamBefore} → ${teamAfter} (${teamResult.inserted} inserted)`,
-    );
+    console.log(`Team members — ${teamBefore} → ${teamAfter} (${teamResult.inserted} inserted)`);
   }
 
   console.log("CMS seed complete.");

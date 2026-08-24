@@ -15,7 +15,9 @@ function sanitizePage(page: string): string {
   return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
 }
 
-export async function handleSubmitNewsletterSignup(rawData: NewsletterSignupInput): Promise<NewsletterSignupResult> {
+export async function handleSubmitNewsletterSignup(
+  rawData: NewsletterSignupInput,
+): Promise<NewsletterSignupResult> {
   const parsed = newsletterSignupSchema.safeParse(rawData);
   if (!parsed.success) {
     const firstIssue = parsed.error.issues[0]?.message ?? "Invalid submission.";

@@ -140,7 +140,9 @@ export function AdminCmsAgriParkTour({
             </div>
             <form onSubmit={handleSaveVideo} className="space-y-4 p-5">
               <div className="space-y-2">
-                <Label htmlFor="videoUrl" className="text-xs font-medium">Video URL</Label>
+                <Label htmlFor="videoUrl" className="text-xs font-medium">
+                  Video URL
+                </Label>
                 <Input
                   id="videoUrl"
                   type="text"
@@ -161,7 +163,9 @@ export function AdminCmsAgriParkTour({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="posterUrl" className="text-xs font-medium">Poster image URL</Label>
+                <Label htmlFor="posterUrl" className="text-xs font-medium">
+                  Poster image URL
+                </Label>
                 <Input
                   id="posterUrl"
                   type="text"
@@ -242,175 +246,187 @@ export function AdminCmsAgriParkTour({
                 }}
               />
               <CmsBilingualField
-            label="Badge"
-            en={chapter.badgeEn}
-            hi={chapter.badgeHi}
-            onEn={(v) => updateChapter({ ...chapter, badgeEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, badgeHi: v })}
-            disabled={!canEdit || loading}
-          />
-          <CmsBilingualField
-            label="Title"
-            en={chapter.titleEn}
-            hi={chapter.titleHi}
-            onEn={(v) => updateChapter({ ...chapter, titleEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, titleHi: v })}
-            disabled={!canEdit || loading}
-          />
-          <CmsBilingualField
-            label="Description"
-            en={chapter.descriptionEn}
-            hi={chapter.descriptionHi}
-            onEn={(v) => updateChapter({ ...chapter, descriptionEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, descriptionHi: v })}
-            disabled={!canEdit || loading}
-            multiline
-          />
+                label="Badge"
+                en={chapter.badgeEn}
+                hi={chapter.badgeHi}
+                onEn={(v) => updateChapter({ ...chapter, badgeEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, badgeHi: v })}
+                disabled={!canEdit || loading}
+              />
+              <CmsBilingualField
+                label="Title"
+                en={chapter.titleEn}
+                hi={chapter.titleHi}
+                onEn={(v) => updateChapter({ ...chapter, titleEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, titleHi: v })}
+                disabled={!canEdit || loading}
+              />
+              <CmsBilingualField
+                label="Description"
+                en={chapter.descriptionEn}
+                hi={chapter.descriptionHi}
+                onEn={(v) => updateChapter({ ...chapter, descriptionEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, descriptionHi: v })}
+                disabled={!canEdit || loading}
+                multiline
+              />
 
-          <div className="space-y-3">
-            <p className="text-sm font-medium">Stats</p>
-            {chapter.stats.map((stat, i) => (
-              <div key={i} className="rounded-lg border p-3 space-y-2">
-                <div className="grid gap-2 sm:grid-cols-3">
-                  <div className="space-y-1">
-                    <Label className="text-xs text-muted-foreground">Value</Label>
-                    <Input
-                      type="number"
-                      value={stat.numValue}
-                      onChange={(e) =>
+              <div className="space-y-3">
+                <p className="text-sm font-medium">Stats</p>
+                {chapter.stats.map((stat, i) => (
+                  <div key={i} className="rounded-lg border p-3 space-y-2">
+                    <div className="grid gap-2 sm:grid-cols-3">
+                      <div className="space-y-1">
+                        <Label className="text-xs text-muted-foreground">Value</Label>
+                        <Input
+                          type="number"
+                          value={stat.numValue}
+                          onChange={(e) =>
+                            updateChapter({
+                              ...chapter,
+                              stats: chapter.stats.map((s, idx) =>
+                                idx === i ? { ...s, numValue: Number(e.target.value) } : s,
+                              ),
+                            })
+                          }
+                          disabled={!canEdit || loading}
+                        />
+                      </div>
+                      <CmsBilingualField
+                        label="Suffix"
+                        en={stat.suffixEn}
+                        hi={stat.suffixHi}
+                        onEn={(v) =>
+                          updateChapter({
+                            ...chapter,
+                            stats: chapter.stats.map((s, idx) =>
+                              idx === i ? { ...s, suffixEn: v } : s,
+                            ),
+                          })
+                        }
+                        onHi={(v) =>
+                          updateChapter({
+                            ...chapter,
+                            stats: chapter.stats.map((s, idx) =>
+                              idx === i ? { ...s, suffixHi: v } : s,
+                            ),
+                          })
+                        }
+                        disabled={!canEdit || loading}
+                      />
+                    </div>
+                    <CmsBilingualField
+                      label="Label"
+                      en={stat.labelEn}
+                      hi={stat.labelHi}
+                      onEn={(v) =>
                         updateChapter({
                           ...chapter,
                           stats: chapter.stats.map((s, idx) =>
-                            idx === i ? { ...s, numValue: Number(e.target.value) } : s,
+                            idx === i ? { ...s, labelEn: v } : s,
+                          ),
+                        })
+                      }
+                      onHi={(v) =>
+                        updateChapter({
+                          ...chapter,
+                          stats: chapter.stats.map((s, idx) =>
+                            idx === i ? { ...s, labelHi: v } : s,
                           ),
                         })
                       }
                       disabled={!canEdit || loading}
                     />
                   </div>
-                  <CmsBilingualField
-                    label="Suffix"
-                    en={stat.suffixEn}
-                    hi={stat.suffixHi}
-                    onEn={(v) =>
-                      updateChapter({
-                        ...chapter,
-                        stats: chapter.stats.map((s, idx) => (idx === i ? { ...s, suffixEn: v } : s)),
-                      })
-                    }
-                    onHi={(v) =>
-                      updateChapter({
-                        ...chapter,
-                        stats: chapter.stats.map((s, idx) => (idx === i ? { ...s, suffixHi: v } : s)),
-                      })
-                    }
-                    disabled={!canEdit || loading}
-                  />
-                </div>
-                <CmsBilingualField
-                  label="Label"
-                  en={stat.labelEn}
-                  hi={stat.labelHi}
-                  onEn={(v) =>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Checklist (EN)</Label>
+                <Textarea
+                  value={chapter.checklistEn.join("\n")}
+                  onChange={(e) =>
                     updateChapter({
                       ...chapter,
-                      stats: chapter.stats.map((s, idx) => (idx === i ? { ...s, labelEn: v } : s)),
-                    })
-                  }
-                  onHi={(v) =>
-                    updateChapter({
-                      ...chapter,
-                      stats: chapter.stats.map((s, idx) => (idx === i ? { ...s, labelHi: v } : s)),
+                      checklistEn: e.target.value.split("\n").filter(Boolean),
                     })
                   }
                   disabled={!canEdit || loading}
+                  rows={4}
+                  placeholder="One item per line"
                 />
               </div>
-            ))}
-          </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Checklist (HI)</Label>
+                <Textarea
+                  value={chapter.checklistHi.join("\n")}
+                  onChange={(e) =>
+                    updateChapter({
+                      ...chapter,
+                      checklistHi: e.target.value.split("\n").filter(Boolean),
+                    })
+                  }
+                  disabled={!canEdit || loading}
+                  rows={4}
+                  placeholder="One item per line"
+                />
+              </div>
 
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Checklist (EN)</Label>
-            <Textarea
-              value={chapter.checklistEn.join("\n")}
-              onChange={(e) =>
-                updateChapter({
-                  ...chapter,
-                  checklistEn: e.target.value.split("\n").filter(Boolean),
-                })
-              }
-              disabled={!canEdit || loading}
-              rows={4}
-              placeholder="One item per line"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Checklist (HI)</Label>
-            <Textarea
-              value={chapter.checklistHi.join("\n")}
-              onChange={(e) =>
-                updateChapter({
-                  ...chapter,
-                  checklistHi: e.target.value.split("\n").filter(Boolean),
-                })
-              }
-              disabled={!canEdit || loading}
-              rows={4}
-              placeholder="One item per line"
-            />
-          </div>
+              <CmsBilingualField
+                label="Book visit button"
+                en={chapter.bookVisitLabelEn}
+                hi={chapter.bookVisitLabelHi}
+                onEn={(v) => updateChapter({ ...chapter, bookVisitLabelEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, bookVisitLabelHi: v })}
+                disabled={!canEdit || loading}
+              />
+              <CmsBilingualField
+                label="Watch tour button"
+                en={chapter.watchTourLabelEn}
+                hi={chapter.watchTourLabelHi}
+                onEn={(v) => updateChapter({ ...chapter, watchTourLabelEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, watchTourLabelHi: v })}
+                disabled={!canEdit || loading}
+              />
+              <CmsBilingualField
+                label="Location badge"
+                en={chapter.locationBadgeEn}
+                hi={chapter.locationBadgeHi}
+                onEn={(v) => updateChapter({ ...chapter, locationBadgeEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, locationBadgeHi: v })}
+                disabled={!canEdit || loading}
+              />
 
-          <CmsBilingualField
-            label="Book visit button"
-            en={chapter.bookVisitLabelEn}
-            hi={chapter.bookVisitLabelHi}
-            onEn={(v) => updateChapter({ ...chapter, bookVisitLabelEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, bookVisitLabelHi: v })}
-            disabled={!canEdit || loading}
-          />
-          <CmsBilingualField
-            label="Watch tour button"
-            en={chapter.watchTourLabelEn}
-            hi={chapter.watchTourLabelHi}
-            onEn={(v) => updateChapter({ ...chapter, watchTourLabelEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, watchTourLabelHi: v })}
-            disabled={!canEdit || loading}
-          />
-          <CmsBilingualField
-            label="Location badge"
-            en={chapter.locationBadgeEn}
-            hi={chapter.locationBadgeHi}
-            onEn={(v) => updateChapter({ ...chapter, locationBadgeEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, locationBadgeHi: v })}
-            disabled={!canEdit || loading}
-          />
+              <div className="space-y-2">
+                <Label className="text-xs font-medium">Map image URL</Label>
+                <Input
+                  value={chapter.mapImageUrl}
+                  onChange={(e) => updateChapter({ ...chapter, mapImageUrl: e.target.value })}
+                  disabled={!canEdit || loading}
+                />
+                <CmsUploadField
+                  label="Upload map image"
+                  value={chapter.mapImageUrl}
+                  onChange={(url) => updateChapter({ ...chapter, mapImageUrl: url })}
+                  kind="image"
+                  accept="image/jpeg,image/png,image/webp"
+                  disabled={!canEdit || loading}
+                />
+              </div>
+              <CmsBilingualField
+                label="Map alt text"
+                en={chapter.mapAltEn}
+                hi={chapter.mapAltHi}
+                onEn={(v) => updateChapter({ ...chapter, mapAltEn: v })}
+                onHi={(v) => updateChapter({ ...chapter, mapAltHi: v })}
+                disabled={!canEdit || loading}
+              />
 
-          <div className="space-y-2">
-            <Label className="text-xs font-medium">Map image URL</Label>
-            <Input
-              value={chapter.mapImageUrl}
-              onChange={(e) => updateChapter({ ...chapter, mapImageUrl: e.target.value })}
-              disabled={!canEdit || loading}
-            />
-            <CmsUploadField
-              label="Upload map image"
-              value={chapter.mapImageUrl}
-              onChange={(url) => updateChapter({ ...chapter, mapImageUrl: url })}
-              kind="image"
-              accept="image/jpeg,image/png,image/webp"
-              disabled={!canEdit || loading}
-            />
-          </div>
-          <CmsBilingualField
-            label="Map alt text"
-            en={chapter.mapAltEn}
-            hi={chapter.mapAltHi}
-            onEn={(v) => updateChapter({ ...chapter, mapAltEn: v })}
-            onHi={(v) => updateChapter({ ...chapter, mapAltHi: v })}
-            disabled={!canEdit || loading}
-          />
-
-              <CmsStickySaveBar saving={savingChapter} disabled={!canEdit} label="Save chapter copy" />
+              <CmsStickySaveBar
+                saving={savingChapter}
+                disabled={!canEdit}
+                label="Save chapter copy"
+              />
             </form>
           </div>
         </TabsContent>

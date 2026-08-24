@@ -2,10 +2,12 @@ import { createFileRoute, isRedirect, redirect } from "@tanstack/react-router";
 import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
 import { getAdminSession } from "@/functions/admin-auth";
 
+function validateLoginSearch(search: Record<string, unknown>): { redirect?: string } {
+  return typeof search.redirect === "string" ? { redirect: search.redirect } : {};
+}
+
 export const Route = createFileRoute("/agaate-admin/login")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
-  }),
+  validateSearch: validateLoginSearch,
   beforeLoad: async () => {
     try {
       const res = await getAdminSession();

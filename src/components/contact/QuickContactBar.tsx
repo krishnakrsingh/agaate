@@ -5,7 +5,10 @@ import { track } from "@/lib/analytics";
 export default function QuickContactBar() {
   const { contact, telPrimaryHref, whatsappUrl, mailtoInquiryUrl } = useSiteContact();
   return (
-    <section aria-label="Quick contact options" className="border-b border-[#143d31]/10 bg-white/70 backdrop-blur-md">
+    <section
+      aria-label="Quick contact options"
+      className="border-b border-[#143d31]/10 bg-white/70 backdrop-blur-md"
+    >
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
         <div className="flex items-center gap-3">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#143d31]/10 text-[#143d31]">

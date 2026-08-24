@@ -11,7 +11,9 @@ export function KisaanMallPageProvider({
   content: KisaanMallPageContent;
   children: ReactNode;
 }) {
-  return <KisaanMallPageContext.Provider value={content}>{children}</KisaanMallPageContext.Provider>;
+  return (
+    <KisaanMallPageContext.Provider value={content}>{children}</KisaanMallPageContext.Provider>
+  );
 }
 
 export function useKisaanMallPage(): KisaanMallPageContent {

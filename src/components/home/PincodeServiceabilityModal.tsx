@@ -35,7 +35,7 @@ export default function PincodeServiceabilityModal({
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState<PincodeEntry>(
-    PINCODE_DATABASE[0]! // Default to Patna 800001
+    PINCODE_DATABASE[0]!, // Default to Patna 800001
   );
   const [isLocating, setIsLocating] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -114,7 +114,7 @@ export default function PincodeServiceabilityModal({
         setIsLocating(false);
         console.warn("Geolocation position error:", err.message);
       },
-      { timeout: 10000, enableHighAccuracy: true }
+      { timeout: 10000, enableHighAccuracy: true },
     );
   };
 
@@ -222,7 +222,8 @@ export default function PincodeServiceabilityModal({
                               <div className="flex items-center gap-2 truncate pr-2">
                                 <MapPin className="h-4 w-4 text-[#143d31] shrink-0" />
                                 <span className="truncate">
-                                  <strong className="text-[#143d31]">{item.district}</strong>, {item.state}
+                                  <strong className="text-[#143d31]">{item.district}</strong>,{" "}
+                                  {item.state}
                                 </span>
                               </div>
                               <span className="font-mono text-[11px] font-bold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-md shrink-0">
@@ -257,7 +258,8 @@ export default function PincodeServiceabilityModal({
                             : "bg-gray-100 text-gray-800 hover:bg-[#143d31] hover:text-white"
                         }`}
                       >
-                        {item.district} <span className="font-mono opacity-60">({item.pincode})</span>
+                        {item.district}{" "}
+                        <span className="font-mono opacity-60">({item.pincode})</span>
                       </button>
                     ))}
                   </div>
@@ -281,13 +283,17 @@ export default function PincodeServiceabilityModal({
                       {selectedLocation.district}, {selectedLocation.state}
                     </h4>
                     <p className="text-xs text-gray-600 font-semibold mt-0.5">
-                      PIN Code: <span className="font-mono font-bold text-[#143d31]">{selectedLocation.pincode}</span>
+                      PIN Code:{" "}
+                      <span className="font-mono font-bold text-[#143d31]">
+                        {selectedLocation.pincode}
+                      </span>
                     </p>
                   </div>
 
                   {selectedLocation.pincode === "122413" && (
                     <div className="text-[11px] text-gray-600 bg-white/70 p-2 rounded-xl border border-[#143d31]/10 font-medium">
-                      📍 <strong>Agaate Kisaan Mall Flagship Store:</strong> Bilaspur Road, Patti Kawan, Bhora Kalan, Gurugram, Haryana 122413
+                      📍 <strong>Agaate Kisaan Mall Flagship Store:</strong> Bilaspur Road, Patti
+                      Kawan, Bhora Kalan, Gurugram, Haryana 122413
                     </div>
                   )}
 

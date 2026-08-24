@@ -17,7 +17,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 
@@ -47,7 +54,12 @@ export function AdminSettingsPanel({
   const [users, setUsers] = useState(initialUsers);
   const [saving, setSaving] = useState(false);
   const [testingEmail, setTestingEmail] = useState(false);
-  const [newUser, setNewUser] = useState({ name: "", email: "", role: "support" as AdminRole, password: "" });
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    role: "support" as AdminRole,
+    password: "",
+  });
 
   async function handleSaveSettingsSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -110,26 +122,36 @@ export function AdminSettingsPanel({
             <form onSubmit={handleSaveSettingsSubmit} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="contactNotificationEmail" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="contactNotificationEmail"
+                    className="text-xs font-medium text-foreground"
+                  >
                     Contact inbox
                   </Label>
                   <Input
                     id="contactNotificationEmail"
                     type="email"
                     value={settings.contactNotificationEmail}
-                    onChange={(e) => setSettings({ ...settings, contactNotificationEmail: e.target.value })}
+                    onChange={(e) =>
+                      setSettings({ ...settings, contactNotificationEmail: e.target.value })
+                    }
                     placeholder="info@agaate.in"
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="contactEmailSubject" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="contactEmailSubject"
+                    className="text-xs font-medium text-foreground"
+                  >
                     Email subject template
                   </Label>
                   <Input
                     id="contactEmailSubject"
                     value={settings.contactEmailSubject}
-                    onChange={(e) => setSettings({ ...settings, contactEmailSubject: e.target.value })}
+                    onChange={(e) =>
+                      setSettings({ ...settings, contactEmailSubject: e.target.value })
+                    }
                     placeholder="New consultation request — {{ticket}}"
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
                   />
@@ -140,23 +162,32 @@ export function AdminSettingsPanel({
 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div className="space-y-2">
-                  <Label htmlFor="smtpHost" className="text-xs font-medium text-foreground">SMTP host</Label>
+                  <Label htmlFor="smtpHost" className="text-xs font-medium text-foreground">
+                    SMTP host
+                  </Label>
                   <Input
                     id="smtpHost"
                     value={settings.smtp.host}
-                    onChange={(e) => setSettings({ ...settings, smtp: { ...settings.smtp, host: e.target.value } })}
+                    onChange={(e) =>
+                      setSettings({ ...settings, smtp: { ...settings.smtp, host: e.target.value } })
+                    }
                     placeholder="smtp.gmail.com"
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="smtpPort" className="text-xs font-medium text-foreground">SMTP port</Label>
+                  <Label htmlFor="smtpPort" className="text-xs font-medium text-foreground">
+                    SMTP port
+                  </Label>
                   <Input
                     id="smtpPort"
                     type="number"
                     value={settings.smtp.port}
                     onChange={(e) =>
-                      setSettings({ ...settings, smtp: { ...settings.smtp, port: Number(e.target.value) || 587 } })
+                      setSettings({
+                        ...settings,
+                        smtp: { ...settings.smtp, port: Number(e.target.value) || 587 },
+                      })
                     }
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
                   />
@@ -168,7 +199,10 @@ export function AdminSettingsPanel({
                       id="smtpSecure"
                       checked={settings.smtp.secure}
                       onCheckedChange={(checked) =>
-                        setSettings({ ...settings, smtp: { ...settings.smtp, secure: Boolean(checked) } })
+                        setSettings({
+                          ...settings,
+                          smtp: { ...settings.smtp, secure: Boolean(checked) },
+                        })
                       }
                     />
                     <Label htmlFor="smtpSecure" className="text-xs text-muted-foreground">
@@ -177,47 +211,67 @@ export function AdminSettingsPanel({
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="smtpUser" className="text-xs font-medium text-foreground">SMTP username</Label>
+                  <Label htmlFor="smtpUser" className="text-xs font-medium text-foreground">
+                    SMTP username
+                  </Label>
                   <Input
                     id="smtpUser"
                     value={settings.smtp.user}
-                    onChange={(e) => setSettings({ ...settings, smtp: { ...settings.smtp, user: e.target.value } })}
-                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="smtpPass" className="text-xs font-medium text-foreground">SMTP password</Label>
-                  <Input
-                    id="smtpPass"
-                    type="password"
-                    value={settings.smtp.pass}
-                    onChange={(e) => setSettings({ ...settings, smtp: { ...settings.smtp, pass: e.target.value } })}
-                    placeholder={
-                      initialSettings.smtp.passConfigured ? "Leave blank to keep current password" : "App password"
+                    onChange={(e) =>
+                      setSettings({ ...settings, smtp: { ...settings.smtp, user: e.target.value } })
                     }
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="smtpFromEmail" className="text-xs font-medium text-foreground">From email</Label>
+                  <Label htmlFor="smtpPass" className="text-xs font-medium text-foreground">
+                    SMTP password
+                  </Label>
+                  <Input
+                    id="smtpPass"
+                    type="password"
+                    value={settings.smtp.pass}
+                    onChange={(e) =>
+                      setSettings({ ...settings, smtp: { ...settings.smtp, pass: e.target.value } })
+                    }
+                    placeholder={
+                      initialSettings.smtp.passConfigured
+                        ? "Leave blank to keep current password"
+                        : "App password"
+                    }
+                    className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="smtpFromEmail" className="text-xs font-medium text-foreground">
+                    From email
+                  </Label>
                   <Input
                     id="smtpFromEmail"
                     type="email"
                     value={settings.smtp.fromEmail}
                     onChange={(e) =>
-                      setSettings({ ...settings, smtp: { ...settings.smtp, fromEmail: e.target.value } })
+                      setSettings({
+                        ...settings,
+                        smtp: { ...settings.smtp, fromEmail: e.target.value },
+                      })
                     }
                     placeholder="info@agaate.in"
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="smtpFromName" className="text-xs font-medium text-foreground">From name</Label>
+                  <Label htmlFor="smtpFromName" className="text-xs font-medium text-foreground">
+                    From name
+                  </Label>
                   <Input
                     id="smtpFromName"
                     value={settings.smtp.fromName}
                     onChange={(e) =>
-                      setSettings({ ...settings, smtp: { ...settings.smtp, fromName: e.target.value } })
+                      setSettings({
+                        ...settings,
+                        smtp: { ...settings.smtp, fromName: e.target.value },
+                      })
                     }
                     placeholder="Agaate Website"
                     className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
@@ -238,7 +292,10 @@ export function AdminSettingsPanel({
                     if (res && "ok" in res && res.ok) {
                       toast.success("Test email sent", `Check ${res.to}`);
                     } else {
-                      toast.error("SMTP test failed", (res as { error?: string })?.error || "Could not send test email.");
+                      toast.error(
+                        "SMTP test failed",
+                        (res as { error?: string })?.error || "Could not send test email.",
+                      );
                     }
                   }}
                   className="h-8.5 rounded-lg px-4 text-xs"
@@ -272,7 +329,9 @@ export function AdminSettingsPanel({
                 Access Control
               </span>
               <h3 className="text-base font-bold text-foreground mt-1">Staff Accounts</h3>
-              <p className="text-xs text-muted-foreground mt-0.5">Manage who can sign in to this admin panel.</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Manage who can sign in to this admin panel.
+              </p>
             </div>
 
             <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
@@ -287,15 +346,26 @@ export function AdminSettingsPanel({
                 <TableBody>
                   {users.map((u) => (
                     <TableRow key={u.id} className="hover:bg-muted/40 transition-colors">
-                      <TableCell className="font-semibold text-xs text-foreground">{u.name}</TableCell>
-                      <TableCell className="font-mono text-xs text-muted-foreground">{u.email}</TableCell>
+                      <TableCell className="font-semibold text-xs text-foreground">
+                        {u.name}
+                      </TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        {u.email}
+                      </TableCell>
                       <TableCell>
                         <select
                           defaultValue={u.role}
                           onChange={(e) =>
                             void saveAdminUser({
-                              data: { id: u.id, name: u.name, email: u.email, role: e.target.value },
-                            }).then(() => toast.success("Role updated", `${u.name} is now ${e.target.value}`))
+                              data: {
+                                id: u.id,
+                                name: u.name,
+                                email: u.email,
+                                role: e.target.value,
+                              },
+                            }).then(() =>
+                              toast.success("Role updated", `${u.name} is now ${e.target.value}`),
+                            )
                           }
                           className="h-8 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
                         >
@@ -372,7 +442,11 @@ export function AdminSettingsPanel({
                 </select>
               </div>
               <div>
-                <Button type="submit" size="sm" className="w-full h-8.5 rounded-lg px-3.5 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold">
+                <Button
+                  type="submit"
+                  size="sm"
+                  className="w-full h-8.5 rounded-lg px-3.5 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold"
+                >
                   <UserPlus className="mr-1.5 h-3.5 w-3.5" />
                   <span>Create account</span>
                 </Button>

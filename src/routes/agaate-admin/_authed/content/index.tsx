@@ -13,8 +13,18 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/")({
 function ContentOverviewPage() {
   const data = Route.useLoaderData();
 
-  if (!isAdminOk<{ overview: CmsOverview; dbConfigured: boolean; newsletterWaitlist: number; careersJobs: number; careerApplications: number }>(data)) {
-    return <p className="text-sm text-rose-600">{adminError(data, "Unable to load CMS overview.")}</p>;
+  if (
+    !isAdminOk<{
+      overview: CmsOverview;
+      dbConfigured: boolean;
+      newsletterWaitlist: number;
+      careersJobs: number;
+      careerApplications: number;
+    }>(data)
+  ) {
+    return (
+      <p className="text-sm text-rose-600">{adminError(data, "Unable to load CMS overview.")}</p>
+    );
   }
 
   return (

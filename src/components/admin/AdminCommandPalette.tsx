@@ -10,13 +10,7 @@ import {
 } from "@/components/ui/command";
 import { ADMIN_COMMAND_GROUPS, ADMIN_COMMAND_PAGES } from "@/lib/admin-cms-nav";
 
-export function AdminCommandPalette({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+export function AdminCommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const navigate = useNavigate();
 
   const handleSelect = (action: () => void) => {

@@ -97,7 +97,6 @@ export default function PeopleChapter({ teamCms = TEAM_CMS_FALLBACK }: { teamCms
             </p>
           </div>
         </div>
-
         {/* Card-less Architectural Impact Ledger */}
         <div
           data-home-reveal
@@ -152,7 +151,6 @@ export default function PeopleChapter({ teamCms = TEAM_CMS_FALLBACK }: { teamCms
             );
           })}
         </div>
-
         {/* Leadership Executive Panorama Banner */}
         {bannerLeaders.length > 0 && (
           <Reveal variant="fade-up" delay={0.15}>
@@ -161,7 +159,8 @@ export default function PeopleChapter({ teamCms = TEAM_CMS_FALLBACK }: { teamCms
               eyebrow={isHindi ? "संस्थापक विज़न" : "Founders Vision"}
             />
           </Reveal>
-        )}      </div>
+        )}{" "}
+      </div>
     </section>
   );
 }

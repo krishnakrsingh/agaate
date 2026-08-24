@@ -1,13 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowsOut,
-  Pause,
-  Play,
-  SpeakerHigh,
-  SpeakerSlash,
-  X,
-} from "@phosphor-icons/react";
+import { ArrowsOut, Pause, Play, SpeakerHigh, SpeakerSlash, X } from "@phosphor-icons/react";
 import { EASE } from "@/components/common/motion";
 
 function formatTime(seconds: number) {

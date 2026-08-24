@@ -17,8 +17,7 @@ export function LanguageSwitcher({
   const location = useLocation();
   const { i18n } = useTranslation();
 
-  const isHindi =
-    location.pathname === "/hi" || location.pathname.startsWith("/hi/");
+  const isHindi = location.pathname === "/hi" || location.pathname.startsWith("/hi/");
   const currentLangCode = isHindi ? "hi" : "en";
 
   // Keep i18next language synchronized with the current route pathname
@@ -41,9 +40,7 @@ export function LanguageSwitcher({
   };
 
   const inactiveTextClass =
-    variant === "light"
-      ? "text-slate-600 hover:text-slate-900"
-      : "text-cream/70 hover:text-cream";
+    variant === "light" ? "text-slate-600 hover:text-slate-900" : "text-cream/70 hover:text-cream";
 
   const containerTrackClass =
     variant === "light"

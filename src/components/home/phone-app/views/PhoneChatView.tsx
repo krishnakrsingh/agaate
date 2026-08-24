@@ -62,7 +62,9 @@ export function PhoneChatView({
               {msg.sender === "farmer" ? (
                 <div className="max-w-[82%] rounded-2xl rounded-tr-xs bg-[#143d31] px-3 py-2 text-white shadow-2xs">
                   <p className="whitespace-pre-line text-[11.5px] leading-relaxed">{msg.text}</p>
-                  <p className="mt-0.5 text-right font-mono text-[8.5px] text-white/60">{msg.time}</p>
+                  <p className="mt-0.5 text-right font-mono text-[8.5px] text-white/60">
+                    {msg.time}
+                  </p>
                 </div>
               ) : (
                 <div className="max-w-[92%] rounded-2xl rounded-bl-xs border border-[#143d31]/10 bg-white p-3 shadow-2xs">
@@ -75,9 +77,7 @@ export function PhoneChatView({
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
-                    <span className="text-[10px] font-bold text-[#143d31]">
-                      Agaate Agronomist
-                    </span>
+                    <span className="text-[10px] font-bold text-[#143d31]">Agaate Agronomist</span>
                     {msg.verified && (
                       <span
                         className="inline-flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#25D366]"
@@ -180,7 +180,9 @@ export function PhoneChatView({
       {/* Quick Prompt Chips */}
       {!chatLocked && (
         <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto border-t border-[#143d31]/8 bg-[#f4f8f5] px-3 py-1.5">
-          <span className="shrink-0 font-mono text-[9px] uppercase font-bold text-[#5d7d37]">Ask:</span>
+          <span className="shrink-0 font-mono text-[9px] uppercase font-bold text-[#5d7d37]">
+            Ask:
+          </span>
           {SUGGESTED_PROMPTS.map((prompt) => (
             <button
               key={prompt}

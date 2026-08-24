@@ -40,10 +40,22 @@ export const MALL_CATEGORIES: MallCategory[] = [
     titleHi: "100% प्रमाणित उन्नत बीज",
     tagEn: "Seeds & Hybrids",
     tagHi: "बीज एवं हाइब्रिड",
-    descEn: "100% genuine seed lots tested for germination rate, purity, and localized climatic resistance.",
-    descHi: "उच्च अंकुरण दर, शुद्धता और क्षेत्रीय जलवायु सहनशीलता हेतु प्रमाणित हाइब्रिड एवं शोधित बीज।",
-    examplesEn: ["Bi-Color Sweet Corn", "F1 Watermelon & Papaya", "High-Yield Tomato & Chilli", "Exotic Bell Peppers"],
-    examplesHi: ["बाई-कलर स्वीट कॉर्न", "F1 तरबूज व पपीता", "उन्नत टमाटर व मिर्च", "रंगीन शिमला मिर्च"],
+    descEn:
+      "100% genuine seed lots tested for germination rate, purity, and localized climatic resistance.",
+    descHi:
+      "उच्च अंकुरण दर, शुद्धता और क्षेत्रीय जलवायु सहनशीलता हेतु प्रमाणित हाइब्रिड एवं शोधित बीज।",
+    examplesEn: [
+      "Bi-Color Sweet Corn",
+      "F1 Watermelon & Papaya",
+      "High-Yield Tomato & Chilli",
+      "Exotic Bell Peppers",
+    ],
+    examplesHi: [
+      "बाई-कलर स्वीट कॉर्न",
+      "F1 तरबूज व पपीता",
+      "उन्नत टमाटर व मिर्च",
+      "रंगीन शिमला मिर्च",
+    ],
     icon: Plant,
     badgeEn: "Germination Tested",
     badgeHi: "अंकुरण प्रमाणित",
@@ -54,10 +66,22 @@ export const MALL_CATEGORIES: MallCategory[] = [
     titleHi: "जैविक पोषण व बायो-फर्टिलाइजर",
     tagEn: "Soil Health",
     tagHi: "मृदा स्वास्थ्य",
-    descEn: "Certified bio-stimulants, mycorrhizal inoculants, and organic carbon enrichers that revitalize soil microbiome.",
-    descHi: "मिट्टी के जीवाणुओं और पोषण को सक्रिय करने वाले प्रमाणित बायो-स्टिमुलेंट्स, माइकोराइजा व समुद्री शैवाल अर्क।",
-    examplesEn: ["Endo-Mycorrhiza Granules", "Cold-Water Seaweed Extract", "Potassium Humate 98%", "Amino Acid Liquid"],
-    examplesHi: ["एंडो-माइकोराइजा दानेदार", "सीवीड एक्सट्रैक्ट अर्क", "पोटेशियम ह्यूमेट 98%", "अमीनो एसिड फॉर्मूलेशन"],
+    descEn:
+      "Certified bio-stimulants, mycorrhizal inoculants, and organic carbon enrichers that revitalize soil microbiome.",
+    descHi:
+      "मिट्टी के जीवाणुओं और पोषण को सक्रिय करने वाले प्रमाणित बायो-स्टिमुलेंट्स, माइकोराइजा व समुद्री शैवाल अर्क।",
+    examplesEn: [
+      "Endo-Mycorrhiza Granules",
+      "Cold-Water Seaweed Extract",
+      "Potassium Humate 98%",
+      "Amino Acid Liquid",
+    ],
+    examplesHi: [
+      "एंडो-माइकोराइजा दानेदार",
+      "सीवीड एक्सट्रैक्ट अर्क",
+      "पोटेशियम ह्यूमेट 98%",
+      "अमीनो एसिड फॉर्मूलेशन",
+    ],
     icon: Drop,
     badgeEn: "100% Organic Certified",
     badgeHi: "जैविक प्रमाणित",
@@ -68,10 +92,22 @@ export const MALL_CATEGORIES: MallCategory[] = [
     titleHi: "बायो-प्रोटेक्शन व फसल सुरक्षा",
     tagEn: "Protection",
     tagHi: "सुरक्षा",
-    descEn: "Targeted bio-fungicides, natural repellents, and pest management inputs with zero toxic chemical residue.",
-    descHi: "फफूंद, रसचूसक कीट एवं सुंडी नियंत्रण हेतु सुरक्षित बायो-फंगीसाइड्स और प्राकृतिक कीट नियंत्रक।",
-    examplesEn: ["Trichoderma Viride Bio-culture", "Pseudomonas Fluorescens", "Cold-Pressed Neem 10,000 PPM", "Pheromone Delta Traps"],
-    examplesHi: ["ट्राइकोडर्मा विरिडी कल्चर", "स्यूडोमोनास फ्लोरेसेंस", "नीम तेल 10,000 PPM", "फेरोमोन ट्रैप व ल्योर"],
+    descEn:
+      "Targeted bio-fungicides, natural repellents, and pest management inputs with zero toxic chemical residue.",
+    descHi:
+      "फफूंद, रसचूसक कीट एवं सुंडी नियंत्रण हेतु सुरक्षित बायो-फंगीसाइड्स और प्राकृतिक कीट नियंत्रक।",
+    examplesEn: [
+      "Trichoderma Viride Bio-culture",
+      "Pseudomonas Fluorescens",
+      "Cold-Pressed Neem 10,000 PPM",
+      "Pheromone Delta Traps",
+    ],
+    examplesHi: [
+      "ट्राइकोडर्मा विरिडी कल्चर",
+      "स्यूडोमोनास फ्लोरेसेंस",
+      "नीम तेल 10,000 PPM",
+      "फेरोमोन ट्रैप व ल्योर",
+    ],
     icon: ShieldCheck,
     badgeEn: "Zero Toxic Residue",
     badgeHi: "शून्य विषाक्त अवशेष",
@@ -82,10 +118,22 @@ export const MALL_CATEGORIES: MallCategory[] = [
     titleHi: "ड्रिप सिंचाई व फर्टिगेशन किट",
     tagEn: "Water Tech",
     tagHi: "जल तकनीक",
-    descEn: "UV-stabilized inline drip laterals, pressure compensating drippers, and automated fertigation injectors.",
-    descHi: "यूवी-स्टैबिलाइज्ड ड्रिप लेटरल्स, प्रेशर कम्पेन्सेटिंग एमिटर्स व आसान फर्टिगेशन वेंच्युरी सिस्टम।",
-    examplesEn: ["16mm Inline Drip 40cm Spacing", "Venturi Injector Sets", "Disc & Screen Filters", "Mini-Sprinkler Packages"],
-    examplesHi: ["16mm इनलाइन ड्रिप लेटरल", "वेंच्युरी फर्टिगेशन सेट", "डिस्क व स्क्रीन फिल्टर", "मिनी-स्प्रिंकलर पैकेज"],
+    descEn:
+      "UV-stabilized inline drip laterals, pressure compensating drippers, and automated fertigation injectors.",
+    descHi:
+      "यूवी-स्टैबिलाइज्ड ड्रिप लेटरल्स, प्रेशर कम्पेन्सेटिंग एमिटर्स व आसान फर्टिगेशन वेंच्युरी सिस्टम।",
+    examplesEn: [
+      "16mm Inline Drip 40cm Spacing",
+      "Venturi Injector Sets",
+      "Disc & Screen Filters",
+      "Mini-Sprinkler Packages",
+    ],
+    examplesHi: [
+      "16mm इनलाइन ड्रिप लेटरल",
+      "वेंच्युरी फर्टिगेशन सेट",
+      "डिस्क व स्क्रीन फिल्टर",
+      "मिनी-स्प्रिंकलर पैकेज",
+    ],
     icon: Drop,
     badgeEn: "ISI & BIS Standard",
     badgeHi: "ISI मानक प्रमाणित",
@@ -96,10 +144,22 @@ export const MALL_CATEGORIES: MallCategory[] = [
     titleHi: "आधुनिक फार्म टूल्स व मल्चिंग",
     tagEn: "Farm Hardware",
     tagHi: "हार्डवेयर",
-    descEn: "Commercial grade silver-black mulch films, shade netting, weed mats, and dual-motor electric sprayers.",
-    descHi: "नमी संरक्षण व खरपतवार रोकथाम हेतु 25-30 माइक्रोन मल्चिंग फिल्म, शेड नेट और रिचार्जेबल स्प्रेयर।",
-    examplesEn: ["25 Micron Silver-Black Mulch", "50% Agro Shade Nets", "16L Dual-Motor Sprayers", "High-Carbon Pruning Shears"],
-    examplesHi: ["25-30 माइक्रोन मल्चिंग फिल्म", "50% शेड नेट", "डबल-मोटर बैटरी स्प्रेयर", "हाई-कार्बन प्रूनिंग कटर"],
+    descEn:
+      "Commercial grade silver-black mulch films, shade netting, weed mats, and dual-motor electric sprayers.",
+    descHi:
+      "नमी संरक्षण व खरपतवार रोकथाम हेतु 25-30 माइक्रोन मल्चिंग फिल्म, शेड नेट और रिचार्जेबल स्प्रेयर।",
+    examplesEn: [
+      "25 Micron Silver-Black Mulch",
+      "50% Agro Shade Nets",
+      "16L Dual-Motor Sprayers",
+      "High-Carbon Pruning Shears",
+    ],
+    examplesHi: [
+      "25-30 माइक्रोन मल्चिंग फिल्म",
+      "50% शेड नेट",
+      "डबल-मोटर बैटरी स्प्रेयर",
+      "हाई-कार्बन प्रूनिंग कटर",
+    ],
     icon: Wrench,
     badgeEn: "Commercial Grade",
     badgeHi: "कमर्शियल ग्रेड",
@@ -110,10 +170,22 @@ export const MALL_CATEGORIES: MallCategory[] = [
     titleHi: "बायो-बूस्टेड उन्नत नर्सरी पौध",
     tagEn: "Root-Treated",
     tagHi: "रूट-ट्रीटेड",
-    descEn: "Climate-hardened vegetable & fruit saplings raised in automated smart nursery plug-trays.",
-    descHi: "अगाते स्मार्ट नर्सरी में कोकोपीट प्लग ट्रे में तैयार, 98% से अधिक फील्ड सर्वाइवल वाली रोगमुक्त पौध।",
-    examplesEn: ["Vigorous Papaya (Taiwan 786)", "Root-Boosted Tomato & Chilli", "Sweet Pepper & Capsicum", "Seedless Watermelon Plugs"],
-    examplesHi: ["ताइवान 786 रेड लेडी पपीता", "रूट-बूस्टेड टमाटर व मिर्च", "रंगीन शिमला मिर्च पौध", "सीडलेस तरबूज पौध"],
+    descEn:
+      "Climate-hardened vegetable & fruit saplings raised in automated smart nursery plug-trays.",
+    descHi:
+      "अगाते स्मार्ट नर्सरी में कोकोपीट प्लग ट्रे में तैयार, 98% से अधिक फील्ड सर्वाइवल वाली रोगमुक्त पौध।",
+    examplesEn: [
+      "Vigorous Papaya (Taiwan 786)",
+      "Root-Boosted Tomato & Chilli",
+      "Sweet Pepper & Capsicum",
+      "Seedless Watermelon Plugs",
+    ],
+    examplesHi: [
+      "ताइवान 786 रेड लेडी पपीता",
+      "रूट-बूस्टेड टमाटर व मिर्च",
+      "रंगीन शिमला मिर्च पौध",
+      "सीडलेस तरबूज पौध",
+    ],
     icon: Plant,
     badgeEn: "98%+ Field Survival",
     badgeHi: "98%+ फील्ड सर्वाइवल",
@@ -125,7 +197,8 @@ export const MALL_SUPPLY_CHAIN = [
     step: "01",
     titleEn: "Information Gathering",
     titleHi: "क्षेत्रीय डेटा व मांग संग्रह",
-    descEn: "Localized soil, weather & crop data analyzed to curate verified inputs suited for local conditions.",
+    descEn:
+      "Localized soil, weather & crop data analyzed to curate verified inputs suited for local conditions.",
     descHi: "क्षेत्रीय मिट्टी, मौसम व फसल चक्र अनुसार उपयुक्त और प्रमाणित इनपुट्स का सटीक चयन।",
     icon: MagnifyingGlass,
   },
@@ -133,24 +206,30 @@ export const MALL_SUPPLY_CHAIN = [
     step: "02",
     titleEn: "Direct Partner Sourcing",
     titleHi: "सीधे कंपनियों से सोर्सिंग",
-    descEn: "Sourced directly from 50+ certified seed & input manufacturers with zero multi-tier middleman margins.",
-    descHi: "बिना किसी बिचौलिए के सीधे 50+ प्रतिष्ठित विनिर्माताओं से पारदर्शी व किफायती दरों पर खरीद।",
+    descEn:
+      "Sourced directly from 50+ certified seed & input manufacturers with zero multi-tier middleman margins.",
+    descHi:
+      "बिना किसी बिचौलिए के सीधे 50+ प्रतिष्ठित विनिर्माताओं से पारदर्शी व किफायती दरों पर खरीद।",
     icon: Buildings,
   },
   {
     step: "03",
     titleEn: "Climate-Controlled Hub",
     titleHi: "तापमान-नियंत्रित वेयरहाउस",
-    descEn: "Preserved in humidity and temperature-controlled storage to maintain seed vigour and microbial viability.",
-    descHi: "बीज की अंकुरण क्षमता और बायो-कल्चर की गुणवत्ता बनाए रखने हेतु विशेष हब में सुरक्षित भंडारण।",
+    descEn:
+      "Preserved in humidity and temperature-controlled storage to maintain seed vigour and microbial viability.",
+    descHi:
+      "बीज की अंकुरण क्षमता और बायो-कल्चर की गुणवत्ता बनाए रखने हेतु विशेष हब में सुरक्षित भंडारण।",
     icon: Package,
   },
   {
     step: "04",
     titleEn: "Direct Farm Delivery",
     titleHi: "खेत के गेट तक सीधी डिलीवरी",
-    descEn: "Delivered straight to your field gate across 15,000+ PIN codes with tamper-proof sealed packaging.",
-    descHi: "15,000+ पिनकोड में सीधे आपके खेत के गेट तक सुरक्षित डिलीवरी और सीलबंद सुरक्षित पैकेजिंग।",
+    descEn:
+      "Delivered straight to your field gate across 15,000+ PIN codes with tamper-proof sealed packaging.",
+    descHi:
+      "15,000+ पिनकोड में सीधे आपके खेत के गेट तक सुरक्षित डिलीवरी और सीलबंद सुरक्षित पैकेजिंग।",
     icon: Truck,
   },
 ];

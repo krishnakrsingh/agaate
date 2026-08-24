@@ -109,11 +109,9 @@ async function requireEditor() {
 const IMAGE_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const VIDEO_MIME = new Set(["video/mp4", "video/webm"]);
 
-function filterMock<T extends { status: string; hasUnpublishedChanges: boolean; sortOrder: number }>(
-  rows: T[],
-  filters: CmsListFilters,
-  match: (r: T) => boolean,
-) {
+function filterMock<
+  T extends { status: string; hasUnpublishedChanges: boolean; sortOrder: number },
+>(rows: T[], filters: CmsListFilters, match: (r: T) => boolean) {
   return rows
     .filter((r) => {
       if (filters.status && filters.status !== "all" && r.status !== filters.status) return false;
@@ -136,8 +134,14 @@ export async function handleCmsOverview() {
       });
       return {
         ok: true as const,
-        overview: { stats: count(mockStats), logos: count(mockLogos), stories: count(mockStories), team: count(mockTeam) },
-        newsletterWaitlist: mockNewsletterSignups.filter((s) => s.source_page === "/kisaan-mall").length,
+        overview: {
+          stats: count(mockStats),
+          logos: count(mockLogos),
+          stories: count(mockStories),
+          team: count(mockTeam),
+        },
+        newsletterWaitlist: mockNewsletterSignups.filter((s) => s.source_page === "/kisaan-mall")
+          .length,
         careersJobs: mockCareerJobs.filter((j) => j.status === "published").length,
         careerApplications: mockCareerApplications.length,
         dbConfigured: false,
@@ -164,11 +168,14 @@ export async function handleListStats(filters: CmsListFilters) {
   try {
     await requireSessionUser();
     if (!isDbConfigured()) {
-      const rows = filterMock(mockStats, filters, (r) =>
-        !filters.q ||
-        [r.labelEn, r.labelHi, r.slug].some((f) =>
-          f.toLowerCase().includes(filters.q!.toLowerCase()),
-        ),
+      const rows = filterMock(
+        mockStats,
+        filters,
+        (r) =>
+          !filters.q ||
+          [r.labelEn, r.labelHi, r.slug].some((f) =>
+            f.toLowerCase().includes(filters.q!.toLowerCase()),
+          ),
       );
       return { ok: true as const, items: rows, dbConfigured: false };
     }
@@ -203,11 +210,14 @@ export async function handleListStories(filters: CmsListFilters) {
   try {
     await requireSessionUser();
     if (!isDbConfigured()) {
-      const rows = filterMock(mockStories, filters, (r) =>
-        !filters.q ||
-        [r.nameEn, r.nameHi, r.slug, r.cropEn].some((f) =>
-          f.toLowerCase().includes(filters.q!.toLowerCase()),
-        ),
+      const rows = filterMock(
+        mockStories,
+        filters,
+        (r) =>
+          !filters.q ||
+          [r.nameEn, r.nameHi, r.slug, r.cropEn].some((f) =>
+            f.toLowerCase().includes(filters.q!.toLowerCase()),
+          ),
       );
       return { ok: true as const, items: rows, dbConfigured: false };
     }
@@ -401,7 +411,12 @@ export async function handleSaveStory(data: Parameters<typeof saveCmsStory>[0]) 
       if (data.id) {
         const idx = mockStories.findIndex((r) => r.id === data.id);
         if (idx < 0) return { ok: false as const, error: "Item not found." };
-        const updated = { ...mockStories[idx]!, ...data, updatedAt: new Date().toISOString(), hasUnpublishedChanges: true };
+        const updated = {
+          ...mockStories[idx]!,
+          ...data,
+          updatedAt: new Date().toISOString(),
+          hasUnpublishedChanges: true,
+        };
         mockStories[idx] = updated;
         return { ok: true as const, item: updated };
       }
@@ -445,11 +460,14 @@ export async function handleListCareerJobs(filters: CmsListFilters) {
   try {
     await requireSessionUser();
     if (!isDbConfigured()) {
-      const rows = filterMock(mockCareerJobs, filters, (r) =>
-        !filters.q ||
-        [r.titleEn, r.titleHi, r.slug, r.deptEn].some((f) =>
-          f.toLowerCase().includes(filters.q!.toLowerCase()),
-        ),
+      const rows = filterMock(
+        mockCareerJobs,
+        filters,
+        (r) =>
+          !filters.q ||
+          [r.titleEn, r.titleHi, r.slug, r.deptEn].some((f) =>
+            f.toLowerCase().includes(filters.q!.toLowerCase()),
+          ),
       );
       return { ok: true as const, items: rows, dbConfigured: false };
     }
@@ -471,7 +489,10 @@ export async function handleSaveCareerJob(data: Parameters<typeof saveCmsCareerJ
   }
 }
 
-export async function handlePublish(data: { type: "stats" | "logos" | "stories" | "team" | "careerJobs"; id: number }) {
+export async function handlePublish(data: {
+  type: "stats" | "logos" | "stories" | "team" | "careerJobs";
+  id: number;
+}) {
   try {
     assertSameOrigin();
     await requireEditor();
@@ -644,16 +665,17 @@ export async function handleUploadMedia(data: {
     if (buf.byteLength > maxSize) {
       return {
         ok: false as const,
-        error: data.kind === "image" ? "Image must be 2MB or smaller." : "Video must be 40MB or smaller.",
+        error:
+          data.kind === "image"
+            ? "Image must be 2MB or smaller."
+            : "Video must be 40MB or smaller.",
       };
     }
     const ext =
       extname(data.filename).toLowerCase() ||
       (data.mime === "video/webm" ? ".webm" : data.mime === "video/mp4" ? ".mp4" : ".jpg");
     const allowedExt =
-      data.kind === "image"
-        ? [".jpg", ".jpeg", ".png", ".webp"]
-        : [".mp4", ".webm"];
+      data.kind === "image" ? [".jpg", ".jpeg", ".png", ".webp"] : [".mp4", ".webm"];
     if (!allowedExt.includes(ext)) {
       return { ok: false as const, error: "Unsupported extension." };
     }

@@ -176,7 +176,7 @@ export function calculateHaversineDistance(
   lat1: number,
   lon1: number,
   lat2: number,
-  lon2: number
+  lon2: number,
 ): number {
   const R = 6371; // Earth radius in km
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -196,7 +196,7 @@ export function calculateHaversineDistance(
  */
 export function findNearestHub(
   lat: number,
-  lng: number
+  lng: number,
 ): { hub: HubLocation; distanceKm: number; deliveryDays: string } {
   let nearest: HubLocation = AGAATE_HUBS[0]!;
   let minDistance = Infinity;
@@ -228,9 +228,7 @@ export function findNearestHub(
 /**
  * REAL Live OpenStreetMap Nominatim Geocoding API Search
  */
-export async function fetchLivePredictions(
-  query: string
-): Promise<PincodeEntry[]> {
+export async function fetchLivePredictions(query: string): Promise<PincodeEntry[]> {
   const clean = query.trim();
   if (!clean || clean.length < 2) return [];
 
@@ -238,12 +236,12 @@ export async function fetchLivePredictions(
     (item) =>
       item.pincode.startsWith(clean) ||
       item.district.toLowerCase().includes(clean.toLowerCase()) ||
-      item.state.toLowerCase().includes(clean.toLowerCase())
+      item.state.toLowerCase().includes(clean.toLowerCase()),
   );
 
   try {
     const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-      clean + ", India"
+      clean + ", India",
     )}&countrycodes=in&format=json&addressdetails=1&limit=6`;
 
     const res = await fetch(url, {
@@ -308,10 +306,7 @@ export async function fetchLivePredictions(
 /**
  * REAL Live Reverse Geocoding via OpenStreetMap for GPS Location
  */
-export async function fetchLiveReverseGeocode(
-  lat: number,
-  lng: number
-): Promise<PincodeEntry> {
+export async function fetchLiveReverseGeocode(lat: number, lng: number): Promise<PincodeEntry> {
   const { hub, deliveryDays } = findNearestHub(lat, lng);
 
   try {

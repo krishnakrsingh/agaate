@@ -14,7 +14,11 @@ import { useToast } from "@/components/admin/AdminToast";
 import { CmsStatusBadge } from "@/components/admin/cms/CmsStatusBadge";
 import { CmsStoryPreview } from "@/components/admin/cms/CmsInlinePreview";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
-import { CmsDragHandle, CmsSortableProvider, CmsSortableRow } from "@/components/admin/cms/CmsSortable";
+import {
+  CmsDragHandle,
+  CmsSortableProvider,
+  CmsSortableRow,
+} from "@/components/admin/cms/CmsSortable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,7 +57,11 @@ import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { storySlugFrom } from "@/lib/cms-slug";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
-import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import {
+  CmsTableEmptyAction,
+  CmsTableEmptyRow,
+  CmsTableLoadingRow,
+} from "@/components/admin/cms/CmsTableState";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { autoThumbnailForVideoUrl, isValidVideoSource } from "@/lib/video-source";
@@ -164,13 +172,17 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
       return;
     }
     setPublishing(true);
-    const saveRes = await saveCmsStoryAdmin({ data: { id: editing?.id, ...form, slug, thumbnailUrl: thumb } });
+    const saveRes = await saveCmsStoryAdmin({
+      data: { id: editing?.id, ...form, slug, thumbnailUrl: thumb },
+    });
     if (!isAdminOk<{ item: CmsStoryRow }>(saveRes)) {
       toast.error(adminError(saveRes));
       setPublishing(false);
       return;
     }
-    const publishRes = await publishCmsItemAdmin({ data: { type: "stories", id: saveRes.item.id } });
+    const publishRes = await publishCmsItemAdmin({
+      data: { type: "stories", id: saveRes.item.id },
+    });
     if (isAdminOk(publishRes)) {
       toast.success("Published to live site.");
       setFormDirty(false);
@@ -215,7 +227,12 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search name, crop, location…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <Input
+            className="pl-9"
+            placeholder="Search name, crop, location…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
         </div>
         <Select value={status} onValueChange={(v) => setStatus(v as CmsStatus | "all")}>
           <SelectTrigger className="w-full sm:w-40">
@@ -250,84 +267,94 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
                   title="No testimonials yet"
                   description="Add a farmer video story, then publish it to appear on the homepage."
                   action={
-                    canEdit ? <CmsTableEmptyAction label="Add testimonial" onClick={openCreate} /> : undefined
+                    canEdit ? (
+                      <CmsTableEmptyAction label="Add testimonial" onClick={openCreate} />
+                    ) : undefined
                   }
                 />
               ) : null}
               {!loading
                 ? filtered.map((row) => (
-                <CmsSortableRow key={row.id} id={row.id}>
-                  <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
-                  <TableCell>
-                    <img src={row.thumbnailUrl} alt="" className="h-14 w-10 rounded object-cover" />
-                  </TableCell>
-                  <TableCell>
-                    <p className="font-medium">{row.nameEn}</p>
-                    <p className="text-xs text-muted-foreground">{row.locationEn}</p>
-                  </TableCell>
-                  <TableCell>{row.cropEn}</TableCell>
-                  <TableCell>
-                    <CmsStatusBadge status={row.status} />
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
-                        {canEdit && row.status !== "archived" && (
-                          <>
-                            {row.status === "published" && (
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  requestConfirm({
-                                    title: "Unpublish testimonial?",
-                                    description: `"${row.nameEn}" will be removed from the live homepage.`,
-                                    confirmLabel: "Unpublish",
-                                    action: async () => {
-                                      const res = await unpublishCmsItemAdmin({ data: { type: "stories", id: row.id } });
-                                      if (isAdminOk(res)) {
-                                        toast.success("Removed from live site.");
-                                        await load();
-                                      } else toast.error(adminError(res));
-                                    },
-                                  })
-                                }
-                              >
-                                Unpublish
-                              </DropdownMenuItem>
+                    <CmsSortableRow key={row.id} id={row.id}>
+                      <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
+                      <TableCell>
+                        <img
+                          src={row.thumbnailUrl}
+                          alt=""
+                          className="h-14 w-10 rounded object-cover"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <p className="font-medium">{row.nameEn}</p>
+                        <p className="text-xs text-muted-foreground">{row.locationEn}</p>
+                      </TableCell>
+                      <TableCell>{row.cropEn}</TableCell>
+                      <TableCell>
+                        <CmsStatusBadge status={row.status} />
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
+                            {canEdit && row.status !== "archived" && (
+                              <>
+                                {row.status === "published" && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      requestConfirm({
+                                        title: "Unpublish testimonial?",
+                                        description: `"${row.nameEn}" will be removed from the live homepage.`,
+                                        confirmLabel: "Unpublish",
+                                        action: async () => {
+                                          const res = await unpublishCmsItemAdmin({
+                                            data: { type: "stories", id: row.id },
+                                          });
+                                          if (isAdminOk(res)) {
+                                            toast.success("Removed from live site.");
+                                            await load();
+                                          } else toast.error(adminError(res));
+                                        },
+                                      })
+                                    }
+                                  >
+                                    Unpublish
+                                  </DropdownMenuItem>
+                                )}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-rose-600"
+                                  onClick={() =>
+                                    requestConfirm({
+                                      title: "Archive testimonial?",
+                                      description: `"${row.nameEn}" will be archived and hidden from this list.`,
+                                      confirmLabel: "Archive",
+                                      destructive: true,
+                                      action: async () => {
+                                        const res = await archiveCmsItemAdmin({
+                                          data: { type: "stories", id: row.id },
+                                        });
+                                        if (isAdminOk(res)) {
+                                          toast.success("Archived.");
+                                          await load();
+                                        } else toast.error(adminError(res));
+                                      },
+                                    })
+                                  }
+                                >
+                                  Archive
+                                </DropdownMenuItem>
+                              </>
                             )}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-rose-600"
-                              onClick={() =>
-                                requestConfirm({
-                                  title: "Archive testimonial?",
-                                  description: `"${row.nameEn}" will be archived and hidden from this list.`,
-                                  confirmLabel: "Archive",
-                                  destructive: true,
-                                  action: async () => {
-                                    const res = await archiveCmsItemAdmin({ data: { type: "stories", id: row.id } });
-                                    if (isAdminOk(res)) {
-                                      toast.success("Archived.");
-                                      await load();
-                                    } else toast.error(adminError(res));
-                                  },
-                                })
-                              }
-                            >
-                              Archive
-                            </DropdownMenuItem>
-                          </>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </CmsSortableRow>
-              ))
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </CmsSortableRow>
+                  ))
                 : null}
             </TableBody>
           </Table>
@@ -338,7 +365,9 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
         <SheetContent className="overflow-y-auto sm:max-w-xl">
           <SheetHeader>
             <SheetTitle>{editing ? "Edit testimonial" : "New testimonial"}</SheetTitle>
-            <SheetDescription>Preview below, then publish to update the live website.</SheetDescription>
+            <SheetDescription>
+              Preview below, then publish to update the live website.
+            </SheetDescription>
           </SheetHeader>
           <div className="mt-6 space-y-4">
             <CmsStoryPreview
@@ -379,69 +408,127 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Name (EN)</Label>
-                <Input value={form.nameEn} onChange={(e) => updateForm({ nameEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.nameEn}
+                  onChange={(e) => updateForm({ nameEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Name (HI)</Label>
-                <Input value={form.nameHi} onChange={(e) => updateForm({ nameHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.nameHi}
+                  onChange={(e) => updateForm({ nameHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Role (EN)</Label>
-                <Input value={form.roleEn} onChange={(e) => updateForm({ roleEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.roleEn}
+                  onChange={(e) => updateForm({ roleEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Role (HI)</Label>
-                <Input value={form.roleHi} onChange={(e) => updateForm({ roleHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.roleHi}
+                  onChange={(e) => updateForm({ roleHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Location (EN)</Label>
-                <Input value={form.locationEn} onChange={(e) => updateForm({ locationEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.locationEn}
+                  onChange={(e) => updateForm({ locationEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Location (HI)</Label>
-                <Input value={form.locationHi} onChange={(e) => updateForm({ locationHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.locationHi}
+                  onChange={(e) => updateForm({ locationHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Acres (EN)</Label>
-                <Input value={form.acresEn} onChange={(e) => updateForm({ acresEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.acresEn}
+                  onChange={(e) => updateForm({ acresEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Acres (HI)</Label>
-                <Input value={form.acresHi} onChange={(e) => updateForm({ acresHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.acresHi}
+                  onChange={(e) => updateForm({ acresHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Crop (EN)</Label>
-                <Input value={form.cropEn} onChange={(e) => updateForm({ cropEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.cropEn}
+                  onChange={(e) => updateForm({ cropEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Crop (HI)</Label>
-                <Input value={form.cropHi} onChange={(e) => updateForm({ cropHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.cropHi}
+                  onChange={(e) => updateForm({ cropHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Quote (EN)</Label>
-              <Textarea value={form.quoteEn} onChange={(e) => updateForm({ quoteEn: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea
+                value={form.quoteEn}
+                onChange={(e) => updateForm({ quoteEn: e.target.value })}
+                disabled={!canEdit}
+                rows={3}
+              />
             </div>
             <div className="space-y-2">
               <Label>Quote (HI)</Label>
-              <Textarea value={form.quoteHi} onChange={(e) => updateForm({ quoteHi: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea
+                value={form.quoteHi}
+                onChange={(e) => updateForm({ quoteHi: e.target.value })}
+                disabled={!canEdit}
+                rows={3}
+              />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Badge (EN)</Label>
-                <Input value={form.badgeEn} onChange={(e) => updateForm({ badgeEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.badgeEn}
+                  onChange={(e) => updateForm({ badgeEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Badge (HI)</Label>
-                <Input value={form.badgeHi} onChange={(e) => updateForm({ badgeHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.badgeHi}
+                  onChange={(e) => updateForm({ badgeHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <CmsUploadField
@@ -467,8 +554,8 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
               />
               <p className="text-xs text-muted-foreground">
-                Paste a YouTube or Instagram reel link, or upload MP4/WebM below. YouTube links auto-fill the
-                thumbnail.
+                Paste a YouTube or Instagram reel link, or upload MP4/WebM below. YouTube links
+                auto-fill the thumbnail.
               </p>
             </div>
             <CmsUploadField
@@ -484,7 +571,11 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
             <SheetFooter className="mt-6">
               <Button
                 onClick={() => void handlePublish()}
-                disabled={publishing || !isValidVideoSource(form.videoUrl) || !(form.thumbnailUrl || autoThumbnailForVideoUrl(form.videoUrl))}
+                disabled={
+                  publishing ||
+                  !isValidVideoSource(form.videoUrl) ||
+                  !(form.thumbnailUrl || autoThumbnailForVideoUrl(form.videoUrl))
+                }
                 className="w-full"
               >
                 {publishing ? "Publishing…" : "Publish"}

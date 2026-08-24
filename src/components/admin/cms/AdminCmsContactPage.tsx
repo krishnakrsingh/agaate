@@ -83,7 +83,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
   function updateTopic(index: number, patch: Partial<ContactConsultationTopic>) {
     updateContent({
       ...content,
-      consultationTopics: content.consultationTopics.map((t, i) => (i === index ? { ...t, ...patch } : t)),
+      consultationTopics: content.consultationTopics.map((t, i) =>
+        i === index ? { ...t, ...patch } : t,
+      ),
     });
   }
 
@@ -255,7 +257,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
                   <Label className="text-xs">Icon</Label>
                   <Select
                     value={topic.iconKey}
-                    onValueChange={(v) => updateTopic(i, { iconKey: v as ContactConsultationTopic["iconKey"] })}
+                    onValueChange={(v) =>
+                      updateTopic(i, { iconKey: v as ContactConsultationTopic["iconKey"] })
+                    }
                     disabled={!canEdit}
                   >
                     <SelectTrigger>
@@ -263,7 +267,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
                     </SelectTrigger>
                     <SelectContent>
                       {CMS_ICON_KEYS.map((key) => (
-                        <SelectItem key={key} value={key}>{key}</SelectItem>
+                        <SelectItem key={key} value={key}>
+                          {key}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -317,13 +323,17 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               },
             }}
           />
-          <p className="text-xs text-muted-foreground">One option per line. English and Hindi lists should align by row.</p>
+          <p className="text-xs text-muted-foreground">
+            One option per line. English and Hindi lists should align by row.
+          </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1">
               <Label>Acreage options (EN)</Label>
               <Textarea
                 value={listToLines(content.acreageOptionsEn)}
-                onChange={(e) => updateContent({ ...content, acreageOptionsEn: linesToList(e.target.value) })}
+                onChange={(e) =>
+                  updateContent({ ...content, acreageOptionsEn: linesToList(e.target.value) })
+                }
                 disabled={!canEdit}
                 rows={5}
               />
@@ -332,7 +342,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Acreage options (HI)</Label>
               <Textarea
                 value={listToLines(content.acreageOptionsHi)}
-                onChange={(e) => updateContent({ ...content, acreageOptionsHi: linesToList(e.target.value) })}
+                onChange={(e) =>
+                  updateContent({ ...content, acreageOptionsHi: linesToList(e.target.value) })
+                }
                 disabled={!canEdit}
                 rows={5}
               />
@@ -341,7 +353,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Crop options (EN)</Label>
               <Textarea
                 value={listToLines(content.cropOptionsEn)}
-                onChange={(e) => updateContent({ ...content, cropOptionsEn: linesToList(e.target.value) })}
+                onChange={(e) =>
+                  updateContent({ ...content, cropOptionsEn: linesToList(e.target.value) })
+                }
                 disabled={!canEdit}
                 rows={5}
               />
@@ -350,7 +364,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Crop options (HI)</Label>
               <Textarea
                 value={listToLines(content.cropOptionsHi)}
-                onChange={(e) => updateContent({ ...content, cropOptionsHi: linesToList(e.target.value) })}
+                onChange={(e) =>
+                  updateContent({ ...content, cropOptionsHi: linesToList(e.target.value) })
+                }
                 disabled={!canEdit}
                 rows={5}
               />
@@ -359,7 +375,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Channel options (EN)</Label>
               <Textarea
                 value={listToLines(content.channelOptionsEn)}
-                onChange={(e) => updateContent({ ...content, channelOptionsEn: linesToList(e.target.value) })}
+                onChange={(e) =>
+                  updateContent({ ...content, channelOptionsEn: linesToList(e.target.value) })
+                }
                 disabled={!canEdit}
                 rows={4}
               />
@@ -368,7 +386,9 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Channel options (HI)</Label>
               <Textarea
                 value={listToLines(content.channelOptionsHi)}
-                onChange={(e) => updateContent({ ...content, channelOptionsHi: linesToList(e.target.value) })}
+                onChange={(e) =>
+                  updateContent({ ...content, channelOptionsHi: linesToList(e.target.value) })
+                }
                 disabled={!canEdit}
                 rows={4}
               />

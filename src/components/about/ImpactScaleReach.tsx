@@ -54,8 +54,8 @@ export default function ImpactScaleReach({ isHi = false }: { isHi?: boolean }) {
             </h2>
 
             <p className="font-sans text-[#4f624f] text-xs sm:text-sm max-w-md leading-relaxed">
-              Concentrated operational scale delivering direct-from-brand inputs, doorstep logistics,
-              and Senior Agronomist guidance to maximize yield and farmer income.
+              Concentrated operational scale delivering direct-from-brand inputs, doorstep
+              logistics, and Senior Agronomist guidance to maximize yield and farmer income.
             </p>
           </div>
         </Reveal>
@@ -85,9 +85,7 @@ export default function ImpactScaleReach({ isHi = false }: { isHi?: boolean }) {
                     key={label}
                     className={`flex flex-col justify-center transition-colors ${
                       isLeft ? "border-r border-[#143d31]/15 pr-5 sm:pr-8" : "pl-5 sm:pl-8"
-                    } ${
-                      isTop ? "border-b border-[#143d31]/15 pb-5 sm:pb-6" : "pt-5 sm:pt-6"
-                    }`}
+                    } ${isTop ? "border-b border-[#143d31]/15 pb-5 sm:pb-6" : "pt-5 sm:pt-6"}`}
                   >
                     <p className="font-display text-3xl sm:text-4xl lg:text-[2.65rem] font-extrabold tracking-tight text-[#143d31] leading-none">
                       <CountUp to={m.numValue} suffix={suffix} />

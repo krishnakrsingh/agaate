@@ -11,7 +11,9 @@ export function AgriParkChapterProvider({
   content: HomeAgriParkChapterContent;
   children: ReactNode;
 }) {
-  return <AgriParkChapterContext.Provider value={content}>{children}</AgriParkChapterContext.Provider>;
+  return (
+    <AgriParkChapterContext.Provider value={content}>{children}</AgriParkChapterContext.Provider>
+  );
 }
 
 export function useAgriParkChapter(): HomeAgriParkChapterContent {

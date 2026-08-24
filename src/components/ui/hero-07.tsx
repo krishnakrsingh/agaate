@@ -142,9 +142,7 @@ export function Hero07({
     <div className="flex flex-wrap items-center gap-x-4 gap-y-3 pt-2">
       {primaryCTA?.ctaEnabled && <Cta cta={primaryCTA} />}
       {secondaryCTA?.ctaEnabled && (
-        <Cta
-          cta={{ ...secondaryCTA, variant: secondaryCTA.variant ?? "link" }}
-        />
+        <Cta cta={{ ...secondaryCTA, variant: secondaryCTA.variant ?? "link" }} />
       )}
     </div>
   );
@@ -188,10 +186,7 @@ export function Hero07({
 
       <Reveal
         active={animate}
-        className={cn(
-          "flex flex-col items-start lg:col-span-7 lg:col-start-6",
-          vs.header,
-        )}
+        className={cn("flex flex-col items-start lg:col-span-7 lg:col-start-6", vs.header)}
       >
         {titleElement}
         {descriptionElement}

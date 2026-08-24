@@ -13,20 +13,13 @@ interface MarketAccessModalProps {
   buyers?: HomeCmsLogo[];
 }
 
-export function MarketAccessModal({
-  isOpen,
-  onClose,
-  buyers,
-}: MarketAccessModalProps) {
+export function MarketAccessModal({ isOpen, onClose, buyers }: MarketAccessModalProps) {
   const { i18n } = useTranslation();
   const { whatsappUrl } = useSiteContact();
   const marketAccessUrl = whatsappUrl("marketAccess");
   const isHindi = i18n.language?.startsWith("hi");
 
-  const partnerList =
-    buyers && buyers.length > 0
-      ? buyers
-      : HOMEPAGE_CMS_FALLBACK.logos.buyers;
+  const partnerList = buyers && buyers.length > 0 ? buyers : HOMEPAGE_CMS_FALLBACK.logos.buyers;
 
   // Handle ESC key to close modal
   useEffect(() => {
@@ -105,7 +98,8 @@ export function MarketAccessModal({
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                    {isHindi ? "सक्रिय खरीदार ब्रांड्स" : "Active Procurement Partners"} ({partnerList.length})
+                    {isHindi ? "सक्रिय खरीदार ब्रांड्स" : "Active Procurement Partners"} (
+                    {partnerList.length})
                   </span>
                   <span className="text-[11px] font-medium text-[#4f624f]">
                     {isHindi ? "प्रमाणित ऑफटेक साझेदार" : "Verified Offtake Channels"}
@@ -146,9 +140,7 @@ export function MarketAccessModal({
             {/* Modal Footer / WhatsApp CTA */}
             <div className="shrink-0 border-t border-[#143d31]/10 bg-white px-5 py-4 sm:px-8 sm:py-4 flex items-center justify-between gap-3">
               <p className="font-sans text-xs sm:text-sm font-medium text-[#143d31]">
-                {isHindi
-                  ? "फसल बिक्री के लिए संपर्क करें"
-                  : "Ready to sell your harvest?"}
+                {isHindi ? "फसल बिक्री के लिए संपर्क करें" : "Ready to sell your harvest?"}
               </p>
 
               <a

@@ -28,8 +28,7 @@ function getState(facility: Facility): string {
 
 export default function FacilitiesSection() {
   const routerLocation = useLocation();
-  const isHindi =
-    routerLocation.pathname === "/hi" || routerLocation.pathname.startsWith("/hi/");
+  const isHindi = routerLocation.pathname === "/hi" || routerLocation.pathname.startsWith("/hi/");
   const lang = isHindi ? "hi" : "en";
   const { mapFacilities } = useSiteContact();
   const facilities = mapFacilities(lang);
@@ -55,10 +54,11 @@ export default function FacilitiesSection() {
     return facilities.filter((f) => {
       const matchState = stateFilter === "All" || getState(f) === stateFilter;
       if (!q) return matchState;
-      return matchState && (
-        f.name.toLowerCase().includes(q) ||
-        f.district.toLowerCase().includes(q) ||
-        f.role.toLowerCase().includes(q)
+      return (
+        matchState &&
+        (f.name.toLowerCase().includes(q) ||
+          f.district.toLowerCase().includes(q) ||
+          f.role.toLowerCase().includes(q))
       );
     });
   }, [facilities, search, stateFilter]);
@@ -76,7 +76,6 @@ export default function FacilitiesSection() {
       className="border-t border-[#143d31]/10 bg-white py-14 sm:py-18 md:py-22 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-
         {/* Section Header */}
         <Reveal variant="fade-up" className="mb-10 sm:mb-12 space-y-3 max-w-xl">
           <div className="flex items-center gap-2.5">
@@ -100,10 +99,8 @@ export default function FacilitiesSection() {
 
         {/* Layout: Left sidebar + Right map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-
           {/* ── LEFT PANEL ─────────────────────────────────────────── */}
           <div className="lg:col-span-5 flex flex-col gap-3 lg:sticky lg:top-28 lg:self-start">
-
             {/* Search bar */}
             <div className="relative">
               <MagnifyingGlass
@@ -163,7 +160,10 @@ export default function FacilitiesSection() {
                   </p>
                   <button
                     type="button"
-                    onClick={() => { setSearch(""); setStateFilter("All"); }}
+                    onClick={() => {
+                      setSearch("");
+                      setStateFilter("All");
+                    }}
                     className="cursor-pointer mt-2 font-sans text-xs font-semibold text-[#5d7d37] hover:underline"
                   >
                     Clear filters
@@ -276,7 +276,9 @@ export default function FacilitiesSection() {
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <a
                     href={`tel:${active.telRaw}`}
-                    onClick={() => track("phone_clicked", { source: "facility", facility: active.id })}
+                    onClick={() =>
+                      track("phone_clicked", { source: "facility", facility: active.id })
+                    }
                     className="flex items-center gap-1.5 font-sans font-semibold text-[#143d31] hover:text-[#5d7d37] transition-colors"
                   >
                     <Phone className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" weight="fill" />
@@ -369,7 +371,6 @@ export default function FacilitiesSection() {
               </AnimatePresence>
             </div>
           </div>
-
         </div>
       </div>
     </section>

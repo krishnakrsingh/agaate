@@ -120,9 +120,7 @@ function FormCard({
             {required && <span className="text-red-500 font-bold">*</span>}
           </h3>
           {description && (
-            <p className="text-xs text-neutral-500 mt-0.5 leading-normal">
-              {description}
-            </p>
+            <p className="text-xs text-neutral-500 mt-0.5 leading-normal">{description}</p>
           )}
         </div>
       )}
@@ -156,9 +154,7 @@ function GoogleInput({
   return (
     <div className="relative flex items-center border-b border-neutral-300 focus-within:border-[#143d31] focus-within:border-b-2 py-1.5 transition-all max-w-md">
       {prefix && (
-        <span className="text-sm font-semibold text-neutral-700 mr-2 select-none">
-          {prefix}
-        </span>
+        <span className="text-sm font-semibold text-neutral-700 mr-2 select-none">{prefix}</span>
       )}
       <input
         id={id}
@@ -227,10 +223,7 @@ export default function ContactHeroSection({
   const clientToken = useRef(makeClientToken());
   const startedTracked = useRef(false);
 
-  const selectedTopicObj = useMemo(
-    () => CONSULTATION_TOPICS.find((t) => t.id === topic),
-    [topic],
-  );
+  const selectedTopicObj = useMemo(() => CONSULTATION_TOPICS.find((t) => t.id === topic), [topic]);
 
   useGSAP(
     () => {
@@ -426,7 +419,6 @@ export default function ContactHeroSection({
       className="relative w-full min-h-screen bg-[#f4f8f5] text-[#143d31] px-3 sm:px-4 lg:px-6 pt-20 sm:pt-24 lg:pt-22 pb-16"
     >
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start max-w-7xl mx-auto">
-        
         {/* ═══════════════════════════════════════════════════════════
             LEFT COLUMN: Pure Sticky Image Box (Positioned Below Header)
             ═══════════════════════════════════════════════════════════ */}
@@ -453,8 +445,12 @@ export default function ContactHeroSection({
               whatsappHref={whatsappHref}
             />
           ) : (
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5" noValidate>
-              
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="space-y-3 sm:space-y-3.5"
+              noValidate
+            >
               {/* ── CARD 0: Header Card with Top Green Band ── */}
               <div className="bg-white rounded-xl sm:rounded-2xl border border-neutral-200/90 shadow-2xs overflow-hidden text-left">
                 <div className="h-2.5 sm:h-3 w-full bg-[#143d31]" />
@@ -474,7 +470,8 @@ export default function ContactHeroSection({
                   </h1>
 
                   <p className="text-xs sm:text-[13px] text-neutral-600 leading-relaxed">
-                    Connect directly with our senior agronomists for customized dosage schedules, seedling reservations, or commercial project inquiries.
+                    Connect directly with our senior agronomists for customized dosage schedules,
+                    seedling reservations, or commercial project inquiries.
                   </p>
 
                   <div className="pt-1.5 flex flex-wrap items-center gap-2 text-xs text-neutral-700">
@@ -545,14 +542,21 @@ export default function ContactHeroSection({
                           <div
                             className={cn(
                               "h-4 w-4 rounded-full border-2 transition-all flex items-center justify-center",
-                              isSelected ? "border-[#143d31] bg-white" : "border-neutral-400 bg-white",
+                              isSelected
+                                ? "border-[#143d31] bg-white"
+                                : "border-neutral-400 bg-white",
                             )}
                           >
                             {isSelected && <div className="h-2 w-2 rounded-full bg-[#143d31]" />}
                           </div>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className={cn("text-xs font-semibold text-[#143d31] leading-tight", isSelected && "text-[#143d31]")}>
+                          <p
+                            className={cn(
+                              "text-xs font-semibold text-[#143d31] leading-tight",
+                              isSelected && "text-[#143d31]",
+                            )}
+                          >
                             {t.label}
                           </p>
                           <p className="text-[11px] text-neutral-500 mt-0.5 line-clamp-1 leading-snug">
@@ -588,9 +592,21 @@ export default function ContactHeroSection({
                             : "bg-white text-[#143d31] border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50",
                         )}
                       >
-                        {ch === "WhatsApp" && <WhatsappLogo className="h-4 w-4 shrink-0 text-emerald-500" weight="bold" />}
-                        {ch === "Phone Call" && <PhoneCall className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />}
-                        {ch === "Email" && <EnvelopeSimple className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />}
+                        {ch === "WhatsApp" && (
+                          <WhatsappLogo
+                            className="h-4 w-4 shrink-0 text-emerald-500"
+                            weight="bold"
+                          />
+                        )}
+                        {ch === "Phone Call" && (
+                          <PhoneCall className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="bold" />
+                        )}
+                        {ch === "Email" && (
+                          <EnvelopeSimple
+                            className="h-4 w-4 shrink-0 text-[#5d7d37]"
+                            weight="bold"
+                          />
+                        )}
                         <span>{ch}</span>
                       </button>
                     );
@@ -599,11 +615,7 @@ export default function ContactHeroSection({
               </FormCard>
 
               {/* ── CARD 3: Full Name ── */}
-              <FormCard
-                title="Full Name"
-                required
-                error={errors.name}
-              >
+              <FormCard title="Full Name" required error={errors.name}>
                 <GoogleInput
                   id="name"
                   value={form.name}
@@ -669,7 +681,10 @@ export default function ContactHeroSection({
               >
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-0.5">
                   <div className="space-y-1">
-                    <label htmlFor="acreage" className="block text-xs font-semibold text-neutral-700">
+                    <label
+                      htmlFor="acreage"
+                      className="block text-xs font-semibold text-neutral-700"
+                    >
                       Land Size
                     </label>
                     <div className="relative inline-flex items-center w-full border border-neutral-300 rounded-lg bg-white px-2.5 py-2 text-xs shadow-2xs hover:border-neutral-400 focus-within:border-[#143d31]">
@@ -715,7 +730,10 @@ export default function ContactHeroSection({
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="cropStage" className="block text-xs font-semibold text-neutral-700">
+                    <label
+                      htmlFor="cropStage"
+                      className="block text-xs font-semibold text-neutral-700"
+                    >
                       Current Stage
                     </label>
                     <div className="relative inline-flex items-center w-full border border-neutral-300 rounded-lg bg-white px-2.5 py-2 text-xs shadow-2xs hover:border-neutral-400 focus-within:border-[#143d31]">
@@ -775,7 +793,8 @@ export default function ContactHeroSection({
                     className="mt-0.5 h-4 w-4 rounded-xs border-neutral-300 text-[#143d31] accent-[#143d31] focus:ring-2 focus:ring-[#143d31]/20 cursor-pointer shrink-0"
                   />
                   <span className="text-xs text-neutral-700 leading-snug">
-                    I agree to allow Agaate senior agronomists to contact me regarding this inquiry in accordance with the{" "}
+                    I agree to allow Agaate senior agronomists to contact me regarding this inquiry
+                    in accordance with the{" "}
                     <a
                       href={privacyHref}
                       target="_blank"
@@ -783,7 +802,8 @@ export default function ContactHeroSection({
                       className="underline underline-offset-2 font-semibold text-[#143d31] hover:text-[#5d7d37]"
                     >
                       Privacy Policy
-                    </a>.
+                    </a>
+                    .
                   </span>
                 </label>
               </FormCard>
@@ -825,13 +845,10 @@ export default function ContactHeroSection({
                   Direct Agronomy Desk · Reply in 15 mins (7:30 AM – 8:00 PM IST)
                 </p>
               </div>
-
             </form>
           )}
         </div>
-
       </div>
     </section>
   );
 }
-

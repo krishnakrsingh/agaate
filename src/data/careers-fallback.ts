@@ -66,8 +66,16 @@ export function getFallbackSeedCareerJobs(): Array<CmsCareerJobPayload & { sortO
         "Supervise daily operations at the 17-acre climate-controlled Smart Nursery, managing drip irrigation setups, shade-nets, and seedling germination protocols.",
       experienceLevelEn: "2 - 5 Years",
       experienceLevelHi: "2 - 5 Years",
-      highlightsEn: ["17-Acre Facility Management", "Precision Irrigation", "Seedling Quality Control"],
-      highlightsHi: ["17-Acre Facility Management", "Precision Irrigation", "Seedling Quality Control"],
+      highlightsEn: [
+        "17-Acre Facility Management",
+        "Precision Irrigation",
+        "Seedling Quality Control",
+      ],
+      highlightsHi: [
+        "17-Acre Facility Management",
+        "Precision Irrigation",
+        "Seedling Quality Control",
+      ],
       reqsEn: [
         "Diploma or Degree in Agricultural Engineering, Agronomy, or Farm Infrastructure Management.",
         "2+ years experience managing controlled-environment agriculture or commercial nursery setups.",
@@ -156,8 +164,16 @@ export function getFallbackSeedCareerJobs(): Array<CmsCareerJobPayload & { sortO
         "Engineers IoT telemetry pipelines, Sentinel-2 satellite NDVI canopy analysis, drone scouting analytics, and predictive smart crop cycle models.",
       experienceLevelEn: "2 - 4 Years",
       experienceLevelHi: "2 - 4 Years",
-      highlightsEn: ["Sentinel-2 Radar Scouting", "IoT Sensor Pipelines", "Predictive Yield Models"],
-      highlightsHi: ["Sentinel-2 Radar Scouting", "IoT Sensor Pipelines", "Predictive Yield Models"],
+      highlightsEn: [
+        "Sentinel-2 Radar Scouting",
+        "IoT Sensor Pipelines",
+        "Predictive Yield Models",
+      ],
+      highlightsHi: [
+        "Sentinel-2 Radar Scouting",
+        "IoT Sensor Pipelines",
+        "Predictive Yield Models",
+      ],
       reqsEn: [
         "B.Tech / M.Tech / M.Sc in Geoinformatics, Remote Sensing, Agri-Tech, or Data Science.",
         "Proven experience processing Sentinel-2 / Landsat satellite imagery and multispectral drone data.",
@@ -351,8 +367,10 @@ export const CAREERS_PAGE_FALLBACK: CareersPageContent = {
   ],
   openRolesTitleEn: "Open Positions Across Verticals",
   openRolesTitleHi: "Open Positions Across Verticals",
-  openRolesSubtitleEn: "Click on any role to view detailed responsibilities, qualifications, and benefits.",
-  openRolesSubtitleHi: "Click on any role to view detailed responsibilities, qualifications, and benefits.",
+  openRolesSubtitleEn:
+    "Click on any role to view detailed responsibilities, qualifications, and benefits.",
+  openRolesSubtitleHi:
+    "Click on any role to view detailed responsibilities, qualifications, and benefits.",
   campusBadgeEn: "University Collaborations & Internships",
   campusBadgeHi: "University Collaborations & Internships",
   campusTitleEn: "Campus Hiring & Field Research Fellowships.",
@@ -362,7 +380,11 @@ export const CAREERS_PAGE_FALLBACK: CareersPageContent = {
   campusDescriptionHi:
     "We partner with premier agricultural universities and engineering institutes across India to provide students and fresh graduates with hands-on immersion in smart nurseries, automated fertigation, and precision agronomy.",
   campusSkills: [
-    { iconKey: "plant", labelEn: "Field Advisory & Diagnosis", labelHi: "Field Advisory & Diagnosis" },
+    {
+      iconKey: "plant",
+      labelEn: "Field Advisory & Diagnosis",
+      labelHi: "Field Advisory & Diagnosis",
+    },
     { iconKey: "chart", labelEn: "Smart Farm Telemetry", labelHi: "Smart Farm Telemetry" },
     { iconKey: "users", labelEn: "Soil & Crop Analytics", labelHi: "Soil & Crop Analytics" },
     { iconKey: "cap", labelEn: "Technical Farmer Content", labelHi: "Technical Farmer Content" },

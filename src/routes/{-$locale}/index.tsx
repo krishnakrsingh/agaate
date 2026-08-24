@@ -17,7 +17,13 @@ import {
   ProofChapter,
   ClosingChapter,
 } from "@/components/home";
-import { getHomeCms, getTeamCms, getKisaanMallPage, getAgriParkChapter, getHomepageChapters } from "@/functions/public-cms";
+import {
+  getHomeCms,
+  getTeamCms,
+  getKisaanMallPage,
+  getAgriParkChapter,
+  getHomepageChapters,
+} from "@/functions/public-cms";
 import { isAdminOk } from "@/lib/admin-api";
 import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
 import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
@@ -51,7 +57,9 @@ export const Route = createFileRoute("/{-$locale}/")({
       const agriParkChapter = isAdminOk<{ chapter: typeof AGRI_PARK_CHAPTER_FALLBACK }>(agriRes)
         ? agriRes.chapter
         : AGRI_PARK_CHAPTER_FALLBACK;
-      const homepageChapters = isAdminOk<{ chapters: typeof HOMEPAGE_CHAPTERS_FALLBACK }>(chaptersRes)
+      const homepageChapters = isAdminOk<{ chapters: typeof HOMEPAGE_CHAPTERS_FALLBACK }>(
+        chaptersRes,
+      )
         ? chaptersRes.chapters
         : HOMEPAGE_CHAPTERS_FALLBACK;
       return { cms, teamCms, kisaanMallPage, agriParkChapter, homepageChapters };

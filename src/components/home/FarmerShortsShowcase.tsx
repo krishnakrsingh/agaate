@@ -13,11 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
-import {
-  SHORTS_DATA_EN,
-  SHORTS_DATA_HI,
-  type FarmerShortItem,
-} from "@/data/farmerShortsData";
+import { SHORTS_DATA_EN, SHORTS_DATA_HI, type FarmerShortItem } from "@/data/farmerShortsData";
 import type { HomeCmsStory } from "@/lib/cms-types";
 import { RotatingTestimonialCard } from "./RotatingTestimonialCard";
 import { EmbedVideoPlayer } from "@/components/ui/EmbedVideoPlayer";
@@ -54,7 +50,6 @@ export default function FarmerShortsShowcase({
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -205,9 +200,7 @@ export default function FarmerShortsShowcase({
                   <p className="font-display text-[15px] font-bold text-white leading-tight truncate">
                     {short.name}
                   </p>
-                  <p className="font-sans text-[11px] text-white/80 truncate">
-                    {short.location}
-                  </p>
+                  <p className="font-sans text-[11px] text-white/80 truncate">{short.location}</p>
                   <p className="font-mono text-[11px] font-semibold text-[#a3e635] truncate">
                     {short.crop}
                   </p>
@@ -317,9 +310,7 @@ export default function FarmerShortsShowcase({
                     <p className="font-display text-base font-bold text-white">
                       {activeModalShort.name}
                     </p>
-                    <p className="font-sans text-xs text-white/80">
-                      {activeModalShort.location}
-                    </p>
+                    <p className="font-sans text-xs text-white/80">{activeModalShort.location}</p>
                   </div>
 
                   <p className="font-sans text-xs text-white/95 leading-relaxed italic bg-black/40 backdrop-blur-sm p-3 rounded-xl border border-white/10">

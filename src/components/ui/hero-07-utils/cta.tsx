@@ -23,11 +23,7 @@ export function Cta({ cta, className }: { cta: CtaProps; className?: string }) {
       cta.link.startsWith("tel:") ||
       cta.link.startsWith("mailto:");
     return (
-      <Button
-        asChild
-        variant={cta.variant || "default"}
-        className={cn(cta.className, className)}
-      >
+      <Button asChild variant={cta.variant || "default"} className={cn(cta.className, className)}>
         <a
           href={cta.link}
           target={isExternal ? "_blank" : undefined}

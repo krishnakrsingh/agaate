@@ -27,7 +27,9 @@ export function PhoneNavDock({ activeTab, onChangeTab }: PhoneNavDockProps) {
                 type="button"
                 onClick={() => onChangeTab("chat")}
                 className={`group relative flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
-                  isActive ? "bg-[#143d31] px-3.5 py-1.5" : "bg-transparent p-2 hover:bg-gray-100/50"
+                  isActive
+                    ? "bg-[#143d31] px-3.5 py-1.5"
+                    : "bg-transparent p-2 hover:bg-gray-100/50"
                 }`}
               >
                 <Icon

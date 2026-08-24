@@ -48,8 +48,7 @@ export default function RealLeafletMap({
       delete (L.Icon.Default.prototype as any)._getIconUrl;
       L.Icon.Default.mergeOptions({
         iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-        iconRetinaUrl:
-          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
         shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       });
 
@@ -132,7 +131,7 @@ export default function RealLeafletMap({
       hubs.forEach((h) => {
         const marker = L.marker([h.lat, h.lng], { icon: hubIcon });
         marker.bindPopup(
-          `<div style="font-family: sans-serif; font-size: 12px; font-weight: bold; color: #143d31;">${h.name}</div>`
+          `<div style="font-family: sans-serif; font-size: 12px; font-weight: bold; color: #143d31;">${h.name}</div>`,
         );
         markersGroup.addLayer(marker);
       });
@@ -140,7 +139,7 @@ export default function RealLeafletMap({
       // Add Target Destination Marker
       const targetMarker = L.marker([targetLat, targetLng], { icon: targetIcon });
       targetMarker.bindPopup(
-        `<div style="font-family: sans-serif; font-size: 12px; font-weight: bold; color: #143d31;">📍 ${targetName} (${pincode})<br/><span style="font-size:10px; color:#555;">Farm Gate Delivery Destination</span></div>`
+        `<div style="font-family: sans-serif; font-size: 12px; font-weight: bold; color: #143d31;">📍 ${targetName} (${pincode})<br/><span style="font-size:10px; color:#555;">Farm Gate Delivery Destination</span></div>`,
       );
       markersGroup.addLayer(targetMarker);
 
@@ -155,7 +154,7 @@ export default function RealLeafletMap({
           weight: 3.5,
           dashArray: "6, 6",
           opacity: 0.9,
-        }
+        },
       );
       markersGroup.addLayer(routeLine);
 

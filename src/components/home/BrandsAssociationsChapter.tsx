@@ -19,31 +19,31 @@ const TABS_EN: {
   hint: string;
   icon: typeof Buildings;
 }[] = [
-    {
-      id: "partners",
-      label: "Partners",
-      hint: "Certified agri-input manufacturers we source from directly",
-      icon: Buildings,
-    },
-    {
-      id: "customers",
-      label: "Customers",
-      hint: "Farmer groups and field networks growing with Agaate",
-      icon: Leaf,
-    },
-    {
-      id: "buyers",
-      label: "Market access",
-      hint: "Market channels connected through our linkage network",
-      icon: ShoppingBagOpen,
-    },
-    {
-      id: "institutional",
-      label: "Institutional Tieups",
-      hint: "Academic, university, and research institutions partnering with Agaate",
-      icon: GraduationCap,
-    },
-  ];
+  {
+    id: "partners",
+    label: "Partners",
+    hint: "Certified agri-input manufacturers we source from directly",
+    icon: Buildings,
+  },
+  {
+    id: "customers",
+    label: "Customers",
+    hint: "Farmer groups and field networks growing with Agaate",
+    icon: Leaf,
+  },
+  {
+    id: "buyers",
+    label: "Market access",
+    hint: "Market channels connected through our linkage network",
+    icon: ShoppingBagOpen,
+  },
+  {
+    id: "institutional",
+    label: "Institutional Tieups",
+    hint: "Academic, university, and research institutions partnering with Agaate",
+    icon: GraduationCap,
+  },
+];
 
 const TABS_HI: {
   id: BrandTab;
@@ -51,31 +51,31 @@ const TABS_HI: {
   hint: string;
   icon: typeof Buildings;
 }[] = [
-    {
-      id: "partners",
-      label: "साझेदार ब्रांड्स",
-      hint: "प्रमाणित बीज व इनपुट निर्माता जिनसे हम सीधे उत्पाद लेते हैं",
-      icon: Buildings,
-    },
-    {
-      id: "customers",
-      label: "किसान समूह (FPOs)",
-      hint: "अगाते के साथ जुड़े प्रगतिशील किसान व फार्म नेटवर्क",
-      icon: Leaf,
-    },
-    {
-      id: "buyers",
-      label: "मार्केट खरीदार",
-      hint: "हमारे लिंकेज नेटवर्क से जुड़े बड़े संस्थागत खरीदार",
-      icon: ShoppingBagOpen,
-    },
-    {
-      id: "institutional",
-      label: "संस्थागत साझेदारी",
-      hint: "अगाते के साथ जुड़े शैक्षणिक व अनुसंधान संस्थान",
-      icon: GraduationCap,
-    },
-  ];
+  {
+    id: "partners",
+    label: "साझेदार ब्रांड्स",
+    hint: "प्रमाणित बीज व इनपुट निर्माता जिनसे हम सीधे उत्पाद लेते हैं",
+    icon: Buildings,
+  },
+  {
+    id: "customers",
+    label: "किसान समूह (FPOs)",
+    hint: "अगाते के साथ जुड़े प्रगतिशील किसान व फार्म नेटवर्क",
+    icon: Leaf,
+  },
+  {
+    id: "buyers",
+    label: "मार्केट खरीदार",
+    hint: "हमारे लिंकेज नेटवर्क से जुड़े बड़े संस्थागत खरीदार",
+    icon: ShoppingBagOpen,
+  },
+  {
+    id: "institutional",
+    label: "संस्थागत साझेदारी",
+    hint: "अगाते के साथ जुड़े शैक्षणिक व अनुसंधान संस्थान",
+    icon: GraduationCap,
+  },
+];
 
 function BrandTile({ brand, isSingle }: { brand: BrandLogo; isSingle?: boolean }) {
   return (

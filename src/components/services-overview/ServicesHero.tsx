@@ -64,9 +64,7 @@ export function ServicesHero({ currentLang }: { currentLang: string }) {
       {/* Hero07 Component */}
       <Hero07
         tagline={
-          isHindi
-            ? "अगाते एकीकृत कृषि एवं तकनीकी सेवाएं"
-            : "AGAATE INTEGRATED AGTECH PLATFORM"
+          isHindi ? "अगाते एकीकृत कृषि एवं तकनीकी सेवाएं" : "AGAATE INTEGRATED AGTECH PLATFORM"
         }
         title={
           isHindi ? (

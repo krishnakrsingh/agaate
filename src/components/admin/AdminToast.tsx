@@ -43,24 +43,24 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         }, duration);
       }
     },
-    [removeToast]
+    [removeToast],
   );
 
   const success = useCallback(
     (title: string, message?: string) => addToast({ type: "success", title, message }),
-    [addToast]
+    [addToast],
   );
   const error = useCallback(
     (title: string, message?: string) => addToast({ type: "error", title, message }),
-    [addToast]
+    [addToast],
   );
   const info = useCallback(
     (title: string, message?: string) => addToast({ type: "info", title, message }),
-    [addToast]
+    [addToast],
   );
   const warning = useCallback(
     (title: string, message?: string) => addToast({ type: "warning", title, message }),
-    [addToast]
+    [addToast],
   );
 
   return (
@@ -76,13 +76,17 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               t.type === "error" && "border-destructive/40",
               t.type === "success" && "border-emerald-500/30",
               t.type === "warning" && "border-amber-500/30",
-              t.type === "info" && "border-border"
+              t.type === "info" && "border-border",
             )}
           >
             <div className="mt-0.5 shrink-0">
-              {t.type === "success" && <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />}
+              {t.type === "success" && (
+                <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              )}
               {t.type === "error" && <AlertCircle className="h-4 w-4 text-destructive" />}
-              {t.type === "warning" && <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />}
+              {t.type === "warning" && (
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              )}
               {t.type === "info" && <Info className="h-4 w-4 text-sky-600 dark:text-sky-400" />}
             </div>
             <div className="flex-1 min-w-0">

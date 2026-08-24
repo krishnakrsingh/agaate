@@ -95,7 +95,11 @@ const NAV_GROUPS: Array<{
   {
     group: "Homepage",
     items: [
-      { to: "/agaate-admin/content/homepage-chapters", label: "Sections & narrative", icon: Layout },
+      {
+        to: "/agaate-admin/content/homepage-chapters",
+        label: "Sections & narrative",
+        icon: Layout,
+      },
       { to: "/agaate-admin/content/stats", label: "Statistics", icon: BarChart2 },
       { to: "/agaate-admin/content/logos", label: "Partner logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Testimonials", icon: Video },
@@ -116,7 +120,9 @@ const SETTINGS_NAV: NavItem = {
 };
 
 function isNavActive(pathname: string, item: NavItem) {
-  return item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(`${item.to}/`);
+  return item.exact
+    ? pathname === item.to
+    : pathname === item.to || pathname.startsWith(`${item.to}/`);
 }
 
 export function AdminShell({ user }: { user: SessionUser }) {
@@ -172,13 +178,21 @@ export function AdminShell({ user }: { user: SessionUser }) {
     if (pathname.startsWith("/agaate-admin/content/site-contact")) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Site contact & social", href: "/agaate-admin/content/site-contact", current: true },
+        {
+          label: "Site contact & social",
+          href: "/agaate-admin/content/site-contact",
+          current: true,
+        },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/homepage-chapters")) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Homepage sections", href: "/agaate-admin/content/homepage-chapters", current: true },
+        {
+          label: "Homepage sections",
+          href: "/agaate-admin/content/homepage-chapters",
+          current: true,
+        },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/about")) {
@@ -237,7 +251,9 @@ export function AdminShell({ user }: { user: SessionUser }) {
                 <img src="/logo11.png" alt="" className="h-6 w-6 object-contain" />
               </div>
               <div className="min-w-0 group-data-[collapsible=icon]:hidden">
-                <p className="truncate text-sm font-semibold tracking-tight text-sidebar-foreground">Agaate</p>
+                <p className="truncate text-sm font-semibold tracking-tight text-sidebar-foreground">
+                  Agaate
+                </p>
                 <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-sidebar-foreground/50">
                   Admin Console
                 </p>
@@ -301,7 +317,9 @@ export function AdminShell({ user }: { user: SessionUser }) {
                               )}
                             >
                               <Link to={item.to}>
-                                <Icon className={cn("size-4", active ? "opacity-100" : "opacity-70")} />
+                                <Icon
+                                  className={cn("size-4", active ? "opacity-100" : "opacity-70")}
+                                />
                                 <span>{item.label}</span>
                               </Link>
                             </SidebarMenuButton>
@@ -375,7 +393,9 @@ export function AdminShell({ user }: { user: SessionUser }) {
                         </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-xs leading-tight">
-                        <span className="truncate font-semibold text-sidebar-foreground">{user.name}</span>
+                        <span className="truncate font-semibold text-sidebar-foreground">
+                          {user.name}
+                        </span>
                         <span className="truncate text-[10px] font-medium uppercase tracking-wide text-sidebar-foreground/50">
                           {user.role.replace("_", " ")}
                         </span>
@@ -398,14 +418,18 @@ export function AdminShell({ user }: { user: SessionUser }) {
                         </Avatar>
                         <div className="grid flex-1 text-left text-xs leading-tight">
                           <span className="truncate font-semibold">{user.name}</span>
-                          <span className="truncate text-[10px] text-muted-foreground">{user.email}</span>
+                          <span className="truncate text-[10px] text-muted-foreground">
+                            {user.email}
+                          </span>
                         </div>
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                       {canManageSettings(user.role as AdminRole) && (
-                        <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/settings" })}>
+                        <DropdownMenuItem
+                          onClick={() => navigate({ to: "/agaate-admin/settings" })}
+                        >
                           <Settings className="mr-2 h-4 w-4" />
                           <span>Settings</span>
                         </DropdownMenuItem>
@@ -419,7 +443,10 @@ export function AdminShell({ user }: { user: SessionUser }) {
                     <DropdownMenuItem
                       onClick={async () => {
                         await logoutAdmin();
-                        await navigate({ to: "/agaate-admin/login", search: { redirect: undefined } });
+                        await navigate({
+                          to: "/agaate-admin/login",
+                          search: { redirect: undefined },
+                        });
                       }}
                     >
                       <LogOut className="mr-2 h-4 w-4" />

@@ -24,8 +24,7 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
         "हर किसान को सही मार्गदर्शन, सही साधन और सही सहयोग मिलना चाहिए, ताकि उनकी मेहनत कभी घाटे में न बदले।",
       pubEn:
         "Investigating Nitrogen optimization loops in sub-tropical Solanaceae cultivation blocks (2024)",
-      pubHi:
-        "उपोष्णकटिबंधीय सोलानेसी खेती में नाइट्रोजन अनुकूलन लूप्स की जांच (2024)",
+      pubHi: "उपोष्णकटिबंधीय सोलानेसी खेती में नाइट्रोजन अनुकूलन लूप्स की जांच (2024)",
       keyAchEn: [
         "Keynote Speaker at Bharat Climate Summit on Net-Zero AgTech",
         "Architect of the Bio-Boosted Nursery model replacing risky direct sowing",
@@ -57,10 +56,12 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
         "Co-Founder and scientific backbone for crop viability, designing basal dose schedules, pathological pest diagnosis protocols, and micro-climate preventive spray matrices.",
       bioHi:
         "सह-संस्थापक और फसल व्यवहार्यता की वैज्ञानिक आधारशिला, रोग निदान प्रोटोकॉल और स्प्रे मैट्रिक्स के डिज़ाइनर।",
-      quoteEn: "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
+      quoteEn:
+        "Precision agronomy turns unpredictable weather into calculated, high-survival yields.",
       quoteHi:
         "सटीक वैज्ञानिक कृषि हर मौसम की अनिश्चितता को सुरक्षित और भरपूर पैदावार में बदल देती है।",
-      pubEn: "Managing Early Blight resistance using targeted botanical sprays and spore traps (2026)",
+      pubEn:
+        "Managing Early Blight resistance using targeted botanical sprays and spore traps (2026)",
       pubHi: "लक्षित वनस्पति स्प्रे और स्पोर ट्रैप से अर्ली ब्लाइट प्रतिरोध प्रबंधन (2026)",
       keyAchEn: [
         "Developed weather-based disease prevention schedules for Solanaceae & Cucurbitaceae",
@@ -99,8 +100,7 @@ export function getFallbackSeedTeam(): TeamSeedMember[] {
         "सटीक प्रोक्योरमेंट और स्रोत से सीधे इनपुट हर फसल चक्र के लिए सर्वोत्तम गुणवत्ता सुनिश्चित करते हैं।",
       pubEn:
         "Procurement optimization and supply chain mechanics for high-density agricultural input networks (2025)",
-      pubHi:
-        "उच्च-घनत्व कृषि इनपुट नेटवर्क के लिए प्रोक्योरमेंट अनुकूलन (2025)",
+      pubHi: "उच्च-घनत्व कृषि इनपुट नेटवर्क के लिए प्रोक्योरमेंट अनुकूलन (2025)",
       keyAchEn: [
         "Streamlined input procurement and supply logistics across North India hubs",
         "Secured high-grade seed & input contracts with 25+ certified manufacturing partners",

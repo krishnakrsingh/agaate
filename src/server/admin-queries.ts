@@ -122,7 +122,8 @@ export async function ensureLeadCrmColumns() {
   const names = new Set((rows as Array<{ COLUMN_NAME: string }>).map((r) => r.COLUMN_NAME));
   const alters: string[] = [];
   if (!names.has("status")) alters.push("ADD COLUMN status VARCHAR(32) NOT NULL DEFAULT 'new'");
-  if (!names.has("priority")) alters.push("ADD COLUMN priority VARCHAR(16) NOT NULL DEFAULT 'medium'");
+  if (!names.has("priority"))
+    alters.push("ADD COLUMN priority VARCHAR(16) NOT NULL DEFAULT 'medium'");
   if (!names.has("assigned_to")) alters.push("ADD COLUMN assigned_to BIGINT UNSIGNED NULL");
   if (!names.has("follow_up_date")) alters.push("ADD COLUMN follow_up_date DATE NULL");
   if (!names.has("tags")) alters.push("ADD COLUMN tags JSON NULL");
@@ -476,9 +477,7 @@ export async function setAttachment(user: SessionUser, id: number, url: string) 
 
 export async function dashboardKpis(user: SessionUser): Promise<Record<string, number>> {
   const db = await getDbPool();
-  const scope = isRestrictedAssignee(user.role)
-    ? "assigned_to = :me"
-    : "1=1";
+  const scope = isRestrictedAssignee(user.role) ? "assigned_to = :me" : "1=1";
   const params = { me: user.id };
   const [rows] = await db.query(
     `SELECT
@@ -667,7 +666,10 @@ export async function insertNewsletterSignup(input: {
   );
 }
 
-export async function hasRecentNewsletterSignup(contact: string, sourcePage: string): Promise<boolean> {
+export async function hasRecentNewsletterSignup(
+  contact: string,
+  sourcePage: string,
+): Promise<boolean> {
   const db = await getDbPool();
   const [rows] = await db.query(
     `SELECT id FROM newsletter_signups
@@ -699,9 +701,7 @@ export async function listNewsletterSignups(
 ): Promise<NewsletterSignupRow[]> {
   if (!isDbConfigured()) {
     const { mockNewsletterSignups } = await import("@/server/cms-memory");
-    return mockNewsletterSignups
-      .filter((s) => s.source_page === sourcePage)
-      .slice(0, limit);
+    return mockNewsletterSignups.filter((s) => s.source_page === sourcePage).slice(0, limit);
   }
   await ensureNewsletterSchema();
   const db = await getDbPool();

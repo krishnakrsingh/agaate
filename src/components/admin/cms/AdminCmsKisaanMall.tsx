@@ -11,7 +11,11 @@ import { CmsTableEmptyRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { AdminCmsKisaanMallPageForm } from "@/components/admin/cms/AdminCmsKisaanMallPageForm";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
-import { DEFAULT_KISAAN_MALL_LANDING, type KisaanMallLanding, type KisaanMallPageContent } from "@/lib/cms-types";
+import {
+  DEFAULT_KISAAN_MALL_LANDING,
+  type KisaanMallLanding,
+  type KisaanMallPageContent,
+} from "@/lib/cms-types";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 import type { NewsletterSignupRow } from "@/server/admin-queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -50,7 +54,14 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
   const load = useCallback(async () => {
     setLoading(true);
     const res = await getCmsKisaanMallAdmin();
-    if (isAdminOk<{ landing: KisaanMallLanding; page: KisaanMallPageContent; signups: NewsletterSignupRow[]; dbConfigured: boolean }>(res)) {
+    if (
+      isAdminOk<{
+        landing: KisaanMallLanding;
+        page: KisaanMallPageContent;
+        signups: NewsletterSignupRow[];
+        dbConfigured: boolean;
+      }>(res)
+    ) {
       setLanding(res.landing);
       setPage(res.page);
       setSignups(res.signups);
@@ -92,7 +103,8 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
 
       {!dbConfigured && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          MySQL is not configured. Signups are stored in memory only and will not persist across restarts.
+          MySQL is not configured. Signups are stored in memory only and will not persist across
+          restarts.
         </div>
       )}
 
@@ -218,7 +230,11 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
               </TableHeader>
               <TableBody>
                 {signups.length === 0 ? (
-                  <CmsTableEmptyRow colSpan={3} title="No signups yet" description="Waitlist signups from the public page will appear here." />
+                  <CmsTableEmptyRow
+                    colSpan={3}
+                    title="No signups yet"
+                    description="Waitlist signups from the public page will appear here."
+                  />
                 ) : (
                   signups.map((row) => (
                     <TableRow key={row.id}>

@@ -66,7 +66,10 @@ export default function MilestonesSection({ isHi = false }: { isHi?: boolean }) 
                     <ul className="space-y-1.5 pt-1">
                       {highlights.map((h) => (
                         <li key={h} className="flex items-start gap-2 text-xs text-[#143d31]/80">
-                          <CheckCircle weight="fill" className="h-3.5 w-3.5 mt-0.5 shrink-0 text-[#5d7d37]" />
+                          <CheckCircle
+                            weight="fill"
+                            className="h-3.5 w-3.5 mt-0.5 shrink-0 text-[#5d7d37]"
+                          />
                           <span className="leading-snug">{h}</span>
                         </li>
                       ))}

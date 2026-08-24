@@ -44,12 +44,16 @@ export default function MallTrustBand() {
                   className="rounded-2xl border border-[#143d31]/10 bg-white p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300"
                 >
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">{label}</p>
+                    <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                      {label}
+                    </p>
                     <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#143d31]/10 text-[#143d31]">
                       <Icon className="h-4 w-4 text-[#5d7d37]" weight="fill" />
                     </div>
                   </div>
-                  <p className="font-display text-2xl font-bold text-[#143d31] tracking-tight">{value}</p>
+                  <p className="font-display text-2xl font-bold text-[#143d31] tracking-tight">
+                    {value}
+                  </p>
                   <p className="mt-1.5 font-sans text-xs sm:text-sm text-[#4f624f]">{hint}</p>
                 </div>
               );

@@ -41,11 +41,7 @@ export function LeadershipBanner({
               </p>
             </div>
           )}
-          {subtitle && (
-            <p className="font-sans text-xs sm:text-sm text-[#4f624f]">
-              {subtitle}
-            </p>
-          )}
+          {subtitle && <p className="font-sans text-xs sm:text-sm text-[#4f624f]">{subtitle}</p>}
         </div>
       )}
 

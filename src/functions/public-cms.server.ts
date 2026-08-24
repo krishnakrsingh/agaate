@@ -1,4 +1,14 @@
-import { fetchHomeCms, fetchKisaanMallLanding, fetchKisaanMallPage, fetchAgriParkChapter, fetchHomepageChapters, fetchCareersPage, fetchSiteContact, fetchAboutPage, fetchContactPage } from "@/server/cms-queries";
+import {
+  fetchHomeCms,
+  fetchKisaanMallLanding,
+  fetchKisaanMallPage,
+  fetchAgriParkChapter,
+  fetchHomepageChapters,
+  fetchCareersPage,
+  fetchSiteContact,
+  fetchAboutPage,
+  fetchContactPage,
+} from "@/server/cms-queries";
 import { fetchTeamCms } from "@/server/cms-team-queries";
 import { listPublishedCareerJobs } from "@/server/cms-careers-queries";
 import { getSessionUser } from "@/server/auth";

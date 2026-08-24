@@ -85,7 +85,11 @@ export default function PillarMarket({ buyers }: PillarMarketProps) {
                 return (
                   <div
                     key={label}
-                    className={idx > 0 ? "text-left border-l border-[#5d7d37]/40 pl-3" : "text-left first:border-l-0 first:pl-0"}
+                    className={
+                      idx > 0
+                        ? "text-left border-l border-[#5d7d37]/40 pl-3"
+                        : "text-left first:border-l-0 first:pl-0"
+                    }
                   >
                     <p className="font-display text-xl sm:text-2xl font-extrabold text-[#143d31]">
                       <HomeChapterStatValue stat={stat} isHindi={isHindi} />
@@ -125,7 +129,11 @@ export default function PillarMarket({ buyers }: PillarMarketProps) {
         </div>
       </div>
 
-      <MarketAccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} buyers={buyers} />
+      <MarketAccessModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        buyers={buyers}
+      />
     </section>
   );
 }

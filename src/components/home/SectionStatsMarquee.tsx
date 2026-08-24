@@ -96,12 +96,7 @@ export default function SectionStatsMarquee({ stats }: { stats?: HomeCmsStat[] }
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3.5">
           {allStats.map((item) => (
-            <StatCell
-              key={item.id}
-              item={item}
-              isHindi={isHindi}
-              isInView={isInView}
-            />
+            <StatCell key={item.id} item={item} isHindi={isHindi} isInView={isInView} />
           ))}
         </div>
       </motion.div>

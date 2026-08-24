@@ -15,10 +15,18 @@ import { teamSlugFromName } from "@/lib/cms-slug";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsStatusBadge } from "@/components/admin/cms/CmsStatusBadge";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
-import { CmsDragHandle, CmsSortableProvider, CmsSortableRow } from "@/components/admin/cms/CmsSortable";
+import {
+  CmsDragHandle,
+  CmsSortableProvider,
+  CmsSortableRow,
+} from "@/components/admin/cms/CmsSortable";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
-import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import {
+  CmsTableEmptyAction,
+  CmsTableEmptyRow,
+  CmsTableLoadingRow,
+} from "@/components/admin/cms/CmsTableState";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { Button } from "@/components/ui/button";
@@ -59,7 +67,10 @@ import {
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 
 function linesToAch(text: string) {
-  return text.split("\n").map((l) => l.trim()).filter(Boolean);
+  return text
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
 }
 
 function achToLines(items: string[]) {
@@ -249,7 +260,12 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input className="pl-9" placeholder="Search name, role…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <Input
+            className="pl-9"
+            placeholder="Search name, role…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
         </div>
         <Select value={status} onValueChange={(v) => setStatus(v as CmsStatus | "all")}>
           <SelectTrigger className="w-full sm:w-40">
@@ -284,84 +300,96 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
                   colSpan={7}
                   title="No team members yet"
                   description="Add leadership profiles or run npm run seed:cms for defaults."
-                  action={canEdit ? <CmsTableEmptyAction label="Add member" onClick={openCreate} /> : undefined}
+                  action={
+                    canEdit ? (
+                      <CmsTableEmptyAction label="Add member" onClick={openCreate} />
+                    ) : undefined
+                  }
                 />
               ) : null}
               {!loading
                 ? filtered.map((row) => (
-                <CmsSortableRow key={row.id} id={row.id}>
-                  <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
-                  <TableCell>
-                    <img src={row.imageUrl} alt="" className="h-12 w-12 rounded-full object-cover" />
-                  </TableCell>
-                  <TableCell>
-                    <p className="font-medium">{row.nameEn}</p>
-                    <p className="text-xs text-muted-foreground">{row.focusEn}</p>
-                  </TableCell>
-                  <TableCell>{row.roleEn}</TableCell>
-                  <TableCell>{row.showInBanner ? "Yes" : "—"}</TableCell>
-                  <TableCell>
-                    <CmsStatusBadge status={row.status} />
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
-                        {canEdit && row.status !== "archived" && (
-                          <>
-                            {row.status === "published" && (
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  requestConfirm({
-                                    title: "Unpublish team member?",
-                                    description: `"${row.nameEn}" will be removed from the live site.`,
-                                    confirmLabel: "Unpublish",
-                                    action: async () => {
-                                      const res = await unpublishCmsItemAdmin({ data: { type: "team", id: row.id } });
-                                      if (isAdminOk(res)) {
-                                        toast.success("Removed from live site.");
-                                        await load();
-                                      } else toast.error(adminError(res));
-                                    },
-                                  })
-                                }
-                              >
-                                Unpublish
-                              </DropdownMenuItem>
+                    <CmsSortableRow key={row.id} id={row.id}>
+                      <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
+                      <TableCell>
+                        <img
+                          src={row.imageUrl}
+                          alt=""
+                          className="h-12 w-12 rounded-full object-cover"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <p className="font-medium">{row.nameEn}</p>
+                        <p className="text-xs text-muted-foreground">{row.focusEn}</p>
+                      </TableCell>
+                      <TableCell>{row.roleEn}</TableCell>
+                      <TableCell>{row.showInBanner ? "Yes" : "—"}</TableCell>
+                      <TableCell>
+                        <CmsStatusBadge status={row.status} />
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
+                            {canEdit && row.status !== "archived" && (
+                              <>
+                                {row.status === "published" && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      requestConfirm({
+                                        title: "Unpublish team member?",
+                                        description: `"${row.nameEn}" will be removed from the live site.`,
+                                        confirmLabel: "Unpublish",
+                                        action: async () => {
+                                          const res = await unpublishCmsItemAdmin({
+                                            data: { type: "team", id: row.id },
+                                          });
+                                          if (isAdminOk(res)) {
+                                            toast.success("Removed from live site.");
+                                            await load();
+                                          } else toast.error(adminError(res));
+                                        },
+                                      })
+                                    }
+                                  >
+                                    Unpublish
+                                  </DropdownMenuItem>
+                                )}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-rose-600"
+                                  onClick={() =>
+                                    requestConfirm({
+                                      title: "Archive team member?",
+                                      description: `"${row.nameEn}" will be archived and hidden from this list.`,
+                                      confirmLabel: "Archive",
+                                      destructive: true,
+                                      action: async () => {
+                                        const res = await archiveCmsItemAdmin({
+                                          data: { type: "team", id: row.id },
+                                        });
+                                        if (isAdminOk(res)) {
+                                          toast.success("Archived.");
+                                          await load();
+                                        } else toast.error(adminError(res));
+                                      },
+                                    })
+                                  }
+                                >
+                                  Archive
+                                </DropdownMenuItem>
+                              </>
                             )}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-rose-600"
-                              onClick={() =>
-                                requestConfirm({
-                                  title: "Archive team member?",
-                                  description: `"${row.nameEn}" will be archived and hidden from this list.`,
-                                  confirmLabel: "Archive",
-                                  destructive: true,
-                                  action: async () => {
-                                    const res = await archiveCmsItemAdmin({ data: { type: "team", id: row.id } });
-                                    if (isAdminOk(res)) {
-                                      toast.success("Archived.");
-                                      await load();
-                                    } else toast.error(adminError(res));
-                                  },
-                                })
-                              }
-                            >
-                              Archive
-                            </DropdownMenuItem>
-                          </>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </CmsSortableRow>
-                ))
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </CmsSortableRow>
+                  ))
                 : null}
             </TableBody>
           </Table>
@@ -372,7 +400,9 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
         <SheetContent className="overflow-y-auto sm:max-w-xl">
           <SheetHeader>
             <SheetTitle>{editing ? "Edit team member" : "New team member"}</SheetTitle>
-            <SheetDescription>Publish to update the About page and homepage leadership banner.</SheetDescription>
+            <SheetDescription>
+              Publish to update the About page and homepage leadership banner.
+            </SheetDescription>
           </SheetHeader>
           <div className="mt-6 space-y-4">
             <CmsTranslateToHindiButton
@@ -417,84 +447,162 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Name (EN)</Label>
-                <Input value={form.nameEn} onChange={(e) => updateForm({ nameEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.nameEn}
+                  onChange={(e) => updateForm({ nameEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Name (HI)</Label>
-                <Input value={form.nameHi} onChange={(e) => updateForm({ nameHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.nameHi}
+                  onChange={(e) => updateForm({ nameHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Role (EN)</Label>
-                <Input value={form.roleEn} onChange={(e) => updateForm({ roleEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.roleEn}
+                  onChange={(e) => updateForm({ roleEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Role (HI)</Label>
-                <Input value={form.roleHi} onChange={(e) => updateForm({ roleHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.roleHi}
+                  onChange={(e) => updateForm({ roleHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Focus (EN)</Label>
-                <Input value={form.focusEn} onChange={(e) => updateForm({ focusEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.focusEn}
+                  onChange={(e) => updateForm({ focusEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Focus (HI)</Label>
-                <Input value={form.focusHi} onChange={(e) => updateForm({ focusHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.focusHi}
+                  onChange={(e) => updateForm({ focusHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Tag (EN)</Label>
-                <Input value={form.tagEn} onChange={(e) => updateForm({ tagEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.tagEn}
+                  onChange={(e) => updateForm({ tagEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Tag (HI)</Label>
-                <Input value={form.tagHi} onChange={(e) => updateForm({ tagHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.tagHi}
+                  onChange={(e) => updateForm({ tagHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Bio (EN)</Label>
-              <Textarea value={form.bioEn} onChange={(e) => updateForm({ bioEn: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea
+                value={form.bioEn}
+                onChange={(e) => updateForm({ bioEn: e.target.value })}
+                disabled={!canEdit}
+                rows={3}
+              />
             </div>
             <div className="space-y-2">
               <Label>Bio (HI)</Label>
-              <Textarea value={form.bioHi} onChange={(e) => updateForm({ bioHi: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea
+                value={form.bioHi}
+                onChange={(e) => updateForm({ bioHi: e.target.value })}
+                disabled={!canEdit}
+                rows={3}
+              />
             </div>
             <div className="space-y-2">
               <Label>Quote (EN)</Label>
-              <Textarea value={form.quoteEn} onChange={(e) => updateForm({ quoteEn: e.target.value })} disabled={!canEdit} rows={2} />
+              <Textarea
+                value={form.quoteEn}
+                onChange={(e) => updateForm({ quoteEn: e.target.value })}
+                disabled={!canEdit}
+                rows={2}
+              />
             </div>
             <div className="space-y-2">
               <Label>Quote (HI)</Label>
-              <Textarea value={form.quoteHi} onChange={(e) => updateForm({ quoteHi: e.target.value })} disabled={!canEdit} rows={2} />
+              <Textarea
+                value={form.quoteHi}
+                onChange={(e) => updateForm({ quoteHi: e.target.value })}
+                disabled={!canEdit}
+                rows={2}
+              />
             </div>
             <div className="space-y-2">
               <Label>Key achievements (EN) — one per line</Label>
-              <Textarea value={form.keyAchEnText} onChange={(e) => updateForm({ keyAchEnText: e.target.value })} disabled={!canEdit} rows={4} />
+              <Textarea
+                value={form.keyAchEnText}
+                onChange={(e) => updateForm({ keyAchEnText: e.target.value })}
+                disabled={!canEdit}
+                rows={4}
+              />
             </div>
             <div className="space-y-2">
               <Label>Key achievements (HI) — one per line</Label>
-              <Textarea value={form.keyAchHiText} onChange={(e) => updateForm({ keyAchHiText: e.target.value })} disabled={!canEdit} rows={4} />
+              <Textarea
+                value={form.keyAchHiText}
+                onChange={(e) => updateForm({ keyAchHiText: e.target.value })}
+                disabled={!canEdit}
+                rows={4}
+              />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Publication (EN)</Label>
-                <Input value={form.pubEn} onChange={(e) => updateForm({ pubEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.pubEn}
+                  onChange={(e) => updateForm({ pubEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Publication (HI)</Label>
-                <Input value={form.pubHi} onChange={(e) => updateForm({ pubHi: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.pubHi}
+                  onChange={(e) => updateForm({ pubHi: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Icon</Label>
-              <Select value={form.iconKey} onValueChange={(v) => updateForm({ iconKey: v as CmsIconKey })} disabled={!canEdit}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+              <Select
+                value={form.iconKey}
+                onValueChange={(v) => updateForm({ iconKey: v as CmsIconKey })}
+                disabled={!canEdit}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {CMS_ICON_OPTIONS.map((o) => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -514,11 +622,21 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Banner badge (EN)</Label>
-                  <Input value={form.bannerBadgeEn} onChange={(e) => updateForm({ bannerBadgeEn: e.target.value })} disabled={!canEdit} placeholder="Founder" />
+                  <Input
+                    value={form.bannerBadgeEn}
+                    onChange={(e) => updateForm({ bannerBadgeEn: e.target.value })}
+                    disabled={!canEdit}
+                    placeholder="Founder"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Banner badge (HI)</Label>
-                  <Input value={form.bannerBadgeHi} onChange={(e) => updateForm({ bannerBadgeHi: e.target.value })} disabled={!canEdit} placeholder="संस्थापक" />
+                  <Input
+                    value={form.bannerBadgeHi}
+                    onChange={(e) => updateForm({ bannerBadgeHi: e.target.value })}
+                    disabled={!canEdit}
+                    placeholder="संस्थापक"
+                  />
                 </div>
               </div>
             )}
@@ -533,7 +651,11 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
           </div>
           {canEdit && (
             <SheetFooter className="mt-6">
-              <Button onClick={() => void handlePublish()} disabled={publishing || !form.imageUrl} className="w-full">
+              <Button
+                onClick={() => void handlePublish()}
+                disabled={publishing || !form.imageUrl}
+                className="w-full"
+              >
                 {publishing ? "Publishing…" : "Publish"}
               </Button>
             </SheetFooter>

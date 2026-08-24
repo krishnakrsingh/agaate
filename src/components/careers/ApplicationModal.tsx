@@ -402,8 +402,8 @@ export default function ApplicationModal({ job, jobs, isOpen = true, onClose }: 
                                   isDragging
                                     ? "border-[#143d31] bg-[#143d31]/10"
                                     : resumeFile
-                                    ? "border-[#5d7d37] bg-[#5d7d37]/5"
-                                    : "border-[#143d31]/20 bg-white hover:border-[#143d31]/40"
+                                      ? "border-[#5d7d37] bg-[#5d7d37]/5"
+                                      : "border-[#143d31]/20 bg-white hover:border-[#143d31]/40"
                                 }`}
                               >
                                 <input
@@ -497,9 +497,7 @@ export default function ApplicationModal({ job, jobs, isOpen = true, onClose }: 
                   </div>
 
                   {/* Buttons */}
-                  {error && (
-                    <p className="text-xs text-rose-600 text-center">{error}</p>
-                  )}
+                  {error && <p className="text-xs text-rose-600 text-center">{error}</p>}
                   <div className="flex gap-3 pt-2">
                     {step > 1 && (
                       <button

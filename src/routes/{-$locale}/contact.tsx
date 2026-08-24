@@ -124,20 +124,21 @@ function ContactPage() {
   return (
     <ContactPageProvider content={contactPage}>
       <ToastProvider>
-      <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased pb-20 sm:pb-0 overflow-x-clip">
-        <Header />
-        <ContactHero />
-        <ContactForm onSuccessChange={onSuccessChange} />
-        <FacilitiesSection />
-        <TrustBand />
-        <ContactFaq />
-        <CtaBanner />
-        <Footer />
-        <MobileStickyContactBar hidden={formSuccess} />
-        <p className="sr-only">
-          Call {contact.primaryPhoneDisplay} or email {contact.primaryEmail} for agronomy support in Gurugram.
-        </p>
-      </main>
+        <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased pb-20 sm:pb-0 overflow-x-clip">
+          <Header />
+          <ContactHero />
+          <ContactForm onSuccessChange={onSuccessChange} />
+          <FacilitiesSection />
+          <TrustBand />
+          <ContactFaq />
+          <CtaBanner />
+          <Footer />
+          <MobileStickyContactBar hidden={formSuccess} />
+          <p className="sr-only">
+            Call {contact.primaryPhoneDisplay} or email {contact.primaryEmail} for agronomy support
+            in Gurugram.
+          </p>
+        </main>
       </ToastProvider>
     </ContactPageProvider>
   );

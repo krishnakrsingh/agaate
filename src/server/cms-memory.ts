@@ -15,7 +15,7 @@ import type {
 import { getFallbackSeedCareerJobs } from "@/data/careers-fallback";
 import { DEFAULT_CMS_SITE_CONFIG } from "@/lib/cms-types";
 
-export let mockStats: CmsStatRow[] = getFallbackSeedStats().map((s, i) => ({
+export const mockStats: CmsStatRow[] = getFallbackSeedStats().map((s, i) => ({
   id: i + 1,
   ...s,
   prefix: s.prefix ?? undefined,
@@ -36,7 +36,7 @@ export let mockStats: CmsStatRow[] = getFallbackSeedStats().map((s, i) => ({
   hasUnpublishedChanges: false,
 }));
 
-export let mockLogos: CmsLogoRow[] = getFallbackSeedLogos().map((l, i) => ({
+export const mockLogos: CmsLogoRow[] = getFallbackSeedLogos().map((l, i) => ({
   id: i + 1,
   name: l.name,
   group: l.group,
@@ -49,7 +49,7 @@ export let mockLogos: CmsLogoRow[] = getFallbackSeedLogos().map((l, i) => ({
   hasUnpublishedChanges: false,
 }));
 
-export let mockStories: CmsStoryRow[] = getFallbackSeedStories().map((s, i) => ({
+export const mockStories: CmsStoryRow[] = getFallbackSeedStories().map((s, i) => ({
   id: i + 1,
   ...s,
   sortOrder: i,
@@ -78,7 +78,13 @@ export let mockStories: CmsStoryRow[] = getFallbackSeedStories().map((s, i) => (
   hasUnpublishedChanges: false,
 }));
 
-export let mockSiteConfig: CmsSiteConfig = { ...DEFAULT_CMS_SITE_CONFIG };
+export const mockSiteConfig: CmsSiteConfig = { ...DEFAULT_CMS_SITE_CONFIG };
+
+/** In-memory fallback store mutation (DB not configured). Mutates in place so
+ *  existing references stay valid. */
+export function setMockSiteConfig(config: CmsSiteConfig): void {
+  Object.assign(mockSiteConfig, config);
+}
 
 export type MockNewsletterSignup = {
   id: number;
@@ -88,9 +94,9 @@ export type MockNewsletterSignup = {
   created_at: string;
 };
 
-export let mockNewsletterSignups: MockNewsletterSignup[] = [];
+export const mockNewsletterSignups: MockNewsletterSignup[] = [];
 
-export let mockCareerJobs: CmsCareerJobRow[] = getFallbackSeedCareerJobs().map((j, i) => ({
+export const mockCareerJobs: CmsCareerJobRow[] = getFallbackSeedCareerJobs().map((j, i) => ({
   id: i + 1,
   slug: j.slug,
   titleEn: j.titleEn,
@@ -154,9 +160,9 @@ export type MockCareerApplication = {
   created_at: string;
 };
 
-export let mockCareerApplications: MockCareerApplication[] = [];
+export const mockCareerApplications: MockCareerApplication[] = [];
 
-export let mockTeam: CmsTeamMemberRow[] = getFallbackSeedTeam().map((m, i) => ({
+export const mockTeam: CmsTeamMemberRow[] = getFallbackSeedTeam().map((m, i) => ({
   id: i + 1,
   slug: m.slug,
   nameEn: m.nameEn,

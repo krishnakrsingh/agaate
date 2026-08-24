@@ -61,7 +61,7 @@ export default function PincodeDeliveryChecker() {
       setErrorMsg(
         isHindi
           ? "6 अंकों का PIN कोड दर्ज करें (उदा. 800001)"
-          : "Enter a valid 6-digit PIN code (e.g. 800001)"
+          : "Enter a valid 6-digit PIN code (e.g. 800001)",
       );
       return;
     }
@@ -132,9 +132,7 @@ export default function PincodeDeliveryChecker() {
         </button>
       </div>
 
-      {errorMsg && (
-        <p className="text-[11px] text-red-600 font-medium">{errorMsg}</p>
-      )}
+      {errorMsg && <p className="text-[11px] text-red-600 font-medium">{errorMsg}</p>}
 
       {/* Result pill or default hint */}
       <AnimatePresence mode="wait">
@@ -169,9 +167,7 @@ export default function PincodeDeliveryChecker() {
           </motion.div>
         ) : (
           <div className="flex items-center justify-between text-[11px] text-[#4f624f]">
-            <span className="truncate">
-              {isHindi ? "त्वरित जांच पिनकोड:" : "Try:"}
-            </span>
+            <span className="truncate">{isHindi ? "त्वरित जांच पिनकोड:" : "Try:"}</span>
             <div className="flex items-center gap-1">
               {PRESET_PINCODES.map((item) => (
                 <button

@@ -141,13 +141,7 @@ export function PhoneField({
 
 export function EmailField(props: TextFieldProps) {
   return (
-    <TextField
-      type="email"
-      inputMode="email"
-      autoComplete="email"
-      enterKeyHint="next"
-      {...props}
-    />
+    <TextField type="email" inputMode="email" autoComplete="email" enterKeyHint="next" {...props} />
   );
 }
 

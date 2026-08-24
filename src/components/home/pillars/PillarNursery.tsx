@@ -40,7 +40,10 @@ export default function PillarNursery() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5d7d37] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#5d7d37]"></span>
                 </span>
-                <MapPin weight="fill" className="h-4 w-4 text-[#143d31] group-hover:text-[#5d7d37] transition-colors" />
+                <MapPin
+                  weight="fill"
+                  className="h-4 w-4 text-[#143d31] group-hover:text-[#5d7d37] transition-colors"
+                />
                 <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs font-bold text-[#143d31]">
                   <span className="font-extrabold text-[#5d7d37]">3</span>
                   <span>Hubs in Gurugram</span>
@@ -86,8 +89,8 @@ export default function PillarNursery() {
 
               {/* Subtext Description */}
               <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-                Immunity-boosted plug seedlings engineered for zero mortality, strong root vigour, and
-                maximum crop protection.
+                Immunity-boosted plug seedlings engineered for zero mortality, strong root vigour,
+                and maximum crop protection.
               </p>
 
               {/* Metrics Strip */}
@@ -161,10 +164,7 @@ export default function PillarNursery() {
       </section>
 
       {isVisitModalOpen && (
-        <AgriParkVisitModal
-          isOpen={isVisitModalOpen}
-          onClose={() => setIsVisitModalOpen(false)}
-        />
+        <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
       )}
 
       {isLocationsModalOpen && (
@@ -176,4 +176,3 @@ export default function PillarNursery() {
     </>
   );
 }
-

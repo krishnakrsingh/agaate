@@ -9,42 +9,32 @@ export const CONTACT_PAGE_FALLBACK: ContactPageContent = {
     {
       qEn: "How quickly will someone get back to me?",
       qHi: "किसी को कितनी जल्दी जवाब मिलेगा?",
-      aEn:
-        "We aim to reply within 2 business hours during farm operating hours (7:30 AM – 8:00 PM IST). Urgent crop issues are prioritised on WhatsApp and the hotline.",
-      aHi:
-        "हम फार्म संचालन समय (7:30 AM – 8:00 PM IST) के दौरान 2 व्यावसायिक घंटों के भीतर जवाब देने का लक्ष्य रखते हैं।",
+      aEn: "We aim to reply within 2 business hours during farm operating hours (7:30 AM – 8:00 PM IST). Urgent crop issues are prioritised on WhatsApp and the hotline.",
+      aHi: "हम फार्म संचालन समय (7:30 AM – 8:00 PM IST) के दौरान 2 व्यावसायिक घंटों के भीतर जवाब देने का लक्ष्य रखते हैं।",
     },
     {
       qEn: "Can I visit the farm or Kisan Mall without an appointment?",
       qHi: "क्या मैं बिना अपॉइंटमेंट के फार्म या किसान मॉल जा सकता हूँ?",
-      aEn:
-        "Yes. The Kisan Mall is open daily 8:00 AM – 8:00 PM. For a guided Agri Park walk or nursery pickup, a quick call or form submission helps us prepare the right advisor.",
-      aHi:
-        "हाँ। किसान मॉल दैनिक 8:00 AM – 8:00 PM खुला है। एग्री पार्क टूर या नर्सरी पिकअप के लिए एक कॉल या फॉर्म हमें तैयार रखने में मदद करता है।",
+      aEn: "Yes. The Kisan Mall is open daily 8:00 AM – 8:00 PM. For a guided Agri Park walk or nursery pickup, a quick call or form submission helps us prepare the right advisor.",
+      aHi: "हाँ। किसान मॉल दैनिक 8:00 AM – 8:00 PM खुला है। एग्री पार्क टूर या नर्सरी पिकअप के लिए एक कॉल या फॉर्म हमें तैयार रखने में मदद करता है।",
     },
     {
       qEn: "What should I share for crop disease help?",
       qHi: "फसल रोग सहायता के लिए मुझे क्या साझा करना चाहिए?",
-      aEn:
-        "A clear photo of the affected plant, your crop name, stage, and location is enough. You can upload a photo in the form or send it on WhatsApp after submitting.",
-      aHi:
-        "प्रभावित पौधे की स्पष्ट फोटो, फसल का नाम, चरण और स्थान पर्याप्त है। फॉर्म में फोटो अपलोड करें या सबमिट के बाद WhatsApp पर भेजें।",
+      aEn: "A clear photo of the affected plant, your crop name, stage, and location is enough. You can upload a photo in the form or send it on WhatsApp after submitting.",
+      aHi: "प्रभावित पौधे की स्पष्ट फोटो, फसल का नाम, चरण और स्थान पर्याप्त है। फॉर्म में फोटो अपलोड करें या सबमिट के बाद WhatsApp पर भेजें।",
     },
     {
       qEn: "Do you charge for the first consultation?",
       qHi: "पहली परामर्श के लिए शुल्क लेते हैं?",
-      aEn:
-        "Initial agronomy callbacks and guidance for farmers connected through Agaate are free. Turnkey Big Farm Setup and specialised projects are scoped separately.",
-      aHi:
-        "Agaate से जुड़े किसानों के लिए प्रारंभिक कृषि सलाह मुफ्त है। बिग फार्म सेटअप और विशेष प्रोजेक्ट अलग से तय होते हैं।",
+      aEn: "Initial agronomy callbacks and guidance for farmers connected through Agaate are free. Turnkey Big Farm Setup and specialised projects are scoped separately.",
+      aHi: "Agaate से जुड़े किसानों के लिए प्रारंभिक कृषि सलाह मुफ्त है। बिग फार्म सेटअप और विशेष प्रोजेक्ट अलग से तय होते हैं।",
     },
     {
       qEn: "Which locations do you serve?",
       qHi: "आप किन स्थानों पर सेवा देते हैं?",
-      aEn:
-        "Our hubs are in Gurugram, Haryana. Advisory, nursery, and market linkage support farmers across neighbouring districts; Big Farm projects are planned nationally by scope.",
-      aHi:
-        "हमारे केंद्र गुरुग्राम, हरियाणा में हैं। सलाह, नर्सरी और बाजार लिंकेज पड़ोसी जिलों में; बिग फार्म प्रोजेक्ट राष्ट्रीय स्तर पर।",
+      aEn: "Our hubs are in Gurugram, Haryana. Advisory, nursery, and market linkage support farmers across neighbouring districts; Big Farm projects are planned nationally by scope.",
+      aHi: "हमारे केंद्र गुरुग्राम, हरियाणा में हैं। सलाह, नर्सरी और बाजार लिंकेज पड़ोसी जिलों में; बिग फार्म प्रोजेक्ट राष्ट्रीय स्तर पर।",
     },
   ],
   consultationTopics: [

@@ -7,7 +7,8 @@ describe("Utility Helpers (cn)", () => {
   });
 
   it("should handle conditional and falsy class names", () => {
-    expect(cn("font-bold", false && "text-red-500", null, undefined, "text-sm")).toBe(
+    const isActive: boolean = false;
+    expect(cn("font-bold", isActive && "text-red-500", null, undefined, "text-sm")).toBe(
       "font-bold text-sm",
     );
   });

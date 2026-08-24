@@ -82,7 +82,11 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
                   return (
                     <div
                       key={label}
-                      className={idx > 0 ? "text-left border-l border-[#143d31]/10 pl-3" : "text-left first:border-l-0 first:pl-0"}
+                      className={
+                        idx > 0
+                          ? "text-left border-l border-[#143d31]/10 pl-3"
+                          : "text-left first:border-l-0 first:pl-0"
+                      }
                     >
                       <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
                         <CountUp to={stat.numValue} suffix={suffix} />
@@ -234,10 +238,7 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
       />
 
       {/* Interactive VIP Farm Visit Booking Modal */}
-      <AgriParkVisitModal
-        isOpen={isVisitModalOpen}
-        onClose={() => setIsVisitModalOpen(false)}
-      />
+      <AgriParkVisitModal isOpen={isVisitModalOpen} onClose={() => setIsVisitModalOpen(false)} />
     </>
   );
 }

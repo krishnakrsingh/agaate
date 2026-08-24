@@ -1,9 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { type ReactNode, type ComponentType } from "react";
-import {
-  Envelope,
-  Phone,
-} from "@phosphor-icons/react";
+import { Envelope, Phone } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
 import { cn } from "@/lib/utils";

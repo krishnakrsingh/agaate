@@ -222,12 +222,7 @@ type MarqueeProps = {
   className?: string;
 };
 
-export function Marquee({
-  children,
-  duration = 28,
-  reverse = false,
-  className,
-}: MarqueeProps) {
+export function Marquee({ children, duration = 28, reverse = false, className }: MarqueeProps) {
   return (
     <div className={`overflow-hidden whitespace-nowrap ${className ?? ""}`}>
       <motion.div

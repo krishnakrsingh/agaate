@@ -35,14 +35,18 @@ export const saveAdminUser = createServerFn({ method: "POST" })
 
 export const listAdminFarmVisits = createServerFn({ method: "GET" })
   .validator(
-    (data: {
-      q?: string;
-      status?: string;
-      from?: string;
-      to?: string;
-      page?: number;
-      pageSize?: number;
-    } | undefined) => data ?? {},
+    (
+      data:
+        | {
+            q?: string;
+            status?: string;
+            from?: string;
+            to?: string;
+            page?: number;
+            pageSize?: number;
+          }
+        | undefined,
+    ) => data ?? {},
   )
   .handler(async ({ data }) => {
     const mod = await import("./admin-contacts.server");
@@ -50,9 +54,7 @@ export const listAdminFarmVisits = createServerFn({ method: "GET" })
   });
 
 export const updateAdminFarmVisit = createServerFn({ method: "POST" })
-  .validator(
-    (data: { id: number; status?: string; follow_up_date?: string | null }) => data,
-  )
+  .validator((data: { id: number; status?: string; follow_up_date?: string | null }) => data)
   .handler(async ({ data }) => {
     const mod = await import("./admin-contacts.server");
     return mod.handleUpdateFarmVisit({

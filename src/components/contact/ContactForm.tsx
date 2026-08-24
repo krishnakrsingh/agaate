@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CaretDown, PaperPlaneRight, Phone, WhatsappLogo } from "@phosphor-icons/react";
 import { useParams } from "@tanstack/react-router";
 import { getLocalizedPath } from "@/lib/i18n";
@@ -8,7 +8,7 @@ import { useSiteContact } from "@/contexts/SiteContactContext";
 import { useContactPage } from "@/contexts/ContactPageContext";
 import { FORM_STORAGE_KEY, MESSAGE_MAX } from "./data";
 import { TopicSelector } from "./TopicSelector";
-import { TOPIC_FORM_CONFIGS } from "./topic-configs";
+import { getTopicConfig } from "./topic-configs";
 import {
   ConsentCheckbox,
   EmailField,
@@ -74,11 +74,7 @@ function makeClientToken() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-export function ContactForm({
-  onSuccessChange,
-}: {
-  onSuccessChange?: (success: boolean) => void;
-}) {
+export function ContactForm({ onSuccessChange }: { onSuccessChange?: (success: boolean) => void }) {
   const formRef = useRef<HTMLFormElement>(null);
   const { locale } = useParams({ strict: false }) as { locale?: string };
   const isHi = locale === "hi";
@@ -95,21 +91,24 @@ export function ContactForm({
       })),
     [page.consultationTopics, isHi],
   );
-  const topicIds = useMemo(() => page.consultationTopics.map((t) => t.id), [page.consultationTopics]);
+  const topicIds = useMemo(
+    () => page.consultationTopics.map((t) => t.id),
+    [page.consultationTopics],
+  );
   const defaultTopic = topicIds[0] ?? "nursery";
 
   const { whatsappUrlWithText } = useSiteContact();
 
   const [topic, setTopic] = useState(defaultTopic);
-  const topicConfig = TOPIC_FORM_CONFIGS[topic] || TOPIC_FORM_CONFIGS.general;
+  const topicConfig = getTopicConfig(topic);
   const field1Options = isHi ? topicConfig.field1OptionsHi : topicConfig.field1OptionsEn;
   const field2Options = isHi ? topicConfig.field2OptionsHi : topicConfig.field2OptionsEn;
 
   const [form, setForm] = useState<FormState>(() => {
-    const cfg = TOPIC_FORM_CONFIGS[defaultTopic] || TOPIC_FORM_CONFIGS.general;
+    const cfg = getTopicConfig(defaultTopic);
     const f1 = isHi ? cfg.field1OptionsHi : cfg.field1OptionsEn;
     const f2 = isHi ? cfg.field2OptionsHi : cfg.field2OptionsEn;
-    return defaults(f2 ? f2[0] ?? "" : "", f1 ? f1[0] ?? "" : "", channelOptions[0] ?? "");
+    return defaults(f2 ? (f2[0] ?? "") : "", f1 ? (f1[0] ?? "") : "", channelOptions[0] ?? "");
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | "topic", string>>>({});
   const [file, setFile] = useState<File | null>(null);
@@ -129,18 +128,21 @@ export function ContactForm({
     [topic, topicOptions],
   );
 
-  const handleTopicChange = (newTopicId: string) => {
-    setTopic(newTopicId);
-    const newCfg = TOPIC_FORM_CONFIGS[newTopicId] || TOPIC_FORM_CONFIGS.general;
-    const newF1 = isHi ? newCfg.field1OptionsHi : newCfg.field1OptionsEn;
-    const newF2 = isHi ? newCfg.field2OptionsHi : newCfg.field2OptionsEn;
-    setForm((prev) => ({
-      ...prev,
-      crop: newF1 ? newF1[0] ?? "" : "",
-      acreage: newF2 ? newF2[0] ?? "" : "",
-    }));
-    track("contact_form_field_completed", { field: "topic", topic: newTopicId });
-  };
+  const handleTopicChange = useCallback(
+    (newTopicId: string) => {
+      setTopic(newTopicId);
+      const newCfg = getTopicConfig(newTopicId);
+      const newF1 = isHi ? newCfg.field1OptionsHi : newCfg.field1OptionsEn;
+      const newF2 = isHi ? newCfg.field2OptionsHi : newCfg.field2OptionsEn;
+      setForm((prev) => ({
+        ...prev,
+        crop: newF1 ? (newF1[0] ?? "") : "",
+        acreage: newF2 ? (newF2[0] ?? "") : "",
+      }));
+      track("contact_form_field_completed", { field: "topic", topic: newTopicId });
+    },
+    [isHi],
+  );
 
   useEffect(() => {
     try {
@@ -158,7 +160,7 @@ export function ContactForm({
     } catch {
       // ignore
     }
-  }, [topicIds]);
+  }, [topicIds, handleTopicChange]);
 
   useEffect(() => {
     if (ticketId) return;
@@ -214,10 +216,10 @@ export function ContactForm({
 
   const reset = () => {
     setTicketId(null);
-    const cfg = TOPIC_FORM_CONFIGS[topic] || TOPIC_FORM_CONFIGS.general;
+    const cfg = getTopicConfig(topic);
     const f1 = isHi ? cfg.field1OptionsHi : cfg.field1OptionsEn;
     const f2 = isHi ? cfg.field2OptionsHi : cfg.field2OptionsEn;
-    setForm(defaults(f2 ? f2[0] ?? "" : "", f1 ? f1[0] ?? "" : "", channelOptions[0] ?? ""));
+    setForm(defaults(f2 ? (f2[0] ?? "") : "", f1 ? (f1[0] ?? "") : "", channelOptions[0] ?? ""));
     setErrors({});
     setFormError(null);
     setFile(null);
@@ -362,7 +364,8 @@ export function ContactForm({
                         className="rounded-xl border border-[#143d31]/15 bg-[#f4f8f5] p-4 text-xs sm:text-sm text-[#143d31]"
                         role="status"
                       >
-                        You appear offline. You can still fill the form — or call / WhatsApp us directly.
+                        You appear offline. You can still fill the form — or call / WhatsApp us
+                        directly.
                       </div>
                     ) : null}
 
@@ -445,7 +448,11 @@ export function ContactForm({
                             id="crop"
                             name="crop"
                             label={isHi ? topicConfig.field1LabelHi : topicConfig.field1LabelEn}
-                            placeholder={isHi ? topicConfig.field1PlaceholderHi : topicConfig.field1PlaceholderEn}
+                            placeholder={
+                              isHi
+                                ? topicConfig.field1PlaceholderHi
+                                : topicConfig.field1PlaceholderEn
+                            }
                             value={form.crop}
                             disabled={isSubmitting}
                             onChange={(e) => setField("crop", e.target.value)}
@@ -467,7 +474,11 @@ export function ContactForm({
                             id="acreage"
                             name="acreage"
                             label={isHi ? topicConfig.field2LabelHi : topicConfig.field2LabelEn}
-                            placeholder={isHi ? topicConfig.field2PlaceholderHi : topicConfig.field2PlaceholderEn}
+                            placeholder={
+                              isHi
+                                ? topicConfig.field2PlaceholderHi
+                                : topicConfig.field2PlaceholderEn
+                            }
                             value={form.acreage}
                             disabled={isSubmitting}
                             onChange={(e) => setField("acreage", e.target.value)}
@@ -479,7 +490,9 @@ export function ContactForm({
                         id="district"
                         name="district"
                         label={isHi ? topicConfig.field3LabelHi : topicConfig.field3LabelEn}
-                        placeholder={isHi ? topicConfig.field3PlaceholderHi : topicConfig.field3PlaceholderEn}
+                        placeholder={
+                          isHi ? topicConfig.field3PlaceholderHi : topicConfig.field3PlaceholderEn
+                        }
                         value={form.district}
                         disabled={isSubmitting}
                         maxLength={120}
@@ -491,7 +504,9 @@ export function ContactForm({
                       id="message"
                       name="message"
                       label={isHi ? topicConfig.notesLabelHi : topicConfig.notesLabelEn}
-                      placeholder={isHi ? topicConfig.notesPlaceholderHi : topicConfig.notesPlaceholderEn}
+                      placeholder={
+                        isHi ? topicConfig.notesPlaceholderHi : topicConfig.notesPlaceholderEn
+                      }
                       value={form.message}
                       disabled={isSubmitting}
                       maxLength={MESSAGE_MAX}
@@ -533,8 +548,13 @@ export function ContactForm({
                         </>
                       ) : (
                         <>
-                          <PaperPlaneRight className="h-4 w-4 text-[#a3e635] transition-transform group-hover:translate-x-0.5" weight="bold" />
-                          <span>{isHi ? topicConfig.buttonLabelHi : topicConfig.buttonLabelEn}</span>
+                          <PaperPlaneRight
+                            className="h-4 w-4 text-[#a3e635] transition-transform group-hover:translate-x-0.5"
+                            weight="bold"
+                          />
+                          <span>
+                            {isHi ? topicConfig.buttonLabelHi : topicConfig.buttonLabelEn}
+                          </span>
                         </>
                       )}
                     </button>

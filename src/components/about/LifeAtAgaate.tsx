@@ -30,7 +30,8 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     id: "field-advisory-01",
     image: "/who-we-are-farm.jpg",
     title: "On-Ground Crop Scouting & Field Trials",
-    caption: "Our agronomists conduct hands-on crop diagnostics, inspecting leaf health and drip line efficiency with progressive vegetable growers.",
+    caption:
+      "Our agronomists conduct hands-on crop diagnostics, inspecting leaf health and drip line efficiency with progressive vegetable growers.",
     category: "field",
     location: "Kukrola Proving Grounds, Gurugram",
     tag: "Field Advisory",
@@ -39,7 +40,8 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     id: "nursery-germination-02",
     image: "/images/gallery/farm_photo_05.webp",
     title: "5-Acre Climate-Controlled Smart Nursery",
-    caption: "Nursery teams inspecting bio-boosted seedling plug trays in controlled climate chambers to ensure 98% field survival.",
+    caption:
+      "Nursery teams inspecting bio-boosted seedling plug trays in controlled climate chambers to ensure 98% field survival.",
     category: "nursery",
     location: "Agaate Smart Nursery, Kukrola",
     tag: "Smart Nursery",
@@ -48,7 +50,8 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     id: "campus-recruitment-03",
     image: "/src/assets/contact-team.jpg",
     title: "Team Innovation & Campus Outreach",
-    caption: "Agaate leadership and young agronomy graduates collaborating on regional crop cycle planning and digital advisory tools.",
+    caption:
+      "Agaate leadership and young agronomy graduates collaborating on regional crop cycle planning and digital advisory tools.",
     category: "campus",
     location: "Corporate Hub & Campus Drives (CSA Kanpur)",
     tag: "Campus & Culture",
@@ -57,7 +60,8 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     id: "kisan-mall-demo-04",
     image: "/images/gallery/farm_photo_18.webp",
     title: "Kisan Mall Farmer Demonstration Day",
-    caption: "Growers exploring certified seeds, biological pest solutions, and mulching hardware at our Bilaspur Kalan retail hub.",
+    caption:
+      "Growers exploring certified seeds, biological pest solutions, and mulching hardware at our Bilaspur Kalan retail hub.",
     category: "community",
     location: "Agaate Kisan Mall, Bilaspur Kalan",
     tag: "Community",
@@ -66,7 +70,8 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     id: "field-harvest-05",
     image: "/images/gallery/farm_photo_28.webp",
     title: "Watermelon & Solanaceae Field Days",
-    caption: "Demonstrating modern bamboo staking and mulching techniques that increase export-grade fruit output by 25%.",
+    caption:
+      "Demonstrating modern bamboo staking and mulching techniques that increase export-grade fruit output by 25%.",
     category: "field",
     location: "Associated Farm Blocks, Haryana",
     tag: "Field Advisory",
@@ -75,7 +80,8 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     id: "nursery-prep-06",
     image: "/images/gallery/farm_photo_30.webp",
     title: "Quality Verification & Seedling Dispatch",
-    caption: "Rigorous root architecture checks before loading healthy plug seedlings for doorstep delivery across 15,000+ associated acres.",
+    caption:
+      "Rigorous root architecture checks before loading healthy plug seedlings for doorstep delivery across 15,000+ associated acres.",
     category: "nursery",
     location: "Dispatch Hub, Pachgaon NH-8",
     tag: "Smart Nursery",
@@ -96,9 +102,10 @@ export default function LifeAtAgaate() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
 
-  const filteredPhotos = activeCategory === "all"
-    ? GALLERY_PHOTOS
-    : GALLERY_PHOTOS.filter((p) => p.category === activeCategory);
+  const filteredPhotos =
+    activeCategory === "all"
+      ? GALLERY_PHOTOS
+      : GALLERY_PHOTOS.filter((p) => p.category === activeCategory);
 
   return (
     <section
@@ -126,7 +133,9 @@ export default function LifeAtAgaate() {
                 <span className="text-[#5d7d37]">real-world farm impact</span>
               </h2>
               <p className="font-sans text-[#4f624f] text-sm sm:text-base leading-relaxed">
-                From our 5-acre Smart Nursery to university campus recruitment and on-field diagnostics with 2,000+ Parivaar farmers — explore life, teamwork, and grassroots energy at Agaate.
+                From our 5-acre Smart Nursery to university campus recruitment and on-field
+                diagnostics with 2,000+ Parivaar farmers — explore life, teamwork, and grassroots
+                energy at Agaate.
               </p>
             </div>
 
@@ -162,7 +171,10 @@ export default function LifeAtAgaate() {
                 </h3>
 
                 <p className="font-sans text-sm sm:text-base text-white/80 leading-relaxed max-w-2xl font-normal">
-                  Whether you are an experienced Agronomist, a Smart Nursery specialist, an IoT precision engineer, or an ambitious university graduate — Agaate provides on-ground mentorship, real equity in farmer outcomes, and high-impact career growth.
+                  Whether you are an experienced Agronomist, a Smart Nursery specialist, an IoT
+                  precision engineer, or an ambitious university graduate — Agaate provides
+                  on-ground mentorship, real equity in farmer outcomes, and high-impact career
+                  growth.
                 </p>
               </div>
 
@@ -176,7 +188,6 @@ export default function LifeAtAgaate() {
                   icon={<ArrowRight className="h-4 w-4" />}
                   iconPosition="right"
                 />
-
               </div>
             </div>
           </div>
@@ -193,10 +204,11 @@ export default function LifeAtAgaate() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${activeCategory === cat.id
+                className={`rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                  activeCategory === cat.id
                     ? "bg-[#143d31] text-white shadow-xs"
                     : "bg-white border border-[#143d31]/10 text-[#4f624f] hover:bg-[#143d31]/5 hover:text-[#143d31]"
-                  }`}
+                }`}
               >
                 {cat.label}
               </button>

@@ -24,8 +24,18 @@ export const Route = createFileRoute("/agaate-admin/_authed/")({
 function DashboardPage() {
   const { cmsRes, settingsRes, farmVisitsRes } = Route.useLoaderData();
 
-  if (!isAdminOk<{ overview: CmsOverview; dbConfigured: boolean; newsletterWaitlist: number; careersJobs: number; careerApplications: number }>(cmsRes)) {
-    return <p className="text-sm text-rose-600">{adminError(cmsRes, "Unable to load CMS overview.")}</p>;
+  if (
+    !isAdminOk<{
+      overview: CmsOverview;
+      dbConfigured: boolean;
+      newsletterWaitlist: number;
+      careersJobs: number;
+      careerApplications: number;
+    }>(cmsRes)
+  ) {
+    return (
+      <p className="text-sm text-rose-600">{adminError(cmsRes, "Unable to load CMS overview.")}</p>
+    );
   }
 
   const settings =
@@ -33,10 +43,13 @@ function DashboardPage() {
       ? settingsRes.settings
       : DEFAULT_ADMIN_SETTINGS;
   const smtpReady = Boolean(
-    settings.smtp.host && settings.smtp.user && "passConfigured" in settings.smtp && settings.smtp.passConfigured,
+    settings.smtp.host &&
+    settings.smtp.user &&
+    "passConfigured" in settings.smtp &&
+    settings.smtp.passConfigured,
   );
   const pendingFarmVisits =
-    farmVisitsRes && "ok" in farmVisitsRes && farmVisitsRes.ok ? farmVisitsRes.pending ?? 0 : 0;
+    farmVisitsRes && "ok" in farmVisitsRes && farmVisitsRes.ok ? (farmVisitsRes.pending ?? 0) : 0;
 
   return (
     <div className="space-y-6">
@@ -114,9 +127,13 @@ function DashboardPage() {
         careersJobs={cmsRes.careersJobs}
         careerApplications={cmsRes.careerApplications}
         needsAttention={[
-          ...(smtpReady ? [] : ["SMTP is not configured — contact form emails may not be delivered."]),
+          ...(smtpReady
+            ? []
+            : ["SMTP is not configured — contact form emails may not be delivered."]),
           ...(pendingFarmVisits > 0
-            ? [`${pendingFarmVisits} farm visit booking${pendingFarmVisits === 1 ? "" : "s"} awaiting confirmation.`]
+            ? [
+                `${pendingFarmVisits} farm visit booking${pendingFarmVisits === 1 ? "" : "s"} awaiting confirmation.`,
+              ]
             : []),
         ]}
       />

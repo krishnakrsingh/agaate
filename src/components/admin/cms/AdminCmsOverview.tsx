@@ -1,5 +1,20 @@
 import { Link } from "@tanstack/react-router";
-import { BarChart3, Image, Video, Users, ArrowRight, Database, Smartphone, Store, Briefcase, MessageCircle, BookOpen, MessageSquare, MapPin, Plus } from "lucide-react";
+import {
+  BarChart3,
+  Image,
+  Video,
+  Users,
+  ArrowRight,
+  Database,
+  Smartphone,
+  Store,
+  Briefcase,
+  MessageCircle,
+  BookOpen,
+  MessageSquare,
+  MapPin,
+  Plus,
+} from "lucide-react";
 import type { CmsOverview } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 
@@ -63,8 +78,8 @@ export function AdminCmsOverview({
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Website content</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Manage site statistics, partner logos, farmer testimonials, and team members. Changes go live
-            after publish — no rebuild required.
+            Manage site statistics, partner logos, farmer testimonials, and team members. Changes go
+            live after publish — no rebuild required.
           </p>
         </div>
       ) : null}
@@ -112,17 +127,37 @@ export function AdminCmsOverview({
           <Database className="mt-0.5 h-4 w-4 shrink-0" />
           <p>
             MySQL is not configured. You can preview the CMS UI with in-memory data, but changes
-            will not persist. Set <code className="rounded bg-amber-100 px-1">MYSQL_*</code> env vars
-            for production use.
+            will not persist. Set <code className="rounded bg-amber-100 px-1">MYSQL_*</code> env
+            vars for production use.
           </p>
         </div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Site statistics" icon={BarChart3} counts={overview.stats} to="/agaate-admin/content/stats" />
-        <StatCard title="Brand logos" icon={Image} counts={overview.logos} to="/agaate-admin/content/logos" />
-        <StatCard title="Farmer testimonials" icon={Video} counts={overview.stories} to="/agaate-admin/content/stories" />
-        <StatCard title="Team members" icon={Users} counts={overview.team} to="/agaate-admin/content/team" />
+        <StatCard
+          title="Site statistics"
+          icon={BarChart3}
+          counts={overview.stats}
+          to="/agaate-admin/content/stats"
+        />
+        <StatCard
+          title="Brand logos"
+          icon={Image}
+          counts={overview.logos}
+          to="/agaate-admin/content/logos"
+        />
+        <StatCard
+          title="Farmer testimonials"
+          icon={Video}
+          counts={overview.stories}
+          to="/agaate-admin/content/stories"
+        />
+        <StatCard
+          title="Team members"
+          icon={Users}
+          counts={overview.team}
+          to="/agaate-admin/content/team"
+        />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -131,7 +166,9 @@ export function AdminCmsOverview({
             <div>
               <p className="text-sm font-medium text-muted-foreground">Site contact & social</p>
               <p className="mt-2 text-sm text-foreground">Phones, WhatsApp, emails, facilities</p>
-              <p className="mt-1 text-xs text-muted-foreground">Header, footer, contact page, and CTAs</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Header, footer, contact page, and CTAs
+              </p>
             </div>
             <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
               <MessageCircle className="h-5 w-5" />
@@ -149,8 +186,12 @@ export function AdminCmsOverview({
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Homepage sections</p>
-              <p className="mt-2 text-sm text-foreground">Pillars, market linkage, app chapter, closing pathways</p>
-              <p className="mt-1 text-xs text-muted-foreground">Scroll narrative copy below the hero</p>
+              <p className="mt-2 text-sm text-foreground">
+                Pillars, market linkage, app chapter, closing pathways
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Scroll narrative copy below the hero
+              </p>
             </div>
             <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
               <BarChart3 className="h-5 w-5" />
@@ -168,8 +209,12 @@ export function AdminCmsOverview({
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-sm font-medium text-muted-foreground">App store links</p>
-              <p className="mt-2 text-sm text-foreground">Google Play & App Store download badge URLs</p>
-              <p className="mt-1 text-xs text-muted-foreground">Shown in the mobile app section on the homepage</p>
+              <p className="mt-2 text-sm text-foreground">
+                Google Play & App Store download badge URLs
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Shown in the mobile app section on the homepage
+              </p>
             </div>
             <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
               <Smartphone className="h-5 w-5" />
@@ -187,8 +232,12 @@ export function AdminCmsOverview({
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Agri Park video tour</p>
-              <p className="mt-2 text-sm text-foreground">Homepage &quot;Watch Video Tour&quot; modal</p>
-              <p className="mt-1 text-xs text-muted-foreground">Agri Park & Smart Nursery video and poster</p>
+              <p className="mt-2 text-sm text-foreground">
+                Homepage &quot;Watch Video Tour&quot; modal
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Agri Park & Smart Nursery video and poster
+              </p>
             </div>
             <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
               <Video className="h-5 w-5" />
@@ -207,7 +256,9 @@ export function AdminCmsOverview({
             <div>
               <p className="text-sm font-medium text-muted-foreground">About page</p>
               <p className="mt-2 text-sm text-foreground">Hero, pillars, milestones, footprint</p>
-              <p className="mt-1 text-xs text-muted-foreground">Public /about page copy and metrics</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Public /about page copy and metrics
+              </p>
             </div>
             <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
               <BookOpen className="h-5 w-5" />
@@ -226,7 +277,9 @@ export function AdminCmsOverview({
             <div>
               <p className="text-sm font-medium text-muted-foreground">Contact page</p>
               <p className="mt-2 text-sm text-foreground">FAQs, inquiry tracks, form options</p>
-              <p className="mt-1 text-xs text-muted-foreground">Public /contact page beyond site contact</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Public /contact page beyond site contact
+              </p>
             </div>
             <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
               <MessageSquare className="h-5 w-5" />
@@ -287,12 +340,13 @@ export function AdminCmsOverview({
         <p className="font-medium text-foreground">Two save workflows</p>
         <ul className="mt-2 space-y-2">
           <li>
-            <strong>List content</strong> (statistics, logos, testimonials, team, job posts): edit in the side panel,
-            then click <strong>Publish</strong>. Use Unpublish or Archive from the row menu when needed.
+            <strong>List content</strong> (statistics, logos, testimonials, team, job posts): edit
+            in the side panel, then click <strong>Publish</strong>. Use Unpublish or Archive from
+            the row menu when needed.
           </li>
           <li>
-            <strong>Page content</strong> (About, Contact, homepage sections, site contact, and similar): click{" "}
-            <strong>Save</strong> and changes go live immediately.
+            <strong>Page content</strong> (About, Contact, homepage sections, site contact, and
+            similar): click <strong>Save</strong> and changes go live immediately.
           </li>
         </ul>
       </div>

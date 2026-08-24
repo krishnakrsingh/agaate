@@ -36,7 +36,8 @@ export const whoWeAre = {
   eyebrow: "Who we are",
   headline: "Built for farmers, always.",
   body: "Agaate is built for farmers, always. We stand with them through the entire vegetable crop journey, from seed to harvest. By bringing together trusted agri companies, modern technologies, and practical support, we help farmers grow with confidence, reduce risks, and make better decisions at every step.",
-  pullQuote: "We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss.",
+  pullQuote:
+    "We built Agaate with a simple belief — that every farmer deserves the right guidance, the right tools, and the right support, so that their hard work never goes to loss.",
   image: "/who-we-are-farm.jpg",
   imageAlt: "Agaate farm fields in Gurugram",
 };

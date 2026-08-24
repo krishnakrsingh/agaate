@@ -154,7 +154,9 @@ export function SowingComparisonCalculator() {
               {/* Bottom Live Calculated Return Telemetry */}
               <div className="absolute bottom-5 left-5 right-5 text-white">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#a3e635] block mb-1">
-                  {isHindi ? `कुल अतिरिक्त शुद्ध लाभ (${calculatorAcres} एकड़)` : `Estimated Net Profit Delta (${calculatorAcres} Acres)`}
+                  {isHindi
+                    ? `कुल अतिरिक्त शुद्ध लाभ (${calculatorAcres} एकड़)`
+                    : `Estimated Net Profit Delta (${calculatorAcres} Acres)`}
                 </span>
 
                 <p className="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">

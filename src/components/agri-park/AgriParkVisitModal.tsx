@@ -1,12 +1,7 @@
 import { useRef, useState } from "react";
 import { useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowRight,
-  CheckCircle,
-  X,
-  MapPin,
-} from "@phosphor-icons/react";
+import { ArrowRight, CheckCircle, X, MapPin } from "@phosphor-icons/react";
 import { EASE } from "@/components/common/motion";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 import { submitLead } from "@/functions/submit-lead";
@@ -164,7 +159,9 @@ export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 </div>
                 <div className="flex justify-between border-b border-[#143d31]/8 pb-2">
                   <span className="text-[#4f624f]">Location:</span>
-                  <span className="font-bold text-[#143d31]">Kukrola, Gurugram (NH-8) · 5-Acre Proving Ground</span>
+                  <span className="font-bold text-[#143d31]">
+                    Kukrola, Gurugram (NH-8) · 5-Acre Proving Ground
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#4f624f]">Crop Focus:</span>
@@ -200,8 +197,8 @@ export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClo
                 Book Farm Visit & Field Day
               </h3>
               <p className="text-xs sm:text-sm text-[#4f624f] mt-1 mb-6 leading-relaxed">
-                Walk through all 8 living innovation demonstration zones, observe real partner crop trials, and
-                consult directly with our agronomists on live soil.
+                Walk through all 8 living innovation demonstration zones, observe real partner crop
+                trials, and consult directly with our agronomists on live soil.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -336,7 +333,12 @@ export function AgriParkVisitModal({ isOpen, onClose }: { isOpen: boolean; onClo
                   />
                   <span className="text-[11px] text-[#4f624f] leading-relaxed">
                     I agree to be contacted about this visit and accept the{" "}
-                    <a href={privacyHref} target="_blank" rel="noopener noreferrer" className="underline text-[#143d31]">
+                    <a
+                      href={privacyHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-[#143d31]"
+                    >
                       privacy policy
                     </a>
                     .

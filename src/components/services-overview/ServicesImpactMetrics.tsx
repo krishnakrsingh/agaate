@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowRight, PhoneCall, WhatsappLogo, CheckCircle, ShieldCheck } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  PhoneCall,
+  WhatsappLogo,
+  CheckCircle,
+  ShieldCheck,
+} from "@phosphor-icons/react";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useSiteContact } from "@/contexts/SiteContactContext";
 import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
@@ -37,7 +43,10 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
       ];
 
   return (
-    <section id="services-consultation" className="bg-[#f4f8f5] text-[#143d31] border-t border-[#143d31]/10">
+    <section
+      id="services-consultation"
+      className="bg-[#f4f8f5] text-[#143d31] border-t border-[#143d31]/10"
+    >
       {/* ── 1. Card-Less Quantifiable Scale Strip (4 Core Stats) ── */}
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-12 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10 py-6">
@@ -99,7 +108,9 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
               <div className="flex items-center gap-2.5">
                 <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
                 <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                  {isHindi ? "05 · प्रत्यक्ष कृषि वैज्ञानिक सहायता" : "05 · Direct Agronomist Advisory"}
+                  {isHindi
+                    ? "05 · प्रत्यक्ष कृषि वैज्ञानिक सहायता"
+                    : "05 · Direct Agronomist Advisory"}
                 </p>
               </div>
 
@@ -118,7 +129,10 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
               {/* Line-based Checklist */}
               <div className="space-y-3 pt-2 font-sans">
                 {consultationPerks.map((perk) => (
-                  <div key={perk} className="flex items-center gap-3 text-sm sm:text-base font-medium text-[#143d31]">
+                  <div
+                    key={perk}
+                    className="flex items-center gap-3 text-sm sm:text-base font-medium text-[#143d31]"
+                  >
                     <CheckCircle weight="fill" className="h-5 w-5 text-[#5d7d37] shrink-0" />
                     <span>{perk}</span>
                   </div>
@@ -151,7 +165,11 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
                   href={telPrimaryHref}
                   variant="outline"
                   size="lg"
-                  label={isHindi ? `कॉल: ${contact.primaryPhoneDisplay}` : `Call: ${contact.primaryPhoneDisplay}`}
+                  label={
+                    isHindi
+                      ? `कॉल: ${contact.primaryPhoneDisplay}`
+                      : `Call: ${contact.primaryPhoneDisplay}`
+                  }
                   icon={<PhoneCall className="h-5 w-5 text-[#5d7d37]" weight="bold" />}
                   iconPosition="left"
                   className="border border-[#143d31]/15 text-[#143d31]"
@@ -161,7 +179,9 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
               <div className="pt-4 border-t border-[#143d31]/10 flex items-center gap-2 font-mono text-[11px] text-[#4f624f]">
                 <ShieldCheck className="h-4 w-4 text-[#5d7d37] shrink-0" weight="fill" />
                 <span>
-                  {isHindi ? "15 मिनट में त्वरित प्रतिक्रिया · 100% निःशुल्क सेवा" : "Direct Senior Scientist Response · Zero Consultation Fee"}
+                  {isHindi
+                    ? "15 मिनट में त्वरित प्रतिक्रिया · 100% निःशुल्क सेवा"
+                    : "Direct Senior Scientist Response · Zero Consultation Fee"}
                 </span>
               </div>
             </div>

@@ -25,6 +25,9 @@ export function getAdminSessionConfig() {
 }
 
 export async function getSessionManager() {
+  // TanStack Start's useSession is a server-session API used inside server
+  // functions (not a React hook) — the react-hooks rule is a false positive.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useSession<{ user?: SessionUser }>(getAdminSessionConfig());
 }
 

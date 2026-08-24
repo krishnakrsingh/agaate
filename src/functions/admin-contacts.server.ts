@@ -263,10 +263,10 @@ export async function handleUpdateFarmVisit(data: {
       follow_up_date: data.follow_up_date,
     });
     if (!updated) return { ok: false as const, error: "Booking not found." };
-    if (updated.topic !== "agripark") return { ok: false as const, error: "Not a farm visit booking." };
+    if (updated.topic !== "agripark")
+      return { ok: false as const, error: "Not a farm visit booking." };
     return { ok: true as const, row: serializeContact(updated) };
   } catch (err) {
     return failAuth(err);
   }
 }
-

@@ -103,9 +103,6 @@ export function sanitizeSettingsForClient(settings: AdminSettingsPayload): Admin
   };
 }
 
-export function interpolateTemplate(
-  template: string,
-  vars: Record<string, string | undefined>,
-) {
+export function interpolateTemplate(template: string, vars: Record<string, string | undefined>) {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key: string) => vars[key] ?? "");
 }

@@ -119,7 +119,11 @@ export function AdminFarmVisits() {
     void load();
   }, [load]);
 
-  async function handleStatusChange(id: number, nextStatus: RequestStatus, currentStatus: RequestStatus) {
+  async function handleStatusChange(
+    id: number,
+    nextStatus: RequestStatus,
+    currentStatus: RequestStatus,
+  ) {
     const apply = async () => {
       setUpdatingId(id);
       const res = await updateAdminFarmVisit({ data: { id, status: nextStatus } });
@@ -128,14 +132,18 @@ export function AdminFarmVisits() {
         toast.success("Updated", `Status set to ${STATUS_LABELS[nextStatus]}.`);
         void load();
       } else {
-        toast.error("Update failed", res && "error" in res ? res.error : "Could not update booking.");
+        toast.error(
+          "Update failed",
+          res && "error" in res ? res.error : "Could not update booking.",
+        );
       }
     };
 
     if (nextStatus === "closed" && currentStatus !== "closed") {
       requestConfirm({
         title: "Close this booking?",
-        description: "The visit will be marked closed. You can still change status later if needed.",
+        description:
+          "The visit will be marked closed. You can still change status later if needed.",
         confirmLabel: "Mark closed",
         destructive: true,
         action: apply,
@@ -156,7 +164,10 @@ export function AdminFarmVisits() {
       toast.success("Updated", "Follow-up date saved.");
       void load();
     } else {
-      toast.error("Update failed", res && "error" in res ? res.error : "Could not update follow-up date.");
+      toast.error(
+        "Update failed",
+        res && "error" in res ? res.error : "Could not update follow-up date.",
+      );
     }
   }
 
@@ -205,7 +216,13 @@ export function AdminFarmVisits() {
           </div>
           <div>
             <Label className="text-xs text-muted-foreground">Status</Label>
-            <Select value={status} onValueChange={(v) => { setStatus(v); setPage(1); }}>
+            <Select
+              value={status}
+              onValueChange={(v) => {
+                setStatus(v);
+                setPage(1);
+              }}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
@@ -227,7 +244,10 @@ export function AdminFarmVisits() {
               id="from-date"
               type="date"
               value={from}
-              onChange={(e) => { setFrom(e.target.value); setPage(1); }}
+              onChange={(e) => {
+                setFrom(e.target.value);
+                setPage(1);
+              }}
               className="mt-1"
             />
           </div>
@@ -239,7 +259,10 @@ export function AdminFarmVisits() {
               id="to-date"
               type="date"
               value={to}
-              onChange={(e) => { setTo(e.target.value); setPage(1); }}
+              onChange={(e) => {
+                setTo(e.target.value);
+                setPage(1);
+              }}
               className="mt-1"
             />
           </div>
@@ -262,69 +285,75 @@ export function AdminFarmVisits() {
           <TableBody>
             {loading && rows.length === 0 ? <CmsTableLoadingRow colSpan={7} /> : null}
             {!loading && rows.length === 0 ? (
-              <CmsTableEmptyRow colSpan={7} title="No farm visit bookings yet" description="Bookings from the Agri Park visit form will appear here." />
+              <CmsTableEmptyRow
+                colSpan={7}
+                title="No farm visit bookings yet"
+                description="Bookings from the Agri Park visit form will appear here."
+              />
             ) : null}
             {rows.map((row) => {
-                const details = parseFarmDetails(row);
-                return (
-                  <TableRow key={row.id}>
-                    <TableCell className="font-mono text-xs">{row.ticket_id}</TableCell>
-                    <TableCell>
-                      <div className="font-medium">{row.name}</div>
-                      <div className="text-xs text-muted-foreground">+91 {row.phone}</div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1.5 text-sm">
-                        <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                        {formatDate(details.visitDate)}
-                      </div>
-                    </TableCell>
-                    <TableCell className="max-w-[220px]">
-                      <div className="text-xs space-y-0.5">
-                        <div>{details.visitorType || "—"}</div>
-                        <div className="text-muted-foreground">{details.groupCount || "—"}</div>
-                        <div className="text-muted-foreground">{details.crop || row.crop || "—"}</div>
-                        {(details.district || row.district) && (
-                          <div className="flex items-center gap-1 text-muted-foreground">
-                            <MapPin className="h-3 w-3 shrink-0" />
-                            {details.district || row.district}
-                          </div>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        value={row.status}
-                        disabled={updatingId === row.id}
-                        onValueChange={(v) => void handleStatusChange(row.id, v as RequestStatus, row.status)}
-                      >
-                        <SelectTrigger className="h-8 w-[150px] text-xs">
-                          <SelectValue>{STATUS_LABELS[row.status]}</SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          {FARM_VISIT_STATUSES.map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {STATUS_LABELS[s]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="date"
-                        className="h-8 w-[140px] text-xs"
-                        value={row.follow_up_date ? String(row.follow_up_date).slice(0, 10) : ""}
-                        disabled={updatingId === row.id}
-                        onChange={(e) => void handleFollowUpChange(row.id, e.target.value)}
-                      />
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
-                      {formatDateTime(row.created_at)}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              const details = parseFarmDetails(row);
+              return (
+                <TableRow key={row.id}>
+                  <TableCell className="font-mono text-xs">{row.ticket_id}</TableCell>
+                  <TableCell>
+                    <div className="font-medium">{row.name}</div>
+                    <div className="text-xs text-muted-foreground">+91 {row.phone}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                      {formatDate(details.visitDate)}
+                    </div>
+                  </TableCell>
+                  <TableCell className="max-w-[220px]">
+                    <div className="text-xs space-y-0.5">
+                      <div>{details.visitorType || "—"}</div>
+                      <div className="text-muted-foreground">{details.groupCount || "—"}</div>
+                      <div className="text-muted-foreground">{details.crop || row.crop || "—"}</div>
+                      {(details.district || row.district) && (
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          {details.district || row.district}
+                        </div>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Select
+                      value={row.status}
+                      disabled={updatingId === row.id}
+                      onValueChange={(v) =>
+                        void handleStatusChange(row.id, v as RequestStatus, row.status)
+                      }
+                    >
+                      <SelectTrigger className="h-8 w-[150px] text-xs">
+                        <SelectValue>{STATUS_LABELS[row.status]}</SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {FARM_VISIT_STATUSES.map((s) => (
+                          <SelectItem key={s} value={s}>
+                            {STATUS_LABELS[s]}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      type="date"
+                      className="h-8 w-[140px] text-xs"
+                      value={row.follow_up_date ? String(row.follow_up_date).slice(0, 10) : ""}
+                      disabled={updatingId === row.id}
+                      onChange={(e) => void handleFollowUpChange(row.id, e.target.value)}
+                    />
+                  </TableCell>
+                  <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
+                    {formatDateTime(row.created_at)}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

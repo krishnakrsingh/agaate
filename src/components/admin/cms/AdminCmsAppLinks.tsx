@@ -66,7 +66,8 @@ export function AdminCmsAppLinks({
 
       {!dbConfigured && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          MySQL is not configured. Changes are stored in memory only and will not persist across restarts.
+          MySQL is not configured. Changes are stored in memory only and will not persist across
+          restarts.
         </div>
       )}
 
@@ -79,7 +80,8 @@ export function AdminCmsAppLinks({
             <div>
               <h2 className="text-base font-semibold">Download badge links</h2>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Paste the full store URLs for your Agaate mobile app. Changes apply immediately after saving.
+                Paste the full store URLs for your Agaate mobile app. Changes apply immediately
+                after saving.
               </p>
             </div>
           </div>
@@ -90,14 +92,17 @@ export function AdminCmsAppLinks({
             </span>
             <h3 className="text-base font-bold text-foreground mt-1">App store links</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Google Play and Apple App Store URLs for download badges in the mobile app section on the homepage.
+              Google Play and Apple App Store URLs for download badges in the mobile app section on
+              the homepage.
             </p>
           </div>
         )}
 
         <form onSubmit={handleSave} className={embedded ? "space-y-4" : "mt-6 space-y-4"}>
           <div className="space-y-2">
-            <Label htmlFor="googlePlayUrl" className="text-xs font-medium">Google Play URL</Label>
+            <Label htmlFor="googlePlayUrl" className="text-xs font-medium">
+              Google Play URL
+            </Label>
             <Input
               id="googlePlayUrl"
               type="url"
@@ -109,7 +114,9 @@ export function AdminCmsAppLinks({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="appStoreUrl" className="text-xs font-medium">Apple App Store URL</Label>
+            <Label htmlFor="appStoreUrl" className="text-xs font-medium">
+              Apple App Store URL
+            </Label>
             <Input
               id="appStoreUrl"
               type="url"

@@ -60,11 +60,15 @@ export default function MallAisles() {
                       </span>
                     </div>
 
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">{tag}</p>
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
+                      {tag}
+                    </p>
                     <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-[#143d31] mt-1">
                       {title}
                     </h3>
-                    <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f] mt-2">{desc}</p>
+                    <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f] mt-2">
+                      {desc}
+                    </p>
 
                     <div className="mt-5 border-t border-[#143d31]/10 pt-4 space-y-2">
                       <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#143d31]/70">
@@ -72,7 +76,10 @@ export default function MallAisles() {
                       </p>
                       <ul className="space-y-1.5">
                         {examples.map((item) => (
-                          <li key={item} className="flex items-center gap-2 font-sans text-xs text-[#143d31]">
+                          <li
+                            key={item}
+                            className="flex items-center gap-2 font-sans text-xs text-[#143d31]"
+                          >
                             <Check className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" weight="bold" />
                             <span>{item}</span>
                           </li>
@@ -83,7 +90,9 @@ export default function MallAisles() {
 
                   <div className="mt-6 border-t border-[#143d31]/10 pt-4">
                     <a
-                      href={whatsappUrlWithText(`Hi Agaate, I am looking for details and pricing for ${title}.`)}
+                      href={whatsappUrlWithText(
+                        `Hi Agaate, I am looking for details and pricing for ${title}.`,
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => track("kisaan_mall_category_clicked", { category: cat.id })}

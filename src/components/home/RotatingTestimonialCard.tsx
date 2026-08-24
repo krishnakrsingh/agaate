@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  CaretLeft,
-  CaretRight,
-  CheckCircle,
-  Star,
-} from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, CheckCircle, Star } from "@phosphor-icons/react";
 import { EASE } from "@/components/common/motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import type { FarmerShortItem } from "@/data/farmerShortsData";
@@ -17,9 +12,7 @@ type RotatingTestimonialCardProps = {
   tapHint?: string;
 };
 
-export function RotatingTestimonialCard({
-  stories,
-}: RotatingTestimonialCardProps) {
+export function RotatingTestimonialCard({ stories }: RotatingTestimonialCardProps) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
@@ -97,12 +90,7 @@ export function RotatingTestimonialCard({
                 <div
                   className="h-full bg-[#5d7d37] transition-all duration-100"
                   style={{
-                    width:
-                      i === index
-                        ? `${progress * 100}%`
-                        : i < index
-                          ? "100%"
-                          : "0%",
+                    width: i === index ? `${progress * 100}%` : i < index ? "100%" : "0%",
                   }}
                 />
               </div>
@@ -114,11 +102,7 @@ export function RotatingTestimonialCard({
         <div className="flex items-center gap-1.5 pt-1">
           <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className="h-4 w-4 text-amber-500 fill-amber-500"
-                weight="fill"
-              />
+              <Star key={i} className="h-4 w-4 text-amber-500 fill-amber-500" weight="fill" />
             ))}
           </div>
           <span className="font-mono text-xs font-bold text-[#143d31]">5.0</span>
@@ -160,14 +144,9 @@ export function RotatingTestimonialCard({
               <p className="truncate font-display text-base font-bold text-[#143d31] leading-tight">
                 {story.name}
               </p>
-              <CheckCircle
-                className="h-4 w-4 shrink-0 text-[#5d7d37]"
-                weight="fill"
-              />
+              <CheckCircle className="h-4 w-4 shrink-0 text-[#5d7d37]" weight="fill" />
             </div>
-            <p className="truncate font-sans text-xs text-[#536253] mt-0.5">
-              {story.location}
-            </p>
+            <p className="truncate font-sans text-xs text-[#536253] mt-0.5">{story.location}</p>
             <p className="truncate font-mono text-[10.5px] font-semibold text-[#5d7d37] mt-0.5">
               🌱 {story.crop} ({story.acres})
             </p>
@@ -199,4 +178,3 @@ export function RotatingTestimonialCard({
     </div>
   );
 }
-

@@ -69,7 +69,9 @@ export function CareersHero({ badge, title, description, locationLine, stats }: 
               iconPosition="right"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById("open-roles")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                document
+                  .getElementById("open-roles")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
             />
 
@@ -90,11 +92,7 @@ export function CareersHero({ badge, title, description, locationLine, stats }: 
             <div
               key={`${stat.label}-${idx}`}
               className={`space-y-1 ${
-                idx === 0
-                  ? "md:pr-6"
-                  : idx === 3
-                    ? "md:pl-6 pt-4 md:pt-0"
-                    : "md:px-6 pt-4 md:pt-0"
+                idx === 0 ? "md:pr-6" : idx === 3 ? "md:pl-6 pt-4 md:pt-0" : "md:px-6 pt-4 md:pt-0"
               }`}
             >
               <p className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-[#143d31] tracking-tight">

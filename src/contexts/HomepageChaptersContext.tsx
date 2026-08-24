@@ -11,7 +11,9 @@ export function HomepageChaptersProvider({
   content: HomepageChaptersContent;
   children: ReactNode;
 }) {
-  return <HomepageChaptersContext.Provider value={content}>{children}</HomepageChaptersContext.Provider>;
+  return (
+    <HomepageChaptersContext.Provider value={content}>{children}</HomepageChaptersContext.Provider>
+  );
 }
 
 export function useHomepageChapters(): HomepageChaptersContent {

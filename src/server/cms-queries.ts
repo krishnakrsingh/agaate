@@ -246,7 +246,9 @@ function normalizeAppLinks(raw: Partial<HomeCmsAppLinks> | null | undefined): Ho
   };
 }
 
-function normalizeAgriParkTour(raw: Partial<HomeCmsAgriParkTour> | null | undefined): HomeCmsAgriParkTour {
+function normalizeAgriParkTour(
+  raw: Partial<HomeCmsAgriParkTour> | null | undefined,
+): HomeCmsAgriParkTour {
   const videoUrl = String(raw?.videoUrl ?? "").trim();
   const posterUrl = String(raw?.posterUrl ?? "").trim();
   return {
@@ -255,7 +257,9 @@ function normalizeAgriParkTour(raw: Partial<HomeCmsAgriParkTour> | null | undefi
   };
 }
 
-function normalizeKisaanMallLanding(raw: Partial<KisaanMallLanding> | null | undefined): KisaanMallLanding {
+function normalizeKisaanMallLanding(
+  raw: Partial<KisaanMallLanding> | null | undefined,
+): KisaanMallLanding {
   const fallback = DEFAULT_KISAAN_MALL_LANDING;
   return {
     badgeEn: String(raw?.badgeEn ?? "").trim() || fallback.badgeEn,
@@ -345,7 +349,9 @@ function normalizePillarMarketChapter(
   };
 }
 
-function normalizeAppChapterContent(raw: Partial<HomeAppChapterContent> | null | undefined): HomeAppChapterContent {
+function normalizeAppChapterContent(
+  raw: Partial<HomeAppChapterContent> | null | undefined,
+): HomeAppChapterContent {
   const fb = HOMEPAGE_CHAPTERS_FALLBACK.appChapter;
   const stats = Array.isArray(raw?.stats) ? raw.stats : fb.stats;
   return {
@@ -389,7 +395,9 @@ function normalizeClosingPathway(
   };
 }
 
-function normalizeClosingChapter(raw: Partial<HomeClosingChapterContent> | null | undefined): HomeClosingChapterContent {
+function normalizeClosingChapter(
+  raw: Partial<HomeClosingChapterContent> | null | undefined,
+): HomeClosingChapterContent {
   const fb = HOMEPAGE_CHAPTERS_FALLBACK.closingChapter;
   const pathways = Array.isArray(raw?.pathways) ? raw.pathways : fb.pathways;
   return {
@@ -399,11 +407,15 @@ function normalizeClosingChapter(raw: Partial<HomeClosingChapterContent> | null 
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-    pathways: pathways.map((p, i) => normalizeClosingPathway(p, (fb.pathways[i] ?? fb.pathways[0])!)),
+    pathways: pathways.map((p, i) =>
+      normalizeClosingPathway(p, (fb.pathways[i] ?? fb.pathways[0])!),
+    ),
   };
 }
 
-function normalizeHomepageChapters(raw: Partial<HomepageChaptersContent> | null | undefined): HomepageChaptersContent {
+function normalizeHomepageChapters(
+  raw: Partial<HomepageChaptersContent> | null | undefined,
+): HomepageChaptersContent {
   const fb = HOMEPAGE_CHAPTERS_FALLBACK;
   const pillars = Array.isArray(raw?.pillars) ? raw.pillars : fb.pillars;
   return {
@@ -487,7 +499,9 @@ function normalizeMallSection(
   };
 }
 
-function normalizeKisaanMallPage(raw: Partial<KisaanMallPageContent> | null | undefined): KisaanMallPageContent {
+function normalizeKisaanMallPage(
+  raw: Partial<KisaanMallPageContent> | null | undefined,
+): KisaanMallPageContent {
   const fb = KISAAN_MALL_PAGE_FALLBACK;
   const displayMode = raw?.displayMode === "full" ? "full" : "coming_soon";
   const categories = Array.isArray(raw?.categories) ? raw.categories : fb.categories;
@@ -507,8 +521,10 @@ function normalizeKisaanMallPage(raw: Partial<KisaanMallPageContent> | null | un
     heroTitleAccentHi: String(raw?.heroTitleAccentHi ?? "").trim() || fb.heroTitleAccentHi,
     heroDescriptionEn: String(raw?.heroDescriptionEn ?? "").trim() || fb.heroDescriptionEn,
     heroDescriptionHi: String(raw?.heroDescriptionHi ?? "").trim() || fb.heroDescriptionHi,
-    heroNotifyPlaceholderEn: String(raw?.heroNotifyPlaceholderEn ?? "").trim() || fb.heroNotifyPlaceholderEn,
-    heroNotifyPlaceholderHi: String(raw?.heroNotifyPlaceholderHi ?? "").trim() || fb.heroNotifyPlaceholderHi,
+    heroNotifyPlaceholderEn:
+      String(raw?.heroNotifyPlaceholderEn ?? "").trim() || fb.heroNotifyPlaceholderEn,
+    heroNotifyPlaceholderHi:
+      String(raw?.heroNotifyPlaceholderHi ?? "").trim() || fb.heroNotifyPlaceholderHi,
     heroNotifyButtonEn: String(raw?.heroNotifyButtonEn ?? "").trim() || fb.heroNotifyButtonEn,
     heroNotifyButtonHi: String(raw?.heroNotifyButtonHi ?? "").trim() || fb.heroNotifyButtonHi,
     heroNotifySuccessEn: String(raw?.heroNotifySuccessEn ?? "").trim() || fb.heroNotifySuccessEn,
@@ -533,8 +549,12 @@ function normalizeKisaanMallPage(raw: Partial<KisaanMallPageContent> | null | un
       tagHi: String(c?.tagHi ?? "").trim() || fb.categories[i]?.tagHi || "",
       descEn: String(c?.descEn ?? "").trim() || fb.categories[i]?.descEn || "",
       descHi: String(c?.descHi ?? "").trim() || fb.categories[i]?.descHi || "",
-      examplesEn: Array.isArray(c?.examplesEn) ? c.examplesEn.map(String) : fb.categories[i]?.examplesEn || [],
-      examplesHi: Array.isArray(c?.examplesHi) ? c.examplesHi.map(String) : fb.categories[i]?.examplesHi || [],
+      examplesEn: Array.isArray(c?.examplesEn)
+        ? c.examplesEn.map(String)
+        : fb.categories[i]?.examplesEn || [],
+      examplesHi: Array.isArray(c?.examplesHi)
+        ? c.examplesHi.map(String)
+        : fb.categories[i]?.examplesHi || [],
       badgeEn: String(c?.badgeEn ?? "").trim() || fb.categories[i]?.badgeEn || "",
       badgeHi: String(c?.badgeHi ?? "").trim() || fb.categories[i]?.badgeHi || "",
       iconKey: normalizeIconKey(c?.iconKey ?? fb.categories[i]?.iconKey),
@@ -583,14 +603,28 @@ function normalizeKisaanMallPage(raw: Partial<KisaanMallPageContent> | null | un
 
 function normalizeIconKey(key: unknown): CmsIconKey {
   const valid = [
-    "tractor", "plant", "chart", "handshake", "warehouse", "drop", "cap", "users",
-    "stack", "lightning", "storefront", "compass", "chat",
+    "tractor",
+    "plant",
+    "chart",
+    "handshake",
+    "warehouse",
+    "drop",
+    "cap",
+    "users",
+    "stack",
+    "lightning",
+    "storefront",
+    "compass",
+    "chat",
   ];
   const k = String(key ?? "").trim();
   return valid.includes(k) ? (k as CmsIconKey) : "plant";
 }
 
-function normalizeFacility(raw: Partial<SiteFacilityConfig> | null | undefined, fb: SiteFacilityConfig): SiteFacilityConfig {
+function normalizeFacility(
+  raw: Partial<SiteFacilityConfig> | null | undefined,
+  fb: SiteFacilityConfig,
+): SiteFacilityConfig {
   const highlightsEn = Array.isArray(raw?.highlightsEn) ? raw.highlightsEn : fb.highlightsEn;
   const highlightsHi = Array.isArray(raw?.highlightsHi) ? raw.highlightsHi : fb.highlightsHi;
   return {
@@ -640,10 +674,14 @@ function normalizeTrustStat(
   };
 }
 
-function normalizeSiteContact(raw: Partial<SiteContactConfig> | null | undefined): SiteContactConfig {
+function normalizeSiteContact(
+  raw: Partial<SiteContactConfig> | null | undefined,
+): SiteContactConfig {
   const fb = SITE_CONTACT_FALLBACK;
   const facilitiesRaw = Array.isArray(raw?.facilities) ? raw.facilities : fb.facilities;
-  const trustRaw = Array.isArray(raw?.contactTrustStats) ? raw.contactTrustStats : fb.contactTrustStats;
+  const trustRaw = Array.isArray(raw?.contactTrustStats)
+    ? raw.contactTrustStats
+    : fb.contactTrustStats;
   const messages: Partial<SiteWhatsAppMessages> = raw?.whatsappMessages ?? {};
   const social: Partial<SiteSocialLinks> = raw?.social ?? {};
 
@@ -661,7 +699,8 @@ function normalizeSiteContact(raw: Partial<SiteContactConfig> | null | undefined
       consultation: String(messages.consultation ?? "").trim() || fb.whatsappMessages.consultation,
       agronomist: String(messages.agronomist ?? "").trim() || fb.whatsappMessages.agronomist,
       bigFarmSetup: String(messages.bigFarmSetup ?? "").trim() || fb.whatsappMessages.bigFarmSetup,
-      carbonCredits: String(messages.carbonCredits ?? "").trim() || fb.whatsappMessages.carbonCredits,
+      carbonCredits:
+        String(messages.carbonCredits ?? "").trim() || fb.whatsappMessages.carbonCredits,
       contact: String(messages.contact ?? "").trim() || fb.whatsappMessages.contact,
       about: String(messages.about ?? "").trim() || fb.whatsappMessages.about,
       mall: String(messages.mall ?? "").trim() || fb.whatsappMessages.mall,
@@ -696,10 +735,14 @@ function normalizeSiteContact(raw: Partial<SiteContactConfig> | null | undefined
   };
 }
 
-function normalizeContactPage(raw: Partial<ContactPageContent> | null | undefined): ContactPageContent {
+function normalizeContactPage(
+  raw: Partial<ContactPageContent> | null | undefined,
+): ContactPageContent {
   const fb = CONTACT_PAGE_FALLBACK;
   const faqs = Array.isArray(raw?.faqs) ? raw.faqs : fb.faqs;
-  const topics = Array.isArray(raw?.consultationTopics) ? raw.consultationTopics : fb.consultationTopics;
+  const topics = Array.isArray(raw?.consultationTopics)
+    ? raw.consultationTopics
+    : fb.consultationTopics;
   return {
     faqBadgeEn: String(raw?.faqBadgeEn ?? "").trim() || fb.faqBadgeEn,
     faqBadgeHi: String(raw?.faqBadgeHi ?? "").trim() || fb.faqBadgeHi,
@@ -719,12 +762,24 @@ function normalizeContactPage(raw: Partial<ContactPageContent> | null | undefine
       descHi: String(t?.descHi ?? "").trim() || fb.consultationTopics[i]?.descHi || "",
       iconKey: normalizeIconKey(t?.iconKey ?? fb.consultationTopics[i]?.iconKey),
     })),
-    acreageOptionsEn: Array.isArray(raw?.acreageOptionsEn) ? raw.acreageOptionsEn.map(String) : fb.acreageOptionsEn,
-    acreageOptionsHi: Array.isArray(raw?.acreageOptionsHi) ? raw.acreageOptionsHi.map(String) : fb.acreageOptionsHi,
-    cropOptionsEn: Array.isArray(raw?.cropOptionsEn) ? raw.cropOptionsEn.map(String) : fb.cropOptionsEn,
-    cropOptionsHi: Array.isArray(raw?.cropOptionsHi) ? raw.cropOptionsHi.map(String) : fb.cropOptionsHi,
-    channelOptionsEn: Array.isArray(raw?.channelOptionsEn) ? raw.channelOptionsEn.map(String) : fb.channelOptionsEn,
-    channelOptionsHi: Array.isArray(raw?.channelOptionsHi) ? raw.channelOptionsHi.map(String) : fb.channelOptionsHi,
+    acreageOptionsEn: Array.isArray(raw?.acreageOptionsEn)
+      ? raw.acreageOptionsEn.map(String)
+      : fb.acreageOptionsEn,
+    acreageOptionsHi: Array.isArray(raw?.acreageOptionsHi)
+      ? raw.acreageOptionsHi.map(String)
+      : fb.acreageOptionsHi,
+    cropOptionsEn: Array.isArray(raw?.cropOptionsEn)
+      ? raw.cropOptionsEn.map(String)
+      : fb.cropOptionsEn,
+    cropOptionsHi: Array.isArray(raw?.cropOptionsHi)
+      ? raw.cropOptionsHi.map(String)
+      : fb.cropOptionsHi,
+    channelOptionsEn: Array.isArray(raw?.channelOptionsEn)
+      ? raw.channelOptionsEn.map(String)
+      : fb.channelOptionsEn,
+    channelOptionsHi: Array.isArray(raw?.channelOptionsHi)
+      ? raw.channelOptionsHi.map(String)
+      : fb.channelOptionsHi,
   };
 }
 
@@ -737,7 +792,9 @@ function normalizeAboutPage(raw: Partial<AboutPageContent> | null | undefined): 
   const impactMetrics = Array.isArray(raw?.impactMetrics) ? raw.impactMetrics : fb.impactMetrics;
   const milestones = Array.isArray(raw?.milestones) ? raw.milestones : fb.milestones;
   const locations = Array.isArray(raw?.locations) ? raw.locations : fb.locations;
-  const compliance = Array.isArray(raw?.complianceHighlights) ? raw.complianceHighlights : fb.complianceHighlights;
+  const compliance = Array.isArray(raw?.complianceHighlights)
+    ? raw.complianceHighlights
+    : fb.complianceHighlights;
 
   return {
     brochureHref: String(raw?.brochureHref ?? "").trim() || fb.brochureHref,
@@ -808,12 +865,14 @@ function normalizeAboutPage(raw: Partial<AboutPageContent> | null | undefined): 
         titleHi: String(m?.titleHi ?? "").trim() || fbM?.titleHi || "",
         descEn: String(m?.descEn ?? "").trim() || fbM?.descEn || "",
         descHi: String(m?.descHi ?? "").trim() || fbM?.descHi || "",
-        highlightsEn: (Array.isArray(m?.highlightsEn) ? m.highlightsEn : (fbM?.highlightsEn ?? [])).map(
-          (h, j) => String(h ?? "").trim() || fbM?.highlightsEn[j] || "",
-        ),
-        highlightsHi: (Array.isArray(m?.highlightsHi) ? m.highlightsHi : (fbM?.highlightsHi ?? [])).map(
-          (h, j) => String(h ?? "").trim() || fbM?.highlightsHi[j] || "",
-        ),
+        highlightsEn: (Array.isArray(m?.highlightsEn)
+          ? m.highlightsEn
+          : (fbM?.highlightsEn ?? [])
+        ).map((h, j) => String(h ?? "").trim() || fbM?.highlightsEn[j] || ""),
+        highlightsHi: (Array.isArray(m?.highlightsHi)
+          ? m.highlightsHi
+          : (fbM?.highlightsHi ?? [])
+        ).map((h, j) => String(h ?? "").trim() || fbM?.highlightsHi[j] || ""),
       };
     }),
     locations: locations.map((l, i) => ({
@@ -837,7 +896,9 @@ function normalizeAboutPage(raw: Partial<AboutPageContent> | null | undefined): 
   };
 }
 
-function normalizeCareersPage(raw: Partial<CareersPageContent> | null | undefined): CareersPageContent {
+function normalizeCareersPage(
+  raw: Partial<CareersPageContent> | null | undefined,
+): CareersPageContent {
   const fb = CAREERS_PAGE_FALLBACK;
   const heroStats = Array.isArray(raw?.heroStats) ? raw.heroStats : fb.heroStats;
   const cultureCards = Array.isArray(raw?.cultureCards) ? raw.cultureCards : fb.cultureCards;
@@ -928,7 +989,7 @@ async function saveSiteConfig(config: CmsSiteConfig): Promise<CmsSiteConfig> {
   const normalized = normalizeSiteConfig(config);
   if (!isDbConfigured()) {
     const mem = await import("@/server/cms-memory");
-    mem.mockSiteConfig = normalized;
+    mem.setMockSiteConfig(normalized);
     return normalized;
   }
   await ensureCmsSchema();
@@ -945,7 +1006,9 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
   const current = await fetchSiteConfig();
   return saveSiteConfig({
     appLinks: patch.appLinks ? normalizeAppLinks(patch.appLinks) : current.appLinks,
-    agriParkTour: patch.agriParkTour ? normalizeAgriParkTour(patch.agriParkTour) : current.agriParkTour,
+    agriParkTour: patch.agriParkTour
+      ? normalizeAgriParkTour(patch.agriParkTour)
+      : current.agriParkTour,
     kisaanMallLanding: patch.kisaanMallLanding
       ? normalizeKisaanMallLanding(patch.kisaanMallLanding)
       : current.kisaanMallLanding,
@@ -990,7 +1053,9 @@ export async function fetchKisaanMallLanding(): Promise<KisaanMallLanding> {
   return config.kisaanMallLanding;
 }
 
-export async function saveKisaanMallLanding(landing: KisaanMallLanding): Promise<KisaanMallLanding> {
+export async function saveKisaanMallLanding(
+  landing: KisaanMallLanding,
+): Promise<KisaanMallLanding> {
   const config = await mergeSiteConfig({ kisaanMallLanding: landing });
   return config.kisaanMallLanding;
 }
@@ -1000,7 +1065,9 @@ export async function fetchKisaanMallPage(): Promise<KisaanMallPageContent> {
   return config.kisaanMallPage;
 }
 
-export async function saveKisaanMallPage(content: KisaanMallPageContent): Promise<KisaanMallPageContent> {
+export async function saveKisaanMallPage(
+  content: KisaanMallPageContent,
+): Promise<KisaanMallPageContent> {
   const config = await mergeSiteConfig({ kisaanMallPage: content });
   return config.kisaanMallPage;
 }
@@ -1010,7 +1077,9 @@ export async function fetchAgriParkChapter(): Promise<HomeAgriParkChapterContent
   return config.agriParkChapter;
 }
 
-export async function saveAgriParkChapter(content: HomeAgriParkChapterContent): Promise<HomeAgriParkChapterContent> {
+export async function saveAgriParkChapter(
+  content: HomeAgriParkChapterContent,
+): Promise<HomeAgriParkChapterContent> {
   const config = await mergeSiteConfig({ agriParkChapter: content });
   return config.agriParkChapter;
 }
@@ -1020,7 +1089,9 @@ export async function fetchHomepageChapters(): Promise<HomepageChaptersContent> 
   return config.homepageChapters;
 }
 
-export async function saveHomepageChapters(content: HomepageChaptersContent): Promise<HomepageChaptersContent> {
+export async function saveHomepageChapters(
+  content: HomepageChaptersContent,
+): Promise<HomepageChaptersContent> {
   const config = await mergeSiteConfig({ homepageChapters: content });
   return config.homepageChapters;
 }
@@ -1235,7 +1306,8 @@ export function buildHomeCmsFromRows(
 
 export async function fetchHomeCms(preview = false): Promise<HomeCmsData> {
   if (!isDbConfigured()) {
-    const { mockStats, mockLogos, mockStories, mockSiteConfig } = await import("@/server/cms-memory");
+    const { mockStats, mockLogos, mockStories, mockSiteConfig } =
+      await import("@/server/cms-memory");
     const data = buildHomeCmsFromRows(mockStats, mockLogos, mockStories, preview);
     data.appLinks = mockSiteConfig.appLinks;
     data.agriParkTour = mockSiteConfig.agriParkTour;
@@ -1397,7 +1469,9 @@ export async function saveCmsStat(
     const [rows] = await db.query(`SELECT * FROM cms_stats WHERE id = :id`, { id: data.id });
     return mapStatRow((rows as Record<string, unknown>[])[0]!);
   }
-  const [maxRows] = await db.query(`SELECT COALESCE(MAX(sort_order), -1) + 1 AS next FROM cms_stats`);
+  const [maxRows] = await db.query(
+    `SELECT COALESCE(MAX(sort_order), -1) + 1 AS next FROM cms_stats`,
+  );
   const sortOrder = Number((maxRows as Array<{ next: number }>)[0]?.next ?? 0);
   const [result] = await db.query(
     `INSERT INTO cms_stats
@@ -1477,7 +1551,9 @@ export async function saveCmsStory(
        WHERE id = :id`,
       { ...data, sortOrder: data.sortOrder ?? null },
     );
-    const [rows] = await db.query(`SELECT * FROM cms_farmer_stories WHERE id = :id`, { id: data.id });
+    const [rows] = await db.query(`SELECT * FROM cms_farmer_stories WHERE id = :id`, {
+      id: data.id,
+    });
     return mapStoryRow((rows as Record<string, unknown>[])[0]!);
   }
   const [maxRows] = await db.query(
@@ -1512,11 +1588,16 @@ export async function saveCmsStory(
     },
   );
   const insertId = (result as { insertId: number }).insertId;
-  const [rows] = await db.query(`SELECT * FROM cms_farmer_stories WHERE id = :id`, { id: insertId });
+  const [rows] = await db.query(`SELECT * FROM cms_farmer_stories WHERE id = :id`, {
+    id: insertId,
+  });
   return mapStoryRow((rows as Record<string, unknown>[])[0]!);
 }
 
-async function publishRow(table: "cms_stats" | "cms_brand_logos" | "cms_farmer_stories", id: number) {
+async function publishRow(
+  table: "cms_stats" | "cms_brand_logos" | "cms_farmer_stories",
+  id: number,
+) {
   await ensureCmsSchema();
   const db = await getDbPool();
   if (table === "cms_stats") {
@@ -1567,7 +1648,10 @@ export async function publishCmsStory(id: number) {
   return publishRow("cms_farmer_stories", id);
 }
 
-async function unpublishRow(table: "cms_stats" | "cms_brand_logos" | "cms_farmer_stories", id: number) {
+async function unpublishRow(
+  table: "cms_stats" | "cms_brand_logos" | "cms_farmer_stories",
+  id: number,
+) {
   await ensureCmsSchema();
   const db = await getDbPool();
   await db.query(`UPDATE ${table} SET status = 'draft' WHERE id = :id`, { id });
@@ -1591,7 +1675,10 @@ export async function unpublishCmsStory(id: number) {
   return unpublishRow("cms_farmer_stories", id);
 }
 
-async function archiveRow(table: "cms_stats" | "cms_brand_logos" | "cms_farmer_stories", id: number) {
+async function archiveRow(
+  table: "cms_stats" | "cms_brand_logos" | "cms_farmer_stories",
+  id: number,
+) {
   await ensureCmsSchema();
   const db = await getDbPool();
   await db.query(`UPDATE ${table} SET status = 'archived' WHERE id = :id`, { id });
@@ -1613,7 +1700,10 @@ export async function reorderCmsStats(ids: number[]) {
   await ensureCmsSchema();
   const db = await getDbPool();
   for (let i = 0; i < ids.length; i++) {
-    await db.query(`UPDATE cms_stats SET sort_order = :order WHERE id = :id`, { id: ids[i], order: i });
+    await db.query(`UPDATE cms_stats SET sort_order = :order WHERE id = :id`, {
+      id: ids[i],
+      order: i,
+    });
   }
 }
 
@@ -1621,7 +1711,10 @@ export async function reorderCmsLogos(ids: number[]) {
   await ensureCmsSchema();
   const db = await getDbPool();
   for (let i = 0; i < ids.length; i++) {
-    await db.query(`UPDATE cms_brand_logos SET sort_order = :order WHERE id = :id`, { id: ids[i], order: i });
+    await db.query(`UPDATE cms_brand_logos SET sort_order = :order WHERE id = :id`, {
+      id: ids[i],
+      order: i,
+    });
   }
 }
 
@@ -1629,6 +1722,9 @@ export async function reorderCmsStories(ids: number[]) {
   await ensureCmsSchema();
   const db = await getDbPool();
   for (let i = 0; i < ids.length; i++) {
-    await db.query(`UPDATE cms_farmer_stories SET sort_order = :order WHERE id = :id`, { id: ids[i], order: i });
+    await db.query(`UPDATE cms_farmer_stories SET sort_order = :order WHERE id = :id`, {
+      id: ids[i],
+      order: i,
+    });
   }
 }

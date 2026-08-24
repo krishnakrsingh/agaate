@@ -37,17 +37,31 @@ export function CmsBilingualField({
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
         <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">{variant === "plain" ? "English" : "EN"}</Label>
+          <Label className="text-xs text-muted-foreground">
+            {variant === "plain" ? "English" : "EN"}
+          </Label>
           {multiline ? (
-            <Textarea value={en} onChange={(e) => onEn(e.target.value)} disabled={disabled} rows={rows} />
+            <Textarea
+              value={en}
+              onChange={(e) => onEn(e.target.value)}
+              disabled={disabled}
+              rows={rows}
+            />
           ) : (
             <Input value={en} onChange={(e) => onEn(e.target.value)} disabled={disabled} />
           )}
         </div>
         <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">{variant === "plain" ? "Hindi" : "HI"}</Label>
+          <Label className="text-xs text-muted-foreground">
+            {variant === "plain" ? "Hindi" : "HI"}
+          </Label>
           {multiline ? (
-            <Textarea value={hi} onChange={(e) => onHi(e.target.value)} disabled={disabled} rows={rows} />
+            <Textarea
+              value={hi}
+              onChange={(e) => onHi(e.target.value)}
+              disabled={disabled}
+              rows={rows}
+            />
           ) : (
             <Input value={hi} onChange={(e) => onHi(e.target.value)} disabled={disabled} />
           )}

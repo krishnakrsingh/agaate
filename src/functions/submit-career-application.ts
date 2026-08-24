@@ -5,7 +5,10 @@ import {
   type CareerApplicationResult,
 } from "@/functions/career-application-types";
 
-export type { CareerApplicationInput, CareerApplicationResult } from "@/functions/career-application-types";
+export type {
+  CareerApplicationInput,
+  CareerApplicationResult,
+} from "@/functions/career-application-types";
 
 export const submitCareerApplication = createServerFn({ method: "POST" })
   .validator((data: CareerApplicationInput) => careerApplicationSchema.parse(data))

@@ -53,7 +53,9 @@ export default function MallFaq() {
                     }}
                     className="flex w-full items-center justify-between gap-4 text-left focus-visible:outline-none"
                   >
-                    <h3 className="flex-1 font-display text-base sm:text-lg font-bold text-[#143d31]">{q}</h3>
+                    <h3 className="flex-1 font-display text-base sm:text-lg font-bold text-[#143d31]">
+                      {q}
+                    </h3>
                     <motion.span
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.25, ease: EASE }}
@@ -71,7 +73,9 @@ export default function MallFaq() {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.28, ease: EASE }}
                       >
-                        <p className="pt-3 font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">{a}</p>
+                        <p className="pt-3 font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
+                          {a}
+                        </p>
                       </motion.div>
                     ) : null}
                   </AnimatePresence>

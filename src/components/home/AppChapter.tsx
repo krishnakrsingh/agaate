@@ -60,7 +60,11 @@ export default function AppChapter({ appLinks }: AppChapterProps) {
                 return (
                   <div
                     key={label}
-                    className={idx > 0 ? "text-left border-l border-[#143d31]/10 pl-4" : "text-left first:border-l-0 first:pl-0"}
+                    className={
+                      idx > 0
+                        ? "text-left border-l border-[#143d31]/10 pl-4"
+                        : "text-left first:border-l-0 first:pl-0"
+                    }
                   >
                     <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
                       <HomeChapterStatValue stat={stat} isHindi={isHindi} />

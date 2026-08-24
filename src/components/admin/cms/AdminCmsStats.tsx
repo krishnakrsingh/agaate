@@ -14,7 +14,11 @@ import { CMS_ICON_OPTIONS } from "@/lib/cms-icons";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsStatusBadge } from "@/components/admin/cms/CmsStatusBadge";
 import { CmsStatPreview } from "@/components/admin/cms/CmsInlinePreview";
-import { CmsDragHandle, CmsSortableProvider, CmsSortableRow } from "@/components/admin/cms/CmsSortable";
+import {
+  CmsDragHandle,
+  CmsSortableProvider,
+  CmsSortableRow,
+} from "@/components/admin/cms/CmsSortable";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,7 +57,11 @@ import { statSlugFromLabel } from "@/lib/cms-slug";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsConfirmDialog } from "@/components/admin/cms/CmsConfirmDialog";
-import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import {
+  CmsTableEmptyAction,
+  CmsTableEmptyRow,
+  CmsTableLoadingRow,
+} from "@/components/admin/cms/CmsTableState";
 
 const emptyForm = {
   slug: "",
@@ -230,89 +238,95 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
                   title="No statistics yet"
                   description="Add your first homepage metric, then publish it to make it live."
                   action={
-                    canEdit ? <CmsTableEmptyAction label="Add stat" onClick={openCreate} /> : undefined
+                    canEdit ? (
+                      <CmsTableEmptyAction label="Add stat" onClick={openCreate} />
+                    ) : undefined
                   }
                 />
               ) : null}
               {!loading
                 ? filtered.map((row) => (
-                <CmsSortableRow key={row.id} id={row.id}>
-                  <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
-                  <TableCell>
-                    <p className="font-medium">{row.labelEn}</p>
-                    <p className="text-xs text-muted-foreground">{row.slug}</p>
-                  </TableCell>
-                  <TableCell className="tabular-nums">
-                    {row.prefix}
-                    {row.numValue.toLocaleString()}
-                    {row.suffixEn}
-                  </TableCell>
-                  <TableCell>
-                    <CmsStatusBadge status={row.status} />
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
-                        {canEdit && row.status !== "archived" && (
-                          <>
-                            {row.status === "published" && (
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  setConfirm({
-                                    title: "Unpublish statistic?",
-                                    description: `"${row.labelEn}" will be removed from the live website but kept as a draft.`,
-                                    confirmLabel: "Unpublish",
-                                    action: async () => {
-                                      const res = await unpublishCmsItemAdmin({ data: { type: "stats", id: row.id } });
-                                      if (isAdminOk(res)) {
-                                        toast.success("Removed from live site.");
-                                        await load();
-                                      } else {
-                                        toast.error(adminError(res));
-                                      }
-                                    },
-                                  })
-                                }
-                              >
-                                Unpublish
-                              </DropdownMenuItem>
-                            )}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-rose-600"
-                              onClick={() =>
-                                setConfirm({
-                                  title: "Archive statistic?",
-                                  description: `"${row.labelEn}" will be archived and hidden from the admin list.`,
-                                  confirmLabel: "Archive",
-                                  destructive: true,
-                                  action: async () => {
-                                    const res = await archiveCmsItemAdmin({ data: { type: "stats", id: row.id } });
-                                    if (isAdminOk(res)) {
-                                      toast.success("Archived.");
-                                      await load();
-                                    } else {
-                                      toast.error(adminError(res));
+                    <CmsSortableRow key={row.id} id={row.id}>
+                      <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
+                      <TableCell>
+                        <p className="font-medium">{row.labelEn}</p>
+                        <p className="text-xs text-muted-foreground">{row.slug}</p>
+                      </TableCell>
+                      <TableCell className="tabular-nums">
+                        {row.prefix}
+                        {row.numValue.toLocaleString()}
+                        {row.suffixEn}
+                      </TableCell>
+                      <TableCell>
+                        <CmsStatusBadge status={row.status} />
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openEdit(row)}>Edit</DropdownMenuItem>
+                            {canEdit && row.status !== "archived" && (
+                              <>
+                                {row.status === "published" && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      setConfirm({
+                                        title: "Unpublish statistic?",
+                                        description: `"${row.labelEn}" will be removed from the live website but kept as a draft.`,
+                                        confirmLabel: "Unpublish",
+                                        action: async () => {
+                                          const res = await unpublishCmsItemAdmin({
+                                            data: { type: "stats", id: row.id },
+                                          });
+                                          if (isAdminOk(res)) {
+                                            toast.success("Removed from live site.");
+                                            await load();
+                                          } else {
+                                            toast.error(adminError(res));
+                                          }
+                                        },
+                                      })
                                     }
-                                  },
-                                })
-                              }
-                            >
-                              Archive
-                            </DropdownMenuItem>
-                          </>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </CmsSortableRow>
-              ))
+                                  >
+                                    Unpublish
+                                  </DropdownMenuItem>
+                                )}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-rose-600"
+                                  onClick={() =>
+                                    setConfirm({
+                                      title: "Archive statistic?",
+                                      description: `"${row.labelEn}" will be archived and hidden from the admin list.`,
+                                      confirmLabel: "Archive",
+                                      destructive: true,
+                                      action: async () => {
+                                        const res = await archiveCmsItemAdmin({
+                                          data: { type: "stats", id: row.id },
+                                        });
+                                        if (isAdminOk(res)) {
+                                          toast.success("Archived.");
+                                          await load();
+                                        } else {
+                                          toast.error(adminError(res));
+                                        }
+                                      },
+                                    })
+                                  }
+                                >
+                                  Archive
+                                </DropdownMenuItem>
+                              </>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </CmsSortableRow>
+                  ))
                 : null}
             </TableBody>
           </Table>
@@ -323,7 +337,9 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
         <SheetContent className="overflow-y-auto sm:max-w-lg">
           <SheetHeader>
             <SheetTitle>{editing ? "Edit stat" : "New stat"}</SheetTitle>
-            <SheetDescription>Preview below, then publish to update the live website.</SheetDescription>
+            <SheetDescription>
+              Preview below, then publish to update the live website.
+            </SheetDescription>
           </SheetHeader>
 
           <div className="mt-6 space-y-4">
@@ -352,11 +368,19 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
 
             <div className="space-y-2">
               <Label>Icon</Label>
-              <Select value={form.iconKey} onValueChange={(v) => setForm({ ...form, iconKey: v as CmsIconKey })} disabled={!canEdit}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+              <Select
+                value={form.iconKey}
+                onValueChange={(v) => setForm({ ...form, iconKey: v as CmsIconKey })}
+                disabled={!canEdit}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   {CMS_ICON_OPTIONS.map((o) => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -364,28 +388,53 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="space-y-2">
                 <Label>Prefix</Label>
-                <Input value={form.prefix} onChange={(e) => setForm({ ...form, prefix: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.prefix}
+                  onChange={(e) => setForm({ ...form, prefix: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Value</Label>
-                <Input type="number" value={form.numValue} onChange={(e) => setForm({ ...form, numValue: Number(e.target.value) })} disabled={!canEdit} />
+                <Input
+                  type="number"
+                  value={form.numValue}
+                  onChange={(e) => setForm({ ...form, numValue: Number(e.target.value) })}
+                  disabled={!canEdit}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Suffix (EN)</Label>
-                <Input value={form.suffixEn} onChange={(e) => setForm({ ...form, suffixEn: e.target.value })} disabled={!canEdit} />
+                <Input
+                  value={form.suffixEn}
+                  onChange={(e) => setForm({ ...form, suffixEn: e.target.value })}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Suffix (HI)</Label>
-              <Input value={form.suffixHi} onChange={(e) => setForm({ ...form, suffixHi: e.target.value })} disabled={!canEdit} />
+              <Input
+                value={form.suffixHi}
+                onChange={(e) => setForm({ ...form, suffixHi: e.target.value })}
+                disabled={!canEdit}
+              />
             </div>
             <div className="space-y-2">
               <Label>Label (EN)</Label>
-              <Input value={form.labelEn} onChange={(e) => setForm({ ...form, labelEn: e.target.value })} disabled={!canEdit} />
+              <Input
+                value={form.labelEn}
+                onChange={(e) => setForm({ ...form, labelEn: e.target.value })}
+                disabled={!canEdit}
+              />
             </div>
             <div className="space-y-2">
               <Label>Label (HI)</Label>
-              <Input value={form.labelHi} onChange={(e) => setForm({ ...form, labelHi: e.target.value })} disabled={!canEdit} />
+              <Input
+                value={form.labelHi}
+                onChange={(e) => setForm({ ...form, labelHi: e.target.value })}
+                disabled={!canEdit}
+              />
             </div>
           </div>
 

@@ -46,15 +46,21 @@ export default function MallSupplyChain() {
               <Reveal key={step.step} variant="fade-up" delay={idx * 0.08}>
                 <div className="relative flex flex-col justify-between h-full rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300">
                   <div className="flex items-center justify-between gap-3 mb-6">
-                    <span className="font-mono text-2xl font-black text-[#5d7d37]/40 tracking-wider">{step.step}</span>
+                    <span className="font-mono text-2xl font-black text-[#5d7d37]/40 tracking-wider">
+                      {step.step}
+                    </span>
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#143d31]/10 text-[#143d31]">
                       <Icon className="h-5 w-5" weight="fill" />
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight text-[#143d31]">{title}</h3>
-                    <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f] mt-2">{desc}</p>
+                    <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight text-[#143d31]">
+                      {title}
+                    </h3>
+                    <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f] mt-2">
+                      {desc}
+                    </p>
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-[#143d31]/10 flex items-center gap-2">

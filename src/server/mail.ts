@@ -71,11 +71,8 @@ export async function resolveMailSettings(): Promise<{
   return {
     smtp,
     contactNotificationEmail:
-      settings.contactNotificationEmail ||
-      process.env.ADMIN_NOTIFY_EMAIL ||
-      "info@agaate.in",
-    contactEmailSubject:
-      settings.contactEmailSubject || DEFAULT_ADMIN_SETTINGS.contactEmailSubject,
+      settings.contactNotificationEmail || process.env.ADMIN_NOTIFY_EMAIL || "info@agaate.in",
+    contactEmailSubject: settings.contactEmailSubject || DEFAULT_ADMIN_SETTINGS.contactEmailSubject,
   };
 }
 
@@ -87,7 +84,9 @@ function formatContactBody(data: ContactEmailPayload) {
   const topicLabel = data.topicLabel || TOPIC_LABELS[data.topic] || data.topic;
   const isFarmVisit = data.topic === "agripark";
   const lines = [
-    isFarmVisit ? "New Agri Park field visit booking from agaate.in" : "New consultation request from agaate.in",
+    isFarmVisit
+      ? "New Agri Park field visit booking from agaate.in"
+      : "New consultation request from agaate.in",
     "",
     `Ticket: ${data.ticketId}`,
     `Topic: ${topicLabel}`,

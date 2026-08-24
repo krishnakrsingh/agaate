@@ -21,7 +21,12 @@ export const Route = createFileRoute("/{-$locale}/kisaan-mall")({
   loader: async () => {
     try {
       const res = await getKisaanMallPage();
-      if (isAdminOk<{ landing: typeof DEFAULT_KISAAN_MALL_LANDING; page: typeof KISAAN_MALL_PAGE_FALLBACK }>(res)) {
+      if (
+        isAdminOk<{
+          landing: typeof DEFAULT_KISAAN_MALL_LANDING;
+          page: typeof KISAAN_MALL_PAGE_FALLBACK;
+        }>(res)
+      ) {
         return { landing: res.landing, page: res.page };
       }
     } catch (err) {

@@ -19,7 +19,8 @@ const fieldIcons: Record<string, typeof Buildings> = {
 
 export default function AboutCta({ isHi = false }: { isHi?: boolean }) {
   const { contact, telPrimaryHref, whatsappUrl } = useSiteContact();
-  const { complianceHighlights, complianceFooterEn, complianceFooterHi, brochureHref } = useAboutPage();
+  const { complianceHighlights, complianceFooterEn, complianceFooterHi, brochureHref } =
+    useAboutPage();
   return (
     <section
       id="about-cta"
