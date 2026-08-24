@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Save } from "lucide-react";
 import { saveCmsKisaanMallPageAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
+import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
+import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,48 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-function Bilingual({
-  label,
-  en,
-  hi,
-  onEn,
-  onHi,
-  disabled,
-  multiline,
-}: {
-  label: string;
-  en: string;
-  hi: string;
-  onEn: (v: string) => void;
-  onHi: (v: string) => void;
-  disabled?: boolean;
-  multiline?: boolean;
-}) {
-  return (
-    <div className="space-y-2 rounded-lg border bg-muted/20 p-3">
-      <p className="text-sm font-medium">{label}</p>
-      <div className="grid gap-2 sm:grid-cols-2">
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">EN</Label>
-          {multiline ? (
-            <Textarea value={en} onChange={(e) => onEn(e.target.value)} disabled={disabled} rows={2} />
-          ) : (
-            <Input value={en} onChange={(e) => onEn(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">HI</Label>
-          {multiline ? (
-            <Textarea value={hi} onChange={(e) => onHi(e.target.value)} disabled={disabled} rows={2} />
-          ) : (
-            <Input value={hi} onChange={(e) => onHi(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function AdminCmsKisaanMallPageForm({
   page,
@@ -108,7 +67,7 @@ export function AdminCmsKisaanMallPageForm({
         </p>
       </div>
 
-      <Bilingual
+      <CmsBilingualField
         label="Hero eyebrow"
         en={page.heroEyebrowEn}
         hi={page.heroEyebrowHi}
@@ -116,16 +75,16 @@ export function AdminCmsKisaanMallPageForm({
         onHi={(v) => setPage({ ...page, heroEyebrowHi: v })}
         disabled={!canEdit || loading}
       />
-      <Bilingual label="Hero title" en={page.heroTitleEn} hi={page.heroTitleHi} onEn={(v) => setPage({ ...page, heroTitleEn: v })} onHi={(v) => setPage({ ...page, heroTitleHi: v })} disabled={!canEdit || loading} />
-      <Bilingual label="Hero title accent" en={page.heroTitleAccentEn} hi={page.heroTitleAccentHi} onEn={(v) => setPage({ ...page, heroTitleAccentEn: v })} onHi={(v) => setPage({ ...page, heroTitleAccentHi: v })} disabled={!canEdit || loading} />
-      <Bilingual label="Hero description" en={page.heroDescriptionEn} hi={page.heroDescriptionHi} onEn={(v) => setPage({ ...page, heroDescriptionEn: v })} onHi={(v) => setPage({ ...page, heroDescriptionHi: v })} disabled={!canEdit || loading} multiline />
+      <CmsBilingualField label="Hero title" en={page.heroTitleEn} hi={page.heroTitleHi} onEn={(v) => setPage({ ...page, heroTitleEn: v })} onHi={(v) => setPage({ ...page, heroTitleHi: v })} disabled={!canEdit || loading} />
+      <CmsBilingualField label="Hero title accent" en={page.heroTitleAccentEn} hi={page.heroTitleAccentHi} onEn={(v) => setPage({ ...page, heroTitleAccentEn: v })} onHi={(v) => setPage({ ...page, heroTitleAccentHi: v })} disabled={!canEdit || loading} />
+      <CmsBilingualField label="Hero description" en={page.heroDescriptionEn} hi={page.heroDescriptionHi} onEn={(v) => setPage({ ...page, heroDescriptionEn: v })} onHi={(v) => setPage({ ...page, heroDescriptionHi: v })} disabled={!canEdit || loading} multiline />
 
       <div className="space-y-3 rounded-lg border p-4">
         <h3 className="text-sm font-semibold">Homepage chapter (MallChapter)</h3>
         <p className="text-xs text-muted-foreground">
           Copy for the Kisaan Mall section on the homepage scroll narrative.
         </p>
-        <Bilingual
+        <CmsBilingualField
           label="Badge"
           en={page.homeChapter.badgeEn}
           hi={page.homeChapter.badgeHi}
@@ -133,7 +92,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, badgeHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="Title"
           en={page.homeChapter.titleEn}
           hi={page.homeChapter.titleHi}
@@ -141,7 +100,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, titleHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="Description"
           en={page.homeChapter.descriptionEn}
           hi={page.homeChapter.descriptionHi}
@@ -184,7 +143,7 @@ export function AdminCmsKisaanMallPageForm({
             rows={3}
           />
         </div>
-        <Bilingual
+        <CmsBilingualField
           label="Browse button"
           en={page.homeChapter.browseLabelEn}
           hi={page.homeChapter.browseLabelHi}
@@ -192,7 +151,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, browseLabelHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="Supply heading"
           en={page.homeChapter.supplyHeadingEn}
           hi={page.homeChapter.supplyHeadingHi}
@@ -200,7 +159,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, supplyHeadingHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="Supply subtext"
           en={page.homeChapter.supplySubtextEn}
           hi={page.homeChapter.supplySubtextHi}
@@ -209,7 +168,7 @@ export function AdminCmsKisaanMallPageForm({
           disabled={!canEdit || loading}
           multiline
         />
-        <Bilingual
+        <CmsBilingualField
           label="CTA eyebrow"
           en={page.homeChapter.ctaEyebrowEn}
           hi={page.homeChapter.ctaEyebrowHi}
@@ -217,7 +176,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaEyebrowHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="CTA title"
           en={page.homeChapter.ctaTitleEn}
           hi={page.homeChapter.ctaTitleHi}
@@ -225,7 +184,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaTitleHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="CTA description"
           en={page.homeChapter.ctaDescriptionEn}
           hi={page.homeChapter.ctaDescriptionHi}
@@ -234,7 +193,7 @@ export function AdminCmsKisaanMallPageForm({
           disabled={!canEdit || loading}
           multiline
         />
-        <Bilingual
+        <CmsBilingualField
           label="CTA browse button"
           en={page.homeChapter.ctaBrowseEn}
           hi={page.homeChapter.ctaBrowseHi}
@@ -242,7 +201,7 @@ export function AdminCmsKisaanMallPageForm({
           onHi={(v) => setPage({ ...page, homeChapter: { ...page.homeChapter, ctaBrowseHi: v } })}
           disabled={!canEdit || loading}
         />
-        <Bilingual
+        <CmsBilingualField
           label="CTA call button"
           en={page.homeChapter.ctaCallEn}
           hi={page.homeChapter.ctaCallHi}
@@ -256,7 +215,7 @@ export function AdminCmsKisaanMallPageForm({
         <h3 className="text-sm font-semibold">FAQs</h3>
         {page.faqs.map((faq, i) => (
           <div key={i} className="rounded-lg border p-3 space-y-2">
-            <Bilingual
+            <CmsBilingualField
               label={`FAQ ${i + 1} question`}
               en={faq.qEn}
               hi={faq.qHi}
@@ -274,7 +233,7 @@ export function AdminCmsKisaanMallPageForm({
               }
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Answer"
               en={faq.aEn}
               hi={faq.aHi}
@@ -297,15 +256,10 @@ export function AdminCmsKisaanMallPageForm({
         ))}
       </div>
 
-      <Bilingual label="CTA title" en={page.ctaTitleEn} hi={page.ctaTitleHi} onEn={(v) => setPage({ ...page, ctaTitleEn: v })} onHi={(v) => setPage({ ...page, ctaTitleHi: v })} disabled={!canEdit || loading} />
-      <Bilingual label="CTA description" en={page.ctaDescriptionEn} hi={page.ctaDescriptionHi} onEn={(v) => setPage({ ...page, ctaDescriptionEn: v })} onHi={(v) => setPage({ ...page, ctaDescriptionHi: v })} disabled={!canEdit || loading} multiline />
+      <CmsBilingualField label="CTA title" en={page.ctaTitleEn} hi={page.ctaTitleHi} onEn={(v) => setPage({ ...page, ctaTitleEn: v })} onHi={(v) => setPage({ ...page, ctaTitleHi: v })} disabled={!canEdit || loading} />
+      <CmsBilingualField label="CTA description" en={page.ctaDescriptionEn} hi={page.ctaDescriptionHi} onEn={(v) => setPage({ ...page, ctaDescriptionEn: v })} onHi={(v) => setPage({ ...page, ctaDescriptionHi: v })} disabled={!canEdit || loading} multiline />
 
-      {canEdit ? (
-        <Button type="submit" disabled={saving || loading}>
-          <Save className="mr-2 h-4 w-4" />
-          {saving ? "Saving…" : "Save full page content"}
-        </Button>
-      ) : null}
+      <CmsStickySaveBar saving={saving} disabled={!canEdit} label="Save full page content" />
     </form>
   );
 }

@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { Save, Layout } from "lucide-react";
+import { Layout } from "lucide-react";
 import { getCmsHomepageChaptersAdmin, saveCmsHomepageChaptersAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
+import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,48 +15,6 @@ import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import type { HomepageChaptersContent } from "@/lib/cms-types";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
-
-function Bilingual({
-  label,
-  en,
-  hi,
-  onEn,
-  onHi,
-  disabled,
-  multiline,
-}: {
-  label: string;
-  en: string;
-  hi: string;
-  onEn: (v: string) => void;
-  onHi: (v: string) => void;
-  disabled?: boolean;
-  multiline?: boolean;
-}) {
-  return (
-    <div className="space-y-2 rounded-lg border bg-muted/20 p-3">
-      <p className="text-sm font-medium">{label}</p>
-      <div className="grid gap-2 sm:grid-cols-2">
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">EN</Label>
-          {multiline ? (
-            <Textarea value={en} onChange={(e) => onEn(e.target.value)} disabled={disabled} rows={2} />
-          ) : (
-            <Input value={en} onChange={(e) => onEn(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">HI</Label>
-          {multiline ? (
-            <Textarea value={hi} onChange={(e) => onHi(e.target.value)} disabled={disabled} rows={2} />
-          ) : (
-            <Input value={hi} onChange={(e) => onHi(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function StatEditor({
   stats,
@@ -79,7 +41,7 @@ function StatEditor({
                 disabled={disabled}
               />
             </div>
-            <Bilingual
+            <CmsBilingualField
               label="Static text (e.g. 24/7)"
               en={stat.valueTextEn}
               hi={stat.valueTextHi}
@@ -88,7 +50,7 @@ function StatEditor({
               disabled={disabled}
             />
           </div>
-          <Bilingual
+          <CmsBilingualField
             label="Prefix"
             en={stat.prefixEn}
             hi={stat.prefixHi}
@@ -96,7 +58,7 @@ function StatEditor({
             onHi={(v) => onChange(stats.map((s, idx) => (idx === i ? { ...s, prefixHi: v } : s)))}
             disabled={disabled}
           />
-          <Bilingual
+          <CmsBilingualField
             label="Suffix"
             en={stat.suffixEn}
             hi={stat.suffixHi}
@@ -104,7 +66,7 @@ function StatEditor({
             onHi={(v) => onChange(stats.map((s, idx) => (idx === i ? { ...s, suffixHi: v } : s)))}
             disabled={disabled}
           />
-          <Bilingual
+          <CmsBilingualField
             label="Label"
             en={stat.labelEn}
             hi={stat.labelHi}
@@ -125,6 +87,13 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dbConfigured, setDbConfigured] = useState(true);
+  const [dirty, setDirty] = useState(false);
+  useCmsDirtyGuard(dirty);
+
+  const updateChapters = (next: HomepageChaptersContent) => {
+    setChapters(next);
+    setDirty(true);
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -132,6 +101,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
     if (isAdminOk<{ chapters: HomepageChaptersContent; dbConfigured: boolean }>(res)) {
       setChapters(res.chapters);
       setDbConfigured(res.dbConfigured);
+      setDirty(false);
     } else {
       toast.error("Load failed", adminError(res, "Could not load homepage sections."));
     }
@@ -150,6 +120,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
     setSaving(false);
     if (isAdminOk<{ chapters: HomepageChaptersContent }>(res)) {
       setChapters(res.chapters);
+      setDirty(false);
       toast.success("Sections saved", "Homepage pillar, app, and closing sections are updated.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save homepage sections."));
@@ -160,16 +131,14 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Homepage sections</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Edit copy for the pillars parallax, market linkage block, mobile app chapter, and closing pathways on the
-          homepage.
-        </p>
-        {!dbConfigured && (
-          <p className="mt-2 text-xs text-amber-600">Database not configured — changes will not persist.</p>
-        )}
-      </div>
+      <CmsPageHeader
+        title="Homepage sections"
+        description="Edit copy for the pillars parallax, market linkage block, mobile app chapter, and closing pathways on the homepage."
+        workflow="live"
+      />
+      {!dbConfigured && (
+        <p className="text-xs text-amber-600">Database not configured — changes will not persist.</p>
+      )}
 
       <form onSubmit={handleSave} className="space-y-8">
         {pillars.map((pillar, pi) => (
@@ -179,54 +148,54 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               <h2 className="text-sm font-semibold">Pillar {pillar.number}: {pillar.id}</h2>
             </div>
             <div className="space-y-4 p-5">
-              <Bilingual
+              <CmsBilingualField
                 label="Tag"
                 en={pillar.tagEn}
                 hi={pillar.tagHi}
                 onEn={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, tagEn: v } : p)),
                   })
                 }
                 onHi={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, tagHi: v } : p)),
                   })
                 }
                 disabled={!canEdit || loading}
               />
-              <Bilingual
+              <CmsBilingualField
                 label="Title"
                 en={pillar.titleEn}
                 hi={pillar.titleHi}
                 onEn={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, titleEn: v } : p)),
                   })
                 }
                 onHi={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, titleHi: v } : p)),
                   })
                 }
                 disabled={!canEdit || loading}
               />
-              <Bilingual
+              <CmsBilingualField
                 label="Description"
                 en={pillar.descriptionEn}
                 hi={pillar.descriptionHi}
                 onEn={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, descriptionEn: v } : p)),
                   })
                 }
                 onHi={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, descriptionHi: v } : p)),
                   })
@@ -237,7 +206,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               <StatEditor
                 stats={pillar.metrics}
                 onChange={(stats) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, metrics: stats } : p)),
                   })
@@ -249,7 +218,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                 <Textarea
                   value={pillar.featuresEn.join("\n")}
                   onChange={(e) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       pillars: pillars.map((p, idx) =>
                         idx === pi ? { ...p, featuresEn: e.target.value.split("\n").filter(Boolean) } : p,
@@ -265,7 +234,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                 <Textarea
                   value={pillar.featuresHi.join("\n")}
                   onChange={(e) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       pillars: pillars.map((p, idx) =>
                         idx === pi ? { ...p, featuresHi: e.target.value.split("\n").filter(Boolean) } : p,
@@ -276,18 +245,18 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   rows={3}
                 />
               </div>
-              <Bilingual
+              <CmsBilingualField
                 label="CTA button"
                 en={pillar.ctaTextEn}
                 hi={pillar.ctaTextHi}
                 onEn={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, ctaTextEn: v } : p)),
                   })
                 }
                 onHi={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, ctaTextHi: v } : p)),
                   })
@@ -299,7 +268,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                 <Input
                   value={pillar.imageUrl}
                   onChange={(e) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       pillars: pillars.map((p, idx) => (idx === pi ? { ...p, imageUrl: e.target.value } : p)),
                     })
@@ -310,7 +279,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   label="Upload image"
                   value={pillar.imageUrl}
                   onChange={(url) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       pillars: pillars.map((p, idx) => (idx === pi ? { ...p, imageUrl: url } : p)),
                     })
@@ -320,18 +289,18 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   disabled={!canEdit || loading}
                 />
               </div>
-              <Bilingual
+              <CmsBilingualField
                 label="Image alt"
                 en={pillar.imageAltEn}
                 hi={pillar.imageAltHi}
                 onEn={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, imageAltEn: v } : p)),
                   })
                 }
                 onHi={(v) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     pillars: pillars.map((p, idx) => (idx === pi ? { ...p, imageAltHi: v } : p)),
                   })
@@ -340,36 +309,36 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               />
               {pillar.ctaType === "locations" && (
                 <>
-                  <Bilingual
+                  <CmsBilingualField
                     label="Locations badge"
                     en={pillar.locationsBadgeEn}
                     hi={pillar.locationsBadgeHi}
                     onEn={(v) =>
-                      setChapters({
+                      updateChapters({
                         ...chapters,
                         pillars: pillars.map((p, idx) => (idx === pi ? { ...p, locationsBadgeEn: v } : p)),
                       })
                     }
                     onHi={(v) =>
-                      setChapters({
+                      updateChapters({
                         ...chapters,
                         pillars: pillars.map((p, idx) => (idx === pi ? { ...p, locationsBadgeHi: v } : p)),
                       })
                     }
                     disabled={!canEdit || loading}
                   />
-                  <Bilingual
+                  <CmsBilingualField
                     label="View locations button"
                     en={pillar.viewLocationsLabelEn}
                     hi={pillar.viewLocationsLabelHi}
                     onEn={(v) =>
-                      setChapters({
+                      updateChapters({
                         ...chapters,
                         pillars: pillars.map((p, idx) => (idx === pi ? { ...p, viewLocationsLabelEn: v } : p)),
                       })
                     }
                     onHi={(v) =>
-                      setChapters({
+                      updateChapters({
                         ...chapters,
                         pillars: pillars.map((p, idx) => (idx === pi ? { ...p, viewLocationsLabelHi: v } : p)),
                       })
@@ -387,42 +356,42 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
             <h2 className="text-sm font-semibold">Market linkage pillar</h2>
           </div>
           <div className="space-y-4 p-5">
-            <Bilingual
+            <CmsBilingualField
               label="Badge"
               en={pillarMarket.badgeEn}
               hi={pillarMarket.badgeHi}
-              onEn={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, badgeEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, badgeHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, badgeEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, badgeHi: v } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Title"
               en={pillarMarket.titleEn}
               hi={pillarMarket.titleHi}
-              onEn={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, titleEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, titleHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, titleEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, titleHi: v } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Description"
               en={pillarMarket.descriptionEn}
               hi={pillarMarket.descriptionHi}
-              onEn={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, descriptionEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, descriptionHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, descriptionEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, descriptionHi: v } })}
               disabled={!canEdit || loading}
               multiline
             />
             <StatEditor
               stats={pillarMarket.stats}
-              onChange={(stats) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, stats } })}
+              onChange={(stats) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, stats } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="CTA"
               en={pillarMarket.ctaLabelEn}
               hi={pillarMarket.ctaLabelHi}
-              onEn={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, ctaLabelEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, ctaLabelHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, ctaLabelEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, ctaLabelHi: v } })}
               disabled={!canEdit || loading}
             />
             <div className="space-y-2">
@@ -430,14 +399,14 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               <Input
                 value={pillarMarket.imageUrl}
                 onChange={(e) =>
-                  setChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: e.target.value } })
+                  updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: e.target.value } })
                 }
                 disabled={!canEdit || loading}
               />
               <CmsUploadField
                 label="Upload image"
                 value={pillarMarket.imageUrl}
-                onChange={(url) => setChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: url } })}
+                onChange={(url) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: url } })}
                 kind="image"
                 accept="image/jpeg,image/png,image/webp"
                 disabled={!canEdit || loading}
@@ -451,34 +420,34 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
             <h2 className="text-sm font-semibold">Mobile app chapter</h2>
           </div>
           <div className="space-y-4 p-5">
-            <Bilingual
+            <CmsBilingualField
               label="Badge"
               en={appChapter.badgeEn}
               hi={appChapter.badgeHi}
-              onEn={(v) => setChapters({ ...chapters, appChapter: { ...appChapter, badgeEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, appChapter: { ...appChapter, badgeHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, appChapter: { ...appChapter, badgeEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, appChapter: { ...appChapter, badgeHi: v } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Title"
               en={appChapter.titleEn}
               hi={appChapter.titleHi}
-              onEn={(v) => setChapters({ ...chapters, appChapter: { ...appChapter, titleEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, appChapter: { ...appChapter, titleHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, appChapter: { ...appChapter, titleEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, appChapter: { ...appChapter, titleHi: v } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Description"
               en={appChapter.descriptionEn}
               hi={appChapter.descriptionHi}
-              onEn={(v) => setChapters({ ...chapters, appChapter: { ...appChapter, descriptionEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, appChapter: { ...appChapter, descriptionHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, appChapter: { ...appChapter, descriptionEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, appChapter: { ...appChapter, descriptionHi: v } })}
               disabled={!canEdit || loading}
               multiline
             />
             <StatEditor
               stats={appChapter.stats}
-              onChange={(stats) => setChapters({ ...chapters, appChapter: { ...appChapter, stats } })}
+              onChange={(stats) => updateChapters({ ...chapters, appChapter: { ...appChapter, stats } })}
               disabled={!canEdit || loading}
             />
             <div className="space-y-2">
@@ -486,7 +455,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               <Textarea
                 value={appChapter.checklistEn.join("\n")}
                 onChange={(e) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     appChapter: { ...appChapter, checklistEn: e.target.value.split("\n").filter(Boolean) },
                   })
@@ -500,7 +469,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               <Textarea
                 value={appChapter.checklistHi.join("\n")}
                 onChange={(e) =>
-                  setChapters({
+                  updateChapters({
                     ...chapters,
                     appChapter: { ...appChapter, checklistHi: e.target.value.split("\n").filter(Boolean) },
                   })
@@ -517,40 +486,40 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
             <h2 className="text-sm font-semibold">Closing chapter (Get started)</h2>
           </div>
           <div className="space-y-4 p-5">
-            <Bilingual
+            <CmsBilingualField
               label="Badge"
               en={closingChapter.badgeEn}
               hi={closingChapter.badgeHi}
-              onEn={(v) => setChapters({ ...chapters, closingChapter: { ...closingChapter, badgeEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, closingChapter: { ...closingChapter, badgeHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, closingChapter: { ...closingChapter, badgeEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, closingChapter: { ...closingChapter, badgeHi: v } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Title"
               en={closingChapter.titleEn}
               hi={closingChapter.titleHi}
-              onEn={(v) => setChapters({ ...chapters, closingChapter: { ...closingChapter, titleEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, closingChapter: { ...closingChapter, titleHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, closingChapter: { ...closingChapter, titleEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, closingChapter: { ...closingChapter, titleHi: v } })}
               disabled={!canEdit || loading}
             />
-            <Bilingual
+            <CmsBilingualField
               label="Description"
               en={closingChapter.descriptionEn}
               hi={closingChapter.descriptionHi}
-              onEn={(v) => setChapters({ ...chapters, closingChapter: { ...closingChapter, descriptionEn: v } })}
-              onHi={(v) => setChapters({ ...chapters, closingChapter: { ...closingChapter, descriptionHi: v } })}
+              onEn={(v) => updateChapters({ ...chapters, closingChapter: { ...closingChapter, descriptionEn: v } })}
+              onHi={(v) => updateChapters({ ...chapters, closingChapter: { ...closingChapter, descriptionHi: v } })}
               disabled={!canEdit || loading}
               multiline
             />
             {closingChapter.pathways.map((pathway, i) => (
               <div key={pathway.number} className="rounded-lg border p-3 space-y-2">
                 <p className="text-sm font-semibold">Pathway {pathway.number}</p>
-                <Bilingual
+                <CmsBilingualField
                   label="Tag"
                   en={pathway.tagEn}
                   hi={pathway.tagHi}
                   onEn={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -559,7 +528,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -569,12 +538,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   }
                   disabled={!canEdit || loading}
                 />
-                <Bilingual
+                <CmsBilingualField
                   label="Title"
                   en={pathway.titleEn}
                   hi={pathway.titleHi}
                   onEn={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -583,7 +552,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -593,12 +562,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   }
                   disabled={!canEdit || loading}
                 />
-                <Bilingual
+                <CmsBilingualField
                   label="Subtitle"
                   en={pathway.subtitleEn}
                   hi={pathway.subtitleHi}
                   onEn={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -607,7 +576,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -617,12 +586,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   }
                   disabled={!canEdit || loading}
                 />
-                <Bilingual
+                <CmsBilingualField
                   label="Description"
                   en={pathway.descriptionEn}
                   hi={pathway.descriptionHi}
                   onEn={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -631,7 +600,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -642,12 +611,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   disabled={!canEdit || loading}
                   multiline
                 />
-                <Bilingual
+                <CmsBilingualField
                   label="Action label"
                   en={pathway.actionLabelEn}
                   hi={pathway.actionLabelHi}
                   onEn={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -656,7 +625,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -666,12 +635,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                   }
                   disabled={!canEdit || loading}
                 />
-                <Bilingual
+                <CmsBilingualField
                   label="Action subtext"
                   en={pathway.actionSubEn}
                   hi={pathway.actionSubHi}
                   onEn={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -680,7 +649,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setChapters({
+                    updateChapters({
                       ...chapters,
                       closingChapter: {
                         ...closingChapter,
@@ -696,7 +665,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                     <Input
                       value={pathway.linkHref}
                       onChange={(e) =>
-                        setChapters({
+                        updateChapters({
                           ...chapters,
                           closingChapter: {
                             ...closingChapter,
@@ -715,12 +684,7 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
           </div>
         </div>
 
-        {canEdit && (
-          <Button type="submit" disabled={saving || loading}>
-            <Save className="mr-2 h-4 w-4" />
-            {saving ? "Saving…" : "Save homepage sections"}
-          </Button>
-        )}
+        <CmsStickySaveBar saving={saving} disabled={!canEdit} label="Save homepage sections" />
       </form>
     </div>
   );

@@ -3,7 +3,7 @@ import { MessageSquare, Plus, Trash2 } from "lucide-react";
 import { getCmsContactPageAdmin, saveCmsContactPageAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
-import { CmsCmsBilingualField } from "@/components/admin/cms/CmsCmsBilingualField";
+import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
