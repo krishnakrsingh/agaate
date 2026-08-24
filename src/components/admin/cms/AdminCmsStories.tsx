@@ -52,6 +52,9 @@ import {
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { storySlugFrom } from "@/lib/cms-slug";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { autoThumbnailForVideoUrl, isValidVideoSource } from "@/lib/video-source";
 
 const emptyForm = {
@@ -76,6 +79,7 @@ const emptyForm = {
 
 export function AdminCmsStories({ role }: { role: AdminRole }) {
   const toast = useToast();
+  const { requestConfirm, confirmDialog } = useCmsListConfirm();
   const canEdit = canManageSettings(role);
   const [items, setItems] = useState<CmsStoryRow[]>([]);
   const [q, setQ] = useState("");
@@ -170,27 +174,26 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
   const filtered = useMemo(() => items, [items]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Farmer testimonials</h1>
-          <p className="text-sm text-muted-foreground">
-            Video shorts and written quotes for the homepage farmer stories section. Publish to update the rotating testimonial card and video reels.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
-            <RefreshCw className="mr-1.5 h-4 w-4" />
-            Refresh
-          </Button>
-          {canEdit && (
-            <Button size="sm" onClick={openCreate}>
-              <Plus className="mr-1.5 h-4 w-4" />
-              Add testimonial
+    <div className="space-y-6">
+      <CmsPageHeader
+        title="Farmer testimonials"
+        description="Video shorts and quotes for the homepage farmer stories section."
+        workflow="publish"
+        actions={
+          <>
+            <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+              <RefreshCw className="mr-1.5 h-4 w-4" />
+              Refresh
             </Button>
-          )}
-        </div>
-      </div>
+            {canEdit && (
+              <Button size="sm" onClick={openCreate}>
+                <Plus className="mr-1.5 h-4 w-4" />
+                Add testimonial
+              </Button>
+            )}
+          </>
+        }
+      />
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
@@ -223,7 +226,19 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((row) => (
+              {loading ? <CmsTableLoadingRow colSpan={6} /> : null}
+              {!loading && filtered.length === 0 ? (
+                <CmsTableEmptyRow
+                  colSpan={6}
+                  title="No testimonials yet"
+                  description="Add a farmer video story, then publish it to appear on the homepage."
+                  action={
+                    canEdit ? <CmsTableEmptyAction label="Add testimonial" onClick={openCreate} /> : undefined
+                  }
+                />
+              ) : null}
+              {!loading
+                ? filtered.map((row) => (
                 <CmsSortableRow key={row.id} id={row.id}>
                   <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
                   <TableCell>
@@ -250,13 +265,20 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
                           <>
                             {row.status === "published" && (
                               <DropdownMenuItem
-                                onClick={async () => {
-                                  const res = await unpublishCmsItemAdmin({ data: { type: "stories", id: row.id } });
-                                  if (isAdminOk(res)) {
-                                    toast.success("Removed from live site.");
-                                    await load();
-                                  }
-                                }}
+                                onClick={() =>
+                                  requestConfirm({
+                                    title: "Unpublish testimonial?",
+                                    description: `"${row.nameEn}" will be removed from the live homepage.`,
+                                    confirmLabel: "Unpublish",
+                                    action: async () => {
+                                      const res = await unpublishCmsItemAdmin({ data: { type: "stories", id: row.id } });
+                                      if (isAdminOk(res)) {
+                                        toast.success("Removed from live site.");
+                                        await load();
+                                      } else toast.error(adminError(res));
+                                    },
+                                  })
+                                }
                               >
                                 Unpublish
                               </DropdownMenuItem>
@@ -264,13 +286,21 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-rose-600"
-                              onClick={async () => {
-                                const res = await archiveCmsItemAdmin({ data: { type: "stories", id: row.id } });
-                                if (isAdminOk(res)) {
-                                  toast.success("Archived.");
-                                  await load();
-                                }
-                              }}
+                              onClick={() =>
+                                requestConfirm({
+                                  title: "Archive testimonial?",
+                                  description: `"${row.nameEn}" will be archived and hidden from this list.`,
+                                  confirmLabel: "Archive",
+                                  destructive: true,
+                                  action: async () => {
+                                    const res = await archiveCmsItemAdmin({ data: { type: "stories", id: row.id } });
+                                    if (isAdminOk(res)) {
+                                      toast.success("Archived.");
+                                      await load();
+                                    } else toast.error(adminError(res));
+                                  },
+                                })
+                              }
                             >
                               Archive
                             </DropdownMenuItem>
@@ -280,7 +310,8 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
                     </DropdownMenu>
                   </TableCell>
                 </CmsSortableRow>
-              ))}
+              ))
+                : null}
             </TableBody>
           </Table>
         </CmsSortableProvider>
@@ -445,6 +476,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
           )}
         </SheetContent>
       </Sheet>
+      {confirmDialog}
     </div>
   );
 }
