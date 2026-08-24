@@ -16,7 +16,7 @@ import {
   Briefcase,
   MessageCircle,
   BookOpen,
-  MessageSquare,
+  Layout,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -95,6 +95,7 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/logos", label: "Brand logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
+      { to: "/agaate-admin/content/homepage-chapters", label: "Homepage sections", icon: Layout },
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
       { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: Video },
     ],
@@ -166,6 +167,12 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Team members", href: "/agaate-admin/content/team", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/homepage-chapters")) {
+      return [
+        { label: "Content", href: "/agaate-admin/content" },
+        { label: "Homepage sections", href: "/agaate-admin/content/homepage-chapters", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/app-links")) {

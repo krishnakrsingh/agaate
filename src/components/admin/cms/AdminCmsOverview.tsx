@@ -100,6 +100,25 @@ export function AdminCmsOverview({
         <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>
+              <p className="text-sm font-medium text-muted-foreground">Homepage sections</p>
+              <p className="mt-2 text-sm text-foreground">Pillars, market linkage, app chapter, closing pathways</p>
+              <p className="mt-1 text-xs text-muted-foreground">Scroll narrative copy below the hero</p>
+            </div>
+            <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
+              <BarChart3 className="h-5 w-5" />
+            </div>
+          </div>
+          <Button asChild variant="outline" size="sm" className="mt-4 w-full sm:w-auto">
+            <Link to="/agaate-admin/content/homepage-chapters">
+              Manage sections
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
+
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
               <p className="text-sm font-medium text-muted-foreground">App store links</p>
               <p className="mt-2 text-sm text-foreground">Google Play & App Store download badge URLs</p>
               <p className="mt-1 text-xs text-muted-foreground">Shown in the mobile app section on the homepage</p>

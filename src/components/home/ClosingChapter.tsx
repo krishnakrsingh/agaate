@@ -12,7 +12,6 @@ import { useHomepageChapters } from "@/contexts/HomepageChaptersContext";
 
 export default function ClosingChapter() {
   const sectionRef = useHomeChapterReveal("fade-up");
-  const [hoveredLane, setHoveredLane] = useState<number | null>(null);
   const [isVisitModalOpen, setIsVisitModalOpen] = useState(false);
 
   const { i18n } = useTranslation();
@@ -78,15 +77,12 @@ export default function ClosingChapter() {
             data-home-reveal
             className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-[#143d31]/10 border-y border-[#143d31]/10"
           >
-            {pathways.map((pathway, idx) => {
+            {pathways.map((pathway) => {
               const Icon = pathway.icon;
-              const isHovered = hoveredLane === idx;
 
               return (
                 <div
                   key={pathway.number}
-                  onMouseEnter={() => setHoveredLane(idx)}
-                  onMouseLeave={() => setHoveredLane(null)}
                   className="group relative flex flex-col justify-between p-6 sm:p-8 lg:p-10 transition-colors duration-200 hover:bg-white/50"
                 >
                   <div className="space-y-6">
