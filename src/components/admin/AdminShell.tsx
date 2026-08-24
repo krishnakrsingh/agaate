@@ -5,7 +5,6 @@ import {
   LogOut,
   Search,
   ChevronsUpDown,
-  Globe,
   Image,
   TreePine,
   Video,
@@ -78,13 +77,12 @@ type NavItem = {
 const NAV_GROUPS: Array<{
   group: string;
   items: NavItem[];
+  hideLabel?: boolean;
 }> = [
   {
     group: "Overview",
-    items: [
-      { to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-      { to: "/agaate-admin/content", label: "Content library", icon: Globe, exact: true },
-    ],
+    hideLabel: true,
+    items: [{ to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true }],
   },
   {
     group: "Site pages",
@@ -294,9 +292,11 @@ export function AdminShell({ user }: { user: SessionUser }) {
 
               return (
                 <SidebarGroup key={group.group} className="py-1">
-                  <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
-                    {group.group}
-                  </SidebarGroupLabel>
+                  {!group.hideLabel ? (
+                    <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
+                      {group.group}
+                    </SidebarGroupLabel>
+                  ) : null}
                   <SidebarGroupContent>
                     <SidebarMenu className="gap-0.5">
                       {visibleItems.map((item) => {
