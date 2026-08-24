@@ -91,7 +91,7 @@ export function Reveal({
   amount = 0.2,
   style,
 }: RevealProps) {
-  const base = revealVariants[variant] || revealVariants.up;
+  const base = revealVariants[variant] || revealVariants["fade-up"]!;
   return (
     <motion.div
       className={className}
