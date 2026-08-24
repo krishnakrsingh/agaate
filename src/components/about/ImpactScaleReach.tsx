@@ -33,36 +33,36 @@ export default function ImpactScaleReach({ isHi = false }: { isHi?: boolean }) {
     <section
       id="impact"
       aria-labelledby="impact-heading"
-      className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
+      className="relative overflow-hidden border-b border-[#143d31]/10 bg-[#f4f8f5] py-10 sm:py-12 md:py-14 text-[#143d31]"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-12">
-        <Reveal variant="fade-up" className="space-y-4">
-          <div className="flex items-center gap-2.5">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-6 sm:space-y-8">
+        <Reveal variant="fade-up" className="space-y-3">
+          <div className="flex items-center gap-2">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
               Impact Scale &amp; Reach
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8">
             <h2
               id="impact-heading"
-              className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-[#143d31] tracking-tight leading-[1.1] max-w-2xl"
+              className="font-display font-bold text-2xl sm:text-3xl lg:text-[2.25rem] text-[#143d31] tracking-tight leading-[1.15] max-w-2xl"
             >
               2,000+ Farmers trust Agaate across{" "}
               <span className="text-[#5d7d37]">15,000+ acres</span>
             </h2>
 
-            <p className="font-sans text-[#4f624f] text-sm sm:text-base max-w-md leading-relaxed">
+            <p className="font-sans text-[#4f624f] text-xs sm:text-sm max-w-md leading-relaxed">
               Concentrated operational scale delivering direct-from-brand inputs, doorstep logistics,
               and Senior Agronomist guidance to maximize yield and farmer income.
             </p>
           </div>
         </Reveal>
 
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
           <Reveal variant="fade-up" className="lg:col-span-5">
-            <div className="relative aspect-[4/4.5] overflow-hidden rounded-2xl border border-[#143d31]/10 bg-[#143d31]/5 shadow-xs">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#143d31]/12 bg-[#143d31]/5 shadow-sm">
               <img
                 src={farmerAdvisorImg}
                 alt="Agaate farmer and agronomist in the field"
@@ -71,28 +71,30 @@ export default function ImpactScaleReach({ isHi = false }: { isHi?: boolean }) {
             </div>
           </Reveal>
 
-          <Reveal variant="fade-up" delay={0.15} className="space-y-8 lg:col-span-7">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-              {impactMetrics.map((m) => {
-                const Icon = EXTRA_IMPACT_ICONS[m.iconKey] ?? getCmsIcon(m.iconKey) ?? Plant;
+          <Reveal variant="fade-up" delay={0.15} className="space-y-6 lg:col-span-7">
+            {/* 2x2 Lines-Based Metrics Matrix */}
+            <div className="grid grid-cols-2">
+              {impactMetrics.map((m, idx) => {
                 const suffix = isHi ? m.suffixHi : m.suffixEn;
                 const label = isHi ? m.labelHi : m.labelEn;
+                const isLeft = idx % 2 === 0;
+                const isTop = idx < 2;
+
                 return (
                   <div
                     key={label}
-                    className="group rounded-xl border border-[#143d31]/10 bg-white p-4 transition-all hover:border-[#5d7d37]/40 hover:shadow-xs"
+                    className={`flex flex-col justify-center transition-colors ${
+                      isLeft ? "border-r border-[#143d31]/15 pr-5 sm:pr-8" : "pl-5 sm:pl-8"
+                    } ${
+                      isTop ? "border-b border-[#143d31]/15 pb-5 sm:pb-6" : "pt-5 sm:pt-6"
+                    }`}
                   >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#143d31]/10 text-[#143d31] transition-transform group-hover:scale-105 mb-3">
-                      <Icon weight="duotone" className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#143d31]">
-                        <CountUp to={m.numValue} suffix={suffix} />
-                      </p>
-                      <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                        {label}
-                      </p>
-                    </div>
+                    <p className="font-display text-3xl sm:text-4xl lg:text-[2.65rem] font-extrabold tracking-tight text-[#143d31] leading-none">
+                      <CountUp to={m.numValue} suffix={suffix} />
+                    </p>
+                    <p className="mt-2 font-mono text-[10.5px] sm:text-xs font-bold uppercase tracking-wider text-[#5d7d37]">
+                      {label}
+                    </p>
                   </div>
                 );
               })}

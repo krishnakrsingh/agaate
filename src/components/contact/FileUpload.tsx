@@ -10,11 +10,15 @@ export function FileUpload({
   onChange,
   disabled,
   error,
+  label,
+  description,
 }: {
   file: File | null;
   onChange: (file: File | null) => void;
   disabled?: boolean;
   error?: string;
+  label?: string;
+  description?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -40,7 +44,7 @@ export function FileUpload({
   return (
     <div className="space-y-2 w-full text-left">
       <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-        Attach Crop Photo or Soil Report (Optional)
+        {label || "Attach Crop Photo or Soil Report (Optional)"}
       </label>
 
       {file ? (

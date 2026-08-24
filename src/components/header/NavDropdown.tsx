@@ -139,31 +139,24 @@ export function NavDropdown({ subLinks, isOpen, currentLang }: NavDropdownProps)
             {/* Balanced Dropdown Footer */}
             <div className="mt-2 flex items-center justify-between rounded-[14px] border border-slate-200/70 bg-slate-50/90 p-2.5 px-3.5 shadow-2xs">
               <div className="flex min-w-0 flex-col">
-                <span className="text-[12px] font-bold text-slate-800">
-                  Need custom farm setup or advisory?
+                <span className="text-[12.5px] font-bold text-slate-800">
+                  {currentLang === "hi" ? "कस्टम फार्म सेटअप या कृषि सलाह चाहिए?" : "Need custom farm setup or advisory?"}
                 </span>
-                <a
-                  href={agronomistUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/agrolink mt-0.5 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 transition-colors hover:text-emerald-800"
-                >
-                  <WhatsappLogo className="h-3.5 w-3.5 text-emerald-600" weight="fill" />
-                  <span>Talk to Agronomist</span>
-                  <span className="text-[10px] text-emerald-600/70 transition-transform group-hover/agrolink:translate-x-0.5">
-                    →
-                  </span>
-                </a>
+                <span className="text-[11px] font-normal text-slate-500">
+                  {currentLang === "hi" ? "हमारे कृषि वैज्ञानिकों से सीधे व्हाट्सएप पर बात करें" : "Connect directly with our agricultural experts"}
+                </span>
               </div>
 
-              <Link
-                to={getLocalizedPath("/", currentLang) as any}
-                hash="three-pillars"
-                className="group/btn flex shrink-0 items-center gap-1.5 rounded-[10px] bg-[#0d2a21] px-3.5 py-2 text-[11.5px] font-bold text-white shadow-2xs transition-all duration-200 hover:bg-[#14332b] active:scale-[0.98]"
+              <a
+                href={agronomistUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/btn flex shrink-0 items-center gap-2 rounded-[10px] bg-[#0d2a21] px-3.5 py-2 text-[12px] font-bold text-white shadow-2xs transition-all duration-200 hover:bg-[#143d31] hover:shadow-sm active:scale-[0.98]"
               >
-                <span>Explore All Services</span>
+                <WhatsappLogo className="h-4 w-4 text-[#a3e635] transition-transform duration-200 group-hover/btn:scale-110" weight="fill" />
+                <span>{currentLang === "hi" ? "व्हाट्सएप पर बात करें" : "Chat on WhatsApp"}</span>
                 <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
-              </Link>
+              </a>
             </div>
           </motion.div>
         </div>

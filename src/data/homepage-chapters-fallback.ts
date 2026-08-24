@@ -130,6 +130,7 @@ export const HOMEPAGE_CHAPTERS_FALLBACK: HomepageChaptersContent = {
       ctaType: "locations",
       imageUrl: "/bio-nursery.png",
       imageAltEn: "High-Immunity Seedling Infrastructure",
+      imageAltHi: "उच्च रोग प्रतिरोधक क्षमता वाली प्लग पौध",
       locationsBadgeEn: "",
       locationsBadgeHi: "",
       viewLocationsLabelEn: "View Locations & Maps",

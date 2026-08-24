@@ -29,6 +29,7 @@ const TOPIC_LABELS: Record<string, string> = {
   wholesale: "Kisan Mall Wholesale",
   agripark: "Agri Park Visit",
   general: "General Agronomy Advisory",
+  franchise: "Agaate Franchise Partnership",
 };
 
 function envMailSettings(): AdminSettingsPayload["smtp"] {

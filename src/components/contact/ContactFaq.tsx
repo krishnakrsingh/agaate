@@ -21,8 +21,9 @@ export default function ContactFaq() {
       aria-labelledby="faq-heading"
       className="border-t border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
     >
-      <div className="mx-auto max-w-4xl px-5 sm:px-8 lg:px-10 space-y-10">
-        <Reveal variant="fade-up" className="max-w-xl space-y-4">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10 space-y-8 sm:space-y-10">
+        {/* Header */}
+        <Reveal variant="fade-up" className="space-y-3">
           <div className="flex items-center gap-2.5">
             <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
             <p className="font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
@@ -37,12 +38,13 @@ export default function ContactFaq() {
           </h2>
         </Reveal>
 
+        {/* Wider Clean Card Accordion */}
         <Reveal variant="fade-up" delay={0.1}>
-          <div className="divide-y divide-[#143d31]/10 rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-8 shadow-xs">
+          <div className="divide-y divide-[#143d31]/10 rounded-2xl sm:rounded-3xl border border-[#143d31]/10 bg-white p-6 sm:p-8 md:p-10 shadow-xs">
             {faqs.map((f, i) => {
               const isOpen = open === i;
               return (
-                <div key={f.q} className="py-5 first:pt-0 last:pb-0">
+                <div key={f.q} className="py-5 sm:py-6 first:pt-0 last:pb-0">
                   <button
                     type="button"
                     aria-expanded={isOpen}
@@ -51,17 +53,19 @@ export default function ContactFaq() {
                       setOpen(next);
                       if (next !== null) track("faq_opened", { index: i });
                     }}
-                    className="flex w-full items-center justify-between gap-4 text-left focus-visible:outline-none"
+                    className="flex w-full items-center justify-between gap-6 text-left focus-visible:outline-none cursor-pointer group"
                   >
-                    <h3 className="flex-1 font-display text-base sm:text-lg font-bold text-[#143d31]">
+                    <h3 className="flex-1 font-display text-base sm:text-lg md:text-xl font-bold text-[#143d31] group-hover:text-[#5d7d37] transition-colors">
                       {f.q}
                     </h3>
                     <motion.span
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.25, ease: EASE }}
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#143d31]/5 text-[#143d31]"
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors ${
+                        isOpen ? "bg-[#143d31] text-[#a3e635]" : "bg-[#143d31]/5 text-[#143d31] group-hover:bg-[#143d31]/10"
+                      }`}
                     >
-                      <CaretDown className="h-3.5 w-3.5" weight="bold" />
+                      <CaretDown className="h-4 w-4" weight="bold" />
                     </motion.span>
                   </button>
                   <AnimatePresence initial={false}>
@@ -72,8 +76,9 @@ export default function ContactFaq() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.28, ease: EASE }}
+                        className="overflow-hidden"
                       >
-                        <p className="pt-3 font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
+                        <p className="pt-3.5 pr-8 font-sans text-sm sm:text-base leading-relaxed text-[#4f624f]">
                           {f.a}
                         </p>
                       </motion.div>

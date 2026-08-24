@@ -63,7 +63,7 @@ export function Header() {
       <header
         className={`pointer-events-auto relative flex items-center justify-between gap-3 rounded-full border transition-all duration-500 ease-out ${
           solid
-            ? "h-14 w-[92%] max-w-5xl border-white/10 bg-[#0d2a21]/95 backdrop-blur-md py-2 pl-3 pr-2 shadow-lg shadow-black/10"
+            ? "h-14 w-[92%] max-w-5xl border-[#0d2a21]/95 bg-[#0d2a21]/95 backdrop-blur-md py-2 pl-3 pr-2 shadow-lg shadow-black/10"
             : "h-16 w-[96%] max-w-6xl border-transparent bg-transparent px-4 sm:px-6"
         }`}
       >

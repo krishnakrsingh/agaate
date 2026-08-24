@@ -101,4 +101,23 @@ describe("Lead Submission & Validation Engine", () => {
       expect(checkRateLimit(testKey, 3)).toBe(false);
     });
   });
+
+  describe("Consultation Topics & Franchise Configuration", () => {
+    it("should include franchise partnership as 7th topic option in contact data", async () => {
+      const { CONSULTATION_TOPICS } = await import("@/components/contact/data");
+      expect(CONSULTATION_TOPICS).toHaveLength(7);
+      const franchise = CONSULTATION_TOPICS.find((t) => t.id === "franchise");
+      expect(franchise).toBeDefined();
+      expect(franchise?.label).toContain("Franchise");
+    });
+
+    it("should include franchise topic in contact page fallback configuration", async () => {
+      const { CONTACT_PAGE_FALLBACK } = await import("@/data/contact-page-fallback");
+      expect(CONTACT_PAGE_FALLBACK.consultationTopics).toHaveLength(7);
+      const franchise = CONTACT_PAGE_FALLBACK.consultationTopics.find((t) => t.id === "franchise");
+      expect(franchise).toBeDefined();
+      expect(franchise?.labelEn).toContain("Franchise");
+      expect(franchise?.labelHi).toBeDefined();
+    });
+  });
 });

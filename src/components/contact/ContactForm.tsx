@@ -8,6 +8,7 @@ import { useSiteContact } from "@/contexts/SiteContactContext";
 import { useContactPage } from "@/contexts/ContactPageContext";
 import { FORM_STORAGE_KEY, MESSAGE_MAX } from "./data";
 import { TopicSelector } from "./TopicSelector";
+import { TOPIC_FORM_CONFIGS } from "./topic-configs";
 import {
   ConsentCheckbox,
   EmailField,
@@ -100,9 +101,16 @@ export function ContactForm({
   const { whatsappUrlWithText } = useSiteContact();
 
   const [topic, setTopic] = useState(defaultTopic);
-  const [form, setForm] = useState<FormState>(() =>
-    defaults(acreageOptions[0] ?? "", cropOptions[0] ?? "", channelOptions[0] ?? ""),
-  );
+  const topicConfig = TOPIC_FORM_CONFIGS[topic] || TOPIC_FORM_CONFIGS.general;
+  const field1Options = isHi ? topicConfig.field1OptionsHi : topicConfig.field1OptionsEn;
+  const field2Options = isHi ? topicConfig.field2OptionsHi : topicConfig.field2OptionsEn;
+
+  const [form, setForm] = useState<FormState>(() => {
+    const cfg = TOPIC_FORM_CONFIGS[defaultTopic] || TOPIC_FORM_CONFIGS.general;
+    const f1 = isHi ? cfg.field1OptionsHi : cfg.field1OptionsEn;
+    const f2 = isHi ? cfg.field2OptionsHi : cfg.field2OptionsEn;
+    return defaults(f2 ? f2[0] ?? "" : "", f1 ? f1[0] ?? "" : "", channelOptions[0] ?? "");
+  });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState | "topic", string>>>({});
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -111,7 +119,6 @@ export function ContactForm({
   const [offline, setOffline] = useState(
     typeof navigator !== "undefined" ? !navigator.onLine : false,
   );
-  const [showFarmDetails, setShowFarmDetails] = useState(false);
 
   const startedAt = useRef(Date.now());
   const clientToken = useRef(makeClientToken());
@@ -122,11 +129,24 @@ export function ContactForm({
     [topic, topicOptions],
   );
 
+  const handleTopicChange = (newTopicId: string) => {
+    setTopic(newTopicId);
+    const newCfg = TOPIC_FORM_CONFIGS[newTopicId] || TOPIC_FORM_CONFIGS.general;
+    const newF1 = isHi ? newCfg.field1OptionsHi : newCfg.field1OptionsEn;
+    const newF2 = isHi ? newCfg.field2OptionsHi : newCfg.field2OptionsEn;
+    setForm((prev) => ({
+      ...prev,
+      crop: newF1 ? newF1[0] ?? "" : "",
+      acreage: newF2 ? newF2[0] ?? "" : "",
+    }));
+    track("contact_form_field_completed", { field: "topic", topic: newTopicId });
+  };
+
   useEffect(() => {
     try {
       const urlTopic = new URLSearchParams(window.location.search).get("topic");
       if (urlTopic && topicIds.includes(urlTopic)) {
-        setTopic(urlTopic);
+        handleTopicChange(urlTopic);
       }
       const raw = sessionStorage.getItem(FORM_STORAGE_KEY);
       if (!raw) return;
@@ -171,9 +191,13 @@ export function ContactForm({
 
   const whatsappHref = useMemo(() => {
     const topicLabel = selectedTopicObj?.label || "General";
-    const message = `Hello Agaate Team, I am reaching out for assistance and would appreciate a response at your earliest convenience.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Topic:* ${topicLabel}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*Location:* ${form.district || "—"}\n*Land Size:* ${form.acreage}\n*Crop:* ${form.crop}\n*Message:* ${form.message || "Thank you."}`;
+    const f1Label = isHi ? topicConfig.field1LabelHi : topicConfig.field1LabelEn;
+    const f2Label = isHi ? topicConfig.field2LabelHi : topicConfig.field2LabelEn;
+    const f3Label = isHi ? topicConfig.field3LabelHi : topicConfig.field3LabelEn;
+
+    const message = `Hello Agaate Team, I am reaching out regarding *${topicLabel}*.\n\n*Ticket ID:* ${ticketId || "AGA-2026-CONSULT"}\n*Name:* ${form.name}\n*Phone:* ${form.phone}\n*${f3Label}:* ${form.district || "—"}\n*${f1Label}:* ${form.crop || "—"}\n*${f2Label}:* ${form.acreage || "—"}\n*Notes:* ${form.message || "Looking forward to your guidance."}`;
     return whatsappUrlWithText(message);
-  }, [ticketId, selectedTopicObj, form, whatsappUrlWithText]);
+  }, [ticketId, selectedTopicObj, form, topicConfig, isHi, whatsappUrlWithText]);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     if (!startedTracked.current) {
@@ -190,7 +214,10 @@ export function ContactForm({
 
   const reset = () => {
     setTicketId(null);
-    setForm(defaults(acreageOptions[0] ?? "", cropOptions[0] ?? "", channelOptions[0] ?? ""));
+    const cfg = TOPIC_FORM_CONFIGS[topic] || TOPIC_FORM_CONFIGS.general;
+    const f1 = isHi ? cfg.field1OptionsHi : cfg.field1OptionsEn;
+    const f2 = isHi ? cfg.field2OptionsHi : cfg.field2OptionsEn;
+    setForm(defaults(f2 ? f2[0] ?? "" : "", f1 ? f1[0] ?? "" : "", channelOptions[0] ?? ""));
     setErrors({});
     setFormError(null);
     setFile(null);
@@ -230,21 +257,22 @@ export function ContactForm({
         channel: form.channel,
         message: form.message.trim() || undefined,
         consent: form.consent,
-        honeypot: form.honeypot,
+        honeypot: form.honeypot || undefined,
+        startedAt: startedAt.current,
         clientToken: clientToken.current,
-        formDurationSeconds: durationSeconds,
+        sourcePage: window.location.pathname,
         fileName: file?.name,
         fileSizeBytes: file?.size,
         fileType: file?.type,
       };
 
-      const res = await submitLead({ data: payload });
+      const result = await submitLead({ data: payload });
 
-      if (!res || !res.ok) {
-        throw new Error(res?.error || "Submission failed. Please try again.");
+      if (!result || !result.ok) {
+        throw new Error(result?.error || "Submission failed. Please try again.");
       }
 
-      setTicketId(res.ticketId);
+      setTicketId(result.ticketId);
       track("contact_form_submitted", {
         topic,
         channel: form.channel,
@@ -263,13 +291,13 @@ export function ContactForm({
 
   return (
     <section
-      id="contact-form"
-      aria-labelledby="contact-form-heading"
-      className="border-t border-[#143d31]/10 bg-[#f4f8f5] py-16 sm:py-20 md:py-24 text-[#143d31]"
+      id="consultation-form"
+      aria-label="Direct consultation booking form"
+      className="relative py-16 sm:py-20 md:py-24 bg-[#f4f8f5]/60 text-[#143d31]"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
             <Reveal variant="fade-up" className="space-y-4">
               <div className="flex items-center gap-2.5">
                 <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
@@ -278,20 +306,17 @@ export function ContactForm({
                 </p>
               </div>
               <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[#143d31] leading-[1.15]">
-                Tell us what your farm needs
+                Tell us what you need
               </h2>
               <p className="font-sans text-xs sm:text-sm leading-relaxed text-[#4f624f]">
-                Select your inquiry track below so our agronomists can prepare specific soil, seedling, or market linkage data.
+                Select your inquiry track below to load the customized consultation desk.
               </p>
               <div className="pt-2">
                 <TopicSelector
                   options={topicOptions}
                   value={topic}
                   disabled={isSubmitting || !!ticketId}
-                  onChange={(id) => {
-                    setTopic(id);
-                    track("contact_form_field_completed", { field: "topic", topic: id });
-                  }}
+                  onChange={handleTopicChange}
                 />
                 {errors.topic ? (
                   <p className="mt-2 text-xs font-medium text-red-600" role="alert">
@@ -317,9 +342,9 @@ export function ContactForm({
                   <form ref={formRef} onSubmit={handleSubmit} className="space-y-5" noValidate>
                     <div className="flex items-center justify-between border-b border-[#143d31]/10 pb-4">
                       <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#5d7d37]">
-                        Direct Contact Details
+                        {isHi ? topicConfig.badgeHi : topicConfig.badgeEn}
                       </span>
-                      <span className="max-w-[55%] truncate font-mono text-[11px] font-medium text-[#143d31]/60">
+                      <span className="max-w-[45%] truncate font-mono text-[11px] font-medium text-[#143d31]/60">
                         {topicOptions.find((t) => t.id === topic)?.label}
                       </span>
                     </div>
@@ -396,62 +421,91 @@ export function ContactForm({
                       onChange={(e) => setField("email", e.target.value)}
                     />
 
-                    <button
-                      type="button"
-                      onClick={() => setShowFarmDetails((v) => !v)}
-                      className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#5d7d37] hover:text-[#143d31] transition-colors focus-visible:outline-none cursor-pointer"
-                    >
-                      <span>{showFarmDetails ? "Hide farm details" : "+ Add farm details (optional)"}</span>
-                      <CaretDown
-                        className={`h-3.5 w-3.5 transition-transform ${showFarmDetails ? "rotate-180" : ""}`}
-                      />
-                    </button>
-
-                    {showFarmDetails ? (
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 rounded-xl border border-[#143d31]/10 bg-[#f4f8f5]/50 p-4">
-                        <SelectField
-                          id="acreage"
-                          name="acreage"
-                          label="Land acreage"
-                          options={acreageOptions}
-                          value={form.acreage}
-                          disabled={isSubmitting}
-                          onChange={(e) => setField("acreage", e.target.value)}
-                        />
-                        <TextField
-                          id="district"
-                          name="district"
-                          label="District / region"
-                          placeholder="e.g. Gurugram, Rewari"
-                          value={form.district}
-                          disabled={isSubmitting}
-                          maxLength={120}
-                          onChange={(e) => setField("district", e.target.value)}
-                        />
-                        <SelectField
-                          id="crop"
-                          name="crop"
-                          label="Primary crop"
-                          options={cropOptions}
-                          value={form.crop}
-                          disabled={isSubmitting}
-                          onChange={(e) => setField("crop", e.target.value)}
-                        />
+                    <div className="space-y-4 rounded-2xl border border-[#143d31]/12 bg-[#f4f8f5]/60 p-4 sm:p-5">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-[#5d7d37]" />
+                        <p className="font-mono text-[10.5px] sm:text-[11px] font-bold uppercase tracking-wider text-[#143d31]">
+                          {isHi ? "विशिष्ट पूछताछ विवरण" : "Track-Specific Details"}
+                        </p>
                       </div>
-                    ) : null}
+
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {field1Options ? (
+                          <SelectField
+                            id="crop"
+                            name="crop"
+                            label={isHi ? topicConfig.field1LabelHi : topicConfig.field1LabelEn}
+                            options={field1Options}
+                            value={form.crop}
+                            disabled={isSubmitting}
+                            onChange={(e) => setField("crop", e.target.value)}
+                          />
+                        ) : (
+                          <TextField
+                            id="crop"
+                            name="crop"
+                            label={isHi ? topicConfig.field1LabelHi : topicConfig.field1LabelEn}
+                            placeholder={isHi ? topicConfig.field1PlaceholderHi : topicConfig.field1PlaceholderEn}
+                            value={form.crop}
+                            disabled={isSubmitting}
+                            onChange={(e) => setField("crop", e.target.value)}
+                          />
+                        )}
+
+                        {field2Options ? (
+                          <SelectField
+                            id="acreage"
+                            name="acreage"
+                            label={isHi ? topicConfig.field2LabelHi : topicConfig.field2LabelEn}
+                            options={field2Options}
+                            value={form.acreage}
+                            disabled={isSubmitting}
+                            onChange={(e) => setField("acreage", e.target.value)}
+                          />
+                        ) : (
+                          <TextField
+                            id="acreage"
+                            name="acreage"
+                            label={isHi ? topicConfig.field2LabelHi : topicConfig.field2LabelEn}
+                            placeholder={isHi ? topicConfig.field2PlaceholderHi : topicConfig.field2PlaceholderEn}
+                            value={form.acreage}
+                            disabled={isSubmitting}
+                            onChange={(e) => setField("acreage", e.target.value)}
+                          />
+                        )}
+                      </div>
+
+                      <TextField
+                        id="district"
+                        name="district"
+                        label={isHi ? topicConfig.field3LabelHi : topicConfig.field3LabelEn}
+                        placeholder={isHi ? topicConfig.field3PlaceholderHi : topicConfig.field3PlaceholderEn}
+                        value={form.district}
+                        disabled={isSubmitting}
+                        maxLength={120}
+                        onChange={(e) => setField("district", e.target.value)}
+                      />
+                    </div>
 
                     <TextareaField
                       id="message"
                       name="message"
-                      label="Notes / questions"
-                      placeholder="Describe your crop stage, soil conditions, or sapling quantity..."
+                      label={isHi ? topicConfig.notesLabelHi : topicConfig.notesLabelEn}
+                      placeholder={isHi ? topicConfig.notesPlaceholderHi : topicConfig.notesPlaceholderEn}
                       value={form.message}
                       disabled={isSubmitting}
                       maxLength={MESSAGE_MAX}
                       onChange={(e) => setField("message", e.target.value)}
                     />
 
-                    <FileUpload file={file} onChange={setFile} disabled={isSubmitting} />
+                    {topicConfig.showFileUpload ? (
+                      <FileUpload
+                        file={file}
+                        onChange={setFile}
+                        disabled={isSubmitting}
+                        label={isHi ? topicConfig.fileUploadLabelHi : topicConfig.fileUploadLabelEn}
+                      />
+                    ) : null}
 
                     <ConsentCheckbox
                       id="consent"
@@ -480,7 +534,7 @@ export function ContactForm({
                       ) : (
                         <>
                           <PaperPlaneRight className="h-4 w-4 text-[#a3e635] transition-transform group-hover:translate-x-0.5" weight="bold" />
-                          <span>Request Consultation Callback</span>
+                          <span>{isHi ? topicConfig.buttonLabelHi : topicConfig.buttonLabelEn}</span>
                         </>
                       )}
                     </button>

@@ -2,6 +2,7 @@ import {
   Buildings,
   ChatCircleText,
   Compass,
+  Handshake,
   type Icon,
   Lightning,
   Plant,
@@ -32,6 +33,7 @@ export type Facility = {
   role: string;
   address: string;
   district: string;
+  state: string; // e.g. "Haryana", "Rajasthan" — used for region filter
   plusCode?: string;
   phone: string;
   telRaw: string;
@@ -54,6 +56,7 @@ export const FACILITIES: Facility[] = [
     role: "Farm & Production Facility",
     address: "NH8, opposite Bikanervala, Kukrola / Pachgaon, Gurugram, Haryana 122413",
     district: "Gurugram, Haryana",
+    state: "Haryana",
     plusCode: "8WG2+QR6",
     phone: ALT_PHONE,
     telRaw: TEL_ALT,
@@ -84,6 +87,7 @@ export const FACILITIES: Facility[] = [
     role: "Retail & Experience Center",
     address: "Bilaspur Rd, Patti Kawan, Bhora Kalan, Bilaspur Kalan, Gurugram, Haryana 122413",
     district: "Gurugram, Haryana",
+    state: "Haryana",
     plusCode: "8W88+9C Gurugram",
     phone: PRIMARY_PHONE,
     telRaw: TEL_PRIMARY,
@@ -115,6 +119,7 @@ export const FACILITIES: Facility[] = [
     role: "Corporate Registered Office",
     address: "I-205 Bestech Park View Ananda, Sector-81, Narsinghpur, Gurugram, Haryana 122004",
     district: "Gurugram, Haryana",
+    state: "Haryana",
     plusCode: "CIN: U46200HR2024PTC121982",
     phone: PRIMARY_PHONE,
     telRaw: TEL_PRIMARY,
@@ -184,6 +189,12 @@ export const CONSULTATION_TOPICS: ConsultationTopic[] = [
     label: "General Agronomy Advisory",
     desc: "Direct guidance on soil reports, fertigation schedules & pests.",
     icon: ChatCircleText,
+  },
+  {
+    id: "franchise",
+    label: "Agaate Franchise Partnership",
+    desc: "Start an Agaate Kisan Mall retail hub or Nursery franchise in your territory.",
+    icon: Handshake,
   },
 ];
 
