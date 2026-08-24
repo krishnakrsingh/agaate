@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { MessageSquare, Plus, Save, Trash2 } from "lucide-react";
+import { MessageSquare, Plus, Trash2 } from "lucide-react";
 import { getCmsContactPageAdmin, saveCmsContactPageAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
+import { CmsCmsBilingualField } from "@/components/admin/cms/CmsCmsBilingualField";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,60 +34,26 @@ function listToLines(items: string[]): string {
   return items.join("\n");
 }
 
-function BilingualField({
-  label,
-  enValue,
-  hiValue,
-  onEn,
-  onHi,
-  disabled,
-  multiline,
-}: {
-  label: string;
-  enValue: string;
-  hiValue: string;
-  onEn: (v: string) => void;
-  onHi: (v: string) => void;
-  disabled?: boolean;
-  multiline?: boolean;
-}) {
-  return (
-    <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
-      <p className="text-sm font-medium">{label}</p>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">English</Label>
-          {multiline ? (
-            <Textarea value={enValue} onChange={(e) => onEn(e.target.value)} disabled={disabled} rows={3} />
-          ) : (
-            <Input value={enValue} onChange={(e) => onEn(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">Hindi</Label>
-          {multiline ? (
-            <Textarea value={hiValue} onChange={(e) => onHi(e.target.value)} disabled={disabled} rows={3} />
-          ) : (
-            <Input value={hiValue} onChange={(e) => onHi(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function AdminCmsContactPage({ role }: { role: AdminRole }) {
   const toast = useToast();
   const canEdit = canManageSettings(role);
   const [content, setContent] = useState<ContactPageContent>(CONTACT_PAGE_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  useCmsDirtyGuard(dirty);
+
+  const updateContent = (next: ContactPageContent) => {
+    setContent(next);
+    setDirty(true);
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
     const res = await getCmsContactPageAdmin();
     if (isAdminOk<{ content: ContactPageContent }>(res)) {
       setContent(res.content);
+      setDirty(false);
     } else {
       toast.error("Load failed", adminError(res, "Could not load contact page content."));
     }
@@ -102,6 +72,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
     setSaving(false);
     if (isAdminOk<{ content: ContactPageContent }>(res)) {
       setContent(res.content);
+      setDirty(false);
       toast.success("Saved", "Contact page FAQs and form options are updated.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save contact page."));
@@ -109,10 +80,10 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
   }
 
   function updateTopic(index: number, patch: Partial<ContactConsultationTopic>) {
-    setContent((prev) => ({
-      ...prev,
-      consultationTopics: prev.consultationTopics.map((t, i) => (i === index ? { ...t, ...patch } : t)),
-    }));
+    updateContent({
+      ...content,
+      consultationTopics: content.consultationTopics.map((t, i) => (i === index ? { ...t, ...patch } : t)),
+    });
   }
 
   if (loading) {
@@ -121,12 +92,11 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Contact page</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage FAQ copy, consultation inquiry tracks, and form dropdown options on the public contact page.
-        </p>
-      </div>
+      <CmsPageHeader
+        title="Contact page"
+        description="Manage FAQ copy, consultation inquiry tracks, and form dropdown options on the public contact page."
+        workflow="live"
+      />
 
       <form onSubmit={handleSave} className="space-y-8">
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
@@ -134,20 +104,20 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
             <MessageSquare className="h-5 w-5 text-primary" />
             <h2 className="text-base font-semibold">FAQ section</h2>
           </div>
-          <BilingualField
+          <CmsBilingualField
             label="Section badge"
-            enValue={content.faqBadgeEn}
-            hiValue={content.faqBadgeHi}
-            onEn={(v) => setContent({ ...content, faqBadgeEn: v })}
-            onHi={(v) => setContent({ ...content, faqBadgeHi: v })}
+            en={content.faqBadgeEn}
+            hi={content.faqBadgeHi}
+            onEn={(v) => updateContent({ ...content, faqBadgeEn: v })}
+            onHi={(v) => updateContent({ ...content, faqBadgeHi: v })}
             disabled={!canEdit}
           />
-          <BilingualField
+          <CmsBilingualField
             label="Section title"
-            enValue={content.faqTitleEn}
-            hiValue={content.faqTitleHi}
-            onEn={(v) => setContent({ ...content, faqTitleEn: v })}
-            onHi={(v) => setContent({ ...content, faqTitleHi: v })}
+            en={content.faqTitleEn}
+            hi={content.faqTitleHi}
+            onEn={(v) => updateContent({ ...content, faqTitleEn: v })}
+            onHi={(v) => updateContent({ ...content, faqTitleHi: v })}
             disabled={!canEdit}
           />
           <div className="space-y-4">
@@ -161,7 +131,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
                       variant="ghost"
                       size="sm"
                       onClick={() =>
-                        setContent({
+                        updateContent({
                           ...content,
                           faqs: content.faqs.filter((_, idx) => idx !== i),
                         })
@@ -171,36 +141,36 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
                     </Button>
                   ) : null}
                 </div>
-                <BilingualField
+                <CmsBilingualField
                   label="Question"
-                  enValue={faq.qEn}
-                  hiValue={faq.qHi}
+                  en={faq.qEn}
+                  hi={faq.qHi}
                   onEn={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       faqs: content.faqs.map((f, idx) => (idx === i ? { ...f, qEn: v } : f)),
                     })
                   }
                   onHi={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       faqs: content.faqs.map((f, idx) => (idx === i ? { ...f, qHi: v } : f)),
                     })
                   }
                   disabled={!canEdit}
                 />
-                <BilingualField
+                <CmsBilingualField
                   label="Answer"
-                  enValue={faq.aEn}
-                  hiValue={faq.aHi}
+                  en={faq.aEn}
+                  hi={faq.aHi}
                   onEn={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       faqs: content.faqs.map((f, idx) => (idx === i ? { ...f, aEn: v } : f)),
                     })
                   }
                   onHi={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       faqs: content.faqs.map((f, idx) => (idx === i ? { ...f, aHi: v } : f)),
                     })
@@ -216,7 +186,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  setContent({
+                  updateContent({
                     ...content,
                     faqs: [...content.faqs, { qEn: "", qHi: "", aEn: "", aHi: "" }],
                   })
@@ -260,18 +230,18 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
                   </Select>
                 </div>
               </div>
-              <BilingualField
+              <CmsBilingualField
                 label="Label"
-                enValue={topic.labelEn}
-                hiValue={topic.labelHi}
+                en={topic.labelEn}
+                hi={topic.labelHi}
                 onEn={(v) => updateTopic(i, { labelEn: v })}
                 onHi={(v) => updateTopic(i, { labelHi: v })}
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
                 label="Description"
-                enValue={topic.descEn}
-                hiValue={topic.descHi}
+                en={topic.descEn}
+                hi={topic.descHi}
                 onEn={(v) => updateTopic(i, { descEn: v })}
                 onHi={(v) => updateTopic(i, { descHi: v })}
                 disabled={!canEdit}
@@ -289,7 +259,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Acreage options (EN)</Label>
               <Textarea
                 value={listToLines(content.acreageOptionsEn)}
-                onChange={(e) => setContent({ ...content, acreageOptionsEn: linesToList(e.target.value) })}
+                onChange={(e) => updateContent({ ...content, acreageOptionsEn: linesToList(e.target.value) })}
                 disabled={!canEdit}
                 rows={5}
               />
@@ -298,7 +268,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Acreage options (HI)</Label>
               <Textarea
                 value={listToLines(content.acreageOptionsHi)}
-                onChange={(e) => setContent({ ...content, acreageOptionsHi: linesToList(e.target.value) })}
+                onChange={(e) => updateContent({ ...content, acreageOptionsHi: linesToList(e.target.value) })}
                 disabled={!canEdit}
                 rows={5}
               />
@@ -307,7 +277,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Crop options (EN)</Label>
               <Textarea
                 value={listToLines(content.cropOptionsEn)}
-                onChange={(e) => setContent({ ...content, cropOptionsEn: linesToList(e.target.value) })}
+                onChange={(e) => updateContent({ ...content, cropOptionsEn: linesToList(e.target.value) })}
                 disabled={!canEdit}
                 rows={5}
               />
@@ -316,7 +286,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Crop options (HI)</Label>
               <Textarea
                 value={listToLines(content.cropOptionsHi)}
-                onChange={(e) => setContent({ ...content, cropOptionsHi: linesToList(e.target.value) })}
+                onChange={(e) => updateContent({ ...content, cropOptionsHi: linesToList(e.target.value) })}
                 disabled={!canEdit}
                 rows={5}
               />
@@ -325,7 +295,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Channel options (EN)</Label>
               <Textarea
                 value={listToLines(content.channelOptionsEn)}
-                onChange={(e) => setContent({ ...content, channelOptionsEn: linesToList(e.target.value) })}
+                onChange={(e) => updateContent({ ...content, channelOptionsEn: linesToList(e.target.value) })}
                 disabled={!canEdit}
                 rows={4}
               />
@@ -334,7 +304,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
               <Label>Channel options (HI)</Label>
               <Textarea
                 value={listToLines(content.channelOptionsHi)}
-                onChange={(e) => setContent({ ...content, channelOptionsHi: linesToList(e.target.value) })}
+                onChange={(e) => updateContent({ ...content, channelOptionsHi: linesToList(e.target.value) })}
                 disabled={!canEdit}
                 rows={4}
               />
@@ -342,12 +312,7 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
           </div>
         </section>
 
-        {canEdit ? (
-          <Button type="submit" disabled={saving}>
-            <Save className="mr-2 h-4 w-4" />
-            {saving ? "Saving…" : "Save contact page"}
-          </Button>
-        ) : null}
+        <CmsStickySaveBar saving={saving} disabled={!canEdit} label="Save contact page" />
       </form>
     </div>
   );

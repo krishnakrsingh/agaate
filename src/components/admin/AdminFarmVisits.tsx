@@ -3,6 +3,9 @@ import { Calendar, MapPin, RefreshCw, Search } from "lucide-react";
 import { listAdminFarmVisits, updateAdminFarmVisit } from "@/functions/admin-contacts";
 import { STATUS_LABELS, type RequestStatus } from "@/lib/admin-constants";
 import { useToast } from "@/components/admin/AdminToast";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,6 +79,7 @@ function parseFarmDetails(row: FarmVisitRow): FarmDetails {
 
 export function AdminFarmVisits() {
   const toast = useToast();
+  const { requestConfirm, confirmDialog } = useCmsListConfirm();
   const [rows, setRows] = useState<FarmVisitRow[]>([]);
   const [total, setTotal] = useState(0);
   const [pending, setPending] = useState(0);
@@ -115,16 +119,31 @@ export function AdminFarmVisits() {
     void load();
   }, [load]);
 
-  async function handleStatusChange(id: number, nextStatus: RequestStatus) {
-    setUpdatingId(id);
-    const res = await updateAdminFarmVisit({ data: { id, status: nextStatus } });
-    setUpdatingId(null);
-    if (res && "ok" in res && res.ok) {
-      toast.success("Updated", `Status set to ${STATUS_LABELS[nextStatus]}.`);
-      void load();
-    } else {
-      toast.error("Update failed", res && "error" in res ? res.error : "Could not update booking.");
+  async function handleStatusChange(id: number, nextStatus: RequestStatus, currentStatus: RequestStatus) {
+    const apply = async () => {
+      setUpdatingId(id);
+      const res = await updateAdminFarmVisit({ data: { id, status: nextStatus } });
+      setUpdatingId(null);
+      if (res && "ok" in res && res.ok) {
+        toast.success("Updated", `Status set to ${STATUS_LABELS[nextStatus]}.`);
+        void load();
+      } else {
+        toast.error("Update failed", res && "error" in res ? res.error : "Could not update booking.");
+      }
+    };
+
+    if (nextStatus === "closed" && currentStatus !== "closed") {
+      requestConfirm({
+        title: "Close this booking?",
+        description: "The visit will be marked closed. You can still change status later if needed.",
+        confirmLabel: "Mark closed",
+        destructive: true,
+        action: apply,
+      });
+      return;
     }
+
+    await apply();
   }
 
   async function handleFollowUpChange(id: number, followUpDate: string) {
@@ -145,18 +164,21 @@ export function AdminFarmVisits() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Farm Visits</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Agri Park field visit bookings from the website. {pending > 0 ? `${pending} pending confirmation.` : "All caught up."}
-          </p>
-        </div>
-        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
-          <RefreshCw className={`mr-1.5 h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
-          Refresh
-        </Button>
-      </div>
+      <CmsPageHeader
+        title="Farm visits"
+        description={
+          pending > 0
+            ? `${pending} booking${pending === 1 ? "" : "s"} awaiting confirmation. Agri Park field visit bookings from the website.`
+            : "Agri Park field visit bookings from the website. All caught up."
+        }
+        workflow="live"
+        actions={
+          <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+            <RefreshCw className={`mr-1.5 h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+        }
+      />
 
       <div className="rounded-xl border bg-card p-4 shadow-sm">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -238,20 +260,11 @@ export function AdminFarmVisits() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {loading && rows.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={7} className="py-10 text-center text-sm text-muted-foreground">
-                  Loading bookings…
-                </TableCell>
-              </TableRow>
-            ) : rows.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={7} className="py-10 text-center text-sm text-muted-foreground">
-                  No farm visit bookings yet.
-                </TableCell>
-              </TableRow>
-            ) : (
-              rows.map((row) => {
+            {loading && rows.length === 0 ? <CmsTableLoadingRow colSpan={7} /> : null}
+            {!loading && rows.length === 0 ? (
+              <CmsTableEmptyRow colSpan={7} title="No farm visit bookings yet" description="Bookings from the Agri Park visit form will appear here." />
+            ) : null}
+            {rows.map((row) => {
                 const details = parseFarmDetails(row);
                 return (
                   <TableRow key={row.id}>
@@ -283,7 +296,7 @@ export function AdminFarmVisits() {
                       <Select
                         value={row.status}
                         disabled={updatingId === row.id}
-                        onValueChange={(v) => void handleStatusChange(row.id, v as RequestStatus)}
+                        onValueChange={(v) => void handleStatusChange(row.id, v as RequestStatus, row.status)}
                       >
                         <SelectTrigger className="h-8 w-[150px] text-xs">
                           <SelectValue>{STATUS_LABELS[row.status]}</SelectValue>
@@ -311,8 +324,7 @@ export function AdminFarmVisits() {
                     </TableCell>
                   </TableRow>
                 );
-              })
-            )}
+              })}
           </TableBody>
         </Table>
       </div>
@@ -342,6 +354,7 @@ export function AdminFarmVisits() {
           </div>
         </div>
       )}
+      {confirmDialog}
     </div>
   );
 }

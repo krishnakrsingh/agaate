@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { BookOpen, Save } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { getCmsAboutPageAdmin, saveCmsAboutPageAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import type { AboutPageContent, CmsIconKey } from "@/lib/cms-types";
@@ -18,48 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-function BilingualField({
-  label,
-  enValue,
-  hiValue,
-  onEn,
-  onHi,
-  disabled,
-  multiline,
-}: {
-  label: string;
-  enValue: string;
-  hiValue: string;
-  onEn: (v: string) => void;
-  onHi: (v: string) => void;
-  disabled?: boolean;
-  multiline?: boolean;
-}) {
-  return (
-    <div className="space-y-2">
-      <Label className="text-sm font-medium">{label}</Label>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">English</Label>
-          {multiline ? (
-            <Textarea value={enValue} onChange={(e) => onEn(e.target.value)} disabled={disabled} rows={3} />
-          ) : (
-            <Input value={enValue} onChange={(e) => onEn(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-        <div className="space-y-1">
-          <Label className="text-xs text-muted-foreground">Hindi</Label>
-          {multiline ? (
-            <Textarea value={hiValue} onChange={(e) => onHi(e.target.value)} disabled={disabled} rows={3} />
-          ) : (
-            <Input value={hiValue} onChange={(e) => onHi(e.target.value)} disabled={disabled} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function linesToList(text: string): string[] {
   return text
@@ -78,12 +40,20 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
   const [content, setContent] = useState<AboutPageContent>(ABOUT_PAGE_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  useCmsDirtyGuard(dirty);
+
+  const updateContent = (next: AboutPageContent) => {
+    setContent(next);
+    setDirty(true);
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
     const res = await getCmsAboutPageAdmin();
     if (isAdminOk<{ content: AboutPageContent }>(res)) {
       setContent(res.content);
+      setDirty(false);
     } else {
       toast.error("Load failed", adminError(res, "Could not load about page content."));
     }
@@ -102,6 +72,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
     setSaving(false);
     if (isAdminOk<{ content: AboutPageContent }>(res)) {
       setContent(res.content);
+      setDirty(false);
       toast.success("Saved", "About page copy is updated on the public site.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save about page."));
@@ -117,12 +88,11 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">About page</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Edit hero, values, milestones, footprint locations, impact metrics, and compliance copy on the About page.
-        </p>
-      </div>
+      <CmsPageHeader
+        title="About page"
+        description="Edit hero, values, milestones, footprint locations, impact metrics, and compliance copy on the About page."
+        workflow="live"
+      />
 
       <form onSubmit={handleSave} className="space-y-8">
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
@@ -130,36 +100,40 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             <BookOpen className="h-5 w-5 text-primary" />
             <h2 className="text-base font-semibold">Hero</h2>
           </div>
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Badge"
-            enValue={hero.badgeEn}
-            hiValue={hero.badgeHi}
-            onEn={(v) => setContent({ ...content, hero: { ...hero, badgeEn: v } })}
-            onHi={(v) => setContent({ ...content, hero: { ...hero, badgeHi: v } })}
+            en={hero.badgeEn}
+            hi={hero.badgeHi}
+            onEn={(v) => updateContent({ ...content, hero: { ...hero, badgeEn: v } })}
+            onHi={(v) => updateContent({ ...content, hero: { ...hero, badgeHi: v } })}
             disabled={!canEdit}
           />
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Title"
-            enValue={hero.titleEn}
-            hiValue={hero.titleHi}
-            onEn={(v) => setContent({ ...content, hero: { ...hero, titleEn: v } })}
-            onHi={(v) => setContent({ ...content, hero: { ...hero, titleHi: v } })}
+            en={hero.titleEn}
+            hi={hero.titleHi}
+            onEn={(v) => updateContent({ ...content, hero: { ...hero, titleEn: v } })}
+            onHi={(v) => updateContent({ ...content, hero: { ...hero, titleHi: v } })}
             disabled={!canEdit}
           />
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Title accent"
-            enValue={hero.titleAccentEn}
-            hiValue={hero.titleAccentHi}
-            onEn={(v) => setContent({ ...content, hero: { ...hero, titleAccentEn: v } })}
-            onHi={(v) => setContent({ ...content, hero: { ...hero, titleAccentHi: v } })}
+            en={hero.titleAccentEn}
+            hi={hero.titleAccentHi}
+            onEn={(v) => updateContent({ ...content, hero: { ...hero, titleAccentEn: v } })}
+            onHi={(v) => updateContent({ ...content, hero: { ...hero, titleAccentHi: v } })}
             disabled={!canEdit}
           />
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Description"
-            enValue={hero.descriptionEn}
-            hiValue={hero.descriptionHi}
-            onEn={(v) => setContent({ ...content, hero: { ...hero, descriptionEn: v } })}
-            onHi={(v) => setContent({ ...content, hero: { ...hero, descriptionHi: v } })}
+            en={hero.descriptionEn}
+            hi={hero.descriptionHi}
+            onEn={(v) => updateContent({ ...content, hero: { ...hero, descriptionEn: v } })}
+            onHi={(v) => updateContent({ ...content, hero: { ...hero, descriptionHi: v } })}
             disabled={!canEdit}
             multiline
           />
@@ -167,28 +141,30 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             <Label>Hero image URL</Label>
             <Input
               value={hero.heroImageUrl}
-              onChange={(e) => setContent({ ...content, hero: { ...hero, heroImageUrl: e.target.value } })}
+              onChange={(e) => updateContent({ ...content, hero: { ...hero, heroImageUrl: e.target.value } })}
               disabled={!canEdit}
             />
           </div>
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Hero image alt"
-            enValue={hero.heroImageAltEn}
-            hiValue={hero.heroImageAltHi}
-            onEn={(v) => setContent({ ...content, hero: { ...hero, heroImageAltEn: v } })}
-            onHi={(v) => setContent({ ...content, hero: { ...hero, heroImageAltHi: v } })}
+            en={hero.heroImageAltEn}
+            hi={hero.heroImageAltHi}
+            onEn={(v) => updateContent({ ...content, hero: { ...hero, heroImageAltEn: v } })}
+            onHi={(v) => updateContent({ ...content, hero: { ...hero, heroImageAltHi: v } })}
             disabled={!canEdit}
           />
           <div className="space-y-3">
             <Label>Hero stats</Label>
             {hero.stats.map((stat, i) => (
               <div key={i} className="rounded-lg border p-3 grid gap-2 sm:grid-cols-2">
-                <BilingualField
+                <CmsBilingualField
+            variant="plain"
                   label="Value"
-                  enValue={stat.valueEn}
-                  hiValue={stat.valueHi}
+                  en={stat.valueEn}
+                  hi={stat.valueHi}
                   onEn={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       hero: {
                         ...hero,
@@ -197,7 +173,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       hero: {
                         ...hero,
@@ -207,12 +183,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   }
                   disabled={!canEdit}
                 />
-                <BilingualField
+                <CmsBilingualField
+            variant="plain"
                   label="Label"
-                  enValue={stat.labelEn}
-                  hiValue={stat.labelHi}
+                  en={stat.labelEn}
+                  hi={stat.labelHi}
                   onEn={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       hero: {
                         ...hero,
@@ -221,7 +198,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                     })
                   }
                   onHi={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       hero: {
                         ...hero,
@@ -238,37 +215,41 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
           <h2 className="text-base font-semibold">Who we are</h2>
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Eyebrow"
-            enValue={whoWeAre.eyebrowEn}
-            hiValue={whoWeAre.eyebrowHi}
-            onEn={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, eyebrowEn: v } })}
-            onHi={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, eyebrowHi: v } })}
+            en={whoWeAre.eyebrowEn}
+            hi={whoWeAre.eyebrowHi}
+            onEn={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, eyebrowEn: v } })}
+            onHi={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, eyebrowHi: v } })}
             disabled={!canEdit}
           />
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Headline"
-            enValue={whoWeAre.headlineEn}
-            hiValue={whoWeAre.headlineHi}
-            onEn={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, headlineEn: v } })}
-            onHi={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, headlineHi: v } })}
+            en={whoWeAre.headlineEn}
+            hi={whoWeAre.headlineHi}
+            onEn={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, headlineEn: v } })}
+            onHi={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, headlineHi: v } })}
             disabled={!canEdit}
           />
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Body"
-            enValue={whoWeAre.bodyEn}
-            hiValue={whoWeAre.bodyHi}
-            onEn={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, bodyEn: v } })}
-            onHi={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, bodyHi: v } })}
+            en={whoWeAre.bodyEn}
+            hi={whoWeAre.bodyHi}
+            onEn={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, bodyEn: v } })}
+            onHi={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, bodyHi: v } })}
             disabled={!canEdit}
             multiline
           />
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Pull quote"
-            enValue={whoWeAre.pullQuoteEn}
-            hiValue={whoWeAre.pullQuoteHi}
-            onEn={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, pullQuoteEn: v } })}
-            onHi={(v) => setContent({ ...content, whoWeAre: { ...whoWeAre, pullQuoteHi: v } })}
+            en={whoWeAre.pullQuoteEn}
+            hi={whoWeAre.pullQuoteHi}
+            onEn={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, pullQuoteEn: v } })}
+            onHi={(v) => updateContent({ ...content, whoWeAre: { ...whoWeAre, pullQuoteHi: v } })}
             disabled={!canEdit}
             multiline
           />
@@ -276,7 +257,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             <Label>Image URL</Label>
             <Input
               value={whoWeAre.imageUrl}
-              onChange={(e) => setContent({ ...content, whoWeAre: { ...whoWeAre, imageUrl: e.target.value } })}
+              onChange={(e) => updateContent({ ...content, whoWeAre: { ...whoWeAre, imageUrl: e.target.value } })}
               disabled={!canEdit}
             />
           </div>
@@ -291,7 +272,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 <Select
                   value={g.iconKey}
                   onValueChange={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       guarantees: content.guarantees.map((item, idx) =>
                         idx === i ? { ...item, iconKey: v as CmsIconKey } : item,
@@ -310,12 +291,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   </SelectContent>
                 </Select>
               </div>
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Title"
-                enValue={g.titleEn}
-                hiValue={g.titleHi}
+                en={g.titleEn}
+                hi={g.titleHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     guarantees: content.guarantees.map((item, idx) =>
                       idx === i ? { ...item, titleEn: v } : item,
@@ -323,7 +305,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     guarantees: content.guarantees.map((item, idx) =>
                       idx === i ? { ...item, titleHi: v } : item,
@@ -332,12 +314,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 }
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Description"
-                enValue={g.descEn}
-                hiValue={g.descHi}
+                en={g.descEn}
+                hi={g.descHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     guarantees: content.guarantees.map((item, idx) =>
                       idx === i ? { ...item, descEn: v } : item,
@@ -345,7 +328,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     guarantees: content.guarantees.map((item, idx) =>
                       idx === i ? { ...item, descHi: v } : item,
@@ -355,12 +338,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
                 multiline
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Badge"
-                enValue={g.badgeEn}
-                hiValue={g.badgeHi}
+                en={g.badgeEn}
+                hi={g.badgeHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     guarantees: content.guarantees.map((item, idx) =>
                       idx === i ? { ...item, badgeEn: v } : item,
@@ -368,7 +352,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     guarantees: content.guarantees.map((item, idx) =>
                       idx === i ? { ...item, badgeHi: v } : item,
@@ -391,7 +375,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   type="number"
                   value={m.numValue}
                   onChange={(e) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       impactMetrics: content.impactMetrics.map((item, idx) =>
                         idx === i ? { ...item, numValue: Number(e.target.value) } : item,
@@ -406,7 +390,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 <Select
                   value={m.iconKey}
                   onValueChange={(v) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       impactMetrics: content.impactMetrics.map((item, idx) =>
                         idx === i ? { ...item, iconKey: v as CmsIconKey } : item,
@@ -425,12 +409,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   </SelectContent>
                 </Select>
               </div>
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Suffix"
-                enValue={m.suffixEn}
-                hiValue={m.suffixHi}
+                en={m.suffixEn}
+                hi={m.suffixHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     impactMetrics: content.impactMetrics.map((item, idx) =>
                       idx === i ? { ...item, suffixEn: v } : item,
@@ -438,7 +423,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     impactMetrics: content.impactMetrics.map((item, idx) =>
                       idx === i ? { ...item, suffixHi: v } : item,
@@ -447,12 +432,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 }
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Label"
-                enValue={m.labelEn}
-                hiValue={m.labelHi}
+                en={m.labelEn}
+                hi={m.labelHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     impactMetrics: content.impactMetrics.map((item, idx) =>
                       idx === i ? { ...item, labelEn: v } : item,
@@ -460,7 +446,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     impactMetrics: content.impactMetrics.map((item, idx) =>
                       idx === i ? { ...item, labelHi: v } : item,
@@ -482,7 +468,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 <Input
                   value={m.year}
                   onChange={(e) =>
-                    setContent({
+                    updateContent({
                       ...content,
                       milestones: content.milestones.map((item, idx) =>
                         idx === i ? { ...item, year: e.target.value } : item,
@@ -492,12 +478,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   disabled={!canEdit}
                 />
               </div>
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Title"
-                enValue={m.titleEn}
-                hiValue={m.titleHi}
+                en={m.titleEn}
+                hi={m.titleHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     milestones: content.milestones.map((item, idx) =>
                       idx === i ? { ...item, titleEn: v } : item,
@@ -505,7 +492,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     milestones: content.milestones.map((item, idx) =>
                       idx === i ? { ...item, titleHi: v } : item,
@@ -514,12 +501,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 }
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Description"
-                enValue={m.descEn}
-                hiValue={m.descHi}
+                en={m.descEn}
+                hi={m.descHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     milestones: content.milestones.map((item, idx) =>
                       idx === i ? { ...item, descEn: v } : item,
@@ -527,7 +515,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     milestones: content.milestones.map((item, idx) =>
                       idx === i ? { ...item, descHi: v } : item,
@@ -543,7 +531,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   <Textarea
                     value={listToLines(m.highlightsEn)}
                     onChange={(e) =>
-                      setContent({
+                      updateContent({
                         ...content,
                         milestones: content.milestones.map((item, idx) =>
                           idx === i ? { ...item, highlightsEn: linesToList(e.target.value) } : item,
@@ -559,7 +547,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   <Textarea
                     value={listToLines(m.highlightsHi)}
                     onChange={(e) =>
-                      setContent({
+                      updateContent({
                         ...content,
                         milestones: content.milestones.map((item, idx) =>
                           idx === i ? { ...item, highlightsHi: linesToList(e.target.value) } : item,
@@ -579,12 +567,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
           <h2 className="text-base font-semibold">Footprint locations</h2>
           {content.locations.map((loc, i) => (
             <div key={i} className="rounded-lg border p-4 space-y-3">
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Tag"
-                enValue={loc.tagEn}
-                hiValue={loc.tagHi}
+                en={loc.tagEn}
+                hi={loc.tagHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, tagEn: v } : item,
@@ -592,7 +581,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, tagHi: v } : item,
@@ -601,12 +590,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 }
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Name"
-                enValue={loc.nameEn}
-                hiValue={loc.nameHi}
+                en={loc.nameEn}
+                hi={loc.nameHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, nameEn: v } : item,
@@ -614,7 +604,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, nameHi: v } : item,
@@ -623,12 +613,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 }
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Address"
-                enValue={loc.addressEn}
-                hiValue={loc.addressHi}
+                en={loc.addressEn}
+                hi={loc.addressHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, addressEn: v } : item,
@@ -636,7 +627,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, addressHi: v } : item,
@@ -646,12 +637,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 disabled={!canEdit}
                 multiline
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Subtitle"
-                enValue={loc.subEn}
-                hiValue={loc.subHi}
+                en={loc.subEn}
+                hi={loc.subHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, subEn: v } : item,
@@ -659,7 +651,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     locations: content.locations.map((item, idx) =>
                       idx === i ? { ...item, subHi: v } : item,
@@ -678,18 +670,19 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             <Label>Brochure PDF href</Label>
             <Input
               value={content.brochureHref}
-              onChange={(e) => setContent({ ...content, brochureHref: e.target.value })}
+              onChange={(e) => updateContent({ ...content, brochureHref: e.target.value })}
               disabled={!canEdit}
             />
           </div>
           {content.complianceHighlights.map((item, i) => (
             <div key={i} className="rounded-lg border p-3 space-y-2">
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Label"
-                enValue={item.labelEn}
-                hiValue={item.labelHi}
+                en={item.labelEn}
+                hi={item.labelHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     complianceHighlights: content.complianceHighlights.map((c, idx) =>
                       idx === i ? { ...c, labelEn: v } : c,
@@ -697,7 +690,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     complianceHighlights: content.complianceHighlights.map((c, idx) =>
                       idx === i ? { ...c, labelHi: v } : c,
@@ -706,12 +699,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                 }
                 disabled={!canEdit}
               />
-              <BilingualField
+              <CmsBilingualField
+            variant="plain"
                 label="Value"
-                enValue={item.valueEn}
-                hiValue={item.valueHi}
+                en={item.valueEn}
+                hi={item.valueHi}
                 onEn={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     complianceHighlights: content.complianceHighlights.map((c, idx) =>
                       idx === i ? { ...c, valueEn: v } : c,
@@ -719,7 +713,7 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
                   })
                 }
                 onHi={(v) =>
-                  setContent({
+                  updateContent({
                     ...content,
                     complianceHighlights: content.complianceHighlights.map((c, idx) =>
                       idx === i ? { ...c, valueHi: v } : c,
@@ -730,22 +724,20 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
               />
             </div>
           ))}
-          <BilingualField
+          <CmsBilingualField
+            variant="plain"
             label="Compliance footer"
-            enValue={content.complianceFooterEn}
-            hiValue={content.complianceFooterHi}
-            onEn={(v) => setContent({ ...content, complianceFooterEn: v })}
-            onHi={(v) => setContent({ ...content, complianceFooterHi: v })}
+            en={content.complianceFooterEn}
+            hi={content.complianceFooterHi}
+            onEn={(v) => updateContent({ ...content, complianceFooterEn: v })}
+            onHi={(v) => updateContent({ ...content, complianceFooterHi: v })}
             disabled={!canEdit}
             multiline
           />
         </section>
 
         {canEdit ? (
-          <Button type="submit" disabled={saving}>
-            <Save className="mr-2 h-4 w-4" />
-            {saving ? "Saving…" : "Save about page"}
-          </Button>
+          <CmsStickySaveBar saving={saving} label="Save about page" />
         ) : null}
       </form>
     </div>
