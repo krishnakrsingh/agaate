@@ -6,7 +6,6 @@ import {
   Search,
   ChevronsUpDown,
   Image,
-  TreePine,
   Video,
   BarChart2,
   UsersRound,
@@ -101,7 +100,6 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/logos", label: "Partner logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
-      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: TreePine },
     ],
   },
   {
@@ -181,12 +179,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Homepage sections", href: "/agaate-admin/content/homepage-chapters", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/content/agri-park-tour")) {
-      return [
-        { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Agri Park", href: "/agaate-admin/content/agri-park-tour", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/about")) {

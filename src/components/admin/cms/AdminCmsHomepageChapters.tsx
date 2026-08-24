@@ -14,7 +14,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
+import { AdminCmsAgriParkTour } from "@/components/admin/cms/AdminCmsAgriParkTour";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import type { HomepageChaptersContent } from "@/lib/cms-types";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
@@ -83,7 +85,13 @@ function StatEditor({
   );
 }
 
-export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
+export function AdminCmsHomepageChapters({
+  role,
+  defaultTab = "sections",
+}: {
+  role: AdminRole;
+  defaultTab?: "sections" | "agri-park";
+}) {
   const toast = useToast();
   const canEdit = canManageSettings(role);
   const [chapters, setChapters] = useState<HomepageChaptersContent>(HOMEPAGE_CHAPTERS_FALLBACK);
@@ -136,13 +144,24 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
     <div className="space-y-6">
       <CmsPageHeader
         title="Homepage sections"
-        description="Edit copy for the pillars parallax, market linkage block, mobile app chapter, and closing pathways on the homepage."
+        description="Edit pillars, market linkage, mobile app chapter, closing pathways, and Agri Park on the homepage scroll narrative."
         workflow="live"
       />
       {!dbConfigured && (
         <p className="text-xs text-amber-600">Database not configured — changes will not persist.</p>
       )}
 
+      <Tabs defaultValue={defaultTab} className="space-y-6">
+        <TabsList className="inline-flex h-9 items-center rounded-lg bg-muted/60 p-0.5 border border-border/80 shadow-2xs">
+          <TabsTrigger value="sections" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Sections & narrative
+          </TabsTrigger>
+          <TabsTrigger value="agri-park" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Agri Park
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="sections" className="space-y-8">
       <form onSubmit={handleSave} className="space-y-8">
         {pillars.map((pillar, pi) => (
           <div key={pillar.id} className="rounded-xl border bg-card shadow-sm">
@@ -807,6 +826,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
 
         <CmsStickySaveBar saving={saving} disabled={!canEdit} label="Save homepage sections" />
       </form>
+        </TabsContent>
+
+        <TabsContent value="agri-park">
+          <AdminCmsAgriParkTour role={role} embedded />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

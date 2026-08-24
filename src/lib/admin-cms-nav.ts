@@ -24,6 +24,8 @@ export type AdminCmsNavItem = {
   group: string;
   icon: LucideIcon;
   keywords?: string;
+  id?: string;
+  search?: { tab?: string };
 };
 
 export const ADMIN_COMMAND_PAGES: AdminCmsNavItem[] = [
@@ -34,15 +36,31 @@ export const ADMIN_COMMAND_PAGES: AdminCmsNavItem[] = [
   { to: "/agaate-admin/content/logos", label: "Brand logos", group: "Homepage", icon: Image, keywords: "partners buyers" },
   { to: "/agaate-admin/content/stories", label: "Farmer testimonials", group: "Homepage", icon: Video, keywords: "reviews reels video" },
   { to: "/agaate-admin/content/team", label: "Team members", group: "Homepage", icon: UsersRound },
-  { to: "/agaate-admin/content/homepage-chapters", label: "Homepage sections", group: "Homepage", icon: Layout, keywords: "pillars app closing" },
-  { to: "/agaate-admin/content/app-links", label: "App store links", group: "Homepage", icon: Smartphone },
-  { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", group: "Homepage", icon: TreePine, keywords: "video tour chapter" },
+  { to: "/agaate-admin/content/homepage-chapters", label: "Homepage sections", group: "Homepage", icon: Layout, keywords: "pillars app closing agri park" },
+  {
+    to: "/agaate-admin/content/homepage-chapters",
+    id: "homepage-agri-park",
+    label: "Agri Park",
+    group: "Homepage",
+    icon: TreePine,
+    keywords: "video tour chapter nursery",
+    search: { tab: "agri-park" },
+  },
   { to: "/agaate-admin/content/about", label: "About page", group: "Pages", icon: BookOpen },
   { to: "/agaate-admin/content/contact-page", label: "Contact page", group: "Pages", icon: MessageSquare, keywords: "faq form" },
   { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall", group: "Pages", icon: Store, keywords: "waitlist mall" },
   { to: "/agaate-admin/content/careers", label: "Careers", group: "Pages", icon: Briefcase, keywords: "jobs applications" },
   { to: "/agaate-admin/farm-visits", label: "Farm visits", group: "Inquiries", icon: MapPin },
-  { to: "/agaate-admin/settings", label: "Email & SMTP settings", group: "Configuration", icon: Settings },
+  {
+    to: "/agaate-admin/settings",
+    id: "settings-app-links",
+    label: "App store links",
+    group: "Configuration",
+    icon: Smartphone,
+    keywords: "google play apple download badges",
+    search: { tab: "app-links" },
+  },
+  { to: "/agaate-admin/settings", id: "settings-email", label: "Email & SMTP settings", group: "Configuration", icon: Settings },
 ];
 
 export const ADMIN_COMMAND_GROUPS = [

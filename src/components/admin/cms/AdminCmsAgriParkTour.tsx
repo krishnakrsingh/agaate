@@ -27,7 +27,13 @@ import {
 } from "@/lib/cms-types";
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 
-export function AdminCmsAgriParkTour({ role }: { role: AdminRole }) {
+export function AdminCmsAgriParkTour({
+  role,
+  embedded = false,
+}: {
+  role: AdminRole;
+  embedded?: boolean;
+}) {
   const toast = useToast();
   const canEdit = canManageSettings(role);
   const [tour, setTour] = useState<HomeCmsAgriParkTour>(DEFAULT_HOME_CMS_AGRI_PARK_TOUR);
@@ -106,12 +112,14 @@ export function AdminCmsAgriParkTour({ role }: { role: AdminRole }) {
   }
 
   return (
-    <div className="space-y-6">
-      <CmsPageHeader
-        title="Agri Park (homepage)"
-        description="Edit the homepage Agri Park chapter copy, map image, and video tour shown in the scroll narrative."
-        workflow="live"
-      />
+    <div className={embedded ? "space-y-4" : "space-y-6"}>
+      {!embedded ? (
+        <CmsPageHeader
+          title="Agri Park (homepage)"
+          description="Edit the homepage Agri Park chapter copy, map image, and video tour shown in the scroll narrative."
+          workflow="live"
+        />
+      ) : null}
       {!dbConfigured && (
         <p className="text-xs text-amber-600">
           Database is not configured — changes will not persist until Supabase is connected.
