@@ -207,6 +207,18 @@ export const saveCmsAgriParkChapterAdmin = createServerFn({ method: "POST" })
     return mod.handleSaveAgriParkChapter(data);
   });
 
+export const getCmsHomepageChaptersAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-cms.server");
+  return mod.handleGetHomepageChapters();
+});
+
+export const saveCmsHomepageChaptersAdmin = createServerFn({ method: "POST" })
+  .validator((data: import("@/lib/cms-types").HomepageChaptersContent) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-cms.server");
+    return mod.handleSaveHomepageChapters(data);
+  });
+
 export const getCmsKisaanMallAdmin = createServerFn({ method: "GET" }).handler(async () => {
   const mod = await import("./admin-cms.server");
   return mod.handleGetKisaanMallLanding();
