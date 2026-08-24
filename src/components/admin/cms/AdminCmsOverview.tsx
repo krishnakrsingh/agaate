@@ -20,7 +20,11 @@ function StatCard({
         <div>
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           <p className="mt-2 text-3xl font-bold tabular-nums">{counts.published}</p>
-          <p className="mt-1 text-xs text-muted-foreground">{counts.published} live on site</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {counts.draft > 0
+              ? `${counts.draft} draft${counts.draft === 1 ? "" : "s"} waiting to publish`
+              : "All items published"}
+          </p>
         </div>
         <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
           <Icon className="h-5 w-5" />
@@ -42,22 +46,26 @@ export function AdminCmsOverview({
   newsletterWaitlist = 0,
   careersJobs = 0,
   careerApplications = 0,
+  showHeading = true,
 }: {
   overview: CmsOverview;
   dbConfigured: boolean;
   newsletterWaitlist?: number;
   careersJobs?: number;
   careerApplications?: number;
+  showHeading?: boolean;
 }) {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Website content</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage site statistics, partner logos, farmer testimonials, and team members. Changes go live
-          after publish — no rebuild required.
-        </p>
-      </div>
+      {showHeading ? (
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Website content</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Manage site statistics, partner logos, farmer testimonials, and team members. Changes go live
+            after publish — no rebuild required.
+          </p>
+        </div>
+      ) : null}
 
       {!dbConfigured && (
         <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
@@ -236,11 +244,17 @@ export function AdminCmsOverview({
       </div>
 
       <div className="rounded-xl border bg-muted/30 p-4 text-sm text-muted-foreground">
-        <p className="font-medium text-foreground">How it works</p>
-        <ol className="mt-2 list-decimal space-y-1 pl-5">
-          <li>Open any item to edit — the preview updates as you type.</li>
-          <li>Click <strong>Publish</strong> to push changes to the live website immediately.</li>
-        </ol>
+        <p className="font-medium text-foreground">Two save workflows</p>
+        <ul className="mt-2 space-y-2">
+          <li>
+            <strong>List content</strong> (statistics, logos, testimonials, team, job posts): edit in the side panel,
+            then click <strong>Publish</strong>. Use Unpublish or Archive from the row menu when needed.
+          </li>
+          <li>
+            <strong>Page content</strong> (About, Contact, homepage sections, site contact, and similar): click{" "}
+            <strong>Save</strong> and changes go live immediately.
+          </li>
+        </ul>
       </div>
     </div>
   );

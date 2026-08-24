@@ -9,9 +9,12 @@ import {
   unpublishCmsItemAdmin,
 } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
+import { useToast } from "@/components/admin/AdminToast";
 import type { CmsBrandGroup, CmsLogoRow, CmsStatus } from "@/lib/cms-types";
 import { CMS_BRAND_GROUP_LABELS } from "@/lib/cms-types";
-import { useToast } from "@/components/admin/AdminToast";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { CmsStatusBadge } from "@/components/admin/cms/CmsStatusBadge";
 import { CmsLogoPreview } from "@/components/admin/cms/CmsInlinePreview";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
@@ -55,6 +58,7 @@ const emptyForm = { name: "", group: "partners" as CmsBrandGroup, imageUrl: "" }
 
 export function AdminCmsLogos({ role }: { role: AdminRole }) {
   const toast = useToast();
+  const { requestConfirm, confirmDialog } = useCmsListConfirm();
   const canEdit = canManageSettings(role);
   const [items, setItems] = useState<CmsLogoRow[]>([]);
   const [q, setQ] = useState("");
@@ -122,27 +126,26 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
   const filtered = useMemo(() => items, [items]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Brand logos</h1>
-          <p className="text-sm text-muted-foreground">
-            Logos for the homepage Brands &amp; Associations section — Partners, Customers, Market access, and Institutional Tieups tabs.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
-            <RefreshCw className="mr-1.5 h-4 w-4" />
-            Refresh
-          </Button>
-          {canEdit && (
-            <Button size="sm" onClick={openCreate}>
-              <Plus className="mr-1.5 h-4 w-4" />
-              Add logo
+    <div className="space-y-6">
+      <CmsPageHeader
+        title="Brand logos"
+        description="Partner, customer, buyer, and institutional logos for the homepage Brands & Associations section."
+        workflow="publish"
+        actions={
+          <>
+            <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+              <RefreshCw className="mr-1.5 h-4 w-4" />
+              Refresh
             </Button>
-          )}
-        </div>
-      </div>
+            {canEdit && (
+              <Button size="sm" onClick={openCreate}>
+                <Plus className="mr-1.5 h-4 w-4" />
+                Add logo
+              </Button>
+            )}
+          </>
+        }
+      />
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
@@ -186,7 +189,17 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((row) => (
+              {loading ? <CmsTableLoadingRow colSpan={6} /> : null}
+              {!loading && filtered.length === 0 ? (
+                <CmsTableEmptyRow
+                  colSpan={6}
+                  title="No logos yet"
+                  description="Upload your first partner or buyer logo, then publish it."
+                  action={canEdit ? <CmsTableEmptyAction label="Add logo" onClick={openCreate} /> : undefined}
+                />
+              ) : null}
+              {!loading
+                ? filtered.map((row) => (
                 <CmsSortableRow key={row.id} id={row.id}>
                   <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
                   <TableCell>
@@ -210,13 +223,20 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
                           <>
                             {row.status === "published" && (
                               <DropdownMenuItem
-                                onClick={async () => {
-                                  const res = await unpublishCmsItemAdmin({ data: { type: "logos", id: row.id } });
-                                  if (isAdminOk(res)) {
-                                    toast.success("Removed from live site.");
-                                    await load();
-                                  }
-                                }}
+                                onClick={() =>
+                                  requestConfirm({
+                                    title: "Unpublish logo?",
+                                    description: `"${row.name}" will be removed from the live website.`,
+                                    confirmLabel: "Unpublish",
+                                    action: async () => {
+                                      const res = await unpublishCmsItemAdmin({ data: { type: "logos", id: row.id } });
+                                      if (isAdminOk(res)) {
+                                        toast.success("Removed from live site.");
+                                        await load();
+                                      } else toast.error(adminError(res));
+                                    },
+                                  })
+                                }
                               >
                                 Unpublish
                               </DropdownMenuItem>
@@ -224,13 +244,21 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-rose-600"
-                              onClick={async () => {
-                                const res = await archiveCmsItemAdmin({ data: { type: "logos", id: row.id } });
-                                if (isAdminOk(res)) {
-                                  toast.success("Archived.");
-                                  await load();
-                                }
-                              }}
+                              onClick={() =>
+                                requestConfirm({
+                                  title: "Archive logo?",
+                                  description: `"${row.name}" will be archived and hidden from this list.`,
+                                  confirmLabel: "Archive",
+                                  destructive: true,
+                                  action: async () => {
+                                    const res = await archiveCmsItemAdmin({ data: { type: "logos", id: row.id } });
+                                    if (isAdminOk(res)) {
+                                      toast.success("Archived.");
+                                      await load();
+                                    } else toast.error(adminError(res));
+                                  },
+                                })
+                              }
                             >
                               Archive
                             </DropdownMenuItem>
@@ -240,7 +268,8 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
                     </DropdownMenu>
                   </TableCell>
                 </CmsSortableRow>
-              ))}
+              ))
+                : null}
             </TableBody>
           </Table>
         </CmsSortableProvider>
@@ -292,6 +321,7 @@ export function AdminCmsLogos({ role }: { role: AdminRole }) {
           )}
         </SheetContent>
       </Sheet>
+      {confirmDialog}
     </div>
   );
 }

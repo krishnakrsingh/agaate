@@ -3,6 +3,7 @@ import { Save, Smartphone } from "lucide-react";
 import { getCmsAppLinksAdmin, saveCmsAppLinksAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -49,13 +50,11 @@ export function AdminCmsAppLinks({ role }: { role: AdminRole }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">App store links</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Set the Google Play and Apple App Store URLs used by the download badges in the mobile app section on the
-          homepage.
-        </p>
-      </div>
+      <CmsPageHeader
+        title="App store links"
+        description="Google Play and Apple App Store URLs used by the download badges in the mobile app section on the homepage."
+        workflow="live"
+      />
 
       {!dbConfigured && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">

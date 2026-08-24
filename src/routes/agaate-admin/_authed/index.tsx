@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Mail, MapPin, Settings } from "lucide-react";
 import { AdminCmsOverview } from "@/components/admin/cms/AdminCmsOverview";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { getCmsOverview } from "@/functions/admin-cms";
 import { getAdminSettings, listAdminFarmVisits } from "@/functions/admin-contacts";
 import { adminError, isAdminOk } from "@/lib/admin-api";
@@ -39,6 +40,12 @@ function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <CmsPageHeader
+        title="Dashboard"
+        description="Operational overview for contact delivery, farm visit inquiries, and quick access to website content."
+        workflow="live"
+      />
+
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl border bg-card p-5 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
