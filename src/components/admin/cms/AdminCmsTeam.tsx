@@ -20,6 +20,7 @@ import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist"
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
+import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -102,6 +103,19 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
   const [editing, setEditing] = useState<CmsTeamMemberRow | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [publishing, setPublishing] = useState(false);
+  const [formDirty, setFormDirty] = useState(false);
+  const { handleSheetOpenChange } = useCmsDirtyGuard(formDirty && sheetOpen);
+
+  const updateForm = (
+    patch: Partial<typeof emptyForm> | ((prev: typeof emptyForm) => typeof emptyForm),
+  ) => {
+    if (typeof patch === "function") {
+      setForm((prev) => patch(prev));
+    } else {
+      setForm((prev) => ({ ...prev, ...patch }));
+    }
+    setFormDirty(true);
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -118,6 +132,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
   const openCreate = () => {
     setEditing(null);
     setForm(emptyForm);
+    setFormDirty(false);
     setSheetOpen(true);
   };
 
@@ -147,6 +162,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
       bannerBadgeEn: row.bannerBadgeEn,
       bannerBadgeHi: row.bannerBadgeHi,
     });
+    setFormDirty(false);
     setSheetOpen(true);
   };
 
@@ -191,6 +207,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
     const publishRes = await publishCmsItemAdmin({ data: { type: "team", id: saveRes.item.id } });
     if (isAdminOk(publishRes)) {
       toast.success("Published to live site.");
+      setFormDirty(false);
       setSheetOpen(false);
       await load();
     } else toast.error(adminError(publishRes));
@@ -351,7 +368,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
         </CmsSortableProvider>
       </div>
 
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+      <Sheet open={sheetOpen} onOpenChange={(open) => handleSheetOpenChange(open, setSheetOpen)}>
         <SheetContent className="overflow-y-auto sm:max-w-xl">
           <SheetHeader>
             <SheetTitle>{editing ? "Edit team member" : "New team member"}</SheetTitle>
@@ -382,7 +399,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
                 keyAchHiText,
                 bannerBadgeHi,
               ]) => {
-                setForm((f) => ({
+                updateForm((f) => ({
                   ...f,
                   nameHi: nameHi ?? f.nameHi,
                   roleHi: roleHi ?? f.roleHi,
@@ -400,80 +417,80 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Name (EN)</Label>
-                <Input value={form.nameEn} onChange={(e) => setForm({ ...form, nameEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.nameEn} onChange={(e) => updateForm({ nameEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Name (HI)</Label>
-                <Input value={form.nameHi} onChange={(e) => setForm({ ...form, nameHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.nameHi} onChange={(e) => updateForm({ nameHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Role (EN)</Label>
-                <Input value={form.roleEn} onChange={(e) => setForm({ ...form, roleEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.roleEn} onChange={(e) => updateForm({ roleEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Role (HI)</Label>
-                <Input value={form.roleHi} onChange={(e) => setForm({ ...form, roleHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.roleHi} onChange={(e) => updateForm({ roleHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Focus (EN)</Label>
-                <Input value={form.focusEn} onChange={(e) => setForm({ ...form, focusEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.focusEn} onChange={(e) => updateForm({ focusEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Focus (HI)</Label>
-                <Input value={form.focusHi} onChange={(e) => setForm({ ...form, focusHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.focusHi} onChange={(e) => updateForm({ focusHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Tag (EN)</Label>
-                <Input value={form.tagEn} onChange={(e) => setForm({ ...form, tagEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.tagEn} onChange={(e) => updateForm({ tagEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Tag (HI)</Label>
-                <Input value={form.tagHi} onChange={(e) => setForm({ ...form, tagHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.tagHi} onChange={(e) => updateForm({ tagHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Bio (EN)</Label>
-              <Textarea value={form.bioEn} onChange={(e) => setForm({ ...form, bioEn: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea value={form.bioEn} onChange={(e) => updateForm({ bioEn: e.target.value })} disabled={!canEdit} rows={3} />
             </div>
             <div className="space-y-2">
               <Label>Bio (HI)</Label>
-              <Textarea value={form.bioHi} onChange={(e) => setForm({ ...form, bioHi: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea value={form.bioHi} onChange={(e) => updateForm({ bioHi: e.target.value })} disabled={!canEdit} rows={3} />
             </div>
             <div className="space-y-2">
               <Label>Quote (EN)</Label>
-              <Textarea value={form.quoteEn} onChange={(e) => setForm({ ...form, quoteEn: e.target.value })} disabled={!canEdit} rows={2} />
+              <Textarea value={form.quoteEn} onChange={(e) => updateForm({ quoteEn: e.target.value })} disabled={!canEdit} rows={2} />
             </div>
             <div className="space-y-2">
               <Label>Quote (HI)</Label>
-              <Textarea value={form.quoteHi} onChange={(e) => setForm({ ...form, quoteHi: e.target.value })} disabled={!canEdit} rows={2} />
+              <Textarea value={form.quoteHi} onChange={(e) => updateForm({ quoteHi: e.target.value })} disabled={!canEdit} rows={2} />
             </div>
             <div className="space-y-2">
               <Label>Key achievements (EN) — one per line</Label>
-              <Textarea value={form.keyAchEnText} onChange={(e) => setForm({ ...form, keyAchEnText: e.target.value })} disabled={!canEdit} rows={4} />
+              <Textarea value={form.keyAchEnText} onChange={(e) => updateForm({ keyAchEnText: e.target.value })} disabled={!canEdit} rows={4} />
             </div>
             <div className="space-y-2">
               <Label>Key achievements (HI) — one per line</Label>
-              <Textarea value={form.keyAchHiText} onChange={(e) => setForm({ ...form, keyAchHiText: e.target.value })} disabled={!canEdit} rows={4} />
+              <Textarea value={form.keyAchHiText} onChange={(e) => updateForm({ keyAchHiText: e.target.value })} disabled={!canEdit} rows={4} />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Publication (EN)</Label>
-                <Input value={form.pubEn} onChange={(e) => setForm({ ...form, pubEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.pubEn} onChange={(e) => updateForm({ pubEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Publication (HI)</Label>
-                <Input value={form.pubHi} onChange={(e) => setForm({ ...form, pubHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.pubHi} onChange={(e) => updateForm({ pubHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Icon</Label>
-              <Select value={form.iconKey} onValueChange={(v) => setForm({ ...form, iconKey: v as CmsIconKey })} disabled={!canEdit}>
+              <Select value={form.iconKey} onValueChange={(v) => updateForm({ iconKey: v as CmsIconKey })} disabled={!canEdit}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {CMS_ICON_OPTIONS.map((o) => (
@@ -486,7 +503,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
               <Checkbox
                 id="showInBanner"
                 checked={form.showInBanner}
-                onCheckedChange={(v) => setForm({ ...form, showInBanner: Boolean(v) })}
+                onCheckedChange={(v) => updateForm({ showInBanner: Boolean(v) })}
                 disabled={!canEdit}
               />
               <Label htmlFor="showInBanner" className="cursor-pointer">
@@ -497,11 +514,11 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Banner badge (EN)</Label>
-                  <Input value={form.bannerBadgeEn} onChange={(e) => setForm({ ...form, bannerBadgeEn: e.target.value })} disabled={!canEdit} placeholder="Founder" />
+                  <Input value={form.bannerBadgeEn} onChange={(e) => updateForm({ bannerBadgeEn: e.target.value })} disabled={!canEdit} placeholder="Founder" />
                 </div>
                 <div className="space-y-2">
                   <Label>Banner badge (HI)</Label>
-                  <Input value={form.bannerBadgeHi} onChange={(e) => setForm({ ...form, bannerBadgeHi: e.target.value })} disabled={!canEdit} placeholder="संस्थापक" />
+                  <Input value={form.bannerBadgeHi} onChange={(e) => updateForm({ bannerBadgeHi: e.target.value })} disabled={!canEdit} placeholder="संस्थापक" />
                 </div>
               </div>
             )}
@@ -510,7 +527,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
               kind="image"
               accept="image/jpeg,image/png,image/webp"
               value={form.imageUrl}
-              onChange={(url) => setForm({ ...form, imageUrl: url })}
+              onChange={(url) => updateForm({ imageUrl: url })}
               disabled={!canEdit}
             />
           </div>

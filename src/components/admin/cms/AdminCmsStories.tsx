@@ -55,6 +55,7 @@ import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist"
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
+import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { autoThumbnailForVideoUrl, isValidVideoSource } from "@/lib/video-source";
 
 const emptyForm = {
@@ -89,6 +90,19 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
   const [editing, setEditing] = useState<CmsStoryRow | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [publishing, setPublishing] = useState(false);
+  const [formDirty, setFormDirty] = useState(false);
+  const { handleSheetOpenChange } = useCmsDirtyGuard(formDirty && sheetOpen);
+
+  const updateForm = (
+    patch: Partial<typeof emptyForm> | ((prev: typeof emptyForm) => typeof emptyForm),
+  ) => {
+    if (typeof patch === "function") {
+      setForm((prev) => patch(prev));
+    } else {
+      setForm((prev) => ({ ...prev, ...patch }));
+    }
+    setFormDirty(true);
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -105,6 +119,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
   const openCreate = () => {
     setEditing(null);
     setForm(emptyForm);
+    setFormDirty(false);
     setSheetOpen(true);
   };
 
@@ -129,6 +144,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
       thumbnailUrl: row.thumbnailUrl,
       videoUrl: row.videoUrl,
     });
+    setFormDirty(false);
     setSheetOpen(true);
   };
 
@@ -157,6 +173,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
     const publishRes = await publishCmsItemAdmin({ data: { type: "stories", id: saveRes.item.id } });
     if (isAdminOk(publishRes)) {
       toast.success("Published to live site.");
+      setFormDirty(false);
       setSheetOpen(false);
       await load();
     } else toast.error(adminError(publishRes));
@@ -317,7 +334,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
         </CmsSortableProvider>
       </div>
 
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+      <Sheet open={sheetOpen} onOpenChange={(open) => handleSheetOpenChange(open, setSheetOpen)}>
         <SheetContent className="overflow-y-auto sm:max-w-xl">
           <SheetHeader>
             <SheetTitle>{editing ? "Edit testimonial" : "New testimonial"}</SheetTitle>
@@ -346,7 +363,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
                 form.badgeEn,
               ]}
               onTranslated={([nameHi, roleHi, locationHi, acresHi, cropHi, quoteHi, badgeHi]) => {
-                setForm((f) => ({
+                updateForm((f) => ({
                   ...f,
                   nameHi: nameHi ?? f.nameHi,
                   roleHi: roleHi ?? f.roleHi,
@@ -362,69 +379,69 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Name (EN)</Label>
-                <Input value={form.nameEn} onChange={(e) => setForm({ ...form, nameEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.nameEn} onChange={(e) => updateForm({ nameEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Name (HI)</Label>
-                <Input value={form.nameHi} onChange={(e) => setForm({ ...form, nameHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.nameHi} onChange={(e) => updateForm({ nameHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Role (EN)</Label>
-                <Input value={form.roleEn} onChange={(e) => setForm({ ...form, roleEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.roleEn} onChange={(e) => updateForm({ roleEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Role (HI)</Label>
-                <Input value={form.roleHi} onChange={(e) => setForm({ ...form, roleHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.roleHi} onChange={(e) => updateForm({ roleHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Location (EN)</Label>
-                <Input value={form.locationEn} onChange={(e) => setForm({ ...form, locationEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.locationEn} onChange={(e) => updateForm({ locationEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Location (HI)</Label>
-                <Input value={form.locationHi} onChange={(e) => setForm({ ...form, locationHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.locationHi} onChange={(e) => updateForm({ locationHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Acres (EN)</Label>
-                <Input value={form.acresEn} onChange={(e) => setForm({ ...form, acresEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.acresEn} onChange={(e) => updateForm({ acresEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Acres (HI)</Label>
-                <Input value={form.acresHi} onChange={(e) => setForm({ ...form, acresHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.acresHi} onChange={(e) => updateForm({ acresHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Crop (EN)</Label>
-                <Input value={form.cropEn} onChange={(e) => setForm({ ...form, cropEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.cropEn} onChange={(e) => updateForm({ cropEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Crop (HI)</Label>
-                <Input value={form.cropHi} onChange={(e) => setForm({ ...form, cropHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.cropHi} onChange={(e) => updateForm({ cropHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Quote (EN)</Label>
-              <Textarea value={form.quoteEn} onChange={(e) => setForm({ ...form, quoteEn: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea value={form.quoteEn} onChange={(e) => updateForm({ quoteEn: e.target.value })} disabled={!canEdit} rows={3} />
             </div>
             <div className="space-y-2">
               <Label>Quote (HI)</Label>
-              <Textarea value={form.quoteHi} onChange={(e) => setForm({ ...form, quoteHi: e.target.value })} disabled={!canEdit} rows={3} />
+              <Textarea value={form.quoteHi} onChange={(e) => updateForm({ quoteHi: e.target.value })} disabled={!canEdit} rows={3} />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Badge (EN)</Label>
-                <Input value={form.badgeEn} onChange={(e) => setForm({ ...form, badgeEn: e.target.value })} disabled={!canEdit} />
+                <Input value={form.badgeEn} onChange={(e) => updateForm({ badgeEn: e.target.value })} disabled={!canEdit} />
               </div>
               <div className="space-y-2">
                 <Label>Badge (HI)</Label>
-                <Input value={form.badgeHi} onChange={(e) => setForm({ ...form, badgeHi: e.target.value })} disabled={!canEdit} />
+                <Input value={form.badgeHi} onChange={(e) => updateForm({ badgeHi: e.target.value })} disabled={!canEdit} />
               </div>
             </div>
             <CmsUploadField
@@ -432,18 +449,18 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
               kind="image"
               accept="image/jpeg,image/png,image/webp"
               value={form.thumbnailUrl}
-              onChange={(url) => setForm({ ...form, thumbnailUrl: url })}
+              onChange={(url) => updateForm({ thumbnailUrl: url })}
               disabled={!canEdit}
             />
             <div className="space-y-2">
               <Label>Video URL</Label>
               <Input
                 value={form.videoUrl}
-                onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+                onChange={(e) => updateForm({ videoUrl: e.target.value })}
                 onBlur={() => {
                   if (!form.thumbnailUrl && form.videoUrl) {
                     const auto = autoThumbnailForVideoUrl(form.videoUrl);
-                    if (auto) setForm((f) => ({ ...f, thumbnailUrl: auto }));
+                    if (auto) updateForm((f) => ({ ...f, thumbnailUrl: auto }));
                   }
                 }}
                 placeholder="https://youtube.com/shorts/... or https://instagram.com/reel/..."
@@ -459,7 +476,7 @@ export function AdminCmsStories({ role }: { role: AdminRole }) {
               kind="video"
               accept="video/mp4,video/webm"
               value={form.videoUrl}
-              onChange={(url) => setForm({ ...form, videoUrl: url })}
+              onChange={(url) => updateForm({ videoUrl: url })}
               disabled={!canEdit}
             />
           </div>

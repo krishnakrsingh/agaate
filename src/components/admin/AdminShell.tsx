@@ -19,6 +19,7 @@ import {
   MessageSquare,
   BookOpen,
   Layout,
+  ExternalLink,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -41,6 +42,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarRail,
+  SidebarSeparator,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
@@ -79,48 +81,49 @@ const NAV_GROUPS: Array<{
 }> = [
   {
     group: "Overview",
-    items: [{ to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true }],
-  },
-  {
-    group: "Website",
-    items: [{ to: "/agaate-admin/content", label: "Content library", icon: Globe, exact: true }],
-  },
-  {
-    group: "Global",
     items: [
-      { to: "/agaate-admin/content/site-contact", label: "Site contact & social", icon: MessageCircle },
+      { to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+      { to: "/agaate-admin/content", label: "Content library", icon: Globe, exact: true },
+    ],
+  },
+  {
+    group: "Site pages",
+    items: [
+      { to: "/agaate-admin/content/site-contact", label: "Contact & social", icon: MessageCircle },
+      { to: "/agaate-admin/content/about", label: "About page", icon: BookOpen },
+      { to: "/agaate-admin/content/contact-page", label: "Contact page", icon: MessageSquare },
+      { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall", icon: Store },
+      { to: "/agaate-admin/content/careers", label: "Careers", icon: Briefcase },
     ],
   },
   {
     group: "Homepage",
     items: [
-      { to: "/agaate-admin/content/stats", label: "Site statistics", icon: BarChart2 },
-      { to: "/agaate-admin/content/logos", label: "Brand logos", icon: Image },
-      { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
+      { to: "/agaate-admin/content/homepage-chapters", label: "Sections & narrative", icon: Layout },
+      { to: "/agaate-admin/content/stats", label: "Statistics", icon: BarChart2 },
+      { to: "/agaate-admin/content/logos", label: "Partner logos", icon: Image },
+      { to: "/agaate-admin/content/stories", label: "Testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
-      { to: "/agaate-admin/content/homepage-chapters", label: "Homepage sections", icon: Layout },
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
       { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: TreePine },
     ],
   },
   {
-    group: "Pages",
-    items: [
-      { to: "/agaate-admin/content/about", label: "About page", icon: BookOpen },
-      { to: "/agaate-admin/content/contact-page", label: "Contact page", icon: MessageSquare },
-      { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall waitlist", icon: Store },
-      { to: "/agaate-admin/content/careers", label: "Careers", icon: Briefcase },
-    ],
-  },
-  {
-    group: "Inquiries",
-    items: [{ to: "/agaate-admin/farm-visits", label: "Farm Visits", icon: MapPin }],
-  },
-  {
-    group: "Configuration",
-    items: [{ to: "/agaate-admin/settings", label: "Settings", icon: Settings, adminOnly: true }],
+    group: "Operations",
+    items: [{ to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin }],
   },
 ];
+
+const SETTINGS_NAV: NavItem = {
+  to: "/agaate-admin/settings",
+  label: "Settings",
+  icon: Settings,
+  adminOnly: true,
+};
+
+function isNavActive(pathname: string, item: NavItem) {
+  return item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(`${item.to}/`);
+}
 
 export function AdminShell({ user }: { user: SessionUser }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -144,7 +147,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
     }
     if (pathname.startsWith("/agaate-admin/settings")) {
       return [
-        { label: "Configuration", href: "/agaate-admin/settings", current: false },
+        { label: "System", href: "/agaate-admin/settings", current: false },
         { label: "Settings", href: "/agaate-admin/settings", current: true },
       ];
     }
@@ -239,18 +242,50 @@ export function AdminShell({ user }: { user: SessionUser }) {
     <ToastProvider>
       <AdminCommandPalette isOpen={commandOpen} onClose={() => setCommandOpen(false)} />
       <SidebarProvider defaultOpen>
-        <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar">
-          <SidebarHeader className="h-14 flex flex-row items-center justify-between border-b border-sidebar-border px-4 py-0 shrink-0">
-            <Link to="/agaate-admin" className="flex items-center">
-              <img
-                src="/logo.png"
-                alt="Agaate"
-                className="h-8 md:h-9 w-auto max-w-[165px] object-contain object-left block"
-              />
+        <Sidebar
+          collapsible="icon"
+          className="border-r border-sidebar-border/70 bg-sidebar text-sidebar-foreground"
+        >
+          <SidebarHeader className="border-b border-sidebar-border/60 px-2 py-3">
+            <Link
+              to="/agaate-admin"
+              className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-sidebar-accent/60 group-data-[collapsible=icon]:justify-center"
+            >
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary/10 ring-1 ring-sidebar-border/80">
+                <img src="/logo11.png" alt="" className="h-6 w-6 object-contain" />
+              </div>
+              <div className="min-w-0 group-data-[collapsible=icon]:hidden">
+                <p className="truncate text-sm font-semibold tracking-tight text-sidebar-foreground">Agaate</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-sidebar-foreground/50">
+                  Admin Console
+                </p>
+              </div>
             </Link>
           </SidebarHeader>
 
-          <SidebarContent className="px-2 py-2">
+          <SidebarContent className="gap-0 px-2 py-3">
+            <SidebarGroup className="py-0">
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      tooltip="Search (⌘K)"
+                      onClick={() => setCommandOpen(true)}
+                      className="h-9 rounded-lg border border-sidebar-border/60 bg-sidebar-accent/30 text-sidebar-foreground/80 shadow-xs hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    >
+                      <Search className="size-4 opacity-70" />
+                      <span className="font-medium">Search</span>
+                      <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-0.5 rounded border border-sidebar-border/80 bg-background/60 px-1.5 font-mono text-[10px] font-medium text-sidebar-foreground/50 group-data-[collapsible=icon]:hidden">
+                        ⌘K
+                      </kbd>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+            <SidebarSeparator className="my-2 bg-sidebar-border/60" />
+
             {NAV_GROUPS.map((group) => {
               const visibleItems = group.items.filter(
                 (item) => !item.adminOnly || canManageSettings(user.role as AdminRole),
@@ -259,16 +294,14 @@ export function AdminShell({ user }: { user: SessionUser }) {
 
               return (
                 <SidebarGroup key={group.group} className="py-1">
-                  <SidebarGroupLabel className="text-[11px] font-medium text-muted-foreground px-2">
+                  <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
                     {group.group}
                   </SidebarGroupLabel>
                   <SidebarGroupContent>
-                    <SidebarMenu>
+                    <SidebarMenu className="gap-0.5">
                       {visibleItems.map((item) => {
                         const Icon = item.icon;
-                        const active = item.exact
-                          ? pathname === item.to
-                          : pathname === item.to || pathname.startsWith(`${item.to}/`);
+                        const active = isNavActive(pathname, item);
 
                         return (
                           <SidebarMenuItem key={item.to}>
@@ -277,12 +310,14 @@ export function AdminShell({ user }: { user: SessionUser }) {
                               isActive={active}
                               tooltip={item.label}
                               className={cn(
-                                "text-xs font-normal",
-                                active && "bg-sidebar-accent font-medium text-sidebar-accent-foreground",
+                                "h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 transition-all",
+                                "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                                active &&
+                                  "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground",
                               )}
                             >
                               <Link to={item.to}>
-                                <Icon className="size-4" />
+                                <Icon className={cn("size-4", active ? "opacity-100" : "opacity-70")} />
                                 <span>{item.label}</span>
                               </Link>
                             </SidebarMenuButton>
@@ -294,29 +329,74 @@ export function AdminShell({ user }: { user: SessionUser }) {
                 </SidebarGroup>
               );
             })}
+
+            {canManageSettings(user.role as AdminRole) ? (
+              <>
+                <SidebarSeparator className="my-2 bg-sidebar-border/60" />
+                <SidebarGroup className="py-1">
+                  <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
+                    System
+                  </SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={isNavActive(pathname, SETTINGS_NAV)}
+                          tooltip={SETTINGS_NAV.label}
+                          className={cn(
+                            "h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 transition-all",
+                            "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                            isNavActive(pathname, SETTINGS_NAV) &&
+                              "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground",
+                          )}
+                        >
+                          <Link to={SETTINGS_NAV.to}>
+                            <Settings className="size-4 opacity-70" />
+                            <span>{SETTINGS_NAV.label}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </>
+            ) : null}
           </SidebarContent>
 
-          <SidebarFooter className="border-t border-sidebar-border p-2">
-            <SidebarMenu>
+          <SidebarFooter className="border-t border-sidebar-border/60 p-2">
+            <SidebarMenu className="gap-1">
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  tooltip="View public website"
+                  className="h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                >
+                  <a href="/" target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="size-4 opacity-70" />
+                    <span>View website</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuButton
                       size="lg"
-                      className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                      className="h-12 rounded-lg data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-sidebar-accent/60"
                     >
-                      <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarFallback className="rounded-lg text-xs font-semibold">
+                      <Avatar className="h-8 w-8 rounded-lg ring-1 ring-sidebar-border/60">
+                        <AvatarFallback className="rounded-lg bg-sidebar-primary/15 text-xs font-semibold text-sidebar-primary">
                           {user.name.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-xs leading-tight">
-                        <span className="truncate font-semibold">{user.name}</span>
-                        <span className="truncate text-[10px] text-muted-foreground capitalize">
+                        <span className="truncate font-semibold text-sidebar-foreground">{user.name}</span>
+                        <span className="truncate text-[10px] font-medium uppercase tracking-wide text-sidebar-foreground/50">
                           {user.role.replace("_", " ")}
                         </span>
                       </div>
-                      <ChevronsUpDown className="ml-auto size-4 text-muted-foreground" />
+                      <ChevronsUpDown className="ml-auto size-4 text-sidebar-foreground/40" />
                     </SidebarMenuButton>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
