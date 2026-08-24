@@ -3,10 +3,6 @@ import { type ReactNode, type ComponentType } from "react";
 import {
   Envelope,
   Phone,
-  FacebookLogo,
-  InstagramLogo,
-  LinkedinLogo,
-  YoutubeLogo,
 } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { getLocalizedPath, stripLocalePrefix } from "@/lib/i18n";
@@ -116,31 +112,27 @@ export function Footer() {
               </p>
             </div>
 
-            {/* Social Channels - Pure White Icons */}
-            <div className="mt-8 flex gap-5">
-              {socialLinks.map((item) => {
-                let IconComponent = FacebookLogo;
-                if (item.ariaLabel.toLowerCase().includes("youtube")) {
-                  IconComponent = YoutubeLogo;
-                } else if (item.ariaLabel.toLowerCase().includes("instagram")) {
-                  IconComponent = InstagramLogo;
-                } else if (item.ariaLabel.toLowerCase().includes("linkedin")) {
-                  IconComponent = LinkedinLogo;
-                }
-
-                return (
-                  <a
-                    key={item.ariaLabel}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={item.ariaLabel}
-                    className="group flex items-center justify-center transition-all opacity-60 hover:opacity-100 hover:scale-110 text-white"
-                  >
-                    <IconComponent weight="bold" className="h-5 w-5 text-white" />
-                  </a>
-                );
-              })}
+            {/* Social Channels - Official Brand Logos */}
+            <div className="mt-8 flex items-center gap-4">
+              {socialLinks.map((item) => (
+                <a
+                  key={item.ariaLabel}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.ariaLabel}
+                  className="inline-flex items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
+                >
+                  <img
+                    src={item.icon}
+                    alt={item.ariaLabel}
+                    className="h-6 w-6 object-contain"
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                  />
+                </a>
+              ))}
             </div>
           </div>
 
