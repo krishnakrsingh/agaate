@@ -201,11 +201,10 @@ function TermsOfServicePage() {
                   <button
                     key={sec.id}
                     onClick={() => scrollToSection(sec.id)}
-                    className={`w-full text-left rounded-xl px-4 py-2.5 font-sans text-xs font-bold transition-all ${
-                      activeSection === sec.id
+                    className={`w-full text-left rounded-xl px-4 py-2.5 font-sans text-xs font-bold transition-all ${activeSection === sec.id
                         ? "bg-forest-deep text-cream shadow-sm"
                         : "text-forest/80 hover:bg-cream hover:text-forest-deep"
-                    }`}
+                      }`}
                   >
                     {sec.title}
                   </button>
@@ -245,10 +244,10 @@ function TermsOfServicePage() {
               {/* Terms FAQ Accordion */}
               <div className="rounded-3xl border border-forest/20 bg-bone/60 p-8 sm:p-10">
                 <span className="block font-jet text-[10px] font-bold uppercase tracking-[0.2em] text-moss mb-2">
-                  COMMON QUESTIONS
+                  FREQUENTLY ASKED QUESTIONS
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-forest-deep mb-6">
-                  Frequently Asked Terms & Order Queries
+                  FREQUENTLY ASKED QUESTIONS
                 </h3>
 
                 <div className="space-y-4">
@@ -265,9 +264,8 @@ function TermsOfServicePage() {
                         >
                           <span>{faq.q}</span>
                           <CaretDown
-                            className={`h-4 w-4 text-terracotta transition-transform ${
-                              isOpen ? "rotate-180" : ""
-                            }`}
+                            className={`h-4 w-4 text-terracotta transition-transform ${isOpen ? "rotate-180" : ""
+                              }`}
                           />
                         </button>
                         {isOpen && (

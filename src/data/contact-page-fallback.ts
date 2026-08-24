@@ -3,7 +3,7 @@ import type { ContactPageContent } from "@/lib/cms-types";
 export const CONTACT_PAGE_FALLBACK: ContactPageContent = {
   faqBadgeEn: "FAQ · Quick Answers",
   faqBadgeHi: "FAQ · त्वरित जवाब",
-  faqTitleEn: "Common questions",
+  faqTitleEn: "Frequently asked questions",
   faqTitleHi: "सामान्य प्रश्न",
   faqs: [
     {
