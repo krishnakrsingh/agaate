@@ -6,6 +6,7 @@ import {
   saveAdminUser,
   sendAdminTestEmail,
 } from "@/functions/admin-contacts";
+import { AdminCmsAppLinks } from "@/components/admin/cms/AdminCmsAppLinks";
 import {
   DEFAULT_ADMIN_SETTINGS,
   type AdminRole,
@@ -25,9 +26,13 @@ type User = { id: number; name: string; email: string; role: AdminRole };
 export function AdminSettingsPanel({
   settings: initialSettings,
   users: initialUsers,
+  adminRole,
+  defaultTab = "email",
 }: {
   settings: AdminSettingsForClient;
   users: User[];
+  adminRole: AdminRole;
+  defaultTab?: "email" | "users" | "app-links";
 }) {
   const toast = useToast();
   const [settings, setSettings] = useState({
@@ -72,15 +77,18 @@ export function AdminSettingsPanel({
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
         <p className="text-muted-foreground text-xs">
-          Configure contact form email delivery and admin staff accounts.
+          Configure contact form email delivery, app store links, and admin staff accounts.
         </p>
       </div>
       <Separator className="my-4" />
 
-      <Tabs defaultValue="email" className="space-y-4">
+      <Tabs defaultValue={defaultTab} className="space-y-4">
         <TabsList className="inline-flex h-9 items-center rounded-lg bg-muted/60 p-0.5 border border-border/80 shadow-2xs">
           <TabsTrigger value="email" className="rounded-md px-3.5 py-1 text-xs font-medium">
             Email & SMTP
+          </TabsTrigger>
+          <TabsTrigger value="app-links" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            App store links
           </TabsTrigger>
           <TabsTrigger value="users" className="rounded-md px-3.5 py-1 text-xs font-medium">
             Staff Users
@@ -248,6 +256,12 @@ export function AdminSettingsPanel({
                 </Button>
               </div>
             </form>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="app-links" className="space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
+            <AdminCmsAppLinks role={adminRole} embedded />
           </div>
         </TabsContent>
 

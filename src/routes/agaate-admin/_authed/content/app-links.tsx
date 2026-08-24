@@ -1,11 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { AdminCmsAppLinks } from "@/components/admin/cms/AdminCmsAppLinks";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/agaate-admin/_authed/content/app-links")({
-  component: AppLinksPage,
+  beforeLoad: () => {
+    throw redirect({ to: "/agaate-admin/settings", search: { tab: "app-links" } });
+  },
 });
-
-function AppLinksPage() {
-  const { adminUser } = Route.useRouteContext();
-  return <AdminCmsAppLinks role={adminUser.role} />;
-}
