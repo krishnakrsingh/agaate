@@ -15,6 +15,7 @@ import {
   Store,
   Briefcase,
   MessageCircle,
+  MessageSquare,
   BookOpen,
   Layout,
 } from "lucide-react";

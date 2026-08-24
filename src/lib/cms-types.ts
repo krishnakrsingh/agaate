@@ -1,6 +1,7 @@
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
+import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
