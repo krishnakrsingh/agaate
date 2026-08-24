@@ -22,11 +22,13 @@ export function AdminCmsKisaanMallPageForm({
   setPage,
   canEdit,
   loading,
+  onSaved,
 }: {
   page: KisaanMallPageContent;
   setPage: (p: KisaanMallPageContent) => void;
   canEdit: boolean;
   loading: boolean;
+  onSaved?: () => void;
 }) {
   const toast = useToast();
   const [saving, setSaving] = useState(false);
@@ -39,6 +41,7 @@ export function AdminCmsKisaanMallPageForm({
     setSaving(false);
     if (isAdminOk<{ page: KisaanMallPageContent }>(res)) {
       setPage(res.page);
+      onSaved?.();
       toast.success("Page saved", "Kisaan Mall full page content is updated.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save mall page."));

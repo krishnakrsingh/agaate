@@ -113,6 +113,12 @@ function DashboardPage() {
         newsletterWaitlist={cmsRes.newsletterWaitlist}
         careersJobs={cmsRes.careersJobs}
         careerApplications={cmsRes.careerApplications}
+        needsAttention={[
+          ...(smtpReady ? [] : ["SMTP is not configured — contact form emails may not be delivered."]),
+          ...(pendingFarmVisits > 0
+            ? [`${pendingFarmVisits} farm visit booking${pendingFarmVisits === 1 ? "" : "s"} awaiting confirmation.`]
+            : []),
+        ]}
       />
     </div>
   );

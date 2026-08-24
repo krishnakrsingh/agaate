@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BarChart3, Image, Video, Users, ArrowRight, Database, Smartphone, Store, Briefcase, MessageCircle, BookOpen, MessageSquare } from "lucide-react";
+import { BarChart3, Image, Video, Users, ArrowRight, Database, Smartphone, Store, Briefcase, MessageCircle, BookOpen, MessageSquare, MapPin, Plus } from "lucide-react";
 import type { CmsOverview } from "@/lib/cms-types";
 import { Button } from "@/components/ui/button";
 
@@ -47,6 +47,7 @@ export function AdminCmsOverview({
   careersJobs = 0,
   careerApplications = 0,
   showHeading = true,
+  needsAttention = [],
 }: {
   overview: CmsOverview;
   dbConfigured: boolean;
@@ -54,6 +55,7 @@ export function AdminCmsOverview({
   careersJobs?: number;
   careerApplications?: number;
   showHeading?: boolean;
+  needsAttention?: string[];
 }) {
   return (
     <div className="space-y-6">
@@ -66,6 +68,44 @@ export function AdminCmsOverview({
           </p>
         </div>
       ) : null}
+
+      {needsAttention.length > 0 ? (
+        <div className="rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <p className="font-medium">Needs attention</p>
+          <ul className="mt-1 space-y-1">
+            {needsAttention.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      <div className="flex flex-wrap gap-2">
+        <Button asChild size="sm" variant="outline">
+          <Link to="/agaate-admin/content/stats">
+            <Plus className="mr-1.5 h-3.5 w-3.5" />
+            Add stat
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline">
+          <Link to="/agaate-admin/content/stories">
+            <Plus className="mr-1.5 h-3.5 w-3.5" />
+            Add testimonial
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline">
+          <Link to="/agaate-admin/content/site-contact">
+            <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+            Site contact
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline">
+          <Link to="/agaate-admin/farm-visits">
+            <MapPin className="mr-1.5 h-3.5 w-3.5" />
+            Farm visits
+          </Link>
+        </Button>
+      </div>
 
       {!dbConfigured && (
         <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
