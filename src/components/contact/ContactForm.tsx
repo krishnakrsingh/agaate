@@ -206,10 +206,12 @@ export function ContactForm({
     const validationErrors = validate(form, topic);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      track("contact_form_validation_failed", { errors: Object.keys(validationErrors) });
+      track("contact_form_validation_failed", { errors: Object.keys(validationErrors).join(",") });
       const firstKey = Object.keys(validationErrors)[0];
-      const el = document.getElementById(firstKey);
-      el?.focus();
+      if (firstKey) {
+        const el = document.getElementById(firstKey);
+        el?.focus();
+      }
       return;
     }
 

@@ -203,6 +203,14 @@ export const CROP_OPTIONS = [
   "Wheat & Paddy",
 ] as const;
 
+export const CROP_STAGE_OPTIONS = [
+  "Planning / Pre-Sowing",
+  "Nursery / Seedling Stage",
+  "Vegetative Growth",
+  "Flowering & Fruit Set",
+  "Harvesting / Post-Harvest",
+] as const;
+
 export const CHANNEL_OPTIONS = ["WhatsApp", "Phone Call", "Email"] as const;
 
 export const CONTACT_FAQS = [

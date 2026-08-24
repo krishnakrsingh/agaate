@@ -145,7 +145,7 @@ export function PhaseTimeline({
   onSelectPhaseForModal?: (phaseNum: string) => void;
 }) {
   const [activePhaseIndex, setActivePhaseIndex] = useState(0);
-  const activePhase = PHASES_DATA[activePhaseIndex];
+  const activePhase = PHASES_DATA[activePhaseIndex] ?? PHASES_DATA[0]!;
   const ActiveIcon = activePhase.icon;
 
   return (

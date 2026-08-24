@@ -127,7 +127,7 @@ export function FieldNetworkSection({
       }, 400);
     });
 
-  const activeNode = NETWORK_NODES.find((n) => n.label === nodeActive) ?? NETWORK_NODES[0];
+  const activeNode = NETWORK_NODES.find((n) => n.label === nodeActive) ?? NETWORK_NODES[0]!;
   return (
     <section className="mx-auto w-full max-w-7xl px-6 py-24 lg:px-12">
       <SectionHeader
@@ -540,7 +540,7 @@ function NodePanel({
                     transition={{ duration: 0.7, ease: EASE, delay: 0.06 * idx }}
                   />
                   <span className="font-mono text-[8px] font-bold text-forest/45">
-                    {n.label.split(" ")[0].replace("Node-", "N")}
+                    {(n.label.split(" ")[0] ?? "").replace("Node-", "N")}
                   </span>
                 </div>
               ))}

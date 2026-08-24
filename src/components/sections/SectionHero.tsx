@@ -78,7 +78,7 @@ export default memo(function SectionHero({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           video.play().catch(() => { });
         } else {
           video.pause();

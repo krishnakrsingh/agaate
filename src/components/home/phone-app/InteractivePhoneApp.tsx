@@ -7,7 +7,7 @@ import { PhoneChatView } from "./views/PhoneChatView";
 import { PhoneStoreView } from "./views/PhoneStoreView";
 import { PhoneActionView } from "./views/PhoneActionView";
 import { PhoneParkView } from "./views/PhoneParkView";
-import type { Message } from "./phone-app-data";
+import { type Message, getFreshWelcomeMessage, FREE_CHAT_LIMIT } from "./phone-app-data";
 import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export interface InteractivePhoneAppProps {

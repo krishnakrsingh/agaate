@@ -2,6 +2,7 @@ import { ArrowRight, Briefcase, GraduationCap, MapPin, Eye } from "@phosphor-ico
 import { motion } from "framer-motion";
 import type { CareerJob } from "@/lib/cms-types";
 import { useSiteContact } from "@/contexts/SiteContactContext";
+import { FILTERS, type Filter } from "./filters";
 
 interface OpenRolesSectionProps {
   jobs: CareerJob[];

@@ -21,6 +21,7 @@ import {
 import type { HomeCmsStory } from "@/lib/cms-types";
 import { RotatingTestimonialCard } from "./RotatingTestimonialCard";
 import { EmbedVideoPlayer } from "@/components/ui/EmbedVideoPlayer";
+import { parseVideoSource } from "@/lib/video-source";
 import { useSiteContact } from "@/contexts/SiteContactContext";
 
 export default function FarmerShortsShowcase({

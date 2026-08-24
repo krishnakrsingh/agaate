@@ -189,8 +189,8 @@ export default function FacilitiesSection() {
   const facilities = mapFacilities(lang);
   const [activeId, setActiveId] = useState(facilities[0]?.id ?? "farm");
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const { toast } = useToast();
   const active = facilities.find((f) => f.id === activeId) || facilities[0];
+  if (!active) return null;
 
   return (
     <section

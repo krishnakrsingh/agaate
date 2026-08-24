@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowRight, PhoneCall, WhatsappLogo, CheckCircle, ShieldCheck, UserCheck } from "@phosphor-icons/react";
-import { CountUp } from "@/components/common/motion";
+import { ArrowRight, PhoneCall, WhatsappLogo, CheckCircle, ShieldCheck } from "@phosphor-icons/react";
 import { getLocalizedPath } from "@/lib/i18n";
 import { useSiteContact } from "@/contexts/SiteContactContext";
+import { SlideUpPillButton } from "@/components/ui/SlideUpPillButton";
 
 export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) {
   const isHindi = currentLang.startsWith("hi");
@@ -149,7 +149,7 @@ export function ServicesImpactMetrics({ currentLang }: { currentLang: string }) 
 
                 <SlideUpPillButton
                   href={telPrimaryHref}
-                  variant="ghost"
+                  variant="outline"
                   size="lg"
                   label={isHindi ? `कॉल: ${contact.primaryPhoneDisplay}` : `Call: ${contact.primaryPhoneDisplay}`}
                   icon={<PhoneCall className="h-5 w-5 text-[#5d7d37]" weight="bold" />}

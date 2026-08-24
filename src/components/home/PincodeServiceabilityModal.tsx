@@ -35,7 +35,7 @@ export default function PincodeServiceabilityModal({
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState<PincodeEntry>(
-    PINCODE_DATABASE[0] // Default to Patna 800001
+    PINCODE_DATABASE[0]! // Default to Patna 800001
   );
   const [isLocating, setIsLocating] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -70,7 +70,7 @@ export default function PincodeServiceabilityModal({
     if (!q) return;
 
     if (predictions.length > 0) {
-      handleSelectLocation(predictions[0]);
+      handleSelectLocation(predictions[0]!);
       return;
     }
 
@@ -79,7 +79,7 @@ export default function PincodeServiceabilityModal({
     setIsSearching(false);
 
     if (results.length > 0) {
-      handleSelectLocation(results[0]);
+      handleSelectLocation(results[0]!);
     } else {
       const matched = findPincode(q);
       if (matched) {

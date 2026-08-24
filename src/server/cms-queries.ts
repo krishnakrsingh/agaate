@@ -23,6 +23,8 @@ import type {
   CmsSiteConfig,
   HomeCmsData,
   HomeCmsLogo,
+  SiteWhatsAppMessages,
+  SiteSocialLinks,
   HomeCmsStat,
   HomeCmsStory,
 } from "@/lib/cms-types";
@@ -304,7 +306,7 @@ function normalizeHomePillarItem(
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-    metrics: metrics.map((m, i) => normalizeHomeChapterStat(m, fb.metrics[i] ?? fb.metrics[0])),
+    metrics: metrics.map((m, i) => normalizeHomeChapterStat(m, (fb.metrics[i] ?? fb.metrics[0])!)),
     featuresEn: Array.isArray(raw?.featuresEn) ? raw.featuresEn.map(String) : fb.featuresEn,
     featuresHi: Array.isArray(raw?.featuresHi) ? raw.featuresHi.map(String) : fb.featuresHi,
     ctaTextEn: String(raw?.ctaTextEn ?? "").trim() || fb.ctaTextEn,
@@ -332,7 +334,7 @@ function normalizePillarMarketChapter(
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-    stats: stats.map((s, i) => normalizeHomeChapterStat(s, fb.stats[i] ?? fb.stats[0])),
+    stats: stats.map((s, i) => normalizeHomeChapterStat(s, (fb.stats[i] ?? fb.stats[0])!)),
     highlightsEn: Array.isArray(raw?.highlightsEn) ? raw.highlightsEn.map(String) : fb.highlightsEn,
     highlightsHi: Array.isArray(raw?.highlightsHi) ? raw.highlightsHi.map(String) : fb.highlightsHi,
     ctaLabelEn: String(raw?.ctaLabelEn ?? "").trim() || fb.ctaLabelEn,
@@ -353,7 +355,7 @@ function normalizeAppChapterContent(raw: Partial<HomeAppChapterContent> | null |
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-    stats: stats.map((s, i) => normalizeHomeChapterStat(s, fb.stats[i] ?? fb.stats[0])),
+    stats: stats.map((s, i) => normalizeHomeChapterStat(s, (fb.stats[i] ?? fb.stats[0])!)),
     checklistEn: Array.isArray(raw?.checklistEn) ? raw.checklistEn.map(String) : fb.checklistEn,
     checklistHi: Array.isArray(raw?.checklistHi) ? raw.checklistHi.map(String) : fb.checklistHi,
   };
@@ -397,7 +399,7 @@ function normalizeClosingChapter(raw: Partial<HomeClosingChapterContent> | null 
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-    pathways: pathways.map((p, i) => normalizeClosingPathway(p, fb.pathways[i] ?? fb.pathways[0])),
+    pathways: pathways.map((p, i) => normalizeClosingPathway(p, (fb.pathways[i] ?? fb.pathways[0])!)),
   };
 }
 
@@ -405,7 +407,7 @@ function normalizeHomepageChapters(raw: Partial<HomepageChaptersContent> | null 
   const fb = HOMEPAGE_CHAPTERS_FALLBACK;
   const pillars = Array.isArray(raw?.pillars) ? raw.pillars : fb.pillars;
   return {
-    pillars: pillars.map((p, i) => normalizeHomePillarItem(p, fb.pillars[i] ?? fb.pillars[0])),
+    pillars: pillars.map((p, i) => normalizeHomePillarItem(p, (fb.pillars[i] ?? fb.pillars[0])!)),
     pillarMarket: normalizePillarMarketChapter(raw?.pillarMarket),
     appChapter: normalizeAppChapterContent(raw?.appChapter),
     closingChapter: normalizeClosingChapter(raw?.closingChapter),
@@ -424,7 +426,7 @@ function normalizeAgriParkChapter(
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-    stats: stats.map((s, i) => normalizeHomeChapterStat(s, fb.stats[i] ?? fb.stats[0])),
+    stats: stats.map((s, i) => normalizeHomeChapterStat(s, (fb.stats[i] ?? fb.stats[0])!)),
     checklistEn: Array.isArray(raw?.checklistEn) ? raw.checklistEn.map(String) : fb.checklistEn,
     checklistHi: Array.isArray(raw?.checklistHi) ? raw.checklistHi.map(String) : fb.checklistHi,
     bookVisitLabelEn: String(raw?.bookVisitLabelEn ?? "").trim() || fb.bookVisitLabelEn,
@@ -642,8 +644,8 @@ function normalizeSiteContact(raw: Partial<SiteContactConfig> | null | undefined
   const fb = SITE_CONTACT_FALLBACK;
   const facilitiesRaw = Array.isArray(raw?.facilities) ? raw.facilities : fb.facilities;
   const trustRaw = Array.isArray(raw?.contactTrustStats) ? raw.contactTrustStats : fb.contactTrustStats;
-  const messages = raw?.whatsappMessages ?? {};
-  const social = raw?.social ?? {};
+  const messages: Partial<SiteWhatsAppMessages> = raw?.whatsappMessages ?? {};
+  const social: Partial<SiteSocialLinks> = raw?.social ?? {};
 
   return {
     primaryPhone: String(raw?.primaryPhone ?? "").trim() || fb.primaryPhone,
@@ -686,10 +688,10 @@ function normalizeSiteContact(raw: Partial<SiteContactConfig> | null | undefined
     registeredOfficeHi: String(raw?.registeredOfficeHi ?? "").trim() || fb.registeredOfficeHi,
     cin: String(raw?.cin ?? "").trim() || fb.cin,
     contactTrustStats: trustRaw.map((s, i) =>
-      normalizeTrustStat(s, fb.contactTrustStats[i] ?? fb.contactTrustStats[0]),
+      normalizeTrustStat(s, (fb.contactTrustStats[i] ?? fb.contactTrustStats[0])!),
     ),
     facilities: facilitiesRaw.map((f, i) =>
-      normalizeFacility(f, fb.facilities[i] ?? fb.facilities[0]),
+      normalizeFacility(f, (fb.facilities[i] ?? fb.facilities[0])!),
     ),
   };
 }
@@ -798,19 +800,22 @@ function normalizeAboutPage(raw: Partial<AboutPageContent> | null | undefined): 
       labelHi: String(m?.labelHi ?? "").trim() || fb.impactMetrics[i]?.labelHi || "",
       iconKey: normalizeIconKey(m?.iconKey ?? fb.impactMetrics[i]?.iconKey),
     })),
-    milestones: milestones.map((m, i) => ({
-      year: String(m?.year ?? "").trim() || fb.milestones[i]?.year || "",
-      titleEn: String(m?.titleEn ?? "").trim() || fb.milestones[i]?.titleEn || "",
-      titleHi: String(m?.titleHi ?? "").trim() || fb.milestones[i]?.titleHi || "",
-      descEn: String(m?.descEn ?? "").trim() || fb.milestones[i]?.descEn || "",
-      descHi: String(m?.descHi ?? "").trim() || fb.milestones[i]?.descHi || "",
-      highlightsEn: (Array.isArray(m?.highlightsEn) ? m.highlightsEn : fb.milestones[i]?.highlightsEn).map(
-        (h, j) => String(h ?? "").trim() || fb.milestones[i]?.highlightsEn[j] || "",
-      ),
-      highlightsHi: (Array.isArray(m?.highlightsHi) ? m.highlightsHi : fb.milestones[i]?.highlightsHi).map(
-        (h, j) => String(h ?? "").trim() || fb.milestones[i]?.highlightsHi[j] || "",
-      ),
-    })),
+    milestones: milestones.map((m, i) => {
+      const fbM = fb.milestones[i] ?? fb.milestones[0];
+      return {
+        year: String(m?.year ?? "").trim() || fbM?.year || "",
+        titleEn: String(m?.titleEn ?? "").trim() || fbM?.titleEn || "",
+        titleHi: String(m?.titleHi ?? "").trim() || fbM?.titleHi || "",
+        descEn: String(m?.descEn ?? "").trim() || fbM?.descEn || "",
+        descHi: String(m?.descHi ?? "").trim() || fbM?.descHi || "",
+        highlightsEn: (Array.isArray(m?.highlightsEn) ? m.highlightsEn : (fbM?.highlightsEn ?? [])).map(
+          (h, j) => String(h ?? "").trim() || fbM?.highlightsEn[j] || "",
+        ),
+        highlightsHi: (Array.isArray(m?.highlightsHi) ? m.highlightsHi : (fbM?.highlightsHi ?? [])).map(
+          (h, j) => String(h ?? "").trim() || fbM?.highlightsHi[j] || "",
+        ),
+      };
+    }),
     locations: locations.map((l, i) => ({
       tagEn: String(l?.tagEn ?? "").trim() || fb.locations[i]?.tagEn || "",
       tagHi: String(l?.tagHi ?? "").trim() || fb.locations[i]?.tagHi || "",
@@ -1314,7 +1319,7 @@ export async function listCmsStats(filters: CmsListFilters = {}): Promise<CmsSta
     sql += ` AND status != 'archived'`;
   }
   sql += ` ORDER BY sort_order ASC`;
-  const [rows] = await db.query(sql, params);
+  const [rows] = await db.query(sql, params as any);
   return (rows as Record<string, unknown>[])
     .map(mapStatRow)
     .filter((r) => matchesQ(filters.q, r.labelEn, r.labelHi, r.slug));
@@ -1337,7 +1342,7 @@ export async function listCmsLogos(filters: CmsListFilters = {}): Promise<CmsLog
     params.group = filters.group;
   }
   sql += ` ORDER BY sort_order ASC`;
-  const [rows] = await db.query(sql, params);
+  const [rows] = await db.query(sql, params as any);
   return (rows as Record<string, unknown>[])
     .map(mapLogoRow)
     .filter((r) => matchesQ(filters.q, r.name, r.group));
@@ -1356,7 +1361,7 @@ export async function listCmsStories(filters: CmsListFilters = {}): Promise<CmsS
     sql += ` AND status != 'archived'`;
   }
   sql += ` ORDER BY sort_order ASC`;
-  const [rows] = await db.query(sql, params);
+  const [rows] = await db.query(sql, params as any);
   return (rows as Record<string, unknown>[])
     .map(mapStoryRow)
     .filter((r) =>

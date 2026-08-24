@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, Scan, Sparkle, Warning } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
+import { Scan, Sparkle } from "@phosphor-icons/react";
 import { SectionHeader } from "@/components/common/motion";
 import { AI_DIAGNOSES, type AiDiagnosisSample } from "./farm-tech-data";
 
 export function AiDiagnosticSimulator() {
-  const [selectedDiagnosis, setSelectedDiagnosis] = useState<AiDiagnosisSample>(AI_DIAGNOSES[0]);
+  const [selectedDiagnosis, setSelectedDiagnosis] = useState<AiDiagnosisSample>(AI_DIAGNOSES[0]!);
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(100);
 

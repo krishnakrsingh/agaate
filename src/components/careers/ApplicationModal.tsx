@@ -21,7 +21,7 @@ async function fileToBase64(file: File): Promise<string> {
   const buf = await file.arrayBuffer();
   let binary = "";
   const bytes = new Uint8Array(buf);
-  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!);
   return btoa(binary);
 }
 

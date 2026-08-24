@@ -198,7 +198,7 @@ export function findNearestHub(
   lat: number,
   lng: number
 ): { hub: HubLocation; distanceKm: number; deliveryDays: string } {
-  let nearest = AGAATE_HUBS[0];
+  let nearest: HubLocation = AGAATE_HUBS[0]!;
   let minDistance = Infinity;
 
   AGAATE_HUBS.forEach((hub) => {
@@ -386,7 +386,7 @@ export function findPincode(pin: string): PincodeEntry | null {
   if (match) return match;
 
   if (/^\d{6}$/.test(clean)) {
-    const flagship = AGAATE_HUBS[0]; // Gurugram flagship
+    const flagship = AGAATE_HUBS[0]!; // Gurugram flagship
 
     return {
       pincode: clean,
