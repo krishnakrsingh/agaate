@@ -88,7 +88,7 @@ export default function ContactHero() {
               <img
                 src={farmerTransparent}
                 alt="Agaate Progressive Farmer Partner"
-                className="w-full h-auto max-h-[460px] object-contain drop-shadow-[0_20px_35px_rgba(20,61,49,0.22)] select-none pointer-events-none"
+                className="w-full h-auto max-h-[460px] object-contain select-none pointer-events-none"
                 width={896}
                 height={1200}
               />

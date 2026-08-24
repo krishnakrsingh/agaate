@@ -60,7 +60,7 @@ export function NavDesktop({ solid, currentLang }: NavDesktopProps) {
                   ? "font-semibold text-white"
                   : solid
                     ? "text-cream/90 hover:text-white"
-                    : "text-cream drop-shadow-md hover:text-white"
+                    : "text-cream hover:text-white"
               }`}
             >
               <span>{t(`nav.${link.key}` as any, link.key)}</span>

@@ -50,7 +50,7 @@ export default function PillarMarket({ buyers }: PillarMarketProps) {
                   <img
                     src={pillarMarket.imageUrl}
                     alt={imageAlt}
-                    className="w-full max-h-[380px] sm:max-h-[440px] lg:max-h-[480px] object-contain drop-shadow-xl"
+                    className="w-full max-h-[380px] sm:max-h-[440px] lg:max-h-[480px] object-contain"
                   />
                 </motion.div>
               </TiltCard>

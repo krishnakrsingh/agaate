@@ -155,7 +155,7 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
                   <img
                     src={chapter.mapImageUrl}
                     alt={mapAlt}
-                    className="w-full h-auto max-h-[460px] object-contain drop-shadow-[0_20px_30px_rgba(20,61,49,0.22)]"
+                    className="w-full h-auto max-h-[460px] object-contain"
                   />
 
                   {/* Hover Enlarge Indicator */}

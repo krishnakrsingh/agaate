@@ -121,7 +121,7 @@ export default function PillarAdvisory() {
                 <img
                   src="/farm.png"
                   alt="On-Ground Expert Agronomist Support"
-                  className="w-full max-h-[440px] sm:max-h-[500px] lg:max-h-[560px] object-contain transition-transform duration-500 drop-shadow-2xl"
+                  className="w-full max-h-[440px] sm:max-h-[500px] lg:max-h-[560px] object-contain transition-transform duration-500"
                 />
               </motion.div>
             </TiltCard>
