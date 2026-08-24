@@ -291,7 +291,32 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Form dropdown options</h2>
+          <CmsSectionHeader
+            title="Form dropdown options"
+            translate={{
+              disabled: !canEdit,
+              enTexts: [
+                ...content.acreageOptionsEn,
+                ...content.cropOptionsEn,
+                ...content.channelOptionsEn,
+              ],
+              onTranslated: (t) => {
+                let i = 0;
+                const sliceHi = (en: string[], hi: string[]) => {
+                  const n = en.length;
+                  const slice = t.slice(i, i + n).map((v, idx) => (v || hi[idx]) ?? "");
+                  i += n;
+                  return slice;
+                };
+                updateContent({
+                  ...content,
+                  acreageOptionsHi: sliceHi(content.acreageOptionsEn, content.acreageOptionsHi),
+                  cropOptionsHi: sliceHi(content.cropOptionsEn, content.cropOptionsHi),
+                  channelOptionsHi: sliceHi(content.channelOptionsEn, content.channelOptionsHi),
+                });
+              },
+            }}
+          />
           <p className="text-xs text-muted-foreground">One option per line. English and Hindi lists should align by row.</p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1">

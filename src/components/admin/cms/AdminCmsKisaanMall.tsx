@@ -139,6 +139,7 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
                   });
                 }}
               />
+              <CmsBilingualField
                 label="Badge"
                 en={landing.badgeEn}
                 hi={landing.badgeHi}

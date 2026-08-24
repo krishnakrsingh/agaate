@@ -3,6 +3,7 @@ import { saveCmsKisaanMallPageAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,6 +70,63 @@ export function AdminCmsKisaanMallPageForm({
           Choose whether <code>/kisaan-mall</code> shows the waitlist or the full catalog page.
         </p>
       </div>
+
+      <CmsTranslateToHindiButton
+        variant="inline"
+        disabled={!canEdit || loading}
+        enTexts={[
+          page.heroEyebrowEn,
+          page.heroTitleEn,
+          page.heroTitleAccentEn,
+          page.heroDescriptionEn,
+          page.homeChapter.badgeEn,
+          page.homeChapter.titleEn,
+          page.homeChapter.descriptionEn,
+          page.homeChapter.browseLabelEn,
+          page.homeChapter.supplyHeadingEn,
+          page.homeChapter.supplySubtextEn,
+          page.homeChapter.ctaEyebrowEn,
+          page.homeChapter.ctaTitleEn,
+          page.homeChapter.ctaDescriptionEn,
+          page.homeChapter.ctaBrowseEn,
+          page.homeChapter.ctaCallEn,
+          ...page.faqs.flatMap((f) => [f.qEn, f.aEn]),
+          page.ctaTitleEn,
+          page.ctaDescriptionEn,
+        ]}
+        onTranslated={(t) => {
+          let i = 0;
+          const take = () => t[i++] ?? "";
+          setPage({
+            ...page,
+            heroEyebrowHi: take() || page.heroEyebrowHi,
+            heroTitleHi: take() || page.heroTitleHi,
+            heroTitleAccentHi: take() || page.heroTitleAccentHi,
+            heroDescriptionHi: take() || page.heroDescriptionHi,
+            homeChapter: {
+              ...page.homeChapter,
+              badgeHi: take() || page.homeChapter.badgeHi,
+              titleHi: take() || page.homeChapter.titleHi,
+              descriptionHi: take() || page.homeChapter.descriptionHi,
+              browseLabelHi: take() || page.homeChapter.browseLabelHi,
+              supplyHeadingHi: take() || page.homeChapter.supplyHeadingHi,
+              supplySubtextHi: take() || page.homeChapter.supplySubtextHi,
+              ctaEyebrowHi: take() || page.homeChapter.ctaEyebrowHi,
+              ctaTitleHi: take() || page.homeChapter.ctaTitleHi,
+              ctaDescriptionHi: take() || page.homeChapter.ctaDescriptionHi,
+              ctaBrowseHi: take() || page.homeChapter.ctaBrowseHi,
+              ctaCallHi: take() || page.homeChapter.ctaCallHi,
+            },
+            faqs: page.faqs.map((f) => ({
+              ...f,
+              qHi: take() || f.qHi,
+              aHi: take() || f.aHi,
+            })),
+            ctaTitleHi: take() || page.ctaTitleHi,
+            ctaDescriptionHi: take() || page.ctaDescriptionHi,
+          });
+        }}
+      />
 
       <CmsBilingualField
         label="Hero eyebrow"
