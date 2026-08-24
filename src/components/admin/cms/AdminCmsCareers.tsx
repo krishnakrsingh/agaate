@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Briefcase, Save } from "lucide-react";
+import { Briefcase, Plus, RefreshCw, Save } from "lucide-react";
 import {
   getCmsCareersAdmin,
   saveCmsCareersPageAdmin,
@@ -10,6 +10,11 @@ import {
 } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
+import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,6 +53,7 @@ function listToLines(items: string[]): string {
 
 export function AdminCmsCareers({ role }: { role: AdminRole }) {
   const toast = useToast();
+  const { requestConfirm, confirmDialog } = useCmsListConfirm();
   const canEdit = canManageSettings(role);
   const [content, setContent] = useState<CareersPageContent>(CAREERS_PAGE_FALLBACK);
   const [jobs, setJobs] = useState<CmsCareerJobRow[]>([]);
@@ -57,6 +63,10 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
   const [savingJob, setSavingJob] = useState(false);
   const [editingJob, setEditingJob] = useState<CmsCareerJobRow | null>(null);
   const [dbConfigured, setDbConfigured] = useState(true);
+  const [pageDirty, setPageDirty] = useState(false);
+  const [jobDirty, setJobDirty] = useState(false);
+  const { confirmDiscard: confirmPageDiscard } = useCmsDirtyGuard(pageDirty);
+  const { confirmDiscard: confirmJobDiscard } = useCmsDirtyGuard(jobDirty);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -73,6 +83,8 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
       setJobs(res.jobs);
       setApplications(res.applications);
       setDbConfigured(res.dbConfigured);
+      setPageDirty(false);
+      setJobDirty(false);
     } else {
       toast.error("Load failed", adminError(res, "Could not load careers settings."));
     }
@@ -91,6 +103,7 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
     setSavingPage(false);
     if (isAdminOk<{ content: CareersPageContent }>(res)) {
       setContent(res.content);
+      setPageDirty(false);
       toast.success("Page saved", "Careers page copy is updated.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save page copy."));
@@ -127,6 +140,19 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
       updatedAt: new Date().toISOString(),
       hasUnpublishedChanges: true,
     });
+    setJobDirty(false);
+  }
+
+  function openEditJob(job: CmsCareerJobRow) {
+    if (jobDirty && !confirmJobDiscard()) return;
+    setEditingJob(job);
+    setJobDirty(false);
+  }
+
+  function cancelEditJob() {
+    if (jobDirty && !confirmJobDiscard()) return;
+    setEditingJob(null);
+    setJobDirty(false);
   }
 
   async function handleSaveJob(e: React.FormEvent) {
@@ -162,6 +188,7 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
     if (isAdminOk<{ item: CmsCareerJobRow }>(res)) {
       toast.success("Job saved", "Open role saved as draft.");
       setEditingJob(null);
+      setJobDirty(false);
       await load();
     } else {
       toast.error("Save failed", adminError(res, "Could not save job."));
@@ -176,31 +203,13 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
     } else toast.error(adminError(res));
   }
 
-  async function handleUnpublishJob(id: number) {
-    const res = await unpublishCmsItemAdmin({ data: { type: "careerJobs", id } });
-    if (isAdminOk(res)) {
-      toast.success("Unpublished", "Role removed from public listings.");
-      await load();
-    } else toast.error(adminError(res));
-  }
-
-  async function handleArchiveJob(id: number) {
-    const res = await archiveCmsItemAdmin({ data: { type: "careerJobs", id } });
-    if (isAdminOk(res)) {
-      toast.success("Archived", "Role archived.");
-      await load();
-    } else toast.error(adminError(res));
-  }
-
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Careers</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage the public <code className="rounded bg-muted px-1">/careers</code> page, open roles, and
-          applications.
-        </p>
-      </div>
+      <CmsPageHeader
+        title="Careers"
+        description="Manage the public /careers page, open roles, and applications."
+        workflow="live"
+      />
 
       {!dbConfigured && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
@@ -221,59 +230,52 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Hero badge (EN)</Label>
-            <Input value={content.heroBadgeEn} onChange={(e) => setContent({ ...content, heroBadgeEn: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.heroBadgeEn} onChange={(e) => { setContent({ ...content, heroBadgeEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero badge (HI)</Label>
-            <Input value={content.heroBadgeHi} onChange={(e) => setContent({ ...content, heroBadgeHi: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.heroBadgeHi} onChange={(e) => { setContent({ ...content, heroBadgeHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero title (EN)</Label>
-            <Input value={content.heroTitleEn} onChange={(e) => setContent({ ...content, heroTitleEn: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.heroTitleEn} onChange={(e) => { setContent({ ...content, heroTitleEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero title (HI)</Label>
-            <Input value={content.heroTitleHi} onChange={(e) => setContent({ ...content, heroTitleHi: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.heroTitleHi} onChange={(e) => { setContent({ ...content, heroTitleHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Hero description (EN)</Label>
-            <Textarea value={content.heroDescriptionEn} onChange={(e) => setContent({ ...content, heroDescriptionEn: e.target.value })} disabled={!canEdit || loading} rows={3} />
+            <Textarea value={content.heroDescriptionEn} onChange={(e) => { setContent({ ...content, heroDescriptionEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} rows={3} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Hero description (HI)</Label>
-            <Textarea value={content.heroDescriptionHi} onChange={(e) => setContent({ ...content, heroDescriptionHi: e.target.value })} disabled={!canEdit || loading} rows={3} />
+            <Textarea value={content.heroDescriptionHi} onChange={(e) => { setContent({ ...content, heroDescriptionHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} rows={3} />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Open roles title (EN)</Label>
-            <Input value={content.openRolesTitleEn} onChange={(e) => setContent({ ...content, openRolesTitleEn: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.openRolesTitleEn} onChange={(e) => { setContent({ ...content, openRolesTitleEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Open roles title (HI)</Label>
-            <Input value={content.openRolesTitleHi} onChange={(e) => setContent({ ...content, openRolesTitleHi: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.openRolesTitleHi} onChange={(e) => { setContent({ ...content, openRolesTitleHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Campus title (EN)</Label>
-            <Input value={content.campusTitleEn} onChange={(e) => setContent({ ...content, campusTitleEn: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.campusTitleEn} onChange={(e) => { setContent({ ...content, campusTitleEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Campus title (HI)</Label>
-            <Input value={content.campusTitleHi} onChange={(e) => setContent({ ...content, campusTitleHi: e.target.value })} disabled={!canEdit || loading} />
+            <Input value={content.campusTitleHi} onChange={(e) => { setContent({ ...content, campusTitleHi: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
         </div>
-        {canEdit && (
-          <div className="flex justify-end">
-            <Button type="submit" size="sm" disabled={savingPage || loading}>
-              <Save className="mr-1.5 h-3.5 w-3.5" />
-              {savingPage ? "Saving…" : "Save page copy"}
-            </Button>
-          </div>
-        )}
+        <CmsStickySaveBar saving={savingPage} disabled={!canEdit} label="Save page copy" />
       </form>
 
       <div className="rounded-2xl border bg-card shadow-sm overflow-hidden">
@@ -298,14 +300,17 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {jobs.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={4} className="py-8 text-center text-sm text-muted-foreground">
-                  No roles yet.
-                </TableCell>
-              </TableRow>
-            ) : (
-              jobs.map((job) => (
+            {loading ? <CmsTableLoadingRow colSpan={4} /> : null}
+            {!loading && jobs.length === 0 ? (
+              <CmsTableEmptyRow
+                colSpan={4}
+                title="No roles yet"
+                description="Add an open position, then publish it to appear on the careers page."
+                action={canEdit ? <CmsTableEmptyAction label="Add role" onClick={openNewJob} /> : undefined}
+              />
+            ) : null}
+            {!loading
+              ? jobs.map((job) => (
                 <TableRow key={job.id}>
                   <TableCell className="text-sm font-medium">{job.titleEn}</TableCell>
                   <TableCell className="text-xs">{job.departmentCategory}</TableCell>
@@ -313,20 +318,59 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
                   <TableCell className="text-right space-x-1">
                     {canEdit && (
                       <>
-                        <Button size="sm" variant="ghost" onClick={() => setEditingJob(job)}>Edit</Button>
+                        <Button size="sm" variant="ghost" onClick={() => openEditJob(job)}>Edit</Button>
                         {job.status !== "published" && (
                           <Button size="sm" variant="ghost" onClick={() => void handlePublishJob(job.id)}>Publish</Button>
                         )}
                         {job.status === "published" && (
-                          <Button size="sm" variant="ghost" onClick={() => void handleUnpublishJob(job.id)}>Unpublish</Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() =>
+                              requestConfirm({
+                                title: "Unpublish role?",
+                                description: `"${job.titleEn}" will be removed from public listings.`,
+                                confirmLabel: "Unpublish",
+                                action: async () => {
+                                  const res = await unpublishCmsItemAdmin({ data: { type: "careerJobs", id: job.id } });
+                                  if (isAdminOk(res)) {
+                                    toast.success("Unpublished", "Role removed from public listings.");
+                                    await load();
+                                  } else toast.error(adminError(res));
+                                },
+                              })
+                            }
+                          >
+                            Unpublish
+                          </Button>
                         )}
-                        <Button size="sm" variant="ghost" onClick={() => void handleArchiveJob(job.id)}>Archive</Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() =>
+                            requestConfirm({
+                              title: "Archive role?",
+                              description: `"${job.titleEn}" will be archived and hidden from this list.`,
+                              confirmLabel: "Archive",
+                              destructive: true,
+                              action: async () => {
+                                const res = await archiveCmsItemAdmin({ data: { type: "careerJobs", id: job.id } });
+                                if (isAdminOk(res)) {
+                                  toast.success("Archived", "Role archived.");
+                                  await load();
+                                } else toast.error(adminError(res));
+                              },
+                            })
+                          }
+                        >
+                          Archive
+                        </Button>
                       </>
                     )}
                   </TableCell>
                 </TableRow>
               ))
-            )}
+              : null}
           </TableBody>
         </Table>
       </div>
@@ -337,13 +381,13 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label className="text-xs">Slug</Label>
-              <Input value={editingJob.slug} onChange={(e) => setEditingJob({ ...editingJob, slug: e.target.value })} required />
+              <Input value={editingJob.slug} onChange={(e) => { setEditingJob({ ...editingJob, slug: e.target.value }); setJobDirty(true); }} required />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Category</Label>
               <Select
                 value={editingJob.departmentCategory}
-                onValueChange={(v) => setEditingJob({ ...editingJob, departmentCategory: v as CmsCareerJobRow["departmentCategory"] })}
+                onValueChange={(v) => { setEditingJob({ ...editingJob, departmentCategory: v as CmsCareerJobRow["departmentCategory"] }); setJobDirty(true); }}
               >
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -355,30 +399,30 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Title (EN)</Label>
-              <Input value={editingJob.titleEn} onChange={(e) => setEditingJob({ ...editingJob, titleEn: e.target.value })} required />
+              <Input value={editingJob.titleEn} onChange={(e) => { setEditingJob({ ...editingJob, titleEn: e.target.value }); setJobDirty(true); }} required />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Title (HI)</Label>
-              <Input value={editingJob.titleHi} onChange={(e) => setEditingJob({ ...editingJob, titleHi: e.target.value })} required />
+              <Input value={editingJob.titleHi} onChange={(e) => { setEditingJob({ ...editingJob, titleHi: e.target.value }); setJobDirty(true); }} required />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Department (EN)</Label>
-              <Input value={editingJob.deptEn} onChange={(e) => setEditingJob({ ...editingJob, deptEn: e.target.value })} />
+              <Input value={editingJob.deptEn} onChange={(e) => { setEditingJob({ ...editingJob, deptEn: e.target.value }); setJobDirty(true); }} />
             </div>
             <div className="space-y-2">
               <Label className="text-xs">Location (EN)</Label>
-              <Input value={editingJob.locEn} onChange={(e) => setEditingJob({ ...editingJob, locEn: e.target.value })} />
+              <Input value={editingJob.locEn} onChange={(e) => { setEditingJob({ ...editingJob, locEn: e.target.value }); setJobDirty(true); }} />
             </div>
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Description (EN)</Label>
-            <Textarea value={editingJob.descEn} onChange={(e) => setEditingJob({ ...editingJob, descEn: e.target.value })} rows={3} />
+            <Textarea value={editingJob.descEn} onChange={(e) => { setEditingJob({ ...editingJob, descEn: e.target.value }); setJobDirty(true); }} rows={3} />
           </div>
           <div className="space-y-2">
             <Label className="text-xs">Requirements (EN, one per line)</Label>
             <Textarea
               value={listToLines(editingJob.reqsEn)}
-              onChange={(e) => setEditingJob({ ...editingJob, reqsEn: linesToList(e.target.value) })}
+              onChange={(e) => { setEditingJob({ ...editingJob, reqsEn: linesToList(e.target.value) }); setJobDirty(true); }}
               rows={4}
             />
           </div>
@@ -386,12 +430,12 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             <Label className="text-xs">Responsibilities (EN, one per line)</Label>
             <Textarea
               value={listToLines(editingJob.responsibilitiesEn)}
-              onChange={(e) => setEditingJob({ ...editingJob, responsibilitiesEn: linesToList(e.target.value) })}
+              onChange={(e) => { setEditingJob({ ...editingJob, responsibilitiesEn: linesToList(e.target.value) }); setJobDirty(true); }}
               rows={4}
             />
           </div>
           <div className="flex gap-2 justify-end">
-            <Button type="button" variant="outline" onClick={() => setEditingJob(null)}>Cancel</Button>
+            <Button type="button" variant="outline" onClick={cancelEditJob}>Cancel</Button>
             <Button type="submit" disabled={savingJob}>{savingJob ? "Saving…" : "Save draft"}</Button>
           </div>
         </form>
@@ -442,6 +486,7 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
           </TableBody>
         </Table>
       </div>
+      {confirmDialog}
     </div>
   );
 }

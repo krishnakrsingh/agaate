@@ -7,6 +7,7 @@ import {
   ChevronsUpDown,
   Globe,
   Image,
+  TreePine,
   Video,
   BarChart2,
   UsersRound,
@@ -15,8 +16,9 @@ import {
   Store,
   Briefcase,
   MessageCircle,
-  BookOpen,
   MessageSquare,
+  BookOpen,
+  Layout,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
@@ -61,6 +63,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { CmsReadOnlyBanner } from "@/components/admin/cms/CmsReadOnlyBanner";
 
 type NavItem = {
   to: string;
@@ -80,7 +83,7 @@ const NAV_GROUPS: Array<{
   },
   {
     group: "Website",
-    items: [{ to: "/agaate-admin/content", label: "Content overview", icon: Globe, exact: true }],
+    items: [{ to: "/agaate-admin/content", label: "Content library", icon: Globe, exact: true }],
   },
   {
     group: "Global",
@@ -95,8 +98,9 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/logos", label: "Brand logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Farmer testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
+      { to: "/agaate-admin/content/homepage-chapters", label: "Homepage sections", icon: Layout },
       { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
-      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: Video },
+      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: TreePine },
     ],
   },
   {
@@ -168,6 +172,18 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "Team members", href: "/agaate-admin/content/team", current: true },
       ];
     }
+    if (pathname.startsWith("/agaate-admin/content/site-contact")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Site contact & social", href: "/agaate-admin/content/site-contact", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/content/homepage-chapters")) {
+      return [
+        { label: "Website", href: "/agaate-admin/content", current: false },
+        { label: "Homepage sections", href: "/agaate-admin/content/homepage-chapters", current: true },
+      ];
+    }
     if (pathname.startsWith("/agaate-admin/content/app-links")) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
@@ -207,13 +223,13 @@ export function AdminShell({ user }: { user: SessionUser }) {
     if (pathname.startsWith("/agaate-admin/farm-visits")) {
       return [
         { label: "Inquiries", href: "/agaate-admin/farm-visits", current: false },
-        { label: "Farm Visits", href: "/agaate-admin/farm-visits", current: true },
+        { label: "Farm visits", href: "/agaate-admin/farm-visits", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content")) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Content overview", href: "/agaate-admin/content", current: true },
+        { label: "Content library", href: "/agaate-admin/content", current: true },
       ];
     }
     return [{ label: "Admin", href: "/agaate-admin", current: true }];
@@ -403,6 +419,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
           </header>
 
           <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+            {!canManageSettings(user.role as AdminRole) ? <CmsReadOnlyBanner /> : null}
             <Outlet />
           </main>
         </SidebarInset>

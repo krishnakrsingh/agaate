@@ -17,6 +17,9 @@ import { CmsStatusBadge } from "@/components/admin/cms/CmsStatusBadge";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
 import { CmsDragHandle, CmsSortableProvider, CmsSortableRow } from "@/components/admin/cms/CmsSortable";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
+import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -89,6 +92,7 @@ const emptyForm = {
 
 export function AdminCmsTeam({ role }: { role: AdminRole }) {
   const toast = useToast();
+  const { requestConfirm, confirmDialog } = useCmsListConfirm();
   const canEdit = canManageSettings(role);
   const [items, setItems] = useState<CmsTeamMemberRow[]>([]);
   const [q, setQ] = useState("");
@@ -204,27 +208,26 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
   const filtered = useMemo(() => items, [items]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Team members</h1>
-          <p className="text-sm text-muted-foreground">
-            Leadership roster on the About page and founders banner on the homepage.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
-            <RefreshCw className="mr-1.5 h-4 w-4" />
-            Refresh
-          </Button>
-          {canEdit && (
-            <Button size="sm" onClick={openCreate}>
-              <Plus className="mr-1.5 h-4 w-4" />
-              Add member
+    <div className="space-y-6">
+      <CmsPageHeader
+        title="Team members"
+        description="Leadership roster on the About page and founders banner on the homepage."
+        workflow="publish"
+        actions={
+          <>
+            <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+              <RefreshCw className="mr-1.5 h-4 w-4" />
+              Refresh
             </Button>
-          )}
-        </div>
-      </div>
+            {canEdit && (
+              <Button size="sm" onClick={openCreate}>
+                <Plus className="mr-1.5 h-4 w-4" />
+                Add member
+              </Button>
+            )}
+          </>
+        }
+      />
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
@@ -258,15 +261,17 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={7} className="py-10 text-center text-sm text-muted-foreground">
-                    No team members yet. Click <strong>Add member</strong> or run{" "}
-                    <code className="rounded bg-muted px-1">npm run seed:cms</code> to load defaults.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filtered.map((row) => (
+              {loading ? <CmsTableLoadingRow colSpan={7} /> : null}
+              {!loading && filtered.length === 0 ? (
+                <CmsTableEmptyRow
+                  colSpan={7}
+                  title="No team members yet"
+                  description="Add leadership profiles or run npm run seed:cms for defaults."
+                  action={canEdit ? <CmsTableEmptyAction label="Add member" onClick={openCreate} /> : undefined}
+                />
+              ) : null}
+              {!loading
+                ? filtered.map((row) => (
                 <CmsSortableRow key={row.id} id={row.id}>
                   <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
                   <TableCell>
@@ -294,13 +299,20 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
                           <>
                             {row.status === "published" && (
                               <DropdownMenuItem
-                                onClick={async () => {
-                                  const res = await unpublishCmsItemAdmin({ data: { type: "team", id: row.id } });
-                                  if (isAdminOk(res)) {
-                                    toast.success("Removed from live site.");
-                                    await load();
-                                  }
-                                }}
+                                onClick={() =>
+                                  requestConfirm({
+                                    title: "Unpublish team member?",
+                                    description: `"${row.nameEn}" will be removed from the live site.`,
+                                    confirmLabel: "Unpublish",
+                                    action: async () => {
+                                      const res = await unpublishCmsItemAdmin({ data: { type: "team", id: row.id } });
+                                      if (isAdminOk(res)) {
+                                        toast.success("Removed from live site.");
+                                        await load();
+                                      } else toast.error(adminError(res));
+                                    },
+                                  })
+                                }
                               >
                                 Unpublish
                               </DropdownMenuItem>
@@ -308,13 +320,21 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-rose-600"
-                              onClick={async () => {
-                                const res = await archiveCmsItemAdmin({ data: { type: "team", id: row.id } });
-                                if (isAdminOk(res)) {
-                                  toast.success("Archived.");
-                                  await load();
-                                }
-                              }}
+                              onClick={() =>
+                                requestConfirm({
+                                  title: "Archive team member?",
+                                  description: `"${row.nameEn}" will be archived and hidden from this list.`,
+                                  confirmLabel: "Archive",
+                                  destructive: true,
+                                  action: async () => {
+                                    const res = await archiveCmsItemAdmin({ data: { type: "team", id: row.id } });
+                                    if (isAdminOk(res)) {
+                                      toast.success("Archived.");
+                                      await load();
+                                    } else toast.error(adminError(res));
+                                  },
+                                })
+                              }
                             >
                               Archive
                             </DropdownMenuItem>
@@ -325,7 +345,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
                   </TableCell>
                 </CmsSortableRow>
                 ))
-              )}
+                : null}
             </TableBody>
           </Table>
         </CmsSortableProvider>
@@ -503,6 +523,7 @@ export function AdminCmsTeam({ role }: { role: AdminRole }) {
           )}
         </SheetContent>
       </Sheet>
+      {confirmDialog}
     </div>
   );
 }

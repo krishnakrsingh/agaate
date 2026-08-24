@@ -51,6 +51,9 @@ import {
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { statSlugFromLabel } from "@/lib/cms-slug";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsConfirmDialog } from "@/components/admin/cms/CmsConfirmDialog";
+import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
 
 const emptyForm = {
   slug: "",
@@ -74,6 +77,14 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
   const [editing, setEditing] = useState<CmsStatRow | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [publishing, setPublishing] = useState(false);
+  const [confirm, setConfirm] = useState<{
+    title: string;
+    description: string;
+    confirmLabel: string;
+    destructive?: boolean;
+    action: () => Promise<void>;
+  } | null>(null);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -147,28 +158,35 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
 
   const filtered = useMemo(() => items, [items]);
 
+  const runConfirm = async () => {
+    if (!confirm) return;
+    setConfirmLoading(true);
+    await confirm.action();
+    setConfirmLoading(false);
+    setConfirm(null);
+  };
+
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Site statistics</h1>
-          <p className="text-sm text-muted-foreground">
-            Key metrics shared across pages and sections of the website.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
-            <RefreshCw className="mr-1.5 h-4 w-4" />
-            Refresh
-          </Button>
-          {canEdit && (
-            <Button size="sm" onClick={openCreate}>
-              <Plus className="mr-1.5 h-4 w-4" />
-              Add stat
+    <div className="space-y-6">
+      <CmsPageHeader
+        title="Site statistics"
+        description="Key metrics shown in the homepage stats marquee and other sections."
+        workflow="publish"
+        actions={
+          <>
+            <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+              <RefreshCw className="mr-1.5 h-4 w-4" />
+              Refresh
             </Button>
-          )}
-        </div>
-      </div>
+            {canEdit && (
+              <Button size="sm" onClick={openCreate}>
+                <Plus className="mr-1.5 h-4 w-4" />
+                Add stat
+              </Button>
+            )}
+          </>
+        }
+      />
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
@@ -205,7 +223,19 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((row) => (
+              {loading ? <CmsTableLoadingRow colSpan={5} /> : null}
+              {!loading && filtered.length === 0 ? (
+                <CmsTableEmptyRow
+                  colSpan={5}
+                  title="No statistics yet"
+                  description="Add your first homepage metric, then publish it to make it live."
+                  action={
+                    canEdit ? <CmsTableEmptyAction label="Add stat" onClick={openCreate} /> : undefined
+                  }
+                />
+              ) : null}
+              {!loading
+                ? filtered.map((row) => (
                 <CmsSortableRow key={row.id} id={row.id}>
                   <TableCell>{canEdit && <CmsDragHandle id={row.id} />}</TableCell>
                   <TableCell>
@@ -233,13 +263,22 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
                           <>
                             {row.status === "published" && (
                               <DropdownMenuItem
-                                onClick={async () => {
-                                  const res = await unpublishCmsItemAdmin({ data: { type: "stats", id: row.id } });
-                                  if (isAdminOk(res)) {
-                                    toast.success("Removed from live site.");
-                                    await load();
-                                  }
-                                }}
+                                onClick={() =>
+                                  setConfirm({
+                                    title: "Unpublish statistic?",
+                                    description: `"${row.labelEn}" will be removed from the live website but kept as a draft.`,
+                                    confirmLabel: "Unpublish",
+                                    action: async () => {
+                                      const res = await unpublishCmsItemAdmin({ data: { type: "stats", id: row.id } });
+                                      if (isAdminOk(res)) {
+                                        toast.success("Removed from live site.");
+                                        await load();
+                                      } else {
+                                        toast.error(adminError(res));
+                                      }
+                                    },
+                                  })
+                                }
                               >
                                 Unpublish
                               </DropdownMenuItem>
@@ -247,13 +286,23 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-rose-600"
-                              onClick={async () => {
-                                const res = await archiveCmsItemAdmin({ data: { type: "stats", id: row.id } });
-                                if (isAdminOk(res)) {
-                                  toast.success("Archived.");
-                                  await load();
-                                }
-                              }}
+                              onClick={() =>
+                                setConfirm({
+                                  title: "Archive statistic?",
+                                  description: `"${row.labelEn}" will be archived and hidden from the admin list.`,
+                                  confirmLabel: "Archive",
+                                  destructive: true,
+                                  action: async () => {
+                                    const res = await archiveCmsItemAdmin({ data: { type: "stats", id: row.id } });
+                                    if (isAdminOk(res)) {
+                                      toast.success("Archived.");
+                                      await load();
+                                    } else {
+                                      toast.error(adminError(res));
+                                    }
+                                  },
+                                })
+                              }
                             >
                               Archive
                             </DropdownMenuItem>
@@ -263,7 +312,8 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
                     </DropdownMenu>
                   </TableCell>
                 </CmsSortableRow>
-              ))}
+              ))
+                : null}
             </TableBody>
           </Table>
         </CmsSortableProvider>
@@ -348,6 +398,19 @@ export function AdminCmsStats({ role }: { role: AdminRole }) {
           )}
         </SheetContent>
       </Sheet>
+
+      <CmsConfirmDialog
+        open={Boolean(confirm)}
+        title={confirm?.title ?? ""}
+        description={confirm?.description ?? ""}
+        confirmLabel={confirm?.confirmLabel}
+        destructive={confirm?.destructive}
+        loading={confirmLoading}
+        onConfirm={runConfirm}
+        onOpenChange={(open) => {
+          if (!open) setConfirm(null);
+        }}
+      />
     </div>
   );
 }

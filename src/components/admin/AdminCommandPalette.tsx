@@ -1,17 +1,5 @@
+import { useMemo } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import {
-  LayoutDashboard,
-  Settings,
-  Globe,
-  BarChart2,
-  Image,
-  Video,
-  UsersRound,
-  Smartphone,
-  MapPin,
-  Store,
-  Briefcase,
-} from "lucide-react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -20,6 +8,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { ADMIN_COMMAND_GROUPS, ADMIN_COMMAND_PAGES } from "@/lib/admin-cms-nav";
 
 export function AdminCommandPalette({
   isOpen,
@@ -35,71 +24,35 @@ export function AdminCommandPalette({
     action();
   };
 
+  const grouped = useMemo(() => {
+    return ADMIN_COMMAND_GROUPS.map((group) => ({
+      group,
+      items: ADMIN_COMMAND_PAGES.filter((item) => item.group === group),
+    })).filter((g) => g.items.length > 0);
+  }, []);
+
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder="Search admin pages..." />
+      <CommandInput placeholder="Search admin pages and content…" />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-
-        <CommandGroup heading="Overview">
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin" }))}>
-            <LayoutDashboard className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
-          </CommandItem>
-        </CommandGroup>
-
-        <CommandGroup heading="Website content">
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content" }))}>
-            <Globe className="mr-2 h-4 w-4" />
-            <span>Content overview</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/stats" }))}>
-            <BarChart2 className="mr-2 h-4 w-4" />
-            <span>Site statistics</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/logos" }))}>
-            <Image className="mr-2 h-4 w-4" />
-            <span>Brand logos</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/stories" }))}>
-            <Video className="mr-2 h-4 w-4" />
-            <span>Farmer testimonials</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/team" }))}>
-            <UsersRound className="mr-2 h-4 w-4" />
-            <span>Team members</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/app-links" }))}>
-            <Smartphone className="mr-2 h-4 w-4" />
-            <span>App store links</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/agri-park-tour" }))}>
-            <Video className="mr-2 h-4 w-4" />
-            <span>Agri Park video</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/kisaan-mall" }))}>
-            <Store className="mr-2 h-4 w-4" />
-            <span>Kisaan Mall waitlist</span>
-          </CommandItem>
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/content/careers" }))}>
-            <Briefcase className="mr-2 h-4 w-4" />
-            <span>Careers</span>
-          </CommandItem>
-        </CommandGroup>
-
-        <CommandGroup heading="Inquiries">
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/farm-visits" }))}>
-            <MapPin className="mr-2 h-4 w-4" />
-            <span>Farm Visits</span>
-          </CommandItem>
-        </CommandGroup>
-
-        <CommandGroup heading="Configuration">
-          <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/agaate-admin/settings" }))}>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Email & SMTP settings</span>
-          </CommandItem>
-        </CommandGroup>
+        <CommandEmpty>No matching pages.</CommandEmpty>
+        {grouped.map(({ group, items }) => (
+          <CommandGroup key={group} heading={group}>
+            {items.map((item) => {
+              const Icon = item.icon;
+              return (
+                <CommandItem
+                  key={item.to}
+                  value={`${item.label} ${item.keywords ?? ""} ${item.group}`}
+                  onSelect={() => handleSelect(() => navigate({ to: item.to }))}
+                >
+                  <Icon className="mr-2 h-4 w-4" />
+                  <span>{item.label}</span>
+                </CommandItem>
+              );
+            })}
+          </CommandGroup>
+        ))}
       </CommandList>
     </CommandDialog>
   );

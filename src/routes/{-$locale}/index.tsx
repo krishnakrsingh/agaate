@@ -17,24 +17,27 @@ import {
   ProofChapter,
   ClosingChapter,
 } from "@/components/home";
-import { getHomeCms, getTeamCms, getKisaanMallPage, getAgriParkChapter } from "@/functions/public-cms";
+import { getHomeCms, getTeamCms, getKisaanMallPage, getAgriParkChapter, getHomepageChapters } from "@/functions/public-cms";
 import { isAdminOk } from "@/lib/admin-api";
 import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
 import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
+import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 import { KisaanMallPageProvider } from "@/contexts/KisaanMallPageContext";
 import { AgriParkChapterProvider } from "@/contexts/AgriParkChapterContext";
+import { HomepageChaptersProvider } from "@/contexts/HomepageChaptersContext";
 
 export const Route = createFileRoute("/{-$locale}/")({
   staleTime: 0,
   loader: async () => {
     try {
-      const [homeRes, teamRes, mallRes, agriRes] = await Promise.all([
+      const [homeRes, teamRes, mallRes, agriRes, chaptersRes] = await Promise.all([
         getHomeCms({ data: { preview: false } }),
         getTeamCms({ data: { preview: false } }),
         getKisaanMallPage(),
         getAgriParkChapter(),
+        getHomepageChapters(),
       ]);
       const cms = isAdminOk<{ data: typeof HOMEPAGE_CMS_FALLBACK }>(homeRes)
         ? homeRes.data
@@ -48,7 +51,10 @@ export const Route = createFileRoute("/{-$locale}/")({
       const agriParkChapter = isAdminOk<{ chapter: typeof AGRI_PARK_CHAPTER_FALLBACK }>(agriRes)
         ? agriRes.chapter
         : AGRI_PARK_CHAPTER_FALLBACK;
-      return { cms, teamCms, kisaanMallPage, agriParkChapter };
+      const homepageChapters = isAdminOk<{ chapters: typeof HOMEPAGE_CHAPTERS_FALLBACK }>(chaptersRes)
+        ? chaptersRes.chapters
+        : HOMEPAGE_CHAPTERS_FALLBACK;
+      return { cms, teamCms, kisaanMallPage, agriParkChapter, homepageChapters };
     } catch (err) {
       console.warn("Homepage CMS loader fallback:", err);
     }
@@ -57,6 +63,7 @@ export const Route = createFileRoute("/{-$locale}/")({
       teamCms: TEAM_CMS_FALLBACK,
       kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
       agriParkChapter: AGRI_PARK_CHAPTER_FALLBACK,
+      homepageChapters: HOMEPAGE_CHAPTERS_FALLBACK,
     };
   },
   head: () => ({
@@ -73,7 +80,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function Index() {
-  const { cms, teamCms, kisaanMallPage, agriParkChapter } = Route.useLoaderData();
+  const { cms, teamCms, kisaanMallPage, agriParkChapter, homepageChapters } = Route.useLoaderData();
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [startHeroAnimation, setStartHeroAnimation] = useState(false);
@@ -133,21 +140,23 @@ function Index() {
         />
 
         {contentReady && (
-          <KisaanMallPageProvider content={kisaanMallPage}>
-            <AgriParkChapterProvider content={agriParkChapter}>
-              <SectionStatsMarquee stats={cms.stats} />
-              <PillarsHorizontalParallax />
-              <MallChapter />
-              <AppChapter appLinks={cms.appLinks} />
-              <PillarMarket buyers={cms.logos?.buyers} />
-              <AgriParkChapter agriParkTour={cms.agriParkTour} />
-              <BrandsAssociationsChapter brands={cms.logos} />
-              <PeopleChapter teamCms={teamCms} />
-              <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />
-              <ClosingChapter />
-              <Footer />
-            </AgriParkChapterProvider>
-          </KisaanMallPageProvider>
+          <HomepageChaptersProvider content={homepageChapters}>
+            <KisaanMallPageProvider content={kisaanMallPage}>
+              <AgriParkChapterProvider content={agriParkChapter}>
+                <SectionStatsMarquee stats={cms.stats} />
+                <PillarsHorizontalParallax />
+                <MallChapter />
+                <AppChapter appLinks={cms.appLinks} />
+                <PillarMarket buyers={cms.logos?.buyers} />
+                <AgriParkChapter agriParkTour={cms.agriParkTour} />
+                <BrandsAssociationsChapter brands={cms.logos} />
+                <PeopleChapter teamCms={teamCms} />
+                <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />
+                <ClosingChapter />
+                <Footer />
+              </AgriParkChapterProvider>
+            </KisaanMallPageProvider>
+          </HomepageChaptersProvider>
         )}
       </main>
     </>
