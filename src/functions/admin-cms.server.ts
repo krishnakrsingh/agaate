@@ -28,6 +28,10 @@ import {
   fetchAppLinks,
   fetchAgriParkTour,
   saveAgriParkTour,
+  fetchAgriParkChapter,
+  saveAgriParkChapter,
+  fetchHomepageChapters,
+  saveHomepageChapters,
   fetchKisaanMallLanding,
   saveKisaanMallLanding,
   fetchKisaanMallPage,
@@ -68,6 +72,8 @@ import type {
   CmsListFilters,
   HomeCmsAppLinks,
   HomeCmsAgriParkTour,
+  HomeAgriParkChapterContent,
+  HomepageChaptersContent,
   KisaanMallLanding,
   KisaanMallPageContent,
   CareersPageContent,
@@ -701,7 +707,40 @@ export async function handleGetAgriParkTour() {
   try {
     await requireSessionUser();
     const agriParkTour = await fetchAgriParkTour();
-    return { ok: true as const, agriParkTour, dbConfigured: isDbConfigured() };
+    const chapter = await fetchAgriParkChapter();
+    return { ok: true as const, agriParkTour, chapter, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveAgriParkChapter(chapter: HomeAgriParkChapterContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveAgriParkChapter(chapter);
+    return { ok: true as const, chapter: saved };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleGetHomepageChapters() {
+  try {
+    await requireSessionUser();
+    const chapters = await fetchHomepageChapters();
+    return { ok: true as const, chapters, dbConfigured: isDbConfigured() };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleSaveHomepageChapters(chapters: HomepageChaptersContent) {
+  try {
+    assertSameOrigin();
+    await requireEditor();
+    const saved = await saveHomepageChapters(chapters);
+    return { ok: true as const, chapters: saved };
   } catch (err) {
     return failAuth(err);
   }

@@ -40,12 +40,22 @@ import {
   type ContactPageContent,
   type KisaanMallPageContent,
   type KisaanMallSectionCopy,
+  type HomeAgriParkChapterContent,
+  type HomeChapterStat,
+  type HomepageChaptersContent,
+  type HomePillarItem,
+  type HomePillarMarketChapter,
+  type HomeAppChapterContent,
+  type HomeClosingChapterContent,
+  type HomeClosingPathway,
 } from "@/lib/cms-types";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
+import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 
 function parseJson<T>(value: unknown, fallback: T): T {
   if (value == null) return fallback;
@@ -259,6 +269,208 @@ function normalizeKisaanMallLanding(raw: Partial<KisaanMallLanding> | null | und
   };
 }
 
+function normalizeHomeChapterStat(
+  raw: Partial<HomeChapterStat> | null | undefined,
+  fb: HomeChapterStat,
+): HomeChapterStat {
+  return {
+    numValue: Number(raw?.numValue ?? fb.numValue),
+    prefixEn: String(raw?.prefixEn ?? "").trim() || fb.prefixEn,
+    prefixHi: String(raw?.prefixHi ?? "").trim() || fb.prefixHi,
+    suffixEn: String(raw?.suffixEn ?? "").trim() || fb.suffixEn,
+    suffixHi: String(raw?.suffixHi ?? "").trim() || fb.suffixHi,
+    valueTextEn: String(raw?.valueTextEn ?? "").trim() || fb.valueTextEn,
+    valueTextHi: String(raw?.valueTextHi ?? "").trim() || fb.valueTextHi,
+    labelEn: String(raw?.labelEn ?? "").trim() || fb.labelEn,
+    labelHi: String(raw?.labelHi ?? "").trim() || fb.labelHi,
+  };
+}
+
+function normalizeHomePillarItem(
+  raw: Partial<HomePillarItem> | null | undefined,
+  fb: HomePillarItem,
+): HomePillarItem {
+  const metrics = Array.isArray(raw?.metrics) ? raw.metrics : fb.metrics;
+  const ctaType =
+    raw?.ctaType === "whatsapp" || raw?.ctaType === "modal" || raw?.ctaType === "locations"
+      ? raw.ctaType
+      : fb.ctaType;
+  return {
+    id: String(raw?.id ?? "").trim() || fb.id,
+    number: String(raw?.number ?? "").trim() || fb.number,
+    tagEn: String(raw?.tagEn ?? "").trim() || fb.tagEn,
+    tagHi: String(raw?.tagHi ?? "").trim() || fb.tagHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    metrics: metrics.map((m, i) => normalizeHomeChapterStat(m, fb.metrics[i] ?? fb.metrics[0])),
+    featuresEn: Array.isArray(raw?.featuresEn) ? raw.featuresEn.map(String) : fb.featuresEn,
+    featuresHi: Array.isArray(raw?.featuresHi) ? raw.featuresHi.map(String) : fb.featuresHi,
+    ctaTextEn: String(raw?.ctaTextEn ?? "").trim() || fb.ctaTextEn,
+    ctaTextHi: String(raw?.ctaTextHi ?? "").trim() || fb.ctaTextHi,
+    ctaType,
+    imageUrl: String(raw?.imageUrl ?? "").trim() || fb.imageUrl,
+    imageAltEn: String(raw?.imageAltEn ?? "").trim() || fb.imageAltEn,
+    imageAltHi: String(raw?.imageAltHi ?? "").trim() || fb.imageAltHi,
+    locationsBadgeEn: String(raw?.locationsBadgeEn ?? "").trim() || fb.locationsBadgeEn,
+    locationsBadgeHi: String(raw?.locationsBadgeHi ?? "").trim() || fb.locationsBadgeHi,
+    viewLocationsLabelEn: String(raw?.viewLocationsLabelEn ?? "").trim() || fb.viewLocationsLabelEn,
+    viewLocationsLabelHi: String(raw?.viewLocationsLabelHi ?? "").trim() || fb.viewLocationsLabelHi,
+  };
+}
+
+function normalizePillarMarketChapter(
+  raw: Partial<HomePillarMarketChapter> | null | undefined,
+): HomePillarMarketChapter {
+  const fb = HOMEPAGE_CHAPTERS_FALLBACK.pillarMarket;
+  const stats = Array.isArray(raw?.stats) ? raw.stats : fb.stats;
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    stats: stats.map((s, i) => normalizeHomeChapterStat(s, fb.stats[i] ?? fb.stats[0])),
+    highlightsEn: Array.isArray(raw?.highlightsEn) ? raw.highlightsEn.map(String) : fb.highlightsEn,
+    highlightsHi: Array.isArray(raw?.highlightsHi) ? raw.highlightsHi.map(String) : fb.highlightsHi,
+    ctaLabelEn: String(raw?.ctaLabelEn ?? "").trim() || fb.ctaLabelEn,
+    ctaLabelHi: String(raw?.ctaLabelHi ?? "").trim() || fb.ctaLabelHi,
+    imageUrl: String(raw?.imageUrl ?? "").trim() || fb.imageUrl,
+    imageAltEn: String(raw?.imageAltEn ?? "").trim() || fb.imageAltEn,
+    imageAltHi: String(raw?.imageAltHi ?? "").trim() || fb.imageAltHi,
+  };
+}
+
+function normalizeAppChapterContent(raw: Partial<HomeAppChapterContent> | null | undefined): HomeAppChapterContent {
+  const fb = HOMEPAGE_CHAPTERS_FALLBACK.appChapter;
+  const stats = Array.isArray(raw?.stats) ? raw.stats : fb.stats;
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    stats: stats.map((s, i) => normalizeHomeChapterStat(s, fb.stats[i] ?? fb.stats[0])),
+    checklistEn: Array.isArray(raw?.checklistEn) ? raw.checklistEn.map(String) : fb.checklistEn,
+    checklistHi: Array.isArray(raw?.checklistHi) ? raw.checklistHi.map(String) : fb.checklistHi,
+  };
+}
+
+function normalizeClosingPathway(
+  raw: Partial<HomeClosingPathway> | null | undefined,
+  fb: HomeClosingPathway,
+): HomeClosingPathway {
+  const type =
+    raw?.type === "whatsapp" || raw?.type === "link" || raw?.type === "modal" ? raw.type : fb.type;
+  return {
+    number: String(raw?.number ?? "").trim() || fb.number,
+    iconKey: normalizeIconKey(raw?.iconKey ?? fb.iconKey),
+    tagEn: String(raw?.tagEn ?? "").trim() || fb.tagEn,
+    tagHi: String(raw?.tagHi ?? "").trim() || fb.tagHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    subtitleEn: String(raw?.subtitleEn ?? "").trim() || fb.subtitleEn,
+    subtitleHi: String(raw?.subtitleHi ?? "").trim() || fb.subtitleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    actionLabelEn: String(raw?.actionLabelEn ?? "").trim() || fb.actionLabelEn,
+    actionLabelHi: String(raw?.actionLabelHi ?? "").trim() || fb.actionLabelHi,
+    actionSubEn: String(raw?.actionSubEn ?? "").trim() || fb.actionSubEn,
+    actionSubHi: String(raw?.actionSubHi ?? "").trim() || fb.actionSubHi,
+    type,
+    linkHref: String(raw?.linkHref ?? "").trim() || fb.linkHref,
+    perksEn: Array.isArray(raw?.perksEn) ? raw.perksEn.map(String) : fb.perksEn,
+    perksHi: Array.isArray(raw?.perksHi) ? raw.perksHi.map(String) : fb.perksHi,
+  };
+}
+
+function normalizeClosingChapter(raw: Partial<HomeClosingChapterContent> | null | undefined): HomeClosingChapterContent {
+  const fb = HOMEPAGE_CHAPTERS_FALLBACK.closingChapter;
+  const pathways = Array.isArray(raw?.pathways) ? raw.pathways : fb.pathways;
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    pathways: pathways.map((p, i) => normalizeClosingPathway(p, fb.pathways[i] ?? fb.pathways[0])),
+  };
+}
+
+function normalizeHomepageChapters(raw: Partial<HomepageChaptersContent> | null | undefined): HomepageChaptersContent {
+  const fb = HOMEPAGE_CHAPTERS_FALLBACK;
+  const pillars = Array.isArray(raw?.pillars) ? raw.pillars : fb.pillars;
+  return {
+    pillars: pillars.map((p, i) => normalizeHomePillarItem(p, fb.pillars[i] ?? fb.pillars[0])),
+    pillarMarket: normalizePillarMarketChapter(raw?.pillarMarket),
+    appChapter: normalizeAppChapterContent(raw?.appChapter),
+    closingChapter: normalizeClosingChapter(raw?.closingChapter),
+  };
+}
+
+function normalizeAgriParkChapter(
+  raw: Partial<HomeAgriParkChapterContent> | null | undefined,
+): HomeAgriParkChapterContent {
+  const fb = AGRI_PARK_CHAPTER_FALLBACK;
+  const stats = Array.isArray(raw?.stats) ? raw.stats : fb.stats;
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    stats: stats.map((s, i) => normalizeHomeChapterStat(s, fb.stats[i] ?? fb.stats[0])),
+    checklistEn: Array.isArray(raw?.checklistEn) ? raw.checklistEn.map(String) : fb.checklistEn,
+    checklistHi: Array.isArray(raw?.checklistHi) ? raw.checklistHi.map(String) : fb.checklistHi,
+    bookVisitLabelEn: String(raw?.bookVisitLabelEn ?? "").trim() || fb.bookVisitLabelEn,
+    bookVisitLabelHi: String(raw?.bookVisitLabelHi ?? "").trim() || fb.bookVisitLabelHi,
+    watchTourLabelEn: String(raw?.watchTourLabelEn ?? "").trim() || fb.watchTourLabelEn,
+    watchTourLabelHi: String(raw?.watchTourLabelHi ?? "").trim() || fb.watchTourLabelHi,
+    locationBadgeEn: String(raw?.locationBadgeEn ?? "").trim() || fb.locationBadgeEn,
+    locationBadgeHi: String(raw?.locationBadgeHi ?? "").trim() || fb.locationBadgeHi,
+    mapImageUrl: String(raw?.mapImageUrl ?? "").trim() || fb.mapImageUrl,
+    mapAltEn: String(raw?.mapAltEn ?? "").trim() || fb.mapAltEn,
+    mapAltHi: String(raw?.mapAltHi ?? "").trim() || fb.mapAltHi,
+  };
+}
+
+function normalizeKisaanMallHomeChapter(
+  raw: Partial<KisaanMallPageContent["homeChapter"]> | null | undefined,
+): KisaanMallPageContent["homeChapter"] {
+  const fb = KISAAN_MALL_PAGE_FALLBACK.homeChapter;
+  return {
+    badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
+    badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
+    titleEn: String(raw?.titleEn ?? "").trim() || fb.titleEn,
+    titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
+    descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
+    descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
+    featuresEn: Array.isArray(raw?.featuresEn) ? raw.featuresEn.map(String) : fb.featuresEn,
+    featuresHi: Array.isArray(raw?.featuresHi) ? raw.featuresHi.map(String) : fb.featuresHi,
+    browseLabelEn: String(raw?.browseLabelEn ?? "").trim() || fb.browseLabelEn,
+    browseLabelHi: String(raw?.browseLabelHi ?? "").trim() || fb.browseLabelHi,
+    supplyHeadingEn: String(raw?.supplyHeadingEn ?? "").trim() || fb.supplyHeadingEn,
+    supplyHeadingHi: String(raw?.supplyHeadingHi ?? "").trim() || fb.supplyHeadingHi,
+    supplySubtextEn: String(raw?.supplySubtextEn ?? "").trim() || fb.supplySubtextEn,
+    supplySubtextHi: String(raw?.supplySubtextHi ?? "").trim() || fb.supplySubtextHi,
+    ctaEyebrowEn: String(raw?.ctaEyebrowEn ?? "").trim() || fb.ctaEyebrowEn,
+    ctaEyebrowHi: String(raw?.ctaEyebrowHi ?? "").trim() || fb.ctaEyebrowHi,
+    ctaTitleEn: String(raw?.ctaTitleEn ?? "").trim() || fb.ctaTitleEn,
+    ctaTitleHi: String(raw?.ctaTitleHi ?? "").trim() || fb.ctaTitleHi,
+    ctaDescriptionEn: String(raw?.ctaDescriptionEn ?? "").trim() || fb.ctaDescriptionEn,
+    ctaDescriptionHi: String(raw?.ctaDescriptionHi ?? "").trim() || fb.ctaDescriptionHi,
+    ctaBrowseEn: String(raw?.ctaBrowseEn ?? "").trim() || fb.ctaBrowseEn,
+    ctaBrowseHi: String(raw?.ctaBrowseHi ?? "").trim() || fb.ctaBrowseHi,
+    ctaCallEn: String(raw?.ctaCallEn ?? "").trim() || fb.ctaCallEn,
+    ctaCallHi: String(raw?.ctaCallHi ?? "").trim() || fb.ctaCallHi,
+  };
+}
+
 function normalizeMallSection(
   raw: Partial<KisaanMallSectionCopy> | null | undefined,
   fb: KisaanMallSectionCopy,
@@ -284,6 +496,7 @@ function normalizeKisaanMallPage(raw: Partial<KisaanMallPageContent> | null | un
 
   return {
     displayMode,
+    homeChapter: normalizeKisaanMallHomeChapter(raw?.homeChapter),
     heroEyebrowEn: String(raw?.heroEyebrowEn ?? "").trim() || fb.heroEyebrowEn,
     heroEyebrowHi: String(raw?.heroEyebrowHi ?? "").trim() || fb.heroEyebrowHi,
     heroTitleEn: String(raw?.heroTitleEn ?? "").trim() || fb.heroTitleEn,
@@ -676,6 +889,8 @@ function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): Cm
     agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
     kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding),
     kisaanMallPage: normalizeKisaanMallPage(raw?.kisaanMallPage),
+    agriParkChapter: normalizeAgriParkChapter(raw?.agriParkChapter),
+    homepageChapters: normalizeHomepageChapters(raw?.homepageChapters),
     careersPage: normalizeCareersPage(raw?.careersPage),
     siteContact: normalizeSiteContact(raw?.siteContact),
     aboutPage: normalizeAboutPage(raw?.aboutPage),
@@ -732,6 +947,12 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
     kisaanMallPage: patch.kisaanMallPage
       ? normalizeKisaanMallPage(patch.kisaanMallPage)
       : current.kisaanMallPage,
+    agriParkChapter: patch.agriParkChapter
+      ? normalizeAgriParkChapter(patch.agriParkChapter)
+      : current.agriParkChapter,
+    homepageChapters: patch.homepageChapters
+      ? normalizeHomepageChapters(patch.homepageChapters)
+      : current.homepageChapters,
     careersPage: patch.careersPage ? normalizeCareersPage(patch.careersPage) : current.careersPage,
     siteContact: patch.siteContact ? normalizeSiteContact(patch.siteContact) : current.siteContact,
     aboutPage: patch.aboutPage ? normalizeAboutPage(patch.aboutPage) : current.aboutPage,
@@ -777,6 +998,26 @@ export async function fetchKisaanMallPage(): Promise<KisaanMallPageContent> {
 export async function saveKisaanMallPage(content: KisaanMallPageContent): Promise<KisaanMallPageContent> {
   const config = await mergeSiteConfig({ kisaanMallPage: content });
   return config.kisaanMallPage;
+}
+
+export async function fetchAgriParkChapter(): Promise<HomeAgriParkChapterContent> {
+  const config = await fetchSiteConfig();
+  return config.agriParkChapter;
+}
+
+export async function saveAgriParkChapter(content: HomeAgriParkChapterContent): Promise<HomeAgriParkChapterContent> {
+  const config = await mergeSiteConfig({ agriParkChapter: content });
+  return config.agriParkChapter;
+}
+
+export async function fetchHomepageChapters(): Promise<HomepageChaptersContent> {
+  const config = await fetchSiteConfig();
+  return config.homepageChapters;
+}
+
+export async function saveHomepageChapters(content: HomepageChaptersContent): Promise<HomepageChaptersContent> {
+  const config = await mergeSiteConfig({ homepageChapters: content });
+  return config.homepageChapters;
 }
 
 export async function fetchCareersPage(): Promise<CareersPageContent> {

@@ -31,6 +31,7 @@ import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaa
 import { Route as AgaateAdminAuthedContentSiteContactRouteImport } from './routes/agaate-admin/_authed/content/site-contact'
 import { Route as AgaateAdminAuthedContentLogosRouteImport } from './routes/agaate-admin/_authed/content/logos'
 import { Route as AgaateAdminAuthedContentKisaanMallRouteImport } from './routes/agaate-admin/_authed/content/kisaan-mall'
+import { Route as AgaateAdminAuthedContentHomepageChaptersRouteImport } from './routes/agaate-admin/_authed/content/homepage-chapters'
 import { Route as AgaateAdminAuthedContentContactPageRouteImport } from './routes/agaate-admin/_authed/content/contact-page'
 import { Route as AgaateAdminAuthedContentCareersRouteImport } from './routes/agaate-admin/_authed/content/careers'
 import { Route as AgaateAdminAuthedContentAppLinksRouteImport } from './routes/agaate-admin/_authed/content/app-links'
@@ -164,6 +165,12 @@ const AgaateAdminAuthedContentKisaanMallRoute =
     path: '/content/kisaan-mall',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedContentHomepageChaptersRoute =
+  AgaateAdminAuthedContentHomepageChaptersRouteImport.update({
+    id: '/content/homepage-chapters',
+    path: '/content/homepage-chapters',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedContentContactPageRoute =
   AgaateAdminAuthedContentContactPageRouteImport.update({
     id: '/content/contact-page',
@@ -215,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/content/careers': typeof AgaateAdminAuthedContentCareersRoute
   '/agaate-admin/content/contact-page': typeof AgaateAdminAuthedContentContactPageRoute
+  '/agaate-admin/content/homepage-chapters': typeof AgaateAdminAuthedContentHomepageChaptersRoute
   '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/site-contact': typeof AgaateAdminAuthedContentSiteContactRoute
@@ -241,6 +249,7 @@ export interface FileRoutesByTo {
   '/agaate-admin/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/content/careers': typeof AgaateAdminAuthedContentCareersRoute
   '/agaate-admin/content/contact-page': typeof AgaateAdminAuthedContentContactPageRoute
+  '/agaate-admin/content/homepage-chapters': typeof AgaateAdminAuthedContentHomepageChaptersRoute
   '/agaate-admin/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/content/site-contact': typeof AgaateAdminAuthedContentSiteContactRoute
@@ -271,6 +280,7 @@ export interface FileRoutesById {
   '/agaate-admin/_authed/content/app-links': typeof AgaateAdminAuthedContentAppLinksRoute
   '/agaate-admin/_authed/content/careers': typeof AgaateAdminAuthedContentCareersRoute
   '/agaate-admin/_authed/content/contact-page': typeof AgaateAdminAuthedContentContactPageRoute
+  '/agaate-admin/_authed/content/homepage-chapters': typeof AgaateAdminAuthedContentHomepageChaptersRoute
   '/agaate-admin/_authed/content/kisaan-mall': typeof AgaateAdminAuthedContentKisaanMallRoute
   '/agaate-admin/_authed/content/logos': typeof AgaateAdminAuthedContentLogosRoute
   '/agaate-admin/_authed/content/site-contact': typeof AgaateAdminAuthedContentSiteContactRoute
@@ -301,6 +311,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/content/app-links'
     | '/agaate-admin/content/careers'
     | '/agaate-admin/content/contact-page'
+    | '/agaate-admin/content/homepage-chapters'
     | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/site-contact'
@@ -327,6 +338,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/content/app-links'
     | '/agaate-admin/content/careers'
     | '/agaate-admin/content/contact-page'
+    | '/agaate-admin/content/homepage-chapters'
     | '/agaate-admin/content/kisaan-mall'
     | '/agaate-admin/content/logos'
     | '/agaate-admin/content/site-contact'
@@ -356,6 +368,7 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed/content/app-links'
     | '/agaate-admin/_authed/content/careers'
     | '/agaate-admin/_authed/content/contact-page'
+    | '/agaate-admin/_authed/content/homepage-chapters'
     | '/agaate-admin/_authed/content/kisaan-mall'
     | '/agaate-admin/_authed/content/logos'
     | '/agaate-admin/_authed/content/site-contact'
@@ -526,6 +539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentKisaanMallRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/content/homepage-chapters': {
+      id: '/agaate-admin/_authed/content/homepage-chapters'
+      path: '/content/homepage-chapters'
+      fullPath: '/agaate-admin/content/homepage-chapters'
+      preLoaderRoute: typeof AgaateAdminAuthedContentHomepageChaptersRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/contact-page': {
       id: '/agaate-admin/_authed/content/contact-page'
       path: '/content/contact-page'
@@ -573,6 +593,7 @@ interface AgaateAdminAuthedRouteRouteChildren {
   AgaateAdminAuthedContentAppLinksRoute: typeof AgaateAdminAuthedContentAppLinksRoute
   AgaateAdminAuthedContentCareersRoute: typeof AgaateAdminAuthedContentCareersRoute
   AgaateAdminAuthedContentContactPageRoute: typeof AgaateAdminAuthedContentContactPageRoute
+  AgaateAdminAuthedContentHomepageChaptersRoute: typeof AgaateAdminAuthedContentHomepageChaptersRoute
   AgaateAdminAuthedContentKisaanMallRoute: typeof AgaateAdminAuthedContentKisaanMallRoute
   AgaateAdminAuthedContentLogosRoute: typeof AgaateAdminAuthedContentLogosRoute
   AgaateAdminAuthedContentSiteContactRoute: typeof AgaateAdminAuthedContentSiteContactRoute
@@ -595,6 +616,8 @@ const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
     AgaateAdminAuthedContentCareersRoute: AgaateAdminAuthedContentCareersRoute,
     AgaateAdminAuthedContentContactPageRoute:
       AgaateAdminAuthedContentContactPageRoute,
+    AgaateAdminAuthedContentHomepageChaptersRoute:
+      AgaateAdminAuthedContentHomepageChaptersRoute,
     AgaateAdminAuthedContentKisaanMallRoute:
       AgaateAdminAuthedContentKisaanMallRoute,
     AgaateAdminAuthedContentLogosRoute: AgaateAdminAuthedContentLogosRoute,

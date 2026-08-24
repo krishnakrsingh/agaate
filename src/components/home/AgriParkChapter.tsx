@@ -1,3 +1,4 @@
+import { useAgriParkChapter } from "@/contexts/AgriParkChapterContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -25,6 +26,7 @@ type AgriParkChapterProps = {
 };
 
 export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) {
+  const chapter = useAgriParkChapter();
   const [isVisitModalOpen, setIsVisitModalOpen] = useState<boolean>(false);
   const [isMapZoomOpen, setIsMapZoomOpen] = useState<boolean>(false);
   const [isTourVideoOpen, setIsTourVideoOpen] = useState<boolean>(false);
@@ -36,19 +38,8 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
   const sectionRef = useHomeChapterReveal("fade-up");
   const tourMedia = agriParkTour ?? DEFAULT_HOME_CMS_AGRI_PARK_TOUR;
 
-  const checklistItems = isHindi
-    ? [
-      "5 एकड़ बहुस्तरीय अनुसंधान और प्रदर्शन प्लॉट",
-      "PI, Koppert, Coromandel, T.Stanes ब्रांड ट्रायल्स",
-      "स्मार्ट ड्रिप ऑटोमेशन व फर्टीगेशन तकनीक",
-      "किसानों के लिए निःशुल्क व्यावहारिक मास्टरक्लास",
-    ]
-    : [
-      "5-Acre Multi-Layer Proving & Demonstration Plots",
-      "Live Partner Trials: PI, Koppert, Coromandel, T.Stanes",
-      "Automated drip & precision fertigation setups",
-      "Hands-on farmer training & masterclasses",
-    ];
+  const checklistItems = isHindi ? chapter.checklistHi : chapter.checklistEn;
+  const mapAlt = isHindi ? chapter.mapAltHi : chapter.mapAltEn;
 
   return (
     <>
@@ -71,50 +62,37 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
               <div className="flex items-center gap-2.5 mb-3">
                 <span className="h-px w-5 bg-[#5d7d37]" aria-hidden="true" />
                 <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d7d37]">
-                  {isHindi ? "5-एकड़ एग्री पार्क" : "5-Acre Agri Park"}
+                  {isHindi ? chapter.badgeHi : chapter.badgeEn}
                 </p>
               </div>
 
               {/* Display Headline */}
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#143d31] leading-[1.1]">
-                {isHindi
-                  ? "5 एकड़ का जीवित फार्म — हर समाधान जमीन पर प्रमाणित"
-                  : "5-Acre Living Proving Ground for Modern Farming"}
+                {isHindi ? chapter.titleHi : chapter.titleEn}
               </h2>
 
-              {/* Subtext Description */}
               <p className="font-sans mt-3 text-sm sm:text-base text-[#4f624f] leading-relaxed font-normal">
-                {isHindi
-                  ? "गुरुग्राम (NH-8) में 5 एकड़ का खुला अनुसंधान व बहुस्तरीय कृषि केंद्र। PI Industries, Koppert, Coromandel, T.Stanes और अगाते प्रैक्टिसेज के लाइव हाइब्रिड बीज, ड्रिप ऑटोमेशन व जैविक परीक्षण।"
-                  : "Our 5-acre proving ground in Gurugram features live demonstration plots with global partners (PI Industries, Koppert, Coromandel, T.Stanes) testing seed genetics, drip automation, and multi-layer farming."}
+                {isHindi ? chapter.descriptionHi : chapter.descriptionEn}
               </p>
 
-              {/* Metrics Strip (Line-Type Design) */}
               <div className="my-6 border-y border-[#143d31]/10 py-4 grid grid-cols-3 gap-2">
-                <div className="text-left first:border-l-0 first:pl-0">
-                  <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                    <CountUp to={5} suffix=" Acres" />
-                  </p>
-                  <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                    {isHindi ? "जीवित रिसर्च फार्म" : "Live Farm Proving"}
-                  </p>
-                </div>
-                <div className="text-left border-l border-[#143d31]/10 pl-3">
-                  <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                    <CountUp to={98} suffix="%" />
-                  </p>
-                  <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                    {isHindi ? "नर्सरी जमाव दर" : "Sapling Survival"}
-                  </p>
-                </div>
-                <div className="text-left border-l border-[#143d31]/10 pl-3">
-                  <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
-                    <CountUp to={2000} suffix="+" />
-                  </p>
-                  <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
-                    {isHindi ? "प्रशिक्षित किसान" : "Farmers Trained"}
-                  </p>
-                </div>
+                {chapter.stats.map((stat, idx) => {
+                  const label = isHindi ? stat.labelHi : stat.labelEn;
+                  const suffix = isHindi ? stat.suffixHi : stat.suffixEn;
+                  return (
+                    <div
+                      key={label}
+                      className={idx > 0 ? "text-left border-l border-[#143d31]/10 pl-3" : "text-left first:border-l-0 first:pl-0"}
+                    >
+                      <p className="font-display text-2xl sm:text-3xl font-bold text-[#143d31] tracking-tight">
+                        <CountUp to={stat.numValue} suffix={suffix} />
+                      </p>
+                      <p className="font-mono text-[10px] font-bold text-[#5d7d37] uppercase tracking-wider mt-0.5">
+                        {label}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Feature Highlights Checklist */}
@@ -136,7 +114,7 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
                   onClick={() => setIsVisitModalOpen(true)}
                   variant="dark"
                   size="md"
-                  label={isHindi ? "फार्म विजिट बुक करें" : "Book Farm Visit"}
+                  label={isHindi ? chapter.bookVisitLabelHi : chapter.bookVisitLabelEn}
                   icon={<Calendar className="h-4 w-4" />}
                   iconPosition="left"
                 />
@@ -145,7 +123,7 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
                   onClick={() => setIsTourVideoOpen(true)}
                   variant="outline"
                   size="md"
-                  label={isHindi ? "वीडियो टूर देखें" : "Watch Video Tour"}
+                  label={isHindi ? chapter.watchTourLabelHi : chapter.watchTourLabelEn}
                   icon={<Play className="h-4 w-4 text-[#5d7d37]" weight="fill" />}
                   iconPosition="left"
                 />
@@ -165,9 +143,7 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
                 <div className="w-full flex items-center justify-end mb-3 px-2">
                   <div className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-mono font-bold text-[#143d31] backdrop-blur-md shadow-sm border border-[#143d31]/10">
                     <MapPin className="h-3.5 w-3.5 text-[#5d7d37]" weight="fill" />
-                    <span>
-                      {isHindi ? "कुकरोला, गुरुग्राम (NH-8)" : "Kukrola, Gurugram (NH-8)"}
-                    </span>
+                    <span>{isHindi ? chapter.locationBadgeHi : chapter.locationBadgeEn}</span>
                   </div>
                 </div>
 
@@ -177,8 +153,8 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
                   className="relative w-full cursor-pointer transition-transform duration-500 group-hover:scale-[1.02] flex items-center justify-center p-2"
                 >
                   <img
-                    src="/agripark.png"
-                    alt="Agaate Agri Park 5-Acre Master Layout & Partner Plots"
+                    src={chapter.mapImageUrl}
+                    alt={mapAlt}
                     className="w-full h-auto max-h-[460px] object-contain drop-shadow-[0_20px_30px_rgba(20,61,49,0.22)]"
                   />
 
@@ -235,8 +211,8 @@ export default function AgriParkChapter({ agriParkTour }: AgriParkChapterProps) 
 
               <div className="relative flex-1 overflow-auto p-2 bg-black flex items-center justify-center">
                 <img
-                  src="/agripark.png"
-                  alt="Agaate Agri Park 5-Acre Master Layout Full Blueprint"
+                  src={chapter.mapImageUrl}
+                  alt={mapAlt}
                   className="w-full h-auto max-h-[80vh] object-contain rounded-xl"
                 />
               </div>

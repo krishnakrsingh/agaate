@@ -17,18 +17,24 @@ import {
   ProofChapter,
   ClosingChapter,
 } from "@/components/home";
-import { getHomeCms, getTeamCms } from "@/functions/public-cms";
+import { getHomeCms, getTeamCms, getKisaanMallPage, getAgriParkChapter } from "@/functions/public-cms";
 import { isAdminOk } from "@/lib/admin-api";
 import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
 import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
+import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
+import { KisaanMallPageProvider } from "@/contexts/KisaanMallPageContext";
+import { AgriParkChapterProvider } from "@/contexts/AgriParkChapterContext";
 
 export const Route = createFileRoute("/{-$locale}/")({
   staleTime: 0,
   loader: async () => {
     try {
-      const [homeRes, teamRes] = await Promise.all([
+      const [homeRes, teamRes, mallRes, agriRes] = await Promise.all([
         getHomeCms({ data: { preview: false } }),
         getTeamCms({ data: { preview: false } }),
+        getKisaanMallPage(),
+        getAgriParkChapter(),
       ]);
       const cms = isAdminOk<{ data: typeof HOMEPAGE_CMS_FALLBACK }>(homeRes)
         ? homeRes.data
@@ -36,11 +42,22 @@ export const Route = createFileRoute("/{-$locale}/")({
       const teamCms = isAdminOk<{ data: typeof TEAM_CMS_FALLBACK }>(teamRes)
         ? teamRes.data
         : TEAM_CMS_FALLBACK;
-      return { cms, teamCms };
+      const kisaanMallPage = isAdminOk<{ page: typeof KISAAN_MALL_PAGE_FALLBACK }>(mallRes)
+        ? mallRes.page
+        : KISAAN_MALL_PAGE_FALLBACK;
+      const agriParkChapter = isAdminOk<{ chapter: typeof AGRI_PARK_CHAPTER_FALLBACK }>(agriRes)
+        ? agriRes.chapter
+        : AGRI_PARK_CHAPTER_FALLBACK;
+      return { cms, teamCms, kisaanMallPage, agriParkChapter };
     } catch (err) {
       console.warn("Homepage CMS loader fallback:", err);
     }
-    return { cms: HOMEPAGE_CMS_FALLBACK, teamCms: TEAM_CMS_FALLBACK };
+    return {
+      cms: HOMEPAGE_CMS_FALLBACK,
+      teamCms: TEAM_CMS_FALLBACK,
+      kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
+      agriParkChapter: AGRI_PARK_CHAPTER_FALLBACK,
+    };
   },
   head: () => ({
     meta: [
@@ -56,7 +73,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function Index() {
-  const { cms, teamCms } = Route.useLoaderData();
+  const { cms, teamCms, kisaanMallPage, agriParkChapter } = Route.useLoaderData();
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [startHeroAnimation, setStartHeroAnimation] = useState(false);
@@ -116,19 +133,21 @@ function Index() {
         />
 
         {contentReady && (
-          <>
-            <SectionStatsMarquee stats={cms.stats} />
-            <PillarsHorizontalParallax />
-            <MallChapter />
-            <AppChapter appLinks={cms.appLinks} />
-            <PillarMarket buyers={cms.logos?.buyers} />
-            <AgriParkChapter agriParkTour={cms.agriParkTour} />
-            <BrandsAssociationsChapter brands={cms.logos} />
-            <PeopleChapter teamCms={teamCms} />
-            <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />
-            <ClosingChapter />
-            <Footer />
-          </>
+          <KisaanMallPageProvider content={kisaanMallPage}>
+            <AgriParkChapterProvider content={agriParkChapter}>
+              <SectionStatsMarquee stats={cms.stats} />
+              <PillarsHorizontalParallax />
+              <MallChapter />
+              <AppChapter appLinks={cms.appLinks} />
+              <PillarMarket buyers={cms.logos?.buyers} />
+              <AgriParkChapter agriParkTour={cms.agriParkTour} />
+              <BrandsAssociationsChapter brands={cms.logos} />
+              <PeopleChapter teamCms={teamCms} />
+              <ProofChapter storiesEn={cms.storiesEn} storiesHi={cms.storiesHi} />
+              <ClosingChapter />
+              <Footer />
+            </AgriParkChapterProvider>
+          </KisaanMallPageProvider>
         )}
       </main>
     </>

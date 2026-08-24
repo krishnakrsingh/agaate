@@ -2,6 +2,8 @@ import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
+import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 
 export const CMS_STATUSES = ["draft", "published", "archived"] as const;
 export type CmsStatus = (typeof CMS_STATUSES)[number];
@@ -227,8 +229,164 @@ export type KisaanMallSectionCopy = {
   descriptionHi: string;
 };
 
+export type KisaanMallHomeChapter = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  featuresEn: string[];
+  featuresHi: string[];
+  browseLabelEn: string;
+  browseLabelHi: string;
+  supplyHeadingEn: string;
+  supplyHeadingHi: string;
+  supplySubtextEn: string;
+  supplySubtextHi: string;
+  ctaEyebrowEn: string;
+  ctaEyebrowHi: string;
+  ctaTitleEn: string;
+  ctaTitleHi: string;
+  ctaDescriptionEn: string;
+  ctaDescriptionHi: string;
+  ctaBrowseEn: string;
+  ctaBrowseHi: string;
+  ctaCallEn: string;
+  ctaCallHi: string;
+};
+
+export type HomeChapterStat = {
+  numValue: number;
+  prefixEn: string;
+  prefixHi: string;
+  suffixEn: string;
+  suffixHi: string;
+  valueTextEn: string;
+  valueTextHi: string;
+  labelEn: string;
+  labelHi: string;
+};
+
+export type HomePillarCtaType = "whatsapp" | "modal" | "locations";
+
+export type HomePillarItem = {
+  id: string;
+  number: string;
+  tagEn: string;
+  tagHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  metrics: HomeChapterStat[];
+  featuresEn: string[];
+  featuresHi: string[];
+  ctaTextEn: string;
+  ctaTextHi: string;
+  ctaType: HomePillarCtaType;
+  imageUrl: string;
+  imageAltEn: string;
+  imageAltHi: string;
+  locationsBadgeEn: string;
+  locationsBadgeHi: string;
+  viewLocationsLabelEn: string;
+  viewLocationsLabelHi: string;
+};
+
+export type HomePillarMarketChapter = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  stats: HomeChapterStat[];
+  highlightsEn: string[];
+  highlightsHi: string[];
+  ctaLabelEn: string;
+  ctaLabelHi: string;
+  imageUrl: string;
+  imageAltEn: string;
+  imageAltHi: string;
+};
+
+export type HomeAppChapterContent = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  stats: HomeChapterStat[];
+  checklistEn: string[];
+  checklistHi: string[];
+};
+
+export type HomeClosingPathwayType = "whatsapp" | "link" | "modal";
+
+export type HomeClosingPathway = {
+  number: string;
+  iconKey: CmsIconKey;
+  tagEn: string;
+  tagHi: string;
+  titleEn: string;
+  titleHi: string;
+  subtitleEn: string;
+  subtitleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  actionLabelEn: string;
+  actionLabelHi: string;
+  actionSubEn: string;
+  actionSubHi: string;
+  type: HomeClosingPathwayType;
+  linkHref: string;
+  perksEn: string[];
+  perksHi: string[];
+};
+
+export type HomeClosingChapterContent = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  pathways: HomeClosingPathway[];
+};
+
+export type HomepageChaptersContent = {
+  pillars: HomePillarItem[];
+  pillarMarket: HomePillarMarketChapter;
+  appChapter: HomeAppChapterContent;
+  closingChapter: HomeClosingChapterContent;
+};
+
+export type HomeAgriParkChapterContent = {
+  badgeEn: string;
+  badgeHi: string;
+  titleEn: string;
+  titleHi: string;
+  descriptionEn: string;
+  descriptionHi: string;
+  stats: HomeChapterStat[];
+  checklistEn: string[];
+  checklistHi: string[];
+  bookVisitLabelEn: string;
+  bookVisitLabelHi: string;
+  watchTourLabelEn: string;
+  watchTourLabelHi: string;
+  locationBadgeEn: string;
+  locationBadgeHi: string;
+  mapImageUrl: string;
+  mapAltEn: string;
+  mapAltHi: string;
+};
+
 export type KisaanMallPageContent = {
   displayMode: KisaanMallDisplayMode;
+  homeChapter: KisaanMallHomeChapter;
   heroEyebrowEn: string;
   heroEyebrowHi: string;
   heroTitleEn: string;
@@ -599,6 +757,8 @@ export type CmsSiteConfig = {
   agriParkTour: HomeCmsAgriParkTour;
   kisaanMallLanding: KisaanMallLanding;
   kisaanMallPage: KisaanMallPageContent;
+  agriParkChapter: HomeAgriParkChapterContent;
+  homepageChapters: HomepageChaptersContent;
   careersPage: CareersPageContent;
   siteContact: SiteContactConfig;
   aboutPage: AboutPageContent;
@@ -610,6 +770,8 @@ export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
   kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
+  agriParkChapter: AGRI_PARK_CHAPTER_FALLBACK,
+  homepageChapters: HOMEPAGE_CHAPTERS_FALLBACK,
   careersPage: CAREERS_PAGE_FALLBACK,
   siteContact: SITE_CONTACT_FALLBACK,
   aboutPage: ABOUT_PAGE_FALLBACK,
