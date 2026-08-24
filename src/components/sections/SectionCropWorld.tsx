@@ -107,7 +107,7 @@ export default function SectionCropWorld() {
     if (!mounted || !containerRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        if (entry) setInView(entry.isIntersecting);
       },
       { rootMargin: "-100px 0px -100px 0px", threshold: 0 },
     );

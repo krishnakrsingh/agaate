@@ -11,10 +11,10 @@ const namespaces = new Set<string>();
 
 for (const path in enModules) {
   const match = path.match(/\/src\/locales\/en\/([^/]+)\.json$/);
-  if (match) {
-    const [, ns] = match;
+  if (match && match[1]) {
+    const ns = match[1];
     const mod = enModules[path] as any;
-    resources.en[ns] = mod.default || mod;
+    resources["en"]![ns] = mod.default || mod;
     namespaces.add(ns);
   }
 }
@@ -43,10 +43,11 @@ export async function setLocale(locale: string) {
     for (const path in lazyLocaleModules) {
       if (path.startsWith(`/src/locales/${resolved}/`)) {
         const match = path.match(/\/src\/locales\/[^/]+\/([^/]+)\.json$/);
-        if (match) {
+        const loader = lazyLocaleModules[path];
+        if (match && match[1] && loader) {
           const ns = match[1];
           loaders.push(
-            lazyLocaleModules[path]().then((mod: any) => {
+            loader().then((mod: any) => {
               const data = mod.default || mod;
               i18n.addResourceBundle(resolved, ns, data, true, true);
             }),

@@ -5,13 +5,14 @@ import { MOCK_BATCHES, type BatchInfo } from "./nursery-data";
 
 export function NurseryBatchTraceability() {
   const [searchBatchId, setSearchBatchId] = useState("AG-2026-N8");
-  const [activeBatch, setActiveBatch] = useState<BatchInfo | null>(MOCK_BATCHES["AG-2026-N8"]);
+  const [activeBatch, setActiveBatch] = useState<BatchInfo | null>(MOCK_BATCHES["AG-2026-N8"] ?? null);
   const [searchError, setSearchError] = useState(false);
 
   const handleBatchSearch = (idToSearch: string) => {
     const cleanId = idToSearch.trim().toUpperCase();
-    if (MOCK_BATCHES[cleanId]) {
-      setActiveBatch(MOCK_BATCHES[cleanId]);
+    const batch = MOCK_BATCHES[cleanId];
+    if (batch) {
+      setActiveBatch(batch);
       setSearchError(false);
     } else {
       setActiveBatch(null);

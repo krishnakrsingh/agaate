@@ -6,7 +6,7 @@ import { PHASES } from "./nursery-data";
 
 export function NurseryProductionPhases() {
   const [activePhaseIndex, setActivePhaseIndex] = useState(0);
-  const activePhase = PHASES[activePhaseIndex];
+  const activePhase = PHASES[activePhaseIndex] ?? PHASES[0]!;
 
   return (
     <section id="nursery-phases" className="scroll-mt-28">

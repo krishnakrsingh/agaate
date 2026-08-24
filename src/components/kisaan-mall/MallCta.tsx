@@ -23,14 +23,14 @@ export default function MallCta() {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <Reveal variant="fade-up">
-          <div className="relative overflow-hidden rounded-3xl border border-[#143d31]/10 bg-[#143d31] text-white shadow-xl">
+          <div className="relative overflow-hidden rounded-3xl border border-[#143d31]/15 bg-[#143d31] text-white">
             {/* Subtle background glow */}
             <div
-              className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-[#a3e635]/15 blur-3xl"
+              className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-[#a3e635]/10 blur-3xl"
               aria-hidden="true"
             />
             <div
-              className="pointer-events-none absolute -left-20 -bottom-20 h-96 w-96 rounded-full bg-[#5d7d37]/20 blur-3xl"
+              className="pointer-events-none absolute -left-20 -bottom-20 h-96 w-96 rounded-full bg-[#5d7d37]/15 blur-3xl"
               aria-hidden="true"
             />
 
@@ -83,22 +83,16 @@ export default function MallCta() {
                 </div>
               </div>
 
-              <div className="relative flex min-h-[260px] items-center justify-center p-8 lg:min-h-[360px]">
-                <motion.div
-                  className="relative z-10 w-full max-w-[380px]"
-                  animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
-                  transition={
-                    reduceMotion ? undefined : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
-                  }
-                >
+              <div className="relative flex items-end justify-center px-6 pt-6 pb-0 lg:h-full lg:px-8">
+                <div className="relative z-10 w-full max-w-[380px] flex justify-center">
                   <img
                     src={page.ctaImageUrl}
                     alt={isHindi ? page.ctaImageAltHi : page.ctaImageAltEn}
-                    className="mx-auto max-h-[300px] w-full object-contain drop-shadow-2xl lg:max-h-[340px]"
+                    className="mx-auto max-h-[280px] sm:max-h-[310px] lg:max-h-[340px] w-auto object-contain object-bottom select-none pointer-events-none"
                     width={800}
                     height={700}
                   />
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>

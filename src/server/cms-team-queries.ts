@@ -283,7 +283,7 @@ export async function listCmsTeam(filters: CmsListFilters = {}): Promise<CmsTeam
     sql += ` AND status != 'archived'`;
   }
   sql += ` ORDER BY sort_order ASC`;
-  const [rows] = await db.query(sql, params);
+  const [rows] = await db.query(sql, params as any);
   return (rows as Record<string, unknown>[])
     .map(mapTeamRow)
     .filter((r) => matchesQ(filters.q, r.nameEn, r.nameHi, r.slug, r.roleEn, r.roleHi));

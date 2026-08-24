@@ -20,7 +20,7 @@ export function BuybackEnrollmentModal({
   const [farmerLocation, setFarmerLocation] = useState("");
   const [expectedYieldQuintals, setExpectedYieldQuintals] = useState("100");
 
-  const crop = COMMODITIES[selectedCropIndex] || COMMODITIES[0];
+  const crop = COMMODITIES[selectedCropIndex] ?? COMMODITIES[0]!;
 
   const handleModalSubmit = (e: FormEvent) => {
     e.preventDefault();

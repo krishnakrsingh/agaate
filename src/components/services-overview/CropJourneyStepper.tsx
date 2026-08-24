@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, CheckCircle, ShieldCheck } from "@phosphor-icons/react";
+import { ArrowDown, CheckCircle } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { CROP_JOURNEY_STAGES_EN, CROP_JOURNEY_STAGES_HI } from "./services-overview-data";
 
@@ -45,7 +45,7 @@ export function CropJourneyStepper() {
     useTransform(
       progress,
       [0, 0.7],
-      stagesWithImages[index].reverse
+      stagesWithImages[index]?.reverse
         ? ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]
         : ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]
     )

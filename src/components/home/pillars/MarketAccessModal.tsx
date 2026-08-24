@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { HOMEPAGE_CMS_FALLBACK } from "@/data/homepage-fallback";
 import type { HomeCmsLogo } from "@/lib/cms-types";
 import { useSiteContact } from "@/contexts/SiteContactContext";
+import { EASE } from "@/components/common/motion";
 
 interface MarketAccessModalProps {
   isOpen: boolean;

@@ -91,7 +91,7 @@ export function Reveal({
   amount = 0.2,
   style,
 }: RevealProps) {
-  const base = revealVariants[variant];
+  const base = revealVariants[variant] || revealVariants["fade-up"]!;
   return (
     <motion.div
       className={className}
@@ -100,7 +100,7 @@ export function Reveal({
       whileInView="visible"
       viewport={{ once, amount }}
       variants={{
-        hidden: base.hidden,
+        hidden: base.hidden as any,
         visible: {
           ...base.visible,
           transition: {
@@ -220,7 +220,6 @@ type MarqueeProps = {
   duration?: number;
   reverse?: boolean;
   className?: string;
-  itemClassName?: string;
 };
 
 export function Marquee({
@@ -228,7 +227,6 @@ export function Marquee({
   duration = 28,
   reverse = false,
   className,
-  itemClassName,
 }: MarqueeProps) {
   return (
     <div className={`overflow-hidden whitespace-nowrap ${className ?? ""}`}>

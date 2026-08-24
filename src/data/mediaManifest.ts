@@ -2,7 +2,7 @@
 export interface WebMediaAsset {
   title: string;
   category: "brand" | "mall" | "shorts" | "partner" | "leadership" | "community" | "tech";
-  partner?: string;
+  partner?: string | null;
   videoUrl: string;
   posterUrl: string;
   sizeMb: number;

@@ -275,7 +275,7 @@ export async function listCmsCareerJobs(filters: CmsListFilters = {}): Promise<C
     sql += ` AND status != 'archived'`;
   }
   sql += ` ORDER BY sort_order ASC`;
-  const [rows] = await db.query(sql, params);
+  const [rows] = await db.query(sql, params as any);
   return (rows as Record<string, unknown>[])
     .map(mapCareerJobRow)
     .filter((r) => matchesQ(filters.q, r.titleEn, r.titleHi, r.slug, r.deptEn, r.deptHi));

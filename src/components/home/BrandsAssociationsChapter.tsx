@@ -224,7 +224,7 @@ export default function BrandsAssociationsChapter({
             >
               {isSingleLogo ? (
                 <div className="flex items-center justify-center py-4">
-                  <BrandTile brand={logos[0]} isSingle />
+                  <BrandTile brand={logos[0]!} isSingle />
                 </div>
               ) : isDualRow ? (
                 <>

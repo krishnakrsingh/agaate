@@ -23,7 +23,7 @@ export default function KisaanMallShowcase() {
           <img
             src="/kisaan mall.png"
             alt="Agaate Kisaan Mall Physical Storefront"
-            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain drop-shadow-[0_25px_35px_rgba(20,61,49,0.3)] transition-all duration-500"
+            className="w-full max-h-[360px] sm:max-h-[420px] lg:max-h-[460px] object-contain transition-all duration-500"
           />
 
           {/* Hotspot Pin 1: Store Branding / Signage */}

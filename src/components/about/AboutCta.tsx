@@ -78,7 +78,7 @@ export default function AboutCta({ isHi = false }: { isHi?: boolean }) {
                 <img
                   src="/farm.png"
                   alt="Agaate farmer and agronomy support"
-                  className="relative z-10 mx-auto max-h-[280px] sm:max-h-[320px] lg:max-h-[340px] w-auto object-contain drop-shadow-[0_16px_32px_rgba(20,61,49,0.08)] transition-transform duration-700 hover:scale-[1.03]"
+                  className="relative z-10 mx-auto max-h-[280px] sm:max-h-[320px] lg:max-h-[340px] w-auto object-contain transition-transform duration-700 hover:scale-[1.03]"
                   width={800}
                   height={700}
                 />

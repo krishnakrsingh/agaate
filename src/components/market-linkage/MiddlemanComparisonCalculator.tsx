@@ -14,7 +14,7 @@ export function MiddlemanComparisonCalculator({
   harvestQuintals,
   onChangeHarvestQuintals,
 }: MiddlemanComparisonCalculatorProps) {
-  const crop = COMMODITIES[selectedCropIndex];
+  const crop = COMMODITIES[selectedCropIndex] ?? COMMODITIES[0]!;
   const harvestKg = harvestQuintals * 100;
 
   // Financial Calculations
@@ -26,8 +26,6 @@ export function MiddlemanComparisonCalculator({
     mandiRevenue - mandiMiddlemanCommission - mandiTransportDeduction - mandiWeightLoss;
 
   const agaateRevenue = harvestKg * crop.agaateFloorPrice;
-  const agaateMiddlemanCommission = 0;
-  const agaateTransportDeduction = 0;
   const agaateNetIncome = agaateRevenue;
 
   const netExtraProfit = agaateNetIncome - mandiNetIncome;

@@ -109,7 +109,7 @@ async function requireEditor() {
 const IMAGE_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const VIDEO_MIME = new Set(["video/mp4", "video/webm"]);
 
-function filterMock<T extends { status: string; hasUnpublishedChanges: boolean }>(
+function filterMock<T extends { status: string; hasUnpublishedChanges: boolean; sortOrder: number }>(
   rows: T[],
   filters: CmsListFilters,
   match: (r: T) => boolean,
@@ -122,14 +122,14 @@ function filterMock<T extends { status: string; hasUnpublishedChanges: boolean }
       }
       return match(r);
     })
-    .sort((a, b) => (a as { sortOrder: number }).sortOrder - (b as { sortOrder: number }).sortOrder);
+    .sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 export async function handleCmsOverview() {
   try {
     await requireSessionUser();
     if (!isDbConfigured()) {
-      const count = (rows: typeof mockStats) => ({
+      const count = (rows: Array<{ status: string; hasUnpublishedChanges: boolean }>) => ({
         published: rows.filter((r) => r.status === "published").length,
         draft: rows.filter((r) => r.status === "draft").length,
         pending: rows.filter((r) => r.status === "published" && r.hasUnpublishedChanges).length,

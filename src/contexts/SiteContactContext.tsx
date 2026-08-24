@@ -18,8 +18,8 @@ import {
   TrendUp,
   Buildings,
   Warehouse,
+  type Icon,
 } from "@phosphor-icons/react";
-import type { ComponentType } from "react";
 import facebookIcon from "@/assets/social/facebook.svg";
 import instagramIcon from "@/assets/social/instagram.svg";
 import linkedinIcon from "@/assets/social/linkedin.svg";
@@ -37,7 +37,7 @@ type SiteContactContextValue = {
   socialLinks: Array<{ href: string; icon: string; ariaLabel: string }>;
   localizedFooterLocation: (lang: "en" | "hi") => string;
   localizedRegisteredOffice: (lang: "en" | "hi") => string;
-  mapFacilityIcon: (iconKey: string) => ComponentType<{ className?: string; weight?: string }>;
+  mapFacilityIcon: (iconKey: string) => Icon;
   mapFacilities: (lang: "en" | "hi") => Facility[];
   whatsappUrlWithText: (text: string) => string;
   mailtoInquiryUrl: string;
@@ -45,7 +45,7 @@ type SiteContactContextValue = {
 
 const SiteContactContext = createContext<SiteContactContextValue | null>(null);
 
-const FACILITY_ICON_MAP: Record<string, ComponentType<{ className?: string; weight?: string }>> = {
+const FACILITY_ICON_MAP: Record<string, Icon> = {
   plant: Plant,
   warehouse: Warehouse,
   cap: Buildings,
