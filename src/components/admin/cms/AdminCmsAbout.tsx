@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
+import { CmsImageField } from "@/components/admin/cms/CmsImageField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
@@ -96,10 +98,41 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
 
       <form onSubmit={handleSave} className="space-y-8">
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <h2 className="text-base font-semibold">Hero</h2>
-          </div>
+          <CmsSectionHeader
+            title="Hero"
+            icon={<BookOpen className="h-5 w-5 text-primary" />}
+            translate={{
+              disabled: !canEdit,
+              enTexts: [
+                hero.badgeEn,
+                hero.titleEn,
+                hero.titleAccentEn,
+                hero.descriptionEn,
+                hero.heroImageAltEn,
+                ...hero.stats.flatMap((s) => [s.valueEn, s.labelEn]),
+              ],
+              onTranslated: (t) => {
+                let i = 0;
+                const take = () => t[i++] ?? "";
+                updateContent({
+                  ...content,
+                  hero: {
+                    ...hero,
+                    badgeHi: take() || hero.badgeHi,
+                    titleHi: take() || hero.titleHi,
+                    titleAccentHi: take() || hero.titleAccentHi,
+                    descriptionHi: take() || hero.descriptionHi,
+                    heroImageAltHi: take() || hero.heroImageAltHi,
+                    stats: hero.stats.map((s) => ({
+                      ...s,
+                      valueHi: take() || s.valueHi,
+                      labelHi: take() || s.labelHi,
+                    })),
+                  },
+                });
+              },
+            }}
+          />
           <CmsBilingualField
             variant="plain"
             label="Badge"
@@ -137,14 +170,13 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             disabled={!canEdit}
             multiline
           />
-          <div className="space-y-1">
-            <Label>Hero image URL</Label>
-            <Input
-              value={hero.heroImageUrl}
-              onChange={(e) => updateContent({ ...content, hero: { ...hero, heroImageUrl: e.target.value } })}
-              disabled={!canEdit}
-            />
-          </div>
+          <CmsImageField
+            label="Hero image"
+            value={hero.heroImageUrl}
+            onChange={(url) => updateContent({ ...content, hero: { ...hero, heroImageUrl: url } })}
+            disabled={!canEdit}
+            hint="Shown in the About page hero. Upload or paste a path/URL."
+          />
           <CmsBilingualField
             variant="plain"
             label="Hero image alt"
@@ -214,7 +246,29 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Who we are</h2>
+          <CmsSectionHeader
+            title="Who we are"
+            translate={{
+              disabled: !canEdit,
+              enTexts: [
+                whoWeAre.eyebrowEn,
+                whoWeAre.headlineEn,
+                whoWeAre.bodyEn,
+                whoWeAre.pullQuoteEn,
+              ],
+              onTranslated: ([eyebrowHi, headlineHi, bodyHi, pullQuoteHi]) =>
+                updateContent({
+                  ...content,
+                  whoWeAre: {
+                    ...whoWeAre,
+                    eyebrowHi: eyebrowHi ?? whoWeAre.eyebrowHi,
+                    headlineHi: headlineHi ?? whoWeAre.headlineHi,
+                    bodyHi: bodyHi ?? whoWeAre.bodyHi,
+                    pullQuoteHi: pullQuoteHi ?? whoWeAre.pullQuoteHi,
+                  },
+                }),
+            }}
+          />
           <CmsBilingualField
             variant="plain"
             label="Eyebrow"
@@ -253,18 +307,34 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
             disabled={!canEdit}
             multiline
           />
-          <div className="space-y-1">
-            <Label>Image URL</Label>
-            <Input
-              value={whoWeAre.imageUrl}
-              onChange={(e) => updateContent({ ...content, whoWeAre: { ...whoWeAre, imageUrl: e.target.value } })}
-              disabled={!canEdit}
-            />
-          </div>
+          <CmsImageField
+            label="Section image"
+            value={whoWeAre.imageUrl}
+            onChange={(url) => updateContent({ ...content, whoWeAre: { ...whoWeAre, imageUrl: url } })}
+            disabled={!canEdit}
+          />
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Three pillars (guarantees)</h2>
+          <CmsSectionHeader
+            title="Three pillars (guarantees)"
+            translate={{
+              disabled: !canEdit,
+              enTexts: content.guarantees.flatMap((g) => [g.titleEn, g.descEn, g.badgeEn]),
+              onTranslated: (t) => {
+                let i = 0;
+                updateContent({
+                  ...content,
+                  guarantees: content.guarantees.map((g) => ({
+                    ...g,
+                    titleHi: t[i++] ?? g.titleHi,
+                    descHi: t[i++] ?? g.descHi,
+                    badgeHi: t[i++] ?? g.badgeHi,
+                  })),
+                });
+              },
+            }}
+          />
           {content.guarantees.map((g, i) => (
             <div key={i} className="rounded-lg border p-4 space-y-3">
               <div className="space-y-1">
@@ -366,7 +436,24 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Impact metrics</h2>
+          <CmsSectionHeader
+            title="Impact metrics"
+            translate={{
+              disabled: !canEdit,
+              enTexts: content.impactMetrics.flatMap((m) => [m.suffixEn, m.labelEn]),
+              onTranslated: (t) => {
+                let i = 0;
+                updateContent({
+                  ...content,
+                  impactMetrics: content.impactMetrics.map((m) => ({
+                    ...m,
+                    suffixHi: t[i++] ?? m.suffixHi,
+                    labelHi: t[i++] ?? m.labelHi,
+                  })),
+                });
+              },
+            }}
+          />
           {content.impactMetrics.map((m, i) => (
             <div key={i} className="rounded-lg border p-4 grid gap-3 sm:grid-cols-2">
               <div className="space-y-1">
@@ -460,7 +547,29 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Milestones</h2>
+          <CmsSectionHeader
+            title="Milestones"
+            translate={{
+              disabled: !canEdit,
+              enTexts: content.milestones.flatMap((m) => [
+                m.titleEn,
+                m.descEn,
+                listToLines(m.highlightsEn),
+              ]),
+              onTranslated: (t) => {
+                let i = 0;
+                updateContent({
+                  ...content,
+                  milestones: content.milestones.map((m) => ({
+                    ...m,
+                    titleHi: t[i++] ?? m.titleHi,
+                    descHi: t[i++] ?? m.descHi,
+                    highlightsHi: linesToList(t[i++] ?? "") || m.highlightsHi,
+                  })),
+                });
+              },
+            }}
+          />
           {content.milestones.map((m, i) => (
             <div key={m.year} className="rounded-lg border p-4 space-y-3">
               <div className="space-y-1">
@@ -564,7 +673,31 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Footprint locations</h2>
+          <CmsSectionHeader
+            title="Footprint locations"
+            translate={{
+              disabled: !canEdit,
+              enTexts: content.locations.flatMap((loc) => [
+                loc.tagEn,
+                loc.nameEn,
+                loc.addressEn,
+                loc.subEn,
+              ]),
+              onTranslated: (t) => {
+                let i = 0;
+                updateContent({
+                  ...content,
+                  locations: content.locations.map((loc) => ({
+                    ...loc,
+                    tagHi: t[i++] ?? loc.tagHi,
+                    nameHi: t[i++] ?? loc.nameHi,
+                    addressHi: t[i++] ?? loc.addressHi,
+                    subHi: t[i++] ?? loc.subHi,
+                  })),
+                });
+              },
+            }}
+          />
           {content.locations.map((loc, i) => (
             <div key={i} className="rounded-lg border p-4 space-y-3">
               <CmsBilingualField
@@ -665,7 +798,28 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h2 className="text-base font-semibold">Compliance & CTA footer</h2>
+          <CmsSectionHeader
+            title="Compliance & CTA footer"
+            translate={{
+              disabled: !canEdit,
+              enTexts: [
+                ...content.complianceHighlights.flatMap((c) => [c.labelEn, c.valueEn]),
+                content.complianceFooterEn,
+              ],
+              onTranslated: (t) => {
+                let i = 0;
+                updateContent({
+                  ...content,
+                  complianceHighlights: content.complianceHighlights.map((c) => ({
+                    ...c,
+                    labelHi: t[i++] ?? c.labelHi,
+                    valueHi: t[i++] ?? c.valueHi,
+                  })),
+                  complianceFooterHi: t[i] ?? content.complianceFooterHi,
+                });
+              },
+            }}
+          />
           <div className="space-y-1">
             <Label>Brochure PDF href</Label>
             <Input

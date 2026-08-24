@@ -8,8 +8,10 @@ import {
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -196,7 +198,42 @@ export function AdminCmsAgriParkTour({ role }: { role: AdminRole }) {
               </p>
             </div>
             <form onSubmit={handleSaveChapter} className="space-y-4 p-5">
-          <CmsBilingualField
+              <CmsTranslateToHindiButton
+                variant="inline"
+                disabled={!canEdit || loading}
+                enTexts={[
+                  chapter.badgeEn,
+                  chapter.titleEn,
+                  chapter.descriptionEn,
+                  chapter.bookVisitLabelEn,
+                  chapter.watchTourLabelEn,
+                  chapter.locationBadgeEn,
+                  chapter.mapAltEn,
+                  ...chapter.stats.flatMap((s) => [s.suffixEn, s.labelEn]),
+                  chapter.checklistEn.join("\n"),
+                ]}
+                onTranslated={(t) => {
+                  let i = 0;
+                  const take = () => t[i++] ?? "";
+                  updateChapter({
+                    ...chapter,
+                    badgeHi: take() || chapter.badgeHi,
+                    titleHi: take() || chapter.titleHi,
+                    descriptionHi: take() || chapter.descriptionHi,
+                    bookVisitLabelHi: take() || chapter.bookVisitLabelHi,
+                    watchTourLabelHi: take() || chapter.watchTourLabelHi,
+                    locationBadgeHi: take() || chapter.locationBadgeHi,
+                    mapAltHi: take() || chapter.mapAltHi,
+                    stats: chapter.stats.map((s) => ({
+                      ...s,
+                      suffixHi: take() || s.suffixHi,
+                      labelHi: take() || s.labelHi,
+                    })),
+                    checklistHi: take().split("\n").filter(Boolean) || chapter.checklistHi,
+                  });
+                }}
+              />
+              <CmsBilingualField
             label="Badge"
             en={chapter.badgeEn}
             hi={chapter.badgeHi}

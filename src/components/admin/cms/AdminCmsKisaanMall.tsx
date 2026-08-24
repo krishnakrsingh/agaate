@@ -6,6 +6,7 @@ import { useToast } from "@/components/admin/AdminToast";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsTableEmptyRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { AdminCmsKisaanMallPageForm } from "@/components/admin/cms/AdminCmsKisaanMallPageForm";
@@ -117,7 +118,27 @@ export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
             </div>
 
             <form onSubmit={handleSaveLanding} className="space-y-4">
-              <CmsBilingualField
+              <CmsTranslateToHindiButton
+                variant="inline"
+                disabled={!canEdit || loading}
+                enTexts={[
+                  landing.badgeEn,
+                  landing.titleEn,
+                  landing.descriptionEn,
+                  landing.placeholderEn,
+                  landing.successEn,
+                ]}
+                onTranslated={([badgeHi, titleHi, descriptionHi, placeholderHi, successHi]) => {
+                  updateLanding({
+                    ...landing,
+                    badgeHi: badgeHi ?? landing.badgeHi,
+                    titleHi: titleHi ?? landing.titleHi,
+                    descriptionHi: descriptionHi ?? landing.descriptionHi,
+                    placeholderHi: placeholderHi ?? landing.placeholderHi,
+                    successHi: successHi ?? landing.successHi,
+                  });
+                }}
+              />
                 label="Badge"
                 en={landing.badgeEn}
                 hi={landing.badgeHi}

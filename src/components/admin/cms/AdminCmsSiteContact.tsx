@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { Save, Phone, MessageCircle, Share2, Building2 } from "lucide-react";
+import { Phone, MessageCircle, Share2, Building2 } from "lucide-react";
 import { getCmsSiteContactAdmin, saveCmsSiteContactAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
-import { Button } from "@/components/ui/button";
+import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
+import { CmsImageField } from "@/components/admin/cms/CmsImageField";
+import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
+import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,13 +80,11 @@ export function AdminCmsSiteContact({ role }: { role: AdminRole }) {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Site contact & global links</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Phones, emails, WhatsApp templates, social profiles, footer location, and facility hubs
-          used across header, footer, contact page, and CTAs.
-        </p>
-      </div>
+      <CmsPageHeader
+        title="Site contact & global links"
+        description="Phones, emails, WhatsApp templates, social profiles, footer location, and facility hubs used across header, footer, contact page, and CTAs."
+        workflow="live"
+      />
 
       <form onSubmit={handleSave} className="space-y-8">
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
@@ -181,10 +184,20 @@ export function AdminCmsSiteContact({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 text-primary">
-            <Share2 className="h-5 w-5" />
-            <h2 className="text-lg font-semibold">Social & footer</h2>
-          </div>
+          <CmsSectionHeader
+            title="Social & footer"
+            icon={<Share2 className="h-5 w-5 text-primary" />}
+            translate={{
+              disabled: !canEdit,
+              enTexts: [contact.footerLocationEn, contact.registeredOfficeEn],
+              onTranslated: ([footerLocationHi, registeredOfficeHi]) =>
+                setContact({
+                  ...contact,
+                  footerLocationHi: footerLocationHi ?? contact.footerLocationHi,
+                  registeredOfficeHi: registeredOfficeHi ?? contact.registeredOfficeHi,
+                }),
+            }}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             {(["facebook", "youtube", "instagram", "linkedin"] as const).map((key) => (
               <Field key={key} label={key}>
@@ -233,27 +246,48 @@ export function AdminCmsSiteContact({ role }: { role: AdminRole }) {
         </section>
 
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 text-primary">
-            <Building2 className="h-5 w-5" />
-            <h2 className="text-lg font-semibold">Facilities ({contact.facilities.length})</h2>
-          </div>
+          <CmsSectionHeader
+            title={`Facilities (${contact.facilities.length})`}
+            icon={<Building2 className="h-5 w-5 text-primary" />}
+          />
           {contact.facilities.map((facility, index) => (
             <div key={facility.id} className="rounded-xl border p-4 space-y-3">
-              <p className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                {facility.id}
-              </p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <p className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  {facility.id}
+                </p>
+                <CmsTranslateToHindiButton
+                  variant="inline"
+                  disabled={!canEdit}
+                  enTexts={[facility.nameEn, facility.addressEn]}
+                  onTranslated={([nameHi, addressHi]) => {
+                    const facilities = [...contact.facilities];
+                    facilities[index] = {
+                      ...facility,
+                      nameHi: nameHi ?? facility.nameHi,
+                      addressHi: addressHi ?? facility.addressHi,
+                    };
+                    setContact({ ...contact, facilities });
+                  }}
+                />
+              </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Name (EN)">
-                  <Input
-                    value={facility.nameEn}
-                    onChange={(e) => {
-                      const facilities = [...contact.facilities];
-                      facilities[index] = { ...facility, nameEn: e.target.value };
-                      setContact({ ...contact, facilities });
-                    }}
-                    disabled={!canEdit}
-                  />
-                </Field>
+                <CmsBilingualField
+                  label="Name"
+                  en={facility.nameEn}
+                  hi={facility.nameHi}
+                  onEn={(v) => {
+                    const facilities = [...contact.facilities];
+                    facilities[index] = { ...facility, nameEn: v };
+                    setContact({ ...contact, facilities });
+                  }}
+                  onHi={(v) => {
+                    const facilities = [...contact.facilities];
+                    facilities[index] = { ...facility, nameHi: v };
+                    setContact({ ...contact, facilities });
+                  }}
+                  disabled={!canEdit}
+                />
                 <Field label="Phone display">
                   <Input
                     value={facility.phone}
@@ -265,40 +299,40 @@ export function AdminCmsSiteContact({ role }: { role: AdminRole }) {
                     disabled={!canEdit}
                   />
                 </Field>
-                <Field label="Address (EN)">
-                  <Textarea
-                    rows={2}
-                    value={facility.addressEn}
-                    onChange={(e) => {
-                      const facilities = [...contact.facilities];
-                      facilities[index] = { ...facility, addressEn: e.target.value };
-                      setContact({ ...contact, facilities });
-                    }}
-                    disabled={!canEdit}
-                  />
-                </Field>
-                <Field label="Image URL">
-                  <Input
-                    value={facility.imageUrl}
-                    onChange={(e) => {
-                      const facilities = [...contact.facilities];
-                      facilities[index] = { ...facility, imageUrl: e.target.value };
-                      setContact({ ...contact, facilities });
-                    }}
-                    disabled={!canEdit}
-                  />
-                </Field>
+                <CmsBilingualField
+                  label="Address"
+                  en={facility.addressEn}
+                  hi={facility.addressHi}
+                  onEn={(v) => {
+                    const facilities = [...contact.facilities];
+                    facilities[index] = { ...facility, addressEn: v };
+                    setContact({ ...contact, facilities });
+                  }}
+                  onHi={(v) => {
+                    const facilities = [...contact.facilities];
+                    facilities[index] = { ...facility, addressHi: v };
+                    setContact({ ...contact, facilities });
+                  }}
+                  disabled={!canEdit}
+                  multiline
+                  rows={2}
+                />
+                <CmsImageField
+                  label="Facility image"
+                  value={facility.imageUrl}
+                  onChange={(url) => {
+                    const facilities = [...contact.facilities];
+                    facilities[index] = { ...facility, imageUrl: url };
+                    setContact({ ...contact, facilities });
+                  }}
+                  disabled={!canEdit}
+                />
               </div>
             </div>
           ))}
         </section>
 
-        {canEdit && (
-          <Button type="submit" disabled={saving} className="gap-2">
-            <Save className="h-4 w-4" />
-            {saving ? "Saving…" : "Save site contact"}
-          </Button>
-        )}
+        {canEdit ? <CmsStickySaveBar saving={saving} label="Save site contact" /> : null}
       </form>
     </div>
   );

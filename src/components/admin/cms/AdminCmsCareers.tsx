@@ -12,6 +12,7 @@ import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
@@ -227,9 +228,29 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             <p className="text-xs text-muted-foreground">Hero, stats, culture, campus, and open roles headers.</p>
           </div>
         </div>
+        <CmsTranslateToHindiButton
+          variant="inline"
+          disabled={!canEdit || loading}
+          enTexts={[
+            content.heroBadgeEn,
+            content.heroTitleEn,
+            content.heroDescriptionEn,
+            content.openRolesTitleEn,
+            content.campusTitleEn,
+          ]}
+          onTranslated={([heroBadgeHi, heroTitleHi, heroDescriptionHi, openRolesTitleHi, campusTitleHi]) => {
+            setContent({
+              ...content,
+              heroBadgeHi: heroBadgeHi ?? content.heroBadgeHi,
+              heroTitleHi: heroTitleHi ?? content.heroTitleHi,
+              heroDescriptionHi: heroDescriptionHi ?? content.heroDescriptionHi,
+              openRolesTitleHi: openRolesTitleHi ?? content.openRolesTitleHi,
+              campusTitleHi: campusTitleHi ?? content.campusTitleHi,
+            });
+            setPageDirty(true);
+          }}
+        />
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <Label className="text-xs">Hero badge (EN)</Label>
             <Input value={content.heroBadgeEn} onChange={(e) => { setContent({ ...content, heroBadgeEn: e.target.value }); setPageDirty(true); }} disabled={!canEdit || loading} />
           </div>
           <div className="space-y-2">
