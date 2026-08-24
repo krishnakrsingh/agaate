@@ -5,13 +5,10 @@ import {
   LogOut,
   Search,
   ChevronsUpDown,
-  Globe,
   Image,
-  TreePine,
   Video,
   BarChart2,
   UsersRound,
-  Smartphone,
   MapPin,
   Store,
   Briefcase,
@@ -78,13 +75,12 @@ type NavItem = {
 const NAV_GROUPS: Array<{
   group: string;
   items: NavItem[];
+  hideLabel?: boolean;
 }> = [
   {
     group: "Overview",
-    items: [
-      { to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-      { to: "/agaate-admin/content", label: "Content library", icon: Globe, exact: true },
-    ],
+    hideLabel: true,
+    items: [{ to: "/agaate-admin", label: "Dashboard", icon: LayoutDashboard, exact: true }],
   },
   {
     group: "Site pages",
@@ -104,8 +100,6 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/logos", label: "Partner logos", icon: Image },
       { to: "/agaate-admin/content/stories", label: "Testimonials", icon: Video },
       { to: "/agaate-admin/content/team", label: "Team members", icon: UsersRound },
-      { to: "/agaate-admin/content/app-links", label: "App store links", icon: Smartphone },
-      { to: "/agaate-admin/content/agri-park-tour", label: "Agri Park", icon: TreePine },
     ],
   },
   {
@@ -185,18 +179,6 @@ export function AdminShell({ user }: { user: SessionUser }) {
       return [
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Homepage sections", href: "/agaate-admin/content/homepage-chapters", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/content/app-links")) {
-      return [
-        { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "App store links", href: "/agaate-admin/content/app-links", current: true },
-      ];
-    }
-    if (pathname.startsWith("/agaate-admin/content/agri-park-tour")) {
-      return [
-        { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Agri Park", href: "/agaate-admin/content/agri-park-tour", current: true },
       ];
     }
     if (pathname.startsWith("/agaate-admin/content/about")) {
@@ -294,9 +276,11 @@ export function AdminShell({ user }: { user: SessionUser }) {
 
               return (
                 <SidebarGroup key={group.group} className="py-1">
-                  <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
-                    {group.group}
-                  </SidebarGroupLabel>
+                  {!group.hideLabel ? (
+                    <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
+                      {group.group}
+                    </SidebarGroupLabel>
+                  ) : null}
                   <SidebarGroupContent>
                     <SidebarMenu className="gap-0.5">
                       {visibleItems.map((item) => {

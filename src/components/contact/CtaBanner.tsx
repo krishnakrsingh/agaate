@@ -76,12 +76,12 @@ export default function CtaBanner() {
                 </div>
               </div>
 
-              <div className="relative flex items-end justify-center px-6 pt-6 pb-0 lg:h-full lg:px-8">
-                <div className="relative z-10 w-full max-w-[380px] flex justify-center">
+              <div className="relative flex items-center justify-center p-6 sm:p-8 lg:p-10 lg:h-full">
+                <div className="relative z-10 w-full max-w-[400px] flex items-center justify-center">
                   <img
                     src="/farm.png"
                     alt="Agaate agronomist advising a farmer"
-                    className="mx-auto max-h-[280px] sm:max-h-[310px] lg:max-h-[340px] w-auto object-contain object-bottom select-none pointer-events-none"
+                    className="mx-auto max-h-[300px] sm:max-h-[340px] lg:max-h-[380px] w-auto object-contain select-none pointer-events-none"
                     width={800}
                     height={700}
                   />

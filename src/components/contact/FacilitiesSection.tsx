@@ -332,7 +332,7 @@ export default function FacilitiesSection() {
               <div className="flex items-center gap-1.5 min-w-0">
                 <Compass className="h-3.5 w-3.5 text-[#5d7d37] shrink-0" weight="fill" />
                 <span className="font-mono text-[10.5px] font-bold text-[#143d31] uppercase tracking-wider truncate">
-                  Live GPS · {active.name.split(" ")[0]}
+                   {active.name.split(" ")[0]}
                 </span>
               </div>
 

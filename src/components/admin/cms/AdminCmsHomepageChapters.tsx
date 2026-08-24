@@ -3,15 +3,20 @@ import { Layout } from "lucide-react";
 import { getCmsHomepageChaptersAdmin, saveCmsHomepageChaptersAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
+import { CmsImageField } from "@/components/admin/cms/CmsImageField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
+import { AdminCmsAgriParkTour } from "@/components/admin/cms/AdminCmsAgriParkTour";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import type { HomepageChaptersContent } from "@/lib/cms-types";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
@@ -80,7 +85,13 @@ function StatEditor({
   );
 }
 
-export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
+export function AdminCmsHomepageChapters({
+  role,
+  defaultTab = "sections",
+}: {
+  role: AdminRole;
+  defaultTab?: "sections" | "agri-park";
+}) {
   const toast = useToast();
   const canEdit = canManageSettings(role);
   const [chapters, setChapters] = useState<HomepageChaptersContent>(HOMEPAGE_CHAPTERS_FALLBACK);
@@ -133,19 +144,57 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
     <div className="space-y-6">
       <CmsPageHeader
         title="Homepage sections"
-        description="Edit copy for the pillars parallax, market linkage block, mobile app chapter, and closing pathways on the homepage."
+        description="Edit pillars, market linkage, mobile app chapter, closing pathways, and Agri Park on the homepage scroll narrative."
         workflow="live"
       />
       {!dbConfigured && (
         <p className="text-xs text-amber-600">Database not configured — changes will not persist.</p>
       )}
 
+      <Tabs defaultValue={defaultTab} className="space-y-6">
+        <TabsList className="inline-flex h-9 items-center rounded-lg bg-muted/60 p-0.5 border border-border/80 shadow-2xs">
+          <TabsTrigger value="sections" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Sections & narrative
+          </TabsTrigger>
+          <TabsTrigger value="agri-park" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Agri Park
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="sections" className="space-y-8">
       <form onSubmit={handleSave} className="space-y-8">
         {pillars.map((pillar, pi) => (
           <div key={pillar.id} className="rounded-xl border bg-card shadow-sm">
-            <div className="flex items-center gap-2 border-b px-5 py-4">
-              <Layout className="h-4 w-4 text-muted-foreground" />
+            <div className="flex flex-col gap-3 border-b px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-sm font-semibold">Pillar {pillar.number}: {pillar.id}</h2>
+              <CmsTranslateToHindiButton
+                variant="inline"
+                disabled={!canEdit || loading}
+                enTexts={[
+                  pillar.tagEn,
+                  pillar.titleEn,
+                  pillar.descriptionEn,
+                  pillar.ctaTextEn,
+                  pillar.imageAltEn,
+                ]}
+                onTranslated={([tagHi, titleHi, descriptionHi, ctaTextHi, imageAltHi]) =>
+                  updateChapters({
+                    ...chapters,
+                    pillars: pillars.map((p, idx) =>
+                      idx === pi
+                        ? {
+                            ...p,
+                            tagHi: tagHi ?? p.tagHi,
+                            titleHi: titleHi ?? p.titleHi,
+                            descriptionHi: descriptionHi ?? p.descriptionHi,
+                            ctaTextHi: ctaTextHi ?? p.ctaTextHi,
+                            imageAltHi: imageAltHi ?? p.imageAltHi,
+                          }
+                        : p,
+                    ),
+                  })
+                }
+              />
             </div>
             <div className="space-y-4 p-5">
               <CmsBilingualField
@@ -264,19 +313,8 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                 disabled={!canEdit || loading}
               />
               <div className="space-y-2">
-                <Label className="text-xs font-medium">Image URL</Label>
-                <Input
-                  value={pillar.imageUrl}
-                  onChange={(e) =>
-                    updateChapters({
-                      ...chapters,
-                      pillars: pillars.map((p, idx) => (idx === pi ? { ...p, imageUrl: e.target.value } : p)),
-                    })
-                  }
-                  disabled={!canEdit || loading}
-                />
-                <CmsUploadField
-                  label="Upload image"
+                <CmsImageField
+                  label="Pillar image"
                   value={pillar.imageUrl}
                   onChange={(url) =>
                     updateChapters({
@@ -284,8 +322,6 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
                       pillars: pillars.map((p, idx) => (idx === pi ? { ...p, imageUrl: url } : p)),
                     })
                   }
-                  kind="image"
-                  accept="image/jpeg,image/png,image/webp"
                   disabled={!canEdit || loading}
                 />
               </div>
@@ -353,7 +389,45 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
 
         <div className="rounded-xl border bg-card shadow-sm">
           <div className="border-b px-5 py-4">
-            <h2 className="text-sm font-semibold">Market linkage pillar</h2>
+            <CmsSectionHeader
+              title="Market linkage pillar"
+              translate={{
+                disabled: !canEdit || loading,
+                enTexts: [
+                  pillarMarket.badgeEn,
+                  pillarMarket.titleEn,
+                  pillarMarket.descriptionEn,
+                  pillarMarket.ctaLabelEn,
+                  ...pillarMarket.stats.flatMap((s) => [
+                    s.valueTextEn,
+                    s.prefixEn,
+                    s.suffixEn,
+                    s.labelEn,
+                  ]),
+                ],
+                onTranslated: (t) => {
+                  let i = 0;
+                  const take = () => t[i++] ?? "";
+                  updateChapters({
+                    ...chapters,
+                    pillarMarket: {
+                      ...pillarMarket,
+                      badgeHi: take() || pillarMarket.badgeHi,
+                      titleHi: take() || pillarMarket.titleHi,
+                      descriptionHi: take() || pillarMarket.descriptionHi,
+                      ctaLabelHi: take() || pillarMarket.ctaLabelHi,
+                      stats: pillarMarket.stats.map((s) => ({
+                        ...s,
+                        valueTextHi: take() || s.valueTextHi,
+                        prefixHi: take() || s.prefixHi,
+                        suffixHi: take() || s.suffixHi,
+                        labelHi: take() || s.labelHi,
+                      })),
+                    },
+                  });
+                },
+              }}
+            />
           </div>
           <div className="space-y-4 p-5">
             <CmsBilingualField
@@ -394,30 +468,56 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
               onHi={(v) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, ctaLabelHi: v } })}
               disabled={!canEdit || loading}
             />
-            <div className="space-y-2">
-              <Label className="text-xs font-medium">Image URL</Label>
-              <Input
-                value={pillarMarket.imageUrl}
-                onChange={(e) =>
-                  updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: e.target.value } })
-                }
-                disabled={!canEdit || loading}
-              />
-              <CmsUploadField
-                label="Upload image"
-                value={pillarMarket.imageUrl}
-                onChange={(url) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: url } })}
-                kind="image"
-                accept="image/jpeg,image/png,image/webp"
-                disabled={!canEdit || loading}
-              />
-            </div>
+            <CmsImageField
+              label="Market linkage image"
+              value={pillarMarket.imageUrl}
+              onChange={(url) => updateChapters({ ...chapters, pillarMarket: { ...pillarMarket, imageUrl: url } })}
+              disabled={!canEdit || loading}
+            />
           </div>
         </div>
 
         <div className="rounded-xl border bg-card shadow-sm">
           <div className="border-b px-5 py-4">
-            <h2 className="text-sm font-semibold">Mobile app chapter</h2>
+            <CmsSectionHeader
+              title="Mobile app chapter"
+              translate={{
+                disabled: !canEdit || loading,
+                enTexts: [
+                  appChapter.badgeEn,
+                  appChapter.titleEn,
+                  appChapter.descriptionEn,
+                  appChapter.checklistEn.join("\n"),
+                  ...appChapter.stats.flatMap((s) => [
+                    s.valueTextEn,
+                    s.prefixEn,
+                    s.suffixEn,
+                    s.labelEn,
+                  ]),
+                ],
+                onTranslated: (t) => {
+                  let i = 0;
+                  const take = () => t[i++] ?? "";
+                  updateChapters({
+                    ...chapters,
+                    appChapter: {
+                      ...appChapter,
+                      badgeHi: take() || appChapter.badgeHi,
+                      titleHi: take() || appChapter.titleHi,
+                      descriptionHi: take() || appChapter.descriptionHi,
+                      checklistHi: take().split("\n").filter(Boolean) || appChapter.checklistHi,
+                      stats: appChapter.stats.map((s) => ({
+                        ...s,
+                        valueTextHi: take() || s.valueTextHi,
+                        prefixHi: take() || s.prefixHi,
+                        suffixHi: take() || s.suffixHi,
+                        labelHi: take() || s.labelHi,
+                      })),
+                    },
+                  });
+                },
+              }}
+            />
           </div>
           <div className="space-y-4 p-5">
             <CmsBilingualField
@@ -483,7 +583,47 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
 
         <div className="rounded-xl border bg-card shadow-sm">
           <div className="border-b px-5 py-4">
-            <h2 className="text-sm font-semibold">Closing chapter (Get started)</h2>
+            <CmsSectionHeader
+              title="Closing chapter (Get started)"
+              translate={{
+                disabled: !canEdit || loading,
+                enTexts: [
+                  closingChapter.badgeEn,
+                  closingChapter.titleEn,
+                  closingChapter.descriptionEn,
+                  ...closingChapter.pathways.flatMap((p) => [
+                    p.tagEn,
+                    p.titleEn,
+                    p.subtitleEn,
+                    p.descriptionEn,
+                    p.actionLabelEn,
+                    p.actionSubEn,
+                  ]),
+                ],
+                onTranslated: (t) => {
+                  let i = 0;
+                  const take = () => t[i++] ?? "";
+                  updateChapters({
+                    ...chapters,
+                    closingChapter: {
+                      ...closingChapter,
+                      badgeHi: take() || closingChapter.badgeHi,
+                      titleHi: take() || closingChapter.titleHi,
+                      descriptionHi: take() || closingChapter.descriptionHi,
+                      pathways: closingChapter.pathways.map((p) => ({
+                        ...p,
+                        tagHi: take() || p.tagHi,
+                        titleHi: take() || p.titleHi,
+                        subtitleHi: take() || p.subtitleHi,
+                        descriptionHi: take() || p.descriptionHi,
+                        actionLabelHi: take() || p.actionLabelHi,
+                        actionSubHi: take() || p.actionSubHi,
+                      })),
+                    },
+                  });
+                },
+              }}
+            />
           </div>
           <div className="space-y-4 p-5">
             <CmsBilingualField
@@ -686,6 +826,12 @@ export function AdminCmsHomepageChapters({ role }: { role: AdminRole }) {
 
         <CmsStickySaveBar saving={saving} disabled={!canEdit} label="Save homepage sections" />
       </form>
+        </TabsContent>
+
+        <TabsContent value="agri-park">
+          <AdminCmsAgriParkTour role={role} embedded />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

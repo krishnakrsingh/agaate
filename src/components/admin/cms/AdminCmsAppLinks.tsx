@@ -10,7 +10,13 @@ import { Label } from "@/components/ui/label";
 import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
 import { DEFAULT_HOME_CMS_APP_LINKS, type HomeCmsAppLinks } from "@/lib/cms-types";
 
-export function AdminCmsAppLinks({ role }: { role: AdminRole }) {
+export function AdminCmsAppLinks({
+  role,
+  embedded = false,
+}: {
+  role: AdminRole;
+  embedded?: boolean;
+}) {
   const toast = useToast();
   const canEdit = canManageSettings(role);
   const [links, setLinks] = useState<HomeCmsAppLinks>(DEFAULT_HOME_CMS_APP_LINKS);
@@ -49,12 +55,14 @@ export function AdminCmsAppLinks({ role }: { role: AdminRole }) {
   }
 
   return (
-    <div className="space-y-6">
-      <CmsPageHeader
-        title="App store links"
-        description="Google Play and Apple App Store URLs used by the download badges in the mobile app section on the homepage."
-        workflow="live"
-      />
+    <div className={embedded ? "space-y-4" : "space-y-6"}>
+      {!embedded ? (
+        <CmsPageHeader
+          title="App store links"
+          description="Google Play and Apple App Store URLs used by the download badges in the mobile app section on the homepage."
+          workflow="live"
+        />
+      ) : null}
 
       {!dbConfigured && (
         <div className="rounded-lg border border-amber-500/30 bg-amber-50 px-4 py-3 text-sm text-amber-900">
@@ -62,20 +70,32 @@ export function AdminCmsAppLinks({ role }: { role: AdminRole }) {
         </div>
       )}
 
-      <div className="rounded-2xl border bg-card p-6 shadow-sm">
-        <div className="flex items-start gap-3">
-          <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
-            <Smartphone className="h-5 w-5" />
+      <div className={embedded ? "space-y-4" : "rounded-2xl border bg-card p-6 shadow-sm"}>
+        {!embedded ? (
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-primary/10 p-2.5 text-primary">
+              <Smartphone className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold">Download badge links</h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Paste the full store URLs for your Agaate mobile app. Changes apply immediately after saving.
+              </p>
+            </div>
           </div>
+        ) : (
           <div>
-            <h2 className="text-base font-semibold">Download badge links</h2>
-            <p className="mt-0.5 text-xs text-muted-foreground">
-              Paste the full store URLs for your Agaate mobile app. Changes apply immediately after saving.
+            <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
+              Homepage
+            </span>
+            <h3 className="text-base font-bold text-foreground mt-1">App store links</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Google Play and Apple App Store URLs for download badges in the mobile app section on the homepage.
             </p>
           </div>
-        </div>
+        )}
 
-        <form onSubmit={handleSave} className="mt-6 space-y-4">
+        <form onSubmit={handleSave} className={embedded ? "space-y-4" : "mt-6 space-y-4"}>
           <div className="space-y-2">
             <Label htmlFor="googlePlayUrl" className="text-xs font-medium">Google Play URL</Label>
             <Input

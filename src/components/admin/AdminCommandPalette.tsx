@@ -42,9 +42,16 @@ export function AdminCommandPalette({
               const Icon = item.icon;
               return (
                 <CommandItem
-                  key={item.to}
+                  key={item.id ?? item.to}
                   value={`${item.label} ${item.keywords ?? ""} ${item.group}`}
-                  onSelect={() => handleSelect(() => navigate({ to: item.to }))}
+                  onSelect={() =>
+                    handleSelect(() =>
+                      navigate({
+                        to: item.to,
+                        search: item.search,
+                      }),
+                    )
+                  }
                 >
                   <Icon className="mr-2 h-4 w-4" />
                   <span>{item.label}</span>

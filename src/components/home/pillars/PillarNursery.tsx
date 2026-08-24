@@ -77,21 +77,6 @@ export default function PillarNursery() {
                 <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#5d7d37]">
                   Bio Nursery
                 </p>
-
-                <button
-                  type="button"
-                  onClick={() => setIsLocationsModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white/90 hover:bg-white px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#143d31] transition-all cursor-pointer border border-[#143d31]/15 shadow-xs hover:border-[#5d7d37] hover:scale-105"
-                  title="Click to view all locations on Google Maps"
-                >
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5d7d37] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5d7d37]"></span>
-                  </span>
-                  <MapPin weight="fill" className="h-3 w-3 text-[#5d7d37]" />
-                  <span>3 Locations in Gurugram</span>
-                  <ArrowSquareOut className="h-3 w-3 text-[#5d7d37]" />
-                </button>
               </div>
 
               {/* Display Headline */}

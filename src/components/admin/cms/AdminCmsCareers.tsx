@@ -12,6 +12,7 @@ import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsTableEmptyAction, CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { useCmsListConfirm } from "@/components/admin/cms/useCmsListConfirm";
@@ -227,6 +228,28 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
             <p className="text-xs text-muted-foreground">Hero, stats, culture, campus, and open roles headers.</p>
           </div>
         </div>
+        <CmsTranslateToHindiButton
+          variant="inline"
+          disabled={!canEdit || loading}
+          enTexts={[
+            content.heroBadgeEn,
+            content.heroTitleEn,
+            content.heroDescriptionEn,
+            content.openRolesTitleEn,
+            content.campusTitleEn,
+          ]}
+          onTranslated={([heroBadgeHi, heroTitleHi, heroDescriptionHi, openRolesTitleHi, campusTitleHi]) => {
+            setContent({
+              ...content,
+              heroBadgeHi: heroBadgeHi ?? content.heroBadgeHi,
+              heroTitleHi: heroTitleHi ?? content.heroTitleHi,
+              heroDescriptionHi: heroDescriptionHi ?? content.heroDescriptionHi,
+              openRolesTitleHi: openRolesTitleHi ?? content.openRolesTitleHi,
+              campusTitleHi: campusTitleHi ?? content.campusTitleHi,
+            });
+            setPageDirty(true);
+          }}
+        />
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-xs">Hero badge (EN)</Label>
@@ -377,7 +400,37 @@ export function AdminCmsCareers({ role }: { role: AdminRole }) {
 
       {editingJob && (
         <form onSubmit={handleSaveJob} className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">
-          <h3 className="font-semibold">{editingJob.id ? "Edit role" : "New role"}</h3>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h3 className="font-semibold">{editingJob.id ? "Edit role" : "New role"}</h3>
+            <CmsTranslateToHindiButton
+              variant="inline"
+              disabled={!canEdit || loading}
+              enTexts={[
+                editingJob.titleEn,
+                editingJob.deptEn,
+                editingJob.locEn,
+                editingJob.descEn,
+                ...editingJob.reqsEn,
+                ...editingJob.responsibilitiesEn,
+              ]}
+              onTranslated={(t) => {
+                let i = 0;
+                const take = () => t[i++] ?? "";
+                setEditingJob({
+                  ...editingJob,
+                  titleHi: take() || editingJob.titleHi,
+                  deptHi: take() || editingJob.deptHi,
+                  locHi: take() || editingJob.locHi,
+                  descHi: take() || editingJob.descHi,
+                  reqsHi: editingJob.reqsEn.map((_, idx) => (take() || editingJob.reqsHi[idx]) ?? ""),
+                  responsibilitiesHi: editingJob.responsibilitiesEn.map(
+                    (_, idx) => (take() || editingJob.responsibilitiesHi[idx]) ?? "",
+                  ),
+                });
+                setJobDirty(true);
+              }}
+            />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label className="text-xs">Slug</Label>
