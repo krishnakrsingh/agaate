@@ -85,37 +85,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Agaate — Integrated Seed-to-Market Agri Business" },
-      {
-        name: "description",
-        content:
-          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, market linkage, and carbon monetization.",
-      },
       { name: "author", content: "Agaate (Anzix Farm Technologies Pvt Ltd)" },
-      { property: "og:title", content: "Agaate — Integrated Seed-to-Market Agri Business" },
-      {
-        property: "og:description",
-        content:
-          "High-yield bio-boosted nursery saplings, verified agri inputs, AI precision crop advisory, and guaranteed buyback market linkage.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "Agaate" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@AgaateAgri" },
-      { name: "twitter:title", content: "Agaate — Integrated Seed-to-Market Agri Business" },
-      {
-        name: "twitter:description",
-        content:
-          "High-yield bio-boosted nursery saplings, verified agri inputs, AI precision crop advisory, and guaranteed buyback market linkage.",
-      },
-      {
-        property: "og:image",
-        content: "/logo.png",
-      },
-      {
-        name: "twitter:image",
-        content: "/logo.png",
-      },
     ],
     links: [
       {

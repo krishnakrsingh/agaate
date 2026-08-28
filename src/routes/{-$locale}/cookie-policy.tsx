@@ -17,8 +17,14 @@ import {
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
 
 export const Route = createFileRoute("/{-$locale}/cookie-policy")({
+  loader: async ({ params }) => ({
+    locale: params.locale ?? "en",
+    seo: await fetchPageSeo("legal_page", "cookie-policy", params.locale ?? "en"),
+  }),
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: CookiePolicyPage,
 });
 

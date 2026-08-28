@@ -17,6 +17,8 @@ import { isAdminOk } from "@/lib/admin-api";
 import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { AboutPageProvider } from "@/contexts/AboutPageContext";
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
+import { SeoBreadcrumbs } from "@/components/seo/SeoBreadcrumbs";
 
 export const Route = createFileRoute("/{-$locale}/about")({
   staleTime: 0,
@@ -35,18 +37,9 @@ export const Route = createFileRoute("/{-$locale}/about")({
     } catch (err) {
       console.warn("About page loader fallback:", err);
     }
-    return { teamCms, aboutPage, locale: params.locale ?? "en" };
+    return { teamCms, aboutPage, locale: params.locale ?? "en", seo: await fetchPageSeo("static_page", "about", params.locale ?? "en") };
   },
-  head: () => ({
-    meta: [
-      { title: "About Us — Agaate | Rooted in Science, Built for Farmers" },
-      {
-        name: "description",
-        content:
-          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, and sustainable market linkage.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: About,
 });
 
@@ -59,6 +52,15 @@ function About() {
     <AboutPageProvider content={aboutPage}>
       <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased overflow-x-clip">
         <Header />
+        <div className="mx-auto max-w-6xl px-4 pt-4">
+          <SeoBreadcrumbs
+            items={[
+              { name: "Home", path: "/" },
+              { name: "About", path: "/about" },
+            ]}
+            locale={locale}
+          />
+        </div>
         <AboutHero isHi={isHi} />
         <WhoWeAre isHi={isHi} />
         <ValuesTriptych isHi={isHi} />

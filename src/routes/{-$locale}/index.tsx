@@ -30,13 +30,14 @@ import { TEAM_CMS_FALLBACK } from "@/data/team-fallback";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
-import { KisaanMallPageProvider } from "@/contexts/KisaanMallPageContext";
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
 import { AgriParkChapterProvider } from "@/contexts/AgriParkChapterContext";
 import { HomepageChaptersProvider } from "@/contexts/HomepageChaptersContext";
 
 export const Route = createFileRoute("/{-$locale}/")({
   staleTime: 0,
-  loader: async () => {
+  loader: async ({ params }) => {
+    const locale = params.locale ?? "en";
     try {
       const [homeRes, teamRes, mallRes, agriRes, chaptersRes] = await Promise.all([
         getHomeCms({ data: { preview: false } }),
@@ -62,28 +63,22 @@ export const Route = createFileRoute("/{-$locale}/")({
       )
         ? chaptersRes.chapters
         : HOMEPAGE_CHAPTERS_FALLBACK;
-      return { cms, teamCms, kisaanMallPage, agriParkChapter, homepageChapters };
+      const seo = await fetchPageSeo("homepage", "main", locale);
+      return { cms, teamCms, kisaanMallPage, agriParkChapter, homepageChapters, seo };
     } catch (err) {
       console.warn("Homepage CMS loader fallback:", err);
     }
+    const seo = await fetchPageSeo("homepage", "main", locale);
     return {
       cms: HOMEPAGE_CMS_FALLBACK,
       teamCms: TEAM_CMS_FALLBACK,
       kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
       agriParkChapter: AGRI_PARK_CHAPTER_FALLBACK,
       homepageChapters: HOMEPAGE_CHAPTERS_FALLBACK,
+      seo,
     };
   },
-  head: () => ({
-    meta: [
-      { title: "Agaate — Integrated Seed-to-Market Agri Business" },
-      {
-        name: "description",
-        content:
-          "Agaate is an integrated agricultural enterprise combining Bio-Boosted seedling infrastructure, input commerce, on-ground field advisory, market linkage, and carbon monetization.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: Index,
 });
 

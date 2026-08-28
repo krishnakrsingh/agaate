@@ -110,6 +110,10 @@ const NAV_GROUPS: Array<{
     group: "Operations",
     items: [{ to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin }],
   },
+  {
+    group: "SEO",
+    items: [{ to: "/agaate-admin/seo", label: "SEO Manager", icon: Search, exact: true }],
+  },
 ];
 
 const SETTINGS_NAV: NavItem = {
@@ -224,6 +228,24 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "Inquiries", href: "/agaate-admin/farm-visits", current: false },
         { label: "Farm visits", href: "/agaate-admin/farm-visits", current: true },
       ];
+    }
+    if (pathname.startsWith("/agaate-admin/seo")) {
+      const segments = [
+        { label: "SEO", href: "/agaate-admin/seo", current: pathname === "/agaate-admin/seo" },
+      ];
+      if (pathname.includes("/global")) {
+        segments.push({ label: "Global settings", href: "/agaate-admin/seo/global", current: true });
+      } else if (pathname.includes("/pages")) {
+        segments.push({ label: "Pages", href: "/agaate-admin/seo/pages", current: pathname.endsWith("/pages") || pathname.endsWith("/pages/") });
+        if (!pathname.endsWith("/pages") && !pathname.endsWith("/pages/")) {
+          segments.push({ label: "Edit page", href: pathname, current: true });
+        }
+      } else if (pathname.includes("/redirects")) {
+        segments.push({ label: "Redirects", href: "/agaate-admin/seo/redirects", current: true });
+      } else if (pathname.includes("/audit")) {
+        segments.push({ label: "Audit", href: "/agaate-admin/seo/audit", current: true });
+      }
+      return segments;
     }
     if (pathname.startsWith("/agaate-admin/content")) {
       return [

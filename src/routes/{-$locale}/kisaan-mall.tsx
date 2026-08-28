@@ -16,34 +16,33 @@ import { isAdminOk } from "@/lib/admin-api";
 import { DEFAULT_KISAAN_MALL_LANDING } from "@/lib/cms-types";
 import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
 import { KisaanMallPageProvider } from "@/contexts/KisaanMallPageContext";
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
 
 export const Route = createFileRoute("/{-$locale}/kisaan-mall")({
-  loader: async () => {
+  loader: async ({ params }) => {
+    const locale = params.locale ?? "en";
     try {
       const res = await getKisaanMallPage();
+      const seo = await fetchPageSeo("static_page", "kisaan-mall", locale);
       if (
         isAdminOk<{
           landing: typeof DEFAULT_KISAAN_MALL_LANDING;
           page: typeof KISAAN_MALL_PAGE_FALLBACK;
         }>(res)
       ) {
-        return { landing: res.landing, page: res.page };
+        return { landing: res.landing, page: res.page, locale, seo };
       }
     } catch (err) {
       console.warn("Kisaan Mall page loader fallback:", err);
     }
-    return { landing: DEFAULT_KISAAN_MALL_LANDING, page: KISAAN_MALL_PAGE_FALLBACK };
+    return {
+      landing: DEFAULT_KISAAN_MALL_LANDING,
+      page: KISAAN_MALL_PAGE_FALLBACK,
+      locale,
+      seo: await fetchPageSeo("static_page", "kisaan-mall", locale),
+    };
   },
-  head: () => ({
-    meta: [
-      { title: "Kisaan Mall — Agaate | Direct Agri Inputs for Farmers" },
-      {
-        name: "description",
-        content:
-          "Agaate Kisaan Mall — 100% genuine seeds, biologicals, drip kits, and nursery saplings sourced directly from certified manufacturers.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: KisaanMallPage,
 });
 

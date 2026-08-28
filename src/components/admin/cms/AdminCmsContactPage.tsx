@@ -5,6 +5,7 @@ import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { AdminCmsSeoShortcut } from "@/components/admin/seo/AdminCmsSeoShortcut";
 import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
@@ -100,6 +101,8 @@ export function AdminCmsContactPage({ role }: { role: AdminRole }) {
         description="Manage FAQ copy, consultation inquiry tracks, and form dropdown options on the public contact page."
         workflow="live"
       />
+
+      <AdminCmsSeoShortcut entityType="static_page" entityKey="contact" label="Contact SEO" />
 
       <form onSubmit={handleSave} className="space-y-8">
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">

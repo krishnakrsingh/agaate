@@ -3,6 +3,8 @@ import {
   BarChart2,
   BookOpen,
   Briefcase,
+  ClipboardCheck,
+  FileSearch,
   Globe,
   Image,
   Layout,
@@ -10,12 +12,14 @@ import {
   MapPin,
   MessageCircle,
   MessageSquare,
+  Search,
   Settings,
   Smartphone,
   Store,
   TreePine,
   UsersRound,
   Video,
+  ArrowRightLeft,
 } from "lucide-react";
 
 export type AdminCmsNavItem = {
@@ -108,6 +112,41 @@ export const ADMIN_COMMAND_PAGES: AdminCmsNavItem[] = [
   },
   { to: "/agaate-admin/farm-visits", label: "Farm visits", group: "Inquiries", icon: MapPin },
   {
+    to: "/agaate-admin/seo",
+    label: "SEO Manager",
+    group: "SEO",
+    icon: Search,
+    keywords: "meta title description sitemap robots",
+  },
+  {
+    to: "/agaate-admin/seo/global",
+    label: "Global SEO settings",
+    group: "SEO",
+    icon: Globe,
+    keywords: "website url verification",
+  },
+  {
+    to: "/agaate-admin/seo/pages",
+    label: "Page SEO",
+    group: "SEO",
+    icon: FileSearch,
+    keywords: "canonical og twitter",
+  },
+  {
+    to: "/agaate-admin/seo/redirects",
+    label: "URL redirects",
+    group: "SEO",
+    icon: ArrowRightLeft,
+    keywords: "301 302",
+  },
+  {
+    to: "/agaate-admin/seo/audit",
+    label: "SEO audit",
+    group: "SEO",
+    icon: ClipboardCheck,
+    keywords: "scan issues",
+  },
+  {
     to: "/agaate-admin/settings",
     id: "settings-app-links",
     label: "App store links",
@@ -132,5 +171,6 @@ export const ADMIN_COMMAND_GROUPS = [
   "Homepage",
   "Pages",
   "Inquiries",
+  "SEO",
   "Configuration",
 ] as const;
