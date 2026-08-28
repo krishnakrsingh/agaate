@@ -10,12 +10,12 @@ import {
   canManageSettings,
   DEFAULT_ADMIN_SETTINGS,
   isRestrictedAssignee,
-  type AdminRole,
   type AdminSettingsPayload,
   type RequestPriority,
   type RequestStatus,
 } from "@/lib/admin-constants";
 import type { SessionUser } from "@/lib/admin-constants";
+import { ensureRbacSchema, findRoleById } from "@/server/rbac-queries";
 
 function parseJson<T>(value: unknown, fallback: T): T {
   if (value == null) return fallback;
@@ -109,6 +109,7 @@ export async function ensureAdminSchema() {
     await db.query(sql);
   }
   await ensureLeadCrmColumns();
+  await ensureRbacSchema();
   adminSchemaReady = true;
 }
 
@@ -160,14 +161,24 @@ export async function ensureLeadCrmColumns() {
 
 export async function findUserByEmail(email: string) {
   const db = await getDbPool();
-  const [rows] = await db.query(`SELECT * FROM users WHERE email = :email LIMIT 1`, { email });
+  const [rows] = await db.query(
+    `SELECT u.*, r.slug AS role, r.name AS role_name
+     FROM users u
+     LEFT JOIN admin_roles r ON r.id = u.role_id
+     WHERE u.email = :email LIMIT 1`,
+    { email },
+  );
   return ((rows as AdminUserRow[])[0] ?? null) as AdminUserRow | null;
 }
 
 export async function findUserById(id: number) {
   const db = await getDbPool();
   const [rows] = await db.query(
-    `SELECT id, name, email, role, created_at, updated_at FROM users WHERE id = :id LIMIT 1`,
+    `SELECT u.id, u.name, u.email, u.role_id, r.slug AS role, r.name AS role_name,
+            u.created_at, u.updated_at
+     FROM users u
+     LEFT JOIN admin_roles r ON r.id = u.role_id
+     WHERE u.id = :id LIMIT 1`,
     { id },
   );
   return ((rows as AdminUserRow[])[0] ?? null) as AdminUserRow | null;
@@ -176,7 +187,11 @@ export async function findUserById(id: number) {
 export async function listUsers() {
   const db = await getDbPool();
   const [rows] = await db.query(
-    `SELECT id, name, email, role, created_at, updated_at FROM users ORDER BY name ASC`,
+    `SELECT u.id, u.name, u.email, u.role_id, r.slug AS role, r.name AS role_name,
+            u.created_at, u.updated_at
+     FROM users u
+     LEFT JOIN admin_roles r ON r.id = u.role_id
+     ORDER BY u.name ASC`,
   );
   return rows as AdminUserRow[];
 }
@@ -185,20 +200,22 @@ export async function createUser(input: {
   name: string;
   email: string;
   password_hash: string;
-  role: AdminRole;
+  roleId: number;
 }) {
+  const role = await findRoleById(input.roleId);
+  if (!role) throw new Error("INVALID_ROLE");
   const db = await getDbPool();
   const [result] = await db.query(
-    `INSERT INTO users (name, email, password_hash, role)
-     VALUES (:name, :email, :password_hash, :role)`,
-    input,
+    `INSERT INTO users (name, email, password_hash, role, role_id)
+     VALUES (:name, :email, :password_hash, :role, :roleId)`,
+    { ...input, role: role.slug },
   );
   return Number((result as { insertId: number }).insertId);
 }
 
 export async function updateUser(
   id: number,
-  patch: { name?: string; email?: string; role?: AdminRole; password_hash?: string },
+  patch: { name?: string; email?: string; roleId?: number; password_hash?: string },
 ) {
   const db = await getDbPool();
   const fields: string[] = [];
@@ -211,9 +228,12 @@ export async function updateUser(
     fields.push("email = :email");
     params.email = patch.email.trim().toLowerCase();
   }
-  if (patch.role) {
-    fields.push("role = :role");
-    params.role = patch.role;
+  if (patch.roleId) {
+    const role = await findRoleById(patch.roleId);
+    if (!role) throw new Error("INVALID_ROLE");
+    fields.push("role_id = :roleId", "role = :role");
+    params.roleId = patch.roleId;
+    params.role = role.slug;
   }
   if (patch.password_hash) {
     fields.push("password_hash = :password_hash");
@@ -223,9 +243,15 @@ export async function updateUser(
   await db.query(`UPDATE users SET ${fields.join(", ")} WHERE id = :id`, params as never);
 }
 
-export async function countUsersByRole(role: AdminRole): Promise<number> {
+export async function countUsersByRoleSlug(slug: string): Promise<number> {
   const db = await getDbPool();
-  const [rows] = await db.query(`SELECT COUNT(*) AS c FROM users WHERE role = :role`, { role });
+  const [rows] = await db.query(
+    `SELECT COUNT(*) AS c
+     FROM users u
+     JOIN admin_roles r ON r.id = u.role_id
+     WHERE r.slug = :slug`,
+    { slug },
+  );
   return Number((rows as Array<{ c: number }>)[0]?.c ?? 0);
 }
 
@@ -274,7 +300,7 @@ export async function listContacts(user: SessionUser, filters: ContactFilters) {
   const where: string[] = ["1=1"];
   const params: Record<string, unknown> = {};
 
-  if (isRestrictedAssignee(user.role)) {
+  if (isRestrictedAssignee(user)) {
     where.push("l.assigned_to = :me");
     params.me = user.id;
   }
@@ -357,7 +383,7 @@ export async function getContact(user: SessionUser, id: number) {
   );
   const row = (rows as ContactRequestRow[])[0];
   if (!row) return null;
-  if (isRestrictedAssignee(user.role) && row.assigned_to !== user.id) return null;
+  if (isRestrictedAssignee(user) && row.assigned_to !== user.id) return null;
   return row;
 }
 
@@ -492,7 +518,7 @@ export async function setAttachment(user: SessionUser, id: number, url: string) 
 
 export async function dashboardKpis(user: SessionUser): Promise<Record<string, number>> {
   const db = await getDbPool();
-  const scope = isRestrictedAssignee(user.role) ? "assigned_to = :me" : "1=1";
+  const scope = isRestrictedAssignee(user) ? "assigned_to = :me" : "1=1";
   const params = { me: user.id };
   const [rows] = await db.query(
     `SELECT
@@ -515,7 +541,7 @@ export async function dashboardKpis(user: SessionUser): Promise<Record<string, n
 
 export async function dashboardCharts(user: SessionUser) {
   const db = await getDbPool();
-  const scope = isRestrictedAssignee(user.role) ? "assigned_to = :me" : "1=1";
+  const scope = isRestrictedAssignee(user) ? "assigned_to = :me" : "1=1";
   const params = { me: user.id };
 
   const [byDay] = await db.query(
@@ -542,7 +568,7 @@ export async function dashboardCharts(user: SessionUser) {
   const [team] = await db.query(
     `SELECT u.name AS name, COUNT(*) AS count
      FROM leads l JOIN users u ON u.id = l.assigned_to
-     WHERE ${isRestrictedAssignee(user.role) ? "l.assigned_to = :me" : "1=1"}
+     WHERE ${isRestrictedAssignee(user) ? "l.assigned_to = :me" : "1=1"}
      GROUP BY u.id, u.name ORDER BY count DESC LIMIT 8`,
     params,
   );
@@ -556,7 +582,7 @@ export async function dashboardCharts(user: SessionUser) {
 
 export async function analyticsReport(user: SessionUser) {
   const db = await getDbPool();
-  const scope = isRestrictedAssignee(user.role) ? "assigned_to = :me" : "1=1";
+  const scope = isRestrictedAssignee(user) ? "assigned_to = :me" : "1=1";
   const params = { me: user.id };
   const [windows] = await db.query(
     `SELECT
@@ -616,7 +642,7 @@ export async function getSettings(): Promise<AdminSettingsPayload> {
 }
 
 export async function saveSettings(user: SessionUser, payload: AdminSettingsPayload) {
-  if (!canManageSettings(user.role)) throw new Error("FORBIDDEN");
+  if (!canManageSettings(user)) throw new Error("FORBIDDEN");
   const db = await getDbPool();
   await db.query(
     `INSERT INTO admin_settings (id, payload) VALUES (1, :payload)

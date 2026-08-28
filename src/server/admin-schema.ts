@@ -5,7 +5,9 @@ export type AdminUserRow = {
   name: string;
   email: string;
   password_hash?: string;
-  role: AdminRole;
+  role: AdminRole | string;
+  role_id?: number | null;
+  role_name?: string | null;
   created_at: Date | string;
   updated_at: Date | string;
 };
