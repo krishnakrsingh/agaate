@@ -17,6 +17,7 @@ import {
   Smartphone,
   Store,
   TreePine,
+  UserCheck,
   UsersRound,
   Video,
   ArrowRightLeft,
@@ -145,6 +146,20 @@ export const ADMIN_COMMAND_PAGES: AdminCmsNavItem[] = [
     group: "SEO",
     icon: ClipboardCheck,
     keywords: "scan issues",
+  },
+  {
+    to: "/agaate-admin/access",
+    label: "Users & access",
+    group: "Configuration",
+    icon: UsersRound,
+    keywords: "roles permissions staff accounts",
+  },
+  {
+    to: "/agaate-admin/profile",
+    label: "My profile",
+    group: "Configuration",
+    icon: UserCheck,
+    keywords: "password name account",
   },
   {
     to: "/agaate-admin/settings",

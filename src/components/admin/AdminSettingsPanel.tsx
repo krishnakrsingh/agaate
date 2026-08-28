@@ -1,45 +1,30 @@
 import { useState } from "react";
-import { Save, UserPlus } from "lucide-react";
-import {
-  listAdminUsers,
-  saveAdminSettings,
-  saveAdminUser,
-  sendAdminTestEmail,
-} from "@/functions/admin-contacts";
+import { Save } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { saveAdminSettings, sendAdminTestEmail } from "@/functions/admin-contacts";
 import { AdminCmsAppLinks } from "@/components/admin/cms/AdminCmsAppLinks";
 import {
   DEFAULT_ADMIN_SETTINGS,
   type AdminRole,
   type AdminSettingsForClient,
 } from "@/lib/admin-constants";
+
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 
-type User = { id: number; name: string; email: string; role: AdminRole };
-
 export function AdminSettingsPanel({
   settings: initialSettings,
-  users: initialUsers,
   adminRole,
   defaultTab = "email",
 }: {
   settings: AdminSettingsForClient;
-  users: User[];
   adminRole: AdminRole;
-  defaultTab?: "email" | "users" | "app-links";
+  defaultTab?: "email" | "app-links";
 }) {
   const toast = useToast();
   const [settings, setSettings] = useState({
@@ -51,15 +36,8 @@ export function AdminSettingsPanel({
       pass: "",
     },
   });
-  const [users, setUsers] = useState(initialUsers);
   const [saving, setSaving] = useState(false);
   const [testingEmail, setTestingEmail] = useState(false);
-  const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    role: "support" as AdminRole,
-    password: "",
-  });
 
   async function handleSaveSettingsSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -89,7 +67,11 @@ export function AdminSettingsPanel({
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
         <p className="text-muted-foreground text-xs">
-          Configure contact form email delivery, app store links, and admin staff accounts.
+          Configure contact form email delivery and app store links. Manage staff accounts in{" "}
+          <Link to="/agaate-admin/access" className="text-primary hover:underline">
+            Users & access
+          </Link>
+          .
         </p>
       </div>
       <Separator className="my-4" />
@@ -101,9 +83,6 @@ export function AdminSettingsPanel({
           </TabsTrigger>
           <TabsTrigger value="app-links" className="rounded-md px-3.5 py-1 text-xs font-medium">
             App store links
-          </TabsTrigger>
-          <TabsTrigger value="users" className="rounded-md px-3.5 py-1 text-xs font-medium">
-            Staff Users
           </TabsTrigger>
         </TabsList>
 
@@ -319,139 +298,6 @@ export function AdminSettingsPanel({
         <TabsContent value="app-links" className="space-y-4">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
             <AdminCmsAppLinks role={adminRole} embedded />
-          </div>
-        </TabsContent>
-
-        <TabsContent value="users" className="space-y-4">
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
-            <div>
-              <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
-                Access Control
-              </span>
-              <h3 className="text-base font-bold text-foreground mt-1">Staff Accounts</h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                Manage who can sign in to this admin panel.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
-              <Table>
-                <TableHeader className="bg-muted/40">
-                  <TableRow>
-                    <TableHead className="text-xs">Name</TableHead>
-                    <TableHead className="text-xs">Email</TableHead>
-                    <TableHead className="text-xs">Role</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {users.map((u) => (
-                    <TableRow key={u.id} className="hover:bg-muted/40 transition-colors">
-                      <TableCell className="font-semibold text-xs text-foreground">
-                        {u.name}
-                      </TableCell>
-                      <TableCell className="font-mono text-xs text-muted-foreground">
-                        {u.email}
-                      </TableCell>
-                      <TableCell>
-                        <select
-                          defaultValue={u.role}
-                          onChange={(e) =>
-                            void saveAdminUser({
-                              data: {
-                                id: u.id,
-                                name: u.name,
-                                email: u.email,
-                                role: e.target.value,
-                              },
-                            }).then(() =>
-                              toast.success("Role updated", `${u.name} is now ${e.target.value}`),
-                            )
-                          }
-                          className="h-8 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
-                        >
-                          <option value="super_admin">Super Admin</option>
-                          <option value="admin">Admin</option>
-                          <option value="agronomist">Agronomist</option>
-                          <option value="support">Support</option>
-                        </select>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const res = await saveAdminUser({ data: newUser });
-                if (res && "ok" in res && res.ok) {
-                  const listed = await listAdminUsers();
-                  if (listed && "ok" in listed && listed.ok) setUsers(listed.users);
-                  setNewUser({ email: "", name: "", password: "", role: "agronomist" });
-                  toast.success("User added", newUser.email);
-                } else {
-                  toast.error("Failed to add user", (res as { error?: string })?.error || "Error");
-                }
-              }}
-              className="grid gap-3 pt-3 border-t border-border/60 sm:grid-cols-2 lg:grid-cols-5 items-end"
-            >
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Name</Label>
-                <Input
-                  value={newUser.name}
-                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                  placeholder="e.g. Aman Verma"
-                  required
-                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Email</Label>
-                <Input
-                  type="email"
-                  value={newUser.email}
-                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                  placeholder="e.g. aman@agaate.in"
-                  required
-                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Password</Label>
-                <Input
-                  type="password"
-                  value={newUser.password}
-                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                  placeholder="Min 8 chars"
-                  required
-                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Role</Label>
-                <select
-                  value={newUser.role}
-                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value as AdminRole })}
-                  className="w-full h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
-                >
-                  <option value="super_admin">Super Admin</option>
-                  <option value="admin">Admin</option>
-                  <option value="agronomist">Agronomist</option>
-                  <option value="support">Support</option>
-                </select>
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  size="sm"
-                  className="w-full h-8.5 rounded-lg px-3.5 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold"
-                >
-                  <UserPlus className="mr-1.5 h-3.5 w-3.5" />
-                  <span>Create account</span>
-                </Button>
-              </div>
-            </form>
           </div>
         </TabsContent>
       </Tabs>

@@ -64,7 +64,7 @@ export function AdminLoginForm() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="admin@agaate.in"
+                    placeholder="Enter your email address"
                     required
                     autoComplete="username"
                     value={email}
