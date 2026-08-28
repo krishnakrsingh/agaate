@@ -1,7 +1,6 @@
 import {
   fetchHomeCms,
   fetchKisaanMallLanding,
-  fetchKisaanMallPage,
   fetchAgriParkChapter,
   fetchHomepageChapters,
   fetchCareersPage,
@@ -41,8 +40,7 @@ export async function handleGetCareersPage(lang: "en" | "hi" = "en") {
 
 export async function handleGetKisaanMallPage() {
   const landing = await fetchKisaanMallLanding();
-  const page = await fetchKisaanMallPage();
-  return { ok: true as const, landing, page };
+  return { ok: true as const, landing };
 }
 
 export async function handleGetAgriParkChapter() {

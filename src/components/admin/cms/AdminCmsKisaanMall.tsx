@@ -9,14 +9,9 @@ import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsTableEmptyRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
-import { AdminCmsKisaanMallPageForm } from "@/components/admin/cms/AdminCmsKisaanMallPageForm";
+import { AdminCmsKisaanMallHomeForm } from "@/components/admin/cms/AdminCmsKisaanMallHomeForm";
 import { canEditCms } from "@/lib/admin-constants";
-import {
-  DEFAULT_KISAAN_MALL_LANDING,
-  type KisaanMallLanding,
-  type KisaanMallPageContent,
-} from "@/lib/cms-types";
-import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { DEFAULT_KISAAN_MALL_LANDING, type KisaanMallLanding } from "@/lib/cms-types";
 import type { NewsletterSignupRow } from "@/server/admin-queries";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -32,23 +27,22 @@ export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
   const toast = useToast();
   const canEdit = canEditCms({ permissions });
   const [landing, setLanding] = useState<KisaanMallLanding>(DEFAULT_KISAAN_MALL_LANDING);
-  const [page, setPage] = useState<KisaanMallPageContent>(KISAAN_MALL_PAGE_FALLBACK);
   const [signups, setSignups] = useState<NewsletterSignupRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dbConfigured, setDbConfigured] = useState(true);
   const [landingDirty, setLandingDirty] = useState(false);
-  const [pageDirty, setPageDirty] = useState(false);
-  useCmsDirtyGuard(landingDirty || pageDirty);
+  const [homeDirty, setHomeDirty] = useState(false);
+  useCmsDirtyGuard(landingDirty || homeDirty);
 
   const updateLanding = (next: KisaanMallLanding) => {
     setLanding(next);
     setLandingDirty(true);
   };
 
-  const updatePage = (next: KisaanMallPageContent) => {
-    setPage(next);
-    setPageDirty(true);
+  const updateHome = (next: KisaanMallLanding) => {
+    setLanding(next);
+    setHomeDirty(true);
   };
 
   const load = useCallback(async () => {
@@ -57,17 +51,15 @@ export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
     if (
       isAdminOk<{
         landing: KisaanMallLanding;
-        page: KisaanMallPageContent;
         signups: NewsletterSignupRow[];
         dbConfigured: boolean;
       }>(res)
     ) {
       setLanding(res.landing);
-      setPage(res.page);
       setSignups(res.signups);
       setDbConfigured(res.dbConfigured);
       setLandingDirty(false);
-      setPageDirty(false);
+      setHomeDirty(false);
     } else {
       toast.error("Load failed", adminError(res, "Could not load Kisaan Mall settings."));
     }
@@ -87,6 +79,7 @@ export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
     if (isAdminOk<{ landing: KisaanMallLanding }>(res)) {
       setLanding(res.landing);
       setLandingDirty(false);
+      setHomeDirty(false);
       toast.success("Landing saved", "Kisaan Mall waitlist page copy is updated.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save landing copy."));
@@ -97,7 +90,7 @@ export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
     <div className="space-y-6">
       <CmsPageHeader
         title="Kisaan Mall"
-        description="Edit the public /kisaan-mall page (waitlist or full catalog), FAQs, and review newsletter signups."
+        description="Edit the public /kisaan-mall waitlist page, homepage MallChapter section, and review newsletter signups."
         workflow="live"
       />
 
@@ -111,7 +104,7 @@ export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
       <Tabs defaultValue="waitlist" className="space-y-4">
         <TabsList>
           <TabsTrigger value="waitlist">Waitlist landing</TabsTrigger>
-          <TabsTrigger value="page">Full mall page</TabsTrigger>
+          <TabsTrigger value="homepage">Homepage section</TabsTrigger>
           <TabsTrigger value="signups">Signups ({signups.length})</TabsTrigger>
         </TabsList>
 
@@ -198,18 +191,21 @@ export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
           </div>
         </TabsContent>
 
-        <TabsContent value="page">
+        <TabsContent value="homepage">
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
-            <h2 className="text-base font-semibold">Full page content</h2>
+            <h2 className="text-base font-semibold">Homepage section</h2>
             <p className="mt-0.5 text-xs text-muted-foreground mb-4">
-              Hero, FAQs, and CTA when display mode is set to full mall page.
+              MallChapter copy, stats, and supply chain shown on the homepage.
             </p>
-            <AdminCmsKisaanMallPageForm
-              page={page}
-              setPage={updatePage}
+            <AdminCmsKisaanMallHomeForm
+              landing={landing}
+              setLanding={updateHome}
               canEdit={canEdit}
               loading={loading}
-              onSaved={() => setPageDirty(false)}
+              onSaved={() => {
+                setHomeDirty(false);
+                setLandingDirty(false);
+              }}
             />
           </div>
         </TabsContent>

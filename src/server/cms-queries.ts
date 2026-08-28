@@ -52,7 +52,7 @@ import {
   type HomeClosingPathway,
 } from "@/lib/cms-types";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
-import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
+import { SITE_CONTACT_FALLBACK, BLANK_SITE_FACILITY } from "@/data/site-contact-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import { KISAAN_MALL_HOME_DEFAULTS } from "@/data/kisaan-mall-home-fallback";
@@ -674,7 +674,7 @@ function normalizeSiteContact(
       normalizeTrustStat(s, (fb.contactTrustStats[i] ?? fb.contactTrustStats[0])!),
     ),
     facilities: facilitiesRaw.map((f, i) =>
-      normalizeFacility(f, (fb.facilities[i] ?? fb.facilities[0])!),
+      normalizeFacility(f, (fb.facilities[i] ?? BLANK_SITE_FACILITY)!),
     ),
   };
 }

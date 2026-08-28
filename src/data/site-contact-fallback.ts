@@ -1,7 +1,39 @@
-import type { SiteContactConfig } from "@/lib/cms-types";
+import type { SiteContactConfig, SiteFacilityConfig } from "@/lib/cms-types";
 import farmImage from "@/assets/agro-park.jpg";
 import mallImage from "@/assets/kisaan-mall-gen.png";
 import officeImage from "@/assets/about-farmer-advisor.png";
+
+export const BLANK_SITE_FACILITY: SiteFacilityConfig = {
+  id: "new-location",
+  nameEn: "New location",
+  nameHi: "नया केंद्र",
+  taglineEn: "",
+  taglineHi: "",
+  roleEn: "Agaate Hub",
+  roleHi: "Agaate केंद्र",
+  addressEn: "",
+  addressHi: "",
+  districtEn: "City, State",
+  districtHi: "शहर, राज्य",
+  plusCode: "",
+  phone: "+91 83500 85005",
+  telRaw: "918350085005",
+  email: "info@agaate.in",
+  hoursEn: "Mon – Sat: 09:00 AM – 06:00 PM",
+  hoursHi: "सोम – शनि: 09:00 AM – 06:00 PM",
+  teamEn: "",
+  teamHi: "",
+  highlightsEn: [],
+  highlightsHi: [],
+  mapsUrl: "",
+  mapEmbedQuery: "",
+  lat: 28.35,
+  lng: 76.95,
+  latLabel: "28.3500° N",
+  lngLabel: "76.9500° E",
+  iconKey: "plant",
+  imageUrl: farmImage,
+};
 
 export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
   primaryPhone: "8350085005",
