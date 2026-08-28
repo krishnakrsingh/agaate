@@ -8,6 +8,8 @@ import {
   Search,
   Star,
   Trash2,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import { getCmsSiteContactAdmin, saveCmsSiteContactAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
@@ -36,8 +38,17 @@ import { BLANK_SITE_FACILITY, SITE_CONTACT_FALLBACK } from "@/data/site-contact-
 import type { SiteContactConfig, SiteFacilityConfig } from "@/lib/cms-types";
 import { CMS_ICON_KEYS } from "@/lib/cms-types";
 import { createFacilityId, updateFacilityAt } from "@/lib/facility-admin";
+import { AdminFacilityMapPicker } from "@/components/admin/AdminFacilityMapPicker";
 
 type FilterMode = "all" | "primary" | "secondary";
+
+function hasValidPin(facility: SiteFacilityConfig) {
+  return (
+    Number.isFinite(facility.lat) &&
+    Number.isFinite(facility.lng) &&
+    !(facility.lat === 0 && facility.lng === 0)
+  );
+}
 
 function Field({
   label,
@@ -247,6 +258,17 @@ export function AdminLocations({ permissions }: { permissions: string[] }) {
                       </div>
                       <p className="text-xs text-muted-foreground truncate">
                         {facility.districtEn || "No district"} · {facility.id}
+                        {hasValidPin(facility) ? (
+                          <span className="inline-flex items-center gap-0.5 ml-1.5 text-emerald-600">
+                            <CheckCircle2 className="h-3 w-3" />
+                            pinned
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-0.5 ml-1.5 text-amber-600">
+                            <AlertCircle className="h-3 w-3" />
+                            no pin
+                          </span>
+                        )}
                       </p>
                     </div>
                   </button>
@@ -431,60 +453,17 @@ export function AdminLocations({ permissions }: { permissions: string[] }) {
                           }
                           disabled={!canEdit}
                         />
-                        <Field label="Latitude">
-                          <Input
-                            type="number"
-                            step="any"
-                            value={facility.lat}
-                            onChange={(e) => {
-                              const lat = Number(e.target.value);
-                              patchContact(
-                                updateFacilityAt(contact, index, {
-                                  lat,
-                                  latLabel: `${lat.toFixed(4)}° N`,
-                                }),
-                              );
-                            }}
-                            disabled={!canEdit}
-                          />
-                        </Field>
-                        <Field label="Longitude">
-                          <Input
-                            type="number"
-                            step="any"
-                            value={facility.lng}
-                            onChange={(e) => {
-                              const lng = Number(e.target.value);
-                              patchContact(
-                                updateFacilityAt(contact, index, {
-                                  lng,
-                                  lngLabel: `${lng.toFixed(4)}° E`,
-                                }),
-                              );
-                            }}
-                            disabled={!canEdit}
-                          />
-                        </Field>
-                        <Field label="Map search query">
-                          <Input
-                            value={facility.mapEmbedQuery}
-                            onChange={(e) =>
-                              patchContact(
-                                updateFacilityAt(contact, index, { mapEmbedQuery: e.target.value }),
-                              )
-                            }
-                            disabled={!canEdit}
-                          />
-                        </Field>
-                        <Field label="Google Maps link">
-                          <Input
-                            value={facility.mapsUrl}
-                            onChange={(e) =>
-                              patchContact(updateFacilityAt(contact, index, { mapsUrl: e.target.value }))
-                            }
-                            disabled={!canEdit}
-                          />
-                        </Field>
+                      </div>
+
+                      <AdminFacilityMapPicker
+                        facility={facility}
+                        canEdit={canEdit}
+                        onChange={(patch) =>
+                          patchContact(updateFacilityAt(contact, index, patch))
+                        }
+                      />
+
+                      <div className="grid gap-3 sm:grid-cols-2">
                         <CmsImageField
                           label="Photo"
                           value={facility.imageUrl}
