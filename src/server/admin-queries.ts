@@ -198,7 +198,7 @@ export async function createUser(input: {
 
 export async function updateUser(
   id: number,
-  patch: { name?: string; role?: AdminRole; password_hash?: string },
+  patch: { name?: string; email?: string; role?: AdminRole; password_hash?: string },
 ) {
   const db = await getDbPool();
   const fields: string[] = [];
@@ -206,6 +206,10 @@ export async function updateUser(
   if (patch.name) {
     fields.push("name = :name");
     params.name = patch.name;
+  }
+  if (patch.email) {
+    fields.push("email = :email");
+    params.email = patch.email.trim().toLowerCase();
   }
   if (patch.role) {
     fields.push("role = :role");
@@ -217,6 +221,17 @@ export async function updateUser(
   }
   if (!fields.length) return;
   await db.query(`UPDATE users SET ${fields.join(", ")} WHERE id = :id`, params as never);
+}
+
+export async function countUsersByRole(role: AdminRole): Promise<number> {
+  const db = await getDbPool();
+  const [rows] = await db.query(`SELECT COUNT(*) AS c FROM users WHERE role = :role`, { role });
+  return Number((rows as Array<{ c: number }>)[0]?.c ?? 0);
+}
+
+export async function deleteUser(id: number): Promise<void> {
+  const db = await getDbPool();
+  await db.query(`DELETE FROM users WHERE id = :id`, { id });
 }
 
 export type ContactFilters = {

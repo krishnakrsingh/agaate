@@ -54,9 +54,45 @@ export function canManageSettings(role: AdminRole) {
   return role === "super_admin" || role === "admin";
 }
 
+export function canManageUsers(role: AdminRole) {
+  return role === "super_admin" || role === "admin";
+}
+
+export function canAssignRole(actor: AdminRole, target: AdminRole) {
+  if (actor === "super_admin") return true;
+  if (actor === "admin") return target !== "super_admin";
+  return false;
+}
+
 export function isRestrictedAssignee(role: AdminRole) {
   return role === "agronomist" || role === "support";
 }
+
+export const ROLE_DESCRIPTIONS: Record<AdminRole, string> = {
+  super_admin: "Full system access including user management and all CMS settings.",
+  admin: "Manage website content, SEO, settings, and staff accounts (except super admins).",
+  agronomist: "View CMS content and manage assigned farm visit inquiries.",
+  support: "View CMS content and manage assigned customer inquiries.",
+};
+
+export const ROLE_PERMISSIONS: Record<AdminRole, string[]> = {
+  super_admin: [
+    "All CMS content",
+    "SEO Manager",
+    "System settings",
+    "User & access management",
+    "All inquiries",
+  ],
+  admin: [
+    "All CMS content",
+    "SEO Manager",
+    "System settings",
+    "User management (non–super admin)",
+    "All inquiries",
+  ],
+  agronomist: ["View CMS content", "Assigned farm visits", "Inquiry notes"],
+  support: ["View CMS content", "Assigned inquiries", "Inquiry notes"],
+};
 
 export const DEFAULT_ADMIN_SETTINGS = {
   businessHours: {

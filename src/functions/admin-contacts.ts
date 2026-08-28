@@ -33,6 +33,13 @@ export const saveAdminUser = createServerFn({ method: "POST" })
     return mod.handleSaveUser(data);
   });
 
+export const deleteAdminUser = createServerFn({ method: "POST" })
+  .validator((data: { id: number }) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-contacts.server");
+    return mod.handleDeleteUser(data.id);
+  });
+
 export const listAdminFarmVisits = createServerFn({ method: "GET" })
   .validator(
     (

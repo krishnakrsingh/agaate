@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canManageSettings, canManageUsers, type AdminRole } from "@/lib/admin-constants";
 import { cn } from "@/lib/utils";
 import type { SessionUser } from "@/lib/admin-constants";
 import { ToastProvider } from "@/components/admin/AdminToast";
@@ -116,6 +116,13 @@ const NAV_GROUPS: Array<{
   },
 ];
 
+const ACCESS_NAV: NavItem = {
+  to: "/agaate-admin/access",
+  label: "Users & access",
+  icon: UsersRound,
+  adminOnly: true,
+};
+
 const SETTINGS_NAV: NavItem = {
   to: "/agaate-admin/settings",
   label: "Settings",
@@ -154,6 +161,15 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "System", href: "/agaate-admin/settings", current: false },
         { label: "Settings", href: "/agaate-admin/settings", current: true },
       ];
+    }
+    if (pathname.startsWith("/agaate-admin/access")) {
+      return [
+        { label: "System", href: "/agaate-admin/access", current: false },
+        { label: "Users & access", href: "/agaate-admin/access", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/profile")) {
+      return [{ label: "My profile", href: "/agaate-admin/profile", current: true }];
     }
     if (pathname.startsWith("/agaate-admin/content/stats")) {
       return [
@@ -354,7 +370,58 @@ export function AdminShell({ user }: { user: SessionUser }) {
               );
             })}
 
-            {canManageSettings(user.role as AdminRole) ? (
+            {canManageUsers(user.role as AdminRole) ? (
+              <>
+                <SidebarSeparator className="my-2 bg-sidebar-border/60" />
+                <SidebarGroup className="py-1">
+                  <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
+                    System
+                  </SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={isNavActive(pathname, ACCESS_NAV)}
+                          tooltip={ACCESS_NAV.label}
+                          className={cn(
+                            "h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 transition-all",
+                            "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                            isNavActive(pathname, ACCESS_NAV) &&
+                              "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground",
+                          )}
+                        >
+                          <Link to={ACCESS_NAV.to}>
+                            <UsersRound className="size-4 opacity-70" />
+                            <span>{ACCESS_NAV.label}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      {canManageSettings(user.role as AdminRole) ? (
+                        <SidebarMenuItem>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={isNavActive(pathname, SETTINGS_NAV)}
+                            tooltip={SETTINGS_NAV.label}
+                            className={cn(
+                              "h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 transition-all",
+                              "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                              isNavActive(pathname, SETTINGS_NAV) &&
+                                "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground",
+                            )}
+                          >
+                            <Link to={SETTINGS_NAV.to}>
+                              <Settings className="size-4 opacity-70" />
+                              <span>{SETTINGS_NAV.label}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ) : null}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </>
+            ) : canManageSettings(user.role as AdminRole) ? (
               <>
                 <SidebarSeparator className="my-2 bg-sidebar-border/60" />
                 <SidebarGroup className="py-1">
@@ -448,12 +515,22 @@ export function AdminShell({ user }: { user: SessionUser }) {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
+                      <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/profile" })}>
+                        <UserCheck className="mr-2 h-4 w-4" />
+                        <span>My profile</span>
+                      </DropdownMenuItem>
                       {canManageSettings(user.role as AdminRole) && (
                         <DropdownMenuItem
                           onClick={() => navigate({ to: "/agaate-admin/settings" })}
                         >
                           <Settings className="mr-2 h-4 w-4" />
                           <span>Settings</span>
+                        </DropdownMenuItem>
+                      )}
+                      {canManageUsers(user.role as AdminRole) && (
+                        <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/access" })}>
+                          <UsersRound className="mr-2 h-4 w-4" />
+                          <span>Users & access</span>
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem onClick={() => setCommandOpen(true)}>

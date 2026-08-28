@@ -1,7 +1,10 @@
 import { hash } from "bcryptjs";
 import {
   createUser,
+  countUsersByRole,
+  deleteUser,
   ensureAdminSchema,
+  findUserById,
   getSettings,
   listContacts,
   listUsers,
@@ -12,7 +15,9 @@ import {
 } from "@/server/admin-queries";
 import { assertSameOrigin, requireSessionUser } from "@/server/auth";
 import {
+  canAssignRole,
   canManageSettings,
+  canManageUsers,
   DEFAULT_ADMIN_SETTINGS,
   sanitizeSettingsForClient,
   type AdminRole,
@@ -119,11 +124,21 @@ export async function handleSendTestEmail(to?: string) {
 export async function handleListUsers() {
   try {
     const user = await requireSessionUser();
-    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canManageUsers(user.role)) return { ok: false as const, error: "Forbidden." };
     if (isDbConfigured()) {
       try {
         const users = await listUsers();
-        if (users.length > 0) return { ok: true as const, users };
+        return {
+          ok: true as const,
+          users: users.map((u) => ({
+            id: Number(u.id),
+            name: u.name,
+            email: u.email,
+            role: u.role as AdminRole,
+            createdAt: String(u.created_at),
+            updatedAt: String(u.updated_at),
+          })),
+        };
       } catch (e) {
         console.warn("DB listUsers fallback:", e);
       }
@@ -143,16 +158,43 @@ export async function handleSaveUser(data: {
 }) {
   try {
     assertSameOrigin();
-    const user = await requireSessionUser();
-    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+    const actor = await requireSessionUser();
+    if (!canManageUsers(actor.role)) return { ok: false as const, error: "Forbidden." };
     const name = data.name.trim().slice(0, 120);
     const email = data.email.trim().toLowerCase();
     const role = data.role as AdminRole;
+    if (!name || !email) return { ok: false as const, error: "Name and email are required." };
+    if (!canAssignRole(actor.role, role)) {
+      return { ok: false as const, error: "You cannot assign this role." };
+    }
 
     if (isDbConfigured()) {
       try {
         if (data.id) {
-          const patch: { name: string; role: AdminRole; password_hash?: string } = { name, role };
+          const existing = await findUserById(data.id);
+          if (!existing) return { ok: false as const, error: "User not found." };
+          if (!canAssignRole(actor.role, existing.role as AdminRole)) {
+            return { ok: false as const, error: "You cannot edit this user." };
+          }
+          if (data.id === actor.id && role !== actor.role) {
+            return { ok: false as const, error: "You cannot change your own role." };
+          }
+          if (
+            existing.role === "super_admin" &&
+            role !== "super_admin" &&
+            (await countUsersByRole("super_admin")) <= 1
+          ) {
+            return {
+              ok: false as const,
+              error: "At least one super admin account must remain.",
+            };
+          }
+          const patch: {
+            name: string;
+            email: string;
+            role: AdminRole;
+            password_hash?: string;
+          } = { name, email, role };
           if (data.password && data.password.length >= 8) {
             patch.password_hash = await hash(data.password, 10);
           }
@@ -166,7 +208,12 @@ export async function handleSaveUser(data: {
         const id = await createUser({ name, email, password_hash, role });
         return { ok: true as const, id };
       } catch (e) {
-        console.warn("DB saveUser fallback:", e);
+        const message = e instanceof Error ? e.message : String(e);
+        if (message.includes("Duplicate") || message.includes("duplicate")) {
+          return { ok: false as const, error: "A user with this email already exists." };
+        }
+        console.warn("DB saveUser error:", e);
+        return { ok: false as const, error: "Could not save user." };
       }
     }
 
@@ -178,6 +225,34 @@ export async function handleSaveUser(data: {
     const newId = mockUsers.length + 1;
     mockUsers.push({ id: newId, name, email, role });
     return { ok: true as const, id: newId };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
+export async function handleDeleteUser(id: number) {
+  try {
+    assertSameOrigin();
+    const actor = await requireSessionUser();
+    if (actor.role !== "super_admin") {
+      return { ok: false as const, error: "Only super admins can remove users." };
+    }
+    if (id === actor.id) {
+      return { ok: false as const, error: "You cannot remove your own account." };
+    }
+    if (!isDbConfigured()) {
+      return { ok: false as const, error: "Database not configured." };
+    }
+    const existing = await findUserById(id);
+    if (!existing) return { ok: false as const, error: "User not found." };
+    if (
+      existing.role === "super_admin" &&
+      (await countUsersByRole("super_admin")) <= 1
+    ) {
+      return { ok: false as const, error: "Cannot remove the last super admin." };
+    }
+    await deleteUser(id);
+    return { ok: true as const };
   } catch (err) {
     return failAuth(err);
   }
