@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Save } from "lucide-react";
+import { BarChart3, Save } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { saveAdminSettings, sendAdminTestEmail } from "@/functions/admin-contacts";
 import { AdminCmsAppLinks } from "@/components/admin/cms/AdminCmsAppLinks";
@@ -7,6 +7,7 @@ import {
   DEFAULT_ADMIN_SETTINGS,
   type AdminSettingsForClient,
 } from "@/lib/admin-constants";
+import { isValidGoogleAnalyticsId } from "@/lib/analytics";
 
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ export function AdminSettingsPanel({
 }: {
   settings: AdminSettingsForClient;
   permissions: string[];
-  defaultTab?: "email" | "app-links";
+  defaultTab?: "email" | "app-links" | "analytics";
 }) {
   const toast = useToast();
   const [settings, setSettings] = useState({
@@ -33,6 +34,10 @@ export function AdminSettingsPanel({
       ...DEFAULT_ADMIN_SETTINGS.smtp,
       ...initialSettings.smtp,
       pass: "",
+    },
+    analytics: {
+      ...DEFAULT_ADMIN_SETTINGS.analytics,
+      ...initialSettings.analytics,
     },
   });
   const [saving, setSaving] = useState(false);
@@ -53,6 +58,10 @@ export function AdminSettingsPanel({
             ...res.settings.smtp,
             pass: "",
           },
+          analytics: {
+            ...DEFAULT_ADMIN_SETTINGS.analytics,
+            ...res.settings.analytics,
+          },
         });
       }
       toast.success("Settings saved", "Configuration updated successfully.");
@@ -66,7 +75,8 @@ export function AdminSettingsPanel({
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
         <p className="text-muted-foreground text-xs">
-          Configure contact form email delivery and app store links. Manage staff accounts in{" "}
+          Configure contact form email delivery, Google Analytics, and app store links. Manage staff
+          accounts in{" "}
           <Link to="/agaate-admin/access" className="text-primary hover:underline">
             Users & access
           </Link>
@@ -82,6 +92,9 @@ export function AdminSettingsPanel({
           </TabsTrigger>
           <TabsTrigger value="app-links" className="rounded-md px-3.5 py-1 text-xs font-medium">
             App store links
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Google Analytics
           </TabsTrigger>
         </TabsList>
 
@@ -297,6 +310,96 @@ export function AdminSettingsPanel({
         <TabsContent value="app-links" className="space-y-4">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
             <AdminCmsAppLinks permissions={permissions} embedded />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
+            <div>
+              <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
+                Website tracking
+              </span>
+              <h3 className="text-base font-bold text-foreground mt-1 flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Google Analytics
+              </h3>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Loads gtag.js on the public website when enabled. Use your GA4 Measurement ID (e.g.{" "}
+                <code className="text-[11px]">G-XXXXXXXXXX</code>).
+              </p>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void handleSaveSettingsSubmit(e);
+              }}
+              className="space-y-4"
+            >
+              <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5">
+                <Checkbox
+                  id="gaEnabled"
+                  checked={settings.analytics.enabled}
+                  onCheckedChange={(checked) =>
+                    setSettings({
+                      ...settings,
+                      analytics: { ...settings.analytics, enabled: Boolean(checked) },
+                    })
+                  }
+                />
+                <Label htmlFor="gaEnabled" className="text-xs text-foreground">
+                  Enable Google Analytics on the public website
+                </Label>
+              </div>
+
+              <div className="space-y-2 max-w-md">
+                <Label htmlFor="gaId" className="text-xs font-medium text-foreground">
+                  Measurement ID
+                </Label>
+                <Input
+                  id="gaId"
+                  value={settings.analytics.googleAnalyticsId}
+                  onChange={(e) =>
+                    setSettings({
+                      ...settings,
+                      analytics: {
+                        ...settings.analytics,
+                        googleAnalyticsId: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder="G-XXXXXXXXXX"
+                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border font-mono"
+                />
+                {settings.analytics.googleAnalyticsId &&
+                !isValidGoogleAnalyticsId(settings.analytics.googleAnalyticsId) ? (
+                  <p className="text-xs text-rose-600">
+                    Enter a valid GA4 ID (G-…), GTM container (GT-…), or legacy UA-… ID.
+                  </p>
+                ) : (
+                  <p className="text-xs text-muted-foreground">
+                    Find this in Google Analytics → Admin → Data streams → your web stream.
+                  </p>
+                )}
+              </div>
+
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  disabled={
+                    saving ||
+                    (settings.analytics.enabled &&
+                      Boolean(settings.analytics.googleAnalyticsId) &&
+                      !isValidGoogleAnalyticsId(settings.analytics.googleAnalyticsId))
+                  }
+                  size="sm"
+                  className="h-8.5 rounded-lg px-4 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold"
+                >
+                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                  <span>{saving ? "Saving..." : "Save analytics settings"}</span>
+                </Button>
+              </div>
+            </form>
           </div>
         </TabsContent>
       </Tabs>

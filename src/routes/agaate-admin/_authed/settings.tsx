@@ -8,7 +8,7 @@ import {
   type SessionUser,
 } from "@/lib/admin-constants";
 
-const SETTINGS_TABS = ["email", "app-links"] as const;
+const SETTINGS_TABS = ["email", "app-links", "analytics"] as const;
 type SettingsTab = (typeof SETTINGS_TABS)[number];
 
 function validateSettingsSearch(search: Record<string, unknown>): { tab?: SettingsTab } {

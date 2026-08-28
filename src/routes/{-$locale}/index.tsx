@@ -33,6 +33,7 @@ import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
 import { AgriParkChapterProvider } from "@/contexts/AgriParkChapterContext";
 import { HomepageChaptersProvider } from "@/contexts/HomepageChaptersContext";
+import { KisaanMallPageProvider } from "@/contexts/KisaanMallPageContext";
 
 export const Route = createFileRoute("/{-$locale}/")({
   staleTime: 0,

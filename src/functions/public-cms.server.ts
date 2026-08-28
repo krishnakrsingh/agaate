@@ -12,6 +12,9 @@ import {
 import { fetchTeamCms } from "@/server/cms-team-queries";
 import { listPublishedCareerJobs } from "@/server/cms-careers-queries";
 import { getSessionUser } from "@/server/auth";
+import { getSettings } from "@/server/admin-queries";
+import { isDbConfigured } from "@/server/db";
+import { normalizeGoogleAnalyticsId } from "@/lib/analytics";
 
 export async function handleGetSiteContact() {
   const contact = await fetchSiteContact();
@@ -70,4 +73,20 @@ export async function handleGetTeamCms(preview: boolean) {
   }
   const data = await fetchTeamCms(usePreview);
   return { ok: true as const, data, preview: usePreview };
+}
+
+export async function handleGetPublicAnalytics() {
+  if (!isDbConfigured()) {
+    return { ok: true as const, googleAnalyticsId: null as string | null };
+  }
+  try {
+    const settings = await getSettings();
+    if (!settings.analytics?.enabled) {
+      return { ok: true as const, googleAnalyticsId: null };
+    }
+    const id = normalizeGoogleAnalyticsId(settings.analytics.googleAnalyticsId ?? "");
+    return { ok: true as const, googleAnalyticsId: id || null };
+  } catch {
+    return { ok: true as const, googleAnalyticsId: null };
+  }
 }

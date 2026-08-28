@@ -638,6 +638,7 @@ export async function getSettings(): Promise<AdminSettingsPayload> {
     ...parsed,
     businessHours: { ...DEFAULT_ADMIN_SETTINGS.businessHours, ...parsed.businessHours },
     smtp: { ...DEFAULT_ADMIN_SETTINGS.smtp, ...parsed.smtp },
+    analytics: { ...DEFAULT_ADMIN_SETTINGS.analytics, ...parsed.analytics },
   };
 }
 

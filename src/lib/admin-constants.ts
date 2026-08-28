@@ -131,6 +131,10 @@ export const DEFAULT_ADMIN_SETTINGS = {
     fromEmail: "info@agaate.in",
     fromName: "Agaate Website",
   },
+  analytics: {
+    enabled: false,
+    googleAnalyticsId: "",
+  },
 };
 
 export type AdminSettingsPayload = typeof DEFAULT_ADMIN_SETTINGS;

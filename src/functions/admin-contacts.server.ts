@@ -33,6 +33,7 @@ import {
 } from "@/server/rbac-queries";
 import { SYSTEM_ROLE_SLUGS } from "@/lib/rbac";
 import { isDbConfigured } from "@/server/db";
+import { normalizeGoogleAnalyticsId } from "@/lib/analytics";
 
 function failAuth(err: unknown) {
   const message = err instanceof Error ? err.message : "Error";
@@ -78,10 +79,20 @@ function mergeSettingsPayload(
       ...existing.smtp,
       ...(raw.smtp as AdminSettingsPayload["smtp"] | undefined),
     },
+    analytics: {
+      ...DEFAULT_ADMIN_SETTINGS.analytics,
+      ...existing.analytics,
+      ...(raw.analytics as AdminSettingsPayload["analytics"] | undefined),
+    },
   } as AdminSettingsPayload;
 
   const nextPass = incoming.smtp.pass?.trim();
   incoming.smtp.pass = nextPass ? nextPass : existing.smtp.pass;
+  if (incoming.analytics.googleAnalyticsId) {
+    incoming.analytics.googleAnalyticsId = normalizeGoogleAnalyticsId(
+      incoming.analytics.googleAnalyticsId,
+    );
+  }
   return incoming;
 }
 
