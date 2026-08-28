@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
 import { AdminCmsAgriParkTour } from "@/components/admin/cms/AdminCmsAgriParkTour";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import type { HomepageChaptersContent } from "@/lib/cms-types";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 
@@ -94,14 +94,14 @@ function StatEditor({
 }
 
 export function AdminCmsHomepageChapters({
-  role,
+  permissions,
   defaultTab = "sections",
 }: {
-  role: AdminRole;
+  permissions: string[];
   defaultTab?: "sections" | "agri-park";
 }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [chapters, setChapters] = useState<HomepageChaptersContent>(HOMEPAGE_CHAPTERS_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -974,7 +974,7 @@ export function AdminCmsHomepageChapters({
         </TabsContent>
 
         <TabsContent value="agri-park">
-          <AdminCmsAgriParkTour role={role} embedded />
+          <AdminCmsAgriParkTour permissions={permissions} embedded />
         </TabsContent>
       </Tabs>
     </div>

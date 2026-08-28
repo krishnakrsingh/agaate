@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/team")({
 
 function TeamPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminCmsTeam role={adminUser.role} />;
+  return <AdminCmsTeam permissions={adminUser.permissions} />;
 }

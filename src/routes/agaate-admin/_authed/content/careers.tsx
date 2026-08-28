@@ -1,11 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { AdminCmsCareers } from "@/components/admin/cms/AdminCmsCareers";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/agaate-admin/_authed/content/careers")({
-  component: CareersAdminPage,
+  beforeLoad: () => {
+    throw redirect({ to: "/agaate-admin/careers" });
+  },
 });
-
-function CareersAdminPage() {
-  const { adminUser } = Route.useRouteContext();
-  return <AdminCmsCareers role={adminUser.role} />;
-}

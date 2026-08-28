@@ -16,3 +16,22 @@ export const getAdminSession = createServerFn({ method: "GET" }).handler(async (
   const { handleGetSession } = await import("./admin-auth.server");
   return handleGetSession();
 });
+
+export const getAdminProfile = createServerFn({ method: "GET" }).handler(async () => {
+  const { handleGetProfile } = await import("./admin-auth.server");
+  return handleGetProfile();
+});
+
+export const updateAdminProfile = createServerFn({ method: "POST" })
+  .validator((data: { name: string }) => data)
+  .handler(async ({ data }) => {
+    const { handleUpdateProfile } = await import("./admin-auth.server");
+    return handleUpdateProfile(data);
+  });
+
+export const changeAdminPassword = createServerFn({ method: "POST" })
+  .validator((data: { currentPassword: string; newPassword: string }) => data)
+  .handler(async ({ data }) => {
+    const { handleChangePassword } = await import("./admin-auth.server");
+    return handleChangePassword(data);
+  });

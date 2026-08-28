@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/stories")({
 
 function StoriesPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminCmsStories role={adminUser.role} />;
+  return <AdminCmsStories permissions={adminUser.permissions} />;
 }

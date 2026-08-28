@@ -52,7 +52,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { statSlugFromLabel } from "@/lib/cms-slug";
 import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
@@ -74,9 +74,9 @@ const emptyForm = {
   labelHi: "",
 };
 
-export function AdminCmsStats({ role }: { role: AdminRole }) {
+export function AdminCmsStats({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [items, setItems] = useState<CmsStatRow[]>([]);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<CmsStatus | "all">("all");

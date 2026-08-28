@@ -225,30 +225,10 @@ export const getCmsKisaanMallAdmin = createServerFn({ method: "GET" }).handler(a
 });
 
 export const saveCmsKisaanMallLandingAdmin = createServerFn({ method: "POST" })
-  .validator(
-    (data: {
-      badgeEn: string;
-      badgeHi: string;
-      titleEn: string;
-      titleHi: string;
-      descriptionEn: string;
-      descriptionHi: string;
-      placeholderEn: string;
-      placeholderHi: string;
-      successEn: string;
-      successHi: string;
-    }) => data,
-  )
+  .validator((data: import("@/lib/cms-types").KisaanMallLanding) => data)
   .handler(async ({ data }) => {
     const mod = await import("./admin-cms.server");
     return mod.handleSaveKisaanMallLanding(data);
-  });
-
-export const saveCmsKisaanMallPageAdmin = createServerFn({ method: "POST" })
-  .validator((data: import("@/lib/cms-types").KisaanMallPageContent) => data)
-  .handler(async ({ data }) => {
-    const mod = await import("./admin-cms.server");
-    return mod.handleSaveKisaanMallPage(data);
   });
 
 export const listCmsCareerJobsAdmin = createServerFn({ method: "GET" })

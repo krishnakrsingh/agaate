@@ -1,5 +1,6 @@
 import { getDbPool, isDbConfigured } from "@/server/db";
 import { ensureAdminSchema } from "@/server/admin-queries";
+import { normalizeSiteContactPhoneFields } from "@/lib/admin-format";
 import {
   getFallbackSeedLogos,
   getFallbackSeedStats,
@@ -40,7 +41,6 @@ import {
   type SiteContactTrustStat,
   type AboutPageContent,
   type ContactPageContent,
-  type KisaanMallPageContent,
   type KisaanMallSectionCopy,
   type HomeAgriParkChapterContent,
   type HomeChapterStat,
@@ -52,10 +52,11 @@ import {
   type HomeClosingPathway,
 } from "@/lib/cms-types";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
-import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
+import { SITE_CONTACT_FALLBACK, BLANK_SITE_FACILITY } from "@/data/site-contact-fallback";
+import { isPrimaryFacilityId } from "@/lib/facility-admin";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
-import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { KISAAN_MALL_HOME_DEFAULTS } from "@/data/kisaan-mall-home-fallback";
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 
@@ -259,8 +260,16 @@ function normalizeAgriParkTour(
 
 function normalizeKisaanMallLanding(
   raw: Partial<KisaanMallLanding> | null | undefined,
+  legacyPage?: Partial<KisaanMallLanding> | null,
 ): KisaanMallLanding {
   const fallback = DEFAULT_KISAAN_MALL_LANDING;
+  const homeFb = KISAAN_MALL_HOME_DEFAULTS;
+  const homeChapter = normalizeKisaanMallHomeChapter(
+    raw?.homeChapter ?? legacyPage?.homeChapter,
+  );
+  const heroStatsSource = raw?.heroStats ?? legacyPage?.heroStats ?? homeFb.heroStats;
+  const supplyStepsSource = raw?.supplySteps ?? legacyPage?.supplySteps ?? homeFb.supplySteps;
+
   return {
     badgeEn: String(raw?.badgeEn ?? "").trim() || fallback.badgeEn,
     badgeHi: String(raw?.badgeHi ?? "").trim() || fallback.badgeHi,
@@ -272,6 +281,28 @@ function normalizeKisaanMallLanding(
     placeholderHi: String(raw?.placeholderHi ?? "").trim() || fallback.placeholderHi,
     successEn: String(raw?.successEn ?? "").trim() || fallback.successEn,
     successHi: String(raw?.successHi ?? "").trim() || fallback.successHi,
+    homeChapter,
+    heroStats: heroStatsSource.map((s, i) => ({
+      numValue: Number(s?.numValue ?? homeFb.heroStats[i]?.numValue ?? 0),
+      suffixEn: String(s?.suffixEn ?? "").trim() || homeFb.heroStats[i]?.suffixEn || "",
+      suffixHi: String(s?.suffixHi ?? "").trim() || homeFb.heroStats[i]?.suffixHi || "",
+      valueTextEn: String(s?.valueTextEn ?? "").trim() || homeFb.heroStats[i]?.valueTextEn || "",
+      valueTextHi: String(s?.valueTextHi ?? "").trim() || homeFb.heroStats[i]?.valueTextHi || "",
+      labelEn: String(s?.labelEn ?? "").trim() || homeFb.heroStats[i]?.labelEn || "",
+      labelHi: String(s?.labelHi ?? "").trim() || homeFb.heroStats[i]?.labelHi || "",
+    })),
+    supplyChain: normalizeMallSection(
+      raw?.supplyChain ?? legacyPage?.supplyChain,
+      homeFb.supplyChain,
+    ),
+    supplySteps: supplyStepsSource.map((s, i) => ({
+      step: String(s?.step ?? "").trim() || homeFb.supplySteps[i]?.step || "",
+      titleEn: String(s?.titleEn ?? "").trim() || homeFb.supplySteps[i]?.titleEn || "",
+      titleHi: String(s?.titleHi ?? "").trim() || homeFb.supplySteps[i]?.titleHi || "",
+      descEn: String(s?.descEn ?? "").trim() || homeFb.supplySteps[i]?.descEn || "",
+      descHi: String(s?.descHi ?? "").trim() || homeFb.supplySteps[i]?.descHi || "",
+      iconKey: normalizeIconKey(s?.iconKey ?? homeFb.supplySteps[i]?.iconKey),
+    })),
   };
 }
 
@@ -454,9 +485,9 @@ function normalizeAgriParkChapter(
 }
 
 function normalizeKisaanMallHomeChapter(
-  raw: Partial<KisaanMallPageContent["homeChapter"]> | null | undefined,
-): KisaanMallPageContent["homeChapter"] {
-  const fb = KISAAN_MALL_PAGE_FALLBACK.homeChapter;
+  raw: Partial<KisaanMallLanding["homeChapter"]> | null | undefined,
+): KisaanMallLanding["homeChapter"] {
+  const fb = KISAAN_MALL_HOME_DEFAULTS.homeChapter;
   return {
     badgeEn: String(raw?.badgeEn ?? "").trim() || fb.badgeEn,
     badgeHi: String(raw?.badgeHi ?? "").trim() || fb.badgeHi,
@@ -496,108 +527,6 @@ function normalizeMallSection(
     titleHi: String(raw?.titleHi ?? "").trim() || fb.titleHi,
     descriptionEn: String(raw?.descriptionEn ?? "").trim() || fb.descriptionEn,
     descriptionHi: String(raw?.descriptionHi ?? "").trim() || fb.descriptionHi,
-  };
-}
-
-function normalizeKisaanMallPage(
-  raw: Partial<KisaanMallPageContent> | null | undefined,
-): KisaanMallPageContent {
-  const fb = KISAAN_MALL_PAGE_FALLBACK;
-  const displayMode = raw?.displayMode === "full" ? "full" : "coming_soon";
-  const categories = Array.isArray(raw?.categories) ? raw.categories : fb.categories;
-  const supplySteps = Array.isArray(raw?.supplySteps) ? raw.supplySteps : fb.supplySteps;
-  const trustItems = Array.isArray(raw?.trustItems) ? raw.trustItems : fb.trustItems;
-  const faqs = Array.isArray(raw?.faqs) ? raw.faqs : fb.faqs;
-  const heroStats = Array.isArray(raw?.heroStats) ? raw.heroStats : fb.heroStats;
-
-  return {
-    displayMode,
-    homeChapter: normalizeKisaanMallHomeChapter(raw?.homeChapter),
-    heroEyebrowEn: String(raw?.heroEyebrowEn ?? "").trim() || fb.heroEyebrowEn,
-    heroEyebrowHi: String(raw?.heroEyebrowHi ?? "").trim() || fb.heroEyebrowHi,
-    heroTitleEn: String(raw?.heroTitleEn ?? "").trim() || fb.heroTitleEn,
-    heroTitleHi: String(raw?.heroTitleHi ?? "").trim() || fb.heroTitleHi,
-    heroTitleAccentEn: String(raw?.heroTitleAccentEn ?? "").trim() || fb.heroTitleAccentEn,
-    heroTitleAccentHi: String(raw?.heroTitleAccentHi ?? "").trim() || fb.heroTitleAccentHi,
-    heroDescriptionEn: String(raw?.heroDescriptionEn ?? "").trim() || fb.heroDescriptionEn,
-    heroDescriptionHi: String(raw?.heroDescriptionHi ?? "").trim() || fb.heroDescriptionHi,
-    heroNotifyPlaceholderEn:
-      String(raw?.heroNotifyPlaceholderEn ?? "").trim() || fb.heroNotifyPlaceholderEn,
-    heroNotifyPlaceholderHi:
-      String(raw?.heroNotifyPlaceholderHi ?? "").trim() || fb.heroNotifyPlaceholderHi,
-    heroNotifyButtonEn: String(raw?.heroNotifyButtonEn ?? "").trim() || fb.heroNotifyButtonEn,
-    heroNotifyButtonHi: String(raw?.heroNotifyButtonHi ?? "").trim() || fb.heroNotifyButtonHi,
-    heroNotifySuccessEn: String(raw?.heroNotifySuccessEn ?? "").trim() || fb.heroNotifySuccessEn,
-    heroNotifySuccessHi: String(raw?.heroNotifySuccessHi ?? "").trim() || fb.heroNotifySuccessHi,
-    heroWhatsappLabelEn: String(raw?.heroWhatsappLabelEn ?? "").trim() || fb.heroWhatsappLabelEn,
-    heroWhatsappLabelHi: String(raw?.heroWhatsappLabelHi ?? "").trim() || fb.heroWhatsappLabelHi,
-    heroStats: heroStats.map((s, i) => ({
-      numValue: Number(s?.numValue ?? fb.heroStats[i]?.numValue ?? 0),
-      suffixEn: String(s?.suffixEn ?? "").trim() || fb.heroStats[i]?.suffixEn || "",
-      suffixHi: String(s?.suffixHi ?? "").trim() || fb.heroStats[i]?.suffixHi || "",
-      valueTextEn: String(s?.valueTextEn ?? "").trim() || fb.heroStats[i]?.valueTextEn || "",
-      valueTextHi: String(s?.valueTextHi ?? "").trim() || fb.heroStats[i]?.valueTextHi || "",
-      labelEn: String(s?.labelEn ?? "").trim() || fb.heroStats[i]?.labelEn || "",
-      labelHi: String(s?.labelHi ?? "").trim() || fb.heroStats[i]?.labelHi || "",
-    })),
-    aisles: normalizeMallSection(raw?.aisles, fb.aisles),
-    categories: categories.map((c, i) => ({
-      id: String(c?.id ?? "").trim() || fb.categories[i]?.id || `cat-${i}`,
-      titleEn: String(c?.titleEn ?? "").trim() || fb.categories[i]?.titleEn || "",
-      titleHi: String(c?.titleHi ?? "").trim() || fb.categories[i]?.titleHi || "",
-      tagEn: String(c?.tagEn ?? "").trim() || fb.categories[i]?.tagEn || "",
-      tagHi: String(c?.tagHi ?? "").trim() || fb.categories[i]?.tagHi || "",
-      descEn: String(c?.descEn ?? "").trim() || fb.categories[i]?.descEn || "",
-      descHi: String(c?.descHi ?? "").trim() || fb.categories[i]?.descHi || "",
-      examplesEn: Array.isArray(c?.examplesEn)
-        ? c.examplesEn.map(String)
-        : fb.categories[i]?.examplesEn || [],
-      examplesHi: Array.isArray(c?.examplesHi)
-        ? c.examplesHi.map(String)
-        : fb.categories[i]?.examplesHi || [],
-      badgeEn: String(c?.badgeEn ?? "").trim() || fb.categories[i]?.badgeEn || "",
-      badgeHi: String(c?.badgeHi ?? "").trim() || fb.categories[i]?.badgeHi || "",
-      iconKey: normalizeIconKey(c?.iconKey ?? fb.categories[i]?.iconKey),
-    })),
-    supplyChain: normalizeMallSection(raw?.supplyChain, fb.supplyChain),
-    supplySteps: supplySteps.map((s, i) => ({
-      step: String(s?.step ?? "").trim() || fb.supplySteps[i]?.step || "",
-      titleEn: String(s?.titleEn ?? "").trim() || fb.supplySteps[i]?.titleEn || "",
-      titleHi: String(s?.titleHi ?? "").trim() || fb.supplySteps[i]?.titleHi || "",
-      descEn: String(s?.descEn ?? "").trim() || fb.supplySteps[i]?.descEn || "",
-      descHi: String(s?.descHi ?? "").trim() || fb.supplySteps[i]?.descHi || "",
-      iconKey: normalizeIconKey(s?.iconKey ?? fb.supplySteps[i]?.iconKey),
-    })),
-    trust: normalizeMallSection(raw?.trust, fb.trust),
-    trustItems: trustItems.map((item, i) => ({
-      labelEn: String(item?.labelEn ?? "").trim() || fb.trustItems[i]?.labelEn || "",
-      labelHi: String(item?.labelHi ?? "").trim() || fb.trustItems[i]?.labelHi || "",
-      valueEn: String(item?.valueEn ?? "").trim() || fb.trustItems[i]?.valueEn || "",
-      valueHi: String(item?.valueHi ?? "").trim() || fb.trustItems[i]?.valueHi || "",
-      hintEn: String(item?.hintEn ?? "").trim() || fb.trustItems[i]?.hintEn || "",
-      hintHi: String(item?.hintHi ?? "").trim() || fb.trustItems[i]?.hintHi || "",
-      iconKey: normalizeIconKey(item?.iconKey ?? fb.trustItems[i]?.iconKey),
-    })),
-    faq: normalizeMallSection(raw?.faq, fb.faq),
-    faqs: faqs.map((f, i) => ({
-      qEn: String(f?.qEn ?? "").trim() || fb.faqs[i]?.qEn || "",
-      qHi: String(f?.qHi ?? "").trim() || fb.faqs[i]?.qHi || "",
-      aEn: String(f?.aEn ?? "").trim() || fb.faqs[i]?.aEn || "",
-      aHi: String(f?.aHi ?? "").trim() || fb.faqs[i]?.aHi || "",
-    })),
-    ctaBadgeEn: String(raw?.ctaBadgeEn ?? "").trim() || fb.ctaBadgeEn,
-    ctaBadgeHi: String(raw?.ctaBadgeHi ?? "").trim() || fb.ctaBadgeHi,
-    ctaTitleEn: String(raw?.ctaTitleEn ?? "").trim() || fb.ctaTitleEn,
-    ctaTitleHi: String(raw?.ctaTitleHi ?? "").trim() || fb.ctaTitleHi,
-    ctaDescriptionEn: String(raw?.ctaDescriptionEn ?? "").trim() || fb.ctaDescriptionEn,
-    ctaDescriptionHi: String(raw?.ctaDescriptionHi ?? "").trim() || fb.ctaDescriptionHi,
-    ctaHoursEn: String(raw?.ctaHoursEn ?? "").trim() || fb.ctaHoursEn,
-    ctaHoursHi: String(raw?.ctaHoursHi ?? "").trim() || fb.ctaHoursHi,
-    ctaWhatsappLabelEn: String(raw?.ctaWhatsappLabelEn ?? "").trim() || fb.ctaWhatsappLabelEn,
-    ctaWhatsappLabelHi: String(raw?.ctaWhatsappLabelHi ?? "").trim() || fb.ctaWhatsappLabelHi,
-    ctaImageUrl: String(raw?.ctaImageUrl ?? "").trim() || fb.ctaImageUrl,
-    ctaImageAltEn: String(raw?.ctaImageAltEn ?? "").trim() || fb.ctaImageAltEn,
-    ctaImageAltHi: String(raw?.ctaImageAltHi ?? "").trim() || fb.ctaImageAltHi,
   };
 }
 
@@ -657,6 +586,9 @@ function normalizeFacility(
     lngLabel: String(raw?.lngLabel ?? "").trim() || fb.lngLabel,
     iconKey: normalizeIconKey(raw?.iconKey ?? fb.iconKey),
     imageUrl: String(raw?.imageUrl ?? "").trim() || fb.imageUrl,
+    isPrimary:
+      raw?.isPrimary === true ||
+      (raw?.isPrimary === undefined && isPrimaryFacilityId(String(raw?.id ?? fb.id))),
   };
 }
 
@@ -684,17 +616,33 @@ function normalizeSiteContact(
     : fb.contactTrustStats;
   const messages: Partial<SiteWhatsAppMessages> = raw?.whatsappMessages ?? {};
   const social: Partial<SiteSocialLinks> = raw?.social ?? {};
+  const phoneInput = {
+    primaryPhone: raw?.primaryPhone,
+    primaryPhoneDisplay: raw?.primaryPhoneDisplay,
+    primaryTel: raw?.primaryTel,
+    altPhone: raw?.altPhone,
+    altPhoneDisplay: raw?.altPhoneDisplay,
+    altTel: raw?.altTel,
+    whatsappNumber: raw?.whatsappNumber,
+  };
+  const derivedPrimary = normalizeSiteContactPhoneFields(phoneInput, { whatsappSameAsPrimary: true });
+  const explicitWa = String(raw?.whatsappNumber ?? "").trim();
+  const whatsappSameAsPrimary =
+    !explicitWa ||
+    explicitWa === derivedPrimary.primaryTel ||
+    explicitWa === String(raw?.primaryTel ?? "").trim();
+  const phones = normalizeSiteContactPhoneFields(phoneInput, { whatsappSameAsPrimary });
 
   return {
-    primaryPhone: String(raw?.primaryPhone ?? "").trim() || fb.primaryPhone,
-    primaryPhoneDisplay: String(raw?.primaryPhoneDisplay ?? "").trim() || fb.primaryPhoneDisplay,
-    primaryTel: String(raw?.primaryTel ?? "").trim() || fb.primaryTel,
-    altPhone: String(raw?.altPhone ?? "").trim() || fb.altPhone,
-    altPhoneDisplay: String(raw?.altPhoneDisplay ?? "").trim() || fb.altPhoneDisplay,
-    altTel: String(raw?.altTel ?? "").trim() || fb.altTel,
+    primaryPhone: phones.primaryPhone || fb.primaryPhone,
+    primaryPhoneDisplay: phones.primaryPhoneDisplay || fb.primaryPhoneDisplay,
+    primaryTel: phones.primaryTel || fb.primaryTel,
+    altPhone: phones.altPhone || fb.altPhone,
+    altPhoneDisplay: phones.altPhoneDisplay || fb.altPhoneDisplay,
+    altTel: phones.altTel || fb.altTel,
     primaryEmail: String(raw?.primaryEmail ?? "").trim() || fb.primaryEmail,
     careersEmail: String(raw?.careersEmail ?? "").trim() || fb.careersEmail,
-    whatsappNumber: String(raw?.whatsappNumber ?? "").trim() || fb.whatsappNumber,
+    whatsappNumber: phones.whatsappNumber || fb.whatsappNumber,
     whatsappMessages: {
       consultation: String(messages.consultation ?? "").trim() || fb.whatsappMessages.consultation,
       agronomist: String(messages.agronomist ?? "").trim() || fb.whatsappMessages.agronomist,
@@ -730,7 +678,7 @@ function normalizeSiteContact(
       normalizeTrustStat(s, (fb.contactTrustStats[i] ?? fb.contactTrustStats[0])!),
     ),
     facilities: facilitiesRaw.map((f, i) =>
-      normalizeFacility(f, (fb.facilities[i] ?? fb.facilities[0])!),
+      normalizeFacility(f, (fb.facilities[i] ?? BLANK_SITE_FACILITY)!),
     ),
   };
 }
@@ -949,12 +897,12 @@ function normalizeCareersPage(
   };
 }
 
-function normalizeSiteConfig(raw: Partial<CmsSiteConfig> | null | undefined): CmsSiteConfig {
+function normalizeSiteConfig(raw: Partial<CmsSiteConfig> & { kisaanMallPage?: unknown } | null | undefined): CmsSiteConfig {
+  const legacyPage = raw?.kisaanMallPage as Partial<KisaanMallLanding> | undefined;
   return {
     appLinks: normalizeAppLinks(raw?.appLinks),
     agriParkTour: normalizeAgriParkTour(raw?.agriParkTour),
-    kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding),
-    kisaanMallPage: normalizeKisaanMallPage(raw?.kisaanMallPage),
+    kisaanMallLanding: normalizeKisaanMallLanding(raw?.kisaanMallLanding, legacyPage),
     agriParkChapter: normalizeAgriParkChapter(raw?.agriParkChapter),
     homepageChapters: normalizeHomepageChapters(raw?.homepageChapters),
     careersPage: normalizeCareersPage(raw?.careersPage),
@@ -1012,9 +960,6 @@ async function mergeSiteConfig(patch: Partial<CmsSiteConfig>): Promise<CmsSiteCo
     kisaanMallLanding: patch.kisaanMallLanding
       ? normalizeKisaanMallLanding(patch.kisaanMallLanding)
       : current.kisaanMallLanding,
-    kisaanMallPage: patch.kisaanMallPage
-      ? normalizeKisaanMallPage(patch.kisaanMallPage)
-      : current.kisaanMallPage,
     agriParkChapter: patch.agriParkChapter
       ? normalizeAgriParkChapter(patch.agriParkChapter)
       : current.agriParkChapter,
@@ -1058,18 +1003,6 @@ export async function saveKisaanMallLanding(
 ): Promise<KisaanMallLanding> {
   const config = await mergeSiteConfig({ kisaanMallLanding: landing });
   return config.kisaanMallLanding;
-}
-
-export async function fetchKisaanMallPage(): Promise<KisaanMallPageContent> {
-  const config = await fetchSiteConfig();
-  return config.kisaanMallPage;
-}
-
-export async function saveKisaanMallPage(
-  content: KisaanMallPageContent,
-): Promise<KisaanMallPageContent> {
-  const config = await mergeSiteConfig({ kisaanMallPage: content });
-  return config.kisaanMallPage;
 }
 
 export async function fetchAgriParkChapter(): Promise<HomeAgriParkChapterContent> {

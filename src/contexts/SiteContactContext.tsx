@@ -88,6 +88,7 @@ function mapFacilityFromConfig(
     },
     icon: mapIcon(facility.iconKey) as Facility["icon"],
     image: facility.imageUrl,
+    isPrimary: facility.isPrimary,
   };
 }
 

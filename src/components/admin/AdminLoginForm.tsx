@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { loginAdmin } from "@/functions/admin-auth";
-import { ShieldCheck, UserCheck, Users, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +8,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,12 +19,6 @@ export function AdminLoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-
-  const fillDemo = (demoEmail: string) => {
-    setEmail(demoEmail);
-    setPassword("admin123");
-    setError(null);
-  };
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-background">
@@ -72,7 +64,7 @@ export function AdminLoginForm() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="admin@agaate.in"
+                    placeholder="Enter your email address"
                     required
                     autoComplete="username"
                     value={email}
@@ -112,54 +104,6 @@ export function AdminLoginForm() {
                 </Button>
               </form>
             </CardContent>
-
-            <CardFooter className="flex flex-col gap-2.5 pt-0 border-t border-border/60 p-4 text-xs bg-muted/20 rounded-b-xl">
-              <p className="text-muted-foreground text-[11px] text-center w-full font-medium tracking-wide uppercase">
-                Quick Demo Access
-              </p>
-              <div className="grid grid-cols-2 gap-1.5 w-full">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fillDemo("admin@agaate.in")}
-                  className="h-8 text-xs font-normal justify-start px-2.5 bg-card hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-                >
-                  <ShieldCheck className="h-3.5 w-3.5 mr-1.5 text-muted-foreground shrink-0" />
-                  <span className="truncate">Super Admin</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fillDemo("rahul@agaate.in")}
-                  className="h-8 text-xs font-normal justify-start px-2.5 bg-card hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-                >
-                  <Users className="h-3.5 w-3.5 mr-1.5 text-muted-foreground shrink-0" />
-                  <span className="truncate">Operations</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fillDemo("aman@agaate.in")}
-                  className="h-8 text-xs font-normal justify-start px-2.5 bg-card hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-                >
-                  <UserCheck className="h-3.5 w-3.5 mr-1.5 text-muted-foreground shrink-0" />
-                  <span className="truncate">Agronomist</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fillDemo("priya@agaate.in")}
-                  className="h-8 text-xs font-normal justify-start px-2.5 bg-card hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
-                >
-                  <Headphones className="h-3.5 w-3.5 mr-1.5 text-muted-foreground shrink-0" />
-                  <span className="truncate">Support</span>
-                </Button>
-              </div>
-            </CardFooter>
           </Card>
         </div>
       </div>

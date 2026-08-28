@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { extname, join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { assertSameOrigin, requireSessionUser } from "@/server/auth";
-import { canManageSettings } from "@/lib/admin-constants";
+import { canEditCms, canManageSeo } from "@/lib/admin-constants";
 import { isDbConfigured } from "@/server/db";
 import {
   archiveCmsLogo,
@@ -34,8 +34,6 @@ import {
   saveHomepageChapters,
   fetchKisaanMallLanding,
   saveKisaanMallLanding,
-  fetchKisaanMallPage,
-  saveKisaanMallPage,
   fetchCareersPage,
   saveCareersPage,
   fetchSiteContact,
@@ -75,7 +73,6 @@ import type {
   HomeAgriParkChapterContent,
   HomepageChaptersContent,
   KisaanMallLanding,
-  KisaanMallPageContent,
   CareersPageContent,
   SiteContactConfig,
   AboutPageContent,
@@ -102,7 +99,13 @@ function failAuth(err: unknown) {
 
 async function requireEditor() {
   const user = await requireSessionUser();
-  if (!canManageSettings(user.role)) throw new Error("FORBIDDEN");
+  if (!canEditCms(user)) throw new Error("FORBIDDEN");
+  return user;
+}
+
+async function requireCmsOrSeoEditor() {
+  const user = await requireSessionUser();
+  if (!canEditCms(user) && !canManageSeo(user)) throw new Error("FORBIDDEN");
   return user;
 }
 
@@ -655,8 +658,7 @@ export async function handleUploadMedia(data: {
 }) {
   try {
     assertSameOrigin();
-    await requireEditor();
-    const allowed = data.kind === "image" ? IMAGE_MIME : VIDEO_MIME;
+    await requireCmsOrSeoEditor();
     if (!allowed.has(data.mime)) {
       return { ok: false as const, error: "Unsupported file type." };
     }
@@ -694,7 +696,7 @@ export async function handleUploadMedia(data: {
 export async function handleTranslateToHindi(texts: string[]) {
   try {
     assertSameOrigin();
-    await requireEditor();
+    await requireCmsOrSeoEditor();
     if (!texts.length) return { ok: true as const, translations: [] as string[] };
     const { translateTextsEnToHi } = await import("@/server/cms-translate");
     const translations = await translateTextsEnToHi(texts);
@@ -783,27 +785,14 @@ export async function handleGetKisaanMallLanding() {
   try {
     await requireSessionUser();
     const landing = await fetchKisaanMallLanding();
-    const page = await fetchKisaanMallPage();
     const signups = await listNewsletterSignups("/kisaan-mall");
     return {
       ok: true as const,
       landing,
-      page,
       signups,
       waitlistCount: signups.length,
       dbConfigured: isDbConfigured(),
     };
-  } catch (err) {
-    return failAuth(err);
-  }
-}
-
-export async function handleSaveKisaanMallPage(content: KisaanMallPageContent) {
-  try {
-    assertSameOrigin();
-    await requireEditor();
-    const page = await saveKisaanMallPage(content);
-    return { ok: true as const, page };
   } catch (err) {
     return failAuth(err);
   }

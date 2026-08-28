@@ -17,10 +17,11 @@ import {
   BookOpen,
   Layout,
   ExternalLink,
+  UserCheck,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms, canManageSettings, canManageUsers } from "@/lib/admin-constants";
 import { cn } from "@/lib/utils";
 import type { SessionUser } from "@/lib/admin-constants";
 import { ToastProvider } from "@/components/admin/AdminToast";
@@ -89,7 +90,6 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/about", label: "About page", icon: BookOpen },
       { to: "/agaate-admin/content/contact-page", label: "Contact page", icon: MessageSquare },
       { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall", icon: Store },
-      { to: "/agaate-admin/content/careers", label: "Careers", icon: Briefcase },
     ],
   },
   {
@@ -108,9 +108,24 @@ const NAV_GROUPS: Array<{
   },
   {
     group: "Operations",
-    items: [{ to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin }],
+    items: [
+      { to: "/agaate-admin/locations", label: "Locations", icon: MapPin },
+      { to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin },
+      { to: "/agaate-admin/careers", label: "Careers", icon: Briefcase },
+    ],
+  },
+  {
+    group: "SEO",
+    items: [{ to: "/agaate-admin/seo", label: "SEO Manager", icon: Search, exact: true }],
   },
 ];
+
+const ACCESS_NAV: NavItem = {
+  to: "/agaate-admin/access",
+  label: "Users & access",
+  icon: UsersRound,
+  adminOnly: true,
+};
 
 const SETTINGS_NAV: NavItem = {
   to: "/agaate-admin/settings",
@@ -150,6 +165,15 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "System", href: "/agaate-admin/settings", current: false },
         { label: "Settings", href: "/agaate-admin/settings", current: true },
       ];
+    }
+    if (pathname.startsWith("/agaate-admin/access")) {
+      return [
+        { label: "System", href: "/agaate-admin/access", current: false },
+        { label: "Users & access", href: "/agaate-admin/access", current: true },
+      ];
+    }
+    if (pathname.startsWith("/agaate-admin/profile")) {
+      return [{ label: "My profile", href: "/agaate-admin/profile", current: true }];
     }
     if (pathname.startsWith("/agaate-admin/content/stats")) {
       return [
@@ -213,17 +237,38 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "Kisaan Mall waitlist", href: "/agaate-admin/content/kisaan-mall", current: true },
       ];
     }
+    if (pathname.startsWith("/agaate-admin/locations")) {
+      return [{ label: "Locations", href: "/agaate-admin/locations", current: true }];
+    }
+    if (pathname.startsWith("/agaate-admin/careers")) {
+      return [{ label: "Careers", href: "/agaate-admin/careers", current: true }];
+    }
     if (pathname.startsWith("/agaate-admin/content/careers")) {
-      return [
-        { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Careers", href: "/agaate-admin/content/careers", current: true },
-      ];
+      return [{ label: "Careers", href: "/agaate-admin/careers", current: true }];
     }
     if (pathname.startsWith("/agaate-admin/farm-visits")) {
       return [
         { label: "Inquiries", href: "/agaate-admin/farm-visits", current: false },
         { label: "Farm visits", href: "/agaate-admin/farm-visits", current: true },
       ];
+    }
+    if (pathname.startsWith("/agaate-admin/seo")) {
+      const segments = [
+        { label: "SEO", href: "/agaate-admin/seo", current: pathname === "/agaate-admin/seo" },
+      ];
+      if (pathname.includes("/global")) {
+        segments.push({ label: "Global settings", href: "/agaate-admin/seo/global", current: true });
+      } else if (pathname.includes("/pages")) {
+        segments.push({ label: "Pages", href: "/agaate-admin/seo/pages", current: pathname.endsWith("/pages") || pathname.endsWith("/pages/") });
+        if (!pathname.endsWith("/pages") && !pathname.endsWith("/pages/")) {
+          segments.push({ label: "Edit page", href: pathname, current: true });
+        }
+      } else if (pathname.includes("/redirects")) {
+        segments.push({ label: "Redirects", href: "/agaate-admin/seo/redirects", current: true });
+      } else if (pathname.includes("/audit")) {
+        segments.push({ label: "Audit", href: "/agaate-admin/seo/audit", current: true });
+      }
+      return segments;
     }
     if (pathname.startsWith("/agaate-admin/content")) {
       return [
@@ -286,7 +331,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
 
             {NAV_GROUPS.map((group) => {
               const visibleItems = group.items.filter(
-                (item) => !item.adminOnly || canManageSettings(user.role as AdminRole),
+                (item) => !item.adminOnly || canManageSettings(user),
               );
               if (visibleItems.length === 0) return null;
 
@@ -332,7 +377,58 @@ export function AdminShell({ user }: { user: SessionUser }) {
               );
             })}
 
-            {canManageSettings(user.role as AdminRole) ? (
+            {canManageUsers(user) ? (
+              <>
+                <SidebarSeparator className="my-2 bg-sidebar-border/60" />
+                <SidebarGroup className="py-1">
+                  <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-sidebar-foreground/45">
+                    System
+                  </SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      <SidebarMenuItem>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={isNavActive(pathname, ACCESS_NAV)}
+                          tooltip={ACCESS_NAV.label}
+                          className={cn(
+                            "h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 transition-all",
+                            "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                            isNavActive(pathname, ACCESS_NAV) &&
+                              "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground",
+                          )}
+                        >
+                          <Link to={ACCESS_NAV.to}>
+                            <UsersRound className="size-4 opacity-70" />
+                            <span>{ACCESS_NAV.label}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      {canManageSettings(user) ? (
+                        <SidebarMenuItem>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={isNavActive(pathname, SETTINGS_NAV)}
+                            tooltip={SETTINGS_NAV.label}
+                            className={cn(
+                              "h-9 rounded-lg text-[13px] font-medium text-sidebar-foreground/75 transition-all",
+                              "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                              isNavActive(pathname, SETTINGS_NAV) &&
+                                "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground",
+                            )}
+                          >
+                            <Link to={SETTINGS_NAV.to}>
+                              <Settings className="size-4 opacity-70" />
+                              <span>{SETTINGS_NAV.label}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ) : null}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </>
+            ) : canManageSettings(user) ? (
               <>
                 <SidebarSeparator className="my-2 bg-sidebar-border/60" />
                 <SidebarGroup className="py-1">
@@ -397,7 +493,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                           {user.name}
                         </span>
                         <span className="truncate text-[10px] font-medium uppercase tracking-wide text-sidebar-foreground/50">
-                          {user.role.replace("_", " ")}
+                          {user.roleName || user.role.replace("_", " ")}
                         </span>
                       </div>
                       <ChevronsUpDown className="ml-auto size-4 text-sidebar-foreground/40" />
@@ -426,12 +522,22 @@ export function AdminShell({ user }: { user: SessionUser }) {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                      {canManageSettings(user.role as AdminRole) && (
+                      <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/profile" })}>
+                        <UserCheck className="mr-2 h-4 w-4" />
+                        <span>My profile</span>
+                      </DropdownMenuItem>
+                      {canManageSettings(user) && (
                         <DropdownMenuItem
                           onClick={() => navigate({ to: "/agaate-admin/settings" })}
                         >
                           <Settings className="mr-2 h-4 w-4" />
                           <span>Settings</span>
+                        </DropdownMenuItem>
+                      )}
+                      {canManageUsers(user) && (
+                        <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/access" })}>
+                          <UsersRound className="mr-2 h-4 w-4" />
+                          <span>Users & access</span>
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem onClick={() => setCommandOpen(true)}>
@@ -510,7 +616,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
           </header>
 
           <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-            {!canManageSettings(user.role as AdminRole) ? <CmsReadOnlyBanner /> : null}
+            {!canEditCms(user) ? <CmsReadOnlyBanner /> : null}
             <Outlet />
           </main>
         </SidebarInset>

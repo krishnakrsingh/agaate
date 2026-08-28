@@ -4,6 +4,7 @@
  * Requires MYSQL_* and ADMIN_SEED_EMAIL / ADMIN_SEED_PASSWORD.
  */
 import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { createConnection } from "mysql2/promise";
 import { hash } from "bcryptjs";
 
@@ -141,6 +142,88 @@ const STATUSES = [
   "spam",
 ];
 
+const RBAC_PERMISSIONS = [
+  ["cms.view", "View CMS content", "Content", "Browse pages and CMS data in read-only mode.", 0],
+  ["cms.edit", "Edit CMS content", "Content", "Create, update, publish, and archive website content.", 1],
+  ["seo.manage", "Manage SEO", "SEO", "Edit page SEO, global settings, redirects, and audits.", 2],
+  ["settings.manage", "Manage system settings", "System", "Configure SMTP, email templates, and app links.", 3],
+  ["users.manage", "Manage users", "Access", "Create and edit staff accounts and assign roles.", 4],
+  ["users.delete", "Delete users", "Access", "Permanently remove staff accounts.", 5],
+  ["roles.manage", "Manage roles", "Access", "Create custom roles and configure permissions.", 6],
+  ["inquiries.view_all", "View all inquiries", "Operations", "See every farm visit and contact inquiry.", 7],
+  ["inquiries.edit", "Edit inquiries", "Operations", "Update status, notes, and assignments on inquiries.", 8],
+];
+
+const RBAC_ROLES = [
+  ["super_admin", "Super Admin", "Full system access including roles and user deletion.", 1],
+  ["admin", "Admin", "Manage content, SEO, settings, and staff accounts.", 1],
+  ["agronomist", "Agronomist", "View CMS and manage assigned farm visit inquiries.", 1],
+  ["support", "Support Executive", "View CMS and manage assigned customer inquiries.", 1],
+];
+
+const RBAC_ROLE_PERMISSIONS = {
+  super_admin: RBAC_PERMISSIONS.map((p) => p[0]),
+  admin: [
+    "cms.view",
+    "cms.edit",
+    "seo.manage",
+    "settings.manage",
+    "users.manage",
+    "inquiries.view_all",
+    "inquiries.edit",
+  ],
+  agronomist: ["cms.view", "inquiries.edit"],
+  support: ["cms.view", "inquiries.edit"],
+};
+
+async function seedRbac(db) {
+  const rbacSql = readFileSync(join(process.cwd(), "sql", "rbac.sql"), "utf8");
+  for (const stmt of rbacSql.split(";").map((s) => s.trim()).filter(Boolean)) {
+    await db.query(stmt);
+  }
+  for (const [key, label, category, description, sortOrder] of RBAC_PERMISSIONS) {
+    await db.query(
+      `INSERT INTO admin_permissions (\`key\`, label, category, description, sort_order)
+       VALUES (?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE label = VALUES(label), category = VALUES(category),
+       description = VALUES(description), sort_order = VALUES(sort_order)`,
+      [key, label, category, description, sortOrder],
+    );
+  }
+  for (const [slug, name, description, isSystem] of RBAC_ROLES) {
+    await db.query(
+      `INSERT INTO admin_roles (slug, name, description, is_system)
+       VALUES (?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description)`,
+      [slug, name, description, isSystem],
+    );
+    const [roleRows] = await db.query(`SELECT id FROM admin_roles WHERE slug = ? LIMIT 1`, [slug]);
+    const roleId = roleRows[0]?.id;
+    if (!roleId) continue;
+    for (const key of RBAC_ROLE_PERMISSIONS[slug] ?? []) {
+      await db.query(
+        `INSERT IGNORE INTO admin_role_permissions (role_id, permission_key) VALUES (?, ?)`,
+        [roleId, key],
+      );
+    }
+  }
+  const [cols] = await db.query(
+    `SELECT COLUMN_NAME FROM information_schema.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'role_id'`,
+  );
+  if (!cols.length) {
+    await db.query(`ALTER TABLE users ADD COLUMN role_id BIGINT UNSIGNED NULL`);
+  }
+  await db.query(
+    `UPDATE users u JOIN admin_roles r ON r.slug = u.role SET u.role_id = r.id WHERE u.role_id IS NULL`,
+  );
+}
+
+async function roleIdFor(db, slug) {
+  const [rows] = await db.query(`SELECT id FROM admin_roles WHERE slug = ? LIMIT 1`, [slug]);
+  return rows[0]?.id ?? null;
+}
+
 async function main() {
   const db = await createConnection({
     host,
@@ -152,6 +235,7 @@ async function main() {
   });
 
   for (const sql of TABLE_SQL) await db.query(sql);
+  await seedRbac(db);
 
   const [cols] = await db.query(
     `SELECT COLUMN_NAME FROM information_schema.COLUMNS
@@ -163,12 +247,13 @@ async function main() {
   );
   if (alters.length) await db.query(`ALTER TABLE leads ${alters.join(", ")}`);
 
+  const superRoleId = await roleIdFor(db, "super_admin");
   const superHash = await hash(seedPassword, 10);
   await db.query(
-    `INSERT INTO users (name, email, password_hash, role)
-     VALUES (?, ?, ?, 'super_admin')
-     ON DUPLICATE KEY UPDATE name = VALUES(name), password_hash = VALUES(password_hash), role = 'super_admin'`,
-    ["Super Admin", seedEmail, superHash],
+    `INSERT INTO users (name, email, password_hash, role, role_id)
+     VALUES (?, ?, ?, 'super_admin', ?)
+     ON DUPLICATE KEY UPDATE name = VALUES(name), password_hash = VALUES(password_hash), role = 'super_admin', role_id = VALUES(role_id)`,
+    ["Super Admin", seedEmail, superHash, superRoleId],
   );
 
   const staff = [
@@ -178,11 +263,12 @@ async function main() {
   ];
   const demoHash = await hash(demoPassword, 10);
   for (const [name, email, role] of staff) {
+    const roleId = await roleIdFor(db, role);
     await db.query(
-      `INSERT INTO users (name, email, password_hash, role)
-       VALUES (?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE name = VALUES(name), role = VALUES(role)`,
-      [name, email, demoHash, role],
+      `INSERT INTO users (name, email, password_hash, role, role_id)
+       VALUES (?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE name = VALUES(name), role = VALUES(role), role_id = VALUES(role_id)`,
+      [name, email, demoHash, role, roleId],
     );
   }
 

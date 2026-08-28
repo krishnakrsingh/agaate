@@ -1,14 +1,14 @@
 import { createContext, useContext, type ReactNode } from "react";
-import type { KisaanMallPageContent } from "@/lib/cms-types";
-import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import type { KisaanMallHomeContent } from "@/lib/cms-types";
+import { KISAAN_MALL_HOME_DEFAULTS } from "@/data/kisaan-mall-home-fallback";
 
-const KisaanMallPageContext = createContext<KisaanMallPageContent | null>(null);
+const KisaanMallPageContext = createContext<KisaanMallHomeContent | null>(null);
 
 export function KisaanMallPageProvider({
   content,
   children,
 }: {
-  content: KisaanMallPageContent;
+  content: KisaanMallHomeContent;
   children: ReactNode;
 }) {
   return (
@@ -16,7 +16,7 @@ export function KisaanMallPageProvider({
   );
 }
 
-export function useKisaanMallPage(): KisaanMallPageContent {
+export function useKisaanMallPage(): KisaanMallHomeContent {
   const ctx = useContext(KisaanMallPageContext);
-  return ctx ?? KISAAN_MALL_PAGE_FALLBACK;
+  return ctx ?? KISAAN_MALL_HOME_DEFAULTS;
 }

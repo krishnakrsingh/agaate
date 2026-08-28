@@ -1,3 +1,5 @@
+import { hasPermission, PERMS } from "@/lib/rbac";
+
 export const ADMIN_ROLES = ["super_admin", "admin", "agronomist", "support"] as const;
 export type AdminRole = (typeof ADMIN_ROLES)[number];
 
@@ -5,8 +7,14 @@ export type SessionUser = {
   id: number;
   name: string;
   email: string;
-  role: AdminRole;
+  roleId: number;
+  role: string;
+  roleName: string;
+  permissions: string[];
+  isSystemRole?: boolean;
 };
+
+export type AdminAccess = Pick<SessionUser, "id" | "permissions" | "role" | "roleId">;
 
 export const ROLE_LABELS: Record<AdminRole, string> = {
   super_admin: "Super Admin",
@@ -50,13 +58,52 @@ export const PRIORITY_LABELS: Record<RequestPriority, string> = {
   urgent: "Urgent",
 };
 
-export function canManageSettings(role: AdminRole) {
-  return role === "super_admin" || role === "admin";
+export function canViewCms(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.CMS_VIEW);
 }
 
-export function isRestrictedAssignee(role: AdminRole) {
-  return role === "agronomist" || role === "support";
+export function canEditCms(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.CMS_EDIT);
 }
+
+export function canManageSeo(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.SEO_MANAGE);
+}
+
+export function canManageSettings(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.SETTINGS_MANAGE);
+}
+
+export function canManageUsers(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.USERS_MANAGE);
+}
+
+export function canDeleteUsers(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.USERS_DELETE);
+}
+
+export function canManageRoles(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.ROLES_MANAGE);
+}
+
+export function canViewAllInquiries(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.INQUIRIES_VIEW_ALL);
+}
+
+export function canEditInquiries(user: Pick<SessionUser, "permissions">) {
+  return hasPermission(user.permissions, PERMS.INQUIRIES_EDIT);
+}
+
+export function isRestrictedAssignee(user: Pick<SessionUser, "permissions">) {
+  return canEditInquiries(user) && !canViewAllInquiries(user);
+}
+
+export const ROLE_DESCRIPTIONS: Record<AdminRole, string> = {
+  super_admin: "Full system access including user management and all CMS settings.",
+  admin: "Manage website content, SEO, settings, and staff accounts (except super admins).",
+  agronomist: "View CMS content and manage assigned farm visit inquiries.",
+  support: "View CMS content and manage assigned customer inquiries.",
+};
 
 export const DEFAULT_ADMIN_SETTINGS = {
   businessHours: {
@@ -84,6 +131,10 @@ export const DEFAULT_ADMIN_SETTINGS = {
     fromEmail: "info@agaate.in",
     fromName: "Agaate Website",
   },
+  analytics: {
+    enabled: false,
+    googleAnalyticsId: "",
+  },
 };
 
 export type AdminSettingsPayload = typeof DEFAULT_ADMIN_SETTINGS;
@@ -105,4 +156,9 @@ export function sanitizeSettingsForClient(settings: AdminSettingsPayload): Admin
 
 export function interpolateTemplate(template: string, vars: Record<string, string | undefined>) {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key: string) => vars[key] ?? "");
+}
+
+export function roleLabel(slug: string, fallbackName?: string) {
+  if (slug in ROLE_LABELS) return ROLE_LABELS[slug as AdminRole];
+  return fallbackName || slug;
 }

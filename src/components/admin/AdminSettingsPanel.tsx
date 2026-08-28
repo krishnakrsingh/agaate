@@ -1,45 +1,30 @@
 import { useState } from "react";
-import { Save, UserPlus } from "lucide-react";
-import {
-  listAdminUsers,
-  saveAdminSettings,
-  saveAdminUser,
-  sendAdminTestEmail,
-} from "@/functions/admin-contacts";
+import { BarChart3, Save } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { saveAdminSettings, sendAdminTestEmail } from "@/functions/admin-contacts";
 import { AdminCmsAppLinks } from "@/components/admin/cms/AdminCmsAppLinks";
 import {
   DEFAULT_ADMIN_SETTINGS,
-  type AdminRole,
   type AdminSettingsForClient,
 } from "@/lib/admin-constants";
+import { isValidGoogleAnalyticsId } from "@/lib/analytics";
+
 import { useToast } from "@/components/admin/AdminToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 
-type User = { id: number; name: string; email: string; role: AdminRole };
-
 export function AdminSettingsPanel({
   settings: initialSettings,
-  users: initialUsers,
-  adminRole,
+  permissions,
   defaultTab = "email",
 }: {
   settings: AdminSettingsForClient;
-  users: User[];
-  adminRole: AdminRole;
-  defaultTab?: "email" | "users" | "app-links";
+  permissions: string[];
+  defaultTab?: "email" | "app-links" | "analytics";
 }) {
   const toast = useToast();
   const [settings, setSettings] = useState({
@@ -50,16 +35,13 @@ export function AdminSettingsPanel({
       ...initialSettings.smtp,
       pass: "",
     },
+    analytics: {
+      ...DEFAULT_ADMIN_SETTINGS.analytics,
+      ...initialSettings.analytics,
+    },
   });
-  const [users, setUsers] = useState(initialUsers);
   const [saving, setSaving] = useState(false);
   const [testingEmail, setTestingEmail] = useState(false);
-  const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    role: "support" as AdminRole,
-    password: "",
-  });
 
   async function handleSaveSettingsSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -76,6 +58,10 @@ export function AdminSettingsPanel({
             ...res.settings.smtp,
             pass: "",
           },
+          analytics: {
+            ...DEFAULT_ADMIN_SETTINGS.analytics,
+            ...res.settings.analytics,
+          },
         });
       }
       toast.success("Settings saved", "Configuration updated successfully.");
@@ -89,7 +75,12 @@ export function AdminSettingsPanel({
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
         <p className="text-muted-foreground text-xs">
-          Configure contact form email delivery, app store links, and admin staff accounts.
+          Configure contact form email delivery, Google Analytics, and app store links. Manage staff
+          accounts in{" "}
+          <Link to="/agaate-admin/access" className="text-primary hover:underline">
+            Users & access
+          </Link>
+          .
         </p>
       </div>
       <Separator className="my-4" />
@@ -102,8 +93,8 @@ export function AdminSettingsPanel({
           <TabsTrigger value="app-links" className="rounded-md px-3.5 py-1 text-xs font-medium">
             App store links
           </TabsTrigger>
-          <TabsTrigger value="users" className="rounded-md px-3.5 py-1 text-xs font-medium">
-            Staff Users
+          <TabsTrigger value="analytics" className="rounded-md px-3.5 py-1 text-xs font-medium">
+            Google Analytics
           </TabsTrigger>
         </TabsList>
 
@@ -318,137 +309,94 @@ export function AdminSettingsPanel({
 
         <TabsContent value="app-links" className="space-y-4">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
-            <AdminCmsAppLinks role={adminRole} embedded />
+            <AdminCmsAppLinks permissions={permissions} embedded />
           </div>
         </TabsContent>
 
-        <TabsContent value="users" className="space-y-4">
+        <TabsContent value="analytics" className="space-y-4">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-xs space-y-4">
             <div>
               <span className="inline-flex items-center rounded-md bg-sidebar-accent/70 px-2.5 py-0.5 text-[11px] font-semibold text-sidebar-accent-foreground">
-                Access Control
+                Website tracking
               </span>
-              <h3 className="text-base font-bold text-foreground mt-1">Staff Accounts</h3>
+              <h3 className="text-base font-bold text-foreground mt-1 flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Google Analytics
+              </h3>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Manage who can sign in to this admin panel.
+                Loads gtag.js on the public website when enabled. Use your GA4 Measurement ID (e.g.{" "}
+                <code className="text-[11px]">G-XXXXXXXXXX</code>).
               </p>
             </div>
 
-            <div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden">
-              <Table>
-                <TableHeader className="bg-muted/40">
-                  <TableRow>
-                    <TableHead className="text-xs">Name</TableHead>
-                    <TableHead className="text-xs">Email</TableHead>
-                    <TableHead className="text-xs">Role</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {users.map((u) => (
-                    <TableRow key={u.id} className="hover:bg-muted/40 transition-colors">
-                      <TableCell className="font-semibold text-xs text-foreground">
-                        {u.name}
-                      </TableCell>
-                      <TableCell className="font-mono text-xs text-muted-foreground">
-                        {u.email}
-                      </TableCell>
-                      <TableCell>
-                        <select
-                          defaultValue={u.role}
-                          onChange={(e) =>
-                            void saveAdminUser({
-                              data: {
-                                id: u.id,
-                                name: u.name,
-                                email: u.email,
-                                role: e.target.value,
-                              },
-                            }).then(() =>
-                              toast.success("Role updated", `${u.name} is now ${e.target.value}`),
-                            )
-                          }
-                          className="h-8 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
-                        >
-                          <option value="super_admin">Super Admin</option>
-                          <option value="admin">Admin</option>
-                          <option value="agronomist">Agronomist</option>
-                          <option value="support">Support</option>
-                        </select>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-
             <form
-              onSubmit={async (e) => {
+              onSubmit={(e) => {
                 e.preventDefault();
-                const res = await saveAdminUser({ data: newUser });
-                if (res && "ok" in res && res.ok) {
-                  const listed = await listAdminUsers();
-                  if (listed && "ok" in listed && listed.ok) setUsers(listed.users);
-                  setNewUser({ email: "", name: "", password: "", role: "agronomist" });
-                  toast.success("User added", newUser.email);
-                } else {
-                  toast.error("Failed to add user", (res as { error?: string })?.error || "Error");
-                }
+                void handleSaveSettingsSubmit(e);
               }}
-              className="grid gap-3 pt-3 border-t border-border/60 sm:grid-cols-2 lg:grid-cols-5 items-end"
+              className="space-y-4"
             >
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Name</Label>
-                <Input
-                  value={newUser.name}
-                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                  placeholder="e.g. Aman Verma"
-                  required
-                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+              <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5">
+                <Checkbox
+                  id="gaEnabled"
+                  checked={settings.analytics.enabled}
+                  onCheckedChange={(checked) =>
+                    setSettings({
+                      ...settings,
+                      analytics: { ...settings.analytics, enabled: Boolean(checked) },
+                    })
+                  }
                 />
+                <Label htmlFor="gaEnabled" className="text-xs text-foreground">
+                  Enable Google Analytics on the public website
+                </Label>
               </div>
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Email</Label>
+
+              <div className="space-y-2 max-w-md">
+                <Label htmlFor="gaId" className="text-xs font-medium text-foreground">
+                  Measurement ID
+                </Label>
                 <Input
-                  type="email"
-                  value={newUser.email}
-                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                  placeholder="e.g. aman@agaate.in"
-                  required
-                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
+                  id="gaId"
+                  value={settings.analytics.googleAnalyticsId}
+                  onChange={(e) =>
+                    setSettings({
+                      ...settings,
+                      analytics: {
+                        ...settings.analytics,
+                        googleAnalyticsId: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder="G-XXXXXXXXXX"
+                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border font-mono"
                 />
+                {settings.analytics.googleAnalyticsId &&
+                !isValidGoogleAnalyticsId(settings.analytics.googleAnalyticsId) ? (
+                  <p className="text-xs text-rose-600">
+                    Enter a valid GA4 ID (G-…), GTM container (GT-…), or legacy UA-… ID.
+                  </p>
+                ) : (
+                  <p className="text-xs text-muted-foreground">
+                    Find this in Google Analytics → Admin → Data streams → your web stream.
+                  </p>
+                )}
               </div>
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Password</Label>
-                <Input
-                  type="password"
-                  value={newUser.password}
-                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                  placeholder="Min 8 chars"
-                  required
-                  className="h-8.5 rounded-lg px-3 text-xs bg-card border-border"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs font-medium text-foreground">Role</Label>
-                <select
-                  value={newUser.role}
-                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value as AdminRole })}
-                  className="w-full h-8.5 rounded-lg border border-border bg-card hover:bg-sidebar-accent/50 transition-colors px-2.5 py-1 text-xs text-foreground outline-none focus:ring-1 focus:ring-ring cursor-pointer shadow-xs"
-                >
-                  <option value="super_admin">Super Admin</option>
-                  <option value="admin">Admin</option>
-                  <option value="agronomist">Agronomist</option>
-                  <option value="support">Support</option>
-                </select>
-              </div>
-              <div>
+
+              <div className="flex justify-end">
                 <Button
                   type="submit"
+                  disabled={
+                    saving ||
+                    (settings.analytics.enabled &&
+                      Boolean(settings.analytics.googleAnalyticsId) &&
+                      !isValidGoogleAnalyticsId(settings.analytics.googleAnalyticsId))
+                  }
                   size="sm"
-                  className="w-full h-8.5 rounded-lg px-3.5 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold"
+                  className="h-8.5 rounded-lg px-4 text-xs bg-sidebar-primary text-sidebar-primary-foreground dark:bg-primary dark:text-primary-foreground shadow-xs hover:opacity-90 font-semibold"
                 >
-                  <UserPlus className="mr-1.5 h-3.5 w-3.5" />
-                  <span>Create account</span>
+                  <Save className="mr-1.5 h-3.5 w-3.5" />
+                  <span>{saving ? "Saving..." : "Save analytics settings"}</span>
                 </Button>
               </div>
             </form>

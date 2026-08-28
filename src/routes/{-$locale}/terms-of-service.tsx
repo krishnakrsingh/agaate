@@ -22,8 +22,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { EASE, PageHero, Reveal } from "@/components/common/motion";
 
 import { useSiteContact } from "@/contexts/SiteContactContext";
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
 
 export const Route = createFileRoute("/{-$locale}/terms-of-service")({
+  loader: async ({ params }) => ({
+    locale: params.locale ?? "en",
+    seo: await fetchPageSeo("legal_page", "terms-of-service", params.locale ?? "en"),
+  }),
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: TermsOfServicePage,
 });
 

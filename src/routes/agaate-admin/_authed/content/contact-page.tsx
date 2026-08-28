@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/contact-page
 
 function ContactPageAdminPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminCmsContactPage role={adminUser.role} />;
+  return <AdminCmsContactPage permissions={adminUser.permissions} />;
 }

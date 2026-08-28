@@ -50,3 +50,8 @@ export const getCareersPage = createServerFn({ method: "GET" })
     const mod = await import("./public-cms.server");
     return mod.handleGetCareersPage(data?.lang ?? "en");
   });
+
+export const getPublicAnalytics = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./public-cms.server");
+  return mod.handleGetPublicAnalytics();
+});

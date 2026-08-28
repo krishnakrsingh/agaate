@@ -17,5 +17,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/homepage-cha
 function HomepageChaptersPage() {
   const { adminUser } = Route.useRouteContext();
   const { tab } = Route.useSearch();
-  return <AdminCmsHomepageChapters role={adminUser.role} defaultTab={tab ?? "sections"} />;
+  return <AdminCmsHomepageChapters permissions={adminUser.permissions} defaultTab={tab ?? "sections"} />;
 }

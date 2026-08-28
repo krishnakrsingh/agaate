@@ -23,8 +23,16 @@ import { Route as AgaateAdminLoginRouteImport } from './routes/agaate-admin/logi
 import { Route as AgaateAdminAuthedRouteRouteImport } from './routes/agaate-admin/_authed/route'
 import { Route as AgaateAdminAuthedIndexRouteImport } from './routes/agaate-admin/_authed/index'
 import { Route as AgaateAdminAuthedSettingsRouteImport } from './routes/agaate-admin/_authed/settings'
+import { Route as AgaateAdminAuthedProfileRouteImport } from './routes/agaate-admin/_authed/profile'
+import { Route as AgaateAdminAuthedLocationsRouteImport } from './routes/agaate-admin/_authed/locations'
 import { Route as AgaateAdminAuthedFarmVisitsRouteImport } from './routes/agaate-admin/_authed/farm-visits'
+import { Route as AgaateAdminAuthedCareersRouteImport } from './routes/agaate-admin/_authed/careers'
+import { Route as AgaateAdminAuthedAccessRouteImport } from './routes/agaate-admin/_authed/access'
+import { Route as AgaateAdminAuthedSeoIndexRouteImport } from './routes/agaate-admin/_authed/seo/index'
 import { Route as AgaateAdminAuthedContentIndexRouteImport } from './routes/agaate-admin/_authed/content/index'
+import { Route as AgaateAdminAuthedSeoRedirectsRouteImport } from './routes/agaate-admin/_authed/seo/redirects'
+import { Route as AgaateAdminAuthedSeoGlobalRouteImport } from './routes/agaate-admin/_authed/seo/global'
+import { Route as AgaateAdminAuthedSeoAuditRouteImport } from './routes/agaate-admin/_authed/seo/audit'
 import { Route as AgaateAdminAuthedContentTeamRouteImport } from './routes/agaate-admin/_authed/content/team'
 import { Route as AgaateAdminAuthedContentStoriesRouteImport } from './routes/agaate-admin/_authed/content/stories'
 import { Route as AgaateAdminAuthedContentStatsRouteImport } from './routes/agaate-admin/_authed/content/stats'
@@ -37,6 +45,8 @@ import { Route as AgaateAdminAuthedContentCareersRouteImport } from './routes/ag
 import { Route as AgaateAdminAuthedContentAppLinksRouteImport } from './routes/agaate-admin/_authed/content/app-links'
 import { Route as AgaateAdminAuthedContentAgriParkTourRouteImport } from './routes/agaate-admin/_authed/content/agri-park-tour'
 import { Route as AgaateAdminAuthedContentAboutRouteImport } from './routes/agaate-admin/_authed/content/about'
+import { Route as AgaateAdminAuthedSeoPagesIndexRouteImport } from './routes/agaate-admin/_authed/seo/pages/index'
+import { Route as AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRouteImport } from './routes/agaate-admin/_authed/seo/pages/$entityType/$entityKey'
 
 const Char123LocaleChar125RouteRoute =
   Char123LocaleChar125RouteRouteImport.update({
@@ -117,16 +127,63 @@ const AgaateAdminAuthedSettingsRoute =
     path: '/settings',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedProfileRoute =
+  AgaateAdminAuthedProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedLocationsRoute =
+  AgaateAdminAuthedLocationsRouteImport.update({
+    id: '/locations',
+    path: '/locations',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedFarmVisitsRoute =
   AgaateAdminAuthedFarmVisitsRouteImport.update({
     id: '/farm-visits',
     path: '/farm-visits',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedCareersRoute =
+  AgaateAdminAuthedCareersRouteImport.update({
+    id: '/careers',
+    path: '/careers',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedAccessRoute = AgaateAdminAuthedAccessRouteImport.update({
+  id: '/access',
+  path: '/access',
+  getParentRoute: () => AgaateAdminAuthedRouteRoute,
+} as any)
+const AgaateAdminAuthedSeoIndexRoute =
+  AgaateAdminAuthedSeoIndexRouteImport.update({
+    id: '/seo/',
+    path: '/seo/',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 const AgaateAdminAuthedContentIndexRoute =
   AgaateAdminAuthedContentIndexRouteImport.update({
     id: '/content/',
     path: '/content/',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedSeoRedirectsRoute =
+  AgaateAdminAuthedSeoRedirectsRouteImport.update({
+    id: '/seo/redirects',
+    path: '/seo/redirects',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedSeoGlobalRoute =
+  AgaateAdminAuthedSeoGlobalRouteImport.update({
+    id: '/seo/global',
+    path: '/seo/global',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedSeoAuditRoute =
+  AgaateAdminAuthedSeoAuditRouteImport.update({
+    id: '/seo/audit',
+    path: '/seo/audit',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
 const AgaateAdminAuthedContentTeamRoute =
@@ -201,6 +258,18 @@ const AgaateAdminAuthedContentAboutRoute =
     path: '/content/about',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
+const AgaateAdminAuthedSeoPagesIndexRoute =
+  AgaateAdminAuthedSeoPagesIndexRouteImport.update({
+    id: '/seo/pages/',
+    path: '/seo/pages/',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute =
+  AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRouteImport.update({
+    id: '/seo/pages/$entityType/$entityKey',
+    path: '/seo/pages/$entityType/$entityKey',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/agaate-admin': typeof AgaateAdminRouteRouteWithChildren
@@ -214,7 +283,11 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/agaate-admin/access': typeof AgaateAdminAuthedAccessRoute
+  '/agaate-admin/careers': typeof AgaateAdminAuthedCareersRoute
   '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
+  '/agaate-admin/locations': typeof AgaateAdminAuthedLocationsRoute
+  '/agaate-admin/profile': typeof AgaateAdminAuthedProfileRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/content/about': typeof AgaateAdminAuthedContentAboutRoute
@@ -229,7 +302,13 @@ export interface FileRoutesByFullPath {
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
   '/agaate-admin/content/team': typeof AgaateAdminAuthedContentTeamRoute
+  '/agaate-admin/seo/audit': typeof AgaateAdminAuthedSeoAuditRoute
+  '/agaate-admin/seo/global': typeof AgaateAdminAuthedSeoGlobalRoute
+  '/agaate-admin/seo/redirects': typeof AgaateAdminAuthedSeoRedirectsRoute
   '/agaate-admin/content/': typeof AgaateAdminAuthedContentIndexRoute
+  '/agaate-admin/seo/': typeof AgaateAdminAuthedSeoIndexRoute
+  '/agaate-admin/seo/pages/': typeof AgaateAdminAuthedSeoPagesIndexRoute
+  '/agaate-admin/seo/pages/$entityType/$entityKey': typeof AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute
 }
 export interface FileRoutesByTo {
   '/agaate-admin': typeof AgaateAdminAuthedIndexRoute
@@ -242,7 +321,11 @@ export interface FileRoutesByTo {
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
+  '/agaate-admin/access': typeof AgaateAdminAuthedAccessRoute
+  '/agaate-admin/careers': typeof AgaateAdminAuthedCareersRoute
   '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
+  '/agaate-admin/locations': typeof AgaateAdminAuthedLocationsRoute
+  '/agaate-admin/profile': typeof AgaateAdminAuthedProfileRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/content/about': typeof AgaateAdminAuthedContentAboutRoute
   '/agaate-admin/content/agri-park-tour': typeof AgaateAdminAuthedContentAgriParkTourRoute
@@ -256,7 +339,13 @@ export interface FileRoutesByTo {
   '/agaate-admin/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
   '/agaate-admin/content/team': typeof AgaateAdminAuthedContentTeamRoute
+  '/agaate-admin/seo/audit': typeof AgaateAdminAuthedSeoAuditRoute
+  '/agaate-admin/seo/global': typeof AgaateAdminAuthedSeoGlobalRoute
+  '/agaate-admin/seo/redirects': typeof AgaateAdminAuthedSeoRedirectsRoute
   '/agaate-admin/content': typeof AgaateAdminAuthedContentIndexRoute
+  '/agaate-admin/seo': typeof AgaateAdminAuthedSeoIndexRoute
+  '/agaate-admin/seo/pages': typeof AgaateAdminAuthedSeoPagesIndexRoute
+  '/agaate-admin/seo/pages/$entityType/$entityKey': typeof AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -272,7 +361,11 @@ export interface FileRoutesById {
   '/{-$locale}/privacy-policy': typeof Char123LocaleChar125PrivacyPolicyRoute
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/agaate-admin/_authed/access': typeof AgaateAdminAuthedAccessRoute
+  '/agaate-admin/_authed/careers': typeof AgaateAdminAuthedCareersRoute
   '/agaate-admin/_authed/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
+  '/agaate-admin/_authed/locations': typeof AgaateAdminAuthedLocationsRoute
+  '/agaate-admin/_authed/profile': typeof AgaateAdminAuthedProfileRoute
   '/agaate-admin/_authed/settings': typeof AgaateAdminAuthedSettingsRoute
   '/agaate-admin/_authed/': typeof AgaateAdminAuthedIndexRoute
   '/agaate-admin/_authed/content/about': typeof AgaateAdminAuthedContentAboutRoute
@@ -287,7 +380,13 @@ export interface FileRoutesById {
   '/agaate-admin/_authed/content/stats': typeof AgaateAdminAuthedContentStatsRoute
   '/agaate-admin/_authed/content/stories': typeof AgaateAdminAuthedContentStoriesRoute
   '/agaate-admin/_authed/content/team': typeof AgaateAdminAuthedContentTeamRoute
+  '/agaate-admin/_authed/seo/audit': typeof AgaateAdminAuthedSeoAuditRoute
+  '/agaate-admin/_authed/seo/global': typeof AgaateAdminAuthedSeoGlobalRoute
+  '/agaate-admin/_authed/seo/redirects': typeof AgaateAdminAuthedSeoRedirectsRoute
   '/agaate-admin/_authed/content/': typeof AgaateAdminAuthedContentIndexRoute
+  '/agaate-admin/_authed/seo/': typeof AgaateAdminAuthedSeoIndexRoute
+  '/agaate-admin/_authed/seo/pages/': typeof AgaateAdminAuthedSeoPagesIndexRoute
+  '/agaate-admin/_authed/seo/pages/$entityType/$entityKey': typeof AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -303,7 +402,11 @@ export interface FileRouteTypes {
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
+    | '/agaate-admin/access'
+    | '/agaate-admin/careers'
     | '/agaate-admin/farm-visits'
+    | '/agaate-admin/locations'
+    | '/agaate-admin/profile'
     | '/agaate-admin/settings'
     | '/agaate-admin/'
     | '/agaate-admin/content/about'
@@ -318,7 +421,13 @@ export interface FileRouteTypes {
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
     | '/agaate-admin/content/team'
+    | '/agaate-admin/seo/audit'
+    | '/agaate-admin/seo/global'
+    | '/agaate-admin/seo/redirects'
     | '/agaate-admin/content/'
+    | '/agaate-admin/seo/'
+    | '/agaate-admin/seo/pages/'
+    | '/agaate-admin/seo/pages/$entityType/$entityKey'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/agaate-admin'
@@ -331,7 +440,11 @@ export interface FileRouteTypes {
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}'
+    | '/agaate-admin/access'
+    | '/agaate-admin/careers'
     | '/agaate-admin/farm-visits'
+    | '/agaate-admin/locations'
+    | '/agaate-admin/profile'
     | '/agaate-admin/settings'
     | '/agaate-admin/content/about'
     | '/agaate-admin/content/agri-park-tour'
@@ -345,7 +458,13 @@ export interface FileRouteTypes {
     | '/agaate-admin/content/stats'
     | '/agaate-admin/content/stories'
     | '/agaate-admin/content/team'
+    | '/agaate-admin/seo/audit'
+    | '/agaate-admin/seo/global'
+    | '/agaate-admin/seo/redirects'
     | '/agaate-admin/content'
+    | '/agaate-admin/seo'
+    | '/agaate-admin/seo/pages'
+    | '/agaate-admin/seo/pages/$entityType/$entityKey'
   id:
     | '__root__'
     | '/agaate-admin'
@@ -360,7 +479,11 @@ export interface FileRouteTypes {
     | '/{-$locale}/privacy-policy'
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
+    | '/agaate-admin/_authed/access'
+    | '/agaate-admin/_authed/careers'
     | '/agaate-admin/_authed/farm-visits'
+    | '/agaate-admin/_authed/locations'
+    | '/agaate-admin/_authed/profile'
     | '/agaate-admin/_authed/settings'
     | '/agaate-admin/_authed/'
     | '/agaate-admin/_authed/content/about'
@@ -375,7 +498,13 @@ export interface FileRouteTypes {
     | '/agaate-admin/_authed/content/stats'
     | '/agaate-admin/_authed/content/stories'
     | '/agaate-admin/_authed/content/team'
+    | '/agaate-admin/_authed/seo/audit'
+    | '/agaate-admin/_authed/seo/global'
+    | '/agaate-admin/_authed/seo/redirects'
     | '/agaate-admin/_authed/content/'
+    | '/agaate-admin/_authed/seo/'
+    | '/agaate-admin/_authed/seo/pages/'
+    | '/agaate-admin/_authed/seo/pages/$entityType/$entityKey'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -483,6 +612,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedSettingsRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/profile': {
+      id: '/agaate-admin/_authed/profile'
+      path: '/profile'
+      fullPath: '/agaate-admin/profile'
+      preLoaderRoute: typeof AgaateAdminAuthedProfileRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/locations': {
+      id: '/agaate-admin/_authed/locations'
+      path: '/locations'
+      fullPath: '/agaate-admin/locations'
+      preLoaderRoute: typeof AgaateAdminAuthedLocationsRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/farm-visits': {
       id: '/agaate-admin/_authed/farm-visits'
       path: '/farm-visits'
@@ -490,11 +633,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedFarmVisitsRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/careers': {
+      id: '/agaate-admin/_authed/careers'
+      path: '/careers'
+      fullPath: '/agaate-admin/careers'
+      preLoaderRoute: typeof AgaateAdminAuthedCareersRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/access': {
+      id: '/agaate-admin/_authed/access'
+      path: '/access'
+      fullPath: '/agaate-admin/access'
+      preLoaderRoute: typeof AgaateAdminAuthedAccessRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/seo/': {
+      id: '/agaate-admin/_authed/seo/'
+      path: '/seo'
+      fullPath: '/agaate-admin/seo/'
+      preLoaderRoute: typeof AgaateAdminAuthedSeoIndexRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
     '/agaate-admin/_authed/content/': {
       id: '/agaate-admin/_authed/content/'
       path: '/content'
       fullPath: '/agaate-admin/content/'
       preLoaderRoute: typeof AgaateAdminAuthedContentIndexRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/seo/redirects': {
+      id: '/agaate-admin/_authed/seo/redirects'
+      path: '/seo/redirects'
+      fullPath: '/agaate-admin/seo/redirects'
+      preLoaderRoute: typeof AgaateAdminAuthedSeoRedirectsRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/seo/global': {
+      id: '/agaate-admin/_authed/seo/global'
+      path: '/seo/global'
+      fullPath: '/agaate-admin/seo/global'
+      preLoaderRoute: typeof AgaateAdminAuthedSeoGlobalRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/seo/audit': {
+      id: '/agaate-admin/_authed/seo/audit'
+      path: '/seo/audit'
+      fullPath: '/agaate-admin/seo/audit'
+      preLoaderRoute: typeof AgaateAdminAuthedSeoAuditRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
     '/agaate-admin/_authed/content/team': {
@@ -581,11 +766,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgaateAdminAuthedContentAboutRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
+    '/agaate-admin/_authed/seo/pages/': {
+      id: '/agaate-admin/_authed/seo/pages/'
+      path: '/seo/pages'
+      fullPath: '/agaate-admin/seo/pages/'
+      preLoaderRoute: typeof AgaateAdminAuthedSeoPagesIndexRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/seo/pages/$entityType/$entityKey': {
+      id: '/agaate-admin/_authed/seo/pages/$entityType/$entityKey'
+      path: '/seo/pages/$entityType/$entityKey'
+      fullPath: '/agaate-admin/seo/pages/$entityType/$entityKey'
+      preLoaderRoute: typeof AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
   }
 }
 
 interface AgaateAdminAuthedRouteRouteChildren {
+  AgaateAdminAuthedAccessRoute: typeof AgaateAdminAuthedAccessRoute
+  AgaateAdminAuthedCareersRoute: typeof AgaateAdminAuthedCareersRoute
   AgaateAdminAuthedFarmVisitsRoute: typeof AgaateAdminAuthedFarmVisitsRoute
+  AgaateAdminAuthedLocationsRoute: typeof AgaateAdminAuthedLocationsRoute
+  AgaateAdminAuthedProfileRoute: typeof AgaateAdminAuthedProfileRoute
   AgaateAdminAuthedSettingsRoute: typeof AgaateAdminAuthedSettingsRoute
   AgaateAdminAuthedIndexRoute: typeof AgaateAdminAuthedIndexRoute
   AgaateAdminAuthedContentAboutRoute: typeof AgaateAdminAuthedContentAboutRoute
@@ -600,12 +803,22 @@ interface AgaateAdminAuthedRouteRouteChildren {
   AgaateAdminAuthedContentStatsRoute: typeof AgaateAdminAuthedContentStatsRoute
   AgaateAdminAuthedContentStoriesRoute: typeof AgaateAdminAuthedContentStoriesRoute
   AgaateAdminAuthedContentTeamRoute: typeof AgaateAdminAuthedContentTeamRoute
+  AgaateAdminAuthedSeoAuditRoute: typeof AgaateAdminAuthedSeoAuditRoute
+  AgaateAdminAuthedSeoGlobalRoute: typeof AgaateAdminAuthedSeoGlobalRoute
+  AgaateAdminAuthedSeoRedirectsRoute: typeof AgaateAdminAuthedSeoRedirectsRoute
   AgaateAdminAuthedContentIndexRoute: typeof AgaateAdminAuthedContentIndexRoute
+  AgaateAdminAuthedSeoIndexRoute: typeof AgaateAdminAuthedSeoIndexRoute
+  AgaateAdminAuthedSeoPagesIndexRoute: typeof AgaateAdminAuthedSeoPagesIndexRoute
+  AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute: typeof AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute
 }
 
 const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
   {
+    AgaateAdminAuthedAccessRoute: AgaateAdminAuthedAccessRoute,
+    AgaateAdminAuthedCareersRoute: AgaateAdminAuthedCareersRoute,
     AgaateAdminAuthedFarmVisitsRoute: AgaateAdminAuthedFarmVisitsRoute,
+    AgaateAdminAuthedLocationsRoute: AgaateAdminAuthedLocationsRoute,
+    AgaateAdminAuthedProfileRoute: AgaateAdminAuthedProfileRoute,
     AgaateAdminAuthedSettingsRoute: AgaateAdminAuthedSettingsRoute,
     AgaateAdminAuthedIndexRoute: AgaateAdminAuthedIndexRoute,
     AgaateAdminAuthedContentAboutRoute: AgaateAdminAuthedContentAboutRoute,
@@ -626,7 +839,14 @@ const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
     AgaateAdminAuthedContentStatsRoute: AgaateAdminAuthedContentStatsRoute,
     AgaateAdminAuthedContentStoriesRoute: AgaateAdminAuthedContentStoriesRoute,
     AgaateAdminAuthedContentTeamRoute: AgaateAdminAuthedContentTeamRoute,
+    AgaateAdminAuthedSeoAuditRoute: AgaateAdminAuthedSeoAuditRoute,
+    AgaateAdminAuthedSeoGlobalRoute: AgaateAdminAuthedSeoGlobalRoute,
+    AgaateAdminAuthedSeoRedirectsRoute: AgaateAdminAuthedSeoRedirectsRoute,
     AgaateAdminAuthedContentIndexRoute: AgaateAdminAuthedContentIndexRoute,
+    AgaateAdminAuthedSeoIndexRoute: AgaateAdminAuthedSeoIndexRoute,
+    AgaateAdminAuthedSeoPagesIndexRoute: AgaateAdminAuthedSeoPagesIndexRoute,
+    AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute:
+      AgaateAdminAuthedSeoPagesEntityTypeEntityKeyRoute,
   }
 
 const AgaateAdminAuthedRouteRouteWithChildren =

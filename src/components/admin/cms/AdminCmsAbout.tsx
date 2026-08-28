@@ -10,10 +10,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsImageField } from "@/components/admin/cms/CmsImageField";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
+import { AdminCmsSeoShortcut } from "@/components/admin/seo/AdminCmsSeoShortcut";
 import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import type { AboutPageContent, CmsIconKey } from "@/lib/cms-types";
 import { CMS_ICON_KEYS } from "@/lib/cms-types";
@@ -36,9 +37,9 @@ function listToLines(items: string[]): string {
   return items.join("\n");
 }
 
-export function AdminCmsAbout({ role }: { role: AdminRole }) {
+export function AdminCmsAbout({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [content, setContent] = useState<AboutPageContent>(ABOUT_PAGE_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -95,6 +96,8 @@ export function AdminCmsAbout({ role }: { role: AdminRole }) {
         description="Edit hero, values, milestones, footprint locations, impact metrics, and compliance copy on the About page."
         workflow="live"
       />
+
+      <AdminCmsSeoShortcut entityType="static_page" entityKey="about" label="About SEO" />
 
       <form onSubmit={handleSave} className="space-y-8">
         <section className="rounded-2xl border bg-card p-6 shadow-sm space-y-4">

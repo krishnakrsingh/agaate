@@ -16,11 +16,14 @@ import { getCareersPage } from "@/functions/public-cms";
 import { isAdminOk } from "@/lib/admin-api";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import type { CareerJob, CareersPageContent } from "@/lib/cms-types";
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
 
 export const Route = createFileRoute("/{-$locale}/careers")({
-  loader: async () => {
+  loader: async ({ params }) => {
+    const locale = params.locale ?? "en";
     try {
       const res = await getCareersPage({ data: { lang: "en" } });
+      const seo = await fetchPageSeo("static_page", "careers", locale);
       if (
         isAdminOk<{
           content: CareersPageContent;
@@ -33,23 +36,22 @@ export const Route = createFileRoute("/{-$locale}/careers")({
           content: res.content,
           jobsEn: res.jobsEn ?? res.jobs,
           jobsHi: res.jobsHi ?? res.jobs,
+          locale,
+          seo,
         };
       }
     } catch (err) {
       console.warn("Careers page loader fallback:", err);
     }
-    return { content: CAREERS_PAGE_FALLBACK, jobsEn: [] as CareerJob[], jobsHi: [] as CareerJob[] };
+    return {
+      content: CAREERS_PAGE_FALLBACK,
+      jobsEn: [] as CareerJob[],
+      jobsHi: [] as CareerJob[],
+      locale,
+      seo: await fetchPageSeo("static_page", "careers", locale),
+    };
   },
-  head: () => ({
-    meta: [
-      { title: "Careers & Campus Outreach | Agaate" },
-      {
-        name: "description",
-        content:
-          "Join Agaate in building the future of Indian agriculture. Explore open roles across field agronomy, IoT engineering, smart nursery management, and supply chain.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: Careers,
 });
 

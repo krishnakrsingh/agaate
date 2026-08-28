@@ -6,5 +6,6 @@ export const Route = createFileRoute("/agaate-admin/_authed/farm-visits")({
 });
 
 function FarmVisitsPage() {
-  return <AdminFarmVisits />;
+  const { adminUser } = Route.useRouteContext();
+  return <AdminFarmVisits permissions={adminUser.permissions} />;
 }

@@ -26,11 +26,23 @@ export const listAdminUsers = createServerFn({ method: "GET" }).handler(async ()
 
 export const saveAdminUser = createServerFn({ method: "POST" })
   .validator(
-    (data: { id?: number; name: string; email: string; role: string; password?: string }) => data,
+    (data: { id?: number; name: string; email: string; roleId: number; password?: string }) => data,
   )
   .handler(async ({ data }) => {
     const mod = await import("./admin-contacts.server");
     return mod.handleSaveUser(data);
+  });
+
+export const listAssignableRoles = createServerFn({ method: "GET" }).handler(async () => {
+  const mod = await import("./admin-contacts.server");
+  return mod.handleListAssignableRoles();
+});
+
+export const deleteAdminUser = createServerFn({ method: "POST" })
+  .validator((data: { id: number }) => data)
+  .handler(async ({ data }) => {
+    const mod = await import("./admin-contacts.server");
+    return mod.handleDeleteUser(data.id);
   });
 
 export const listAdminFarmVisits = createServerFn({ method: "GET" })

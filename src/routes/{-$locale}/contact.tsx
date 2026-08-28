@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
 import {
   ContactHero,
   MobileStickyContactBar,
@@ -18,103 +17,33 @@ import { getContactPage } from "@/functions/public-cms";
 import { isAdminOk } from "@/lib/admin-api";
 import { ContactPageProvider } from "@/contexts/ContactPageContext";
 import { useSiteContact } from "@/contexts/SiteContactContext";
-
-const PAGE_TITLE = "Contact Agaate — Talk to an Agronomist | Gurugram";
-const PAGE_DESCRIPTION =
-  "Reach Agaate agronomists in Gurugram for crop advice, nursery pre-orders, Big Farm setup, and market linkage. Typical reply within 2 business hours.";
-
-function buildJsonLd() {
-  const fb = SITE_CONTACT_FALLBACK;
-  const organization = {
-    "@type": "Organization",
-    "@id": "https://agaate.in/#organization",
-    name: "Agaate",
-    legalName: "Anzix Farm Technologies Pvt Ltd",
-    url: "https://agaate.in",
-    email: fb.primaryEmail,
-    telephone: fb.primaryTel,
-    logo: "https://agaate.in/favicon.ico",
-  };
-
-  const contactPage = {
-    "@type": "ContactPage",
-    "@id": "https://agaate.in/contact#page",
-    url: "https://agaate.in/contact",
-    name: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-    isPartOf: { "@id": "https://agaate.in/#organization" },
-  };
-
-  const businesses = fb.facilities.map((f) => ({
-    "@type": "LocalBusiness",
-    "@id": `https://agaate.in/contact#${f.id}`,
-    name: f.nameEn,
-    description: f.taglineEn,
-    telephone: f.telRaw,
-    email: f.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: f.addressEn,
-      addressLocality: "Gurugram",
-      addressRegion: "Haryana",
-      addressCountry: "IN",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: f.lat,
-      longitude: f.lng,
-    },
-    openingHours: f.hoursEn,
-    url: f.mapsUrl,
-    parentOrganization: { "@id": "https://agaate.in/#organization" },
-  }));
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": [organization, contactPage, ...businesses],
-  };
-}
+import { fetchPageSeo, headFromSeo } from "@/lib/route-seo";
+import { SeoBreadcrumbs } from "@/components/seo/SeoBreadcrumbs";
 
 export const Route = createFileRoute("/{-$locale}/contact")({
-  loader: async () => {
+  loader: async ({ params }) => {
+    const locale = params.locale ?? "en";
     try {
       const res = await getContactPage();
+      const seo = await fetchPageSeo("static_page", "contact", locale);
       if (isAdminOk<{ content: typeof CONTACT_PAGE_FALLBACK }>(res)) {
-        return { contactPage: res.content };
+        return { contactPage: res.content, locale, seo };
       }
     } catch (err) {
       console.warn("Contact page loader fallback:", err);
     }
-    return { contactPage: CONTACT_PAGE_FALLBACK };
-  },
-  head: () => {
-    const jsonLd = JSON.stringify(buildJsonLd());
     return {
-      meta: [
-        { title: PAGE_TITLE },
-        { name: "description", content: PAGE_DESCRIPTION },
-        { property: "og:title", content: PAGE_TITLE },
-        { property: "og:description", content: PAGE_DESCRIPTION },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://agaate.in/contact" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: PAGE_TITLE },
-        { name: "twitter:description", content: PAGE_DESCRIPTION },
-      ],
-      links: [{ rel: "canonical", href: "https://agaate.in/contact" }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: jsonLd,
-        },
-      ],
+      contactPage: CONTACT_PAGE_FALLBACK,
+      locale,
+      seo: await fetchPageSeo("static_page", "contact", locale),
     };
   },
+  head: ({ loaderData }) => headFromSeo(loaderData),
   component: ContactPage,
 });
 
 function ContactPage() {
-  const { contactPage } = Route.useLoaderData();
+  const { contactPage, locale } = Route.useLoaderData();
   const [formSuccess, setFormSuccess] = useState(false);
   const { contact } = useSiteContact();
   const onSuccessChange = useCallback((success: boolean) => {
@@ -126,6 +55,15 @@ function ContactPage() {
       <ToastProvider>
         <main className="min-h-screen bg-[#f4f8f5] font-sans text-[#143d31] antialiased pb-20 sm:pb-0 overflow-x-clip">
           <Header />
+          <div className="mx-auto max-w-6xl px-4 pt-4">
+            <SeoBreadcrumbs
+              items={[
+                { name: "Home", path: "/" },
+                { name: "Contact", path: "/contact" },
+              ]}
+              locale={locale}
+            />
+          </div>
           <ContactHero />
           <ContactForm onSuccessChange={onSuccessChange} />
           <FacilitiesSection />
