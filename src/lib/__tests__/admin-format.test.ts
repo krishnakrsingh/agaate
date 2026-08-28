@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   digitsPhone,
   whatsappDigits,
+  nationalPhoneDigits,
+  formatIndianPhoneDisplay,
   formatWhen,
   formatDay,
   toDateInputValue,
@@ -41,6 +43,12 @@ describe("Admin Utilities & Formatters", () => {
     it("formats Indian phone numbers for WhatsApp URL", () => {
       expect(whatsappDigits("9876543210")).toBe("919876543210");
       expect(whatsappDigits("+91 98765 43210")).toBe("919876543210");
+    });
+
+    it("extracts national digits and display format", () => {
+      expect(nationalPhoneDigits("+91 83500 85005")).toBe("8350085005");
+      expect(nationalPhoneDigits("918350085005")).toBe("8350085005");
+      expect(formatIndianPhoneDisplay("8350085005")).toBe("+91 83500 85005");
     });
   });
 

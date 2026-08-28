@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Phone, MessageCircle, Share2, Building2 } from "lucide-react";
 import { getCmsSiteContactAdmin, saveCmsSiteContactAdmin } from "@/functions/admin-cms";
 import { adminError, isAdminOk } from "@/lib/admin-api";
+import { normalizeSiteContactPhoneFields } from "@/lib/admin-format";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsBilingualField } from "@/components/admin/cms/CmsBilingualField";
 import { CmsImageField } from "@/components/admin/cms/CmsImageField";
@@ -12,6 +13,7 @@ import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { canEditCms } from "@/lib/admin-constants";
 import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
 import type { SiteContactConfig } from "@/lib/cms-types";
@@ -40,12 +42,17 @@ export function AdminCmsSiteContact({ permissions }: { permissions: string[] }) 
   const [contact, setContact] = useState<SiteContactConfig>(SITE_CONTACT_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [whatsappSameAsPrimary, setWhatsappSameAsPrimary] = useState(true);
 
   const load = useCallback(async () => {
     setLoading(true);
     const res = await getCmsSiteContactAdmin();
     if (isAdminOk<{ contact: SiteContactConfig }>(res)) {
-      setContact(res.contact);
+      const loaded = res.contact;
+      setContact(loaded);
+      setWhatsappSameAsPrimary(
+        !loaded.whatsappNumber?.trim() || loaded.whatsappNumber === loaded.primaryTel,
+      );
     } else {
       toast.error("Load failed", adminError(res, "Could not load site contact settings."));
     }
@@ -60,13 +67,45 @@ export function AdminCmsSiteContact({ permissions }: { permissions: string[] }) 
     e.preventDefault();
     if (!canEdit) return;
     setSaving(true);
-    const res = await saveCmsSiteContactAdmin({ data: contact });
+    const phones = normalizeSiteContactPhoneFields(contact, { whatsappSameAsPrimary });
+    const payload = { ...contact, ...phones };
+    const res = await saveCmsSiteContactAdmin({ data: payload });
     setSaving(false);
     if (isAdminOk<{ contact: SiteContactConfig }>(res)) {
       setContact(res.contact);
+      setWhatsappSameAsPrimary(
+        !res.contact.whatsappNumber?.trim() ||
+          res.contact.whatsappNumber === res.contact.primaryTel,
+      );
       toast.success("Saved", "Site contact, phones, WhatsApp, and facilities are updated.");
     } else {
       toast.error("Save failed", adminError(res, "Could not save site contact."));
+    }
+  }
+
+  function updatePrimaryPhone(value: string) {
+    setContact((prev) => ({ ...prev, primaryPhoneDisplay: value }));
+  }
+
+  function commitPrimaryPhone() {
+    const phones = normalizeSiteContactPhoneFields(contact, { whatsappSameAsPrimary });
+    setContact((prev) => ({ ...prev, ...phones }));
+  }
+
+  function updateAltPhone(value: string) {
+    setContact((prev) => ({ ...prev, altPhoneDisplay: value }));
+  }
+
+  function commitAltPhone() {
+    const phones = normalizeSiteContactPhoneFields(contact, { whatsappSameAsPrimary });
+    setContact((prev) => ({ ...prev, ...phones }));
+  }
+
+  function updateWhatsappSameAsPrimary(checked: boolean) {
+    setWhatsappSameAsPrimary(checked);
+    if (checked) {
+      const phones = normalizeSiteContactPhoneFields(contact, { whatsappSameAsPrimary: true });
+      setContact((prev) => ({ ...prev, whatsappNumber: phones.whatsappNumber }));
     }
   }
 
@@ -93,45 +132,24 @@ export function AdminCmsSiteContact({ permissions }: { permissions: string[] }) 
             <h2 className="text-lg font-semibold">Phones & emails</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Primary phone (display)">
+            <Field
+              label="Primary phone"
+              hint="Used on the site, in tel: links, and for click-to-call. Format is applied automatically."
+            >
               <Input
                 value={contact.primaryPhoneDisplay}
-                onChange={(e) => setContact({ ...contact, primaryPhoneDisplay: e.target.value })}
+                onChange={(e) => updatePrimaryPhone(e.target.value)}
+                onBlur={commitPrimaryPhone}
+                placeholder="+91 83500 85005"
                 disabled={!canEdit}
               />
             </Field>
-            <Field label="Primary phone (digits)">
-              <Input
-                value={contact.primaryPhone}
-                onChange={(e) => setContact({ ...contact, primaryPhone: e.target.value })}
-                disabled={!canEdit}
-              />
-            </Field>
-            <Field label="Primary tel (WhatsApp format, e.g. 918350085005)">
-              <Input
-                value={contact.primaryTel}
-                onChange={(e) => setContact({ ...contact, primaryTel: e.target.value })}
-                disabled={!canEdit}
-              />
-            </Field>
-            <Field label="Alt phone (display)">
+            <Field label="Alternate phone" hint="Optional second line for the site footer and contact page.">
               <Input
                 value={contact.altPhoneDisplay}
-                onChange={(e) => setContact({ ...contact, altPhoneDisplay: e.target.value })}
-                disabled={!canEdit}
-              />
-            </Field>
-            <Field label="Alt phone (digits)">
-              <Input
-                value={contact.altPhone}
-                onChange={(e) => setContact({ ...contact, altPhone: e.target.value })}
-                disabled={!canEdit}
-              />
-            </Field>
-            <Field label="Alt tel">
-              <Input
-                value={contact.altTel}
-                onChange={(e) => setContact({ ...contact, altTel: e.target.value })}
+                onChange={(e) => updateAltPhone(e.target.value)}
+                onBlur={commitAltPhone}
+                placeholder="+91 94872 63498"
                 disabled={!canEdit}
               />
             </Field>
@@ -149,13 +167,34 @@ export function AdminCmsSiteContact({ permissions }: { permissions: string[] }) 
                 disabled={!canEdit}
               />
             </Field>
-            <Field label="WhatsApp number (digits)">
-              <Input
-                value={contact.whatsappNumber}
-                onChange={(e) => setContact({ ...contact, whatsappNumber: e.target.value })}
+          </div>
+          <div className="rounded-lg border bg-muted/30 px-4 py-3 space-y-3">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="wa-same-primary"
+                checked={whatsappSameAsPrimary}
+                onCheckedChange={(v) => updateWhatsappSameAsPrimary(v === true)}
                 disabled={!canEdit}
               />
-            </Field>
+              <div className="space-y-1">
+                <Label htmlFor="wa-same-primary" className="text-sm font-medium leading-none">
+                  Use primary phone for WhatsApp
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  WhatsApp links across the site will use {contact.primaryTel || "the primary number"}.
+                </p>
+              </div>
+            </div>
+            {!whatsappSameAsPrimary ? (
+              <Field label="WhatsApp number" hint="Digits only, with country code (e.g. 918350085005).">
+                <Input
+                  value={contact.whatsappNumber}
+                  onChange={(e) => setContact({ ...contact, whatsappNumber: e.target.value })}
+                  placeholder="918350085005"
+                  disabled={!canEdit}
+                />
+              </Field>
+            ) : null}
           </div>
         </section>
 

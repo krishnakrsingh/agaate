@@ -328,7 +328,7 @@ export function AdminCmsOverview({
             </div>
           </div>
           <Button asChild variant="outline" size="sm" className="mt-4 w-full sm:w-auto">
-            <Link to="/agaate-admin/content/careers">
+            <Link to="/agaate-admin/careers">
               Manage careers
               <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
             </Link>

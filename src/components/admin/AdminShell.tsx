@@ -90,7 +90,6 @@ const NAV_GROUPS: Array<{
       { to: "/agaate-admin/content/about", label: "About page", icon: BookOpen },
       { to: "/agaate-admin/content/contact-page", label: "Contact page", icon: MessageSquare },
       { to: "/agaate-admin/content/kisaan-mall", label: "Kisaan Mall", icon: Store },
-      { to: "/agaate-admin/content/careers", label: "Careers", icon: Briefcase },
     ],
   },
   {
@@ -109,7 +108,10 @@ const NAV_GROUPS: Array<{
   },
   {
     group: "Operations",
-    items: [{ to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin }],
+    items: [
+      { to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin },
+      { to: "/agaate-admin/careers", label: "Careers", icon: Briefcase },
+    ],
   },
   {
     group: "SEO",
@@ -234,11 +236,11 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "Kisaan Mall waitlist", href: "/agaate-admin/content/kisaan-mall", current: true },
       ];
     }
+    if (pathname.startsWith("/agaate-admin/careers")) {
+      return [{ label: "Careers", href: "/agaate-admin/careers", current: true }];
+    }
     if (pathname.startsWith("/agaate-admin/content/careers")) {
-      return [
-        { label: "Website", href: "/agaate-admin/content", current: false },
-        { label: "Careers", href: "/agaate-admin/content/careers", current: true },
-      ];
+      return [{ label: "Careers", href: "/agaate-admin/careers", current: true }];
     }
     if (pathname.startsWith("/agaate-admin/farm-visits")) {
       return [

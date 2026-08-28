@@ -25,6 +25,7 @@ import { Route as AgaateAdminAuthedIndexRouteImport } from './routes/agaate-admi
 import { Route as AgaateAdminAuthedSettingsRouteImport } from './routes/agaate-admin/_authed/settings'
 import { Route as AgaateAdminAuthedProfileRouteImport } from './routes/agaate-admin/_authed/profile'
 import { Route as AgaateAdminAuthedFarmVisitsRouteImport } from './routes/agaate-admin/_authed/farm-visits'
+import { Route as AgaateAdminAuthedCareersRouteImport } from './routes/agaate-admin/_authed/careers'
 import { Route as AgaateAdminAuthedAccessRouteImport } from './routes/agaate-admin/_authed/access'
 import { Route as AgaateAdminAuthedSeoIndexRouteImport } from './routes/agaate-admin/_authed/seo/index'
 import { Route as AgaateAdminAuthedContentIndexRouteImport } from './routes/agaate-admin/_authed/content/index'
@@ -135,6 +136,12 @@ const AgaateAdminAuthedFarmVisitsRoute =
   AgaateAdminAuthedFarmVisitsRouteImport.update({
     id: '/farm-visits',
     path: '/farm-visits',
+    getParentRoute: () => AgaateAdminAuthedRouteRoute,
+  } as any)
+const AgaateAdminAuthedCareersRoute =
+  AgaateAdminAuthedCareersRouteImport.update({
+    id: '/careers',
+    path: '/careers',
     getParentRoute: () => AgaateAdminAuthedRouteRoute,
   } as any)
 const AgaateAdminAuthedAccessRoute = AgaateAdminAuthedAccessRouteImport.update({
@@ -270,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/agaate-admin/access': typeof AgaateAdminAuthedAccessRoute
+  '/agaate-admin/careers': typeof AgaateAdminAuthedCareersRoute
   '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/profile': typeof AgaateAdminAuthedProfileRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
@@ -306,6 +314,7 @@ export interface FileRoutesByTo {
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
   '/agaate-admin/access': typeof AgaateAdminAuthedAccessRoute
+  '/agaate-admin/careers': typeof AgaateAdminAuthedCareersRoute
   '/agaate-admin/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/profile': typeof AgaateAdminAuthedProfileRoute
   '/agaate-admin/settings': typeof AgaateAdminAuthedSettingsRoute
@@ -344,6 +353,7 @@ export interface FileRoutesById {
   '/{-$locale}/terms-of-service': typeof Char123LocaleChar125TermsOfServiceRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
   '/agaate-admin/_authed/access': typeof AgaateAdminAuthedAccessRoute
+  '/agaate-admin/_authed/careers': typeof AgaateAdminAuthedCareersRoute
   '/agaate-admin/_authed/farm-visits': typeof AgaateAdminAuthedFarmVisitsRoute
   '/agaate-admin/_authed/profile': typeof AgaateAdminAuthedProfileRoute
   '/agaate-admin/_authed/settings': typeof AgaateAdminAuthedSettingsRoute
@@ -383,6 +393,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
     | '/agaate-admin/access'
+    | '/agaate-admin/careers'
     | '/agaate-admin/farm-visits'
     | '/agaate-admin/profile'
     | '/agaate-admin/settings'
@@ -419,6 +430,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}'
     | '/agaate-admin/access'
+    | '/agaate-admin/careers'
     | '/agaate-admin/farm-visits'
     | '/agaate-admin/profile'
     | '/agaate-admin/settings'
@@ -456,6 +468,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/terms-of-service'
     | '/{-$locale}/'
     | '/agaate-admin/_authed/access'
+    | '/agaate-admin/_authed/careers'
     | '/agaate-admin/_authed/farm-visits'
     | '/agaate-admin/_authed/profile'
     | '/agaate-admin/_authed/settings'
@@ -598,6 +611,13 @@ declare module '@tanstack/react-router' {
       path: '/farm-visits'
       fullPath: '/agaate-admin/farm-visits'
       preLoaderRoute: typeof AgaateAdminAuthedFarmVisitsRouteImport
+      parentRoute: typeof AgaateAdminAuthedRouteRoute
+    }
+    '/agaate-admin/_authed/careers': {
+      id: '/agaate-admin/_authed/careers'
+      path: '/careers'
+      fullPath: '/agaate-admin/careers'
+      preLoaderRoute: typeof AgaateAdminAuthedCareersRouteImport
       parentRoute: typeof AgaateAdminAuthedRouteRoute
     }
     '/agaate-admin/_authed/access': {
@@ -745,6 +765,7 @@ declare module '@tanstack/react-router' {
 
 interface AgaateAdminAuthedRouteRouteChildren {
   AgaateAdminAuthedAccessRoute: typeof AgaateAdminAuthedAccessRoute
+  AgaateAdminAuthedCareersRoute: typeof AgaateAdminAuthedCareersRoute
   AgaateAdminAuthedFarmVisitsRoute: typeof AgaateAdminAuthedFarmVisitsRoute
   AgaateAdminAuthedProfileRoute: typeof AgaateAdminAuthedProfileRoute
   AgaateAdminAuthedSettingsRoute: typeof AgaateAdminAuthedSettingsRoute
@@ -773,6 +794,7 @@ interface AgaateAdminAuthedRouteRouteChildren {
 const AgaateAdminAuthedRouteRouteChildren: AgaateAdminAuthedRouteRouteChildren =
   {
     AgaateAdminAuthedAccessRoute: AgaateAdminAuthedAccessRoute,
+    AgaateAdminAuthedCareersRoute: AgaateAdminAuthedCareersRoute,
     AgaateAdminAuthedFarmVisitsRoute: AgaateAdminAuthedFarmVisitsRoute,
     AgaateAdminAuthedProfileRoute: AgaateAdminAuthedProfileRoute,
     AgaateAdminAuthedSettingsRoute: AgaateAdminAuthedSettingsRoute,

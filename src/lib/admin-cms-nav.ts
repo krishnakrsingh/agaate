@@ -105,11 +105,11 @@ export const ADMIN_COMMAND_PAGES: AdminCmsNavItem[] = [
     keywords: "waitlist mall",
   },
   {
-    to: "/agaate-admin/content/careers",
+    to: "/agaate-admin/careers",
     label: "Careers",
-    group: "Pages",
+    group: "Operations",
     icon: Briefcase,
-    keywords: "jobs applications",
+    keywords: "jobs applications hiring",
   },
   { to: "/agaate-admin/farm-visits", label: "Farm visits", group: "Inquiries", icon: MapPin },
   {

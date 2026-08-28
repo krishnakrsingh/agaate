@@ -2,7 +2,7 @@ import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
-import { KISAAN_MALL_PAGE_FALLBACK } from "@/data/kisaan-mall-page-fallback";
+import { KISAAN_MALL_HOME_DEFAULTS } from "@/data/kisaan-mall-home-fallback";
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 import { HOMEPAGE_CHAPTERS_FALLBACK } from "@/data/homepage-chapters-fallback";
 
@@ -151,6 +151,10 @@ export type KisaanMallLanding = {
   placeholderHi: string;
   successEn: string;
   successHi: string;
+  homeChapter: KisaanMallHomeChapter;
+  heroStats: KisaanMallHeroStat[];
+  supplyChain: KisaanMallSectionCopy;
+  supplySteps: KisaanMallSupplyStep[];
 };
 
 export const DEFAULT_KISAAN_MALL_LANDING: KisaanMallLanding = {
@@ -166,9 +170,13 @@ export const DEFAULT_KISAAN_MALL_LANDING: KisaanMallLanding = {
   placeholderHi: "ईमेल या मोबाइल नंबर दर्ज करें",
   successEn: "You're on the list. We'll be in touch soon!",
   successHi: "धन्यवाद! हम आपको लॉन्च अपडेट्स जल्द भेजेंगे।",
+  ...KISAAN_MALL_HOME_DEFAULTS,
 };
 
-export type KisaanMallDisplayMode = "coming_soon" | "full";
+export type KisaanMallHomeContent = Pick<
+  KisaanMallLanding,
+  "homeChapter" | "heroStats" | "supplyChain" | "supplySteps"
+>;
 
 export type KisaanMallHeroStat = {
   numValue: number;
@@ -180,21 +188,6 @@ export type KisaanMallHeroStat = {
   labelHi: string;
 };
 
-export type KisaanMallCategoryItem = {
-  id: string;
-  titleEn: string;
-  titleHi: string;
-  tagEn: string;
-  tagHi: string;
-  descEn: string;
-  descHi: string;
-  examplesEn: string[];
-  examplesHi: string[];
-  badgeEn: string;
-  badgeHi: string;
-  iconKey: CmsIconKey;
-};
-
 export type KisaanMallSupplyStep = {
   step: string;
   titleEn: string;
@@ -202,23 +195,6 @@ export type KisaanMallSupplyStep = {
   descEn: string;
   descHi: string;
   iconKey: CmsIconKey;
-};
-
-export type KisaanMallTrustItem = {
-  labelEn: string;
-  labelHi: string;
-  valueEn: string;
-  valueHi: string;
-  hintEn: string;
-  hintHi: string;
-  iconKey: CmsIconKey;
-};
-
-export type KisaanMallFaqItem = {
-  qEn: string;
-  qHi: string;
-  aEn: string;
-  aHi: string;
 };
 
 export type KisaanMallSectionCopy = {
@@ -383,49 +359,6 @@ export type HomeAgriParkChapterContent = {
   mapImageUrl: string;
   mapAltEn: string;
   mapAltHi: string;
-};
-
-export type KisaanMallPageContent = {
-  displayMode: KisaanMallDisplayMode;
-  homeChapter: KisaanMallHomeChapter;
-  heroEyebrowEn: string;
-  heroEyebrowHi: string;
-  heroTitleEn: string;
-  heroTitleHi: string;
-  heroTitleAccentEn: string;
-  heroTitleAccentHi: string;
-  heroDescriptionEn: string;
-  heroDescriptionHi: string;
-  heroNotifyPlaceholderEn: string;
-  heroNotifyPlaceholderHi: string;
-  heroNotifyButtonEn: string;
-  heroNotifyButtonHi: string;
-  heroNotifySuccessEn: string;
-  heroNotifySuccessHi: string;
-  heroWhatsappLabelEn: string;
-  heroWhatsappLabelHi: string;
-  heroStats: KisaanMallHeroStat[];
-  aisles: KisaanMallSectionCopy;
-  categories: KisaanMallCategoryItem[];
-  supplyChain: KisaanMallSectionCopy;
-  supplySteps: KisaanMallSupplyStep[];
-  trust: KisaanMallSectionCopy;
-  trustItems: KisaanMallTrustItem[];
-  faq: KisaanMallSectionCopy;
-  faqs: KisaanMallFaqItem[];
-  ctaBadgeEn: string;
-  ctaBadgeHi: string;
-  ctaTitleEn: string;
-  ctaTitleHi: string;
-  ctaDescriptionEn: string;
-  ctaDescriptionHi: string;
-  ctaHoursEn: string;
-  ctaHoursHi: string;
-  ctaWhatsappLabelEn: string;
-  ctaWhatsappLabelHi: string;
-  ctaImageUrl: string;
-  ctaImageAltEn: string;
-  ctaImageAltHi: string;
 };
 
 export const CAREER_DEPARTMENT_CATEGORIES = ["Agronomy", "Corporate", "Retail"] as const;
@@ -757,7 +690,6 @@ export type CmsSiteConfig = {
   appLinks: HomeCmsAppLinks;
   agriParkTour: HomeCmsAgriParkTour;
   kisaanMallLanding: KisaanMallLanding;
-  kisaanMallPage: KisaanMallPageContent;
   agriParkChapter: HomeAgriParkChapterContent;
   homepageChapters: HomepageChaptersContent;
   careersPage: CareersPageContent;
@@ -770,7 +702,6 @@ export const DEFAULT_CMS_SITE_CONFIG: CmsSiteConfig = {
   appLinks: DEFAULT_HOME_CMS_APP_LINKS,
   agriParkTour: DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   kisaanMallLanding: DEFAULT_KISAAN_MALL_LANDING,
-  kisaanMallPage: KISAAN_MALL_PAGE_FALLBACK,
   agriParkChapter: AGRI_PARK_CHAPTER_FALLBACK,
   homepageChapters: HOMEPAGE_CHAPTERS_FALLBACK,
   careersPage: CAREERS_PAGE_FALLBACK,
