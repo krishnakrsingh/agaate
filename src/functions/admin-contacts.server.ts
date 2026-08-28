@@ -32,6 +32,7 @@ import {
   listRoles,
 } from "@/server/rbac-queries";
 import { SYSTEM_ROLE_SLUGS } from "@/lib/rbac";
+import { isDbConfigured } from "@/server/db";
 
 function failAuth(err: unknown) {
   const message = err instanceof Error ? err.message : "Error";
