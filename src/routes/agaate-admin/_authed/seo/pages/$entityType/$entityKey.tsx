@@ -14,6 +14,6 @@ function SeoPageEditorPage() {
   const { adminUser } = Route.useRouteContext();
   const { entityType, entityKey } = Route.useParams();
   return (
-    <AdminSeoPageEditor role={adminUser.role} entityType={entityType} entityKey={entityKey} />
+    <AdminSeoPageEditor permissions={adminUser.permissions} entityType={entityType} entityKey={entityKey} />
   );
 }

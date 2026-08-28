@@ -14,7 +14,7 @@ import { AdminCmsSeoShortcut } from "@/components/admin/seo/AdminCmsSeoShortcut"
 import { CmsSectionHeader } from "@/components/admin/cms/CmsSectionHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import type { AboutPageContent, CmsIconKey } from "@/lib/cms-types";
 import { CMS_ICON_KEYS } from "@/lib/cms-types";
@@ -37,9 +37,9 @@ function listToLines(items: string[]): string {
   return items.join("\n");
 }
 
-export function AdminCmsAbout({ role }: { role: AdminRole }) {
+export function AdminCmsAbout({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [content, setContent] = useState<AboutPageContent>(ABOUT_PAGE_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

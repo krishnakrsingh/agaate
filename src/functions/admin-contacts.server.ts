@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import {
   createUser,
-  countUsersByRole,
+  countUsersByRoleSlug,
   deleteUser,
   ensureAdminSchema,
   findUserById,
@@ -15,16 +15,23 @@ import {
 } from "@/server/admin-queries";
 import { assertSameOrigin, requireSessionUser } from "@/server/auth";
 import {
-  canAssignRole,
+  canDeleteUsers,
+  canEditCms,
+  canEditInquiries,
   canManageSettings,
   canManageUsers,
   DEFAULT_ADMIN_SETTINGS,
   sanitizeSettingsForClient,
-  type AdminRole,
   type AdminSettingsPayload,
   type RequestStatus,
+  type SessionUser,
 } from "@/lib/admin-constants";
-import { isDbConfigured } from "@/server/db";
+import {
+  actorCanAssignRole,
+  findRoleById,
+  listRoles,
+} from "@/server/rbac-queries";
+import { SYSTEM_ROLE_SLUGS } from "@/lib/rbac";
 
 function failAuth(err: unknown) {
   const message = err instanceof Error ? err.message : "Error";
@@ -34,8 +41,22 @@ function failAuth(err: unknown) {
   throw err;
 }
 
-const mockUsers = [
-  { id: 1, name: "Super Admin", email: "admin@agaate.in", role: "super_admin" as AdminRole },
+const mockUsers: Array<{
+  id: number;
+  name: string;
+  email: string;
+  roleId: number;
+  role: string;
+  roleName: string;
+}> = [
+  {
+    id: 1,
+    name: "Super Admin",
+    email: "admin@agaate.in",
+    roleId: 1,
+    role: "super_admin",
+    roleName: "Super Admin",
+  },
 ];
 
 function mergeSettingsPayload(
@@ -63,10 +84,19 @@ function mergeSettingsPayload(
   return incoming;
 }
 
+async function assertCanAssignRole(actor: SessionUser, roleId: number) {
+  const role = await findRoleById(roleId);
+  if (!role) return { ok: false as const, error: "Role not found." };
+  if (!actorCanAssignRole(actor, role)) {
+    return { ok: false as const, error: "You cannot assign this role." };
+  }
+  return { ok: true as const, role };
+}
+
 export async function handleGetSettings() {
   try {
     const user = await requireSessionUser();
-    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canManageSettings(user)) return { ok: false as const, error: "Forbidden." };
     if (isDbConfigured()) {
       try {
         const settings = await getSettings();
@@ -85,7 +115,7 @@ export async function handleSaveSettings(raw: Record<string, unknown>) {
   try {
     assertSameOrigin();
     const user = await requireSessionUser();
-    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canManageSettings(user)) return { ok: false as const, error: "Forbidden." };
 
     const existing = isDbConfigured()
       ? await getSettings().catch(() => DEFAULT_ADMIN_SETTINGS)
@@ -109,7 +139,7 @@ export async function handleSendTestEmail(to?: string) {
   try {
     assertSameOrigin();
     const user = await requireSessionUser();
-    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canManageSettings(user)) return { ok: false as const, error: "Forbidden." };
 
     const recipient = to?.trim() || user.email;
     const { sendTestEmail } = await import("@/server/mail");
@@ -124,9 +154,10 @@ export async function handleSendTestEmail(to?: string) {
 export async function handleListUsers() {
   try {
     const user = await requireSessionUser();
-    if (!canManageUsers(user.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canManageUsers(user)) return { ok: false as const, error: "Forbidden." };
     if (isDbConfigured()) {
       try {
+        await ensureAdminSchema();
         const users = await listUsers();
         return {
           ok: true as const,
@@ -134,7 +165,9 @@ export async function handleListUsers() {
             id: Number(u.id),
             name: u.name,
             email: u.email,
-            role: u.role as AdminRole,
+            roleId: Number(u.role_id),
+            role: String(u.role),
+            roleName: String(u.role_name ?? u.role),
             createdAt: String(u.created_at),
             updatedAt: String(u.updated_at),
           })),
@@ -149,40 +182,56 @@ export async function handleListUsers() {
   }
 }
 
+export async function handleListAssignableRoles() {
+  try {
+    const user = await requireSessionUser();
+    if (!canManageUsers(user)) return { ok: false as const, error: "Forbidden." };
+    const roles = await listRoles();
+    const assignable = roles.filter((role) => actorCanAssignRole(user, role));
+    return { ok: true as const, roles: assignable };
+  } catch (err) {
+    return failAuth(err);
+  }
+}
+
 export async function handleSaveUser(data: {
   id?: number;
   name: string;
   email: string;
-  role: string;
+  roleId: number;
   password?: string;
 }) {
   try {
     assertSameOrigin();
     const actor = await requireSessionUser();
-    if (!canManageUsers(actor.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canManageUsers(actor)) return { ok: false as const, error: "Forbidden." };
     const name = data.name.trim().slice(0, 120);
     const email = data.email.trim().toLowerCase();
-    const role = data.role as AdminRole;
+    const roleId = Number(data.roleId);
     if (!name || !email) return { ok: false as const, error: "Name and email are required." };
-    if (!canAssignRole(actor.role, role)) {
-      return { ok: false as const, error: "You cannot assign this role." };
-    }
+    if (!roleId) return { ok: false as const, error: "Role is required." };
+
+    const assignCheck = await assertCanAssignRole(actor, roleId);
+    if (!assignCheck.ok) return assignCheck;
 
     if (isDbConfigured()) {
       try {
+        await ensureAdminSchema();
         if (data.id) {
           const existing = await findUserById(data.id);
           if (!existing) return { ok: false as const, error: "User not found." };
-          if (!canAssignRole(actor.role, existing.role as AdminRole)) {
-            return { ok: false as const, error: "You cannot edit this user." };
+          const existingRoleId = Number(existing.role_id);
+          if (existingRoleId) {
+            const existingCheck = await assertCanAssignRole(actor, existingRoleId);
+            if (!existingCheck.ok) return existingCheck;
           }
-          if (data.id === actor.id && role !== actor.role) {
+          if (data.id === actor.id && roleId !== actor.roleId) {
             return { ok: false as const, error: "You cannot change your own role." };
           }
           if (
-            existing.role === "super_admin" &&
-            role !== "super_admin" &&
-            (await countUsersByRole("super_admin")) <= 1
+            existing.role === SYSTEM_ROLE_SLUGS.SUPER_ADMIN &&
+            assignCheck.role.slug !== SYSTEM_ROLE_SLUGS.SUPER_ADMIN &&
+            (await countUsersByRoleSlug(SYSTEM_ROLE_SLUGS.SUPER_ADMIN)) <= 1
           ) {
             return {
               ok: false as const,
@@ -192,9 +241,9 @@ export async function handleSaveUser(data: {
           const patch: {
             name: string;
             email: string;
-            role: AdminRole;
+            roleId: number;
             password_hash?: string;
-          } = { name, email, role };
+          } = { name, email, roleId };
           if (data.password && data.password.length >= 8) {
             patch.password_hash = await hash(data.password, 10);
           }
@@ -205,7 +254,7 @@ export async function handleSaveUser(data: {
           return { ok: false as const, error: "Password must be at least 8 characters." };
         }
         const password_hash = await hash(data.password, 10);
-        const id = await createUser({ name, email, password_hash, role });
+        const id = await createUser({ name, email, password_hash, roleId });
         return { ok: true as const, id };
       } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
@@ -219,11 +268,27 @@ export async function handleSaveUser(data: {
 
     if (data.id) {
       const idx = mockUsers.findIndex((u) => u.id === data.id);
-      if (idx !== -1) mockUsers[idx] = { id: data.id, name, email, role };
+      if (idx !== -1) {
+        mockUsers[idx] = {
+          id: data.id,
+          name,
+          email,
+          roleId,
+          role: assignCheck.role.slug,
+          roleName: assignCheck.role.name,
+        };
+      }
       return { ok: true as const, id: data.id };
     }
     const newId = mockUsers.length + 1;
-    mockUsers.push({ id: newId, name, email, role });
+    mockUsers.push({
+      id: newId,
+      name,
+      email,
+      roleId,
+      role: assignCheck.role.slug,
+      roleName: assignCheck.role.name,
+    });
     return { ok: true as const, id: newId };
   } catch (err) {
     return failAuth(err);
@@ -234,8 +299,8 @@ export async function handleDeleteUser(id: number) {
   try {
     assertSameOrigin();
     const actor = await requireSessionUser();
-    if (actor.role !== "super_admin") {
-      return { ok: false as const, error: "Only super admins can remove users." };
+    if (!canDeleteUsers(actor)) {
+      return { ok: false as const, error: "You do not have permission to remove users." };
     }
     if (id === actor.id) {
       return { ok: false as const, error: "You cannot remove your own account." };
@@ -243,11 +308,17 @@ export async function handleDeleteUser(id: number) {
     if (!isDbConfigured()) {
       return { ok: false as const, error: "Database not configured." };
     }
+    await ensureAdminSchema();
     const existing = await findUserById(id);
     if (!existing) return { ok: false as const, error: "User not found." };
+    const existingRoleId = Number(existing.role_id);
+    if (existingRoleId) {
+      const existingCheck = await assertCanAssignRole(actor, existingRoleId);
+      if (!existingCheck.ok) return existingCheck;
+    }
     if (
-      existing.role === "super_admin" &&
-      (await countUsersByRole("super_admin")) <= 1
+      existing.role === SYSTEM_ROLE_SLUGS.SUPER_ADMIN &&
+      (await countUsersByRoleSlug(SYSTEM_ROLE_SLUGS.SUPER_ADMIN)) <= 1
     ) {
       return { ok: false as const, error: "Cannot remove the last super admin." };
     }
@@ -270,7 +341,7 @@ export async function handleGetNotifications() {
 export async function handleSaveCategory(_data: unknown) {
   try {
     const user = await requireSessionUser();
-    if (!canManageSettings(user.role)) return { ok: false as const, error: "Forbidden." };
+    if (!canEditCms(user)) return { ok: false as const, error: "Forbidden." };
     return { ok: true as const };
   } catch (err) {
     return failAuth(err);
@@ -331,6 +402,9 @@ export async function handleUpdateFarmVisit(data: {
   try {
     assertSameOrigin();
     const user = await requireSessionUser();
+    if (!canEditInquiries(user)) {
+      return { ok: false as const, error: "You do not have permission to update bookings." };
+    }
     if (!isDbConfigured()) return { ok: false as const, error: "Database not configured." };
     await ensureAdminSchema();
     const updated = await updateContact(user, data.id, {

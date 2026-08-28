@@ -654,6 +654,11 @@ export async function saveSettings(user: SessionUser, payload: AdminSettingsPayl
 export function serializeContact(row: ContactRequestRow) {
   return {
     ...row,
+    follow_up_date: row.follow_up_date
+      ? row.follow_up_date instanceof Date
+        ? row.follow_up_date.toISOString().slice(0, 10)
+        : String(row.follow_up_date).match(/^\d{4}-\d{2}-\d{2}/)?.[0] ?? row.follow_up_date
+      : null,
     tags: parseJson(row.tags, [] as string[]),
     farm_details: parseJson(row.farm_details, {
       acreage: row.acreage,

@@ -12,7 +12,7 @@ import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { SITE_CONTACT_FALLBACK } from "@/data/site-contact-fallback";
 import type { SiteContactConfig } from "@/lib/cms-types";
 
@@ -34,9 +34,9 @@ function Field({
   );
 }
 
-export function AdminCmsSiteContact({ role }: { role: AdminRole }) {
+export function AdminCmsSiteContact({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [contact, setContact] = useState<SiteContactConfig>(SITE_CONTACT_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

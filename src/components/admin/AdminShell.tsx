@@ -17,10 +17,11 @@ import {
   BookOpen,
   Layout,
   ExternalLink,
+  UserCheck,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { logoutAdmin } from "@/functions/admin-auth";
-import { canManageSettings, canManageUsers, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms, canManageSettings, canManageUsers } from "@/lib/admin-constants";
 import { cn } from "@/lib/utils";
 import type { SessionUser } from "@/lib/admin-constants";
 import { ToastProvider } from "@/components/admin/AdminToast";
@@ -324,7 +325,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
 
             {NAV_GROUPS.map((group) => {
               const visibleItems = group.items.filter(
-                (item) => !item.adminOnly || canManageSettings(user.role as AdminRole),
+                (item) => !item.adminOnly || canManageSettings(user),
               );
               if (visibleItems.length === 0) return null;
 
@@ -370,7 +371,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
               );
             })}
 
-            {canManageUsers(user.role as AdminRole) ? (
+            {canManageUsers(user) ? (
               <>
                 <SidebarSeparator className="my-2 bg-sidebar-border/60" />
                 <SidebarGroup className="py-1">
@@ -397,7 +398,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
-                      {canManageSettings(user.role as AdminRole) ? (
+                      {canManageSettings(user) ? (
                         <SidebarMenuItem>
                           <SidebarMenuButton
                             asChild
@@ -421,7 +422,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                   </SidebarGroupContent>
                 </SidebarGroup>
               </>
-            ) : canManageSettings(user.role as AdminRole) ? (
+            ) : canManageSettings(user) ? (
               <>
                 <SidebarSeparator className="my-2 bg-sidebar-border/60" />
                 <SidebarGroup className="py-1">
@@ -486,7 +487,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                           {user.name}
                         </span>
                         <span className="truncate text-[10px] font-medium uppercase tracking-wide text-sidebar-foreground/50">
-                          {user.role.replace("_", " ")}
+                          {user.roleName || user.role.replace("_", " ")}
                         </span>
                       </div>
                       <ChevronsUpDown className="ml-auto size-4 text-sidebar-foreground/40" />
@@ -519,7 +520,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                         <UserCheck className="mr-2 h-4 w-4" />
                         <span>My profile</span>
                       </DropdownMenuItem>
-                      {canManageSettings(user.role as AdminRole) && (
+                      {canManageSettings(user) && (
                         <DropdownMenuItem
                           onClick={() => navigate({ to: "/agaate-admin/settings" })}
                         >
@@ -527,7 +528,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
                           <span>Settings</span>
                         </DropdownMenuItem>
                       )}
-                      {canManageUsers(user.role as AdminRole) && (
+                      {canManageUsers(user) && (
                         <DropdownMenuItem onClick={() => navigate({ to: "/agaate-admin/access" })}>
                           <UsersRound className="mr-2 h-4 w-4" />
                           <span>Users & access</span>
@@ -609,7 +610,7 @@ export function AdminShell({ user }: { user: SessionUser }) {
           </header>
 
           <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-            {!canManageSettings(user.role as AdminRole) ? <CmsReadOnlyBanner /> : null}
+            {!canEditCms(user) ? <CmsReadOnlyBanner /> : null}
             <Outlet />
           </main>
         </SidebarInset>

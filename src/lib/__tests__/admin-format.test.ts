@@ -4,16 +4,31 @@ import {
   whatsappDigits,
   formatWhen,
   formatDay,
+  toDateInputValue,
   csvEscape,
   toCsv,
 } from "@/lib/admin-format";
 import {
   interpolateTemplate,
   canManageSettings,
+  canEditCms,
   isRestrictedAssignee,
   DEFAULT_ADMIN_SETTINGS,
 } from "@/lib/admin-constants";
+import { PERMS } from "@/lib/rbac";
 import { isAdminOk, adminError, kpi } from "@/lib/admin-api";
+
+const adminPerms = [
+  PERMS.CMS_VIEW,
+  PERMS.CMS_EDIT,
+  PERMS.SEO_MANAGE,
+  PERMS.SETTINGS_MANAGE,
+  PERMS.USERS_MANAGE,
+  PERMS.INQUIRIES_VIEW_ALL,
+  PERMS.INQUIRIES_EDIT,
+];
+
+const agronomistPerms = [PERMS.CMS_VIEW, PERMS.INQUIRIES_EDIT];
 
 describe("Admin Utilities & Formatters", () => {
   describe("Phone Formatting", () => {
@@ -69,18 +84,15 @@ describe("Admin Utilities & Formatters", () => {
   });
 
   describe("RBAC Permissions", () => {
-    it("allows super_admin and admin to manage settings", () => {
-      expect(canManageSettings("super_admin")).toBe(true);
-      expect(canManageSettings("admin")).toBe(true);
-      expect(canManageSettings("agronomist")).toBe(false);
-      expect(canManageSettings("support")).toBe(false);
+    it("allows admins to manage settings and edit CMS", () => {
+      const user = { permissions: adminPerms };
+      expect(canManageSettings(user)).toBe(true);
+      expect(canEditCms(user)).toBe(true);
     });
 
     it("identifies restricted assignees", () => {
-      expect(isRestrictedAssignee("agronomist")).toBe(true);
-      expect(isRestrictedAssignee("support")).toBe(true);
-      expect(isRestrictedAssignee("admin")).toBe(false);
-      expect(isRestrictedAssignee("super_admin")).toBe(false);
+      expect(isRestrictedAssignee({ permissions: agronomistPerms })).toBe(true);
+      expect(isRestrictedAssignee({ permissions: adminPerms })).toBe(false);
     });
   });
 
@@ -109,6 +121,13 @@ describe("Admin Utilities & Formatters", () => {
       const d = new Date("2026-08-20T10:00:00Z");
       expect(formatWhen(d)).toBeTruthy();
       expect(formatDay(d)).toBeTruthy();
+    });
+
+    it("normalizes values for date inputs", () => {
+      expect(toDateInputValue(null)).toBe("");
+      expect(toDateInputValue("2026-08-28")).toBe("2026-08-28");
+      expect(toDateInputValue("2026-08-28T00:00:00.000Z")).toBe("2026-08-28");
+      expect(toDateInputValue(new Date(2026, 7, 28))).toBe("2026-08-28");
     });
   });
 });

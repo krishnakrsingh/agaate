@@ -9,7 +9,7 @@ import {
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
-import { ROLE_LABELS, type AdminRole } from "@/lib/admin-constants";
+import { roleLabel } from "@/lib/admin-constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,7 +20,8 @@ type Profile = {
   id: number;
   name: string;
   email: string;
-  role: AdminRole;
+  role: string;
+  roleName?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -113,7 +114,7 @@ export function AdminProfilePanel() {
             <p className="font-semibold">{profile.name}</p>
             <p className="text-sm text-muted-foreground">{profile.email}</p>
             <Badge variant="secondary" className="mt-1">
-              {ROLE_LABELS[profile.role]}
+              {roleLabel(profile.role, profile.roleName)}
             </Badge>
           </div>
         </div>

@@ -64,7 +64,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 
 function linesToAch(text: string) {
   return text
@@ -102,10 +102,10 @@ const emptyForm = {
   bannerBadgeHi: "",
 };
 
-export function AdminCmsTeam({ role }: { role: AdminRole }) {
+export function AdminCmsTeam({ permissions }: { permissions: string[] }) {
   const toast = useToast();
   const { requestConfirm, confirmDialog } = useCmsListConfirm();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [items, setItems] = useState<CmsTeamMemberRow[]>([]);
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<CmsStatus | "all">("all");

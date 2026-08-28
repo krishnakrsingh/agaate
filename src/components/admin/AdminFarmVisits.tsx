@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Calendar, MapPin, RefreshCw, Search } from "lucide-react";
 import { listAdminFarmVisits, updateAdminFarmVisit } from "@/functions/admin-contacts";
-import { STATUS_LABELS, type RequestStatus } from "@/lib/admin-constants";
+import { STATUS_LABELS, canEditInquiries, type RequestStatus } from "@/lib/admin-constants";
+import { toDateInputValue } from "@/lib/admin-format";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsTableEmptyRow, CmsTableLoadingRow } from "@/components/admin/cms/CmsTableState";
@@ -46,11 +47,22 @@ type FarmVisitRow = {
   district: string | null;
 };
 
-const FARM_VISIT_STATUSES: RequestStatus[] = ["new", "contacted", "farm_visit", "closed"];
+const FARM_VISIT_STATUSES: RequestStatus[] = [
+  "new",
+  "assigned",
+  "contacted",
+  "in_progress",
+  "waiting",
+  "farm_visit",
+  "converted",
+  "closed",
+];
 
 function formatDate(value: string | null | undefined) {
   if (!value) return "—";
-  const d = new Date(value);
+  const normalized = toDateInputValue(value);
+  if (!normalized) return value;
+  const d = new Date(`${normalized}T12:00:00`);
   if (Number.isNaN(d.getTime())) return value;
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
@@ -77,8 +89,9 @@ function parseFarmDetails(row: FarmVisitRow): FarmDetails {
   };
 }
 
-export function AdminFarmVisits() {
+export function AdminFarmVisits({ permissions }: { permissions: string[] }) {
   const toast = useToast();
+  const canEdit = canEditInquiries({ permissions });
   const { requestConfirm, confirmDialog } = useCmsListConfirm();
   const [rows, setRows] = useState<FarmVisitRow[]>([]);
   const [total, setTotal] = useState(0);
@@ -90,8 +103,15 @@ export function AdminFarmVisits() {
   const [status, setStatus] = useState<string>("all");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [followUpDrafts, setFollowUpDrafts] = useState<Record<number, string>>({});
 
   const pageSize = 20;
+
+  const statusOptions = useMemo(() => {
+    const options = new Set(FARM_VISIT_STATUSES);
+    for (const row of rows) options.add(row.status);
+    return [...options];
+  }, [rows]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -107,13 +127,19 @@ export function AdminFarmVisits() {
     });
     setLoading(false);
     if (res && "ok" in res && res.ok) {
-      setRows((res.rows ?? []) as FarmVisitRow[]);
+      const nextRows = (res.rows ?? []) as FarmVisitRow[];
+      setRows(nextRows);
+      setFollowUpDrafts(
+        Object.fromEntries(
+          nextRows.map((row) => [row.id, toDateInputValue(row.follow_up_date)]),
+        ),
+      );
       setTotal(res.total ?? 0);
       setPending(res.pending ?? 0);
     } else {
       toast.error("Load failed", res && "error" in res ? res.error : "Could not load farm visits.");
     }
-  }, [q, status, from, to, page]);
+  }, [q, status, from, to, page, toast]);
 
   useEffect(() => {
     void load();
@@ -154,7 +180,10 @@ export function AdminFarmVisits() {
     await apply();
   }
 
-  async function handleFollowUpChange(id: number, followUpDate: string) {
+  async function handleFollowUpSave(id: number, followUpDate: string) {
+    const saved = toDateInputValue(rows.find((r) => r.id === id)?.follow_up_date);
+    if (followUpDate === saved) return;
+
     setUpdatingId(id);
     const res = await updateAdminFarmVisit({
       data: { id, follow_up_date: followUpDate || null },
@@ -168,6 +197,7 @@ export function AdminFarmVisits() {
         "Update failed",
         res && "error" in res ? res.error : "Could not update follow-up date.",
       );
+      void load();
     }
   }
 
@@ -293,6 +323,7 @@ export function AdminFarmVisits() {
             ) : null}
             {rows.map((row) => {
               const details = parseFarmDetails(row);
+              const followUpValue = followUpDrafts[row.id] ?? toDateInputValue(row.follow_up_date);
               return (
                 <TableRow key={row.id}>
                   <TableCell className="font-mono text-xs">{row.ticket_id}</TableCell>
@@ -322,7 +353,7 @@ export function AdminFarmVisits() {
                   <TableCell>
                     <Select
                       value={row.status}
-                      disabled={updatingId === row.id}
+                      disabled={!canEdit || updatingId === row.id}
                       onValueChange={(v) =>
                         void handleStatusChange(row.id, v as RequestStatus, row.status)
                       }
@@ -331,7 +362,7 @@ export function AdminFarmVisits() {
                         <SelectValue>{STATUS_LABELS[row.status]}</SelectValue>
                       </SelectTrigger>
                       <SelectContent>
-                        {FARM_VISIT_STATUSES.map((s) => (
+                        {statusOptions.map((s) => (
                           <SelectItem key={s} value={s}>
                             {STATUS_LABELS[s]}
                           </SelectItem>
@@ -343,9 +374,12 @@ export function AdminFarmVisits() {
                     <Input
                       type="date"
                       className="h-8 w-[140px] text-xs"
-                      value={row.follow_up_date ? String(row.follow_up_date).slice(0, 10) : ""}
-                      disabled={updatingId === row.id}
-                      onChange={(e) => void handleFollowUpChange(row.id, e.target.value)}
+                      value={followUpValue}
+                      disabled={!canEdit || updatingId === row.id}
+                      onChange={(e) =>
+                        setFollowUpDrafts((prev) => ({ ...prev, [row.id]: e.target.value }))
+                      }
+                      onBlur={(e) => void handleFollowUpSave(row.id, e.target.value)}
                     />
                   </TableCell>
                   <TableCell className="text-xs text-muted-foreground whitespace-nowrap">

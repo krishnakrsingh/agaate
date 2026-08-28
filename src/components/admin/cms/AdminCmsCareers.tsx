@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import type { CareersPageContent, CmsCareerJobRow } from "@/lib/cms-types";
 import type { CareerApplicationRow } from "@/server/admin-queries";
@@ -56,10 +56,10 @@ function listToLines(items: string[]): string {
   return items.join("\n");
 }
 
-export function AdminCmsCareers({ role }: { role: AdminRole }) {
+export function AdminCmsCareers({ permissions }: { permissions: string[] }) {
   const toast = useToast();
   const { requestConfirm, confirmDialog } = useCmsListConfirm();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [content, setContent] = useState<CareersPageContent>(CAREERS_PAGE_FALLBACK);
   const [jobs, setJobs] = useState<CmsCareerJobRow[]>([]);
   const [applications, setApplications] = useState<CareerApplicationRow[]>([]);

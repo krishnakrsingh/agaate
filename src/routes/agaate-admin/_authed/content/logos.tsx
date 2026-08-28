@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/logos")({
 
 function LogosPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminCmsLogos role={adminUser.role} />;
+  return <AdminCmsLogos permissions={adminUser.permissions} />;
 }

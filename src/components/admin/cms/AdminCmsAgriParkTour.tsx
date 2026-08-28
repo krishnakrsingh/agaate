@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CmsUploadField } from "@/components/admin/cms/CmsUploadField";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import {
   DEFAULT_HOME_CMS_AGRI_PARK_TOUR,
   type HomeAgriParkChapterContent,
@@ -28,14 +28,14 @@ import {
 import { AGRI_PARK_CHAPTER_FALLBACK } from "@/data/agri-park-chapter-fallback";
 
 export function AdminCmsAgriParkTour({
-  role,
+  permissions,
   embedded = false,
 }: {
-  role: AdminRole;
+  permissions: string[];
   embedded?: boolean;
 }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [tour, setTour] = useState<HomeCmsAgriParkTour>(DEFAULT_HOME_CMS_AGRI_PARK_TOUR);
   const [chapter, setChapter] = useState<HomeAgriParkChapterContent>(AGRI_PARK_CHAPTER_FALLBACK);
   const [loading, setLoading] = useState(true);

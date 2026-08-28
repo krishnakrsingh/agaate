@@ -8,7 +8,7 @@ import {
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canManageSeo } from "@/lib/admin-constants";
 import type { SeoRedirectRow } from "@/lib/seo-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,9 +36,9 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 
-export function AdminSeoRedirects({ role }: { role: AdminRole }) {
+export function AdminSeoRedirects({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canManageSeo({ permissions });
   const [redirects, setRedirects] = useState<SeoRedirectRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);

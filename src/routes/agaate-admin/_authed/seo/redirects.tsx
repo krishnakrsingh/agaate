@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/seo/redirects")({
 
 function SeoRedirectsPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminSeoRedirects role={adminUser.role} />;
+  return <AdminSeoRedirects permissions={adminUser.permissions} />;
 }

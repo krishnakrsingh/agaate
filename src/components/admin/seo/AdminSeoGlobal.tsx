@@ -6,18 +6,19 @@ import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canManageSeo } from "@/lib/admin-constants";
 import { DEFAULT_SEO_GLOBAL_SETTINGS } from "@/lib/seo-utils";
 import type { SeoGlobalSettings } from "@/lib/seo-types";
+import { CmsImageField } from "@/components/admin/cms/CmsImageField";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export function AdminSeoGlobal({ role }: { role: AdminRole }) {
+export function AdminSeoGlobal({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canManageSeo({ permissions });
   const [settings, setSettings] = useState<SeoGlobalSettings>(DEFAULT_SEO_GLOBAL_SETTINGS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -138,23 +139,19 @@ export function AdminSeoGlobal({ role }: { role: AdminRole }) {
             />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label>Default OG image</Label>
-              <Input
-                value={settings.defaultOgImage}
-                onChange={(e) => update({ defaultOgImage: e.target.value })}
-                disabled={!canEdit}
-                placeholder="/logo.png"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Default Twitter image</Label>
-              <Input
-                value={settings.defaultTwitterImage}
-                onChange={(e) => update({ defaultTwitterImage: e.target.value })}
-                disabled={!canEdit}
-              />
-            </div>
+            <CmsImageField
+              label="Default OG image"
+              value={settings.defaultOgImage}
+              onChange={(url) => update({ defaultOgImage: url })}
+              disabled={!canEdit}
+              hint="Used when a page has no Open Graph image."
+            />
+            <CmsImageField
+              label="Default Twitter image"
+              value={settings.defaultTwitterImage}
+              onChange={(url) => update({ defaultTwitterImage: url })}
+              disabled={!canEdit}
+            />
           </div>
           <div className="space-y-2">
             <Label>Default robots policy</Label>
@@ -218,14 +215,12 @@ export function AdminSeoGlobal({ role }: { role: AdminRole }) {
               />
             </div>
           </div>
-          <div className="space-y-2">
-            <Label>Logo URL</Label>
-            <Input
-              value={settings.organizationLogo}
-              onChange={(e) => update({ organizationLogo: e.target.value })}
-              disabled={!canEdit}
-            />
-          </div>
+          <CmsImageField
+            label="Logo URL"
+            value={settings.organizationLogo}
+            onChange={(url) => update({ organizationLogo: url })}
+            disabled={!canEdit}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label>Email</Label>

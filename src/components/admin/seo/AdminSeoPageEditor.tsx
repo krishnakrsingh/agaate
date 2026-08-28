@@ -7,7 +7,7 @@ import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { CmsStickySaveBar } from "@/components/admin/cms/CmsStickySaveBar";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canManageSeo } from "@/lib/admin-constants";
 import type { ResolvedSeo, SeoMetadataInput, SeoPageDefinition } from "@/lib/seo-types";
 import { localePath } from "@/lib/seo-registry";
 import { Input } from "@/components/ui/input";
@@ -22,11 +22,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CmsImageField } from "@/components/admin/cms/CmsImageField";
+import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist";
 import { SeoSearchPreview, SeoSocialPreview } from "@/components/admin/seo/SeoPreview";
 import { SeoChecklist, buildSeoChecklist } from "@/components/admin/seo/SeoChecklist";
 
 type Props = {
-  role: AdminRole;
+  permissions: string[];
   entityType: string;
   entityKey: string;
 };
@@ -40,12 +42,12 @@ const emptyForm = (entityType: string, entityKey: string, locale: string): SeoMe
   seoStatus: "needs_review",
 });
 
-export function AdminSeoPageEditor({ role, entityType, entityKey }: Props) {
+export function AdminSeoPageEditor({ permissions, entityType, entityKey }: Props) {
   const toast = useToast();
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { locale?: string };
   const locale = search.locale === "hi" ? "hi" : "en";
-  const canEdit = canManageSettings(role);
+  const canEdit = canManageSeo({ permissions });
 
   const [page, setPage] = useState<SeoPageDefinition | null>(null);
   const [form, setForm] = useState<SeoMetadataInput>(() => emptyForm(entityType, entityKey, locale));
@@ -136,6 +138,68 @@ export function AdminSeoPageEditor({ role, entityType, entityKey }: Props) {
     });
   };
 
+  const translateToHindi = async (translations: string[]) => {
+    const [
+      seoTitle,
+      metaDescription,
+      ogTitle,
+      ogDescription,
+      twitterTitle,
+      twitterDescription,
+      focusKeyword,
+      secondaryKeywords,
+    ] = translations;
+    const hiRes = await getSeoPageAdmin({ data: { entityType, entityKey, locale: "hi" } });
+    const existingHi =
+      isAdminOk<{ metadata: SeoMetadataInput | null }>(hiRes) && hiRes.metadata
+        ? hiRes.metadata
+        : emptyForm(entityType, entityKey, "hi");
+    const hiPayload: SeoMetadataInput = {
+      ...existingHi,
+      entityType: entityType as SeoMetadataInput["entityType"],
+      entityKey,
+      locale: "hi",
+      seoTitle,
+      metaDescription,
+      ogTitle,
+      ogDescription,
+      twitterTitle,
+      twitterDescription,
+      focusKeyword,
+      secondaryKeywords,
+      ogImage: existingHi.ogImage || form.ogImage,
+      twitterImage: existingHi.twitterImage || form.twitterImage,
+      noindex: form.noindex,
+      nofollow: form.nofollow,
+      seoStatus: form.seoStatus,
+    };
+    const saveRes = await saveSeoPageAdmin({ data: hiPayload });
+    if (isAdminOk(saveRes)) {
+      toast.success("Hindi SEO saved from English.");
+      if (dirty && !window.confirm("You have unsaved English changes. Switch to Hindi anyway?")) {
+        return;
+      }
+      navigate({
+        to: "/agaate-admin/seo/pages/$entityType/$entityKey",
+        params: { entityType, entityKey },
+        search: { locale: "hi" },
+      });
+    } else {
+      toast.error(adminError(saveRes));
+    }
+  };
+
+  const seoTranslateTexts = [
+    form.seoTitle ?? "",
+    form.metaDescription ?? "",
+    form.ogTitle ?? "",
+    form.ogDescription ?? "",
+    form.twitterTitle ?? "",
+    form.twitterDescription ?? "",
+    form.focusKeyword ?? "",
+    form.secondaryKeywords ?? "",
+  ];
+
   if (loading) {
     return <p className="p-6 text-sm text-muted-foreground">Loading page SEO…</p>;
   }
@@ -157,12 +221,23 @@ export function AdminSeoPageEditor({ role, entityType, entityKey }: Props) {
         description={`${localePath(page.path, locale)} · Leave fields empty to use smart defaults.`}
         workflow="live"
         actions={
-          <Tabs value={locale} onValueChange={switchLocale}>
-            <TabsList>
-              <TabsTrigger value="en">EN</TabsTrigger>
-              <TabsTrigger value="hi">HI</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="flex flex-wrap items-center gap-3">
+            {locale === "en" && canEdit ? (
+              <CmsTranslateToHindiButton
+                variant="inline"
+                disabled={!canEdit}
+                enTexts={seoTranslateTexts}
+                onTranslated={(translations) => void translateToHindi(translations)}
+                hint="Translates and saves the Hindi locale."
+              />
+            ) : null}
+            <Tabs value={locale} onValueChange={switchLocale}>
+              <TabsList>
+                <TabsTrigger value="en">EN</TabsTrigger>
+                <TabsTrigger value="hi">HI</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
         }
       />
 
@@ -288,15 +363,13 @@ export function AdminSeoPageEditor({ role, entityType, entityKey }: Props) {
                   placeholder="Uses meta description if empty"
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Open Graph image</Label>
-                <Input
-                  value={form.ogImage ?? ""}
-                  onChange={(e) => update({ ogImage: e.target.value })}
-                  disabled={!canEdit}
-                  placeholder="/logo.png or full URL"
-                />
-              </div>
+              <CmsImageField
+                label="Open Graph image"
+                value={form.ogImage ?? ""}
+                onChange={(url) => update({ ogImage: url })}
+                disabled={!canEdit}
+                hint="1200×630 recommended. Upload or paste a URL."
+              />
               <div className="space-y-2">
                 <Label>Twitter title</Label>
                 <Input
@@ -314,14 +387,13 @@ export function AdminSeoPageEditor({ role, entityType, entityKey }: Props) {
                   rows={2}
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Twitter image</Label>
-                <Input
-                  value={form.twitterImage ?? ""}
-                  onChange={(e) => update({ twitterImage: e.target.value })}
-                  disabled={!canEdit}
-                />
-              </div>
+              <CmsImageField
+                label="Twitter image"
+                value={form.twitterImage ?? ""}
+                onChange={(url) => update({ twitterImage: url })}
+                disabled={!canEdit}
+                hint="Uses Open Graph image if empty."
+              />
             </TabsContent>
 
             <TabsContent value="advanced" className="mt-4 space-y-4">

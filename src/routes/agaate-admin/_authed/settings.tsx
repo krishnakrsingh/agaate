@@ -4,8 +4,8 @@ import { getAdminSettings } from "@/functions/admin-contacts";
 import {
   canManageSettings,
   DEFAULT_ADMIN_SETTINGS,
-  type AdminRole,
   type AdminSettingsForClient,
+  type SessionUser,
 } from "@/lib/admin-constants";
 
 const SETTINGS_TABS = ["email", "app-links"] as const;
@@ -19,8 +19,8 @@ function validateSettingsSearch(search: Record<string, unknown>): { tab?: Settin
 export const Route = createFileRoute("/agaate-admin/_authed/settings")({
   validateSearch: validateSettingsSearch,
   beforeLoad: ({ context }) => {
-    const user = (context as { adminUser?: { role: string } }).adminUser;
-    if (!user || !canManageSettings(user.role as AdminRole)) {
+    const user = (context as { adminUser?: SessionUser }).adminUser;
+    if (!user || !canManageSettings(user)) {
       throw redirect({ to: "/agaate-admin" });
     }
   },
@@ -45,7 +45,7 @@ function SettingsPage() {
   return (
     <AdminSettingsPanel
       settings={(settings.settings ?? DEFAULT_ADMIN_SETTINGS) as AdminSettingsForClient}
-      adminRole={adminUser.role as AdminRole}
+      permissions={adminUser.permissions}
       defaultTab={tab ?? "email"}
     />
   );

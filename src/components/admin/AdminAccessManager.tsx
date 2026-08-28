@@ -1,21 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
-import { Shield, UserPlus, Pencil, Trash2 } from "lucide-react";
-import { deleteAdminUser, listAdminUsers, saveAdminUser } from "@/functions/admin-contacts";
+import { UserPlus, Pencil, Trash2 } from "lucide-react";
+import {
+  deleteAdminUser,
+  listAdminUsers,
+  listAssignableRoles,
+  saveAdminUser,
+} from "@/functions/admin-contacts";
 import { adminError, isAdminOk } from "@/lib/admin-api";
 import { useToast } from "@/components/admin/AdminToast";
 import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import {
-  ADMIN_ROLES,
-  ROLE_DESCRIPTIONS,
-  ROLE_LABELS,
-  ROLE_PERMISSIONS,
-  canAssignRole,
-  type AdminRole,
+  canDeleteUsers,
+  canManageRoles,
+  roleLabel,
+  type SessionUser,
 } from "@/lib/admin-constants";
+import type { RbacRole } from "@/lib/rbac";
+import { AdminRoleManager } from "@/components/admin/AdminRoleManager";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -42,7 +48,9 @@ type StaffUser = {
   id: number;
   name: string;
   email: string;
-  role: AdminRole;
+  roleId: number;
+  role: string;
+  roleName: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -50,19 +58,14 @@ type StaffUser = {
 const emptyForm = {
   name: "",
   email: "",
-  role: "support" as AdminRole,
+  roleId: 0,
   password: "",
 };
 
-export function AdminAccessManager({
-  actorRole,
-  actorId,
-}: {
-  actorRole: AdminRole;
-  actorId: number;
-}) {
+export function AdminAccessManager({ actor }: { actor: SessionUser }) {
   const toast = useToast();
   const [users, setUsers] = useState<StaffUser[]>([]);
+  const [roles, setRoles] = useState<RbacRole[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -71,11 +74,20 @@ export function AdminAccessManager({
 
   const load = useCallback(async () => {
     setLoading(true);
-    const res = await listAdminUsers();
-    if (isAdminOk<{ users: StaffUser[] }>(res)) {
-      setUsers(res.users);
+    const [usersRes, rolesRes] = await Promise.all([listAdminUsers(), listAssignableRoles()]);
+    if (isAdminOk<{ users: StaffUser[] }>(usersRes)) {
+      setUsers(usersRes.users);
     } else {
-      toast.error(adminError(res));
+      toast.error(adminError(usersRes));
+    }
+    if (isAdminOk<{ roles: RbacRole[] }>(rolesRes)) {
+      setRoles(rolesRes.roles);
+      setForm((prev) => ({
+        ...prev,
+        roleId: prev.roleId || rolesRes.roles[0]?.id || 0,
+      }));
+    } else {
+      toast.error(adminError(rolesRes));
     }
     setLoading(false);
   }, [toast]);
@@ -86,26 +98,36 @@ export function AdminAccessManager({
 
   const openCreate = () => {
     setEditing(null);
-    setForm(emptyForm);
+    setForm({
+      ...emptyForm,
+      roleId: roles[0]?.id ?? 0,
+    });
     setSheetOpen(true);
   };
 
   const openEdit = (user: StaffUser) => {
     setEditing(user);
-    setForm({ name: user.name, email: user.email, role: user.role, password: "" });
+    setForm({
+      name: user.name,
+      email: user.email,
+      roleId: user.roleId,
+      password: "",
+    });
     setSheetOpen(true);
   };
 
-  const assignableRoles = ADMIN_ROLES.filter((role) => canAssignRole(actorRole, role));
-
   const save = async () => {
+    if (!form.roleId) {
+      toast.error("Select a role.");
+      return;
+    }
     setSaving(true);
     const res = await saveAdminUser({
       data: {
         id: editing?.id,
         name: form.name,
         email: form.email,
-        role: form.role,
+        roleId: form.roleId,
         password: form.password || undefined,
       },
     });
@@ -144,81 +166,79 @@ export function AdminAccessManager({
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {ADMIN_ROLES.map((role) => (
-          <div key={role} className="rounded-xl border bg-card p-4">
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" />
-              <p className="font-medium text-sm">{ROLE_LABELS[role]}</p>
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">{ROLE_DESCRIPTIONS[role]}</p>
-            <ul className="mt-3 space-y-1">
-              {ROLE_PERMISSIONS[role].map((perm) => (
-                <li key={perm} className="text-xs text-muted-foreground">
-                  • {perm}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <Tabs defaultValue="users">
+        <TabsList>
+          <TabsTrigger value="users">Users</TabsTrigger>
+          {canManageRoles(actor) ? <TabsTrigger value="roles">Roles</TabsTrigger> : null}
+        </TabsList>
 
-      <div className="rounded-xl border overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground">
-                  Loading users…
-                </TableCell>
-              </TableRow>
-            ) : users.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground">
-                  No staff accounts yet.
-                </TableCell>
-              </TableRow>
-            ) : (
-              users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">
-                    {user.name}
-                    {user.id === actorId && (
-                      <Badge variant="outline" className="ml-2 text-[10px]">
-                        You
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="font-mono text-xs text-muted-foreground">
-                    {user.email}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{ROLE_LABELS[user.role]}</Badge>
-                  </TableCell>
-                  <TableCell className="text-right space-x-1">
-                    <Button variant="ghost" size="sm" onClick={() => openEdit(user)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    {actorRole === "super_admin" && user.id !== actorId && (
-                      <Button variant="ghost" size="sm" onClick={() => remove(user)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </TableCell>
+        <TabsContent value="users" className="mt-4">
+          <div className="rounded-xl border overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              </TableHeader>
+              <TableBody>
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="text-center text-muted-foreground">
+                      Loading users…
+                    </TableCell>
+                  </TableRow>
+                ) : users.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="text-center text-muted-foreground">
+                      No staff accounts yet.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  users.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell className="font-medium">
+                        {user.name}
+                        {user.id === actor.id && (
+                          <Badge variant="outline" className="ml-2 text-[10px]">
+                            You
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        {user.email}
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">
+                          {roleLabel(user.role, user.roleName)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right space-x-1">
+                        <Button variant="ghost" size="sm" onClick={() => openEdit(user)}>
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        {canDeleteUsers(actor) && user.id !== actor.id && (
+                          <Button variant="ghost" size="sm" onClick={() => remove(user)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </TabsContent>
+
+        {canManageRoles(actor) ? (
+          <TabsContent value="roles" className="mt-4">
+            <AdminRoleManager />
+          </TabsContent>
+        ) : null}
+      </Tabs>
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent className="overflow-y-auto">
@@ -244,22 +264,22 @@ export function AdminAccessManager({
             <div className="space-y-2">
               <Label>Role</Label>
               <Select
-                value={form.role}
-                onValueChange={(v) => setForm((f) => ({ ...f, role: v as AdminRole }))}
-                disabled={editing?.id === actorId}
+                value={form.roleId ? String(form.roleId) : undefined}
+                onValueChange={(v) => setForm((f) => ({ ...f, roleId: Number(v) }))}
+                disabled={editing?.id === actor.id}
               >
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
-                  {assignableRoles.map((role) => (
-                    <SelectItem key={role} value={role}>
-                      {ROLE_LABELS[role]}
+                  {roles.map((role) => (
+                    <SelectItem key={role.id} value={String(role.id)}>
+                      {role.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              {editing?.id === actorId && (
+              {editing?.id === actor.id && (
                 <p className="text-xs text-muted-foreground">You cannot change your own role.</p>
               )}
             </div>

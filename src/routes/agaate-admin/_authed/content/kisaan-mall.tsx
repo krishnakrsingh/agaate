@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/content/kisaan-mall"
 
 function KisaanMallAdminPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminCmsKisaanMall role={adminUser.role} />;
+  return <AdminCmsKisaanMall permissions={adminUser.permissions} />;
 }

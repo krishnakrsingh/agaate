@@ -5,7 +5,6 @@ import { saveAdminSettings, sendAdminTestEmail } from "@/functions/admin-contact
 import { AdminCmsAppLinks } from "@/components/admin/cms/AdminCmsAppLinks";
 import {
   DEFAULT_ADMIN_SETTINGS,
-  type AdminRole,
   type AdminSettingsForClient,
 } from "@/lib/admin-constants";
 
@@ -19,11 +18,11 @@ import { Separator } from "@/components/ui/separator";
 
 export function AdminSettingsPanel({
   settings: initialSettings,
-  adminRole,
+  permissions,
   defaultTab = "email",
 }: {
   settings: AdminSettingsForClient;
-  adminRole: AdminRole;
+  permissions: string[];
   defaultTab?: "email" | "app-links";
 }) {
   const toast = useToast();
@@ -297,7 +296,7 @@ export function AdminSettingsPanel({
 
         <TabsContent value="app-links" className="space-y-4">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
-            <AdminCmsAppLinks role={adminRole} embedded />
+            <AdminCmsAppLinks permissions={permissions} embedded />
           </div>
         </TabsContent>
       </Tabs>

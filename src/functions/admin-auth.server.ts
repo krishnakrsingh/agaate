@@ -13,7 +13,7 @@ import {
   type SessionUser,
 } from "@/server/auth";
 import { isDbConfigured } from "@/server/db";
-import type { AdminRole } from "@/lib/admin-constants";
+import { buildSessionUser, findRoleBySlug } from "@/server/rbac-queries";
 
 const loginAttempts = new Map<string, number[]>();
 
@@ -28,6 +28,31 @@ function checkLoginRate(email: string) {
   arr.push(now);
   loginAttempts.set(email, arr);
   return true;
+}
+
+export async function hydrateSessionUser(user: SessionUser): Promise<SessionUser> {
+  if (user.permissions?.length && user.roleId) return user;
+  if (!isDbConfigured()) return user;
+
+  await ensureAdminSchema();
+  let roleId = user.roleId;
+  if (!roleId && user.role) {
+    const role = await findRoleBySlug(user.role);
+    roleId = role?.id;
+  }
+  if (!roleId) {
+    const row = await findUserById(user.id);
+    roleId = row?.role_id ?? undefined;
+  }
+  if (!roleId) return user;
+
+  const built = await buildSessionUser({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    roleId,
+  });
+  return built ?? user;
 }
 
 export async function handleLogin(email: string, password: string) {
@@ -47,12 +72,19 @@ export async function handleLogin(email: string, password: string) {
     if (user?.password_hash) {
       const match = await compare(password, user.password_hash);
       if (match) {
-        const sessionUser: SessionUser = {
+        const roleId = Number(user.role_id);
+        if (!roleId) {
+          return { ok: false as const, error: "Account role is not configured." };
+        }
+        const sessionUser = await buildSessionUser({
           id: Number(user.id),
           name: user.name,
           email: user.email,
-          role: user.role as AdminRole,
-        };
+          roleId,
+        });
+        if (!sessionUser) {
+          return { ok: false as const, error: "Account role is not configured." };
+        }
         const session = await getSessionManager();
         await session.update({ user: sessionUser });
         return { ok: true as const, user: sessionUser };
@@ -82,7 +114,13 @@ export async function handleGetSession() {
       }
     }
     const user = await getSessionUser();
-    return { user };
+    if (!user) return { user: null };
+    const hydrated = await hydrateSessionUser(user);
+    if (hydrated !== user) {
+      const session = await getSessionManager();
+      await session.update({ user: hydrated });
+    }
+    return { user: hydrated };
   } catch (e) {
     console.warn("handleGetSession error:", e);
     return { user: null };
@@ -104,7 +142,9 @@ export async function handleGetProfile() {
         id: Number(row.id),
         name: row.name,
         email: row.email,
-        role: row.role as AdminRole,
+        roleId: Number(row.role_id),
+        role: String(row.role),
+        roleName: String(row.role_name ?? user.roleName),
         createdAt: String(row.created_at),
         updatedAt: String(row.updated_at),
       },

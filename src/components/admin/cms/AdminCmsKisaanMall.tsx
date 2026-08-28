@@ -10,7 +10,7 @@ import { CmsTranslateToHindiButton } from "@/components/admin/cms/CmsFormAssist"
 import { CmsTableEmptyRow } from "@/components/admin/cms/CmsTableState";
 import { useCmsDirtyGuard } from "@/components/admin/cms/useCmsDirtyGuard";
 import { AdminCmsKisaanMallPageForm } from "@/components/admin/cms/AdminCmsKisaanMallPageForm";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import {
   DEFAULT_KISAAN_MALL_LANDING,
   type KisaanMallLanding,
@@ -28,9 +28,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function AdminCmsKisaanMall({ role }: { role: AdminRole }) {
+export function AdminCmsKisaanMall({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [landing, setLanding] = useState<KisaanMallLanding>(DEFAULT_KISAAN_MALL_LANDING);
   const [page, setPage] = useState<KisaanMallPageContent>(KISAAN_MALL_PAGE_FALLBACK);
   const [signups, setSignups] = useState<NewsletterSignupRow[]>([]);

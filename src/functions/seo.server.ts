@@ -1,5 +1,5 @@
 import { assertSameOrigin, requireSessionUser } from "@/server/auth";
-import { canManageSettings } from "@/lib/admin-constants";
+import { canManageSeo } from "@/lib/admin-constants";
 import type { SeoGlobalSettings, SeoMetadataInput, SeoRedirectInput } from "@/lib/seo-types";
 import {
   buildSitemapEntries,
@@ -26,9 +26,9 @@ function failAuth(err: unknown) {
   throw err;
 }
 
-function requireEditor() {
-  const user = requireSessionUser();
-  if (!canManageSettings(user.role)) throw new Error("FORBIDDEN");
+async function requireEditor() {
+  const user = await requireSessionUser();
+  if (!canManageSeo(user)) throw new Error("FORBIDDEN");
   return user;
 }
 

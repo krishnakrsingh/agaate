@@ -1,11 +1,11 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AdminAccessManager } from "@/components/admin/AdminAccessManager";
-import { canManageUsers, type AdminRole } from "@/lib/admin-constants";
+import { canManageUsers, type SessionUser } from "@/lib/admin-constants";
 
 export const Route = createFileRoute("/agaate-admin/_authed/access")({
   beforeLoad: ({ context }) => {
-    const user = (context as { adminUser?: { role: string } }).adminUser;
-    if (!user || !canManageUsers(user.role as AdminRole)) {
+    const user = (context as { adminUser?: SessionUser }).adminUser;
+    if (!user || !canManageUsers(user)) {
       throw redirect({ to: "/agaate-admin" });
     }
   },
@@ -14,5 +14,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/access")({
 
 function AccessPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminAccessManager actorRole={adminUser.role as AdminRole} actorId={adminUser.id} />;
+  return <AdminAccessManager actor={adminUser} />;
 }

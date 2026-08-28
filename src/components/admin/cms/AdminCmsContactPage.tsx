@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import type { ContactPageContent, ContactConsultationTopic } from "@/lib/cms-types";
 import {
@@ -36,9 +36,9 @@ function listToLines(items: string[]): string {
   return items.join("\n");
 }
 
-export function AdminCmsContactPage({ role }: { role: AdminRole }) {
+export function AdminCmsContactPage({ permissions }: { permissions: string[] }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [content, setContent] = useState<ContactPageContent>(CONTACT_PAGE_FALLBACK);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

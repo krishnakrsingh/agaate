@@ -7,5 +7,5 @@ export const Route = createFileRoute("/agaate-admin/_authed/seo/global")({
 
 function SeoGlobalPage() {
   const { adminUser } = Route.useRouteContext();
-  return <AdminSeoGlobal role={adminUser.role} />;
+  return <AdminSeoGlobal permissions={adminUser.permissions} />;
 }

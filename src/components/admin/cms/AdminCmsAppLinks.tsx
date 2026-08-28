@@ -7,18 +7,18 @@ import { CmsPageHeader } from "@/components/admin/cms/CmsPageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { canManageSettings, type AdminRole } from "@/lib/admin-constants";
+import { canEditCms } from "@/lib/admin-constants";
 import { DEFAULT_HOME_CMS_APP_LINKS, type HomeCmsAppLinks } from "@/lib/cms-types";
 
 export function AdminCmsAppLinks({
-  role,
+  permissions,
   embedded = false,
 }: {
-  role: AdminRole;
+  permissions: string[];
   embedded?: boolean;
 }) {
   const toast = useToast();
-  const canEdit = canManageSettings(role);
+  const canEdit = canEditCms({ permissions });
   const [links, setLinks] = useState<HomeCmsAppLinks>(DEFAULT_HOME_CMS_APP_LINKS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
