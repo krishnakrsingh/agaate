@@ -111,6 +111,13 @@ export const ADMIN_COMMAND_PAGES: AdminCmsNavItem[] = [
     icon: Briefcase,
     keywords: "jobs applications hiring",
   },
+  {
+    to: "/agaate-admin/locations",
+    label: "Locations",
+    group: "Operations",
+    icon: MapPin,
+    keywords: "facilities hubs map contact franchise",
+  },
   { to: "/agaate-admin/farm-visits", label: "Farm visits", group: "Inquiries", icon: MapPin },
   {
     to: "/agaate-admin/seo",
@@ -185,6 +192,7 @@ export const ADMIN_COMMAND_GROUPS = [
   "Global",
   "Homepage",
   "Pages",
+  "Operations",
   "Inquiries",
   "SEO",
   "Configuration",

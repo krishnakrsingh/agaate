@@ -524,6 +524,8 @@ export type SiteFacilityConfig = {
   lngLabel: string;
   iconKey: CmsIconKey;
   imageUrl: string;
+  /** Shown on the contact page by default. Secondary locations appear only when searched. */
+  isPrimary: boolean;
 };
 
 export type SiteContactConfig = {

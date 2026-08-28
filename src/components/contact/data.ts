@@ -46,6 +46,7 @@ export type Facility = {
   coordinates: { lat: number; lng: number; latLabel: string; lngLabel: string };
   icon: Icon;
   image: string;
+  isPrimary: boolean;
 };
 
 export const FACILITIES: Facility[] = [
@@ -79,6 +80,7 @@ export const FACILITIES: Facility[] = [
     },
     icon: Plant,
     image: farmImage,
+    isPrimary: true,
   },
   {
     id: "mall",
@@ -111,6 +113,7 @@ export const FACILITIES: Facility[] = [
     },
     icon: Storefront,
     image: mallImage,
+    isPrimary: true,
   },
   {
     id: "corporate",
@@ -143,6 +146,7 @@ export const FACILITIES: Facility[] = [
     },
     icon: Buildings,
     image: officeImage,
+    isPrimary: true,
   },
 ];
 

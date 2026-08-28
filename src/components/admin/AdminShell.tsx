@@ -109,6 +109,7 @@ const NAV_GROUPS: Array<{
   {
     group: "Operations",
     items: [
+      { to: "/agaate-admin/locations", label: "Locations", icon: MapPin },
       { to: "/agaate-admin/farm-visits", label: "Farm visit bookings", icon: MapPin },
       { to: "/agaate-admin/careers", label: "Careers", icon: Briefcase },
     ],
@@ -235,6 +236,9 @@ export function AdminShell({ user }: { user: SessionUser }) {
         { label: "Website", href: "/agaate-admin/content", current: false },
         { label: "Kisaan Mall waitlist", href: "/agaate-admin/content/kisaan-mall", current: true },
       ];
+    }
+    if (pathname.startsWith("/agaate-admin/locations")) {
+      return [{ label: "Locations", href: "/agaate-admin/locations", current: true }];
     }
     if (pathname.startsWith("/agaate-admin/careers")) {
       return [{ label: "Careers", href: "/agaate-admin/careers", current: true }];

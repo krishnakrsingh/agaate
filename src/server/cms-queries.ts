@@ -53,6 +53,7 @@ import {
 } from "@/lib/cms-types";
 import { CAREERS_PAGE_FALLBACK } from "@/data/careers-fallback";
 import { SITE_CONTACT_FALLBACK, BLANK_SITE_FACILITY } from "@/data/site-contact-fallback";
+import { isPrimaryFacilityId } from "@/lib/facility-admin";
 import { ABOUT_PAGE_FALLBACK } from "@/data/about-page-fallback";
 import { CONTACT_PAGE_FALLBACK } from "@/data/contact-page-fallback";
 import { KISAAN_MALL_HOME_DEFAULTS } from "@/data/kisaan-mall-home-fallback";
@@ -585,6 +586,9 @@ function normalizeFacility(
     lngLabel: String(raw?.lngLabel ?? "").trim() || fb.lngLabel,
     iconKey: normalizeIconKey(raw?.iconKey ?? fb.iconKey),
     imageUrl: String(raw?.imageUrl ?? "").trim() || fb.imageUrl,
+    isPrimary:
+      raw?.isPrimary === true ||
+      (raw?.isPrimary === undefined && isPrimaryFacilityId(String(raw?.id ?? fb.id))),
   };
 }
 

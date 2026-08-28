@@ -33,6 +33,7 @@ export const BLANK_SITE_FACILITY: SiteFacilityConfig = {
   lngLabel: "76.9500° E",
   iconKey: "plant",
   imageUrl: farmImage,
+  isPrimary: false,
 };
 
 export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
@@ -153,6 +154,7 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
       lngLabel: "76.9124° E",
       iconKey: "plant",
       imageUrl: farmImage,
+      isPrimary: true,
     },
     {
       id: "mall",
@@ -195,6 +197,7 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
       lngLabel: "76.8842° E",
       iconKey: "warehouse",
       imageUrl: mallImage,
+      isPrimary: true,
     },
     {
       id: "corporate",
@@ -237,6 +240,7 @@ export const SITE_CONTACT_FALLBACK: SiteContactConfig = {
       lngLabel: "76.9610° E",
       iconKey: "cap",
       imageUrl: officeImage,
+      isPrimary: true,
     },
   ],
 };

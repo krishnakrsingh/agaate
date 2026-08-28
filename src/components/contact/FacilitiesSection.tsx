@@ -51,8 +51,15 @@ export default function FacilitiesSection() {
   const lang = isHindi ? "hi" : "en";
   const { mapFacilities } = useSiteContact();
   const facilities = mapFacilities(lang);
+  const primaryFacilities = useMemo(
+    () => facilities.filter((f) => f.isPrimary),
+    [facilities],
+  );
+  const secondaryCount = facilities.length - primaryFacilities.length;
 
-  const [activeId, setActiveId] = useState(facilities[0]?.id ?? "farm");
+  const [activeId, setActiveId] = useState(
+    () => primaryFacilities[0]?.id ?? facilities[0]?.id ?? "farm",
+  );
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [stateFilter, setStateFilter] = useState<string>("All");
@@ -63,18 +70,28 @@ export default function FacilitiesSection() {
   const geo = useGeolocation();
   const hasAutoSelectedNearest = useRef(false);
 
+  const isExpanded = search.trim().length > 0 || stateFilter !== "All";
+
   const active = facilities.find((f) => f.id === activeId) || facilities[0];
 
-  // Derive unique states for the dropdown
+  // Derive unique states for the dropdown (all facilities — used when expanded)
   const states = useMemo(() => {
     const unique = [...new Set(facilities.map(getState))].sort();
     return ["All", ...unique];
   }, [facilities]);
 
+  // Keep active selection valid when collapsing back to primary-only view
+  useEffect(() => {
+    if (!isExpanded && activeId && !primaryFacilities.some((f) => f.id === activeId)) {
+      setActiveId(primaryFacilities[0]?.id ?? facilities[0]?.id ?? "farm");
+    }
+  }, [isExpanded, activeId, primaryFacilities, facilities]);
+
   // Filtered + distance-annotated list
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return facilities
+    const source = isExpanded ? facilities : primaryFacilities;
+    return source
       .map((f) => ({
         ...f,
         distance: geo.position
@@ -103,7 +120,7 @@ export default function FacilitiesSection() {
         }
         return 0;
       });
-  }, [facilities, search, stateFilter, geo.position]);
+  }, [facilities, primaryFacilities, isExpanded, search, stateFilter, geo.position]);
 
   // Group filtered facilities by district
   const districtGroups = useMemo<DistrictGroup[]>(() => {
@@ -332,7 +349,15 @@ export default function FacilitiesSection() {
                   type="search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder={isHindi ? "नाम या शहर खोजें…" : "Search by name or city…"}
+                  placeholder={
+                    isHindi
+                      ? secondaryCount > 0
+                        ? `सभी ${facilities.length} केंद्र खोजें…`
+                        : "नाम या शहर खोजें…"
+                      : secondaryCount > 0
+                        ? `Search all ${facilities.length} locations…`
+                        : "Search by name or city…"
+                  }
                   className="w-full rounded-xl border border-[#143d31]/12 bg-[#f4f8f5]/70 pl-9 pr-9 py-2.5 font-sans text-sm text-[#143d31] placeholder:text-[#143d31]/30 focus:outline-none focus:border-[#5d7d37]/50 focus:ring-1 focus:ring-[#5d7d37]/20 transition-all"
                 />
                 {search && (
@@ -403,8 +428,8 @@ export default function FacilitiesSection() {
               </p>
             )}
 
-            {/* State dropdown — only show when there are multiple states */}
-            {states.length > 2 && (
+            {/* State dropdown — only when browsing the full directory */}
+            {isExpanded && states.length > 2 && (
               <div className="relative">
                 <select
                   value={stateFilter}
@@ -511,8 +536,17 @@ export default function FacilitiesSection() {
               )}
             </div>
 
+            {/* Hint when secondary locations are hidden */}
+            {!isExpanded && secondaryCount > 0 && (
+              <p className="font-sans text-[11px] text-[#4f624f]/80 px-1">
+                {isHindi
+                  ? `${primaryFacilities.length} मुख्य केंद्र दिखाए जा रहे हैं। ${secondaryCount} और खोजें।`
+                  : `Showing ${primaryFacilities.length} primary hubs. Search to find ${secondaryCount} more.`}
+              </p>
+            )}
+
             {/* Count indicator when filtering */}
-            {(search || stateFilter !== "All") && filtered.length > 0 && (
+            {isExpanded && (search || stateFilter !== "All") && filtered.length > 0 && (
               <p className="font-mono text-[10px] text-[#4f624f]/60 tracking-wider">
                 {isHindi
                   ? `${facilities.length} में से ${filtered.length} स्थान`
